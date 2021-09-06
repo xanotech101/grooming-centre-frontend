@@ -4,10 +4,9 @@ import { Route } from "react-router-dom";
 const AdminLayout = () => {
   return (
     <>
+      Admin
       <header>header</header>
-
       <aside>sidebar</aside>
-
       <main>main area</main>
     </>
   );

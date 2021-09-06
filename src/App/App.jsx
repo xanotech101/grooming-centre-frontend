@@ -1,14 +1,13 @@
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { AdminLayoutRoute } from "../layouts/admin/AdminLayout";
+import { AdminLayoutRoute } from "../components/admin/layouts/AdminLayout";
+import { UserLayoutRoute } from "../components/user/layout/UserLayout";
 
 function App() {
   return (
     <Router>
       <Switch>
-        {/* <Route exact path="/">
-          <Redirect to="/layout1" />
-        </Route> */}
-        <AdminLayoutRoute exact path="/admin" component={AdminLayoutRoute} />
+        <AdminLayoutRoute path="/admin" />
+        <UserLayoutRoute path="/" />
       </Switch>
     </Router>
   );
