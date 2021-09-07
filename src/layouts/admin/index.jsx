@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 
 const AdminLayout = () => {
   return (
-    <Flex flexDir="column" minHeight="100vh">
+    <Flex flexDirection="column" minHeight="100vh">
       <Header />
 
       <Flex flexGrow={1}>

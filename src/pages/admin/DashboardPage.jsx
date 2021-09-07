@@ -9,8 +9,8 @@ import { Route } from "react-router-dom";
 
 const DashboardPage = () => {
   return (
-    <Box as="section" backgroundColor="white" p={5}>
-      <Flex as="header" justifyContent="flex-end" marginBottom={10}>
+    <Box as="section" backgroundColor="white" p={10} paddingBottom={16}>
+      <Flex as="header" justifyContent="flex-end" height="170px" mb={5}>
         <ButtonGroup>
           <Button
             backgroundColor="#800020"

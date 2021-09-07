@@ -6,19 +6,17 @@ import { DashboardPageRoute, NotFoundPageRoute } from "../../pages/admin";
 const MainArea = () => {
   return (
     <Flex
-      flexDir="column"
+      flexDirection="column"
       backgroundColor="gray.100"
-      padding={2}
-      paddingRight={0}
+      paddingX={5}
+      paddingY={2}
       flex={1}
     >
       <Box as="main" flex={1} flexBasis="1px" overflowY="auto">
-        <Box paddingBottom={10}>
-          <Switch>
-            <DashboardPageRoute exact path="/admin" />
-            <NotFoundPageRoute />
-          </Switch>
-        </Box>
+        <Switch>
+          <DashboardPageRoute exact path="/admin" />
+          <NotFoundPageRoute />
+        </Switch>
       </Box>
     </Flex>
   );
