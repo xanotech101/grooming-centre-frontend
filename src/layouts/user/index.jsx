@@ -13,16 +13,7 @@ const UserLayout = () => {
 };
 
 export const UserLayoutRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) => (
-        <UserLayout>
-          <Component {...props} />
-        </UserLayout>
-      )}
-    />
-  );
+  return <Route {...rest} render={(props) => <UserLayout {...props} />} />;
 };
 
 export default UserLayout;
