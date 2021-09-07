@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, IconButton } from "@chakra-ui/button";
+import { ButtonGroup, IconButton } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex, Grid } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
@@ -6,6 +6,7 @@ import VisuallyHidden from "@chakra-ui/visually-hidden";
 import React from "react";
 import { BsSearch } from "react-icons/bs";
 import { Link, Route } from "react-router-dom";
+import { Button } from "../../components";
 
 const DashboardPage = () => {
   return (
@@ -13,23 +14,10 @@ const DashboardPage = () => {
       <Flex as="header" justifyContent="flex-end" height="170px" mb={5}>
         <ButtonGroup>
           <Link to="/admin/courses/create">
-            <Button
-              backgroundColor="#800020"
-              textColor="white"
-              _hover={{ opacity: 0.7 }}
-            >
-              Add Course
-            </Button>
+            <Button>Add Course</Button>
           </Link>
 
-          <Button
-            backgroundColor="transparent"
-            textColor="#800020"
-            border="1px"
-            _hover={{ opacity: 0.7 }}
-          >
-            Add Lesson
-          </Button>
+          <Button outline>Add Lesson</Button>
         </ButtonGroup>
       </Flex>
 

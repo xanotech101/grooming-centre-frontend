@@ -1,10 +1,10 @@
-import { Button, ButtonGroup } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Box, Flex, Heading, Stack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Input, Textarea } from "@chakra-ui/react";
 import React from "react";
 import { Route } from "react-router-dom";
+import { Button } from "../../../components";
 
 const CreateCourse = () => {
   return (
@@ -53,13 +53,7 @@ const CreateCourse = () => {
             </FormControl>
           </Stack>
 
-          <Button
-            backgroundColor="#800020"
-            textColor="white"
-            _hover={{ opacity: 0.7 }}
-          >
-            Add Course
-          </Button>
+          <Button>Add Course</Button>
         </Box>
       </Flex>
     </Box>
