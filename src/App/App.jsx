@@ -1,15 +1,18 @@
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { AdminLayoutRoute } from "../layouts/admin";
 import { UserLayoutRoute } from "../layouts/user";
+import Providers from "./Providers";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <AdminLayoutRoute path="/admin" />
-        <UserLayoutRoute path="/" />
-      </Switch>
-    </Router>
+    <Providers>
+      <Router>
+        <Switch>
+          <AdminLayoutRoute path="/admin" />
+          <UserLayoutRoute path="/" />
+        </Switch>
+      </Router>
+    </Providers>
   );
 }
 
