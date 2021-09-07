@@ -6,7 +6,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { Button } from "../../../components";
 
-const CreateCourse = () => {
+const CreateCoursePage = () => {
   return (
     <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
       <Flex
@@ -60,6 +60,8 @@ const CreateCourse = () => {
   );
 };
 
-export const CreateCourseRoute = ({ component: Component, ...rest }) => {
-  return <Route {...rest} render={(props) => <CreateCourse {...props} />} />;
+export const CreateCoursePageRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => <CreateCoursePage {...props} />} />
+  );
 };
