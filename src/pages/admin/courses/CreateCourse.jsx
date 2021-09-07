@@ -8,11 +8,11 @@ import { Button } from "../../../components";
 
 const CreateCourse = () => {
   return (
-    <Box as="section" p={10} paddingBottom={16}>
+    <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
       <Flex
         as="header"
         alignItems="center"
-        height="170px"
+        height="190px"
         backgroundColor="white"
         paddingX={5}
         marginBottom={5}

@@ -10,8 +10,14 @@ import { Button } from "../../components";
 
 const DashboardPage = () => {
   return (
-    <Box as="section" backgroundColor="white" p={10} paddingBottom={16}>
-      <Flex as="header" justifyContent="flex-end" height="170px" mb={5}>
+    <Box
+      as="section"
+      backgroundColor="white"
+      paddingX={10}
+      paddingTop={5}
+      paddingBottom={10}
+    >
+      <Flex as="header" justifyContent="flex-end" height="190px" mb={5}>
         <ButtonGroup>
           <Link to="/admin/courses/create">
             <Button>Add Course</Button>
