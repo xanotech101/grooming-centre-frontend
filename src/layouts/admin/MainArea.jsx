@@ -1,8 +1,7 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import React from "react";
 import { Switch } from "react-router-dom";
-import { DashboardPageRoute } from "../../pages/admin/DashboardPage";
-import { NotFoundPageRoute } from "../../pages/admin/NotFoundPage";
+import { DashboardPageRoute, NotFoundPageRoute } from "../../pages/admin";
 
 const MainArea = () => {
   return (
