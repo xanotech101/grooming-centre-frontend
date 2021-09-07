@@ -1,7 +1,13 @@
 import { Box, Flex, Grid, GridItem, Heading } from "@chakra-ui/layout";
 import React from "react";
 import { Route } from "react-router-dom";
-import { Button, Input, Select, Textarea } from "../../../components";
+import {
+  Button,
+  DatePicker,
+  Input,
+  Select,
+  Textarea,
+} from "../../../components";
 
 const CreateLessonPage = () => {
   return (
@@ -39,11 +45,12 @@ const CreateLessonPage = () => {
               <Input id="lesson-name" isRequired label="Lesson name" />
             </GridItem>
             <GridItem rowStart={2}>
-              <Input
+              {/* <Input
                 id="lesson-datetime"
                 isRequired
                 label="Lesson date & time"
-              />
+              /> */}
+              <DatePicker />
             </GridItem>
 
             <GridItem colSpan={2}>

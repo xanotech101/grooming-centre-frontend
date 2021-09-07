@@ -1,7 +1,11 @@
-import React from "react";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+// import DateTimePicker from "@";
 
-const DatePicker = () => {
-  return <div></div>;
+export const DatePicker = () => {
+  const [value, onChange] = useState(new Date());
+
+  return "<DateTimePicker onChange={onChange} value={value} />";
 };
 
-export default DatePicker;
+DatePicker.propTypes = {};
