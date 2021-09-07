@@ -1,7 +1,7 @@
 import React from "react";
 
 const DatePicker = () => {
-  return <div></div>;
+  return <div>date and time picker :)</div>;
 };
 
 export default DatePicker;
