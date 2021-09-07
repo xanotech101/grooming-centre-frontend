@@ -19,11 +19,11 @@ export const CoursesPage = () => {
     >
       <Flex as="header" justifyContent="flex-end" height="190px" mb={5}>
         <ButtonGroup>
-          <Link to="/admin/courses/create">
-            <Button>Add Course</Button>
-          </Link>
+          <Button link="/admin/courses/create">Add Course</Button>
 
-          <Button outline>Add Lesson</Button>
+          <Button link="/admin/courses/create-lesson" outline>
+            Add Lesson
+          </Button>
         </ButtonGroup>
       </Flex>
 

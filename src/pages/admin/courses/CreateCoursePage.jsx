@@ -1,10 +1,7 @@
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Box, Flex, Heading, Stack } from "@chakra-ui/layout";
-import { Select } from "@chakra-ui/select";
-import { Input, Textarea } from "@chakra-ui/react";
 import React from "react";
 import { Route } from "react-router-dom";
-import { Button } from "../../../components";
+import { Button, Input, Textarea, Select } from "../../../components";
 
 const CreateCoursePage = () => {
   return (
@@ -22,35 +19,31 @@ const CreateCoursePage = () => {
         </Heading>
       </Flex>
 
-      <Flex
-        justifyContent="center"
-        backgroundColor="white"
-        paddingTop={10}
-        paddingBottom={16}
-      >
-        <Box as="form" marginLeft="-100px" width="386px">
+      <Flex backgroundColor="white" padding={10} paddingBottom={16}>
+        <Box as="form" width="386px">
           <Stack spacing={7} marginBottom={10}>
-            <FormControl id="course-title" isRequired>
-              <FormLabel>Course title</FormLabel>
-              <Input />
-            </FormControl>
-            <FormControl id="course-description" isRequired>
-              <FormLabel>Course description</FormLabel>
-              <Textarea resize="none" height="200px" />
-            </FormControl>
-            <FormControl id="course-duration" isRequired>
-              <FormLabel>Course duration</FormLabel>
-              <Input />
-            </FormControl>
-            <FormControl id="course-department" isRequired>
-              <FormLabel>Select department</FormLabel>
-              <Select>
-                <option></option>
-                <option>dept 1</option>
-                <option>dept 2</option>
-                <option>dept 3</option>
-              </Select>
-            </FormControl>
+            <Input id="course-title" label="Course title" isRequired />
+
+            <Textarea
+              id="course-description"
+              label="Course description"
+              isRequired
+              resize="none"
+              height="200px"
+            />
+
+            <Input id="course-duration" label="Course duration" isRequired />
+
+            <Select
+              id="course-department"
+              label="Course department"
+              options={[
+                { label: "Dept 1", value: "dept-1" },
+                { label: "Dept 2", value: "dept-2" },
+                { label: "Dept 3", value: "dept-3" },
+              ]}
+              isRequired
+            />
           </Stack>
 
           <Button>Add Course</Button>
