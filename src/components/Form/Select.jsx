@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
-import { Select as Select_chakraui } from "@chakra-ui/select";
+import { Select as SelectChakraui } from "@chakra-ui/select";
 
 export const Select = ({
   id,
@@ -18,13 +18,15 @@ export const Select = ({
       label={label}
       isRequired={isRequired}
       renderControl={(props) => (
-        <Select_chakraui {...props} {...rest} value={value} onChange={onChange}>
+        <SelectChakraui {...props} {...rest} value={value} onChange={onChange}>
           <option></option>
 
           {options.map((option) => (
-            <option value={option.value}>{option.label}</option>
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
           ))}
-        </Select_chakraui>
+        </SelectChakraui>
       )}
     />
   );
@@ -33,8 +35,8 @@ export const Select = ({
 Select.propTypes = {
   ...FormGroupPropTypes,
   value: PropTypes.string,
-  options: PropTypes.arrayOf([
-    PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
-  ]),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({ label: PropTypes.string, value: PropTypes.string })
+  ),
   onChange: PropTypes.func,
 };

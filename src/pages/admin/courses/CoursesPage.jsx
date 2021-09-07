@@ -5,7 +5,7 @@ import { Skeleton } from "@chakra-ui/skeleton";
 import VisuallyHidden from "@chakra-ui/visually-hidden";
 import React from "react";
 import { BsSearch } from "react-icons/bs";
-import { Link, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { Button } from "../../../components";
 
 export const CoursesPage = () => {

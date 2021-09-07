@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Heading, Stack } from "@chakra-ui/layout";
+import { Box, Flex, Grid, GridItem, Heading } from "@chakra-ui/layout";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Button, Input, Select, Textarea } from "../../../components";

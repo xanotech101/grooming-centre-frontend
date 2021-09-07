@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
-import { Textarea as Textarea_chakraui } from "@chakra-ui/textarea";
+import { Textarea as TextareaChakraui } from "@chakra-ui/textarea";
 
 export const Textarea = ({
   id,
@@ -17,7 +17,7 @@ export const Textarea = ({
       label={label}
       isRequired={isRequired}
       renderControl={(props) => (
-        <Textarea_chakraui
+        <TextareaChakraui
           {...props}
           {...rest}
           value={value}

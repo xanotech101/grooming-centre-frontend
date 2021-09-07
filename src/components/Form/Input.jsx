@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
-import { Input as Input_chakraui } from "@chakra-ui/input";
+import { Input as InputChakraui } from "@chakra-ui/input";
 
 export const Input = ({
   id,
@@ -17,12 +17,7 @@ export const Input = ({
       label={label}
       isRequired={isRequired}
       renderControl={(props) => (
-        <Input_chakraui
-          {...props}
-          {...rest}
-          value={value}
-          onChange={onChange}
-        />
+        <InputChakraui {...props} {...rest} value={value} onChange={onChange} />
       )}
     />
   );

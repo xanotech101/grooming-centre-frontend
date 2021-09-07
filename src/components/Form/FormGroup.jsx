@@ -12,7 +12,7 @@ const FormGroup = ({ id, isRequired, label, renderControl }) => {
 };
 
 export const FormGroupPropTypes = {
-  renderControl: PropTypes.func.isRequired,
+  renderControl: PropTypes.func,
   id: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   label: PropTypes.string,

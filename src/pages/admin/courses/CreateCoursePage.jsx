@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Stack } from "@chakra-ui/layout";
+import { Box, Flex, Grid, Heading } from "@chakra-ui/layout";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Button, Input, Textarea, Select } from "../../../components";
@@ -20,19 +20,18 @@ const CreateCoursePage = () => {
       </Flex>
 
       <Flex backgroundColor="white" padding={10} paddingBottom={16}>
-        <Box as="form" width="386px">
-          <Stack spacing={7} marginBottom={10}>
+        <Box as="form" flex={1}>
+          <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
             <Input id="course-title" label="Course title" isRequired />
+
+            <Input id="course-duration" label="Course duration" isRequired />
 
             <Textarea
               id="course-description"
               label="Course description"
               isRequired
               resize="none"
-              height="200px"
             />
-
-            <Input id="course-duration" label="Course duration" isRequired />
 
             <Select
               id="course-department"
@@ -44,7 +43,7 @@ const CreateCoursePage = () => {
               ]}
               isRequired
             />
-          </Stack>
+          </Grid>
 
           <Button>Add Course</Button>
         </Box>

@@ -1,4 +1,4 @@
-import { Button as Button_chakraui } from "@chakra-ui/button";
+import { Button as ButtonChakraui } from "@chakra-ui/button";
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ export const Button = ({ children, link, outline, ...rest }) => {
       : {};
 
   const renderedContent = (
-    <Button_chakraui
+    <ButtonChakraui
       backgroundColor="primary.base"
       textColor="white"
       paddingX="33px"
@@ -25,7 +25,7 @@ export const Button = ({ children, link, outline, ...rest }) => {
       {...rest}
     >
       {children}
-    </Button_chakraui>
+    </ButtonChakraui>
   );
 
   return link ? <Link to={link}>{renderedContent}</Link> : renderedContent;

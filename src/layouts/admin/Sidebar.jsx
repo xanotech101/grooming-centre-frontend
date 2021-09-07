@@ -56,8 +56,8 @@ const Sidebar = () => {
 
       <nav>
         <Stack as="ul" spacing={2} listStyleType="none">
-          {links.map((linkProps) => (
-            <li>
+          {links.map((linkProps, index) => (
+            <li key={index}>
               <NavLink
                 {...linkProps}
                 style={{
