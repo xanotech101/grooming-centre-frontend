@@ -21,5 +21,3 @@ const AdminLayout = () => {
 export const AdminLayoutRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={(props) => <AdminLayout {...props} />} />;
 };
-
-export default AdminLayout;
