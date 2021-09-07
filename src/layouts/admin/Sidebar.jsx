@@ -2,6 +2,7 @@ import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { colors } from "../../theme/colors";
 
 const links = [
   {
@@ -60,13 +61,13 @@ const Sidebar = () => {
               <NavLink
                 {...linkProps}
                 style={{
-                  display: "block",
-                  textAlign: "center",
-                  padding: "10px",
+                  display: "grid",
+                  placeItems: "center",
+                  height: "40px",
                   borderRadius: "5px",
                 }}
                 activeStyle={{
-                  backgroundColor: "#800020",
+                  backgroundColor: colors.primary.base,
                   color: "white",
                 }}
               />

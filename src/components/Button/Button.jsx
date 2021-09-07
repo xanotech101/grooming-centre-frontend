@@ -8,17 +8,19 @@ export const Button = ({ children, link, outline, ...rest }) => {
     outline
       ? {
           backgroundColor: "transparent",
-          textColor: "#800020",
+          textColor: "primary.base",
           border: "1px",
         }
       : {};
 
   const renderedContent = (
     <Button_chakraui
-      backgroundColor="#800020"
+      backgroundColor="primary.base"
       textColor="white"
-      paddingX={7}
-      _hover={{ opacity: 0.7 }}
+      paddingX="33px"
+      _hover={{
+        backgroundColor: "primary.hover",
+      }}
       {...getOutlineStyles()}
       {...rest}
     >
