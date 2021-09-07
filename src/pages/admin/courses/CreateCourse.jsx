@@ -1,0 +1,71 @@
+import { Button, ButtonGroup } from "@chakra-ui/button";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Select } from "@chakra-ui/select";
+import { Input, Textarea } from "@chakra-ui/react";
+import React from "react";
+import { Route } from "react-router-dom";
+
+const CreateCourse = () => {
+  return (
+    <Box as="section" p={10} paddingBottom={16}>
+      <Flex
+        as="header"
+        alignItems="center"
+        height="170px"
+        backgroundColor="white"
+        paddingX={5}
+        marginBottom={5}
+      >
+        <Heading as="h1" size="lg">
+          Create Course
+        </Heading>
+      </Flex>
+
+      <Flex
+        justifyContent="center"
+        backgroundColor="white"
+        paddingTop={10}
+        paddingBottom={16}
+      >
+        <Box as="form" marginLeft="-100px" width="386px">
+          <Stack spacing={7} marginBottom={10}>
+            <FormControl id="course-title" isRequired>
+              <FormLabel>Course title</FormLabel>
+              <Input />
+            </FormControl>
+            <FormControl id="course-description" isRequired>
+              <FormLabel>Course description</FormLabel>
+              <Textarea resize="none" height="200px" />
+            </FormControl>
+            <FormControl id="course-duration" isRequired>
+              <FormLabel>Course duration</FormLabel>
+              <Input />
+            </FormControl>
+            <FormControl id="course-department" isRequired>
+              <FormLabel>Select department</FormLabel>
+              <Select>
+                <option></option>
+                <option>dept 1</option>
+                <option>dept 2</option>
+                <option>dept 3</option>
+              </Select>
+            </FormControl>
+          </Stack>
+
+          <Button
+            backgroundColor="#800020"
+            textColor="white"
+            _hover={{ opacity: 0.7 }}
+          >
+            Add Course
+          </Button>
+        </Box>
+      </Flex>
+    </Box>
+  );
+};
+
+export const CreateCourseRoute = ({ component: Component, ...rest }) => {
+  return <Route {...rest} render={(props) => <CreateCourse {...props} />} />;
+};

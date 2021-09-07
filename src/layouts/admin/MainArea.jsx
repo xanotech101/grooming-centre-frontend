@@ -1,7 +1,11 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import React from "react";
 import { Switch } from "react-router-dom";
-import { DashboardPageRoute, NotFoundPageRoute } from "../../pages/admin";
+import {
+  CreateCourseRoute,
+  DashboardPageRoute,
+  NotFoundPageRoute,
+} from "../../pages/admin";
 
 const MainArea = () => {
   return (
@@ -15,6 +19,7 @@ const MainArea = () => {
       <Box as="main" flex={1} flexBasis="1px" overflowY="auto">
         <Switch>
           <DashboardPageRoute exact path="/admin" />
+          <CreateCourseRoute exact path="/admin/courses/create" />
           <NotFoundPageRoute />
         </Switch>
       </Box>

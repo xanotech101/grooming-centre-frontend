@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import React from "react";
 import { NavLink } from "react-router-dom";
@@ -7,6 +7,7 @@ const links = [
   {
     to: "/admin/",
     children: "Dashboard",
+    exact: true,
   },
   {
     to: "/admin/users",
@@ -58,7 +59,6 @@ const Sidebar = () => {
             <li>
               <NavLink
                 {...linkProps}
-                exact
                 style={{
                   display: "block",
                   textAlign: "center",
