@@ -28,6 +28,8 @@
 .date-time-picker .MuiFormControl-root,
 .date-time-picker input {
   width: 100% !important;
+  /* max-width: 100% !important;
+  min-width: 100% !important; */
 }
 .date-time-picker .MuiInputBase-root::after,
 .date-time-picker .MuiInputBase-root::before {
@@ -43,6 +45,7 @@
 /* END OF Override Material-ui DateAndTimePickers */
 
 .rich-text .MUIRichTextEditor-editorContainer-5 {
+  position: unset;
   padding: 0 5px !important;
   min-height: 58px !important;
   border: 1px solid var(--accent-1) !important;

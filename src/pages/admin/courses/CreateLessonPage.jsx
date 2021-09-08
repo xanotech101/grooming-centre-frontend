@@ -9,9 +9,12 @@ import {
   Select,
   Textarea,
   TimePicker,
+  useRichText,
 } from "../../../components";
 
 const CreateLessonPage = () => {
+  const richTextHook = useRichText();
+
   return (
     <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
       <Flex
@@ -70,7 +73,12 @@ const CreateLessonPage = () => {
 
             {/* Row 4 */}
             <GridItem colSpan={2}>
-              <RichText height="250px" id="content" label="Content" />
+              <RichText
+                height="250px"
+                id="content"
+                label="Content"
+                onChange={richTextHook.onChange}
+              />
             </GridItem>
 
             {/* Row 5 */}
@@ -97,7 +105,9 @@ const CreateLessonPage = () => {
             </GridItem>
           </Grid>
 
-          <Button>Add Lesson</Button>
+          <Button onClick={() => console.log(richTextHook.data)}>
+            Add Lesson
+          </Button>
         </Box>
       </Flex>
     </Box>

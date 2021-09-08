@@ -4,7 +4,12 @@ import PropTypes from "prop-types";
 
 const FormGroup = ({ id, isRequired, label, renderControl }) => {
   return (
-    <FormControl id={id} isRequired={isRequired}>
+    <FormControl
+      id={id}
+      isRequired={isRequired}
+      display="flex"
+      flexDirection="column"
+    >
       {label && <FormLabel>{label}</FormLabel>}
       {renderControl({ rounded: "sm", borderColor: "accent.2" })}
     </FormControl>

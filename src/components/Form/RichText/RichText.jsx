@@ -8,7 +8,6 @@ export const RichText = ({
   isRequired,
   label,
   placeholder,
-  value,
   onChange = () => {},
 }) => {
   const save = (data) => {
@@ -59,24 +58,11 @@ export const RichText = ({
               ],
             }}
             draftEditorProps={{ spellCheck: true }}
+            onChange={onChange}
           />
         </Box>
       )}
     />
-  );
-};
-
-const MyBlock = (props) => {
-  return (
-    <div
-      style={{
-        padding: 10,
-        backgroundColor: "#ebebeb",
-      }}
-    >
-      My Block content is:
-      {props.children}
-    </div>
   );
 };
 
