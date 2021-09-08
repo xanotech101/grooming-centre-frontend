@@ -19,6 +19,7 @@ const CreateLessonPage = () => {
     <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
       <Flex
         as="header"
+        shadow="md"
         flexDirection="column"
         justifyContent="center"
         height="150px"
@@ -33,7 +34,7 @@ const CreateLessonPage = () => {
         <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
       </Flex>
 
-      <Flex backgroundColor="white" padding={10} paddingBottom={16}>
+      <Flex backgroundColor="white" padding={10} paddingBottom={16} shadow="md">
         <Box as="form" flex={1}>
           <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
             {/* Row 1 */}

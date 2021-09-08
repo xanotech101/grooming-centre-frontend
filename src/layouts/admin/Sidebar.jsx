@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import React from "react";
 import { NavLink } from "react-router-dom";
@@ -11,7 +11,8 @@ const links = [
     exact: true,
   },
   {
-    to: "/admin/users",
+    // to: "/admin/users",
+    to: "/admin/users/create",
     children: "Users",
   },
   {
@@ -30,52 +31,54 @@ const links = [
 
 const Sidebar = () => {
   return (
-    <Box
+    <Flex
+      flexDirection="column"
       as="aside"
       width="270px"
-      backgroundColor="white"
       flexShrink={0}
-      padding={5}
+      paddingRight={1}
     >
-      <Stack
-        as="header"
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        borderBottom="1px"
-        borderColor="gray.200"
-        height="200px"
-        marginBottom={5}
-      >
-        <Skeleton rounded="full" boxSize="100px" />
-        <Heading size="md" as="h2">
-          Roman Kutepov
-        </Heading>
-        <Text color="gray.500">Admin</Text>
-      </Stack>
-
-      <nav>
-        <Stack as="ul" spacing={2} listStyleType="none">
-          {links.map((linkProps, index) => (
-            <li key={index}>
-              <NavLink
-                {...linkProps}
-                style={{
-                  display: "grid",
-                  placeItems: "center",
-                  height: "40px",
-                  borderRadius: "5px",
-                }}
-                activeStyle={{
-                  backgroundColor: colors.primary.base,
-                  color: "white",
-                }}
-              />
-            </li>
-          ))}
+      <Box flex={1} backgroundColor="white" shadow="lg" padding={5}>
+        <Stack
+          as="header"
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          borderBottom="1px"
+          borderColor="gray.200"
+          height="200px"
+          marginBottom={5}
+        >
+          <Skeleton rounded="full" boxSize="100px" />
+          <Heading size="md" as="h2">
+            Roman Kutepov
+          </Heading>
+          <Text color="gray.500">Admin</Text>
         </Stack>
-      </nav>
-    </Box>
+
+        <nav>
+          <Stack as="ul" spacing={2} listStyleType="none">
+            {links.map((linkProps, index) => (
+              <li key={index}>
+                <NavLink
+                  {...linkProps}
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    height: "40px",
+                    borderRadius: "5px",
+                  }}
+                  activeStyle={{
+                    backgroundColor: colors.primary.base,
+                    color: "white",
+                  }}
+                />
+              </li>
+            ))}
+          </Stack>
+        </nav>
+      </Box>
+    </Flex>
   );
 };
 

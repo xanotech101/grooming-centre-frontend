@@ -8,20 +8,22 @@ const CreateCoursePage = () => {
     <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
       <Flex
         as="header"
-        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
         height="150px"
         backgroundColor="white"
         paddingX={5}
         marginBottom={5}
+        shadow="md"
       >
-        <Heading as="h1" size="lg">
+        <Heading as="h1" size="lg" marginBottom={4}>
           Create Course
         </Heading>
 
-        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
+        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
       </Flex>
 
-      <Flex backgroundColor="white" padding={10} paddingBottom={16}>
+      <Flex backgroundColor="white" padding={10} paddingBottom={16} shadow="md">
         <Box as="form" flex={1}>
           <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
             {/* Row 1 */}

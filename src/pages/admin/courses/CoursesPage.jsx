@@ -16,6 +16,7 @@ export const CoursesPage = () => {
       paddingX={10}
       paddingTop={5}
       paddingBottom={10}
+      shadow="md"
     >
       <Box as="header" justifyContent="flex-end" height="150px" mb={5}>
         <ButtonGroup display="flex" justifyContent="flex-end">
