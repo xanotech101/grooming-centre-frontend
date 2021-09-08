@@ -12,14 +12,13 @@ export const Upload = ({
   id,
   isRequired,
   label,
-  value,
-  onChange = () => {},
+  onDrop: onDropProp,
   width = "100%",
   ...rest
 }) => {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
-      console.log(file);
+      onDropProp(file);
     });
   }, []);
 
@@ -67,7 +66,6 @@ export const Upload = ({
 
 Upload.propTypes = {
   ...FormGroupPropTypes,
-  onChange: PropTypes.func,
-  height: PropTypes.string,
   width: PropTypes.string,
+  onDrop: PropTypes.func,
 };
