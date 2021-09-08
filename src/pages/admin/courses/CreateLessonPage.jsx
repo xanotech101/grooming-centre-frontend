@@ -100,10 +100,10 @@ const CreateLessonPage = () => {
 
             <GridItem colSpan={2}>
               <Upload
-                height="250px"
                 id="lesson-file"
-                isRequired
                 label="Lesson file"
+                isRequired
+                onFileSelect={(file) => console.log(file)}
               />
             </GridItem>
           </Grid>

@@ -12,13 +12,13 @@ export const Upload = ({
   id,
   isRequired,
   label,
-  onDrop: onDropProp,
+  onFileSelect,
   width = "100%",
   ...rest
 }) => {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
-      onDropProp(file);
+      onFileSelect?.(file);
     });
   }, []);
 
