@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Heading } from "@chakra-ui/layout";
+import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/layout";
 import React from "react";
 import { Route } from "react-router-dom";
 import {
@@ -19,15 +19,18 @@ const CreateLessonPage = () => {
     <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
       <Flex
         as="header"
-        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
         height="150px"
         backgroundColor="white"
         paddingX={5}
         marginBottom={5}
       >
-        <Heading as="h1" size="lg">
+        <Heading as="h1" size="lg" marginBottom={4}>
           Create Lesson
         </Heading>
+
+        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
       </Flex>
 
       <Flex backgroundColor="white" padding={10} paddingBottom={16}>
