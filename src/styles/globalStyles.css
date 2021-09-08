@@ -24,6 +24,11 @@
 /* END OF Colors */
 
 /* Override Material-ui DateAndTimePickers */
+.date-time-picker .MuiInputBase-root,
+.date-time-picker .MuiFormControl-root,
+.date-time-picker input {
+  width: 100% !important;
+}
 .date-time-picker .MuiInputBase-root::after,
 .date-time-picker .MuiInputBase-root::before {
   content: none !important;

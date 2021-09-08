@@ -7,6 +7,7 @@ import {
   Input,
   Select,
   Textarea,
+  TimePicker,
 } from "../../../components";
 
 const CreateLessonPage = () => {
@@ -28,6 +29,7 @@ const CreateLessonPage = () => {
       <Flex backgroundColor="white" padding={10} paddingBottom={16}>
         <Box as="form" flex={1}>
           <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+            {/* Row 1 */}
             <GridItem>
               <Select
                 id="select-course"
@@ -41,23 +43,37 @@ const CreateLessonPage = () => {
               />
             </GridItem>
 
+            {/* Row 2 */}
             <GridItem rowStart={2}>
               <Input id="lesson-name" isRequired label="Lesson name" />
             </GridItem>
             <GridItem rowStart={2}>
-              {/* <Input
-                id="lesson-datetime"
-                isRequired
-                label="Lesson date & time"
-              /> */}
-              <DatePicker id="lesson-name" isRequired label="Lesson name" />
+              <DatePicker id="lesson-date" isRequired label="Lesson date" />
             </GridItem>
 
+            {/* Row 3 */}
+            <GridItem rowStart={3}>
+              <TimePicker
+                id="lesson-start-time"
+                isRequired
+                label="Lesson start time"
+              />
+            </GridItem>
+            <GridItem rowStart={3}>
+              <TimePicker
+                id="lesson-end-time"
+                isRequired
+                label="Lesson end time"
+              />
+            </GridItem>
+
+            {/* Row 4 */}
             <GridItem colSpan={2}>
               <Textarea height="250px" id="content" label="Content" />
             </GridItem>
 
-            <GridItem rowStart={4}>
+            {/* Row 5 */}
+            <GridItem rowStart={5}>
               <Select
                 id="file-type"
                 label="File type"
