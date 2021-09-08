@@ -21,7 +21,7 @@ export const CoursesPage = () => {
         <ButtonGroup display="flex" justifyContent="flex-end">
           <Button link="/admin/courses/create">Add Course</Button>
 
-          <Button link="/admin/courses/create-lesson" outline>
+          <Button link="/admin/courses/create-lesson" secondary>
             Add Lesson
           </Button>
         </ButtonGroup>

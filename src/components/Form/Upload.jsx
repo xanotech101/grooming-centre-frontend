@@ -2,7 +2,7 @@ import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { Button } from "..";
@@ -16,11 +16,14 @@ export const Upload = ({
   width = "100%",
   ...rest
 }) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      onFileSelect?.(file);
-    });
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      acceptedFiles.forEach((file) => {
+        onFileSelect?.(file);
+      });
+    },
+    [onFileSelect]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -56,7 +59,9 @@ export const Upload = ({
 
             <Text color="accent.2">Or</Text>
 
-            <Button width="fit-content">Browse files</Button>
+            <Button width="fit-content" sm>
+              Browse files
+            </Button>
           </Stack>
         </Flex>
       )}

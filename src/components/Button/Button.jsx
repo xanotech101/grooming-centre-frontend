@@ -3,13 +3,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export const Button = ({ children, link, outline, ...rest }) => {
+export const Button = ({ children, link, secondary, sm, ...rest }) => {
   const getOutlineStyles = () =>
-    outline
+    secondary
       ? {
           backgroundColor: "transparent",
           textColor: "primary.base",
           border: "1px",
+          _hover: {
+            backgroundColor: "secondary.1",
+          },
+        }
+      : {};
+  const getSMStyles = () =>
+    sm
+      ? {
+          paddingX: "22px",
+          size: "sm",
         }
       : {};
 
@@ -22,6 +32,7 @@ export const Button = ({ children, link, outline, ...rest }) => {
         backgroundColor: "primary.hover",
       }}
       {...getOutlineStyles()}
+      {...getSMStyles()}
       {...rest}
     >
       {children}
@@ -33,6 +44,7 @@ export const Button = ({ children, link, outline, ...rest }) => {
 
 Button.propTypes = {
   children: PropTypes.any,
-  outline: PropTypes.bool,
+  secondary: PropTypes.bool,
+  sm: PropTypes.bool,
   link: PropTypes.string,
 };
