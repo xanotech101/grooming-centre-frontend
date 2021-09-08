@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { AdminLayoutRoute } from "../layouts/admin";
 import { UserLayoutRoute } from "../layouts/user";
 import Providers from "./Providers";
+import "../styles/globalStyles.css";
 
 function App() {
   return (

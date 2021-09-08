@@ -9,7 +9,7 @@ const CreateCoursePage = () => {
       <Flex
         as="header"
         alignItems="center"
-        height="190px"
+        height="150px"
         backgroundColor="white"
         paddingX={5}
         marginBottom={5}

@@ -17,15 +17,15 @@ export const CoursesPage = () => {
       paddingTop={5}
       paddingBottom={10}
     >
-      <Flex as="header" justifyContent="flex-end" height="190px" mb={5}>
-        <ButtonGroup>
+      <Box as="header" justifyContent="flex-end" height="150px" mb={5}>
+        <ButtonGroup display="flex" justifyContent="flex-end">
           <Button link="/admin/courses/create">Add Course</Button>
 
           <Button link="/admin/courses/create-lesson" outline>
             Add Lesson
           </Button>
         </ButtonGroup>
-      </Flex>
+      </Box>
 
       <Box>
         <Box mb={5} maxWidth="500px">

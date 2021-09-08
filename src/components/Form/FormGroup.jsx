@@ -6,7 +6,7 @@ const FormGroup = ({ id, isRequired, label, renderControl }) => {
   return (
     <FormControl id={id} isRequired={isRequired}>
       {label && <FormLabel>{label}</FormLabel>}
-      {renderControl({ rounded: "sm" })}
+      {renderControl({ rounded: "sm", borderColor: "accent.2" })}
     </FormControl>
   );
 };

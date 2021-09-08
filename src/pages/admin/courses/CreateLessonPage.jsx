@@ -15,7 +15,7 @@ const CreateLessonPage = () => {
       <Flex
         as="header"
         alignItems="center"
-        height="190px"
+        height="150px"
         backgroundColor="white"
         paddingX={5}
         marginBottom={5}
@@ -50,7 +50,7 @@ const CreateLessonPage = () => {
                 isRequired
                 label="Lesson date & time"
               /> */}
-              <DatePicker />
+              <DatePicker id="lesson-name" isRequired label="Lesson name" />
             </GridItem>
 
             <GridItem colSpan={2}>
