@@ -3,7 +3,6 @@ import { Input } from "@chakra-ui/input";
 import { Box, Flex, Grid } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import VisuallyHidden from "@chakra-ui/visually-hidden";
-import React from "react";
 import { BsSearch } from "react-icons/bs";
 import { Route } from "react-router-dom";
 import { Button } from "../../../components";
@@ -18,7 +17,15 @@ export const CoursesPage = () => {
       paddingBottom={10}
       shadow="md"
     >
-      <Box as="header" justifyContent="flex-end" height="150px" mb={5}>
+      <Box
+        as="header"
+        justifyContent="flex-end"
+        height="120px"
+        borderBottom="1px"
+        borderColor="accent.1"
+        marginBottom={10}
+        paddingBottom={10}
+      >
         <ButtonGroup display="flex" justifyContent="flex-end">
           <Button link="/admin/courses/create">Add Course</Button>
 

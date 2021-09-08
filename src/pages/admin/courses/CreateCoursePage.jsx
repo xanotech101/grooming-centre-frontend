@@ -1,58 +1,36 @@
 import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/layout";
 import React from "react";
 import { Route } from "react-router-dom";
-import { Button, Input, Textarea, Select } from "../../../components";
+import { Input, Textarea, Select } from "../../../components";
+import { CreatePageLayout } from "../../../layouts";
 
 const CreateCoursePage = () => {
   return (
-    <Box as="section" paddingX={10} paddingTop={5} paddingBottom={10}>
-      <Flex
-        as="header"
-        flexDirection="column"
-        justifyContent="center"
-        height="150px"
-        backgroundColor="white"
-        paddingX={5}
-        marginBottom={5}
-        shadow="md"
-      >
-        <Heading as="h1" size="lg" marginBottom={4}>
-          Create Course
-        </Heading>
+    <CreatePageLayout title="Create Course" submitButtonText="Add Course">
+      <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+        {/* Row 1 */}
+        <Input id="course-title" label="Course title" isRequired />
+        <Input id="course-duration" label="Course duration" isRequired />
 
-        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-      </Flex>
-
-      <Flex backgroundColor="white" padding={10} paddingBottom={16} shadow="md">
-        <Box as="form" flex={1}>
-          <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
-            {/* Row 1 */}
-            <Input id="course-title" label="Course title" isRequired />
-            <Input id="course-duration" label="Course duration" isRequired />
-
-            {/* Row 2 */}
-            <Textarea
-              id="course-description"
-              label="Course description"
-              isRequired
-              resize="none"
-            />
-            <Select
-              id="course-department"
-              label="Course department"
-              options={[
-                { label: "Dept 1", value: "dept-1" },
-                { label: "Dept 2", value: "dept-2" },
-                { label: "Dept 3", value: "dept-3" },
-              ]}
-              isRequired
-            />
-          </Grid>
-
-          <Button>Add Course</Button>
-        </Box>
-      </Flex>
-    </Box>
+        {/* Row 2 */}
+        <Textarea
+          id="course-description"
+          label="Course description"
+          isRequired
+          resize="none"
+        />
+        <Select
+          id="course-department"
+          label="Course department"
+          options={[
+            { label: "Dept 1", value: "dept-1" },
+            { label: "Dept 2", value: "dept-2" },
+            { label: "Dept 3", value: "dept-3" },
+          ]}
+          isRequired
+        />
+      </Grid>
+    </CreatePageLayout>
   );
 };
 
