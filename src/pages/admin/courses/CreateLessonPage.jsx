@@ -5,6 +5,7 @@ import {
   Button,
   DatePicker,
   Input,
+  RichText,
   Select,
   Textarea,
   TimePicker,
@@ -69,7 +70,7 @@ const CreateLessonPage = () => {
 
             {/* Row 4 */}
             <GridItem colSpan={2}>
-              <Textarea height="250px" id="content" label="Content" />
+              <RichText height="250px" id="content" label="Content" />
             </GridItem>
 
             {/* Row 5 */}

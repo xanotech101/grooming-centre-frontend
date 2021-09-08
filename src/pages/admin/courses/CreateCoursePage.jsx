@@ -22,17 +22,17 @@ const CreateCoursePage = () => {
       <Flex backgroundColor="white" padding={10} paddingBottom={16}>
         <Box as="form" flex={1}>
           <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+            {/* Row 1 */}
             <Input id="course-title" label="Course title" isRequired />
-
             <Input id="course-duration" label="Course duration" isRequired />
 
+            {/* Row 2 */}
             <Textarea
               id="course-description"
               label="Course description"
               isRequired
               resize="none"
             />
-
             <Select
               id="course-department"
               label="Course department"

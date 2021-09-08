@@ -41,3 +41,10 @@
   padding: 0 16px !important;
 }
 /* END OF Override Material-ui DateAndTimePickers */
+
+.rich-text .MUIRichTextEditor-editorContainer-5 {
+  padding: 0 5px !important;
+  min-height: 58px !important;
+  border: 1px solid var(--accent-1) !important;
+  border-radius: 2px !important;
+}
