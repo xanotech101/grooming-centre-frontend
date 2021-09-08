@@ -7,8 +7,8 @@ import {
   Input,
   RichText,
   Select,
-  Textarea,
   TimePicker,
+  Upload,
   useRichText,
 } from "../../../components";
 
@@ -99,7 +99,7 @@ const CreateLessonPage = () => {
             </GridItem>
 
             <GridItem colSpan={2}>
-              <Textarea
+              <Upload
                 height="250px"
                 id="lesson-file"
                 isRequired

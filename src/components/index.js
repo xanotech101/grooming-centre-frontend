@@ -6,3 +6,4 @@ export * from "./Form/RichText/RichText";
 export * from "./Form/RichText/useRichText";
 export * from "./Form/Select";
 export * from "./Form/Textarea";
+export * from "./Form/Upload";

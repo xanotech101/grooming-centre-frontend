@@ -44,10 +44,12 @@
 }
 /* END OF Override Material-ui DateAndTimePickers */
 
+/* Override Material-ui RichTextEditor */
 .rich-text .MUIRichTextEditor-editorContainer-5 {
   position: unset;
   padding: 0 5px !important;
-  min-height: 58px !important;
+  min-height: 100px !important;
   border: 1px solid var(--accent-1) !important;
   border-radius: 2px !important;
 }
+/* END OF Override Material-ui RichTextEditor */
