@@ -48,7 +48,7 @@
 .rich-text .MUIRichTextEditor-editorContainer-5 {
   position: unset;
   padding: 0 5px !important;
-  min-height: 100px !important;
+  min-height: 200px !important;
   border: 1px solid var(--accent-1) !important;
   border-radius: 2px !important;
 }
