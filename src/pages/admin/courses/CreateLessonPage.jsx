@@ -19,7 +19,12 @@ const CreateLessonPage = () => {
     <CreatePageLayout title="Create Lesson" submitButtonText="Add Lesson">
       <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
         {/* Row 1 */}
-        <GridItem>
+        <GridItem colSpan={2}>
+          <Input id="lesson-name" isRequired label="Lesson name" />
+        </GridItem>
+
+        {/* Row 2 */}
+        <GridItem rowStart={2}>
           <Select
             id="select-course"
             label="Select course"
@@ -30,11 +35,6 @@ const CreateLessonPage = () => {
             ]}
             isRequired
           />
-        </GridItem>
-
-        {/* Row 2 */}
-        <GridItem rowStart={2}>
-          <Input id="lesson-name" isRequired label="Lesson name" />
         </GridItem>
         <GridItem rowStart={2}>
           <DatePicker id="lesson-date" isRequired label="Lesson date" />
