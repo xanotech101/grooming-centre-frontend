@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading } from "@chakra-ui/layout";
+import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/layout";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Button, Input, Textarea, Select } from "../../../components";
@@ -17,6 +17,8 @@ const CreateCoursePage = () => {
         <Heading as="h1" size="lg">
           Create Course
         </Heading>
+
+        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
       </Flex>
 
       <Flex backgroundColor="white" padding={10} paddingBottom={16}>
