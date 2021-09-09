@@ -9,3 +9,4 @@ export * from "./Form/Select";
 export * from "./Form/Textarea";
 export * from "./Form/Upload";
 export * from "./Typography/Heading";
+export * from "./Typography/Text";

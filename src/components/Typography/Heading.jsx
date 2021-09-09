@@ -15,7 +15,7 @@ const getFontSize = (type) => {
     case "h3":
       fontSize = "24px";
       break;
-    case "h3":
+    case "h4":
       fontSize = "20px";
       break;
   }
@@ -29,6 +29,7 @@ export const Heading = ({
   italic,
   medium,
   regular,
+  size,
   ...rest
 }) => {
   return (
@@ -36,7 +37,8 @@ export const Heading = ({
       as={as}
       fontFamily="'Lato', sans-serif"
       fontWeight={regular ? "light" : medium ? "regular" : "bold"}
-      fontSize={getFontSize(as)}
+      size={size}
+      fontSize={!size ? getFontSize(as) : undefined}
       fontStyle={italic && "italic"}
       {...rest}
     >
@@ -46,8 +48,10 @@ export const Heading = ({
 };
 
 Heading.propTypes = {
-  as: PropTypes.string,
-  children: PropTypes.element.isRequired,
+  as: PropTypes.oneOf(["h1", "h2", "h3", "h4"]),
+  children: PropTypes.string.isRequired,
+  italic: PropTypes.bool,
   regular: PropTypes.bool,
   medium: PropTypes.bool,
+  size: PropTypes.string,
 };

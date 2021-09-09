@@ -6,12 +6,13 @@ import { Heading } from "..";
 export const Brand = () => {
   return (
     <Flex alignItems="center">
-      <SkeletonCircle boxSize="50px" marginRight={2}></SkeletonCircle>
+      <SkeletonCircle boxSize="50px"></SkeletonCircle>
 
       <Box
         width="130px"
-        borderLeft="1px"
-        paddingLeft={2}
+        borderLeft="2px"
+        paddingLeft={4}
+        marginLeft={4}
         alignSelf="flex-start"
       >
         <Heading medium lineHeight="30px">
