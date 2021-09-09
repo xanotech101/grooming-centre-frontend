@@ -9,7 +9,7 @@ const MainArea = () => {
   return (
     <Flex
       as="main"
-      minWidth="600px"
+      minWidth={{ base: "500px", xl: "700px" }}
       alignItems="center"
       justifyContent="center"
     >

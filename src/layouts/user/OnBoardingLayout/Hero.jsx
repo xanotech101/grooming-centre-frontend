@@ -5,16 +5,12 @@ import onBoardingImage from "../../../assets/images/onboarding1.png";
 const Hero = () => {
   return (
     <Flex flexDirection="column" flex={1}>
-      <Box
-        // border="1px solid red"
-        flexBasis="400px"
-        backgroundColor="primary.base"
-      >
+      <Box flex={1.5} backgroundColor="primary.base" position="relative">
         <Image
-          height="400px"
+          position="absolute"
+          height="100%"
           width="100%"
           objectFit="cover"
-          // objectPosition="0% 50%"
           src={onBoardingImage}
           opacity={0.7}
         />

@@ -5,7 +5,7 @@ const SigninPage = () => {
   return (
     <Box>
       <Flex height="150px">
-        <Skeleton boxSize="70px" marginRight={2}></Skeleton>
+        <Skeleton boxSize="50px" marginRight={2}></Skeleton>
 
         <Box
           width="100px"
@@ -13,10 +13,7 @@ const SigninPage = () => {
           paddingLeft={2}
           alignSelf="flex-start"
         >
-          <Heading
-            size="lg"
-            // lineHeight="20px"
-          >
+          <Heading size="lg" lineHeight="25px">
             UNKNOWN
           </Heading>
         </Box>
