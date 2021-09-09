@@ -1,3 +1,4 @@
+export * from "./Brand/Brand";
 export * from "./Button/Button";
 export * from "./Form/DateTimePicker/DatePicker";
 export * from "./Form/DateTimePicker/TimePicker";
