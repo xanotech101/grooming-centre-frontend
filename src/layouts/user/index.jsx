@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { OnBoardingLayoutRoute } from "..";
 
@@ -21,15 +20,14 @@ const UserLayout = () => {
             path="/courses"
             render={(props) => <div {...props}>courses</div>}
           />
-          <Route
-            exact="/not-found"
-            render={(props) => <div {...props}>Not found</div>}
-          />
+
+          <Route render={(props) => <div {...props}>Not found</div>} />
         </Switch>
       </main>
     </>
   );
 };
+
 const UserLayoutRouter = () => {
   return (
     <Switch>

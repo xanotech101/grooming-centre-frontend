@@ -6,6 +6,6 @@ import { CoursesPage } from ".";
 //   return ();
 // };
 
-export const DashboardPageRoute = ({ component: Component, ...rest }) => {
+export const DashboardPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <CoursesPage {...props} />} />;
 };

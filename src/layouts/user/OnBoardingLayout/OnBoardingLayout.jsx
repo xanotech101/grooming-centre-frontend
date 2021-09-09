@@ -1,27 +1,15 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { Redirect } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
+import Hero from "./Hero";
+import MainArea from "./MainArea";
 
 const OnBoardingLayout = () => {
   return (
-    <Flex>
-      <Box as="main">
-        <Switch>
-          <Route
-            exact
-            path="/auth/signin"
-            render={(props) => <div {...props}>Signin</div>}
-          />
-          <Route
-            exact
-            path="/auth/signup"
-            render={(props) => <div {...props}>Signup</div>}
-          />
-          <Redirect to="/not-found" />
-        </Switch>
-      </Box>
+    <Flex height="100vh">
+      <MainArea />
 
-      <Box>hero</Box>
+      <Hero />
     </Flex>
   );
 };
