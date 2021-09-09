@@ -1,5 +1,7 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { OnBoardingLayoutRoute } from "..";
 
 const UserLayout = () => {
   return (
@@ -7,13 +9,40 @@ const UserLayout = () => {
       User
       <header>header</header>
       <aside>sidebar</aside>
-      <main>main area</main>
+      <main>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={(props) => <div {...props}>Homepage</div>}
+          />
+          <Route
+            exact
+            path="/courses"
+            render={(props) => <div {...props}>courses</div>}
+          />
+          <Route
+            exact="/not-found"
+            render={(props) => <div {...props}>Not found</div>}
+          />
+        </Switch>
+      </main>
     </>
+  );
+};
+const UserLayoutRouter = () => {
+  return (
+    <Switch>
+      <OnBoardingLayoutRoute path="/auth" />
+      <Route path="/" render={(props) => <UserLayout {...props} />} />
+    </Switch>
   );
 };
 
 export const UserLayoutRoute = ({ component: Component, ...rest }) => {
-  return <Route {...rest} render={(props) => <UserLayout {...props} />} />;
+  return (
+    <Route {...rest} render={(props) => <UserLayoutRouter {...props} />} />
+  );
 };
 
-export default UserLayout;
+export default UserLayoutRouter;
