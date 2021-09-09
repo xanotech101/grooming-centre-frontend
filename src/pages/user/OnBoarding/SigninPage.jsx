@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Skeleton } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
 import { Brand } from "../../../components";
 

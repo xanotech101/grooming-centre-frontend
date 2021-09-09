@@ -1,19 +1,20 @@
-import { Box, Flex, Heading } from "@chakra-ui/layout";
-import { Skeleton } from "@chakra-ui/skeleton";
+import { Box, Flex } from "@chakra-ui/layout";
+import { SkeletonCircle } from "@chakra-ui/skeleton";
 import React from "react";
+import { Heading } from "..";
 
 export const Brand = () => {
   return (
-    <Flex>
-      <Skeleton boxSize="50px" marginRight={2}></Skeleton>
+    <Flex alignItems="center">
+      <SkeletonCircle boxSize="50px" marginRight={2}></SkeletonCircle>
 
       <Box
-        width="100px"
+        width="130px"
         borderLeft="1px"
         paddingLeft={2}
         alignSelf="flex-start"
       >
-        <Heading size="lg" lineHeight="25px">
+        <Heading medium lineHeight="30px">
           UNKNOWN
         </Heading>
       </Box>
