@@ -1,8 +1,28 @@
-import React from "react";
+import { Box, Flex, Heading, Skeleton } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
 
 const SigninPage = () => {
-  return "Signin";
+  return (
+    <Box>
+      <Flex height="150px">
+        <Skeleton boxSize="70px" marginRight={2}></Skeleton>
+
+        <Box
+          width="100px"
+          borderLeft="1px"
+          paddingLeft={2}
+          alignSelf="flex-start"
+        >
+          <Heading
+            size="lg"
+            // lineHeight="20px"
+          >
+            UNKNOWN
+          </Heading>
+        </Box>
+      </Flex>
+    </Box>
+  );
 };
 
 export const SigninPageRoute = ({ ...rest }) => {

@@ -1,11 +1,50 @@
-import { Box, Flex } from "@chakra-ui/layout";
+import { Image } from "@chakra-ui/image";
+import { Box, Flex, Heading, Text, HStack } from "@chakra-ui/layout";
+import onBoardingImage from "../../../assets/images/onboarding1.png";
 
 const Hero = () => {
   return (
-    <Flex flexDirection="column" flex={1} border="1px">
-      <Box border="1px solid red" flex={1.2}></Box>
+    <Flex flexDirection="column" flex={1}>
+      <Box
+        // border="1px solid red"
+        flexBasis="400px"
+        backgroundColor="primary.base"
+      >
+        <Image
+          height="400px"
+          width="100%"
+          objectFit="cover"
+          // objectPosition="0% 50%"
+          src={onBoardingImage}
+          opacity={0.7}
+        />
+      </Box>
 
-      <Box border="1px solid blue" flex={0.8}></Box>
+      <Flex
+        flex={1}
+        backgroundColor="secondary.8"
+        color="white"
+        flexDirection="column"
+        alignItems="center"
+        textAlign="center"
+      >
+        <Box paddingTop={10} marginBottom={10}>
+          <Heading as="h1" size="md" marginBottom={6}>
+            Lorem Ipsum dolor
+          </Heading>
+
+          <Text maxWidth="500px">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id
+            adipiscing dui pulvinar mattis sed semper.
+          </Text>
+        </Box>
+
+        <HStack spacing={5}>
+          <Box boxSize="10px" rounded="full" backgroundColor="white" />
+          <Box boxSize="10px" rounded="full" backgroundColor="white" />
+          <Box boxSize="10px" rounded="full" backgroundColor="white" />
+        </HStack>
+      </Flex>
     </Flex>
   );
 };
