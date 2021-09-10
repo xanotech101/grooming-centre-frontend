@@ -1,6 +1,13 @@
-import { Flex, Checkbox } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
-import { Brand, Button, Input, Link, Text } from "../../../components";
+import {
+  Brand,
+  Button,
+  Checkbox,
+  Input,
+  Link,
+  Text,
+} from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 
 const SigninPage = () => {
@@ -13,13 +20,15 @@ const SigninPage = () => {
       )}
       renderInputs={() => (
         <>
-          <Input id="email" label="Email" isRequired />
-          <Input id="password" label="Password" isRequired />
+          <Input id="email" type="email" label="Email" isRequired />
+          <Input id="password" type="password" label="Password" isRequired />
         </>
       )}
-      renderSubmit={() => <Button>Sign in</Button>}
+      renderSubmit={(props) => <Button {...props}>Sign in</Button>}
       renderFooter={() => (
         <Flex justifyContent="space-between">
+          <Checkbox label="Remember me" />
+
           <Link>
             <Text color="primary.base">Forgot Password?</Text>
           </Link>

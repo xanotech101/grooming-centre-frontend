@@ -27,7 +27,7 @@ export const OnBoardingFormLayout = ({
               </Stack>
             }
 
-            {renderSubmit()}
+            {renderSubmit({ type: "submit" })}
           </Flex>
         )}
       </Box>

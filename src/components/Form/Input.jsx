@@ -18,7 +18,7 @@ export const Input = ({
       renderControl={(props) => (
         <InputChakraui
           _focus={{
-            borderColor: "primary.hover",
+            borderColor: "secondary.1",
           }}
           {...props}
           {...rest}
