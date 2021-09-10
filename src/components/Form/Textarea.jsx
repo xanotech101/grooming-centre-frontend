@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 import { Textarea as TextareaChakraui } from "@chakra-ui/textarea";

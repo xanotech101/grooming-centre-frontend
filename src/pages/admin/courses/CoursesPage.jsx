@@ -37,7 +37,7 @@ export const CoursesPage = () => {
 
       <Box>
         <Box mb={5} maxWidth="500px">
-          <Flex as="form" border="1px" textColor="gray.400" rounded="sm">
+          <Flex as="form" border="1px" textColor="gray.400" rounded="4px">
             <IconButton
               _focus={{ fontSize: "20px" }}
               variant="ghost"

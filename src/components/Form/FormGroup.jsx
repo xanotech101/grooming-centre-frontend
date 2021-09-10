@@ -1,5 +1,5 @@
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import React from "react";
+
 import PropTypes from "prop-types";
 
 const FormGroup = ({ id, isRequired, label, renderControl }) => {
@@ -11,7 +11,7 @@ const FormGroup = ({ id, isRequired, label, renderControl }) => {
       flexDirection="column"
     >
       {label && <FormLabel>{label}</FormLabel>}
-      {renderControl({ rounded: "sm", borderColor: "accent.2" })}
+      {renderControl({ rounded: "4px", borderColor: "accent.2" })}
     </FormControl>
   );
 };

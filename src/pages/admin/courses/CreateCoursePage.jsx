@@ -1,5 +1,5 @@
 import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/layout";
-import React from "react";
+
 import { Route } from "react-router-dom";
 import { Input, Textarea, Select } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";

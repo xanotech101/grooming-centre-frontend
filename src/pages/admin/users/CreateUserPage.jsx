@@ -1,5 +1,5 @@
 import { Stack } from "@chakra-ui/layout";
-import React from "react";
+
 import { Route } from "react-router-dom";
 import { Input, Select } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";

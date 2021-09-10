@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { SkeletonCircle } from "@chakra-ui/skeleton";
-import React from "react";
+
 import { Heading } from "..";
 
 export const Brand = () => {

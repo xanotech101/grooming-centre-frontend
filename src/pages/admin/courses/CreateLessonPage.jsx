@@ -1,5 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/layout";
-import React from "react";
+
 import { Route } from "react-router-dom";
 import {
   DatePicker,

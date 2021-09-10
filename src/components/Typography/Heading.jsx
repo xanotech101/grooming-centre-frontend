@@ -1,5 +1,5 @@
 import { Heading as HeadingChakraui } from "@chakra-ui/layout";
-import React from "react";
+
 import PropTypes from "prop-types";
 
 const getFontSize = (type) => {
