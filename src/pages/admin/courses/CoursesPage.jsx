@@ -1,11 +1,8 @@
-import { ButtonGroup, IconButton } from "@chakra-ui/button";
-import { Input } from "@chakra-ui/input";
-import { Box, Flex, Grid } from "@chakra-ui/layout";
+import { ButtonGroup } from "@chakra-ui/button";
+import { Box, Grid } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
-import VisuallyHidden from "@chakra-ui/visually-hidden";
-import { BsSearch } from "react-icons/bs";
 import { Route } from "react-router-dom";
-import { Button } from "../../../components";
+import { Button, SearchBar } from "../../../components";
 
 export const CoursesPage = () => {
   return (
@@ -36,24 +33,7 @@ export const CoursesPage = () => {
       </Box>
 
       <Box>
-        <Box mb={5} maxWidth="500px">
-          <Flex as="form" border="1px" textColor="gray.400" rounded="4px">
-            <IconButton
-              _focus={{ fontSize: "20px" }}
-              variant="ghost"
-              width="60px"
-            >
-              <BsSearch />
-            </IconButton>
-
-            <VisuallyHidden as="label">Search Courses</VisuallyHidden>
-            <Input
-              variant="unstyled"
-              placeholder="Search Courses"
-              paddingLeft={2}
-            />
-          </Flex>
-        </Box>
+        <SearchBar mb={5} maxWidth="500px" />
 
         <Grid
           templateColumns="repeat(4, 207px)"

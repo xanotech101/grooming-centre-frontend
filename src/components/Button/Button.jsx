@@ -15,7 +15,7 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
           },
         }
       : {};
-  const getSMStyles = () =>
+  const getSmallStyles = () =>
     sm
       ? {
           paddingX: "22px",
@@ -23,7 +23,7 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
         }
       : {};
 
-  const renderedContent = (
+  const renderContent = (props) => (
     <ButtonChakraui
       backgroundColor="primary.base"
       textColor="white"
@@ -33,14 +33,19 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
         backgroundColor: "primary.hover",
       }}
       {...getOutlineStyles()}
-      {...getSMStyles()}
+      {...getSmallStyles()}
+      {...props}
       {...rest}
     >
       {children}
     </ButtonChakraui>
   );
 
-  return link ? <Link href={link}>{renderedContent}</Link> : renderedContent;
+  return link ? (
+    <Link href={link}>{renderContent({ tabIndex: -1 })}</Link>
+  ) : (
+    renderContent
+  );
 };
 
 Button.propTypes = {
