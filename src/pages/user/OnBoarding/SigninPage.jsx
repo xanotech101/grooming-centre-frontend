@@ -29,7 +29,7 @@ const SigninPage = () => {
         <Flex justifyContent="space-between">
           <Checkbox label="Remember me" />
 
-          <Link>
+          <Link href="/auth/forgot-password">
             <Text color="primary.base">Forgot Password?</Text>
           </Link>
         </Flex>
