@@ -12,4 +12,5 @@ function Providers({ children }) {
     </ChakraProvider>
   );
 }
+
 export default Providers;

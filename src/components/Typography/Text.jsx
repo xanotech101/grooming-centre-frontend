@@ -35,7 +35,6 @@ const getFontSize = (type) => {
 export const Text = ({ as = "level4", bold, children, italic, ...rest }) => {
   return (
     <TextChakraui
-      fontFamily="'Lato', sans-serif"
       fontWeight={bold ? "bold" : "regular"}
       fontSize={getFontSize(as)}
       fontStyle={italic && "italic"}

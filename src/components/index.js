@@ -8,5 +8,6 @@ export * from "./Form/RichText/useRichText";
 export * from "./Form/Select";
 export * from "./Form/Textarea";
 export * from "./Form/Upload";
+export * from "./Link/Link";
 export * from "./Typography/Heading";
 export * from "./Typography/Text";

@@ -3,7 +3,6 @@ import { AdminLayoutRoute } from "../layouts/admin";
 import { UserLayoutRoute } from "../layouts/user";
 import Providers from "./Providers";
 import "../styles/globalStyles.css";
-import { Route } from "react-router-dom";
 
 function App() {
   return (

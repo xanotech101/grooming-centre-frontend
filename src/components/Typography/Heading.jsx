@@ -35,7 +35,6 @@ export const Heading = ({
   return (
     <HeadingChakraui
       as={as}
-      fontFamily="'Lato', sans-serif"
       fontWeight={regular ? "light" : medium ? "regular" : "bold"}
       size={size}
       fontSize={!size ? getFontSize(as) : undefined}

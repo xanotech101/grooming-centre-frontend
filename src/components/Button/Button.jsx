@@ -1,7 +1,7 @@
 import { Button as ButtonChakraui } from "@chakra-ui/button";
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link } from "..";
 
 export const Button = ({ children, link, secondary, sm, ...rest }) => {
   const getOutlineStyles = () =>
@@ -28,6 +28,7 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
       backgroundColor="primary.base"
       textColor="white"
       paddingX="33px"
+      rounded="sm"
       _hover={{
         backgroundColor: "primary.hover",
       }}
@@ -39,7 +40,7 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
     </ButtonChakraui>
   );
 
-  return link ? <Link to={link}>{renderedContent}</Link> : renderedContent;
+  return link ? <Link href={link}>{renderedContent}</Link> : renderedContent;
 };
 
 Button.propTypes = {
