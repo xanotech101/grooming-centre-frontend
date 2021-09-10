@@ -36,7 +36,7 @@ export const OnBoardingFormLayout = ({
         )}
       </Box>
       {renderFooter && (
-        <Box as="footer" fontWeight="bold">
+        <Box as="footer" width="356px" fontWeight="bold">
           {renderFooter()}
         </Box>
       )}

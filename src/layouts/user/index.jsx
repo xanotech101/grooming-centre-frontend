@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import { OnBoardingLayoutRoute } from "..";
-import Header from "./Header";
+import Header from "./Header/Header";
 import MainArea from "./MainArea";
 
 const UserLayout = () => {

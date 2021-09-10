@@ -1,0 +1,11 @@
+.user-header-nav-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+  border-bottom: 2px solid transparent;
+}
+.user-header-nav-link--active {
+  color: var(--primary-base);
+  border-color: var(--primary-bases);
+}
