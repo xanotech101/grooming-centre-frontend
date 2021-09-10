@@ -9,7 +9,7 @@ export const OnBoardingFormLayout = ({
   renderSubmit,
 }) => {
   return (
-    <Box as="section">
+    <Flex flexDirection="column" alignItems="center" as="section">
       {renderHeader && (
         <Box as="header" textAlign="center" height="120px">
           {renderHeader()}
@@ -17,10 +17,14 @@ export const OnBoardingFormLayout = ({
       )}
 
       <Box marginBottom={5}>
-        {renderBody?.()}
+        {renderBody && (
+          <Box textAlign="center" marginBottom={10}>
+            {renderBody()}
+          </Box>
+        )}
 
         {renderInputs && renderSubmit && (
-          <Flex flexDirection="column" as="form" width="356px">
+          <Flex flexDirection="column" as="form" width="356px" marginX="auto">
             {
               <Stack spacing={5} marginBottom={10}>
                 {renderInputs()}
@@ -36,7 +40,7 @@ export const OnBoardingFormLayout = ({
           {renderFooter()}
         </Box>
       )}
-    </Box>
+    </Flex>
   );
 };
 

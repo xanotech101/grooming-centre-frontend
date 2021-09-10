@@ -1,7 +1,11 @@
 import { Flex } from "@chakra-ui/layout";
 import { Redirect } from "react-router-dom";
 import { Switch } from "react-router-dom";
-import { ForgotPasswordPageRoute, SigninPageRoute } from "../../../pages/user";
+import {
+  ForgotPasswordPageRoute,
+  NewPasswordPageRoute,
+  SigninPageRoute,
+} from "../../../pages/user";
 
 const MainArea = () => {
   return (
@@ -14,6 +18,7 @@ const MainArea = () => {
       <Switch>
         <SigninPageRoute exact path="/auth/signin" />
         <ForgotPasswordPageRoute exact path="/auth/forgot-password" />
+        <NewPasswordPageRoute exact path="/auth/new-password" />
 
         <Redirect to="/not-found" />
       </Switch>

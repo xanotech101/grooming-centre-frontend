@@ -11,6 +11,13 @@ const ForgotPasswordPage = () => {
         <Input id="email" type="email" label="Email" isRequired />
       )}
       renderSubmit={(props) => <Button {...props}>Reset Password</Button>}
+      renderBody={() => (
+        <Text as="level1" width="500px">
+          A password reset link has been sent to your email,
+          <br />
+          Please follow the instructions in the email.
+        </Text>
+      )}
       renderFooter={() => (
         <HStack spacing={1} justifyContent="center">
           <Text>Back to</Text>
