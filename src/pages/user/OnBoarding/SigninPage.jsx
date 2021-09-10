@@ -20,8 +20,6 @@ const SigninPage = () => {
       renderSubmit={() => <Button>Sign in</Button>}
       renderFooter={() => (
         <Flex justifyContent="space-between">
-          <Checkbox />
-
           <Link>
             <Text color="primary.base">Forgot Password?</Text>
           </Link>
