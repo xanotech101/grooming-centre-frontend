@@ -26,6 +26,7 @@ const getFontSize = (type) => {
 export const Heading = ({
   as = "h2",
   children,
+  fontSize,
   italic,
   medium,
   regular,
@@ -36,9 +37,11 @@ export const Heading = ({
     <HeadingChakraui
       as={as}
       fontWeight={regular ? "light" : medium ? "regular" : "bold"}
-      size={size}
-      fontSize={!size ? getFontSize(as) : undefined}
       fontStyle={italic && "italic"}
+      // If there's a custom `size` use it
+      size={size}
+      // If there's NO custom `size` use the defined `fontSize` instead
+      fontSize={!size ? fontSize || getFontSize(as) : undefined}
       {...rest}
     >
       {children}

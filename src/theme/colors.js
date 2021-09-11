@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   primary: {
     base: "#800020",
     hover: "#9A0329B2",
@@ -23,3 +23,5 @@ export const colors = {
   white: "#FFFFFF",
   black: "#000000",
 };
+
+export default colors;

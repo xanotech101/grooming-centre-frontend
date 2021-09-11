@@ -18,7 +18,9 @@ const CoursesPageRouter = () => {
         height="100px"
         marginBottom={10}
       >
-        <Heading as="h1">Courses for you</Heading>
+        <Heading as="h1" fontSize="heading.h1">
+          Courses for you
+        </Heading>
 
         <NavBar />
       </Flex>
