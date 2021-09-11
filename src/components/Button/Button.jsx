@@ -42,7 +42,7 @@ export const Button = ({
   const renderContent = (extraProps) => {
     const styles = asIcon
       ? {
-          fontSize: "text.level2",
+          fontSize: "text.level1",
           isRound: true,
           _hover: {
             backgroundColor: "primary.hover",
