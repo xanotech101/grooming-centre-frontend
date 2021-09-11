@@ -1,9 +1,17 @@
-import { Button as ButtonChakraui } from "@chakra-ui/button";
+import { Button as ButtonChakraui, IconButton } from "@chakra-ui/button";
 
 import PropTypes from "prop-types";
 import { Link } from "..";
 
-export const Button = ({ children, link, secondary, sm, ...rest }) => {
+export const Button = ({
+  asIcon,
+  children,
+  iconAriaLabel,
+  link,
+  secondary,
+  sm,
+  ...rest
+}) => {
   const getOutlineStyles = () =>
     secondary
       ? {
@@ -14,8 +22,16 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
             backgroundColor: "secondary.1",
           },
         }
-      : {};
-  const getSmallStyles = () =>
+      : {
+          backgroundColor: "primary.base",
+          textColor: "white",
+          paddingX: "33px",
+          rounded: "4px",
+          _hover: {
+            backgroundColor: "primary.hover",
+          },
+        };
+  const getButtonSmallStyles = () =>
     sm
       ? {
           paddingX: "22px",
@@ -23,34 +39,47 @@ export const Button = ({ children, link, secondary, sm, ...rest }) => {
         }
       : {};
 
-  const renderContent = (props) => (
-    <ButtonChakraui
-      backgroundColor="primary.base"
-      textColor="white"
-      paddingX="33px"
-      rounded="4px"
-      _hover={{
-        backgroundColor: "primary.hover",
-      }}
-      {...getOutlineStyles()}
-      {...getSmallStyles()}
-      {...props}
-      {...rest}
-    >
-      {children}
-    </ButtonChakraui>
-  );
+  const renderContent = (extraProps) => {
+    const styles = asIcon
+      ? {
+          fontSize: "25px",
+          isRound: true,
+          _hover: {
+            backgroundColor: "primary.hover",
+            textColor: "white",
+          },
+        }
+      : getOutlineStyles();
+
+    const props = {
+      ...styles,
+      ...extraProps,
+      ...rest,
+    };
+
+    return asIcon ? (
+      <IconButton aria-label={iconAriaLabel} {...props}>
+        {children}
+      </IconButton>
+    ) : (
+      <ButtonChakraui {...getButtonSmallStyles()} {...props}>
+        {children}
+      </ButtonChakraui>
+    );
+  };
 
   return link ? (
     <Link href={link}>{renderContent({ tabIndex: -1 })}</Link>
   ) : (
-    renderContent
+    renderContent()
   );
 };
 
 Button.propTypes = {
+  asIcon: PropTypes.bool,
   children: PropTypes.any,
+  iconAriaLabel: PropTypes.string,
+  link: PropTypes.string,
   secondary: PropTypes.bool,
   sm: PropTypes.bool,
-  link: PropTypes.string,
 };

@@ -7,16 +7,22 @@ export const Link = ({
   className,
   href,
   navLink,
+  exact,
 }) => {
   const props = { activeClassName, children, className, to: href };
 
-  return navLink ? <NavLink {...props} /> : <LinkReactRouterDom {...props} />;
+  return navLink ? (
+    <NavLink exact={exact} {...props} />
+  ) : (
+    <LinkReactRouterDom {...props} />
+  );
 };
 
 Link.propTypes = {
-  children: PropTypes.any.isRequired,
-  href: PropTypes.string.isRequired,
-  className: PropTypes.string,
   activeClassName: PropTypes.string,
+  children: PropTypes.any.isRequired,
+  className: PropTypes.string,
+  exact: PropTypes.bool,
+  href: PropTypes.string.isRequired,
   navLink: PropTypes.bool,
 };

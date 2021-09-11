@@ -14,11 +14,11 @@ const MainArea = () => {
     <Box as="main" padding={5}>
       <Switch>
         <DashboardPageRoute exact path="/dashboard" />
-        <CoursesPageRoute exact path="/courses" />
         <LibraryPageRoute exact path="/library" />
         <ForumPageRoute exact path="/forum" />
         <EventsPageRoute exact path="/events" />
-        <Redirect from="/" to="/courses" />
+        <CoursesPageRoute path="/courses" />
+        <Redirect exact from="/" to="/courses" />
 
         <Route render={(props) => <div {...props}>Not found</div>} />
       </Switch>

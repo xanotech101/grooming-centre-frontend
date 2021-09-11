@@ -3,40 +3,37 @@ import { Link, Text } from "../../../components";
 
 const links = [
   {
-    href: "/dashboard",
-    text: "Dashboard",
-  },
-  {
     href: "/courses",
-    text: "Courses",
+    text: "All courses",
   },
   {
-    href: "/library",
-    text: "Library",
+    href: "/courses/new",
+    text: "New Courses",
   },
   {
-    href: "/forum",
-    text: "Forum",
+    href: "/courses/completed",
+    text: "Completed",
   },
   {
-    href: "/events",
-    text: "Events",
+    href: "/courses/in-progress",
+    text: "In Progress",
   },
 ];
 
 const NavBar = () => {
   return (
-    <Flex as="nav" alignSelf="stretch">
+    <Flex as="nav">
       <Flex listStyleType="none" as="ul">
         {links.map((link) => (
           <li key={link.href}>
             <Link
-              className="user-header-nav-link"
-              activeClassName="user-header-nav-link--active"
+              className="user-courses-nav-link"
+              activeClassName="user-courses-nav-link--active"
               navLink
+              exact
               href={link.href}
             >
-              <Text as="level3">{link.text}</Text>
+              <Text as="level2">{link.text}</Text>
             </Link>
           </li>
         ))}
