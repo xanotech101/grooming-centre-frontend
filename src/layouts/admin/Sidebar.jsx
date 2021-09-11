@@ -1,7 +1,7 @@
-import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
-
 import { NavLink } from "react-router-dom";
+import { Heading, Text } from "../../components";
 import colors from "../../theme/colors";
 
 const links = [
@@ -48,11 +48,10 @@ const Sidebar = () => {
           borderColor="gray.200"
           height="200px"
           marginBottom={5}
+          paddingBottom={5}
         >
           <Skeleton rounded="full" boxSize="100px" />
-          <Heading size="md" as="h2">
-            Roman Kutepov
-          </Heading>
+          <Text fontSize="heading.h3">Roman Kutepov</Text>
           <Text color="gray.500">Admin</Text>
         </Stack>
 

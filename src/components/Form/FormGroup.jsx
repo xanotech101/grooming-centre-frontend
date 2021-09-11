@@ -10,7 +10,7 @@ const FormGroup = ({ id, isRequired, label, renderControl }) => {
       display="flex"
       flexDirection="column"
     >
-      {label && <FormLabel>{label}</FormLabel>}
+      {label && <FormLabel fontSize="text.level2">{label}</FormLabel>}
       {renderControl({ rounded: "4px", borderColor: "accent.2" })}
     </FormControl>
   );

@@ -18,7 +18,7 @@ const CoursesPageRouter = () => {
         height="100px"
         marginBottom={10}
       >
-        <Heading as="h1" fontSize="heading.h1">
+        <Heading as="h1" fontSize="heading.h2">
           Courses for you
         </Heading>
 

@@ -7,16 +7,16 @@ const getFontSize = (type) => {
 
   switch (type) {
     case "h1":
-      fontSize = "42px";
+      fontSize = "heading.h1";
       break;
     case "h2":
-      fontSize = "36px";
+      fontSize = "heading.h2";
       break;
     case "h3":
-      fontSize = "24px";
+      fontSize = "heading.h3";
       break;
     case "h4":
-      fontSize = "20px";
+      fontSize = "heading.h4";
       break;
   }
 
@@ -33,6 +33,8 @@ export const Heading = ({
   size,
   ...rest
 }) => {
+  const definedFontSize = `heading.${as}`;
+
   return (
     <HeadingChakraui
       as={as}
@@ -41,7 +43,7 @@ export const Heading = ({
       // If there's a custom `size` use it
       size={size}
       // If there's NO custom `size` use the defined `fontSize` instead
-      fontSize={!size ? fontSize || getFontSize(as) : undefined}
+      fontSize={!size ? fontSize || definedFontSize : undefined}
       {...rest}
     >
       {children}
@@ -52,6 +54,12 @@ export const Heading = ({
 Heading.propTypes = {
   as: PropTypes.oneOf(["h1", "h2", "h3", "h4"]),
   children: PropTypes.string.isRequired,
+  fontSize: PropTypes.oneOf([
+    "heading.h1",
+    "heading.h2",
+    "heading.h3",
+    "heading.h4",
+  ]),
   italic: PropTypes.bool,
   regular: PropTypes.bool,
   medium: PropTypes.bool,

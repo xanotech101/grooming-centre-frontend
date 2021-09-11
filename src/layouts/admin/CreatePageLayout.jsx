@@ -1,7 +1,7 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { IoArrowBack } from "react-icons/io5";
-import { Button } from "../../components";
+import { Button, Heading, Text } from "../../components";
 import useGoBack from "./hooks/useGoBack";
 
 export const CreatePageLayout = ({
@@ -26,11 +26,11 @@ export const CreatePageLayout = ({
         marginBottom={5}
       >
         <Box>
-          <Heading as="h1" size="lg" marginBottom={4}>
+          <Heading as="h1" fontSize="heading.h2" marginBottom={4}>
             {title}
           </Heading>
 
-          <Text>{subTitle}</Text>
+          <Text as="level2">{subTitle}</Text>
         </Box>
 
         <Button secondary leftIcon={<IoArrowBack />} onClick={handleGoBack}>
