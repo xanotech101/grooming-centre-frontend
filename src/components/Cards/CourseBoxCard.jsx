@@ -35,7 +35,7 @@ export const CourseBoxCard = ({
         disabled ? "course-box-card--disabled" : ""
       }`}
     >
-      {progress !== 0 ? (
+      {progress !== 0 && !isLoading ? (
         <Box
           backgroundColor="accent.5"
           position="absolute"
