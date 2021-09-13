@@ -21,6 +21,7 @@ export const CoursesGridLayout = () => {
       }}
       overflowY="hidden"
       gap={{ base: 2, laptop: 5 }}
+      padding={1}
     >
       {courses.map((course, index) => (
         <CourseBoxCard key={index} {...course} />

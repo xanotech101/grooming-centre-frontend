@@ -1,7 +1,8 @@
 import { Route } from "react-router-dom";
+import { CoursesGridLayout } from "../../../layouts";
 
 const NewCoursesPage = () => {
-  return <>NewCoursesPage</>;
+  return <CoursesGridLayout />;
 };
 
 const NewCoursesPageRoute = ({ ...rest }) => {

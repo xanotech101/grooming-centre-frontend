@@ -35,10 +35,30 @@ export const CourseBoxCard = ({
         disabled ? "course-box-card--disabled" : ""
       }`}
     >
+      {progress !== 0 ? (
+        <Box
+          backgroundColor="accent.5"
+          position="absolute"
+          zIndex={1}
+          width={`${progress}%`}
+          paddingY={1}
+          textShadow="1px 1px 1.5px rgba(0, 0, 0, .5)"
+        >
+          <Text
+            transform="translateX(10px)"
+            as="level5"
+            color="white"
+            width="100px"
+          >
+            Progress {progress}%
+          </Text>
+        </Box>
+      ) : null}
+
       <Flex
         overflow="hidden"
         height={{ base: "150px" }}
-        className="cover-image"
+        className="course-box-card__image"
         transitionDuration=".7s"
         transitionDelay=".5s"
       >

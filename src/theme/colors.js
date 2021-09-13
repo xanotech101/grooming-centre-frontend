@@ -19,6 +19,7 @@ const colors = {
     2: "#C1C9D2",
     3: "#697386",
     4: "#7FFFDF",
+    5: "#27AE60",
   },
   white: "#FFFFFF",
   black: "#000000",

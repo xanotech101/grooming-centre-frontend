@@ -1,6 +1,6 @@
 export const courses = [
   {
-    progress: 40,
+    progress: 0,
     coverImage: null,
     title: "Web Design",
     lessonCount: 24,
@@ -24,7 +24,7 @@ export const courses = [
     },
   },
   {
-    progress: 40,
+    progress: 23,
     coverImage: null,
     title: "Web Development & Development Crash Course 2021",
     lessonCount: 24,
