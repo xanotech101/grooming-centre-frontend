@@ -8,7 +8,7 @@ import InProgressCoursesPageRoute from "./InProgressCoursesPage";
 import NavBar from "./NavBar";
 import NewCoursesPageRoute from "./NewCoursesPage";
 
-const CoursesPageRouter = () => {
+const CoursesPagesRouter = () => {
   return (
     <section>
       <Flex
@@ -37,8 +37,8 @@ const CoursesPageRouter = () => {
   );
 };
 
-export const CoursesPageRoute = ({ ...rest }) => {
+export const CoursesPagesRoute = ({ ...rest }) => {
   return (
-    <Route {...rest} render={(props) => <CoursesPageRouter {...props} />} />
+    <Route {...rest} render={(props) => <CoursesPagesRouter {...props} />} />
   );
 };

@@ -34,6 +34,7 @@ export const CourseBoxCard = ({
       className={`course-box-card ${
         disabled ? "course-box-card--disabled" : ""
       }`}
+      href="#"
     >
       {progress !== 0 && !isLoading ? (
         <Box
@@ -154,15 +155,15 @@ export const CourseBoxCard = ({
 CourseBoxCard.propTypes = {
   coverImage: PropTypes.string,
   disabled: PropTypes.bool,
-  duration: PropTypes.number.isRequired,
+  duration: PropTypes.number,
   isLoading: PropTypes.bool,
-  lessonCount: PropTypes.number.isRequired,
-  progress: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  lessonCount: PropTypes.number,
+  progress: PropTypes.number,
+  title: PropTypes.string,
 
   instructor: PropTypes.shape({
     image: PropTypes.string,
     name: PropTypes.string,
     role: PropTypes.string,
-  }).isRequired,
+  }),
 };

@@ -1,4 +1,4 @@
-export * from "./Courses/CoursesPageRouter";
+export * from "./Courses/CoursesPagesRouter";
 export * from "./DashboardPage";
 export * from "./EventsPage";
 export * from "./ForumPage";

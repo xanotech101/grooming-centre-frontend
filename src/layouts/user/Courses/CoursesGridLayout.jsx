@@ -20,7 +20,7 @@ export const CoursesGridLayout = () => {
         "mobile-l": "hidden",
       }}
       overflowY="hidden"
-      gap={{ base: 2, laptop: 5 }}
+      gap={{ base: 3, laptop: 6 }}
       padding={1}
     >
       {courses.map((course, index) => (

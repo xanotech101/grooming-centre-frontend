@@ -1,7 +1,8 @@
+import { Box } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
 
 const DashboardPage = () => {
-  return <>DashboardPage</>;
+  return <Box>DashboardPage</Box>;
 };
 
 export const DashboardPageRoute = ({ ...rest }) => {
