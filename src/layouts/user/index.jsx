@@ -3,14 +3,16 @@ import { OnBoardingLayoutRoute } from "..";
 import Header from "./Header/Header";
 import MainArea from "./MainArea";
 import Footer from "./Footer";
+import { Box } from "@chakra-ui/layout";
+import breakpoints from "../../theme/breakpoints";
 
 const UserLayout = () => {
   return (
-    <>
+    <Box maxWidth={breakpoints["4k"]} marginX="auto">
       <Header />
       <MainArea />
       <Footer />
-    </>
+    </Box>
   );
 };
 

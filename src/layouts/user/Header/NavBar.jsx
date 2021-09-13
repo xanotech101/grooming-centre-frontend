@@ -24,9 +24,9 @@ const links = [
   },
 ];
 
-const NavBar = () => {
+const NavBar = ({ ...rest }) => {
   return (
-    <Flex as="nav" alignSelf="stretch">
+    <Flex as="nav" alignSelf="stretch" {...rest}>
       <Flex listStyleType="none" as="ul">
         {links.map((link) => (
           <li key={link.href}>

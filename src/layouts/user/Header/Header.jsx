@@ -9,19 +9,19 @@ const Header = () => {
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      paddingX={5}
+      paddingX={{ base: 2, laptop: 5 }}
       shadow="md"
       minHeight="60px"
     >
-      <HStack spacing={5}>
-        <BrandLogo sm marginRight={5} />
+      <HStack spacing={{ base: 2, laptop: 5 }}>
+        <BrandLogo sm marginRight={{ base: 2, laptop: 5 }} />
 
-        <SearchBar width="400px" />
+        <SearchBar width="400px" display={{ base: "none", tablet: "flex" }} />
       </HStack>
 
-      <NavBar />
+      <NavBar display={{ base: "none", laptop: "flex" }} />
 
-      <ButtonGroup spacing={5}>
+      <ButtonGroup spacing={{ base: 2, laptop: 5 }}>
         <BrandLogo sm />
 
         <Button asIcon>

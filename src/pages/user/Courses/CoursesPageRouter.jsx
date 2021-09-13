@@ -22,10 +22,10 @@ const CoursesPageRouter = () => {
           Courses for you
         </Heading>
 
-        <NavBar />
+        {/* <NavBar /> */}
       </Flex>
 
-      <Box height="800px" border="1px">
+      <Box minHeight="500px" border="1px">
         <Switch>
           <AllCoursesPageRoute exact path="/courses" />
           <NewCoursesPageRoute exact path="/courses/new" />

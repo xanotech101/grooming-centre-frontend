@@ -11,7 +11,7 @@ import {
 
 const MainArea = () => {
   return (
-    <Box as="main" padding={5}>
+    <Box as="main" padding={{ base: 2, laptop: 5 }}>
       <Switch>
         <DashboardPageRoute exact path="/dashboard" />
         <LibraryPageRoute exact path="/library" />
