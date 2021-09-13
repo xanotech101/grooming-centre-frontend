@@ -46,7 +46,7 @@ const DashboardPage = () => {
               rounded="5px"
               backgroundColor="white"
             >
-              <Text bold as="level2">
+              <Text bold as="level1">
                 3
               </Text>
               <Text>Assessments</Text>
@@ -59,7 +59,7 @@ const DashboardPage = () => {
               rounded="5px"
               backgroundColor="white"
             >
-              <Text bold as="level2">
+              <Text bold as="level1">
                 2
               </Text>
               <Text>Lessons</Text>
@@ -72,7 +72,7 @@ const DashboardPage = () => {
               rounded="5px"
               backgroundColor="white"
             >
-              <Text bold as="level2">
+              <Text bold as="level1">
                 4
               </Text>
               <Text>Events</Text>
