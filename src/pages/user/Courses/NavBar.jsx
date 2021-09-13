@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
-import { Link, Text } from "../../../components";
+import { Heading, Link } from "../../../components";
 
 const links = [
   {
@@ -20,9 +20,9 @@ const links = [
   },
 ];
 
-const NavBar = () => {
+const NavBar = ({ ...rest }) => {
   return (
-    <Flex as="nav">
+    <Flex as="nav" {...rest}>
       <Flex listStyleType="none" as="ul">
         {links.map((link) => (
           <li key={link.href}>
@@ -33,7 +33,9 @@ const NavBar = () => {
               exact
               href={link.href}
             >
-              <Text as="level2">{link.text}</Text>
+              <Heading as="h2" fontSize="text.level2">
+                {link.text}
+              </Heading>
             </Link>
           </li>
         ))}

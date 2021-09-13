@@ -17,6 +17,6 @@ export const Text = ({ as = "level4", bold, children, italic, ...rest }) => {
 Text.propTypes = {
   as: PropTypes.oneOf(["level1", "level2", "level3", "level4", "level5"]),
   bold: PropTypes.bool,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.any.isRequired,
   italic: PropTypes.bool,
 };

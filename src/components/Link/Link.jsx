@@ -9,10 +9,10 @@ export const Link = ({
   navLink,
   exact,
 }) => {
-  const props = { activeClassName, children, className, to: href };
+  const props = { children, className, to: href };
 
   return navLink ? (
-    <NavLink exact={exact} {...props} />
+    <NavLink exact={exact} activeClassName={activeClassName} {...props} />
   ) : (
     <LinkReactRouterDom {...props} />
   );
