@@ -5,6 +5,7 @@ import { courses } from "../../../pages/user/Courses/fakeCourses";
 export const CoursesGridLayout = () => {
   return (
     <Grid
+      className="courses-grid-layout"
       templateColumns={{
         base: "repeat(1, 1fr)",
         "mobile-m": "repeat(2, 250px)",
