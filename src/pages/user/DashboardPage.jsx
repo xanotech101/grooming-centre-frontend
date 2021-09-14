@@ -8,9 +8,43 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
+import { BiCertification } from "react-icons/bi";
 import { BsGraphUp } from "react-icons/bs";
+import { GiUpgrade } from "react-icons/gi";
+import { RiBarChartFill } from "react-icons/ri";
 import { Route } from "react-router-dom";
-import { Heading, Link, Text } from "../../components";
+import { Button, Heading, Link, Text } from "../../components";
+import { CoursesRowLayout } from "../../layouts";
+
+const scheduledCards = [
+  {
+    title: "Assessments due",
+    value: 3,
+    icon: (
+      <Icon fontSize="heading.h3" color="secondary.4">
+        <RiBarChartFill />
+      </Icon>
+    ),
+  },
+  {
+    title: "Lessons to complete",
+    value: 2,
+    icon: (
+      <Icon fontSize="heading.h3" color="secondary.4">
+        <RiBarChartFill />
+      </Icon>
+    ),
+  },
+  {
+    title: "Events to attend",
+    value: 4,
+    icon: (
+      <Icon fontSize="heading.h3" color="secondary.4">
+        <RiBarChartFill />
+      </Icon>
+    ),
+  },
+];
 
 const DashboardPage = () => {
   return (
@@ -38,45 +72,34 @@ const DashboardPage = () => {
           </Text>
 
           <HStack spacing={2}>
-            <Flex
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              boxSize="125px"
-              rounded="5px"
-              backgroundColor="white"
-            >
-              <Text bold as="level1">
-                3
-              </Text>
-              <Text>Assessments</Text>
-            </Flex>
-            <Flex
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              boxSize="125px"
-              rounded="5px"
-              backgroundColor="white"
-            >
-              <Text bold as="level1">
-                2
-              </Text>
-              <Text>Lessons</Text>
-            </Flex>
-            <Flex
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              boxSize="125px"
-              rounded="5px"
-              backgroundColor="white"
-            >
-              <Text bold as="level1">
-                4
-              </Text>
-              <Text>Events</Text>
-            </Flex>
+            {scheduledCards.map(({ icon, title, value }) => (
+              <Flex
+                key={title}
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                boxSize="110px"
+                rounded="5px"
+                backgroundColor="white"
+                shadow="md"
+              >
+                <Flex
+                  flexDirection="column"
+                  justifyContent="space-between"
+                  boxSize="80px"
+                >
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Text bold as="level1">
+                      {value}
+                    </Text>
+
+                    {icon}
+                  </Flex>
+
+                  <Text>{title}</Text>
+                </Flex>
+              </Flex>
+            ))}
           </HStack>
         </Flex>
       </Flex>
@@ -86,8 +109,8 @@ const DashboardPage = () => {
           <Grid templateColumns=".6fr .6fr 1fr 1fr" columnGap={4} rowGap={10}>
             {/* First Row */}
             <MiniBox padding={3}>
-              <Icon color="accent.3" fontSize="text.level1" marginBottom={5}>
-                <BsGraphUp />
+              <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
+                <GiUpgrade />
               </Icon>
 
               <Text bold as="level1">
@@ -96,8 +119,8 @@ const DashboardPage = () => {
               <Text color="accent.3">Total Grade</Text>
             </MiniBox>
             <MiniBox padding={3}>
-              <Icon color="accent.3" fontSize="text.level1" marginBottom={5}>
-                <BsGraphUp />
+              <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
+                <BiCertification />
               </Icon>
 
               <Text bold as="level1">
@@ -226,22 +249,16 @@ const DashboardPage = () => {
         </Section>
       </Flex>
 
-      <Section border="1px" title="Ongoing Courses"></Section>
+      <Section title="Ongoing Courses" titleSeeAllHref="#">
+        <CoursesRowLayout />
+      </Section>
 
-      <Section border="1px" title="Completed Courses"></Section>
+      <Section
+        border="1px"
+        title="Completed Courses"
+        titleSeeAllHref="#"
+      ></Section>
     </Stack>
-  );
-};
-
-const Section = ({ title, children, ...rest }) => {
-  return (
-    <Box as="section" {...rest}>
-      <Box as="header" marginBottom={5}>
-        <Heading fontSize="heading.h3">{title}</Heading>
-      </Box>
-
-      {children}
-    </Box>
   );
 };
 
@@ -256,6 +273,35 @@ const MiniBox = ({ children, ...rest }) => {
       position="relative"
       {...rest}
     >
+      {children}
+    </Box>
+  );
+};
+
+const Section = ({ title, titleSeeAllHref, children, ...rest }) => {
+  return (
+    <Box as="section" {...rest}>
+      <Flex
+        as="header"
+        justifyContent="space-between"
+        alignItems="center"
+        marginBottom={5}
+      >
+        <Heading fontSize="heading.h3">{title}</Heading>
+
+        {titleSeeAllHref && (
+          <Button
+            link={titleSeeAllHref}
+            sm
+            color="primary.base"
+            backgroundColor="transparent"
+            _hover={{ backgroundColor: "secondary.1" }}
+          >
+            See All
+          </Button>
+        )}
+      </Flex>
+
       {children}
     </Box>
   );

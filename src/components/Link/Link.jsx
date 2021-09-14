@@ -5,9 +5,9 @@ export const Link = ({
   activeClassName,
   children,
   className,
+  exact,
   href,
   navLink,
-  exact,
 }) => {
   const props = { children, className, to: href };
 

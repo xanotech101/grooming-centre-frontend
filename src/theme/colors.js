@@ -4,6 +4,7 @@ const colors = {
     hover: "#9A0329B2",
   },
   secondary: {
+    "05": "#ffc5d336",
     1: "#FFC5D3",
     2: "#FF93AE",
     3: "#FC5780",
