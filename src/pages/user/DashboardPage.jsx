@@ -304,16 +304,7 @@ const DashboardPage = () => {
                 </Flex>
               </Box>
 
-              {/* TODO: integrate bar chart */}
-              <Box
-              // width="300px"
-              // height="300px"
-              // position="absolute"
-              // left="50%"
-              // transform="translateX(-50%)"
-              >
-                <Bar {...hoursSpentChartConfig} />
-              </Box>
+              <Bar {...hoursSpentChartConfig} />
             </MiniBox>
           </Grid>
         </Section>
