@@ -8,6 +8,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
+import { Doughnut } from "react-chartjs-2";
 import { BiCertification } from "react-icons/bi";
 import { BsGraphUp } from "react-icons/bs";
 import { GiUpgrade } from "react-icons/gi";
@@ -15,6 +16,7 @@ import { RiBarChartFill } from "react-icons/ri";
 import { Route } from "react-router-dom";
 import { Button, Heading, Link, Text } from "../../components";
 import { CoursesRowLayout } from "../../layouts";
+import colors from "../../theme/colors";
 
 const scheduledCards = [
   {
@@ -45,6 +47,32 @@ const scheduledCards = [
     ),
   },
 ];
+
+const totalCourseChartConfig = {
+  data: {
+    labels: ["In Progress", "Completed", "Yet to start"],
+    datasets: [
+      {
+        label: "# of Votes",
+        data: [12, 19, 3],
+        backgroundColor: [
+          colors.secondary[3],
+          colors.primary.base,
+          colors.accent[1],
+        ],
+        borderWidth: 0,
+      },
+    ],
+  },
+
+  options: {
+    plugins: {
+      legend: {
+        position: "right",
+      },
+    },
+  },
+};
 
 const DashboardPage = () => {
   return (
@@ -196,7 +224,7 @@ const DashboardPage = () => {
               display="flex"
               flexDirection="column"
             >
-              <Box marginBottom={5}>
+              <Box>
                 <Text color="accent.3">Total Courses</Text>
 
                 <Flex alignItems="center">
@@ -210,10 +238,17 @@ const DashboardPage = () => {
                 </Flex>
               </Box>
 
-              {/* TODO: integrate doughnut chart */}
-              <Grid backgroundColor="accent.1" placeItems="center" flex={1}>
-                <Text>Doughnut chart :)</Text>
-              </Grid>
+              {/* <Grid placeItems="center"> */}
+              <Box
+                width="300px"
+                height="300px"
+                position="absolute"
+                left="50%"
+                transform="translateX(-50%)"
+              >
+                <Doughnut {...totalCourseChartConfig} />
+              </Box>
+              {/* </Grid> */}
             </MiniBox>
 
             <MiniBox
