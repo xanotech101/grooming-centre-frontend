@@ -8,13 +8,6 @@ export const CoursesRowLayout = () => {
       className="courses-row-layout"
       templateColumns={{
         base: "repeat(10, 250px)",
-        // base: "repeat(1, 1fr)",
-        // "mobile-m": "repeat(2, 250px)",
-        // "mobile-l": "repeat(2, 1fr)",
-        // tablet: "repeat(3, 1fr)",
-        // laptop: "repeat(4, 1fr)",
-        // "laptop-l": "repeat(5, 1fr)",
-        // "4k": "repeat(6, 1fr)",
       }}
       overflowX="scroll"
       overflowY="hidden"
