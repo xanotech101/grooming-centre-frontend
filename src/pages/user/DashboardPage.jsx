@@ -8,9 +8,8 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
-import { Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import { BiCertification } from "react-icons/bi";
-import { BsGraphUp } from "react-icons/bs";
 import { GiUpgrade } from "react-icons/gi";
 import { RiBarChartFill } from "react-icons/ri";
 import { Route } from "react-router-dom";
@@ -53,7 +52,6 @@ const totalCourseChartConfig = {
     labels: ["In Progress", "Completed", "Yet to start"],
     datasets: [
       {
-        label: "# of Votes",
         data: [12, 19, 3],
         backgroundColor: [
           colors.secondary[3],
@@ -69,6 +67,39 @@ const totalCourseChartConfig = {
     plugins: {
       legend: {
         position: "right",
+      },
+    },
+  },
+};
+
+const hoursSpentChartConfig = {
+  data: {
+    labels: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    datasets: [
+      {
+        label: "# of Votes",
+        data: [12, 10, 3, 8, 5, 15, 12],
+        backgroundColor: [colors.primary.base],
+        borderWidth: 0,
+      },
+    ],
+  },
+
+  options: {
+    plugins: {
+      legend: { display: false },
+    },
+    scales: {
+      y: {
+        max: 24,
       },
     },
   },
@@ -274,14 +305,15 @@ const DashboardPage = () => {
               </Box>
 
               {/* TODO: integrate bar chart */}
-              <Flex
-                backgroundColor="secondary.1"
-                justifyContent="center"
-                alignItems="center"
-                flex={1}
+              <Box
+              // width="300px"
+              // height="300px"
+              // position="absolute"
+              // left="50%"
+              // transform="translateX(-50%)"
               >
-                <Text>Bar chart :)</Text>
-              </Flex>
+                <Bar {...hoursSpentChartConfig} />
+              </Box>
             </MiniBox>
           </Grid>
         </Section>
