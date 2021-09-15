@@ -8,6 +8,7 @@ import { Route } from "react-router-dom";
 import coverImagePlaceholder from "../../../../assets/images/onboarding1.png";
 import { Button, Heading, Image, Spinner, Text } from "../../../../components";
 import { useFakeLoading } from "../../../../hooks";
+import breakpoints from "../../../../theme/breakpoints";
 import { getDuration } from "../../../../utils";
 import useAccordion from "./hooks/useAccordion";
 
@@ -123,6 +124,7 @@ const CourseDetailsPage = () => {
         spacing={7}
         backgroundColor="secondary.9"
         color="white"
+        marginBottom={10}
       >
         <Heading> {title}</Heading>
         <Text as="level2">{description}</Text>
@@ -140,7 +142,12 @@ const CourseDetailsPage = () => {
         </HStack>
       </Stack>
 
-      <Box padding={5} minHeight="calc(100vh - 250px)">
+      <Box
+        padding={5}
+        minHeight="50vh"
+        maxWidth={breakpoints.laptop}
+        marginX="auto"
+      >
         <Accordion heading="Course Details">
           <Flex justifyContent="space-between" padding={2}>
             <InfoContent
