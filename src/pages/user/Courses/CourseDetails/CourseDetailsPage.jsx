@@ -15,6 +15,8 @@ const data = {
 };
 
 const CourseDetailsPage = () => {
+  const { title, description, instructor } = data;
+
   return (
     <Box>
       <Stack
@@ -24,18 +26,18 @@ const CourseDetailsPage = () => {
         backgroundColor="secondary.9"
         color="white"
       >
-        <Heading> {data.title}</Heading>
-        <Text as="level2">{data.description}</Text>
+        <Heading> {title}</Heading>
+        <Text as="level2">{description}</Text>
 
         <HStack spacing={4}>
           <Flex overflow="hidden" boxSize="40px" rounded="full">
             <Image
-              src={data.instructor.image || coverImagePlaceholder}
+              src={instructor.image || coverImagePlaceholder}
               objectFit="cover"
             />
           </Flex>
           <Text as="level1" bold>
-            {data.instructor.name}
+            {instructor.name}
           </Text>{" "}
         </HStack>
       </Stack>
