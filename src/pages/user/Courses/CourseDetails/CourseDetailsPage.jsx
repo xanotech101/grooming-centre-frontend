@@ -1,6 +1,9 @@
 import Icon from "@chakra-ui/icon";
-import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
+import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { BsClockFill, BsFillCaretUpFill } from "react-icons/bs";
+import { FaCalendar } from "react-icons/fa";
+import { IoVideocam } from "react-icons/io5";
+import { VscFiles } from "react-icons/vsc";
 import { Route } from "react-router-dom";
 import coverImagePlaceholder from "../../../../assets/images/onboarding1.png";
 import { Button, Heading, Image, Spinner, Text } from "../../../../components";
@@ -55,6 +58,46 @@ const courseData = {
       endTime: "<endTime>",
       type: "assessment",
     },
+    {
+      title: "Why this course?",
+      duration: 610,
+      startDate: "<startDate>",
+      startTime: "<startTime>",
+      endTime: "<endTime>",
+      type: "assessment",
+    },
+    {
+      title: "Why this course?",
+      duration: 610,
+      startDate: "<startDate>",
+      startTime: "<startTime>",
+      endTime: "<endTime>",
+      type: "assessment",
+    },
+    {
+      title: "Why this course?",
+      duration: 610,
+      startDate: "<startDate>",
+      startTime: "<startTime>",
+      endTime: "<endTime>",
+      type: "assessment",
+    },
+    {
+      title: "Why this course?",
+      duration: 610,
+      startDate: "<startDate>",
+      startTime: "<startTime>",
+      endTime: "<endTime>",
+      type: "assessment",
+    },
+    {
+      title: "Why this course?",
+      duration: 610,
+      startDate: "<startDate>",
+      startTime: "<startTime>",
+      endTime: "<endTime>",
+      type: "assessment",
+    },
   ],
 };
 
@@ -66,7 +109,7 @@ const CourseDetailsPage = () => {
   return isLoading ? (
     <Flex
       // Make the height 100% of the screen minus the `height` of the Header and Footer
-      height="calc(100vh - 100px - 100px)"
+      height="calc(100vh - 200px)"
       justifyContent="center"
       alignItems="center"
     >
@@ -97,7 +140,7 @@ const CourseDetailsPage = () => {
         </HStack>
       </Stack>
 
-      <Box padding={5}>
+      <Box padding={5} minHeight="calc(100vh - 250px)">
         <Accordion heading="Course Details">
           <Flex justifyContent="space-between" padding={2}>
             <InfoContent
@@ -108,12 +151,12 @@ const CourseDetailsPage = () => {
             <InfoContent
               title="Start Date"
               date={details.startDate}
-              icon={<BsClockFill />}
+              icon={<FaCalendar />}
             />
             <InfoContent
               title="End Date"
               date={details.endDate}
-              icon={<BsClockFill />}
+              icon={<FaCalendar />}
             />
           </Flex>
         </Accordion>
@@ -134,13 +177,13 @@ const CourseDetailsPage = () => {
                 <InfoContent
                   title={lesson.startDate}
                   date={`${lesson.startTime} to ${lesson.endTime}`}
-                  icon={<BsClockFill />}
+                  icon={<FaCalendar />}
                   flex={0.6}
                 />
                 <InfoContent
                   title={lesson.title}
                   date={`${duration.hours} hours ${duration.minutes} minutes`}
-                  icon={<BsClockFill />}
+                  icon={lesson.type !== "video" ? <VscFiles /> : <IoVideocam />}
                   flex={1}
                   marginLeft={16}
                 />
