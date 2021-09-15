@@ -304,7 +304,16 @@ const DashboardPage = () => {
                 </Flex>
               </Box>
 
-              <Bar {...hoursSpentChartConfig} />
+              <Grid placeItems="center">
+                <Box
+                  width="600px"
+                  // position="absolute"
+                  // left="50%"
+                  // transform="translateX(-50%)"
+                >
+                  <Bar {...hoursSpentChartConfig} />
+                </Box>
+              </Grid>
             </MiniBox>
           </Grid>
         </Section>
