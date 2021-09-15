@@ -1,7 +1,7 @@
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import coverImagePlaceholder from "../../../../assets/images/onboarding1.png";
-import { Heading, Image, Text } from "../../../../components";
+import { Heading, Image, Spinner, Text } from "../../../../components";
 import { useFakeLoading } from "../../../../hooks";
 
 const data = {
@@ -17,9 +17,18 @@ const data = {
 const CourseDetailsPage = () => {
   const { title, description, instructor } = data;
 
-  const isLoading = useFakeLoading();
+  const isLoading = useFakeLoading(1000);
 
-  return (
+  return isLoading ? (
+    <Flex
+      // Make the height 100% of the screen minus the `height` of the Header and Footer
+      height="calc(100vh - 100px - 100px)"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Spinner />
+    </Flex>
+  ) : (
     <Box>
       <Stack
         as="section"
@@ -35,7 +44,6 @@ const CourseDetailsPage = () => {
           <Image
             src={instructor.image || coverImagePlaceholder}
             rounded="full"
-            isLoading={isLoading}
             boxSize="40px"
           />
 
