@@ -1,5 +1,4 @@
 /**
- *
  * @param {*} number - minutes
  * @returns object {hours: `number`, minutes: `number`}
  */

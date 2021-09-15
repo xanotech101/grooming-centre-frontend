@@ -18,6 +18,7 @@ export const Button = ({
           backgroundColor: "transparent",
           textColor: "primary.base",
           border: "1px",
+          paddingX: "33px",
           _hover: {
             backgroundColor: "secondary.1",
           },
