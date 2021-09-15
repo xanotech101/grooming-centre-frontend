@@ -2,17 +2,18 @@ import { Image } from "@chakra-ui/image";
 import { Box, Flex, HStack, Icon, Stack } from "@chakra-ui/react";
 import { Skeleton, SkeletonText } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 import { AiFillBook } from "react-icons/ai";
 import { BsFillClockFill } from "react-icons/bs";
 import { Heading, Link, Text } from "..";
 import { getDuration } from "../../utils";
 import coverImagePlaceholder from "../../assets/images/onboarding1.png";
+import { useFakeLoading } from "../../hooks";
 
 export const CourseBoxCard = ({
   coverImage,
   disabled,
   duration,
+  id = "sample-id", // TODO: remove this line
   instructor,
   // isLoading = true,
   lessonCount,
@@ -21,20 +22,14 @@ export const CourseBoxCard = ({
 }) => {
   duration = getDuration(duration);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+  const isLoading = useFakeLoading();
 
   return (
     <Link
       className={`course-box-card ${
         disabled ? "course-box-card--disabled" : ""
       }`}
-      href="#"
+      href={`/courses/details/${id}`}
     >
       {progress !== 0 && !isLoading ? (
         <Box
@@ -156,11 +151,11 @@ CourseBoxCard.propTypes = {
   coverImage: PropTypes.string,
   disabled: PropTypes.bool,
   duration: PropTypes.number,
+  id: PropTypes.string,
   isLoading: PropTypes.bool,
   lessonCount: PropTypes.number,
   progress: PropTypes.number,
   title: PropTypes.string,
-
   instructor: PropTypes.shape({
     image: PropTypes.string,
     name: PropTypes.string,

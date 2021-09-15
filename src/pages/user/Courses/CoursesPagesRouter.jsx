@@ -10,7 +10,7 @@ import NewCoursesPageRoute from "./NewCoursesPage";
 
 const CoursesPagesRouter = () => {
   return (
-    <section>
+    <Box padding={{ base: 2, laptop: 5 }}>
       <Flex
         as="header"
         alignItems="flex-end"
@@ -33,7 +33,7 @@ const CoursesPagesRouter = () => {
           <InProgressCoursesPageRoute exact path="/courses/in-progress" />
         </Switch>
       </Box>
-    </section>
+    </Box>
   );
 };
 

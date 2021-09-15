@@ -1,3 +1,4 @@
+export * from "./Courses/CourseDetails/CourseDetailsPage";
 export * from "./Courses/CoursesPagesRouter";
 export * from "./DashboardPage";
 export * from "./EventsPage";

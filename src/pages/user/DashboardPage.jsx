@@ -107,7 +107,7 @@ const hoursSpentChartConfig = {
 
 const DashboardPage = () => {
   return (
-    <Stack spacing={16}>
+    <Stack spacing={16} padding={{ base: 2, laptop: 5 }}>
       <Flex
         flexDirection={{ base: "column", laptop: "row" }}
         alignItems={{ base: "flex-start", laptop: "center" }}
