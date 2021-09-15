@@ -10,6 +10,7 @@ export * from "./Form/RichText/useRichText";
 export * from "./Form/Select";
 export * from "./Form/Textarea";
 export * from "./Form/Upload";
+export * from "./Image/Image";
 export * from "./Link/Link";
 export * from "./SearchBar/SearchBar";
 export * from "./Typography/Heading";

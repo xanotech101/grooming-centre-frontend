@@ -1,8 +1,8 @@
-import { Image } from "@chakra-ui/image";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import coverImagePlaceholder from "../../../../assets/images/onboarding1.png";
-import { Heading, Text } from "../../../../components";
+import { Heading, Image, Text } from "../../../../components";
+import { useFakeLoading } from "../../../../hooks";
 
 const data = {
   title: "Web Design & Development Crash Course 2021",
@@ -17,6 +17,8 @@ const data = {
 const CourseDetailsPage = () => {
   const { title, description, instructor } = data;
 
+  const isLoading = useFakeLoading();
+
   return (
     <Box>
       <Stack
@@ -30,15 +32,16 @@ const CourseDetailsPage = () => {
         <Text as="level2">{description}</Text>
 
         <HStack spacing={4}>
-          <Flex overflow="hidden" boxSize="40px" rounded="full">
-            <Image
-              src={instructor.image || coverImagePlaceholder}
-              objectFit="cover"
-            />
-          </Flex>
+          <Image
+            src={instructor.image || coverImagePlaceholder}
+            rounded="full"
+            isLoading={isLoading}
+            boxSize="40px"
+          />
+
           <Text as="level1" bold>
             {instructor.name}
-          </Text>{" "}
+          </Text>
         </HStack>
       </Stack>
     </Box>

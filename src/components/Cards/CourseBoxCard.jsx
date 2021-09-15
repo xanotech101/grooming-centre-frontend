@@ -1,10 +1,9 @@
-import { Image } from "@chakra-ui/image";
 import { Box, Flex, HStack, Icon, Stack } from "@chakra-ui/react";
 import { Skeleton, SkeletonText } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
 import { AiFillBook } from "react-icons/ai";
 import { BsFillClockFill } from "react-icons/bs";
-import { Heading, Link, Text } from "..";
+import { Heading, Image, Link, Text } from "..";
 import { getDuration } from "../../utils";
 import coverImagePlaceholder from "../../assets/images/onboarding1.png";
 import { useFakeLoading } from "../../hooks";
@@ -51,24 +50,16 @@ export const CourseBoxCard = ({
         </Box>
       ) : null}
 
-      <Flex
-        overflow="hidden"
-        height={{ base: "150px" }}
+      <Image
+        src={coverImage || coverImagePlaceholder}
+        filter={disabled ? "sepia(10%)" : "none"}
+        isLoading={isLoading}
         className="course-box-card__image"
         transitionDuration=".7s"
         transitionDelay=".5s"
-      >
-        {isLoading ? (
-          <Skeleton width="100%" />
-        ) : (
-          <Image
-            filter={disabled ? "sepia(10%)" : "none"}
-            src={coverImage || coverImagePlaceholder}
-            width="100%"
-            objectFit="cover"
-          />
-        )}
-      </Flex>
+        height={{ base: "150px" }}
+        width="100%"
+      />
 
       <Stack
         flex={1}
@@ -78,16 +69,12 @@ export const CourseBoxCard = ({
         spacing={5}
       >
         <HStack spacing={2}>
-          <Flex overflow="hidden" boxSize="37px" rounded="full">
-            {isLoading ? (
-              <Skeleton width="100%" />
-            ) : (
-              <Image
-                src={instructor.image || coverImagePlaceholder}
-                objectFit="cover"
-              />
-            )}
-          </Flex>
+          <Image
+            src={instructor.image || coverImagePlaceholder}
+            isLoading={isLoading}
+            boxSize="37px"
+            rounded="full"
+          />
 
           <Box flex={1}>
             {isLoading ? (

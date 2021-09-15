@@ -1,8 +1,6 @@
 import { Box, Flex } from "@chakra-ui/layout";
-import { SkeletonCircle } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
-
-import { Heading, Link } from "..";
+import { Heading, Image, Link } from "..";
 
 export const Brand = () => {
   return (
@@ -35,7 +33,9 @@ export const BrandLogo = ({ sm, ...rest }) => {
 };
 
 const Logo = ({ sm, ...rest }) => {
-  return <SkeletonCircle boxSize={sm ? "40px" : "50px"} {...rest} />;
+  return (
+    <Image boxSize={sm ? "40px" : "50px"} isLoading rounded="full" {...rest} />
+  );
 };
 
 BrandLogo.propTypes = {

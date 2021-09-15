@@ -1,7 +1,7 @@
 import { ButtonGroup, IconButton } from "@chakra-ui/button";
 import { Flex, HStack } from "@chakra-ui/layout";
 import { MdNotificationsActive } from "react-icons/md";
-import { BrandLogo, Button, SearchBar } from "../../../components";
+import { BrandLogo, Button, Image, SearchBar } from "../../../components";
 import NavBar from "./NavBar";
 
 const Header = () => {
@@ -22,7 +22,7 @@ const Header = () => {
       <NavBar display={{ base: "none", laptop: "flex" }} />
 
       <ButtonGroup spacing={{ base: 2, laptop: 5 }}>
-        <BrandLogo sm />
+        <Image rounded="full" boxSize="40px" isLoading />
 
         <Button asIcon>
           <MdNotificationsActive />
