@@ -30,7 +30,7 @@ const MainArea = () => {
         </Flex>
       </Box>
 
-      <Box as="main">
+      <Box as="main" paddingTop={10} paddingX={6}>
         <Switch>
           <LessonDetailsPageRoute path="/courses/take/:course_id/lessons/:lesson_id" />
           <AssessmentDetailsPageRoute path="/courses/take/:course_id/assessment" />
