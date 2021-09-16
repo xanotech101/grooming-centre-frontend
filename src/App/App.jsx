@@ -3,7 +3,8 @@ import Providers from "./Providers";
 import "../styles/course-box-card.scss";
 import "../styles/courses-row-layout.scss";
 import "../styles/globalStyles.scss";
-import "../styles/react-router-dom-link.scss";
+import "../styles/take-course-sidebar-link.scss";
+import "../styles/user-header-nav-link.scss";
 import {
   AdminLayoutRoute,
   TakeCourseLayoutRoute,
@@ -16,7 +17,7 @@ function App() {
       <Router>
         <Switch>
           <AdminLayoutRoute path="/admin" />
-          <TakeCourseLayoutRoute path="/course/take" />
+          <TakeCourseLayoutRoute path="/courses/take" />
           <UserLayoutRoute path="/" />
         </Switch>
       </Router>

@@ -3,16 +3,23 @@ import PropTypes from "prop-types";
 
 export const Link = ({
   activeClassName,
+  activeStyle,
   children,
   className,
   exact,
   href,
   navLink,
+  style,
 }) => {
-  const props = { children, className, to: href };
+  const props = { children, className, to: href, style };
 
   return navLink ? (
-    <NavLink exact={exact} activeClassName={activeClassName} {...props} />
+    <NavLink
+      activeStyle={activeStyle}
+      exact={exact}
+      activeClassName={activeClassName}
+      {...props}
+    />
   ) : (
     <LinkReactRouterDom {...props} />
   );
@@ -20,9 +27,11 @@ export const Link = ({
 
 Link.propTypes = {
   activeClassName: PropTypes.string,
+  activeStyle: PropTypes.object,
   children: PropTypes.any.isRequired,
   className: PropTypes.string,
   exact: PropTypes.bool,
   href: PropTypes.string.isRequired,
   navLink: PropTypes.bool,
+  style: PropTypes.object,
 };

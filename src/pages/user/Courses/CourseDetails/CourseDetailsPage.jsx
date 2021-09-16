@@ -13,7 +13,7 @@ import { getDuration } from "../../../../utils";
 import useAccordion from "./hooks/useAccordion";
 
 const courseData = {
-  id: "course_slug",
+  id: "1234567890098765421",
   title: "Web Design & Development Crash Course 2021",
   description:
     "Ever wondered how other UX designers troubleshoot problems and juggle conflicting priorities? In this weekly series, Drew Bridewell—a user experience designer and leader of the digital transformation team at InVision—shares his hard-earned knowledge and shows how to apply basic UX design principles to real-world projects.",
@@ -23,109 +23,45 @@ const courseData = {
   },
   details: {
     duration: 610,
-    startDate: "<startDate>",
+    startTime: "<startTime>",
     endDate: "<endDate>",
   },
   lessons: [
     {
-      id: "lesson_slug",
-      locked: false,
+      id: "123454321",
+      disabled: false,
       title: "Why this course?",
       duration: 610,
-      startDate: "<startDate>",
       startTime: "<startTime>",
       endTime: "<endTime>",
-      type: "video",
+      lessonType: {
+        id: "232",
+        name: "video",
+      },
     },
     {
-      id: "lesson_slug",
-      locked: false,
-      title: "Why this course?",
+      id: "098765678s",
+      disabled: false,
+      title: "Introduction to HTML",
       duration: 610,
-      startDate: "<startDate>",
       startTime: "<startTime>",
       endTime: "<endTime>",
-      type: "pdf",
+      lessonType: {
+        id: "232",
+        name: "video",
+      },
     },
     {
-      id: "lesson_slug",
-      locked: false,
-      title: "Why this course?",
+      id: "536hs5272",
+      disabled: true,
+      title: "Resources: Consume this contents",
       duration: 610,
-      startDate: "<startDate>",
       startTime: "<startTime>",
       endTime: "<endTime>",
-      type: "video",
-    },
-    {
-      id: "lesson_slug",
-      locked: false,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
-    },
-    {
-      id: "lesson_slug",
-      locked: false,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
-    },
-    {
-      id: "lesson_slug",
-      locked: true,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
-    },
-    {
-      id: "lesson_slug",
-      locked: true,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
-    },
-    {
-      id: "lesson_slug",
-      locked: true,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
-    },
-    {
-      id: "lesson_slug",
-      locked: true,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
-    },
-    {
-      id: "lesson_slug",
-      locked: true,
-      title: "Why this course?",
-      duration: 610,
-      startDate: "<startDate>",
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      type: "assessment",
+      lessonType: {
+        id: "232",
+        name: "video",
+      },
     },
   ],
   // assessment: {
@@ -180,8 +116,10 @@ const CourseDetailsPage = () => {
         marginX="auto"
       >
         <Flex justifyContent="flex-end" marginBottom={10}>
-          <Button link={`/course/take/${courseData.id}`}>
-            Start The Course
+          <Button
+            link={`/courses/take/${courseData.id}/lessons/${courseData.lessons[0].id}`}
+          >
+            Take Course
           </Button>
         </Flex>
 
@@ -194,7 +132,7 @@ const CourseDetailsPage = () => {
             />
             <InfoContent
               title="Start Date"
-              date={details.startDate}
+              date={details.startTime}
               icon={<FaCalendar />}
             />
             <InfoContent
@@ -219,19 +157,25 @@ const CourseDetailsPage = () => {
                 borderColor="accent.1"
               >
                 <InfoContent
-                  title={lesson.startDate}
+                  title={lesson.startTime}
                   date={`${lesson.startTime} to ${lesson.endTime}`}
                   icon={<FaCalendar />}
                   flex={0.6}
-                  opacity={lesson.locked ? 0.5 : 1}
+                  opacity={lesson.disabled ? 0.5 : 1}
                 />
                 <InfoContent
                   title={lesson.title}
                   date={`${duration.hours} hours ${duration.minutes} minutes`}
-                  icon={lesson.type !== "video" ? <VscFiles /> : <IoVideocam />}
+                  icon={
+                    lesson.lessonType.name !== "video" ? (
+                      <VscFiles />
+                    ) : (
+                      <IoVideocam />
+                    )
+                  }
                   flex={1}
                   marginLeft={16}
-                  opacity={lesson.locked ? 0.5 : 1}
+                  opacity={lesson.disabled ? 0.5 : 1}
                 />
 
                 <Button
