@@ -30,5 +30,3 @@ export const UserLayoutRoute = ({ component: Component, ...rest }) => {
     <Route {...rest} render={(props) => <UserLayoutRouter {...props} />} />
   );
 };
-
-export default UserLayoutRouter;

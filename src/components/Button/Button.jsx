@@ -6,6 +6,7 @@ import { Link } from "..";
 export const Button = ({
   asIcon,
   children,
+  disabled,
   iconAriaLabel,
   link,
   secondary,
@@ -19,7 +20,7 @@ export const Button = ({
           textColor: "primary.base",
           border: "1px",
           paddingX: "33px",
-          _hover: {
+          _hover: !disabled && {
             backgroundColor: "secondary.1",
           },
         }
@@ -27,8 +28,7 @@ export const Button = ({
           backgroundColor: "primary.base",
           textColor: "white",
           paddingX: "33px",
-          rounded: "4px",
-          _hover: {
+          _hover: !disabled && {
             backgroundColor: "primary.hover",
           },
         };
@@ -45,14 +45,18 @@ export const Button = ({
       ? {
           fontSize: "text.level1",
           isRound: true,
-          _hover: {
+          _hover: !disabled && {
             backgroundColor: "primary.hover",
             textColor: "white",
           },
         }
-      : getOutlineStyles();
+      : {
+          ...getOutlineStyles(),
+          rounded: "4px",
+        };
 
     const props = {
+      disabled,
       ...styles,
       ...extraProps,
       ...rest,
@@ -69,7 +73,7 @@ export const Button = ({
     );
   };
 
-  return link ? (
+  return link && !disabled ? (
     <Link href={link}>{renderContent({ tabIndex: -1 })}</Link>
   ) : (
     renderContent()
@@ -79,6 +83,7 @@ export const Button = ({
 Button.propTypes = {
   asIcon: PropTypes.bool,
   children: PropTypes.any,
+  disabled: PropTypes.bool,
   iconAriaLabel: PropTypes.string,
   link: PropTypes.string,
   secondary: PropTypes.bool,

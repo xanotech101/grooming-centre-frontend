@@ -12,7 +12,7 @@ export const CourseBoxCard = ({
   coverImage,
   disabled,
   duration,
-  id = "sample-id", // TODO: remove this line
+  id = "course_slug", // TODO: remove this line
   instructor,
   // isLoading = true,
   lessonCount,

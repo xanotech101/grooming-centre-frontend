@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { AdminLayoutRoute } from "../layouts/admin";
-import { UserLayoutRoute } from "../layouts/user";
 import Providers from "./Providers";
 import "../styles/course-box-card.scss";
 import "../styles/courses-row-layout.scss";
 import "../styles/globalStyles.scss";
 import "../styles/react-router-dom-link.scss";
+import {
+  AdminLayoutRoute,
+  TakeCourseLayoutRoute,
+  UserLayoutRoute,
+} from "../layouts";
 
 function App() {
   return (
@@ -13,6 +16,7 @@ function App() {
       <Router>
         <Switch>
           <AdminLayoutRoute path="/admin" />
+          <TakeCourseLayoutRoute path="/course/take" />
           <UserLayoutRoute path="/" />
         </Switch>
       </Router>

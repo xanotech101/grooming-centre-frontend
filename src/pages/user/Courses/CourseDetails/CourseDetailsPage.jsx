@@ -13,7 +13,7 @@ import { getDuration } from "../../../../utils";
 import useAccordion from "./hooks/useAccordion";
 
 const courseData = {
-  id: "course-sample-id",
+  id: "course_slug",
   title: "Web Design & Development Crash Course 2021",
   description:
     "Ever wondered how other UX designers troubleshoot problems and juggle conflicting priorities? In this weekly series, Drew Bridewell—a user experience designer and leader of the digital transformation team at InVision—shares his hard-earned knowledge and shows how to apply basic UX design principles to real-world projects.",
@@ -28,6 +28,8 @@ const courseData = {
   },
   lessons: [
     {
+      id: "lesson_slug",
+      locked: false,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -36,6 +38,8 @@ const courseData = {
       type: "video",
     },
     {
+      id: "lesson_slug",
+      locked: false,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -44,6 +48,8 @@ const courseData = {
       type: "pdf",
     },
     {
+      id: "lesson_slug",
+      locked: false,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -52,6 +58,8 @@ const courseData = {
       type: "video",
     },
     {
+      id: "lesson_slug",
+      locked: false,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -60,6 +68,8 @@ const courseData = {
       type: "assessment",
     },
     {
+      id: "lesson_slug",
+      locked: false,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -68,6 +78,8 @@ const courseData = {
       type: "assessment",
     },
     {
+      id: "lesson_slug",
+      locked: true,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -76,6 +88,8 @@ const courseData = {
       type: "assessment",
     },
     {
+      id: "lesson_slug",
+      locked: true,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -84,6 +98,8 @@ const courseData = {
       type: "assessment",
     },
     {
+      id: "lesson_slug",
+      locked: true,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -92,6 +108,18 @@ const courseData = {
       type: "assessment",
     },
     {
+      id: "lesson_slug",
+      locked: true,
+      title: "Why this course?",
+      duration: 610,
+      startDate: "<startDate>",
+      startTime: "<startTime>",
+      endTime: "<endTime>",
+      type: "assessment",
+    },
+    {
+      id: "lesson_slug",
+      locked: true,
       title: "Why this course?",
       duration: 610,
       startDate: "<startDate>",
@@ -100,7 +128,10 @@ const courseData = {
       type: "assessment",
     },
   ],
-};
+  // assessment: {
+
+  // }
+}; // TODO: remove fake data
 
 const CourseDetailsPage = () => {
   const { title, description, instructor, details, lessons } = courseData;
@@ -148,6 +179,12 @@ const CourseDetailsPage = () => {
         maxWidth={breakpoints.laptop}
         marginX="auto"
       >
+        <Flex justifyContent="flex-end" marginBottom={10}>
+          <Button link={`/course/take/${courseData.id}`}>
+            Start The Course
+          </Button>
+        </Flex>
+
         <Accordion heading="Course Details">
           <Flex justifyContent="space-between" padding={2}>
             <InfoContent
@@ -186,6 +223,7 @@ const CourseDetailsPage = () => {
                   date={`${lesson.startTime} to ${lesson.endTime}`}
                   icon={<FaCalendar />}
                   flex={0.6}
+                  opacity={lesson.locked ? 0.5 : 1}
                 />
                 <InfoContent
                   title={lesson.title}
@@ -193,9 +231,15 @@ const CourseDetailsPage = () => {
                   icon={lesson.type !== "video" ? <VscFiles /> : <IoVideocam />}
                   flex={1}
                   marginLeft={16}
+                  opacity={lesson.locked ? 0.5 : 1}
                 />
 
-                <Button link={`/course/take/${courseData.id}`} secondary>
+                <Button
+                  link={`/course/take/lessons/${lesson.id}`}
+                  secondary
+                  sm
+                  disabled={lesson.locked}
+                >
                   View Lesson
                 </Button>
               </Flex>
