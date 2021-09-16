@@ -4,7 +4,7 @@ import { Tooltip } from "@chakra-ui/tooltip";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import { NavLink } from "react-router-dom";
-import { Link, Text } from "../../../../components";
+import { Heading, Link, Text } from "../../../../components";
 import colors from "../../../../theme/colors";
 
 const coursesData = {
@@ -97,6 +97,10 @@ const Sidebar = () => {
       paddingRight={1}
       width="250px"
     >
+      <Box as="header" padding={2} marginBottom={5}>
+        <Heading fontSize="h4">{coursesData.title}</Heading>
+      </Box>
+
       <nav>
         <Box as="ul" listStyleType="none">
           {links.map((link) => (
