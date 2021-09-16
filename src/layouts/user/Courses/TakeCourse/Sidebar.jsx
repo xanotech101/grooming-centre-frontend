@@ -1,10 +1,10 @@
 import Icon from "@chakra-ui/icon";
-import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
+import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Tooltip } from "@chakra-ui/tooltip";
+import { AiOutlineLeft } from "react-icons/ai";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
-import { NavLink } from "react-router-dom";
-import { Heading, Link, Text } from "../../../../components";
+import { Button, Heading, Link, Text } from "../../../../components";
 import colors from "../../../../theme/colors";
 
 const coursesData = {
@@ -94,15 +94,31 @@ const Sidebar = () => {
       as="aside"
       width="270px"
       flexShrink={0}
-      paddingRight={1}
       width="250px"
+      borderRight="1px"
+      borderColor="accent.1"
     >
-      <Box as="header" padding={2} marginBottom={5}>
-        <Heading fontSize="h4">{coursesData.title}</Heading>
+      <Box as="header">
+        <Flex
+          justifyContent="space-between"
+          borderBottom="1px"
+          borderColor="accent.1"
+        >
+          <Button ghost leftIcon={<AiOutlineLeft />} flex={1}>
+            Back
+          </Button>
+          <Button ghost flex={1}>
+            Home
+          </Button>
+        </Flex>
+
+        <Heading fontSize="h4" paddingY={7} paddingX={2}>
+          {coursesData.title}
+        </Heading>
       </Box>
 
       <nav>
-        <Box as="ul" listStyleType="none">
+        <Box as="ul" listStyleType="none" paddingRight={1}>
           {links.map((link) => (
             <li key={link.id}>
               {link.disabled ? (
