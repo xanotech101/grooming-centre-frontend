@@ -57,20 +57,34 @@ const coursesData = {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit volutpat pellentesque elit dolor ultricies purus. Scelerisque tempus, nunc, nibh enim, porttitor et. Hendrerit elementum pretium leo nibh interdum. Mattis pharetra in leo elementum sed gravida senectus. Dictum ultrices proin scelerisque convallis habitant. Ultrices a, consequat nulla arcu dui tellus adipiscing. Morbi amet pulvinar maecenas euismod a, vitae. Mauris sapien, luctus magna lobortis adipiscing risus, lectus tortor.",
     },
   ],
+
+  assessment: {
+    id: "assessement_id",
+    title: "The title of the assessment",
+    // disabled: true,
+  },
 };
 
-const links = coursesData.lessons.reduce((accumulator, current) => {
+const links = coursesData.lessons.reduce((accumulator, lesson, index) => {
   const link = {
-    id: current.id,
-    to: `/courses/take/${coursesData.id}/lessons/${current.id}`,
-    text: current.title,
-    disabled: current.disabled,
-    type: current.lessonType.name,
+    id: lesson.id,
+    to: `/courses/take/${coursesData.id}/lessons/${lesson.id}`,
+    text: lesson.title,
+    disabled: lesson.disabled,
+    type: lesson.lessonType.name,
   };
-
-  console.log(accumulator);
-
   accumulator.push(link);
+
+  if (index === coursesData.lessons.length - 1) {
+    const link = {
+      id: coursesData.assessment.id,
+      to: `/courses/take/${coursesData.id}/assessment`,
+      text: "Assessment",
+      disabled: coursesData.assessment.disabled,
+      type: "assessment",
+    };
+    accumulator.push(link);
+  }
 
   return accumulator;
 }, []);

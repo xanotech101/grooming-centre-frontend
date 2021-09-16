@@ -1,5 +1,10 @@
 import { Box, Flex } from "@chakra-ui/layout";
+import { Switch } from "react-router-dom";
 import { Button } from "../../../../components";
+import {
+  AssessmentDetailsPageRoute,
+  LessonDetailsPageRoute,
+} from "../../../../pages/user";
 
 const MainArea = () => {
   return (
@@ -20,12 +25,17 @@ const MainArea = () => {
             _hover={{ opacity: 0.8 }}
             flex={1}
           >
-            Complete and Continue
+            Complete And Continue
           </Button>
         </Flex>
       </Box>
 
-      <Box as="main"></Box>
+      <Box as="main">
+        <Switch>
+          <LessonDetailsPageRoute path="/courses/take/:course_id/lessons/:lesson_id" />
+          <AssessmentDetailsPageRoute path="/courses/take/:course_id/assessment" />
+        </Switch>
+      </Box>
     </Box>
   );
 };
