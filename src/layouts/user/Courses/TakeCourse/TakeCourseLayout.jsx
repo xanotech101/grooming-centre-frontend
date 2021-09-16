@@ -1,13 +1,14 @@
 import { Route } from "react-router-dom";
-import { Box, Flex } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import breakpoints from "../../../../theme/breakpoints";
 import Sidebar from "./Sidebar";
+import MainArea from "./MainArea";
 
 const TakeCourseLayout = () => {
   return (
-    <Flex maxWidth={breakpoints["4k"]} marginX="auto">
+    <Flex maxWidth={breakpoints["4k"]} marginX="auto" height="100vh">
       <Sidebar />
-      <div>MainArea</div>
+      <MainArea />
     </Flex>
   );
 };

@@ -97,6 +97,7 @@ const Sidebar = () => {
       width="250px"
       borderRight="1px"
       borderColor="accent.1"
+      as="aside"
     >
       <Box as="header">
         <Flex
