@@ -66,6 +66,17 @@ const fetchTakeCourseData = async () =>
     }, 1500);
   });
 
+/**
+ * TakeCourseLayout state `Manager` - its consumes the ContextProvider and returns whats neccessary.
+ *
+ * @returns  Object {
+ *  state: {
+ *    data: `Object` | `null`,
+ *    err: `ErrorObject` | `null`,
+ *    isLoading: `boolean`
+ *  }
+ * }
+ */
 export const useTakeCourse = () => {
   const context = useContext(TakeCourseContext);
   if (!context) {

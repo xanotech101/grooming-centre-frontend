@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { IoArrowBack } from "react-icons/io5";
 import { Button, Heading, Text } from "../../components";
-import useGoBack from "./hooks/useGoBack";
+import { useGoBack } from "../../hooks";
 
 export const CreatePageLayout = ({
   children,

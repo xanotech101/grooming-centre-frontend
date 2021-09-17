@@ -1,6 +1,10 @@
 import { useHistory } from "react-router-dom";
 
-const useGoBack = () => {
+/**
+ * Handler to go back in the `router-history-tree`
+ * @returns handleGoBack: `Function`
+ */
+export const useGoBack = () => {
   const history = useHistory();
 
   const handleGoBack = () => {
@@ -9,5 +13,3 @@ const useGoBack = () => {
 
   return handleGoBack;
 };
-
-export default useGoBack;
