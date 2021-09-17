@@ -8,7 +8,7 @@ import {
 
 const MainArea = () => {
   return (
-    <Box flex={1}>
+    <Flex flexDirection="column" flex={1} height="100vh">
       <Box as="header">
         <Flex
           justifyContent="space-between"
@@ -30,13 +30,13 @@ const MainArea = () => {
         </Flex>
       </Box>
 
-      <Box as="main" paddingTop={10} paddingX={6}>
+      <Box as="main" paddingTop={10} paddingBottom={16} paddingX={6} flex={1} overflowY="auto">
         <Switch>
           <LessonDetailsPageRoute path="/courses/take/:course_id/lessons/:lesson_id" />
           <AssessmentDetailsPageRoute path="/courses/take/:course_id/assessment" />
         </Switch>
       </Box>
-    </Box>
+    </Flex>
   );
 };
 

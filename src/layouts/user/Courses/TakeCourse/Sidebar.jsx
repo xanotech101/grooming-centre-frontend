@@ -41,11 +41,13 @@ const Sidebar = () => {
       flexDirection="column"
       as="aside"
       width="270px"
+       height="100vh"
       flexShrink={0}
       width="250px"
       borderRight="1px"
       borderColor="accent.1"
       as="aside"
+
     >
       <Box as="header">
         <Flex
@@ -75,7 +77,7 @@ const Sidebar = () => {
         </Box>
       </Box>
 
-      <nav>
+      <Box as="nav" paddingBottom={16} flex={1} overflowY="auto">
         <Box as="ul" listStyleType="none" paddingRight={1}>
           {isLoading ? (
             <SkeletonText numberOfLines={10} height="37px" spacing={1} />
@@ -104,7 +106,7 @@ const Sidebar = () => {
             ))
           )}
         </Box>
-      </nav>
+      </Box>
     </Flex>
   );
 };

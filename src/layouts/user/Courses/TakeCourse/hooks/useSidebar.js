@@ -31,7 +31,7 @@ const mapLessonsToLinks = (data) => {
 
 /**
  * TakeCourseLayout's Sidebar functionality `Manager`
- * @returns Object { links: `Array<Object>`, courseTitle: `string`, isLoading: `boolean` }
+ * @returns Object { links: `Array<Object>` | `null`, courseTitle: `string`, isLoading: `boolean` }
  */
 const useSidebar = () => {
   const takeCourseManger = useTakeCourse();
