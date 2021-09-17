@@ -1,95 +1,20 @@
 import Icon from "@chakra-ui/icon";
 import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Tooltip } from "@chakra-ui/tooltip";
+import { useEffect, useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import { Button, Heading, Link, Text } from "../../../../components";
+import { useTakeCourse } from "../../../../contexts";
 import colors from "../../../../theme/colors";
-
-const coursesData = {
-  id: "1234567890098765421",
-  title: "Web Design & Development Crash Course 2021",
-  lessons: [
-    {
-      id: "123454321",
-      disabled: false,
-      title: "Why this course?",
-      duration: 610,
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      file: "file_url",
-      lessonType: {
-        id: "232",
-        name: "video",
-      },
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit volutpat pellentesque elit dolor ultricies purus. Scelerisque tempus, nunc, nibh enim, porttitor et. Hendrerit elementum pretium leo nibh interdum. Mattis pharetra in leo elementum sed gravida senectus. Dictum ultrices proin scelerisque convallis habitant. Ultrices a, consequat nulla arcu dui tellus adipiscing. Morbi amet pulvinar maecenas euismod a, vitae. Mauris sapien, luctus magna lobortis adipiscing risus, lectus tortor. Maecenas auctor ac et neque in amet odio. In justo proin ipsum nam congue tortor a.",
-    },
-    {
-      id: "098765678s",
-      disabled: false,
-      title: "Introduction to HTML",
-      duration: 610,
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      file: "file_url",
-      lessonType: {
-        id: "232",
-        name: "video",
-      },
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit volutpat pellentesque elit dolor ultricies purus. Scelerisque tempus, nunc, nibh enim, porttitor et. Hendrerit elementum pretium leo nibh interdum. Mattis pharetra in leo elementum sed gravida senectus. Dictum ultrices proin scelerisque convallis habitant. Ultrices a, consequat nulla arcu dui tellus adipiscing. Morbi amet pulvinar maecenas euismod a, vitae. Mauris sapien, luctus magna lobortis adipiscing risus, lectus tortor. Maecenas auctor ac et neque in amet odio. In justo proin ipsum nam congue tortor a.",
-    },
-    {
-      id: "536hs5272",
-      disabled: true,
-      title: "Resources: Consume this contents",
-      duration: 610,
-      startTime: "<startTime>",
-      endTime: "<endTime>",
-      file: "file_url",
-      lessonType: {
-        id: "232",
-        name: "pdf",
-      },
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit volutpat pellentesque elit dolor ultricies purus. Scelerisque tempus, nunc, nibh enim, porttitor et. Hendrerit elementum pretium leo nibh interdum. Mattis pharetra in leo elementum sed gravida senectus. Dictum ultrices proin scelerisque convallis habitant. Ultrices a, consequat nulla arcu dui tellus adipiscing. Morbi amet pulvinar maecenas euismod a, vitae. Mauris sapien, luctus magna lobortis adipiscing risus, lectus tortor.",
-    },
-  ],
-
-  assessment: {
-    id: "assessement_id",
-    title: "The title of the assessment",
-    // disabled: true,
-  },
-};
-
-const links = coursesData.lessons.reduce((accumulator, lesson, index) => {
-  const link = {
-    id: lesson.id,
-    to: `/courses/take/${coursesData.id}/lessons/${lesson.id}`,
-    text: lesson.title,
-    disabled: lesson.disabled,
-    type: lesson.lessonType.name,
-  };
-  accumulator.push(link);
-
-  if (index === coursesData.lessons.length - 1) {
-    const link = {
-      id: coursesData.assessment.id,
-      to: `/courses/take/${coursesData.id}/assessment`,
-      text: "Assessment",
-      disabled: coursesData.assessment.disabled,
-      type: "assessment",
-    };
-    accumulator.push(link);
-  }
-
-  return accumulator;
-}, []);
+import useSidebar from "./hooks/useSidebar";
 
 const Sidebar = () => {
+  const manager = useSidebar();
+
+  const { links, courseTitle, isLoading } = manager;
+
   const renderContent = (link, props) => (
     <Tooltip label={link.text} aria-label={link.text}>
       <HStack spacing={2} padding={2} {...props}>
@@ -128,13 +53,13 @@ const Sidebar = () => {
         </Flex>
 
         <Heading fontSize="h4" paddingY={7} paddingX={2}>
-          {coursesData.title}
+          {courseTitle}
         </Heading>
       </Box>
 
       <nav>
         <Box as="ul" listStyleType="none" paddingRight={1}>
-          {links.map((link) => (
+          {links?.map((link) => (
             <li key={link.id}>
               {link.disabled ? (
                 renderContent(link, { opacity: 0.5, cursor: "not-allowed" })
