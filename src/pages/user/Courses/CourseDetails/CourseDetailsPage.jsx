@@ -93,7 +93,7 @@ const CourseDetailsPage = () => {
         color="white"
         marginBottom={10}
       >
-        <Heading> {title}</Heading>
+        <Heading>{title}</Heading>
         <Text as="level2">{description}</Text>
 
         <HStack spacing={4}>

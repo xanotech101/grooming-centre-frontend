@@ -53,7 +53,7 @@ export const Heading = ({
 
 Heading.propTypes = {
   as: PropTypes.oneOf(["h1", "h2", "h3", "h4"]),
-  children: PropTypes.string.isRequired,
+  children: PropTypes.any,
   fontSize: PropTypes.string,
   italic: PropTypes.bool,
   regular: PropTypes.bool,

@@ -13,6 +13,7 @@ export * from "./Form/Upload";
 export * from "./Image/Image";
 export * from "./Link/Link";
 export * from "./SearchBar/SearchBar";
+export * from "./Skeleton/SkeletonText";
 export * from "./Spinner/Spinner";
 export * from "./Typography/Heading";
 export * from "./Typography/Text";
