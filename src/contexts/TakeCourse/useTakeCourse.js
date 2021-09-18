@@ -111,7 +111,7 @@ export const useTakeCourse = () => {
       isMounted = false;
       setState((prev) => ({ ...prev, isLoading: false }));
     };
-  }, []);
+  }, [setState]);
 
   return {
     state,

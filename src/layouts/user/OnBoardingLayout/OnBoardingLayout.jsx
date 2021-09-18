@@ -1,6 +1,5 @@
-import { Box, Flex } from "@chakra-ui/layout";
-import { Redirect } from "react-router-dom";
-import { Route, Switch } from "react-router-dom";
+import { Flex } from "@chakra-ui/layout";
+import { Route } from "react-router-dom";
 import Hero from "./Hero";
 import MainArea from "./MainArea";
 

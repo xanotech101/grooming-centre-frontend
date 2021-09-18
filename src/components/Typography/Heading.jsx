@@ -1,27 +1,5 @@
 import { Heading as HeadingChakraui } from "@chakra-ui/layout";
-
 import PropTypes from "prop-types";
-
-const getFontSize = (type) => {
-  let fontSize = "";
-
-  switch (type) {
-    case "h1":
-      fontSize = "heading.h1";
-      break;
-    case "h2":
-      fontSize = "heading.h2";
-      break;
-    case "h3":
-      fontSize = "heading.h3";
-      break;
-    case "h4":
-      fontSize = "heading.h4";
-      break;
-  }
-
-  return fontSize;
-};
 
 export const Heading = ({
   as = "h2",

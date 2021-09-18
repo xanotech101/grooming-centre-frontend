@@ -1,7 +1,7 @@
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { NavLink } from "react-router-dom";
-import { Heading, Text } from "../../components";
+import { Text } from "../../components";
 import colors from "../../theme/colors";
 
 const links = [

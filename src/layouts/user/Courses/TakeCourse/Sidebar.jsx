@@ -11,12 +11,9 @@ import {
   SkeletonText,
   Text,
 } from "../../../../components";
-import { useGoBack } from "../../../../hooks";
 import colors from "../../../../theme/colors";
 
 const Sidebar = ({ manager }) => {
-  const handleGoBack = useGoBack();
-
   const { links, courseTitle, isLoading } = manager;
 
   const renderContent = (link, props) => (
@@ -35,13 +32,11 @@ const Sidebar = ({ manager }) => {
     <Flex
       flexDirection="column"
       as="aside"
-      width="270px"
       height="100vh"
       flexShrink={0}
       width="250px"
       borderRight="1px"
       borderColor="accent.1"
-      as="aside"
     >
       <Box as="header">
         <Flex
@@ -53,7 +48,7 @@ const Sidebar = ({ manager }) => {
             ghost
             leftIcon={<AiOutlineLeft />}
             flex={1}
-            onClick={handleGoBack}
+            link={`/courses/details/courseId`}
           >
             Back
           </Button>

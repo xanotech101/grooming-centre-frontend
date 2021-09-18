@@ -1,4 +1,4 @@
-import { ButtonGroup, IconButton } from "@chakra-ui/button";
+import { ButtonGroup } from "@chakra-ui/button";
 import { Flex, HStack } from "@chakra-ui/layout";
 import { MdNotificationsActive } from "react-icons/md";
 import { BrandLogo, Button, Image, SearchBar } from "../../../components";

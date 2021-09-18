@@ -1,7 +1,5 @@
-import { CloudUpload } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useRouteMatch } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useTakeCourse } from "../../../../../contexts";
 
@@ -12,7 +10,16 @@ const getLesson = (data, id) => {
 
 /**
  * Lesson state `Manager`
- * @returns Object { lesson: `Object` | `null`, isLoading: `boolean` }
+ * @param { Array<{}> | null } sidebarLinks
+ * 
+ * @returns Object { 
+ *  lesson: `Object` | `null`, 
+ *  isLoading: `boolean`,
+ *  previousIsDisabled: `boolean`,
+    completeAndContinueIsDisabled: `boolean`,
+    handlePrevious: `() => void`,
+    handleCompleteAndContinue: `() => void`, 
+ * }
  */
 const useLessonDetails = (sidebarLinks) => {
   const { lesson_id: lessonId, course_id: courseId } = useParams();
@@ -50,7 +57,7 @@ const useLessonDetails = (sidebarLinks) => {
   const completeAndContinueIsDisabled =
     isLoading ||
     currentLink?.index ===
-      sidebarLinks.filter((link) => !link.disabled).length - 1;
+      sidebarLinks?.filter((link) => !link.disabled).length - 1;
 
   return {
     lesson,

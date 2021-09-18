@@ -14,7 +14,7 @@ export const useFakeLoading = (minMilliseconds = 500) => {
     setTimeout(() => {
       setIsLoading(false);
     }, Math.floor(Math.random() * maxMilliseconds + minMilliseconds));
-  }, []);
+  }, [minMilliseconds]);
 
   return isLoading;
 };
