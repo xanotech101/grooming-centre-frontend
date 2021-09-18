@@ -1,4 +1,7 @@
+import { CloudUpload } from "@material-ui/icons";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useTakeCourse } from "../../../../../contexts";
 
@@ -11,12 +14,29 @@ const getLesson = (data, id) => {
  * Lesson state `Manager`
  * @returns Object { lesson: `Object` | `null`, isLoading: `boolean` }
  */
-const useLessonDetails = () => {
-  const { lesson_id: lessonId } = useParams();
+const useLessonDetails = (sidebarLinks) => {
+  const { lesson_id: lessonId, course_id: courseId } = useParams();
+  const { push } = useHistory();
   const takeCourseManger = useTakeCourse();
   const { state } = takeCourseManger;
 
   const [lesson, setLesson] = useState(null);
+  const [currentLink, setCurrentLink] = useState();
+
+  useEffect(() => {
+    const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
+    const link = { index, ...sidebarLinks?.[index] };
+    setCurrentLink(link);
+  }, [sidebarLinks, lessonId]);
+
+  const handlePrevious = () => {
+    const previousLink = sidebarLinks[currentLink.index - 1];
+    push(`/courses/take/${courseId}/lessons/${previousLink.id}`);
+  };
+  const handleCompleteAndContinue = () => {
+    const nextLink = sidebarLinks[currentLink.index + 1];
+    push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
+  };
 
   useEffect(() => {
     if (state.data) {
@@ -26,10 +46,19 @@ const useLessonDetails = () => {
   }, [state?.data, lessonId]);
 
   const isLoading = state.isLoading;
+  const previousIsDisabled = isLoading || currentLink?.index <= 0;
+  const completeAndContinueIsDisabled =
+    isLoading ||
+    currentLink?.index ===
+      sidebarLinks.filter((link) => !link.disabled).length - 1;
 
   return {
     lesson,
     isLoading,
+    previousIsDisabled,
+    completeAndContinueIsDisabled,
+    handlePrevious,
+    handleCompleteAndContinue,
   };
 };
 

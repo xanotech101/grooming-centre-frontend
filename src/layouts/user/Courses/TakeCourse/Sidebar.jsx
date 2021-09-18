@@ -1,8 +1,6 @@
 import Icon from "@chakra-ui/icon";
-import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
-import { Skeleton } from "@chakra-ui/skeleton";
+import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { useEffect, useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
@@ -13,14 +11,11 @@ import {
   SkeletonText,
   Text,
 } from "../../../../components";
-import { useTakeCourse } from "../../../../contexts";
 import { useGoBack } from "../../../../hooks";
 import colors from "../../../../theme/colors";
-import useSidebar from "./hooks/useSidebar";
 
-const Sidebar = () => {
+const Sidebar = ({ manager }) => {
   const handleGoBack = useGoBack();
-  const manager = useSidebar();
 
   const { links, courseTitle, isLoading } = manager;
 
@@ -41,13 +36,12 @@ const Sidebar = () => {
       flexDirection="column"
       as="aside"
       width="270px"
-       height="100vh"
+      height="100vh"
       flexShrink={0}
       width="250px"
       borderRight="1px"
       borderColor="accent.1"
       as="aside"
-
     >
       <Box as="header">
         <Flex
@@ -63,7 +57,7 @@ const Sidebar = () => {
           >
             Back
           </Button>
-          <Button ghost flex={1}>
+          <Button ghost flex={1} link="/">
             Home
           </Button>
         </Flex>

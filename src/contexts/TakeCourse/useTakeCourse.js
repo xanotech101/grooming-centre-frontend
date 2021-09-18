@@ -54,8 +54,8 @@ const takeCourseData = {
 
   assessment: {
     id: "assessement_id",
-    title: "The title of the assessment",
-    // disabled: true,
+    // title: "The title of the assessment",
+    disabled: true,
   },
 };
 
@@ -80,7 +80,9 @@ const fetchTakeCourseData = async () =>
 export const useTakeCourse = () => {
   const context = useContext(TakeCourseContext);
   if (!context) {
-    throw new Error(`useCount must be used within a CountProvider`);
+    throw new Error(
+      `useTakeCourse must be used within a TakeCourseContextProvider`
+    );
   }
 
   const [state, setState] = context;
