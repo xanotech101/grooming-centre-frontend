@@ -28,6 +28,10 @@
 }
 /* END OF Colors */
 
+* {
+  scroll-behavior: smooth;
+}
+
 /* Override Material-ui DateAndTimePickers */
 .date-time-picker .MuiInputBase-root,
 .date-time-picker .MuiFormControl-root,
