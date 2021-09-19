@@ -25,14 +25,14 @@ import { http } from "..";
 /**
  * First step of user creation
  * @param {*} body
- * @returns Object { success: `true`, message: `string` }
+ * @returns Object { message: `string` }
  */
 export const adminInviteUser = async (body) => {
   const url = "/admin/invite/user";
 
   const {
-    data: { success, message },
+    data: { message },
   } = await http.post(url, body);
 
-  return { success, message };
+  return { message };
 };

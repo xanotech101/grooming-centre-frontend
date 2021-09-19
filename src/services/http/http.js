@@ -9,7 +9,7 @@ import axios from "axios";
 //   return Promise.reject(error);
 // });
 
-export const baseURL = "http://groomingcenter.herokuapp.com/api/v1";
+export const baseURL = "https://groomingcenter.herokuapp.com/api/v1";
 
 const defaultOptions = (explicitToken) => ({
   // timeout's the request in a minute by default

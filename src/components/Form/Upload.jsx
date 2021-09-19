@@ -2,72 +2,69 @@ import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { Button } from "..";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 
-export const Upload = ({
-  id,
-  isRequired,
-  label,
-  onFileSelect,
-  width = "100%",
-  ...rest
-}) => {
-  const onDrop = useCallback(
-    (acceptedFiles) => {
-      acceptedFiles.forEach((file) => {
-        onFileSelect?.(file);
-      });
-    },
-    [onFileSelect]
-  );
+export const Upload = forwardRef(
+  ({ id, isRequired, label, onFileSelect, width = "100%", ...rest }, ref) => {
+    const onDrop = useCallback(
+      (acceptedFiles) => {
+        acceptedFiles.forEach((file) => {
+          onFileSelect?.(file);
+        });
+      },
+      [onFileSelect]
+    );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+    });
 
-  return (
-    <FormGroup
-      id={id}
-      label={label}
-      isRequired={isRequired}
-      renderControl={(props) => (
-        <Flex
-          flexDirection="column"
-          justifyContent="center"
-          width={width}
-          padding={5}
-          border="1px dashed"
-          {...props}
-          {...getRootProps()}
-        >
-          <Input {...rest} {...getInputProps()} />
+    return (
+      <FormGroup
+        id={id}
+        label={label}
+        isRequired={isRequired}
+        renderControl={(props) => (
+          <Flex
+            flexDirection="column"
+            justifyContent="center"
+            width={width}
+            padding={5}
+            border="1px dashed"
+            {...props}
+            {...getRootProps()}
+          >
+            <Input ref={ref} {...getInputProps()} {...rest} />
 
-          <Stack alignItems="center" textAlign="center" spacing={2}>
-            <Box>
-              <Icon color="primary.base" fontSize="25px" width="30px">
-                <FaCloudUploadAlt />
-              </Icon>
+            <Stack alignItems="center" textAlign="center" spacing={2}>
+              <Box>
+                <Icon color="primary.base" fontSize="25px" width="30px">
+                  <FaCloudUploadAlt />
+                </Icon>
 
-              {isDragActive ? (
-                <Text>Drop The File Here ...</Text>
-              ) : (
-                <Text>Drag & Drop Your Files Here</Text>
-              )}
-            </Box>
+                {isDragActive ? (
+                  <Text>Drop The File Here ...</Text>
+                ) : (
+                  <Text>Drag & Drop Your Files Here</Text>
+                )}
+              </Box>
 
-            <Text color="accent.2">Or</Text>
+              <Text color="accent.2">Or</Text>
 
-            <Button width="fit-content" sm>
-              Browse files
-            </Button>
-          </Stack>
-        </Flex>
-      )}
-    />
-  );
-};
+              <Button width="fit-content" sm>
+                Browse files
+              </Button>
+            </Stack>
+          </Flex>
+        )}
+      />
+    );
+  }
+);
 
 Upload.propTypes = {
   ...FormGroupPropTypes,

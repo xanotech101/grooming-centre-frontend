@@ -9,6 +9,7 @@ export const CreatePageLayout = ({
   submitButtonText,
   subTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   title,
+  onSubmit,
 }) => {
   const handleGoBack = useGoBack();
 
@@ -46,10 +47,10 @@ export const CreatePageLayout = ({
         shadow="md"
         rounded="sm"
       >
-        <Box as="form" flex={1}>
+        <Box as="form" flex={1} onSubmit={onSubmit}>
           {children}
 
-          <Button>{submitButtonText}</Button>
+          <Button type="submit">{submitButtonText}</Button>
         </Box>
       </Flex>
     </Box>
@@ -60,6 +61,7 @@ CreatePageLayout.propTypes = {
   title: PropTypes.string.isRequired,
   submitButtonText: PropTypes.string.isRequired,
   subTitle: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,

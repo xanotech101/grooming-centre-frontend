@@ -1,35 +1,39 @@
 import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 import { Select as SelectChakraui } from "@chakra-ui/select";
+import { forwardRef } from "react";
 
-export const Select = ({
-  id,
-  isRequired,
-  label,
-  options,
-  value,
-  onChange = () => {},
-  ...rest
-}) => {
-  return (
-    <FormGroup
-      id={id}
-      label={label}
-      isRequired={isRequired}
-      renderControl={(props) => (
-        <SelectChakraui {...props} {...rest} value={value} onChange={onChange}>
-          <option></option>
+export const Select = forwardRef(
+  (
+    { id, isRequired, label, options, value, onChange = () => {}, ...rest },
+    ref
+  ) => {
+    return (
+      <FormGroup
+        id={id}
+        label={label}
+        isRequired={isRequired}
+        renderControl={(props) => (
+          <SelectChakraui
+            value={value}
+            onChange={onChange}
+            ref={ref}
+            {...props}
+            {...rest}
+          >
+            <option></option>
 
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </SelectChakraui>
-      )}
-    />
-  );
-};
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SelectChakraui>
+        )}
+      />
+    );
+  }
+);
 
 Select.propTypes = {
   ...FormGroupPropTypes,

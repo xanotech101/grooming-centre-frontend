@@ -1,31 +1,28 @@
 import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 import { Textarea as TextareaChakraui } from "@chakra-ui/textarea";
+import { forwardRef } from "react";
 
-export const Textarea = ({
-  id,
-  isRequired,
-  label,
-  value,
-  onChange = () => {},
-  ...rest
-}) => {
-  return (
-    <FormGroup
-      id={id}
-      label={label}
-      isRequired={isRequired}
-      renderControl={(props) => (
-        <TextareaChakraui
-          {...props}
-          {...rest}
-          value={value}
-          onChange={onChange}
-        />
-      )}
-    />
-  );
-};
+export const Textarea = forwardRef(
+  ({ id, isRequired, label, value, onChange = () => {}, ...rest }, ref) => {
+    return (
+      <FormGroup
+        id={id}
+        label={label}
+        isRequired={isRequired}
+        renderControl={(props) => (
+          <TextareaChakraui
+            ref={ref}
+            value={value}
+            onChange={onChange}
+            {...props}
+            {...rest}
+          />
+        )}
+      />
+    );
+  }
+);
 
 Textarea.propTypes = {
   ...FormGroupPropTypes,
