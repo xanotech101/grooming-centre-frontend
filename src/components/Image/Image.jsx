@@ -42,11 +42,11 @@ export const Image = ({
 Image.propTypes = {
   boxSize: PropTypes.string,
   filter: PropTypes.string,
-  height: PropTypes.string,
+  height: PropTypes.any,
   imageElementProps: PropTypes.object,
   isLoading: PropTypes.bool,
   objectFit: PropTypes.string,
   rounded: PropTypes.string,
   src: PropTypes.any,
-  width: PropTypes.string,
+  width: PropTypes.any,
 };

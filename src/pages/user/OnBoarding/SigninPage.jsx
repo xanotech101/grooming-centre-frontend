@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import {
   Brand,
@@ -11,6 +12,12 @@ import {
 import { OnBoardingFormLayout } from "../../../layouts";
 
 const SigninPage = () => {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
   return (
     <OnBoardingFormLayout
       renderHeader={() => (
@@ -20,10 +27,23 @@ const SigninPage = () => {
       )}
       renderInputs={() => (
         <>
-          <Input id="email" type="email" label="Email" isRequired />
-          <Input id="password" type="password" label="Password" isRequired />
+          <Input
+            id="email"
+            type="email"
+            label="Email"
+            isRequired
+            {...register("email")}
+          />
+          <Input
+            id="password"
+            type="password"
+            label="Password"
+            isRequired
+            {...register("password")}
+          />
         </>
       )}
+      onSubmit={handleSubmit(onSubmit)}
       renderSubmit={(props) => <Button {...props}>Sign in</Button>}
       renderFooter={() => (
         <Flex justifyContent="space-between">

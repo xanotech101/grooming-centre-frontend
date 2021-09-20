@@ -7,6 +7,7 @@ export const OnBoardingFormLayout = ({
   renderHeader,
   renderInputs,
   renderSubmit,
+  onSubmit,
 }) => {
   return (
     <Flex flexDirection="column" alignItems="center" as="section">
@@ -24,7 +25,13 @@ export const OnBoardingFormLayout = ({
         )}
 
         {renderInputs && renderSubmit && (
-          <Flex flexDirection="column" as="form" width="356px" marginX="auto">
+          <Flex
+            flexDirection="column"
+            as="form"
+            width="356px"
+            marginX="auto"
+            onSubmit={onSubmit}
+          >
             {
               <Stack spacing={5} marginBottom={10}>
                 {renderInputs()}
@@ -50,4 +57,5 @@ OnBoardingFormLayout.propTypes = {
   renderHeader: PropTypes.func,
   renderInputs: PropTypes.func,
   renderSubmit: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
