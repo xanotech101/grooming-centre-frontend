@@ -1,5 +1,6 @@
 import { Box, UnorderedList, ListItem, List, ListIcon } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
+import { useParams } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { Button, Heading } from "../../../../components";
 
@@ -9,6 +10,8 @@ const data = {
 };
 
 const AssessmentPreviewPage = () => {
+  const { course_id: courseId } = useParams();
+
   return (
     <Box paddingTop={10} as="main" paddingX={6}>
       <Heading as="h1" fontSize="heading.h3" marginBottom={5}>
@@ -58,7 +61,9 @@ const AssessmentPreviewPage = () => {
         </ListItem>
       </UnorderedList>
 
-      <Button>Take Assessment</Button>
+      <Button link={`/courses/take/${courseId}/assessment/start`}>
+        Take Assessment
+      </Button>
     </Box>
   );
 };

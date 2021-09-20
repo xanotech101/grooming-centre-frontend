@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { AiOutlineDown } from "react-icons/ai";
 import { Route } from "react-router-dom";
 import {
   Brand,
@@ -8,7 +7,6 @@ import {
   Checkbox,
   Input,
   Link,
-  Spinner,
   Text,
 } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";

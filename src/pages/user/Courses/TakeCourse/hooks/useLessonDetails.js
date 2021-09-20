@@ -42,7 +42,12 @@ const useLessonDetails = (sidebarLinks) => {
   };
   const handleCompleteAndContinue = () => {
     const nextLink = sidebarLinks[currentLink.index + 1];
-    push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
+
+    if (nextLink.type !== "assessment") {
+      push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
+    } else {
+      push(`/courses/take/${courseId}/assessment`);
+    }
   };
 
   useEffect(() => {

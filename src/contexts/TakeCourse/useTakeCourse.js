@@ -37,7 +37,7 @@ const takeCourseData = {
     },
     {
       id: "536hs5272",
-      disabled: true,
+      disabled: false,
       title: "Resources: Consume this contents",
       duration: 610,
       startTime: "<startTime>",
@@ -55,7 +55,7 @@ const takeCourseData = {
   assessment: {
     id: "assessement_id",
     // title: "The title of the assessment",
-    disabled: true,
+    // disabled: true,
   },
 };
 

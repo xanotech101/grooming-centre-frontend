@@ -6,6 +6,7 @@ import "../styles/globalStyles.scss";
 import "../styles/user-header-nav-link.scss";
 import {
   AdminLayoutRoute,
+  AssessmentLayoutRoute,
   TakeCourseLayoutRoute,
   UserLayoutRoute,
 } from "../layouts";
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <Switch>
           <AdminLayoutRoute path="/admin" />
+          <AssessmentLayoutRoute path="/courses/take/:course_id/assessment/start" />
           <TakeCourseLayoutRoute path="/courses/take" />
           <UserLayoutRoute path="/" />
         </Switch>
