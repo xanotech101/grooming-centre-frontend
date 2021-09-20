@@ -1,2 +1,2 @@
 export * from "./http/http";
-export * from "./http/helpers";
+export * from "./http/endpoints";

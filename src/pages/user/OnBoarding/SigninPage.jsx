@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/toast";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import {
@@ -13,19 +14,24 @@ import { OnBoardingFormLayout } from "../../../layouts";
 import { userSignin } from "../../../services";
 
 const SigninPage = () => {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const { user, token } = await userSignin(data);
-
-      alert(token);
+      const { user, token, message } = await userSignin(data);
+      toast({ description: message, position: "top", status: "success" });
+      localStorage.setItem("token", token);
+      reset();
     } catch (error) {
-      alert(error.message);
+      const { message } = error.response?.data;
+
+      toast({ description: message, position: "top", status: "error" });
     }
   };
 

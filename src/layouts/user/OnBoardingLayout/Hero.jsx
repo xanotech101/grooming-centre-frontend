@@ -25,7 +25,12 @@ const Hero = () => {
         justifyContent="center"
         textAlign="center"
       >
-        <Flex flexDirection="column" alignItems="center" marginTop="-10">
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          marginTop="-10"
+          padding={10}
+        >
           <Box paddingTop={10} marginBottom={16}>
             <Heading as="h1" size="md" marginBottom={6}>
               Lorem Ipsum dolor

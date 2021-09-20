@@ -40,17 +40,17 @@ export const adminInviteUser = async (body) => {
 /**
  * Endpoint for user signin
  * @param {*} body - {email: `string`, password: `string`}
- * @returns Object { user: `Object`, token: `string` }
+ * @returns Object { user: `Object`, token: `string`, message: `string` }
  */
 export const userSignin = async (body) => {
   const url = "/login";
 
   const {
     data: {
-      data: { user },
-      token,
+      data: { user, token },
+      message,
     },
   } = await http.post(url, body);
 
-  return { user, token };
+  return { user, token, message };
 };

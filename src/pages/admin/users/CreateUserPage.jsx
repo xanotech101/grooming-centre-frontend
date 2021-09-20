@@ -1,12 +1,13 @@
-import { Grid, Stack } from "@chakra-ui/layout";
+import { Grid } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-// import { adminInviteUser } from "../../../services";
 import { Input, Select } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { adminInviteUser } from "../../../services";
 import useCreateUser from "./hooks/useCreateUser";
 
 const CreateUserPage = () => {
+  const toast = useToast();
   const { formManager, departmentIsRequired } = useCreateUser();
   const { register, handleSubmit } = formManager;
 
@@ -18,7 +19,7 @@ const CreateUserPage = () => {
 
       alert(message);
     } catch (error) {
-      alert(error.message);
+      toast({ description: error.message });
     }
   };
 
