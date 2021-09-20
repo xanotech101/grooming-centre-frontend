@@ -13,7 +13,6 @@ export const Button = ({
   leftIcon,
   link,
   secondary,
-
   sm,
   ...rest
 }) => {

@@ -12,8 +12,12 @@ const useCreateUser = () => {
 
   useEffect(() => {
     const subscription = formManager.watch((data, { name, type }) => {
-      if (name === "role" && data.role === "Role-2") {
-        setDepartmentIsRequired(false);
+      if (name === "role") {
+        if (data.role === "Role-2") {
+          setDepartmentIsRequired(false);
+        } else {
+          setDepartmentIsRequired(true);
+        }
       }
     });
 

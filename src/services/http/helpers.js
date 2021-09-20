@@ -23,8 +23,8 @@ import { http } from "..";
 // };
 
 /**
- * First step of user creation
- * @param {*} body
+ * Endpoint for first step to user creation
+ * @param {} body
  * @returns Object { message: `string` }
  */
 export const adminInviteUser = async (body) => {
@@ -35,4 +35,22 @@ export const adminInviteUser = async (body) => {
   } = await http.post(url, body);
 
   return { message };
+};
+
+/**
+ * Endpoint for user signin
+ * @param {*} body - {email: `string`, password: `string`}
+ * @returns Object { user: `Object`, token: `string` }
+ */
+export const userSignin = async (body) => {
+  const url = "/login";
+
+  const {
+    data: {
+      data: { user },
+      token,
+    },
+  } = await http.post(url, body);
+
+  return { user, token };
 };

@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { AiOutlineDown } from "react-icons/ai";
 import { Route } from "react-router-dom";
 import {
   Brand,
@@ -7,15 +8,27 @@ import {
   Checkbox,
   Input,
   Link,
+  Spinner,
   Text,
 } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
+import { userSignin } from "../../../services";
 
 const SigninPage = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const { user, token } = await userSignin(data);
+
+      alert(token);
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -44,7 +57,16 @@ const SigninPage = () => {
         </>
       )}
       onSubmit={handleSubmit(onSubmit)}
-      renderSubmit={(props) => <Button {...props}>Sign in</Button>}
+      renderSubmit={(props) => (
+        <Button
+          {...props}
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+          loadingText="Sign in"
+        >
+          Sign in
+        </Button>
+      )}
       renderFooter={() => (
         <Flex justifyContent="space-between">
           <Checkbox label="Remember me" />
