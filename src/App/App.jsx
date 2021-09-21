@@ -17,7 +17,9 @@ import AuthCheckPageRoute from "../pages/global/auth/AuthCheckPage";
 function App() {
   return (
     <GlobalProviders>
-      <AppConfig />
+      <Router>
+        <AppConfig />
+      </Router>
     </GlobalProviders>
   );
 }
@@ -30,13 +32,9 @@ const useConfig = () => {
     fetchCurrentUser,
     handleSetToken,
     handleGetTokenFromClientStorage,
-    state,
-    isAuthenticated,
   } = appManager;
 
   useEffect(() => {
-    // appManager.handleLogout();
-
     fetchMetadata();
     const token = handleGetTokenFromClientStorage();
     handleSetToken(token);
@@ -51,25 +49,19 @@ const useConfig = () => {
     handleGetTokenFromClientStorage,
     handleSetToken,
   ]);
-
-  useEffect(() => {
-    console.log(state.metadata, state.user, state.token, isAuthenticated);
-  }, [state.metadata, state.user, state.token, isAuthenticated]);
 };
 
 const AppConfig = () => {
   useConfig();
 
   return (
-    <Router>
-      <Switch>
-        <AdminLayoutRoute path="/admin" />
-        <AssessmentLayoutRoute path="/courses/take/:course_id/assessment/start" />
-        <TakeCourseLayoutRoute path="/courses/take" />
-        <AuthCheckPageRoute path="/auth-check" />
-        <UserLayoutRoute path="/" />
-      </Switch>
-    </Router>
+    <Switch>
+      <AdminLayoutRoute path="/admin" />
+      <AssessmentLayoutRoute path="/courses/take/:course_id/assessment/start" />
+      <TakeCourseLayoutRoute path="/courses/take" />
+      <AuthCheckPageRoute path="/auth-check" />
+      <UserLayoutRoute path="/" />
+    </Switch>
   );
 };
 

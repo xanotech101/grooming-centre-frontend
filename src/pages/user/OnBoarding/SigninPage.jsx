@@ -24,21 +24,22 @@ const SigninPage = () => {
     formState: { isSubmitting },
     reset,
   } = useForm();
-  const appManger = useApp();
+  const appManager = useApp();
+  const { handleLogout } = appManager;
 
-  const { replace, push } = useHistory();
+  const { replace } = useHistory();
 
   const onSubmit = async (data) => {
     try {
-      const { user, token, message } = await userSignin(data);
+      const { user, token } = await userSignin(data);
 
       // toast({ description: message, position: "top", status: "success" });
 
-      appManger.handleSetToken(token);
-      appManger.handleSetCurrentUser(user);
+      appManager.handleSetToken(token);
+      appManager.handleSetCurrentUser(user);
 
-      // replace("/auth-check"); // TODO: uncomment
-      push("/auth-check"); // TODO: remove line of code
+      replace("/auth-check"); // TODO: uncomment
+      // push("/auth-check"); // TODO: remove line of code
 
       reset();
     } catch (error) {
@@ -52,8 +53,8 @@ const SigninPage = () => {
 
   // TODO: remove or keep based on business
   useEffect(() => {
-    appManger.handleLogout();
-  }, []);
+    handleLogout();
+  }, [handleLogout]);
 
   return (
     <OnBoardingFormLayout

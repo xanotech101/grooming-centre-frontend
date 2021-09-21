@@ -68,7 +68,7 @@ export const useApp = () => {
     setState((prev) => ({ ...prev, user: null, token: null }));
   }, [setState]);
 
-  const isAuthenticated = state.token && state.user ? true : false;
+  const isAuthenticated = handleGetTokenFromClientStorage() ? true : false;
 
   return {
     state,

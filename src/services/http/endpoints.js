@@ -82,18 +82,18 @@ export const getCurrentUser = async () => {
 
   const data = {
     active: true,
-    createdAt: "2021-09-20T13:02:59.161Z",
+    createdAt: "2021-09-21T13:54:00.195Z",
     departmentId: null,
     email: "admin@admin.com",
     firstName: "tobby",
-    id: "71ff458d-eb59-4593-8788-eafb004c5ada",
+    id: "e25029f6-9266-4209-830f-30378caac3d1",
     isInviteActive: false,
     iv: null,
     lastName: "Joahian",
     phone: "08111001001",
     resetToken: null,
-    updatedAt: "2021-09-20T13:02:59.161Z",
-    userRoleId: "5b1bd6bf-6547-4e55-af36-453d02eed8e9",
+    updatedAt: "2021-09-21T13:54:00.195Z",
+    userRoleId: "9d53a523-5656-44a8-a74d-b2478b457a94",
   };
 
   return { data };
