@@ -24,7 +24,7 @@ import { http } from "..";
 
 /**
  * Endpoint for first step to user creation
- * @param {} body
+ * @param {*} body - { email: `string`, roleId: `string`, departmentId: `string` }
  * @returns Promise<{ message: `string` }>
  */
 export const adminInviteUser = async (body) => {

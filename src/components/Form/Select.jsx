@@ -5,7 +5,16 @@ import { forwardRef } from "react";
 
 export const Select = forwardRef(
   (
-    { id, isRequired, label, options, value, onChange = () => {}, ...rest },
+    {
+      id,
+      isRequired,
+      isLoading,
+      label,
+      options,
+      value,
+      onChange = () => {},
+      ...rest
+    },
     ref
   ) => {
     return (
@@ -13,6 +22,7 @@ export const Select = forwardRef(
         id={id}
         label={label}
         isRequired={isRequired}
+        isLoading={isLoading}
         renderControl={(props) => (
           <SelectChakraui
             value={value}
@@ -23,7 +33,7 @@ export const Select = forwardRef(
           >
             <option></option>
 
-            {options.map((option) => (
+            {options?.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

@@ -1,13 +1,18 @@
-import { Grid } from "@chakra-ui/layout";
+import {
+  // Grid,
+  Stack,
+} from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
 import { Input, Select } from "../../../components";
+import { useApp } from "../../../contexts";
 import { CreatePageLayout } from "../../../layouts";
 import { adminInviteUser } from "../../../services";
 import useCreateUser from "./hooks/useCreateUser";
 
 const CreateUserPage = () => {
   const toast = useToast();
+  const appManager = useApp();
   const { formManager, departmentIsRequired } = useCreateUser();
   const { register, handleSubmit } = formManager;
 
@@ -19,8 +24,19 @@ const CreateUserPage = () => {
 
       alert(message);
     } catch (error) {
-      toast({ description: error.message });
+      const message = error.response
+        ? error.response.data.message
+        : error.message;
+
+      toast({ description: message, position: "top", status: "error" });
     }
+  };
+
+  const populateSelectOptions = (data) => {
+    return data?.map((item) => ({
+      label: item.name,
+      value: item.id,
+    }));
   };
 
   return (
@@ -29,58 +45,35 @@ const CreateUserPage = () => {
       submitButtonText="Add User"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* <Stack spacing={10} marginBottom={10} maxWidth="386px"> */}
-      <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
-        <Input
-          label="User's first name"
-          isRequired
-          {...register("firstName")}
-          id="firstName"
-        />
-        <Input
-          label="User's last name"
-          isRequired
-          {...register("lastName")}
-          id="lastName"
-        />
+      <Stack spacing={10} marginBottom={10} maxWidth="386px">
+        {/* <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}> */}
         <Input
           label="User's email"
           isRequired
           {...register("email")}
           id="email"
         />
-        <Input
-          label="User's phone number"
-          isRequired
-          {...register("phone")}
-          id="phone"
-        />
-
         <Select
           label="Department"
-          options={[
-            { label: "Dept 1", value: "Dept-1" },
-            { label: "Dept 2", value: "Dept-2" },
-            { label: "Dept 3", value: "Dept-3" },
-          ]}
+          options={populateSelectOptions(
+            appManager.state.metadata?.departments
+          )}
           isRequired={departmentIsRequired}
           {...register("departmentId")}
           id="departmentId"
+          isLoading={!appManager.state.metadata?.departments}
         />
 
         <Select
           label="Select Role"
-          options={[
-            { label: "Role 1", value: "Role-1" },
-            { label: "Role 2", value: "Role-2" },
-            { label: "Role 3", value: "Role-3" },
-          ]}
+          options={populateSelectOptions(appManager.state.metadata?.userRoles)}
+          isLoading={!appManager.state.metadata?.userRoles}
           isRequired
           {...register("role")}
           id="role"
         />
-      </Grid>
-      {/* </Stack> */}
+        {/* </Grid> */}
+      </Stack>
     </CreatePageLayout>
   );
 };
