@@ -5,8 +5,11 @@ import MainArea from "./MainArea";
 import Footer from "./Footer";
 import { Box } from "@chakra-ui/layout";
 import breakpoints from "../../theme/breakpoints";
+import { useIsAuthRedirect } from "../../pages/global";
 
 const UserLayout = () => {
+  useIsAuthRedirect();
+
   return (
     <Box maxWidth={breakpoints["4k"]} marginX="auto">
       <Header />

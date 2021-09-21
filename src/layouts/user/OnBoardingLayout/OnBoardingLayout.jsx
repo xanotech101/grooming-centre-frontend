@@ -7,7 +7,6 @@ const OnBoardingLayout = () => {
   return (
     <Flex height="100vh">
       <MainArea />
-
       <Hero />
     </Flex>
   );
