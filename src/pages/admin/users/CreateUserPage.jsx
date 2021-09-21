@@ -14,21 +14,20 @@ const CreateUserPage = () => {
   const toast = useToast();
   const appManager = useApp();
   const { formManager, departmentIsRequired } = useCreateUser();
-  const { register, handleSubmit } = formManager;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = formManager;
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
-      const { message } = await adminInviteUser({});
-
-      alert(message);
-    } catch (error) {
-      const message = error.response
-        ? error.response.data.message
-        : error.message;
-
-      toast({ description: message, position: "top", status: "error" });
+      const { message } = await adminInviteUser(data);
+      toast({ description: message, position: "top", status: "success" });
+      reset();
+    } catch (err) {
+      toast({ description: err.message, position: "top", status: "error" });
     }
   };
 
@@ -43,6 +42,7 @@ const CreateUserPage = () => {
     <CreatePageLayout
       title="Create User"
       submitButtonText="Add User"
+      submitButtonIsLoading={isSubmitting}
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack spacing={10} marginBottom={10} maxWidth="386px">
@@ -69,8 +69,8 @@ const CreateUserPage = () => {
           options={populateSelectOptions(appManager.state.metadata?.userRoles)}
           isLoading={!appManager.state.metadata?.userRoles}
           isRequired
-          {...register("role")}
-          id="role"
+          {...register("roleId")}
+          id="roleId"
         />
         {/* </Grid> */}
       </Stack>

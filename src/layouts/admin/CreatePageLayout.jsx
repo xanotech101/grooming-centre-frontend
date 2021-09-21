@@ -8,6 +8,7 @@ export const CreatePageLayout = ({
   children,
   submitButtonText,
   subTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  submitButtonIsLoading,
   title,
   onSubmit,
 }) => {
@@ -50,7 +51,14 @@ export const CreatePageLayout = ({
         <Box as="form" flex={1} onSubmit={onSubmit}>
           {children}
 
-          <Button type="submit">{submitButtonText}</Button>
+          <Button
+            type="submit"
+            isLoading={submitButtonIsLoading}
+            disabled={submitButtonIsLoading}
+            loadingText={submitButtonText}
+          >
+            {submitButtonText}
+          </Button>
         </Box>
       </Flex>
     </Box>
@@ -61,6 +69,7 @@ CreatePageLayout.propTypes = {
   title: PropTypes.string.isRequired,
   submitButtonText: PropTypes.string.isRequired,
   subTitle: PropTypes.string,
+  submitButtonIsLoading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),

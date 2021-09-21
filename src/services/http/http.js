@@ -1,23 +1,25 @@
 import axios from "axios";
-// import AppError from "./AppError";
+import AppError from "./AppError";
 
 // Intercept all Errors
 // TODO: uncomment
-// axios.interceptors.response.use(null, (err) => {
-//   const error = new AppError(err);
+axios.interceptors.response.use(null, (err) => {
+  const error = new AppError(err);
 
-//   return Promise.reject(error);
-// });
+  return Promise.reject(error);
+});
 
 export const baseURL = "https://groomingcenter.herokuapp.com/api/v1";
 
-const defaultOptions = (explicitToken) => ({
+const token = localStorage.getItem("token");
+
+const defaultOptions = (explicitToken = token) => ({
   // timeout's the request in a minute by default
   timeout: 60 * 1000,
   // withCredentials: true,
   // credentials: "include",
   headers: {
-    authorization: `Bearer ${123}`,
+    authorization: `Bearer ${explicitToken}`,
   },
 });
 

@@ -12,9 +12,6 @@ class AppError extends Error {
 
     // Otherwise this `error` should not happen under normal circumstance, so it's `unexpected`
     if (isUnexpectedErr) {
-      // Log the Error
-      console.log("Logging the Error", { err });
-
       // set to `true` if this Error is a `Network Error`
       this.network = /network/i.test(err.message);
 
@@ -34,28 +31,16 @@ class AppError extends Error {
 
     // This `error` is caused by the `client` and they should fix it :)
     if (isClientErr) {
-      if (err.response.status === 401) {
-        location.replace("/auth/login");
-      }
+      // if (err.response.status === 401) {
+      //   location.replace("/auth/login");
+      // }
 
       // This Client Error is coming from an `identified server`(a backend server that is meant for this Application)
 
       console.log(err.response);
 
-      if (err.response.data.message || err.response.data.err?.message) {
-        let message =
-          err.response.data.message || err.response.data.err?.message;
-
-        // Checks if `message` is an `Array`
-        const isMessageArr = Array.isArray(message);
-        // Generate a Random `index` for `message` array
-        const getRandIndex = () => Math.floor(Math.random() * message.length);
-        // Change `message` to a single string msg is it was an `Array`
-        if (isMessageArr) {
-          message = message[getRandIndex()];
-        }
-
-        this.message = message;
+      if (err.response.data.message) {
+        this.message = err.response.data.message;
       }
       // This Client Error is coming from an `unidentified server`(a RANDOM backend server)
       else {

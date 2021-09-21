@@ -42,12 +42,8 @@ const SigninPage = () => {
       // push("/auth-check"); // TODO: remove line of code
 
       reset();
-    } catch (error) {
-      const message = error.response
-        ? error.response.data.message
-        : error.message;
-
-      toast({ description: message, position: "top", status: "error" });
+    } catch (err) {
+      toast({ description: err.message, position: "top", status: "error" });
     }
   };
 
