@@ -1,5 +1,6 @@
 export * from "./admin";
 export * from "./admin/CreatePageLayout";
+export * from "./global/PageLoader/PageLoaderLayout";
 export * from "./user";
 export * from "./user/Assessment/AssessmentLayout";
 export * from "./user/Courses/CoursesGridLayout";

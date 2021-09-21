@@ -22,7 +22,7 @@ const useCreateUser = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [formManager.watch]);
+  }, [formManager]);
 
   return { formManager, departmentIsRequired };
 };
