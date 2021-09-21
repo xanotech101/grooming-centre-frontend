@@ -88,7 +88,7 @@ export const userSignin = async (body) => {
  * @param {{ title: string, instructorId: string, description: string, departmentId: string, }} body
  * @returns Promise<{ message: `string`, data: `Course` }>
  */
-export const CreateCourse = async (body) => {
+export const createCourse = async (body) => {
   const url = "/course/create";
 
   const {
@@ -104,7 +104,7 @@ export const CreateCourse = async (body) => {
  * @param {object} body
  * @returns Promise<{ message: `string`, data: `Course` }>
  */
-export const EditCourse = async (courseId, body) => {
+export const editCourse = async (courseId, body) => {
   const url = `/course/edit/${courseId}`;
 
   const {
@@ -122,7 +122,7 @@ export const EditCourse = async (courseId, body) => {
  * @param {{name: string, active: boolean}} body
  * @returns Promise<{ message: `string`, data: `Department` }>
  */
-export const CreateDepartment = async (body) => {
+export const createDepartment = async (body) => {
   const url = "/department/create";
 
   const {
