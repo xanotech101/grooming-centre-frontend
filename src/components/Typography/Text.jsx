@@ -1,7 +1,14 @@
 import { Text as TextChakraui } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 
-export const Text = ({ as = "level4", bold, children, italic, ...rest }) => {
+export const Text = ({
+  as = "level4",
+  bold,
+  children,
+  italic,
+  fontSize,
+  ...rest
+}) => {
   return (
     <TextChakraui
       fontWeight={bold ? "bold" : "regular"}
@@ -15,7 +22,16 @@ export const Text = ({ as = "level4", bold, children, italic, ...rest }) => {
 };
 
 Text.propTypes = {
-  as: PropTypes.oneOf(["level1", "level2", "level3", "level4", "level5"]),
+  as: PropTypes.oneOf([
+    "level1",
+    "level2",
+    "level3",
+    "level4",
+    "level5",
+    "level6",
+    "level7",
+  ]),
+  fontSize: PropTypes.string,
   bold: PropTypes.bool,
   children: PropTypes.any.isRequired,
   italic: PropTypes.bool,
