@@ -26,7 +26,7 @@ const MainArea = () => {
           <CoursesPageRoute exact path="/admin/courses" />
           <CreateCoursePageRoute exact path="/admin/manage/add-course" />
           <CreateLessonPageRoute exact path="/admin/manage/add-lesson" />
-          <CreateUserPageRoute exact path="/admin/users/create" />
+          <CreateUserPageRoute exact path="/admin/manage/add-user" />
           <NotFoundPageRoute />
         </Switch>
       </Box>

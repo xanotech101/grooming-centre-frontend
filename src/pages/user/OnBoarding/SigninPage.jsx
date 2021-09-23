@@ -38,8 +38,11 @@ const SigninPage = () => {
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
 
-      replace("/auth-check"); // TODO: uncomment
-      // push("/auth-check"); // TODO: remove line of code
+      window.location.replace(
+        user.isInviteActive
+          ? "/auth/new-password?isInviteActive"
+          : "/auth-check"
+      );
 
       reset();
     } catch (err) {

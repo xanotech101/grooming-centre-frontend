@@ -28,11 +28,9 @@ export const useAuthCheckRedirect = (timeout = 0) => {
         );
 
         if (!/admin/i.test(role?.name)) {
-          console.log("1", role);
           return replace("/");
         }
         if (departmentId) {
-          console.log("2", role);
           return replace("/");
         }
 

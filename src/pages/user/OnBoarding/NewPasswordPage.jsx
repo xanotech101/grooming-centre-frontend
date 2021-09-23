@@ -1,9 +1,43 @@
+import { useToast } from "@chakra-ui/toast";
 import { Flex } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import { Brand, Button, Input } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
+import { userCreateNewPassword } from "../../../services";
+import { useApp } from "../../../contexts";
+import { useHistory } from "react-router-dom";
 
 const NewPasswordPage = () => {
+  const toast = useToast();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+  } = useForm();
+  const { handleLogout } = useApp();
+  const { replace } = useHistory();
+
+  const onSubmit = async (data) => {
+    try {
+      if (data.password !== data.retypePassword) {
+        throw new Error("Passwords must match");
+      }
+
+      const { message } = await userCreateNewPassword({
+        password: data.password,
+      });
+      toast({ description: message, position: "top", status: "success" });
+      handleLogout();
+      reset();
+
+      replace("/auth/signin");
+    } catch (err) {
+      toast({ description: err.message, position: "top", status: "error" });
+    }
+  };
+
   return (
     <OnBoardingFormLayout
       renderHeader={() => (
@@ -11,6 +45,7 @@ const NewPasswordPage = () => {
           <Brand />
         </Flex>
       )}
+      onSubmit={handleSubmit(onSubmit)}
       renderInputs={() => (
         <>
           <Input
@@ -18,16 +53,22 @@ const NewPasswordPage = () => {
             type="password"
             label="New password"
             isRequired
+            {...register("password")}
           />
           <Input
-            id="retype-password"
+            id="retypePassword"
             type="password"
             label="Retype password"
             isRequired
+            {...register("retypePassword")}
           />
         </>
       )}
-      renderSubmit={(props) => <Button {...props}>Sign in</Button>}
+      renderSubmit={(props) => (
+        <Button {...props} isLoading={isSubmitting}>
+          Create new password
+        </Button>
+      )}
     />
   );
 };

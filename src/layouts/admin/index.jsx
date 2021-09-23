@@ -18,12 +18,6 @@ const useRedirect = () => {
         (role) => role.id === userRoleId
       );
 
-      console.log(
-        appManager.state.user.userRoleId,
-        appManager.state.metadata.userRoles,
-        role?.name
-      );
-
       if (!/admin/i.test(role?.name)) {
         return replace("/not-found");
       }

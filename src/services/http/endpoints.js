@@ -7,27 +7,11 @@ import { http } from "..";
  * @returns Promise<{ data: `User` }>
  */
 export const getCurrentUser = async () => {
-  // const url = "/me";
+  const url = "/me";
 
-  // const {
-  //   data: { data },
-  // } = await http.get(url);
-
-  const data = {
-    active: true,
-    createdAt: "2021-09-21T13:54:00.195Z",
-    departmentId: null,
-    email: "admin@admin.com",
-    firstName: "tobby",
-    id: "e25029f6-9266-4209-830f-30378caac3d1",
-    isInviteActive: false,
-    iv: null,
-    lastName: "Joahian",
-    phone: "08111001001",
-    resetToken: null,
-    updatedAt: "2021-09-21T13:54:00.195Z",
-    userRoleId: "9d53a523-5656-44a8-a74d-b2478b457a94",
-  };
+  const {
+    data: { data },
+  } = await http.get(url);
 
   return { data };
 };

@@ -1,15 +1,12 @@
 import Icon from "@chakra-ui/icon";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { GiBookshelf } from "react-icons/gi";
 import { HiUsers } from "react-icons/hi";
 import { RiDashboardLine } from "react-icons/ri";
-import { useParams } from "react-router-dom";
-import { useRouteMatch } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import { Link, Text } from "../../components";
 import colors from "../../theme/colors";
 
@@ -31,13 +28,6 @@ const links = [
     icon: <GiBookshelf />,
   },
   {
-    // href: "/admin/manage",
-    // onClick: (replace) => {
-    //   // Redirects to `/admin/manage/users` immediately the <a> tag goes to `/admin/manage`
-    //   setTimeout(() => {
-    //     replace("/admin/manage/users");
-    //   }, 0);
-    // },
     text: "manage",
     matcher: "/admin/manage",
     icon: <FiSettings />,
@@ -45,6 +35,10 @@ const links = [
       {
         href: "/admin/manage/users",
         text: "Manage Users",
+      },
+      {
+        href: "/admin/manage/add-user",
+        text: "Add New Users",
       },
       {
         href: "/admin/manage/add-course",
@@ -158,7 +152,7 @@ const SidebarLink = ({ link }) => {
     } else {
       accordionManager.setIsActive(false);
     }
-  }, [window.location.pathname, link.href]);
+  }, [link.matcher, accordionManager]);
 
   const renderTopLevelContent = (props) => (
     <Flex
