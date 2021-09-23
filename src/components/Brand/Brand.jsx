@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { Heading, Image, Link, Text } from "..";
+import { Image, Link, Text } from "..";
 
 export const Brand = ({ sm, textColor }) => {
   return (

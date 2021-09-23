@@ -1,5 +1,5 @@
 import { ButtonGroup } from "@chakra-ui/button";
-import { Box, Flex } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
 import { MdNotificationsActive } from "react-icons/md";
@@ -15,7 +15,7 @@ const Header = () => {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Flex alignItems="center" flex={1} maxWidth="700px">
+      <Flex alignItems="center" flex={0.8} maxWidth="1000px">
         <Brand sm textColor="white" />
 
         <SearchBar marginLeft={10} adminHeaderStyle flex={1} />
