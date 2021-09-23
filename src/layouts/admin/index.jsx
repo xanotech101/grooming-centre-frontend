@@ -41,10 +41,10 @@ const AdminLayout = () => {
   useIsAuthRedirect();
 
   return (
-    <Flex flexDirection="column" minHeight="100vh" backgroundColor="gray.100">
+    <Flex flexDirection="column" height="100vh" backgroundColor="gray.100">
       <Header />
 
-      <Flex flexGrow={1}>
+      <Flex height="100%" overflow="hidden">
         <Sidebar />
         <MainArea />
       </Flex>

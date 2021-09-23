@@ -6,19 +6,6 @@
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--primary-base);
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: var(--secondary-05);
-  }
-
   & .course-box-card {
     scroll-snap-align: center;
   }

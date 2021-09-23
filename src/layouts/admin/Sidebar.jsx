@@ -89,31 +89,38 @@ const Sidebar = () => {
       flexShrink={0}
       paddingRight={1}
     >
-      <Box flex={1} backgroundColor="white" shadow="lg" padding={5}>
-        <Stack
-          as="header"
-          spacing={2}
-          justifyContent="center"
-          alignItems="center"
-          borderBottom="1px"
-          borderColor="gray.200"
-          height="200px"
-          marginBottom={5}
-          paddingBottom={5}
-        >
-          <Skeleton rounded="full" boxSize="100px" />
-          <Text fontSize="heading.h3">Roman Kutepov</Text>
-          <Text color="gray.500">Admin</Text>
-        </Stack>
+      <Flex
+        flexDirection="column"
+        height="100%"
+        backgroundColor="white"
+        shadow="lg"
+      >
+        <Box padding={5}>
+          <Stack
+            as="header"
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+            borderBottom="1px"
+            borderColor="gray.200"
+            height="200px"
+            marginBottom={5}
+            paddingBottom={5}
+          >
+            <Skeleton rounded="full" boxSize="100px" />
+            <Text fontSize="heading.h3">Roman Kutepov</Text>
+            <Text color="gray.500">Admin</Text>
+          </Stack>
+        </Box>
 
-        <nav>
+        <Box as="nav" padding={5} height="100%" overflowY="scroll">
           <Stack as="ul" spacing={2} listStyleType="none">
             {links.map((link) => (
               <SidebarLink key={link.text} link={link} />
             ))}
           </Stack>
-        </nav>
-      </Box>
+        </Box>
+      </Flex>
     </Flex>
   );
 };
