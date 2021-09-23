@@ -12,7 +12,9 @@ export const Button = ({
   iconAriaLabel,
   leftIcon,
   link,
+  largeSize,
   secondary,
+  reversePrimaryColor,
   sm,
   ...rest
 }) => {
@@ -63,7 +65,9 @@ export const Button = ({
   const renderContent = (extraProps) => {
     const styles = asIcon
       ? {
-          fontSize: "text.level1",
+          backgroundColor: ghost ? "transparent" : "white",
+          color: reversePrimaryColor ? "white" : "black",
+          fontSize: largeSize ? "heading.h3" : "text.level1",
           isRound: true,
           _hover: !disabled && {
             backgroundColor: "primary.hover",
@@ -122,4 +126,6 @@ Button.propTypes = {
   leftIcon: PropTypes.element,
   secondary: PropTypes.bool,
   sm: PropTypes.bool,
+  largeSize: PropTypes.bool,
+  reversePrimaryColor: PropTypes.bool,
 };

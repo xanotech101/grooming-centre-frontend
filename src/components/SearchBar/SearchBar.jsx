@@ -3,9 +3,18 @@ import { Flex } from "@chakra-ui/layout";
 import VisuallyHidden from "@chakra-ui/visually-hidden";
 import { BsSearch } from "react-icons/bs";
 import { Input } from "..";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
-export const SearchBar = ({ ...rest }) => {
+export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
+  adminHeaderStyle = adminHeaderStyle
+    ? {
+        backgroundColor: "secondary.7",
+        textColor: "white",
+        rounded: "2rem",
+        border: "none",
+      }
+    : {};
+
   return (
     <Flex
       as="form"
@@ -13,6 +22,7 @@ export const SearchBar = ({ ...rest }) => {
       textColor="accent.2"
       rounded="4px"
       overflow="hidden"
+      {...adminHeaderStyle}
       {...rest}
     >
       <VisuallyHidden as="label" htmlFor="search">
@@ -38,6 +48,11 @@ export const SearchBar = ({ ...rest }) => {
           textColor: "primary.base",
           backgroundColor: "secondary.1",
         }}
+        _hover={
+          adminHeaderStyle && {
+            backgroundColor: "secondary.6",
+          }
+        }
         rounded="none"
         variant="ghost"
         width="60px"
@@ -47,4 +62,8 @@ export const SearchBar = ({ ...rest }) => {
       </IconButton>
     </Flex>
   );
+};
+
+SearchBar.propTypes = {
+  adminHeaderStyle: PropTypes.bool,
 };

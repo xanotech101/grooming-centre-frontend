@@ -1,23 +1,28 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { Heading, Image, Link } from "..";
+import { Heading, Image, Link, Text } from "..";
 
-export const Brand = () => {
+export const Brand = ({ sm, textColor }) => {
   return (
     <Link href="/">
       <Flex alignItems="center">
-        <Logo />
+        <Logo sm={sm} />
 
         <Box
           width="130px"
-          borderLeft="2px"
-          paddingLeft={4}
-          marginLeft={4}
+          borderLeft={!sm && "2px"}
+          paddingLeft={sm ? 1 : 4}
+          marginLeft={sm ? 1 : 4}
           alignSelf="flex-start"
         >
-          <Heading medium lineHeight="30px">
+          <Text
+            fontSize={sm ? "text.level1" : "heading.h2"}
+            lineHeight="30px"
+            textColor={textColor}
+            transform="translateY(20%)"
+          >
             UNKNOWN
-          </Heading>
+          </Text>
         </Box>
       </Flex>
     </Link>
@@ -40,4 +45,8 @@ const Logo = ({ sm, ...rest }) => {
 
 BrandLogo.propTypes = {
   sm: PropTypes.bool,
+};
+Brand.propTypes = {
+  sm: PropTypes.bool,
+  textColor: PropTypes.string,
 };

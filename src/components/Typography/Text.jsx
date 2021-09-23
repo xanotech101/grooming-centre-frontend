@@ -12,7 +12,7 @@ export const Text = ({
   return (
     <TextChakraui
       fontWeight={bold ? "bold" : "regular"}
-      fontSize={`text.${as}`}
+      fontSize={fontSize || `text.${as}`}
       fontStyle={italic && "italic"}
       {...rest}
     >
