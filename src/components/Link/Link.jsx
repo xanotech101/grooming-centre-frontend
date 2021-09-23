@@ -10,8 +10,9 @@ export const Link = ({
   href,
   navLink,
   style,
+  onClick,
 }) => {
-  const props = { children, className, to: href, style };
+  const props = { children, className, to: href, style, onClick };
 
   return navLink ? (
     <NavLink
@@ -34,4 +35,5 @@ Link.propTypes = {
   href: PropTypes.string.isRequired,
   navLink: PropTypes.bool,
   style: PropTypes.object,
+  onClick: PropTypes.func,
 };
