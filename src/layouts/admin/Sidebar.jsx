@@ -1,12 +1,14 @@
 import Icon from "@chakra-ui/icon";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { GiBookshelf } from "react-icons/gi";
 import { HiUsers } from "react-icons/hi";
 import { RiDashboardLine } from "react-icons/ri";
+import { useParams } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Link, Text } from "../../components";
 import colors from "../../theme/colors";
@@ -14,30 +16,30 @@ import colors from "../../theme/colors";
 const links = [
   {
     href: "/admin/",
-    text: "Dashboard",
+    text: "dashboard",
     exact: true,
     icon: <RiDashboardLine />,
   },
   {
-    // href: "/admin/users",
-    href: "/admin/users/create",
-    text: "Users",
+    href: "/admin/users",
+    text: "users",
     icon: <HiUsers />,
   },
   {
     href: "/admin/courses",
-    text: "Courses",
+    text: "courses",
     icon: <GiBookshelf />,
   },
   {
-    href: "/admin/manage",
-    onClick: (replace) => {
-      // Redirects to `/admin/manage/users` immediately the <a> tag goes to `/admin/manage`
-      setTimeout(() => {
-        replace("/admin/manage/users");
-      }, 0);
-    },
-    text: "Manage",
+    // href: "/admin/manage",
+    // onClick: (replace) => {
+    //   // Redirects to `/admin/manage/users` immediately the <a> tag goes to `/admin/manage`
+    //   setTimeout(() => {
+    //     replace("/admin/manage/users");
+    //   }, 0);
+    // },
+    text: "manage",
+    matcher: "/admin/manage",
     icon: <FiSettings />,
     links: [
       {
@@ -127,6 +129,7 @@ const Sidebar = () => {
 
 const useAccordion = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
@@ -134,56 +137,85 @@ const useAccordion = () => {
 
   return {
     isOpen,
+    isActive,
+    setIsActive,
     handleToggle,
   };
 };
 
 const SidebarLink = ({ link }) => {
-  const { replace } = useHistory();
   const accordionManager = useAccordion();
 
   const handleTopLevelLinkClick = () => {
-    link.onClick?.(replace);
-
     if (link.links) {
       accordionManager.handleToggle();
     }
   };
 
+  useEffect(() => {
+    if (window.location.pathname.includes(link.matcher)) {
+      accordionManager.setIsActive(true);
+    } else {
+      accordionManager.setIsActive(false);
+    }
+  }, [window.location.pathname, link.href]);
+
+  const renderTopLevelContent = (props) => (
+    <Flex
+      alignItems="center"
+      paddingY={3}
+      paddingX={3}
+      onClick={handleTopLevelLinkClick}
+      textTransform="capitalize"
+      _hover={{ cursor: "pointer" }}
+      {...props}
+      {...(accordionManager.isActive
+        ? {
+            backgroundColor: colors.primary.base,
+            color: "white",
+            borderRadius: "4px",
+          }
+        : {})}
+    >
+      <Icon fontSize="heading.h3" marginRight={3}>
+        {link.icon}
+      </Icon>
+      <Text flex={1}>{link.text}</Text>
+
+      {link.links && (
+        <Icon
+          fontSize="heading.h3"
+          transition=".15s"
+          transform={`rotate(${accordionManager.isOpen ? 0 : 180}deg)`}
+        >
+          <BiChevronDown />
+        </Icon>
+      )}
+    </Flex>
+  );
+
   return (
     <li>
-      <Link
-        navLink
-        href={link.href}
-        exact={link.exact}
-        style={{
-          display: "block",
-          borderRadius: "4px",
-          color: colors.accent[3],
-        }}
-        activeStyle={{
-          backgroundColor: colors.primary.base,
-          color: "white",
-        }}
-        onClick={handleTopLevelLinkClick}
-      >
-        <Flex alignItems="center" paddingY={3} paddingX={3}>
-          <Icon fontSize="heading.h3" marginRight={3}>
-            {link.icon}
-          </Icon>
-          <Text flex={1}>{link.text}</Text>
-
-          {link.links && (
-            <Icon
-              fontSize="heading.h3"
-              transition=".15s"
-              transform={`rotate(${accordionManager.isOpen ? 0 : 180}deg)`}
-            >
-              <BiChevronDown />
-            </Icon>
-          )}
-        </Flex>
-      </Link>
+      {link.href ? (
+        <Link
+          navLink
+          href={link.href}
+          exact={link.exact}
+          style={{
+            display: "block",
+            borderRadius: "4px",
+            color: colors.accent[3],
+          }}
+          activeStyle={{
+            backgroundColor: colors.primary.base,
+            color: "white",
+          }}
+        >
+          {renderTopLevelContent()}
+        </Link>
+      ) : (
+        renderTopLevelContent()
+      )}
 
       {link.links && (
         <Box
@@ -201,13 +233,22 @@ const SidebarLink = ({ link }) => {
                 navLink
                 href={link.href}
                 activeStyle={{
-                  color: "black",
+                  color: colors.primary.base,
+                  fontWeight: "bold",
+                  backgroundColor: colors.secondary["05"],
+                  borderRadius: "1rem",
                 }}
                 style={{
+                  display: "block",
                   color: colors.accent[2],
                 }}
               >
-                <Text paddingY={2} paddingX={5} _hover={{ color: "accent.3" }}>
+                <Text
+                  padding={1}
+                  marginY={2}
+                  paddingX={5}
+                  _hover={{ color: "accent.3" }}
+                >
                   {link.text}
                 </Text>
               </Link>
