@@ -1,7 +1,15 @@
+import { Box } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
+import Header from "./Header";
+import MainArea from "./MainArea";
 
 const UserInfoPage = () => {
-  return "User info";
+  return (
+    <>
+      <Header />
+      <MainArea />
+    </>
+  );
 };
 
 export const UserInfoPageRoute = ({ ...rest }) => {

@@ -38,7 +38,7 @@ const Sidebar = () => {
 
             {state.user && (
               <>
-                <Link href={`/admin/users/${state.user.id}`}>
+                <Link href={`/admin/users/${state.user.id}/profile`}>
                   <Text fontSize="heading.h3">
                     {state.user.firstName || "NotSet"} {state.user.lastName}
                   </Text>
@@ -46,7 +46,7 @@ const Sidebar = () => {
 
                 <Text color="gray.500" textTransform="capitalize">
                   {
-                    state?.metadata?.userRoles.find(
+                    state.metadata?.userRoles.find(
                       (user) => user.id === state.user.userRoleId
                     )?.name
                   }

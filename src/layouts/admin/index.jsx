@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom";
 import { useApp } from "../../contexts";
 import { useIsAuthRedirect } from "../../pages/global";
+import breakpoints from "../../theme/breakpoints";
 import Header from "./Header";
 import MainArea from "./MainArea/MainArea";
 import Sidebar from "./Sidebar/Sidebar";
@@ -35,7 +36,14 @@ const AdminLayout = () => {
   useIsAuthRedirect();
 
   return (
-    <Flex flexDirection="column" height="100vh" backgroundColor="gray.100">
+    <Flex
+      flexDirection="column"
+      height="100vh"
+      backgroundColor="gray.100"
+      maxWidth={breakpoints["laptop-l"]}
+      marginX="auto"
+      shadow="0 0 10px 3px rgba(0, 0, 0, .1)"
+    >
       <Header />
 
       <Flex height="100%" overflow="hidden">

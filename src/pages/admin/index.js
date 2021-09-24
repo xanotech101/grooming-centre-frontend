@@ -4,4 +4,4 @@ export * from "./courses/CreateLessonPage";
 export * from "./DashboardPage";
 export * from "./NotFoundPage";
 export * from "./users/CreateUserPage";
-export * from "./users/UserInfoPage";
+export * from "./users/UserInfoPage/layout/UserInfoPage";

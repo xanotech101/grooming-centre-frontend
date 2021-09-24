@@ -33,6 +33,6 @@ Text.propTypes = {
   ]),
   fontSize: PropTypes.string,
   bold: PropTypes.bool,
-  children: PropTypes.any.isRequired,
+  children: PropTypes.any,
   italic: PropTypes.bool,
 };
