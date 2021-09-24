@@ -1,7 +1,13 @@
 import { Box, Flex, Grid } from "@chakra-ui/layout";
 import { ImArrowUp } from "react-icons/im";
 import { Route } from "react-router-dom";
-import { Heading, Image, SkeletonText, Text } from "../../../../../components";
+import {
+  Heading,
+  Image,
+  Link,
+  SkeletonText,
+  Text,
+} from "../../../../../components";
 import { useApp } from "../../../../../contexts";
 import profileImagePlaceholder from "../../../../../assets/images/onboarding1.png";
 import Icon from "@chakra-ui/icon";
@@ -85,24 +91,32 @@ const ProfilePage = () => {
             name="Grade Point"
             icon={<ImArrowUp />}
             iconBackgroundColor="accent.6"
+            href={`/admin/users/${user?.id}/grade-history`}
+            isLoading={userIsLoading}
           />
           <OverviewBox
             value={20}
             name="Completed Courses"
             icon={<FiCheckSquare />}
             iconBackgroundColor="accent.7"
+            href={`/admin/users/${user?.id}/courses`}
+            isLoading={userIsLoading}
           />
           <OverviewBox
             value={20}
             name="Certificates"
             icon={<BiCertification />}
             iconBackgroundColor="secondary.5"
+            href={`/admin/users/${user?.id}/certificates`}
+            isLoading={userIsLoading}
           />
           <OverviewBox
             value={20}
             name="Completed Assessments"
             icon={<HiOutlineSwitchHorizontal />}
             iconBackgroundColor="accent.8"
+            href={`/admin/users/${user?.id}/assessment`}
+            isLoading={userIsLoading}
           />
         </Grid>
       </Section>
@@ -135,9 +149,26 @@ const Section = ({ heading, children }) => {
   );
 };
 
-const OverviewBox = ({ iconBackgroundColor, icon, name, value }) => {
-  return (
-    <Flex alignItems="center" backgroundColor="white" shadow="md" paddingX={5}>
+const OverviewBox = ({
+  iconBackgroundColor,
+  icon,
+  name,
+  value,
+  href,
+  isLoading,
+}) => {
+  const renderContent = (props) => (
+    <Flex
+      position="absolute"
+      width="100%"
+      height="100%"
+      alignItems="center"
+      backgroundColor="white"
+      shadow="md"
+      paddingX={5}
+      _hover={{ transform: "scale(1.01)" }}
+      {...props}
+    >
       <Grid
         boxSize="55px"
         rounded="full"
@@ -148,13 +179,27 @@ const OverviewBox = ({ iconBackgroundColor, icon, name, value }) => {
         <Icon fontSize="heading.h3">{icon} </Icon>
       </Grid>
 
-      <Box marginLeft={7}>
-        <Text bold as="level2">
-          {value}
-        </Text>
-        <Text>{name}</Text>
+      <Box marginLeft={7} flex={1}>
+        {isLoading ? (
+          <SkeletonText />
+        ) : (
+          <>
+            <Text bold as="level2">
+              {value}
+            </Text>
+            <Text>{name}</Text>
+          </>
+        )}
       </Box>
     </Flex>
+  );
+
+  return isLoading ? (
+    renderContent({ position: "unset" })
+  ) : (
+    <Link href={href} style={{ position: "relative" }}>
+      {renderContent()}
+    </Link>
   );
 };
 

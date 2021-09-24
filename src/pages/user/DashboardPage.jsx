@@ -132,6 +132,7 @@ const DashboardPage = () => {
           background="primary.base"
           rounded="10px"
           padding={{ base: 4, "laptop-l": 5 }}
+          width="700px"
           height="175px"
         >
           <Text

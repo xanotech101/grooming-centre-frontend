@@ -37,6 +37,9 @@ const Header = () => {
       height="50px"
       paddingRight={5}
       paddingLeft={10}
+      shadow="0 2px 2px rgba(0, 0, 0, .05)"
+      position="relative"
+      zIndex={1}
     >
       <nav>
         <Flex as="ul" listStyleType="none">
