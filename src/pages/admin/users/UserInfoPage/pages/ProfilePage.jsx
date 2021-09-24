@@ -32,7 +32,7 @@ const ProfilePage = () => {
             USER INFORMATION
           </Heading>
 
-          <Grid templateColumns="1fr 1.5fr 1.5fr" gap={10}>
+          <Grid templateColumns="153px 1.5fr 1.5fr" gap={16}>
             <Box>
               <Image
                 boxSize="153px"
@@ -55,6 +55,7 @@ const ProfilePage = () => {
                     valueProps={{ color: "primary.base" }}
                   />
                   <Detail name="Phone" value={user?.phone} />
+                  <Detail name="gender" value={user?.gender} />
                 </>
               )}
             </Box>
@@ -64,7 +65,6 @@ const ProfilePage = () => {
                 <SkeletonText numberOfLines={4} spacing={5} />
               ) : (
                 <>
-                  <Detail name="gender" value={user?.gender} />
                   <Detail name="department" value={user?.department} />
                   <Detail name="role" value={role?.name} />
                 </>
