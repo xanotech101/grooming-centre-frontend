@@ -2,7 +2,6 @@ import { Flex } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import { Route } from "react-router-dom";
 import {
   Brand,
@@ -26,8 +25,6 @@ const SigninPage = () => {
   } = useForm();
   const appManager = useApp();
   const { handleLogout } = appManager;
-
-  const { replace } = useHistory();
 
   const onSubmit = async (data) => {
     try {

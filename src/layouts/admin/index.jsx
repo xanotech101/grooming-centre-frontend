@@ -4,8 +4,8 @@ import { Route, useHistory } from "react-router-dom";
 import { useApp } from "../../contexts";
 import { useIsAuthRedirect } from "../../pages/global";
 import Header from "./Header";
-import MainArea from "./MainArea";
-import Sidebar from "./Sidebar";
+import MainArea from "./MainArea/MainArea";
+import Sidebar from "./Sidebar/Sidebar";
 
 const useRedirect = () => {
   const { replace } = useHistory();

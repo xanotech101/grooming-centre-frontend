@@ -3,60 +3,63 @@ import { Box, Grid } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { Route } from "react-router-dom";
 import { Button, SearchBar } from "../../../components";
+import { AdminMainAreaWrapper } from "../../../layouts";
 
 export const CoursesPage = () => {
   return (
-    <Box
-      as="section"
-      backgroundColor="white"
-      paddingX={10}
-      paddingTop={5}
-      paddingBottom={10}
-      shadow="md"
-    >
+    <AdminMainAreaWrapper>
       <Box
-        as="header"
-        justifyContent="flex-end"
-        height="120px"
-        borderBottom="1px"
-        borderColor="accent.1"
-        marginBottom={10}
+        as="section"
+        backgroundColor="white"
+        paddingX={10}
+        paddingTop={5}
         paddingBottom={10}
+        shadow="md"
       >
-        <ButtonGroup display="flex" justifyContent="flex-end">
-          <Button link="/admin/manage/add-course">Add Course</Button>
-
-          <Button link="/admin/manage/add-lesson" secondary>
-            Add Lesson
-          </Button>
-        </ButtonGroup>
-      </Box>
-
-      <Box>
-        <SearchBar mb={5} maxWidth="500px" />
-
-        <Grid
-          templateColumns="repeat(4, 207px)"
-          // justifyContent="space-between"
-          gap={5}
+        <Box
+          as="header"
+          justifyContent="flex-end"
+          height="120px"
+          borderBottom="1px"
+          borderColor="accent.1"
+          marginBottom={10}
+          paddingBottom={10}
         >
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
+          <ButtonGroup display="flex" justifyContent="flex-end">
+            <Button link="/admin/manage/add-course">Add Course</Button>
 
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
+            <Button link="/admin/manage/add-lesson" secondary>
+              Add Lesson
+            </Button>
+          </ButtonGroup>
+        </Box>
 
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-          <Skeleton height="228px" rounded="sm" />
-        </Grid>
+        <Box>
+          <SearchBar mb={5} maxWidth="500px" />
+
+          <Grid
+            templateColumns="repeat(4, 207px)"
+            // justifyContent="space-between"
+            gap={5}
+          >
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+            <Skeleton height="228px" rounded="sm" />
+          </Grid>
+        </Box>
       </Box>
-    </Box>
+    </AdminMainAreaWrapper>
   );
 };
 

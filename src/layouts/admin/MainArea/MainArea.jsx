@@ -8,22 +8,17 @@ import {
   CreateUserPageRoute,
   DashboardPageRoute,
   NotFoundPageRoute,
-} from "../../pages/admin";
+  UserInfoPageRoute,
+} from "../../../pages/admin";
 
 const MainArea = () => {
   return (
     <Flex flexDirection="column" flex={1}>
-      <Box
-        as="main"
-        paddingX={5}
-        paddingY={2}
-        flex={1}
-        overflowY="auto"
-        flexBasis="1px"
-      >
+      <Box as="main" flex={1} overflowY="auto" flexBasis="1px">
         <Switch>
           <DashboardPageRoute exact path="/admin" />
           <CoursesPageRoute exact path="/admin/courses" />
+          <UserInfoPageRoute exact path="/admin/users/:id" />
           <CreateCoursePageRoute exact path="/admin/manage/add-course" />
           <CreateLessonPageRoute exact path="/admin/manage/add-lesson" />
           <CreateUserPageRoute exact path="/admin/manage/add-user" />
