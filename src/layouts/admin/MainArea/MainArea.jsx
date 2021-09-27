@@ -9,6 +9,7 @@ import {
   DashboardPageRoute,
   NotFoundPageRoute,
   UserInfoPageRoute,
+  UserListingPageRoute,
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -18,6 +19,7 @@ const MainArea = () => {
         <Switch>
           <DashboardPageRoute exact path="/admin" />
           <CoursesPageRoute exact path="/admin/courses" />
+          <UserListingPageRoute path="/admin/users" />
           <UserInfoPageRoute path="/admin/users/:id" />
           <CreateCoursePageRoute exact path="/admin/manage/add-course" />
           <CreateLessonPageRoute exact path="/admin/manage/add-lesson" />
