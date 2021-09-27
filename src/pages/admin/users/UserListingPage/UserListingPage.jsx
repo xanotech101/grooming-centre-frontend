@@ -1,6 +1,6 @@
-import { Box, Flex } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
-import { Button, Heading } from "../../../../components";
+import { Button, Heading, Table } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 
 const UserListingPage = () => {
@@ -20,6 +20,8 @@ const UserListingPage = () => {
 
         <Button>Add User</Button>
       </Flex>
+
+      <Table />
     </AdminMainAreaWrapper>
   );
 };

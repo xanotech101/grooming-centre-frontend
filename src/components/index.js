@@ -15,5 +15,6 @@ export * from "./Link/Link";
 export * from "./SearchBar/SearchBar";
 export * from "./Skeleton/SkeletonText";
 export * from "./Spinner/Spinner";
+export * from "./Table/Table";
 export * from "./Typography/Heading";
 export * from "./Typography/Text";

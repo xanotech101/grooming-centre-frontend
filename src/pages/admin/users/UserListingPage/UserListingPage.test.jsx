@@ -15,4 +15,8 @@ describe("UserListingPage", () => {
       screen.getByRole("button", { name: /add user/i })
     ).toBeInTheDocument();
   });
+
+  it("renders a `table`", () => {
+    expect(screen.getByRole("table")).toBeInTheDocument();
+  });
 });

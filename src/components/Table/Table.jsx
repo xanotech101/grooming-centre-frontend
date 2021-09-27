@@ -1,5 +1,10 @@
-const Table = () => {
-  return <div>Enter</div>;
-};
+import { Box } from "@chakra-ui/layout";
 
-export default Table;
+export const Table = () => {
+  return (
+    <Box as="table">
+      <Box as="thead"></Box>
+      <Box as="tbody"></Box>
+    </Box>
+  );
+};
