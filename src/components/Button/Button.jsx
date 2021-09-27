@@ -13,6 +13,7 @@ export const Button = ({
   leftIcon,
   link,
   largeSize,
+  rightIcon,
   secondary,
   reversePrimaryColor,
   sm,
@@ -104,7 +105,20 @@ export const Button = ({
             {leftIcon}
           </Icon>
         )}
+
         {children}
+
+        {rightIcon && (
+          <Icon
+            position="absolute"
+            top="50%"
+            right="2px"
+            transform="translateY(-35%)"
+            fontSize="text.level2"
+          >
+            {rightIcon}
+          </Icon>
+        )}
       </ButtonChakraui>
     );
   };
@@ -128,4 +142,5 @@ Button.propTypes = {
   sm: PropTypes.bool,
   largeSize: PropTypes.bool,
   reversePrimaryColor: PropTypes.bool,
+  rightIcon: PropTypes.element,
 };

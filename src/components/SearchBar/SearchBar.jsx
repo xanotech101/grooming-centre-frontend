@@ -5,8 +5,13 @@ import { BsSearch } from "react-icons/bs";
 import { Input } from "..";
 import PropTypes from "prop-types";
 
-export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
-  adminHeaderStyle = adminHeaderStyle
+export const SearchBar = ({
+  adminLayoutHeaderStyle,
+  placeholder = "Search Courses",
+  sm,
+  ...rest
+}) => {
+  adminLayoutHeaderStyle = adminLayoutHeaderStyle
     ? {
         backgroundColor: "secondary.7",
         textColor: "white",
@@ -19,10 +24,12 @@ export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
     <Flex
       as="form"
       border="1px"
+      backgroundColor="white"
       textColor="accent.2"
       rounded="4px"
       overflow="hidden"
-      {...adminHeaderStyle}
+      height={sm ? "33px" : "auto"}
+      {...adminLayoutHeaderStyle}
       {...rest}
     >
       <VisuallyHidden as="label" htmlFor="search">
@@ -31,10 +38,13 @@ export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
       <Input
         border="none"
         id="search"
-        placeholder="Search Courses"
+        type="search"
+        placeholder={placeholder}
         paddingLeft={2}
+        size={sm && "sm"}
+        // color={query ? "black" : "inherit"}
         _focus={{
-          textColor: "black",
+          textColor: adminLayoutHeaderStyle ? "white" : "black",
           transform: "scale(1.01)",
           "&::placeholder": {
             textColor: "black",
@@ -43,13 +53,14 @@ export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
       />
 
       <IconButton
+        size={sm && "sm"}
         _focus={{
           fontSize: "20px",
           textColor: "primary.base",
           backgroundColor: "secondary.1",
         }}
         _hover={
-          adminHeaderStyle && {
+          adminLayoutHeaderStyle && {
             backgroundColor: "secondary.6",
           }
         }
@@ -57,6 +68,7 @@ export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
         variant="ghost"
         width="60px"
         order={-1}
+        type="submit"
       >
         <BsSearch />
       </IconButton>
@@ -65,5 +77,7 @@ export const SearchBar = ({ adminHeaderStyle, ...rest }) => {
 };
 
 SearchBar.propTypes = {
-  adminHeaderStyle: PropTypes.bool,
+  adminLayoutHeaderStyle: PropTypes.bool,
+  placeholder: PropTypes.string,
+  sm: PropTypes.bool,
 };

@@ -18,7 +18,7 @@ const Header = () => {
       <Flex alignItems="center" flex={0.8} maxWidth="1000px">
         <Brand sm textColor="white" />
 
-        <SearchBar marginLeft={10} adminHeaderStyle flex={1} />
+        <SearchBar marginLeft={10} adminLayoutHeaderStyle flex={1} />
       </Flex>
 
       <ButtonGroup>

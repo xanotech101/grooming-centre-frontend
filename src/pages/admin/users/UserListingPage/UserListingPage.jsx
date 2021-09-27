@@ -21,7 +21,7 @@ const UserListingPage = () => {
         <Button>Add User</Button>
       </Flex>
 
-      <Table />
+      <Table filterControls />
     </AdminMainAreaWrapper>
   );
 };
