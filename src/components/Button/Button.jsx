@@ -17,6 +17,7 @@ export const Button = ({
   secondary,
   reversePrimaryColor,
   sm,
+  xs,
   ...rest
 }) => {
   const getOutlineStyles = () => {
@@ -24,7 +25,6 @@ export const Button = ({
       backgroundColor: "transparent",
       textColor: "primary.base",
       border: "1px",
-      paddingX: "33px",
       rounded: "4px",
       _hover: !disabled && {
         backgroundColor: "primary.hover",
@@ -55,14 +55,20 @@ export const Button = ({
         };
   };
 
-  const getButtonSmallStyles = () =>
+  const getButtonSizeStyles = () =>
     sm
       ? {
-          paddingX: "22px",
+          paddingX: "28px",
           size: "sm",
         }
-      : {};
-
+      : xs
+      ? {
+          // paddingX: "10px",
+          size: "xs",
+        }
+      : {
+          paddingX: "33px",
+        };
   const renderContent = (extraProps) => {
     const styles = asIcon
       ? {
@@ -89,11 +95,7 @@ export const Button = ({
         {children}
       </IconButton>
     ) : (
-      <ButtonChakraui
-        position="relative"
-        {...getButtonSmallStyles()}
-        {...props}
-      >
+      <ButtonChakraui position="relative" {...getButtonSizeStyles()} {...props}>
         {leftIcon && (
           <Icon
             position="absolute"
@@ -140,6 +142,7 @@ Button.propTypes = {
   leftIcon: PropTypes.element,
   secondary: PropTypes.bool,
   sm: PropTypes.bool,
+  xs: PropTypes.bool,
   largeSize: PropTypes.bool,
   reversePrimaryColor: PropTypes.bool,
   rightIcon: PropTypes.element,
