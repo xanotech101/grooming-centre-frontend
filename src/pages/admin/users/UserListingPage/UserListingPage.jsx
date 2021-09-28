@@ -45,6 +45,7 @@ const UserListingPage = () => {
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
+      noFilterTags: true,
       body: {
         radios: [
           { label: "Alphabetically: ascending" },

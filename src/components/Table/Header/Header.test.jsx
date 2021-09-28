@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
-import Header from "./Header";
+import Header, { FilterBody } from "./Header";
 
 const filterControls = [
   {
@@ -32,6 +32,7 @@ const filterControls = [
   },
   {
     triggerText: "Sort",
+    noFilterTags: true,
     body: {
       radios: [
         { label: "Alphabetically: ascending" },
@@ -105,40 +106,69 @@ describe("Table Header component", () => {
       expect(radios.length).toBe(0);
     });
 
-    // it("renders `filter-tags` when user filters", () => {
-    //   const gradePointFilterButton = screen.getByRole("button", {
-    //     name: /grade point/i,
-    //   });
+    const handleAddStubTags = () => {
+      const departmentFilterButton = screen.getByRole("button", {
+        name: /department/i,
+      });
+      user.click(departmentFilterButton);
 
-    //   user.click(gradePointFilterButton);
-    // });
+      const checkboxes = screen.getAllByRole("checkbox");
+      checkboxes.forEach((checkbox) => user.click(checkbox));
+
+      const applyButton = screen.getByText(/apply/i);
+      user.click(applyButton);
+    };
+
+    it("renders `filter-tags` when user filters", () => {
+      handleAddStubTags();
+
+      const filterTags = screen.getAllByTestId("filter-tag");
+      expect(filterTags.length).toBe(3);
+    });
+
+    it("removes a tag when deleted", () => {
+      handleAddStubTags();
+
+      let filterTags = screen.getAllByTestId("filter-tag");
+      expect(filterTags.length).toBe(3);
+
+      const deleteFilterTag = screen.getAllByLabelText("close")[0];
+      user.click(deleteFilterTag);
+
+      filterTags = screen.getAllByTestId("filter-tag");
+      expect(filterTags.length).toBe(2);
+    });
+  });
+});
+
+describe("FilterBody - Unit component", () => {
+  const mockOnApplyFilter = jest.fn();
+  const mockOnClose = jest.fn();
+
+  beforeEach(() => {
+    const stubTags = [{ text: "Finance" }, { text: "Engineering" }];
+    const stubDepartmentData = filterControls[1];
+
+    render(
+      <FilterBody
+        data={stubDepartmentData}
+        tags={stubTags}
+        onApplyFilter={mockOnApplyFilter}
+        onClose={mockOnClose}
+      />
+    );
   });
 
-  // it("renders a dropdown checkbox-form when click a gradePoint filter button", () => {
-  //   render(<Header
-  //  filterControls />);
+  it("ensures default checks in filter-body", () => {
+    const checks = screen.getAllByRole("checkbox", { checked: true });
+    expect(checks.length).toBe(2);
+  });
 
-  //   const gradePointFilterButton = screen.getByRole("button", {
-  //     name: /grade point/i,
-  //   });
+  it("ensures the `clear-all` button click event is wired up correctly", () => {
+    const clearAllButton = screen.getByRole("button", { name: /clear all/i });
+    user.click(clearAllButton);
 
-  //   expect(screen.queryByTestId("filter-body")).not.toBeInTheDocument();
-
-  //   user.click(gradePointFilterButton);
-
-  //   expect(screen.getByTestId("filter-body")).toBeInTheDocument();
-
-  //   expect(
-  //     screen.getByRole("checkbox", { name: /1 to 30/i })
-  //   ).toBeInTheDocument();
-  //   expect(
-  //     screen.getByRole("checkbox", { name: /31 to 50/i })
-  //   ).toBeInTheDocument();
-  //   expect(
-  //     screen.getByRole("checkbox", { name: /51 to 70/i })
-  //   ).toBeInTheDocument();
-  //   expect(
-  //     screen.getByRole("checkbox", { name: /71 to 100/i })
-  //   ).toBeInTheDocument();
-  // });
+    expect(mockOnClose).toHaveBeenCalled();
+    expect(mockOnApplyFilter).toHaveBeenCalled();
+  });
 });
