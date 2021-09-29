@@ -1,0 +1,30 @@
+%link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* User Layout -> Header Nav links */
+.user-header-nav-link {
+  @extend %link;
+  padding: 0 10px;
+  border-bottom: 2px solid transparent;
+
+  &--active {
+    color: var(--primary-base);
+    border-color: var(--primary-bases);
+  }
+}
+/* END OF User Layout -> Header Nav links */
+
+/* User Layout -> Courses Nav links */
+.user-courses-nav-link {
+  @extend %link;
+  padding: 0 10px;
+  color: var(--accent-3);
+
+  &--active {
+    color: var(--black);
+  }
+}
+/* END OF User Layout -> Courses Nav links */

@@ -1,0 +1,12 @@
+.courses-row-layout,
+.courses-grid-layout {
+  padding-bottom: 10px;
+  scroll-snap-type: x proximity;
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  & .course-box-card {
+    scroll-snap-align: center;
+  }
+}

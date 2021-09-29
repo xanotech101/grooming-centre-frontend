@@ -1,0 +1,77 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+/* END OF Fonts */
+
+/* Colors */
+:root {
+  --primary-base: #800020;
+  --primary-hover: #9a0329b2;
+
+  --secondary-05: #ffc5d336;
+  --secondary-1: #ffc5d3;
+  --secondary-2: #ff93ae;
+  --secondary-3: #fc5780;
+  --secondary-4: #dd3a63;
+  --secondary-5: #bd1f46;
+  --secondary-6: #9b203f;
+  --secondary-7: #5a051a;
+  --secondary-8: #3c0311;
+  --secondary-9: #1d060b;
+
+  --accent-1: #e8e8e8;
+  --accent-2: #c1c9d2;
+  --accent-3: #697386;
+  --accent-4: #7fffdf;
+
+  --white: #ffffff;
+  --black: #000000;
+}
+/* END OF Colors */
+
+* {
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--primary-base);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: var(--secondary-05);
+  }
+}
+
+/* Override Material-ui DateAndTimePickers */
+.date-time-picker .MuiInputBase-root,
+.date-time-picker .MuiFormControl-root,
+.date-time-picker input {
+  width: 100% !important;
+  /* max-width: 100% !important;
+  min-width: 100% !important; */
+}
+.date-time-picker .MuiInputBase-root::after,
+.date-time-picker .MuiInputBase-root::before {
+  content: none !important;
+  border-bottom: none !important;
+}
+.date-time-picker input {
+  height: 40px !important;
+  border: 1px solid var(--accent-2) !important;
+  border-radius: 2px !important;
+  padding: 0 16px !important;
+}
+/* END OF Override Material-ui DateAndTimePickers */
+
+/* Override Material-ui RichTextEditor */
+.rich-text .MUIRichTextEditor-editorContainer-5 {
+  position: unset;
+  padding: 0 5px !important;
+  min-height: 200px !important;
+  border: 1px solid var(--accent-1) !important;
+  border-radius: 2px !important;
+}
+/* END OF Override Material-ui RichTextEditor */
