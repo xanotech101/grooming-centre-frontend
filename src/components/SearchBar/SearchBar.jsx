@@ -20,6 +20,8 @@ export const SearchBar = ({
       }
     : {};
 
+  const uniqueId = `${Math.random() * 10}`;
+
   return (
     <Flex
       as="form"
@@ -37,11 +39,11 @@ export const SearchBar = ({
       </VisuallyHidden>
       <Input
         border="none"
-        id="search"
         type="search"
         placeholder={placeholder}
         paddingLeft={2}
         size={sm && "sm"}
+        id={uniqueId}
         // color={query ? "black" : "inherit"}
         _focus={{
           textColor: adminLayoutHeaderStyle ? "white" : "black",

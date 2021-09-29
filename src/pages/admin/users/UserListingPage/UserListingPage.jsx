@@ -61,17 +61,19 @@ const tableProps = {
   columns: [
     {
       id: "1",
+      key: "fullName",
       text: "Full name",
       minWidth: "200px",
     },
-    { id: "2", text: "Department" },
+    { id: "2", key: "department", text: "Department" },
     {
       id: "3",
+      key: "email",
       text: "Email Address",
       minWidth: "200px",
     },
-    { id: "4", text: "% Grade point" },
-    { id: "5", text: "Certificates" },
+    { id: "4", key: "gradePoint", text: "% Grade point" },
+    { id: "5", key: "certificate", text: "Certificates" },
   ],
 
   options: {
@@ -84,32 +86,30 @@ const tableProps = {
 };
 
 const getUsers = async () =>
-  new Promise((res, rej) => {
+  new Promise((res) => {
     setTimeout(() => {
-      if (Math.random() > 0.5) {
-        const users = [
-          {
-            firstName: "first 1",
-            lastName: "last 1",
-            department: "department 1",
-            email: "email 1",
-            gradePoint: "gradePoint 1",
-            certificate: "certificate 1",
-          },
-          {
-            firstName: "first 2",
-            lastName: "last 2",
-            department: "department 2",
-            email: "email 2",
-            gradePoint: "gradePoint 2",
-            certificate: "certificate 2",
-          },
-        ];
+      const users = [
+        {
+          id: "2",
+          firstName: "first 1",
+          lastName: "last 1",
+          department: "department 1",
+          email: "email 1",
+          gradePoint: "gradePoint 1",
+          certificate: "certificate 1",
+        },
+        {
+          id: "1",
+          firstName: "first 2",
+          lastName: "last 2",
+          department: "department 2",
+          email: "email 2",
+          gradePoint: "gradePoint 2",
+          certificate: "certificate 2",
+        },
+      ];
 
-        res(users);
-      } else {
-        rej("Error!");
-      }
+      res(users);
     }, 1500);
   });
 
@@ -120,19 +120,23 @@ const useUserListing = () => {
     err: false,
   });
 
-  const fetchUsers = useCallback(async () => {
-    setRows({ loading: true });
+  const fetchUsers = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
 
-    try {
-      const users = await getUsers();
+      try {
+        const users = await getUsers();
 
-      setRows({ data: users });
-    } catch (err) {
-      setRows({ err: true });
-    } finally {
-      setRows((prev) => ({ ...prev, loading: false }));
-    }
-  }, [setRows, getUsers]);
+        const data = mapper ? users.map(mapper) : users;
+        setRows({ data });
+      } catch (err) {
+        setRows({ err: true });
+      } finally {
+        setRows((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [setRows]
+  );
 
   return {
     rows,
@@ -144,7 +148,12 @@ const UserListingPage = () => {
   const { rows, fetchUsers } = useUserListing();
 
   useEffect(() => {
-    fetchUsers();
+    const mapUserToRow = (user) => ({
+      ...user,
+      fullName: `${user.firstName} ${user.lastName}`,
+    });
+
+    fetchUsers(mapUserToRow);
   }, [fetchUsers]);
 
   return (
@@ -164,7 +173,7 @@ const UserListingPage = () => {
         <Button>Add User</Button>
       </Flex>
 
-      <Table {...tableProps} rowsData={rows} />
+      <Table {...tableProps} rows={rows} />
     </AdminMainAreaWrapper>
   );
 };

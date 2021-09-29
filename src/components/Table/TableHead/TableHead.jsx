@@ -22,8 +22,7 @@ const TableHead = ({
         alignItems="center"
         templateColumns={getTemplateColumns}
         columnGap={columnGap}
-        paddingTop={2}
-        height="30px"
+        height="45px"
         {...generalRowStyles}
       >
         {options?.selection && (

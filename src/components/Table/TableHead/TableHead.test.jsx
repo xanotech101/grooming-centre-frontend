@@ -13,7 +13,7 @@ const options = {
   selection: true,
 };
 
-describe("Table component", () => {
+describe("TableHead component", () => {
   beforeEach(() => render(<TableHead columns={columns} options={options} />));
 
   it("renders a table-row of cells from passed data", () => {

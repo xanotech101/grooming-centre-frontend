@@ -1,9 +1,11 @@
-import { Box, Flex, StackDivider, VStack } from "@chakra-ui/layout";
+import { Box, StackDivider } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import Header from "./Header/Header";
 import TableHead from "./TableHead/TableHead";
+import TableBody from "./TableBody/TableBody";
 
 export const Table = ({
+  rows,
   filterControls,
   columns,
   options,
@@ -13,6 +15,12 @@ export const Table = ({
 }) => {
   const getTemplateColumns = () =>
     columns.reduce((prev) => (prev += "1fr "), "");
+
+  generalRowStyles = {
+    ...generalRowStyles,
+    borderBottom: "1px",
+    borderColor: "accent.1",
+  };
 
   const generalCellStyles = {
     // borderBottom: "1px",
@@ -24,6 +32,16 @@ export const Table = ({
     ...generalCellStyles,
     // paddingLeft: 5,
     transform: "translate(2px, 5px)",
+  };
+
+  const commonProps = {
+    templateColumns: getTemplateColumns() || templateColumns,
+    columns,
+    options,
+    columnGap,
+    generalRowStyles,
+    generalCellStyles,
+    checkboxStyles,
   };
 
   return (
@@ -40,17 +58,9 @@ export const Table = ({
           overflowX="auto"
           backgroundColor="white"
         >
-          <TableHead
-            columns={columns}
-            options={options}
-            templateColumns={getTemplateColumns() || templateColumns}
-            columnGap={columnGap}
-            generalRowStyles={generalRowStyles}
-            generalCellStyles={generalCellStyles}
-            checkboxStyles={checkboxStyles}
-          />
+          <TableHead {...commonProps} />
 
-          <Box role="tbody"></Box>
+          <TableBody rows={rows} {...commonProps} />
         </Box>
       </Box>
     </Box>
@@ -62,6 +72,7 @@ Table.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.any.isRequired,
+      key: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       minWidth: PropTypes.string,
     })
@@ -69,6 +80,11 @@ Table.propTypes = {
   options: PropTypes.shape({
     action: PropTypes.bool,
     selection: PropTypes.bool,
+  }),
+  rows: PropTypes.shape({
+    data: PropTypes.array,
+    loading: PropTypes.bool,
+    err: PropTypes.bool,
   }),
 
   templateColumns: PropTypes.string,
