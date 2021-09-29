@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App/App";
+import { setupDevelopmentServer } from "./mocks/server/dev-env/server";
 import reportWebVitals from "./reportWebVitals";
+
+setupDevelopmentServer();
 
 ReactDOM.render(
   <React.StrictMode>
