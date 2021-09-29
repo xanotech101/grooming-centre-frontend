@@ -7,11 +7,11 @@ import { http } from "..";
  * @returns Promise<{ data: `User` }>
  */
 export const getCurrentUser = async () => {
-  const url = "/me";
+  const path = "/me";
 
   const {
     data: { data },
-  } = await http.get(url);
+  } = await http.get(path);
 
   return { data };
 };
@@ -22,11 +22,11 @@ export const getCurrentUser = async () => {
  * @returns Promise<{  message: `string` }>
  */
 export const userCreateNewPassword = async (body) => {
-  const url = "/password/create/new";
+  const path = "/password/create/new";
 
   const {
     data: { message },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message };
 };
@@ -37,11 +37,11 @@ export const userCreateNewPassword = async (body) => {
  * @returns Promise<{ message: `string` }>
  */
 export const userForgotPassword = async (body) => {
-  const url = "/forgot/password";
+  const path = "/forgot/password";
 
   const {
     data: { message },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message };
 };
@@ -52,14 +52,14 @@ export const userForgotPassword = async (body) => {
  * @returns Promise<{ user: `Object`, token: `string`, message: `string` }>
  */
 export const userSignin = async (body) => {
-  const url = "/login";
+  const path = "/login";
 
   const {
     data: {
       data: { user, token },
       message,
     },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { user, token, message };
 };
@@ -73,11 +73,11 @@ export const userSignin = async (body) => {
  * @returns Promise<{ message: `string`, data: `Course` }>
  */
 export const createCourse = async (body) => {
-  const url = "/course/create";
+  const path = "/course/create";
 
   const {
     data: { message, data },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message, data };
 };
@@ -89,13 +89,29 @@ export const createCourse = async (body) => {
  * @returns Promise<{ message: `string`, data: `Course` }>
  */
 export const editCourse = async (courseId, body) => {
-  const url = `/course/edit/${courseId}`;
+  const path = `/course/edit/${courseId}`;
 
   const {
     data: { message, data },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message, data: data[0] };
+};
+
+/**
+ * Endpoint for course editing/modification
+ * @param {string} courseId
+ * @param {object} body
+ * @returns Promise<{ data: `CourseListArray` }>
+ */
+export const getCourseListing = async () => {
+  const path = `/admin/courses`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { courses: data };
 };
 //----------- END OF Course Endpoints
 //
@@ -107,14 +123,14 @@ export const editCourse = async (courseId, body) => {
  * @returns Promise<{ message: `string`, data: `Department` }>
  */
 export const createDepartment = async (body) => {
-  const url = "/department/create";
+  const path = "/department/create";
 
   const {
     data: {
       message,
       data: { department: data },
     },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message, data };
 };
@@ -128,11 +144,11 @@ export const createDepartment = async (body) => {
  * @returns Promise<{ message: `string` }>
  */
 export const adminInviteUser = async (body) => {
-  const url = "/admin/invite/user";
+  const path = "/admin/invite/user";
 
   const {
     data: { message },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message };
 };
@@ -143,11 +159,11 @@ export const adminInviteUser = async (body) => {
  * @returns Promise<{ message: `string` }>
  */
 export const superAdminInviteAdmin = async (body) => {
-  const url = "/superadmin/invite/admin";
+  const path = "/superadmin/invite/admin";
 
   const {
     data: { message },
-  } = await http.post(url, body);
+  } = await http.post(path, body);
 
   return { message };
 };
@@ -159,11 +175,11 @@ export const superAdminInviteAdmin = async (body) => {
  * @returns Promise<{ data: `Object` }>
  */
 export const getMetadata = async () => {
-  const url = "/metadata";
+  const path = "/metadata";
 
   const {
     data: { data },
-  } = await http.get(url);
+  } = await http.get(path);
 
   return { data };
 };
