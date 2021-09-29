@@ -29,8 +29,6 @@ const courses = {
 const handleSuccessResponse = (data) => (_req, res, ctx) =>
   res(ctx.status(200), ctx.json({ data }));
 
-console.log(getUrl("/admin/courses"));
-
 const getCourseListing = rest.get(
   getUrl("/admin/courses"),
   handleSuccessResponse(courses.courseListing)
