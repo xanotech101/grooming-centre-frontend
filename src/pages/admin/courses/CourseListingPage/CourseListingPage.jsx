@@ -1,9 +1,11 @@
-import { Badge, Flex } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table } from "../../../../components";
+import { Button, Heading, Table, Text } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
+import { getCourseListing } from "../../../../services";
+import { Tag } from "@chakra-ui/tag";
 
 const tableProps = {
   filterControls: [
@@ -58,8 +60,19 @@ const tableProps = {
       id: "5",
       key: "status",
       text: "Status",
-      minWidth: "100px",
-      renderContent: (status) => <Badge>{status}</Badge>,
+      fraction: "100px",
+      renderContent: (status) => (
+        <Box>
+          <Tag
+            borderRadius="full"
+            size="sm"
+            backgroundColor={status ? "accent.4" : "accent.1"}
+            color={status ? "accent.5" : "accent.3"}
+          >
+            <Text bold>{status ? "Published" : "UnPublished"}</Text>
+          </Tag>
+        </Box>
+      ),
     },
   ],
 
@@ -68,37 +81,6 @@ const tableProps = {
     selection: true,
   },
 };
-
-const getCourses = async () =>
-  new Promise((res) => {
-    setTimeout(() => {
-      const courses = [
-        {
-          id: "2",
-          title: "title 1",
-          instructor: "instructor 1",
-          startDate: "startDate 1",
-          status: "status 1",
-        },
-        {
-          id: "1",
-          title: "title 1",
-          instructor: "instructor 1",
-          startDate: "startDate 1",
-          status: "status 1",
-        },
-        {
-          id: "1dfg3jk",
-          title: "title 3",
-          instructor: "instructor 3",
-          startDate: "startDate 3",
-          status: "status 3",
-        },
-      ];
-
-      res(courses);
-    }, 1500);
-  });
 
 const useCourseListing = () => {
   const [rows, setRows] = useState({
@@ -112,7 +94,7 @@ const useCourseListing = () => {
       setRows({ loading: true });
 
       try {
-        const courses = await getCourses();
+        const { courses } = await getCourseListing();
 
         const data = mapper ? courses.map(mapper) : courses;
         setRows({ data });
@@ -137,8 +119,11 @@ const CourseListingPage = () => {
 
   useEffect(() => {
     const mapCourseToRow = (course) => ({
-      ...course,
-      fullName: `${course.firstName} ${course.lastName}`,
+      id: course.id,
+      title: course.title,
+      startDate: course.startDate,
+      status: course.isPublished,
+      instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
     });
 
     fetchCourses(mapCourseToRow);

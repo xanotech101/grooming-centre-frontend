@@ -99,9 +99,8 @@ export const editCourse = async (courseId, body) => {
 };
 
 /**
- * Endpoint for course editing/modification
- * @param {string} courseId
- * @param {object} body
+ * Endpoint to get `course-listing`
+ *
  * @returns Promise<{ data: `CourseListArray` }>
  */
 export const getCourseListing = async () => {

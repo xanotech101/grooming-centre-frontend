@@ -4,15 +4,17 @@ import { getUrl } from "../http";
 const courses = {
   courseListing: [
     {
+      id: 23,
       title: "The implication of financial crisis in the society",
       instructor: {
         firstName: "Roman",
         lastName: "job",
       },
       startDate: new Date(),
-      isPublished: true,
+      isPublished: false,
     },
     {
+      id: 1,
       title: "The best course on automation testing",
       instructor: {
         firstName: "Richcode",
@@ -26,6 +28,8 @@ const courses = {
 
 const handleSuccessResponse = (data) => (_req, res, ctx) =>
   res(ctx.status(200), ctx.json({ data }));
+
+console.log(getUrl("/admin/courses"));
 
 const getCourseListing = rest.get(
   getUrl("/admin/courses"),

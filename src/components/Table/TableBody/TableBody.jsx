@@ -50,14 +50,18 @@ const TableBody = ({
             </Box>
           )}
 
-          {columns.map((col) => (
-            <Cell
-              key={col.id}
-              cell={col}
-              text={row[col.key]}
-              {...generalCellStyles}
-            />
-          ))}
+          {columns.map((col) =>
+            col.renderContent ? (
+              col.renderContent(row[col.key])
+            ) : (
+              <Cell
+                key={col.id}
+                cell={col}
+                text={row[col.key]}
+                {...generalCellStyles}
+              />
+            )
+          )}
 
           {options?.action && (
             <Cell
