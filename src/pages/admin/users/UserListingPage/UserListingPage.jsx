@@ -140,12 +140,13 @@ const useUserListing = () => {
 
   return {
     rows,
+    setRows,
     fetchUsers,
   };
 };
 
 const UserListingPage = () => {
-  const { rows, fetchUsers } = useUserListing();
+  const { rows, setRows, fetchUsers } = useUserListing();
 
   useEffect(() => {
     const mapUserToRow = (user) => ({
@@ -173,7 +174,7 @@ const UserListingPage = () => {
         <Button>Add User</Button>
       </Flex>
 
-      <Table {...tableProps} rows={rows} />
+      <Table {...tableProps} rows={rows} setRows={setRows} />
     </AdminMainAreaWrapper>
   );
 };

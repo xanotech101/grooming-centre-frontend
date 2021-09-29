@@ -1,18 +1,114 @@
-import { Box, StackDivider } from "@chakra-ui/layout";
+import { Box, Flex, StackDivider } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import Header from "./Header/Header";
 import TableHead from "./TableHead/TableHead";
 import TableBody from "./TableBody/TableBody";
+import { useEffect, useState } from "react";
+import { Button, Text } from "..";
+import { AiFillMinusSquare } from "react-icons/ai";
+import { BiTrash } from "react-icons/bi";
+
+const useTable = ({ rowsData, setRows }) => {
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  /**
+   * toggles all rows selection
+   * @param {Array<{ id: string }>} rows
+   *
+   * @return void
+   */
+  const handleSelectRowsToggle = (rows) => {
+    let newRows = [];
+
+    if (!(selectedRows.length === rowsData.length)) {
+      newRows = rows;
+    }
+
+    setSelectedRows(newRows);
+  };
+
+  /**
+   * deselects all rows
+   *
+   * @return void
+   */
+  const handleDeselectAllRows = () => {
+    setSelectedRows([]);
+  };
+
+  /**
+   * toggles single row selection
+   * @param {{ id: string }} row
+   *
+   * @return void
+   */
+  const handleSelectRowToggle = (row) => {
+    const rows = [...selectedRows];
+    const rowIndex = rows.findIndex(({ id }) => row.id === id);
+    const rowIsNotSelected = rowIndex === -1;
+
+    if (rowIsNotSelected) {
+      rows.push(row);
+    } else {
+      rows.splice(rowIndex, 1);
+    }
+
+    setSelectedRows(rows);
+  };
+
+  /**
+   * deletes many rows
+   * @param {Array<{ id: string }>} rows
+   *
+   * @return void
+   */
+  const handleDeleteRows = (rows) => {
+    const newRowsData = [...rowsData];
+
+    rows.forEach((row) => {
+      const rowIndexInRowsData = newRowsData.findIndex(
+        ({ id }) => id === row.id
+      );
+      const rowIsInRowsData = rowIndexInRowsData !== -1;
+
+      // deletes it from `rowsData`
+      if (rowIsInRowsData) {
+        newRowsData.splice(rowIndexInRowsData, 1);
+      }
+    });
+
+    setRows({ data: newRowsData });
+    handleDeselectAllRows();
+  };
+
+  useEffect(() => {
+    console.log(selectedRows);
+  }, [selectedRows]);
+
+  return {
+    selectedRows,
+    handleDeselectAllRows,
+    handleSelectRowsToggle,
+    handleSelectRowToggle,
+    handleDeleteRows,
+  };
+};
 
 export const Table = ({
   rows,
+  setRows,
   filterControls,
   columns,
   options,
   templateColumns,
   columnGap,
   generalRowStyles,
+
+  // Calc from the width of the aside and margins
+  width = "calc(100vw - 270px - 40px)",
 }) => {
+  const manager = useTable({ rowsData: rows.data, setRows });
+
   const getTemplateColumns = () =>
     columns.reduce((prev) => (prev += "1fr "), "");
 
@@ -35,6 +131,7 @@ export const Table = ({
   };
 
   const commonProps = {
+    rows,
     templateColumns: getTemplateColumns() || templateColumns,
     columns,
     options,
@@ -42,6 +139,7 @@ export const Table = ({
     generalRowStyles,
     generalCellStyles,
     checkboxStyles,
+    selectedRows: manager.selectedRows,
   };
 
   return (
@@ -49,18 +147,54 @@ export const Table = ({
       <Header filterControls={filterControls} />
 
       <Box paddingTop={3} marginTop={3} borderTop="1px" borderColor="accent.2">
+        {manager.selectedRows.length ? (
+          <Flex alignItems="center" marginBottom={3}>
+            <Button
+              asIcon
+              sm
+              marginRight={2}
+              data-testid="deselect"
+              onClick={manager.handleDeselectAllRows}
+            >
+              <AiFillMinusSquare />
+            </Button>
+
+            <Text as="level3" bold>
+              {manager.selectedRows.length} selected
+            </Text>
+
+            <Button
+              asIcon
+              sm
+              marginLeft={10}
+              data-testid="delete"
+              onClick={manager.handleDeleteRows.bind(
+                null,
+                manager.selectedRows
+              )}
+            >
+              <BiTrash />
+            </Button>
+          </Flex>
+        ) : null}
+
         <Box
           divider={<StackDivider borderColor="gray.200" marginY={0} />}
           role="table"
           paddingBottom={5}
-          // Calc from the width of the aside and margins
-          width="calc(100vw - 270px - 40px)"
+          width={width}
           overflowX="auto"
           backgroundColor="white"
         >
-          <TableHead {...commonProps} />
+          <TableHead
+            {...commonProps}
+            onSelect={manager.handleSelectRowsToggle}
+          />
 
-          <TableBody rows={rows} {...commonProps} />
+          <TableBody
+            {...commonProps}
+            onRowSelect={manager.handleSelectRowToggle}
+          />
         </Box>
       </Box>
     </Box>
@@ -86,8 +220,10 @@ Table.propTypes = {
     loading: PropTypes.bool,
     err: PropTypes.bool,
   }),
+  setRows: PropTypes.func.isRequired,
 
   templateColumns: PropTypes.string,
   columnGap: PropTypes.any,
   generalRowStyles: PropTypes.object,
+  width: PropTypes.string,
 };

@@ -11,11 +11,20 @@ const TableBody = ({
   generalRowStyles,
   generalCellStyles,
   checkboxStyles,
+  selectedRows,
+  onRowSelect,
 }) => {
   const getTemplateColumns = () =>
     `${options?.selection ? "20px " : ""}${templateColumns}${
       options?.action ? " auto" : ""
     }`;
+
+  const handleIsChecked = (rowId) =>
+    selectedRows?.find((row) => row.id === rowId) ? true : false;
+
+  const handleCheckboxChange = (rowId) => {
+    onRowSelect({ id: rowId });
+  };
 
   return (
     <Box role="thead">
@@ -34,7 +43,10 @@ const TableBody = ({
               //
               {...checkboxStyles}
             >
-              <Checkbox />
+              <Checkbox
+                isChecked={handleIsChecked(row.id)}
+                onChange={handleCheckboxChange.bind(null, row.id)}
+              />
             </Box>
           )}
 
