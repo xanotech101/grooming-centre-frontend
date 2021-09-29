@@ -1,8 +1,8 @@
 import { Box, Flex } from "@chakra-ui/layout";
-
 import { Switch } from "react-router-dom";
 import {
-  CoursesPageRoute,
+  CourseListingPageRoute,
+  // CoursesPageRoute,
   CreateCoursePageRoute,
   CreateLessonPageRoute,
   CreateUserPageRoute,
@@ -18,7 +18,7 @@ const MainArea = () => {
       <Box as="main" flex={1} overflowY="auto" flexBasis="1px">
         <Switch>
           <DashboardPageRoute exact path="/admin" />
-          <CoursesPageRoute exact path="/admin/courses" />
+          <CourseListingPageRoute exact path="/admin/courses" />
           <UserListingPageRoute path="/admin/users" />
           <UserInfoPageRoute path="/admin/users/:id" />
           <CreateCoursePageRoute exact path="/admin/manage/add-course" />

@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import Header from "./Header/Header";
 import TableHead from "./TableHead/TableHead";
 import TableBody from "./TableBody/TableBody";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Text } from "..";
 import { AiFillMinusSquare } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
+import breakpoints from "../../theme/breakpoints";
 
 const useTable = ({ rowsData, setRows }) => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -81,10 +82,6 @@ const useTable = ({ rowsData, setRows }) => {
     handleDeselectAllRows();
   };
 
-  useEffect(() => {
-    console.log(selectedRows);
-  }, [selectedRows]);
-
   return {
     selectedRows,
     handleDeselectAllRows,
@@ -101,16 +98,20 @@ export const Table = ({
   columns,
   options,
   templateColumns,
-  columnGap,
+  columnGap = 2,
   generalRowStyles,
 
   // Calc from the width of the aside and margins
   width = "calc(100vw - 270px - 40px)",
+  maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
 }) => {
   const manager = useTable({ rowsData: rows.data, setRows });
 
   const getTemplateColumns = () =>
-    columns.reduce((prev) => (prev += "1fr "), "");
+    columns.reduce(
+      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : "1fr "),
+      ""
+    );
 
   generalRowStyles = {
     ...generalRowStyles,
@@ -183,6 +184,7 @@ export const Table = ({
           role="table"
           paddingBottom={5}
           width={width}
+          maxWidth={maxWidth}
           overflowX="auto"
           backgroundColor="white"
         >

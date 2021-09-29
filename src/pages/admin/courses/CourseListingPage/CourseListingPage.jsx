@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/layout";
+import { Badge, Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { Button, Heading, Table } from "../../../../components";
@@ -8,18 +8,6 @@ import { useCallback, useEffect, useState } from "react";
 const tableProps = {
   filterControls: [
     {
-      triggerText: "%Grade point",
-      width: "125%",
-      body: {
-        checks: [
-          { label: "1 to 30" },
-          { label: "31 to 50" },
-          { label: "51 to 70" },
-          { label: "71 to 100" },
-        ],
-      },
-    },
-    {
       triggerText: "Department",
       width: "125%",
       body: {
@@ -27,17 +15,6 @@ const tableProps = {
           { label: "Finance" },
           { label: "Engineering" },
           { label: "Accounting" },
-        ],
-      },
-    },
-    {
-      triggerText: "Role",
-      width: "170%",
-      body: {
-        checks: [
-          { label: "super admin" },
-          { label: "admin" },
-          { label: "user" },
         ],
       },
     },
@@ -61,19 +38,29 @@ const tableProps = {
   columns: [
     {
       id: "1",
-      key: "fullName",
-      text: "Full name",
-      minWidth: "200px",
+      key: "title",
+      text: "Course Title",
+      fraction: "2fr",
     },
-    { id: "2", key: "department", text: "Department" },
     {
       id: "3",
-      key: "email",
-      text: "Email Address",
-      minWidth: "200px",
+      key: "instructor",
+      text: "Instructor",
+      minWidth: "100px",
     },
-    { id: "4", key: "gradePoint", text: "% Grade point" },
-    { id: "5", key: "certificate", text: "Certificates" },
+    {
+      id: "4",
+      key: "startDate",
+      text: "Start Date",
+      minWidth: "100px",
+    },
+    {
+      id: "5",
+      key: "status",
+      text: "Status",
+      minWidth: "100px",
+      renderContent: (status) => <Badge>{status}</Badge>,
+    },
   ],
 
   options: {
@@ -82,49 +69,52 @@ const tableProps = {
   },
 };
 
-const getUsers = async () =>
+const getCourses = async () =>
   new Promise((res) => {
     setTimeout(() => {
-      const users = [
+      const courses = [
         {
           id: "2",
-          firstName: "first 1",
-          lastName: "last 1",
-          department: "department 1",
-          email: "email 1",
-          gradePoint: "gradePoint 1",
-          certificate: "certificate 1",
+          title: "title 1",
+          instructor: "instructor 1",
+          startDate: "startDate 1",
+          status: "status 1",
         },
         {
           id: "1",
-          firstName: "first 2",
-          lastName: "last 2",
-          department: "department 2",
-          email: "email 2",
-          gradePoint: "gradePoint 2",
-          certificate: "certificate 2",
+          title: "title 1",
+          instructor: "instructor 1",
+          startDate: "startDate 1",
+          status: "status 1",
+        },
+        {
+          id: "1dfg3jk",
+          title: "title 3",
+          instructor: "instructor 3",
+          startDate: "startDate 3",
+          status: "status 3",
         },
       ];
 
-      res(users);
+      res(courses);
     }, 1500);
   });
 
-const useUserListing = () => {
+const useCourseListing = () => {
   const [rows, setRows] = useState({
     data: null,
     loading: false,
     err: false,
   });
 
-  const fetchUsers = useCallback(
+  const fetchCourses = useCallback(
     async (mapper) => {
       setRows({ loading: true });
 
       try {
-        const users = await getUsers();
+        const courses = await getCourses();
 
-        const data = mapper ? users.map(mapper) : users;
+        const data = mapper ? courses.map(mapper) : courses;
         setRows({ data });
       } catch (err) {
         setRows({ err: true });
@@ -138,21 +128,21 @@ const useUserListing = () => {
   return {
     rows,
     setRows,
-    fetchUsers,
+    fetchCourses,
   };
 };
 
-const UserListingPage = () => {
-  const { rows, setRows, fetchUsers } = useUserListing();
+const CourseListingPage = () => {
+  const { rows, setRows, fetchCourses } = useCourseListing();
 
   useEffect(() => {
-    const mapUserToRow = (user) => ({
-      ...user,
-      fullName: `${user.firstName} ${user.lastName}`,
+    const mapCourseToRow = (course) => ({
+      ...course,
+      fullName: `${course.firstName} ${course.lastName}`,
     });
 
-    fetchUsers(mapUserToRow);
-  }, [fetchUsers]);
+    fetchCourses(mapCourseToRow);
+  }, [fetchCourses]);
 
   return (
     <AdminMainAreaWrapper>
@@ -165,10 +155,10 @@ const UserListingPage = () => {
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
-          Manage Users
+          Courses
         </Heading>
 
-        <Button>Add User</Button>
+        <Button link="/admin/manage/add-course">Add Course</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />
@@ -176,8 +166,10 @@ const UserListingPage = () => {
   );
 };
 
-export const UserListingPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <UserListingPage {...props} />} />;
+export const CourseListingPageRoute = ({ ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => <CourseListingPage {...props} />} />
+  );
 };
 
-export default UserListingPage;
+export default CourseListingPage;

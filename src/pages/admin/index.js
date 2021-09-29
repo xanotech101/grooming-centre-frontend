@@ -1,4 +1,5 @@
 export * from "./courses/CoursesPage";
+export * from "./courses/CourseListingPage/CourseListingPage";
 export * from "./courses/CreateCoursePage";
 export * from "./courses/CreateLessonPage";
 export * from "./DashboardPage";
