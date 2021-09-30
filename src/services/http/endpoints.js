@@ -36,8 +36,23 @@ export const userCreateNewPassword = async (body) => {
  * @param {{ email: string }} body
  * @returns Promise<{ message: `string` }>
  */
-export const userForgotPassword = async (body) => {
+export const userForgetPassword = async (body) => {
   const path = "/forgot/password";
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+/**
+ * Endpoint to actually reset password - (auth)
+ * @param {{ password: string }} body
+ * @returns Promise<{ message: `string` }>
+ */
+export const userResetPassword = async (body) => {
+  const path = "/password/reset";
 
   const {
     data: { message },
