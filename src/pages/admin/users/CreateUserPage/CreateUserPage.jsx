@@ -1,13 +1,13 @@
 import { Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-import { Input, Select } from "../../../components";
-import { useApp } from "../../../contexts";
-import { CreatePageLayout } from "../../../layouts";
-import { adminInviteUser } from "../../../services";
-import useCreateUser from "./hooks/useCreateUser";
+import { Input, Select } from "../../../../components";
+import { useApp } from "../../../../contexts";
+import { CreatePageLayout } from "../../../../layouts";
+import { adminInviteUser } from "../../../../services";
+import useCreateUser from "../hooks/useCreateUser";
 
-const CreateUserPage = () => {
+const CreateUserPage = ({ creatorRole }) => {
   const toast = useToast();
   const appManager = useApp();
   const { formManager, departmentIsRequired } = useCreateUser();
@@ -78,3 +78,5 @@ const CreateUserPage = () => {
 export const CreateUserPageRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={(props) => <CreateUserPage {...props} />} />;
 };
+
+export default CreateUserPage;

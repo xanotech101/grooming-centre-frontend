@@ -12,6 +12,7 @@ export const Select = forwardRef(
       label,
       options,
       value,
+      placeholder,
       onChange = () => {},
       ...rest
     },
@@ -31,7 +32,7 @@ export const Select = forwardRef(
             {...props}
             {...rest}
           >
-            <option></option>
+            <option>{placeholder}</option>
 
             {options?.map((option) => (
               <option key={option.value} value={option.value}>
