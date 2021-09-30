@@ -26,11 +26,11 @@ const userForgetPassword = rest.post(
   handleSuccessResponse(userForgetPasswordRes)
 );
 
-const auth = {
+const auth = [
   superAdminInviteAdmin,
   adminInviteUser,
   userResetPassword,
   userForgetPassword,
-};
+];
 
 export default auth;

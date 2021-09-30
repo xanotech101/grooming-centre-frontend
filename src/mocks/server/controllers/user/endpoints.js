@@ -8,8 +8,6 @@ const getUserListing = rest.get(
   handleSuccessResponse(userListingRes)
 );
 
-const user = {
-  getUserListing,
-};
+const user = [getUserListing];
 
 export default user;

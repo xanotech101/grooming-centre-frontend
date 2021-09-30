@@ -8,8 +8,6 @@ const getCourseListing = rest.get(
   handleSuccessResponse(courseListingRes)
 );
 
-const course = {
-  getCourseListing,
-};
+const course = [getCourseListing];
 
 export default course;

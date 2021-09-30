@@ -1,14 +1,28 @@
 import { HStack } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
-import { Button, Heading, Input, Link, Text } from "../../../components";
-import { OnBoardingFormLayout } from "../../../layouts";
+import { Button, Heading, Input, Link, Text } from "../../../../components";
+import { OnBoardingFormLayout } from "../../../../layouts";
+import { useForm } from "react-hook-form";
 
 const ForgotPasswordPage = () => {
+  const {
+    register,
+    // handleSubmit,
+    // reset,
+    // formState: { isSubmitting },
+  } = useForm();
+
   return (
     <OnBoardingFormLayout
       renderHeader={() => <Heading as="h2">Forgot password</Heading>}
       renderInputs={() => (
-        <Input id="email" type="email" label="Email" isRequired />
+        <Input
+          id="email"
+          type="email"
+          label="Email"
+          isRequired
+          {...register("email")}
+        />
       )}
       renderSubmit={(props) => <Button {...props}>Reset Password</Button>}
       renderBody={() => (
@@ -36,3 +50,5 @@ export const ForgotPasswordPageRoute = ({ ...rest }) => {
     <Route {...rest} render={(props) => <ForgotPasswordPage {...props} />} />
   );
 };
+
+export default ForgotPasswordPage;
