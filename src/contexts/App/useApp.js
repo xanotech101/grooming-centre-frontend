@@ -13,6 +13,7 @@ import { AppContext } from "./AppProvider";
  *   handleSetCurrentUser: (user: `{}`) => `void`,
  *   handleGetTokenFromClientStorage: () => token: `string`,
  *   handleLogout: () => `void`,
+ *   getOneMetadata: (arrayKey: `string`, id: `string`) => (`OneMetadata` || `undefined`),
  * }
  */
 export const useApp = () => {
@@ -68,6 +69,9 @@ export const useApp = () => {
     setState((prev) => ({ ...prev, user: null, token: null }));
   }, [setState]);
 
+  const getOneMetadata = (arrayKey, id) =>
+    state.metadata?.[arrayKey].find((item) => item.id === id);
+
   const isAuthenticated = handleGetTokenFromClientStorage() ? true : false;
 
   return {
@@ -79,5 +83,6 @@ export const useApp = () => {
     fetchCurrentUser,
     handleGetTokenFromClientStorage,
     handleLogout,
+    getOneMetadata,
   };
 };

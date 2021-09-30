@@ -182,6 +182,7 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
     <Box
       backgroundColor="white"
       position="absolute"
+      zIndex={1}
       width={data.width}
       top="calc(100% + 5px)"
       right={data.position === "right-bottom" ? 0 : undefined}

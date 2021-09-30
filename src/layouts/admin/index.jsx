@@ -15,15 +15,14 @@ const useRedirect = () => {
   useEffect(() => {
     if (appManager.state.user && appManager.state.metadata) {
       const { userRoleId } = appManager.state.user;
-      const role = appManager.state.metadata.userRoles.find(
-        (role) => role.id === userRoleId
-      );
+      const role = appManager.getOneMetadata("userRoles", userRoleId);
 
       if (!/admin/i.test(role?.name)) {
         return replace("/not-found");
       }
     }
   }, [
+    appManager,
     appManager.state.metadata,
     appManager.state.user,
     appManager.isAuthenticated,

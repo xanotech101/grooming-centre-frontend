@@ -95,7 +95,11 @@ const TableBody = ({
 const Cell = ({ cell, text, minWidth = "150px", renderText, ...rest }) => {
   return (
     <Box role="cell" minWidth={cell?.minWidth || minWidth} {...rest}>
-      {renderText ? renderText() : <Text>{text || cell?.text}</Text>}
+      {renderText ? (
+        renderText()
+      ) : (
+        <Text>{text !== undefined ? text : cell?.text}</Text>
+      )}
     </Box>
   );
 };

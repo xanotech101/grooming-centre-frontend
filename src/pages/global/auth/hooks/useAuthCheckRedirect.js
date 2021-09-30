@@ -23,9 +23,7 @@ export const useAuthCheckRedirect = (timeout = 0) => {
     const handleRedirect = () => {
       if (appManager.state.user && appManager.state.metadata) {
         const { userRoleId, departmentId } = appManager.state.user;
-        const role = appManager.state.metadata.userRoles.find(
-          (role) => role.id === userRoleId
-        );
+        const role = appManager.getOneMetadata("userRoles", userRoleId);
 
         if (!/admin/i.test(role?.name)) {
           return replace("/");
@@ -44,6 +42,7 @@ export const useAuthCheckRedirect = (timeout = 0) => {
       clearTimeout(timeoutId);
     };
   }, [
+    appManager,
     appManager.state.user,
     appManager.isAuthenticated,
     appManager.state.metadata,
