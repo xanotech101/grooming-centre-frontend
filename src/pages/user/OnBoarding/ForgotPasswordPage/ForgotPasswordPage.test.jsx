@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
+import { userForgetPasswordError } from "../../../../mocks/server/controllers/auth/endpoints";
 import mockServer from "../../../../mocks/server/test-env/server";
 import ForgotPasswordPage from "./ForgotPasswordPage";
 
@@ -31,15 +32,20 @@ describe("ForgotPasswordPage", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /back to sign in/ })
+      screen.getByRole("button", { name: /back to sign in/i })
     ).toBeInTheDocument();
     expect(screen.queryByLabelText(/email/i)).not.toBeInTheDocument();
   });
 
   it("handles error correctly", async () => {
-    // mockServer.use()
-    // user.type(screen.getByLabelText(/email/i), "test@email.com {enter}");
-    // expect(await screen.findByLabelText(/error/i)).not.toBeInTheDocument();
-    // expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    mockServer.use(userForgetPasswordError);
+
+    expect((await screen.queryAllByText(/error occurred/i)).length).toBe(0);
+
+    user.type(screen.getByLabelText(/email/i), "test@email.com {enter}");
+    expect(
+      (await screen.findAllByText(/error occurred/i)).length
+    ).toBeGreaterThan(0);
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
   });
 });

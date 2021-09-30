@@ -26,6 +26,11 @@ const userForgetPassword = rest.post(
   handleSuccessResponse(userForgetPasswordRes)
 );
 
+export const userForgetPasswordError = rest.post(
+  getUrl("/forgot/password"),
+  (_req, res, ctx) => res(ctx.status(500))
+);
+
 const auth = [
   superAdminInviteAdmin,
   adminInviteUser,

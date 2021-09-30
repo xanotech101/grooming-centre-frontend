@@ -6,9 +6,13 @@ import { Brand, Button, Input } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userCreateNewPassword } from "../../../services";
 import { useApp } from "../../../contexts";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const NewPasswordPage = () => {
+  const p = useParams();
+
+  console.log(p);
+
   const toast = useToast();
   const {
     register,
