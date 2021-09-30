@@ -210,6 +210,7 @@ const Accordion = ({ heading, children }) => {
         justifyContent="space-between"
         alignItems="center"
         onClick={accordionManager.handleToggle}
+        cursor="pointer"
       >
         <Heading as="h4">{heading}</Heading>
 

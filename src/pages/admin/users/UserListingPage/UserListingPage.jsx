@@ -4,6 +4,7 @@ import { FaSortAmountUpAlt } from "react-icons/fa";
 import { Button, Heading, Table } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
+import { getUserListing } from "../../../../services";
 
 const tableProps = {
   filterControls: [
@@ -73,7 +74,7 @@ const tableProps = {
       minWidth: "200px",
     },
     { id: "4", key: "gradePoint", text: "% Grade point" },
-    { id: "5", key: "certificate", text: "Certificates" },
+    { id: "5", key: "certificates", text: "Certificates" },
   ],
 
   options: {
@@ -81,34 +82,6 @@ const tableProps = {
     selection: true,
   },
 };
-
-const getUsers = async () =>
-  new Promise((res) => {
-    setTimeout(() => {
-      const users = [
-        {
-          id: "2",
-          firstName: "first 1",
-          lastName: "last 1",
-          department: "department 1",
-          email: "email 1",
-          gradePoint: "gradePoint 1",
-          certificate: "certificate 1",
-        },
-        {
-          id: "1",
-          firstName: "first 2",
-          lastName: "last 2",
-          department: "department 2",
-          email: "email 2",
-          gradePoint: "gradePoint 2",
-          certificate: "certificate 2",
-        },
-      ];
-
-      res(users);
-    }, 1500);
-  });
 
 const useUserListing = () => {
   const [rows, setRows] = useState({
@@ -122,7 +95,7 @@ const useUserListing = () => {
       setRows({ loading: true });
 
       try {
-        const users = await getUsers();
+        const { users } = await getUserListing();
 
         const data = mapper ? users.map(mapper) : users;
         setRows({ data });
@@ -149,6 +122,7 @@ const UserListingPage = () => {
     const mapUserToRow = (user) => ({
       ...user,
       fullName: `${user.firstName} ${user.lastName}`,
+      certificates: user.certificates.length,
     });
 
     fetchUsers(mapUserToRow);

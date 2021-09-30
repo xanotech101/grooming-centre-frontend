@@ -6,7 +6,7 @@ import links from "./links";
 import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
-  const { state } = useApp();
+  const { state, getOneMetadata } = useApp();
 
   return (
     <Flex
@@ -45,11 +45,7 @@ const Sidebar = () => {
                 </Link>
 
                 <Text color="gray.500" textTransform="capitalize">
-                  {
-                    state.metadata?.userRoles.find(
-                      (user) => user.id === state.user.userRoleId
-                    )?.name
-                  }
+                  {getOneMetadata("userRoles", state.user.userRoleId)?.name}
                 </Text>
               </>
             )}

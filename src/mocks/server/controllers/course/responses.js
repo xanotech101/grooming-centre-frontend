@@ -1,8 +1,5 @@
-import { rest } from "msw";
-import { getUrl } from "../http";
-
-const courses = {
-  courseListing: [
+export const courseListingRes = {
+  data: [
     {
       id: 23,
       title: "The implication of financial crisis in the society",
@@ -25,15 +22,3 @@ const courses = {
     },
   ],
 };
-
-const handleSuccessResponse = (data) => (_req, res, ctx) =>
-  res(ctx.status(200), ctx.json({ data }));
-
-const getCourseListing = rest.get(
-  getUrl("/admin/courses"),
-  handleSuccessResponse(courses.courseListing)
-);
-
-const handlers = [getCourseListing];
-
-export default handlers;

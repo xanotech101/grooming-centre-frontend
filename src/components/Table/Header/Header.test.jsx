@@ -55,13 +55,23 @@ describe("Table Header component", () => {
     });
 
     it("displays the filter-body when a filter-button is clicked", () => {
-      const filterButtons = screen.getAllByTestId(/filter-control/);
+      const randomFilterButtonIndex = Math.floor(Math.random() * 3);
+      const filterButton =
+        screen.getAllByTestId(/filter-control/)[randomFilterButtonIndex];
       expect(screen.queryByTestId("filter-body")).not.toBeInTheDocument();
-      filterButtons.forEach((filterButton) => {
-        user.click(filterButton);
-      });
-      const filterBodies = screen.getAllByTestId("filter-body");
-      expect(filterBodies.length).toBeGreaterThan(0);
+
+      user.click(filterButton);
+      expect(screen.getByTestId("filter-body")).toBeInTheDocument();
+    });
+
+    it("hides the filter-body when a filter-overlay is clicked", () => {
+      expect(screen.queryByTestId("filter-body")).not.toBeInTheDocument();
+
+      user.click(screen.getByRole("button", { name: /Department/ }));
+      expect(screen.getByTestId("filter-body")).toBeInTheDocument();
+
+      user.click(screen.getByTestId(/filter-overlay/));
+      expect(screen.queryByTestId("filter-body")).not.toBeInTheDocument();
     });
 
     it("displays `apply/clear-all button` for checkboxes and hides the filter-body when clicked", () => {

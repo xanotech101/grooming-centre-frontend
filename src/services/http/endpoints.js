@@ -66,6 +66,24 @@ export const userSignin = async (body) => {
 //========= END OF Auth Endpoints
 //
 //
+//----------- User Endpoints
+/**
+ * Endpoint to get `user-listing`
+ *
+ * @returns Promise<{ data: `UserListArray` }>
+ */
+export const getUserListing = async () => {
+  const path = `/admin/users`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { users: data };
+};
+//----------- END OF User Endpoints
+//
+//
 //----------- Course Endpoints
 /**
  * Endpoint for course creation

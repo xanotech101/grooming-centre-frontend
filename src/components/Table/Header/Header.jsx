@@ -179,87 +179,102 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
   };
 
   return (
-    <Box
-      backgroundColor="white"
-      position="absolute"
-      width={data.width}
-      top="calc(100% + 5px)"
-      right={data.position === "right-bottom" ? 0 : undefined}
-      rounded="4px"
-      border="1px"
-      borderColor="accent.3"
-      shadow="md"
-    >
-      <form>
-        {data.body.checks && (
-          <Stack padding={2}>
-            {data.body.checks.map((check, index) => (
-              <Checkbox
-                key={index}
-                label={check.label}
-                name={check.label}
-                defaultChecked={selectedChecks.find(
-                  (selected) => check.label === selected.text
-                )}
-                onChange={handleCheckboxChange}
-              />
-            ))}
-          </Stack>
-        )}
-
-        {data.body.radios && (
-          <>
-            <Flex justifyContent="flex-end">
-              <Button
-                ghost
-                xs
-                fontSize="heading.h4"
-                onClick={onClose}
-                data-testid="close"
-              >
-                <AiOutlineClose />
-              </Button>
-            </Flex>
-
-            <Stack paddingBottom={3}>
-              {data.body.radios.map((radio, index) => (
-                <Box
+    <>
+      <Box
+        data-testid="filter-overlay"
+        backgroundColor="black"
+        opacity={0.2}
+        position="fixed"
+        width="100%"
+        height="100%"
+        top={0}
+        left={0}
+        zIndex={1}
+        onClick={onClose}
+      ></Box>
+      <Box
+        backgroundColor="white"
+        position="absolute"
+        zIndex={1}
+        width={data.width}
+        top="calc(100% + 5px)"
+        right={data.position === "right-bottom" ? 0 : undefined}
+        rounded="4px"
+        border="1px"
+        borderColor="accent.3"
+        shadow="md"
+      >
+        <form>
+          {data.body.checks && (
+            <Stack padding={2}>
+              {data.body.checks.map((check, index) => (
+                <Checkbox
                   key={index}
-                  tabIndex={0}
-                  role="button"
-                  data-testid="radio"
-                  cursor="pointer"
-                  _hover={{ backgroundColor: "accent.1" }}
-                  paddingY={1}
-                  paddingX={2}
-                  onClick={onClose}
-                >
-                  <Text>{radio.label}</Text>
-                </Box>
+                  label={check.label}
+                  name={check.label}
+                  defaultChecked={selectedChecks.find(
+                    (selected) => check.label === selected.text
+                  )}
+                  onChange={handleCheckboxChange}
+                />
               ))}
             </Stack>
-          </>
-        )}
+          )}
 
-        {!data.body.radios && data.body.checks && (
-          <HStack
-            as="footer"
-            justifyContent="space-between"
-            borderTop="1px"
-            borderColor="accent.2"
-            padding={2}
-          >
-            <Button ghost xs onClick={handleClearAll}>
-              Clear all
-            </Button>
+          {data.body.radios && (
+            <>
+              <Flex justifyContent="flex-end">
+                <Button
+                  ghost
+                  xs
+                  fontSize="heading.h4"
+                  onClick={onClose}
+                  data-testid="close"
+                >
+                  <AiOutlineClose />
+                </Button>
+              </Flex>
 
-            <Button xs onClick={handleApply}>
-              Apply
-            </Button>
-          </HStack>
-        )}
-      </form>
-    </Box>
+              <Stack paddingBottom={3}>
+                {data.body.radios.map((radio, index) => (
+                  <Box
+                    key={index}
+                    tabIndex={0}
+                    role="button"
+                    data-testid="radio"
+                    cursor="pointer"
+                    _hover={{ backgroundColor: "accent.1" }}
+                    paddingY={1}
+                    paddingX={2}
+                    onClick={onClose}
+                  >
+                    <Text>{radio.label}</Text>
+                  </Box>
+                ))}
+              </Stack>
+            </>
+          )}
+
+          {!data.body.radios && data.body.checks && (
+            <HStack
+              as="footer"
+              justifyContent="space-between"
+              borderTop="1px"
+              borderColor="accent.2"
+              padding={2}
+            >
+              <Button ghost xs onClick={handleClearAll}>
+                Clear all
+              </Button>
+
+              <Button xs onClick={handleApply}>
+                Apply
+              </Button>
+            </HStack>
+          )}
+        </form>
+      </Box>
+    </>
   );
 };
 

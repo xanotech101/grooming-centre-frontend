@@ -24,7 +24,7 @@ function App() {
   );
 }
 
-const useConfig = () => {
+export const useAppConfig = () => {
   const appManager = useApp();
 
   const {
@@ -52,7 +52,7 @@ const useConfig = () => {
 };
 
 const AppConfig = () => {
-  useConfig();
+  useAppConfig();
 
   return (
     <Switch>

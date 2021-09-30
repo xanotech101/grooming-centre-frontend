@@ -17,13 +17,12 @@ import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 
 const ProfilePage = () => {
   const {
-    state: { user, metadata },
+    state: { user },
+    getOneMetadata,
   } = useApp();
 
   const userIsLoading = !user;
-  const role = metadata?.userRoles.find(
-    (userRole) => userRole.id === user?.userRoleId
-  );
+  const role = getOneMetadata("userRoles", user?.userRoleId);
 
   return (
     <Box marginTop={10} padding={2}>
