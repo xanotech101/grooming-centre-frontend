@@ -24,7 +24,7 @@ export const OnBoardingFormLayout = ({
           </Box>
         )}
 
-        {renderInputs && renderSubmit && (
+        {!renderBody && renderInputs && renderSubmit && (
           <Flex
             flexDirection="column"
             as="form"
