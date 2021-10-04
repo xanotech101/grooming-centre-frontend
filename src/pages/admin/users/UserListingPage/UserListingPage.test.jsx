@@ -1,8 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import UserListingPage from "./UserListingPage";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router-dom";
 
 describe("UserListingPage", () => {
-  beforeEach(() => render(<UserListingPage />));
+  const history = createMemoryHistory();
+
+  beforeEach(() =>
+    render(
+      <Router history={history}>
+        <UserListingPage />
+      </Router>
+    )
+  );
 
   it("renders the heading of page", () => {
     expect(

@@ -19,11 +19,18 @@ const MainArea = () => {
         <Switch>
           <DashboardPageRoute exact path="/admin" />
           <CourseListingPageRoute exact path="/admin/courses" />
-          <UserListingPageRoute path="/admin/users" />
-          <UserInfoPageRoute path="/admin/users/:id" />
-          <CreateCoursePageRoute exact path="/admin/manage/add-course" />
-          <CreateLessonPageRoute exact path="/admin/manage/add-lesson" />
-          <CreateUserPageRoute exact path="/admin/manage/add-user" />
+          <CreateCoursePageRoute exact path="/admin/courses/create" />
+          <CreateLessonPageRoute
+            exact
+            path="/admin/courses/:id/lessons/create"
+          />
+          <UserListingPageRoute exact path="/admin/users" />
+          <CreateUserPageRoute exact path="/admin/users/create" />
+          <UserInfoPageRoute exact path="/admin/users/details/:id" />
+          {/* 
+            <DepartmentsPageRoute exact path="/admin/others/departments" />
+            <RolesPageRoute exact path="/admin/other" /> 
+          */}
           <NotFoundPageRoute />
         </Switch>
       </Box>
