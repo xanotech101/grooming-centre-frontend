@@ -12,7 +12,6 @@ import {
 } from "../layouts";
 import { useApp } from "../contexts";
 import { useEffect } from "react";
-import AuthCheckPageRoute from "../pages/global/auth/AuthCheckPage";
 
 function App() {
   return (
@@ -59,7 +58,6 @@ const AppConfig = () => {
       <AdminLayoutRoute path="/admin" />
       <AssessmentLayoutRoute path="/courses/take/:course_id/assessment/start" />
       <TakeCourseLayoutRoute path="/courses/take" />
-      <AuthCheckPageRoute path="/auth-check" />
       <UserLayoutRoute path="/" />
     </Switch>
   );

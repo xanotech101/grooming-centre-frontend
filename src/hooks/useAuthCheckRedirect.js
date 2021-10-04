@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useApp } from "../../../../contexts";
+import { useApp } from "../contexts";
 
 export const useIsAuthRedirect = () => {
   const appManager = useApp();

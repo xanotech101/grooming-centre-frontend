@@ -5,7 +5,7 @@ import MainArea from "./MainArea";
 import Footer from "./Footer";
 import { Box } from "@chakra-ui/layout";
 import breakpoints from "../../theme/breakpoints";
-import { useIsAuthRedirect } from "../../pages/global";
+import { useIsAuthRedirect } from "../../hooks/useAuthCheckRedirect";
 
 const UserLayout = () => {
   useIsAuthRedirect();

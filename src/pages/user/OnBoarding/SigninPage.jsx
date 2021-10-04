@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import {
   Text,
 } from "../../../components";
 import { useApp } from "../../../contexts";
+import { useAuthCheckRedirect } from "../../../hooks/useAuthCheckRedirect";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userSignin } from "../../../services";
 
@@ -26,6 +27,8 @@ const SigninPage = () => {
   const appManager = useApp();
   const { handleLogout } = appManager;
 
+  const [checkAuth, setCheckAuth] = useState(false);
+
   const onSubmit = async (data) => {
     try {
       const { user, token } = await userSignin(data);
@@ -35,11 +38,11 @@ const SigninPage = () => {
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
 
-      window.location.replace(
-        user.isInviteActive
-          ? "/auth/new-password?isInviteActive"
-          : "/auth-check"
-      );
+      if (user.isInviteActive) {
+        window.location.replace("/auth/new-password");
+      } else {
+        setCheckAuth(true);
+      }
 
       reset();
     } catch (err) {
@@ -75,14 +78,15 @@ const SigninPage = () => {
             isRequired
             {...register("password")}
           />
+          {checkAuth && <AuthCheck />}
         </>
       )}
       onSubmit={handleSubmit(onSubmit)}
       renderSubmit={(props) => (
         <Button
           {...props}
-          isLoading={isSubmitting}
-          disabled={isSubmitting}
+          isLoading={isSubmitting || checkAuth}
+          // disabled={isSubmitting}
           loadingText="Sign in"
         >
           Sign in
@@ -99,6 +103,12 @@ const SigninPage = () => {
       )}
     />
   );
+};
+
+const AuthCheck = () => {
+  useAuthCheckRedirect(1000);
+
+  return null;
 };
 
 export const SigninPageRoute = ({ ...rest }) => {
