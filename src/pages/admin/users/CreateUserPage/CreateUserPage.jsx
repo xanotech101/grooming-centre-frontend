@@ -5,6 +5,7 @@ import { Input, Select } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
+import { capitalizeWords } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
 
 const CreateUserPage = ({
@@ -50,7 +51,7 @@ const CreateUserPage = ({
 
   const populateSelectOptions = (data, filterBody = () => true) => {
     return data?.filter(filterBody)?.map((item) => ({
-      label: item.name,
+      label: capitalizeWords(item.name),
       value: item.id,
     }));
   };
