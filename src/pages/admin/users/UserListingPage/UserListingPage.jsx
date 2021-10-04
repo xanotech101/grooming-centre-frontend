@@ -142,7 +142,7 @@ const UserListingPage = () => {
           Manage Users
         </Heading>
 
-        <Button>Add User</Button>
+        <Button link="/admin/manage/add-user">Add User</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />
