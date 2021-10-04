@@ -28,7 +28,7 @@ const SigninPage = () => {
   const appManager = useApp();
   const { handleLogout } = appManager;
 
-  const [checkAuth, setCheckAuth] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -42,7 +42,7 @@ const SigninPage = () => {
       if (user.isInviteActive) {
         window.location.replace("/auth/new-password");
       } else {
-        setCheckAuth(true);
+        setIsCheckingAuth(true);
       }
 
       reset();
@@ -83,15 +83,15 @@ const SigninPage = () => {
             isRequired
             {...register("password")}
           />
-          {checkAuth && <AuthCheck />}
+          {isCheckingAuth && <AuthCheck />}
         </>
       )}
       onSubmit={handleSubmit(onSubmit)}
       renderSubmit={(props) => (
         <Button
           {...props}
-          isLoading={isSubmitting || checkAuth}
-          // disabled={isSubmitting}
+          isLoading={isSubmitting || isCheckingAuth}
+          disabled={isSubmitting || isCheckingAuth}
           loadingText="Sign in"
         >
           Sign in
