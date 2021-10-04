@@ -6,6 +6,7 @@ import { OnBoardingFormLayout } from "../../../../layouts";
 import { useForm } from "react-hook-form";
 import { userForgetPassword } from "../../../../services";
 import { useState } from "react";
+import { capitalizeFirstLetter } from "../../../../utils/formatString";
 
 const ForgotPasswordPage = () => {
   const toast = useToast();
