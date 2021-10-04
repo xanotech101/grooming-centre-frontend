@@ -5,3 +5,11 @@ export const superAdminInviteAdminRes = {
 export const adminInviteUserRes = {
   message: "User invited successfully",
 };
+
+export const userResetPasswordRes = {
+  message: "password changed",
+};
+
+export const userForgetPasswordRes = {
+  message: "email sent please check your mail",
+};

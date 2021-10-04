@@ -1,7 +1,12 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
-import { adminInviteUserRes, superAdminInviteAdminRes } from "./responses";
+import {
+  adminInviteUserRes,
+  superAdminInviteAdminRes,
+  userForgetPasswordRes,
+  userResetPasswordRes,
+} from "./responses";
 
 const superAdminInviteAdmin = rest.post(
   getUrl("/superadmin/invite/admin"),
@@ -12,9 +17,25 @@ const adminInviteUser = rest.post(
   handleSuccessResponse(adminInviteUserRes)
 );
 
-const auth = {
+const userResetPassword = rest.post(
+  getUrl("/password/reset"),
+  handleSuccessResponse(userResetPasswordRes)
+);
+const userForgetPassword = rest.post(
+  getUrl("/forgot/password"),
+  handleSuccessResponse(userForgetPasswordRes)
+);
+
+export const userForgetPasswordError = rest.post(
+  getUrl("/forgot/password"),
+  (_req, res, ctx) => res(ctx.status(500))
+);
+
+const auth = [
   superAdminInviteAdmin,
   adminInviteUser,
-};
+  userResetPassword,
+  userForgetPassword,
+];
 
 export default auth;

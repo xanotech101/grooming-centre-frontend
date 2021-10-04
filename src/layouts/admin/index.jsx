@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom";
 import { useApp } from "../../contexts";
-import { useIsAuthRedirect } from "../../pages/global";
+import { useIsAuthRedirect } from "../../hooks/useAuthCheckRedirect";
 import breakpoints from "../../theme/breakpoints";
 import Header from "./Header";
 import MainArea from "./MainArea/MainArea";

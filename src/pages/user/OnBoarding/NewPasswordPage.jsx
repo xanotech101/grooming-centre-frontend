@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import { Brand, Button, Input } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
-import { userCreateNewPassword } from "../../../services";
+import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
 import { useHistory } from "react-router-dom";
+import useQueryParams from "../../../hooks/useQueryParams";
 
 const NewPasswordPage = () => {
   const toast = useToast();
@@ -18,16 +19,22 @@ const NewPasswordPage = () => {
   } = useForm();
   const { handleLogout } = useApp();
   const { replace } = useHistory();
+  const queryParams = useQueryParams();
+
+  const resetToken = queryParams.get("resetToken");
 
   const onSubmit = async (data) => {
+    const handleRequest = (body) =>
+      resetToken ? userResetPassword(body) : userCreateNewPassword(body);
+
     try {
-      if (data.password !== data.retypePassword) {
+      if (data.password !== data.confirmPassword) {
         throw new Error("Passwords must match");
       }
 
-      const { message } = await userCreateNewPassword({
-        password: data.password,
-      });
+      const body = { password: data.password };
+
+      const { message } = await handleRequest(body);
       toast({ description: message, position: "top", status: "success" });
       handleLogout();
       reset();
@@ -56,17 +63,17 @@ const NewPasswordPage = () => {
             {...register("password")}
           />
           <Input
-            id="retypePassword"
+            id="confirmPassword"
             type="password"
-            label="Retype password"
+            label="Confirm password"
             isRequired
-            {...register("retypePassword")}
+            {...register("confirmPassword")}
           />
         </>
       )}
       renderSubmit={(props) => (
         <Button {...props} isLoading={isSubmitting}>
-          Create new password
+          {resetToken ? "Reset password" : "Create new password"}
         </Button>
       )}
     />

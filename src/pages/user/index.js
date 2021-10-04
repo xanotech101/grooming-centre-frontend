@@ -7,5 +7,5 @@ export * from "./EventsPage";
 export * from "./ForumPage";
 export * from "./LibraryPage";
 export * from "./OnBoarding/SigninPage";
-export * from "./OnBoarding/ForgotPasswordPage";
+export * from "./OnBoarding/ForgotPasswordPage/ForgotPasswordPage";
 export * from "./OnBoarding/NewPasswordPage";

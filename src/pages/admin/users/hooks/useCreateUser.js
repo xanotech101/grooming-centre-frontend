@@ -30,7 +30,7 @@ const useCreateUser = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [formManager]);
+  }, [formManager, getOneMetadata]);
 
   const handleResetDepartmentIsRequired = () => setDepartmentIsRequired(true);
 

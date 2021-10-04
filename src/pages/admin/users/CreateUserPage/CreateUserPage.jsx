@@ -1,8 +1,7 @@
 import { Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { TvRounded } from "@material-ui/icons";
 import { Route } from "react-router-dom";
-import { Input, Select, Text } from "../../../../components";
+import { Input, Select } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
