@@ -24,7 +24,11 @@ const ForgotPasswordPage = () => {
       setStatus({ success: true });
     } catch (err) {
       setStatus({ err: true });
-      toast({ description: err.message, position: "top", status: "error" });
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
     }
   };
 

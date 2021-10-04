@@ -15,6 +15,7 @@ import { useApp } from "../../../contexts";
 import { useAuthCheckRedirect } from "../../../hooks/useAuthCheckRedirect";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userSignin } from "../../../services";
+import { capitalizeFirstLetter } from "../../../utils/formatString";
 
 const SigninPage = () => {
   const toast = useToast();
@@ -33,7 +34,7 @@ const SigninPage = () => {
     try {
       const { user, token } = await userSignin(data);
 
-      // toast({ description: message, position: "top", status: "success" });
+      // toast({ description: capitalizeFirstLetter(message), position: "top", status: "success" });
 
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
@@ -46,7 +47,11 @@ const SigninPage = () => {
 
       reset();
     } catch (err) {
-      toast({ description: err.message, position: "top", status: "error" });
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
     }
   };
 
