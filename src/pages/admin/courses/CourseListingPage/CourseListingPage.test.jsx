@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import CourseListingPage from "./CourseListingPage";
@@ -7,10 +8,12 @@ describe("CourseListingPage", () => {
   const history = createMemoryHistory();
 
   beforeEach(() =>
-    render(
-      <Router history={history}>
-        <CourseListingPage />
-      </Router>
+    act(() =>
+      render(
+        <Router history={history}>
+          <CourseListingPage />
+        </Router>
+      )
     )
   );
 
@@ -27,6 +30,6 @@ describe("CourseListingPage", () => {
   });
 
   it("renders a `table`", () => {
-    expect(screen.getByRole("table")).toBeInTheDocument();
+    act(() => expect(screen.getByRole("table")).toBeInTheDocument());
   });
 });

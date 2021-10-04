@@ -1,18 +1,20 @@
-import { Flex } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import { Text } from "../../components";
+import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 
 const Footer = () => {
   return (
-    <Flex
+    <Box
       as="footer"
-      backgroundColor="primary.base"
       color="white"
+      backgroundColor="primary.base"
       height="100px"
-      alignItems="center"
-      paddingX={5}
+      padding={5}
     >
-      <Text as="level1">All rights reserved</Text>
-    </Flex>
+      <Flex alignItems="center" {...maxWidthStyles_userPages}>
+        <Text as="level1">All rights reserved</Text>
+      </Flex>
+    </Box>
   );
 };
 

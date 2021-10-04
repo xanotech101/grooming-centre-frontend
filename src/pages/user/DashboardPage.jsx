@@ -15,6 +15,7 @@ import { RiBarChartFill } from "react-icons/ri";
 import { Route } from "react-router-dom";
 import { Button, Heading, Link, Text } from "../../components";
 import { CoursesRowLayout } from "../../layouts";
+import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 import colors from "../../theme/colors";
 
 const scheduledCards = [
@@ -107,7 +108,11 @@ const hoursSpentChartConfig = {
 
 const DashboardPage = () => {
   return (
-    <Stack spacing={16} padding={{ base: 2, laptop: 5 }}>
+    <Stack
+      spacing={16}
+      padding={{ base: 2, laptop: 5 }}
+      {...maxWidthStyles_userPages}
+    >
       <Flex
         flexDirection={{ base: "column", laptop: "row" }}
         alignItems={{ base: "flex-start", laptop: "center" }}
