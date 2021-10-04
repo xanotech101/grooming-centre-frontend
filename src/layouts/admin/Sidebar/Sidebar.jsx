@@ -1,12 +1,13 @@
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
-import { Link, Text } from "../../../components";
+import { AiOutlinePoweroff } from "react-icons/ai";
+import { Button, Link, Text } from "../../../components";
 import { useApp } from "../../../contexts";
 import links from "./links";
 import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
-  const { state, getOneMetadata } = useApp();
+  const { state, getOneMetadata, handleLogout } = useApp();
 
   return (
     <Flex
@@ -58,6 +59,18 @@ const Sidebar = () => {
               <SidebarLink key={link.text} link={link} />
             ))}
           </Stack>
+        </Box>
+
+        <Box padding={5}>
+          <Button
+            width="100%"
+            onClick={handleLogout}
+            ghost
+            backgroundColor="secondary.05"
+            leftIcon={<AiOutlinePoweroff />}
+          >
+            Logout
+          </Button>
         </Box>
       </Flex>
     </Flex>

@@ -8,4 +8,10 @@ const breakpoints = {
   "4k": "2560px",
 };
 
+export const maxWidthStyles_userPages = {
+  maxWidth: breakpoints["laptop-l"],
+  marginX: "auto",
+  paddingX: { base: 3, laptop: 6 },
+};
+
 export default breakpoints;

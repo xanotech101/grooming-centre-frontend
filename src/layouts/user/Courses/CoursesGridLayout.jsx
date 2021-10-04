@@ -12,7 +12,7 @@ export const CoursesGridLayout = () => {
         "mobile-l": "repeat(2, 1fr)",
         tablet: "repeat(3, 1fr)",
         laptop: "repeat(4, 1fr)",
-        "laptop-l": "repeat(5, 1fr)",
+        // "laptop-l": "repeat(5, 1fr)",
         "4k": "repeat(6, 1fr)",
       }}
       overflowX={{
@@ -21,7 +21,8 @@ export const CoursesGridLayout = () => {
         "mobile-l": "hidden",
       }}
       overflowY="hidden"
-      gap={{ base: 3, laptop: 6 }}
+      columnGap={{ base: "40px", laptop: "60px" }}
+      rowGap={{ base: "40px", laptop: "50px" }}
       padding={1}
     >
       {courses.map((course, index) => (

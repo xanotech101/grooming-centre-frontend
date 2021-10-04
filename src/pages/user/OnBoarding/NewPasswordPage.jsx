@@ -8,6 +8,7 @@ import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
 import { useHistory } from "react-router-dom";
 import useQueryParams from "../../../hooks/useQueryParams";
+import { capitalizeFirstLetter } from "../../../utils/formatString";
 
 const NewPasswordPage = () => {
   const toast = useToast();
@@ -35,13 +36,21 @@ const NewPasswordPage = () => {
       const body = { password: data.password };
 
       const { message } = await handleRequest(body);
-      toast({ description: message, position: "top", status: "success" });
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
       handleLogout();
       reset();
 
       replace("/auth/signin");
     } catch (err) {
-      toast({ description: err.message, position: "top", status: "error" });
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
     }
   };
 

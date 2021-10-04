@@ -5,6 +5,10 @@ import { Input, Select } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
+import {
+  capitalizeFirstLetter,
+  capitalizeWords,
+} from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
 
 const CreateUserPage = ({
@@ -40,17 +44,25 @@ const CreateUserPage = ({
         success: message,
       });
 
-      toast({ description: message, position: "top", status: "success" });
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
       reset();
       handleResetDepartmentIsRequired();
     } catch (err) {
-      toast({ description: err.message, position: "top", status: "error" });
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
     }
   };
 
   const populateSelectOptions = (data, filterBody = () => true) => {
     return data?.filter(filterBody)?.map((item) => ({
-      label: item.name,
+      label: capitalizeWords(item.name),
       value: item.id,
     }));
   };

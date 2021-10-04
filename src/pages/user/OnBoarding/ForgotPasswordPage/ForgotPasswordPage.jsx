@@ -6,6 +6,7 @@ import { OnBoardingFormLayout } from "../../../../layouts";
 import { useForm } from "react-hook-form";
 import { userForgetPassword } from "../../../../services";
 import { useState } from "react";
+import { capitalizeFirstLetter } from "../../../../utils/formatString";
 
 const ForgotPasswordPage = () => {
   const toast = useToast();
@@ -24,7 +25,11 @@ const ForgotPasswordPage = () => {
       setStatus({ success: true });
     } catch (err) {
       setStatus({ err: true });
-      toast({ description: err.message, position: "top", status: "error" });
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
     }
   };
 

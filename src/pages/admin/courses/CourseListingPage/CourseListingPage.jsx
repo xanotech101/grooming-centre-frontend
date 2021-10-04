@@ -6,6 +6,7 @@ import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper
 import { useCallback, useEffect, useState } from "react";
 import { getCourseListing } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
+import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 
 const tableProps = {
   filterControls: [
@@ -83,6 +84,8 @@ const tableProps = {
 };
 
 const useCourseListing = () => {
+  const componentIsMount = useComponentIsMount();
+
   const [rows, setRows] = useState({
     data: null,
     loading: false,
@@ -97,14 +100,15 @@ const useCourseListing = () => {
         const { courses } = await getCourseListing();
 
         const data = mapper ? courses.map(mapper) : courses;
-        setRows({ data });
+
+        if (componentIsMount) setRows({ data });
       } catch (err) {
-        setRows({ err: true });
+        if (componentIsMount) setRows({ err: true });
       } finally {
-        setRows((prev) => ({ ...prev, loading: false }));
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
       }
     },
-    [setRows]
+    [setRows, componentIsMount]
   );
 
   return {
@@ -143,7 +147,7 @@ const CourseListingPage = () => {
           Courses
         </Heading>
 
-        <Button link="/admin/manage/add-course">Add Course</Button>
+        <Button link="/admin/courses/create">Add Course</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />

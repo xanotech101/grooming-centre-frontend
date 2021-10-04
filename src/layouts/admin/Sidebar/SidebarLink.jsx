@@ -104,14 +104,15 @@ const SidebarLink = ({ link }) => {
                 }}
                 style={{
                   display: "block",
-                  color: colors.accent[2],
+                  color: colors.accent[3],
                 }}
               >
                 <Text
                   padding={1}
                   marginY={2}
                   paddingX={5}
-                  _hover={{ color: "accent.3" }}
+                  textTransform="capitalize"
+                  _hover={{ color: "accent.2" }}
                 >
                   {link.text}
                 </Text>

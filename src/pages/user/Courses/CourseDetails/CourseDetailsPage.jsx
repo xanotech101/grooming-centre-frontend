@@ -8,7 +8,9 @@ import { Route } from "react-router-dom";
 import coverImagePlaceholder from "../../../../assets/images/onboarding1.png";
 import { Button, Heading, Image, Spinner, Text } from "../../../../components";
 import { useFakeLoading } from "../../../../hooks";
-import breakpoints from "../../../../theme/breakpoints";
+import breakpoints, {
+  maxWidthStyles_userPages,
+} from "../../../../theme/breakpoints";
 import { getDuration } from "../../../../utils";
 import useAccordion from "./hooks/useAccordion";
 
@@ -85,29 +87,30 @@ const CourseDetailsPage = () => {
     </Flex>
   ) : (
     <Box>
-      <Stack
+      <Box
         as="section"
-        padding={10}
-        spacing={7}
         backgroundColor="secondary.9"
-        color="white"
+        padding={10}
         marginBottom={10}
+        color="white"
       >
-        <Heading>{title}</Heading>
-        <Text as="level2">{description}</Text>
+        <Stack spacing={7} {...maxWidthStyles_userPages}>
+          <Heading>{title}</Heading>
+          <Text as="level2">{description}</Text>
 
-        <HStack spacing={4}>
-          <Image
-            src={instructor.image || coverImagePlaceholder}
-            rounded="full"
-            boxSize="40px"
-          />
+          <HStack spacing={4}>
+            <Image
+              src={instructor.image || coverImagePlaceholder}
+              rounded="full"
+              boxSize="40px"
+            />
 
-          <Text as="level1" bold>
-            {instructor.name}
-          </Text>
-        </HStack>
-      </Stack>
+            <Text as="level1" bold>
+              {instructor.name}
+            </Text>
+          </HStack>
+        </Stack>
+      </Box>
 
       <Box
         padding={5}
@@ -179,7 +182,7 @@ const CourseDetailsPage = () => {
                 />
 
                 <Button
-                  link={`/course/take/lessons/${lesson.id}`}
+                  link={`/courses/take/${courseData.id}/lessons/${lesson.id}`}
                   secondary
                   sm
                   disabled={lesson.locked}

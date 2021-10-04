@@ -15,6 +15,7 @@ import { useApp } from "../../../contexts";
 import { useAuthCheckRedirect } from "../../../hooks/useAuthCheckRedirect";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userSignin } from "../../../services";
+import { capitalizeFirstLetter } from "../../../utils/formatString";
 
 const SigninPage = () => {
   const toast = useToast();
@@ -27,13 +28,13 @@ const SigninPage = () => {
   const appManager = useApp();
   const { handleLogout } = appManager;
 
-  const [checkAuth, setCheckAuth] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       const { user, token } = await userSignin(data);
 
-      // toast({ description: message, position: "top", status: "success" });
+      // toast({ description: capitalizeFirstLetter(message), position: "top", status: "success" });
 
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
@@ -41,12 +42,16 @@ const SigninPage = () => {
       if (user.isInviteActive) {
         window.location.replace("/auth/new-password");
       } else {
-        setCheckAuth(true);
+        setIsCheckingAuth(true);
       }
 
       reset();
     } catch (err) {
-      toast({ description: err.message, position: "top", status: "error" });
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
     }
   };
 
@@ -78,15 +83,15 @@ const SigninPage = () => {
             isRequired
             {...register("password")}
           />
-          {checkAuth && <AuthCheck />}
+          {isCheckingAuth && <AuthCheck />}
         </>
       )}
       onSubmit={handleSubmit(onSubmit)}
       renderSubmit={(props) => (
         <Button
           {...props}
-          isLoading={isSubmitting || checkAuth}
-          // disabled={isSubmitting}
+          isLoading={isSubmitting || isCheckingAuth}
+          disabled={isSubmitting || isCheckingAuth}
           loadingText="Sign in"
         >
           Sign in

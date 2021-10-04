@@ -11,7 +11,7 @@ export const CoursesRowLayout = () => {
       }}
       overflowX="scroll"
       overflowY="hidden"
-      gap={{ base: 3, laptop: 6 }}
+      columnGap={{ base: "40px", laptop: "60px" }}
       padding={1}
     >
       {courses.slice(0, 10).map((course, index) => (
