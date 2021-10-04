@@ -179,7 +179,7 @@ const CourseDetailsPage = () => {
                 />
 
                 <Button
-                  link={`/course/take/lessons/${lesson.id}`}
+                  link={`/courses/take/${courseData.id}/lessons/${lesson.id}`}
                   secondary
                   sm
                   disabled={lesson.locked}
