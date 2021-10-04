@@ -6,12 +6,13 @@ import { Brand, Button, Input } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userCreateNewPassword } from "../../../services";
 import { useApp } from "../../../contexts";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import useQueryParams from "../../../hooks/useQueryParams";
 
 const NewPasswordPage = () => {
-  const p = useParams();
+  const queryParams = useQueryParams();
 
-  console.log(p);
+  console.log(queryParams);
 
   const toast = useToast();
   const {
