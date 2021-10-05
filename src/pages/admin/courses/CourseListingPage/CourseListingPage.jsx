@@ -4,7 +4,7 @@ import { FaSortAmountUpAlt } from "react-icons/fa";
 import { Button, Heading, Table, Text } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { getCourseListing } from "../../../../services";
+import { adminGetCourseListing } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 
@@ -97,7 +97,7 @@ const useCourseListing = () => {
       setRows({ loading: true });
 
       try {
-        const { courses } = await getCourseListing();
+        const { courses } = await adminGetCourseListing();
 
         const data = mapper ? courses.map(mapper) : courses;
 

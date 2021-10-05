@@ -14,7 +14,7 @@ import {
 import { useApp } from "../../../contexts";
 import { useAuthCheckRedirect } from "../../../hooks/useAuthCheckRedirect";
 import { OnBoardingFormLayout } from "../../../layouts";
-import { userSignin } from "../../../services";
+import { requestSignin } from "../../../services";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
 
 const SigninPage = () => {
@@ -32,7 +32,7 @@ const SigninPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      const { user, token } = await userSignin(data);
+      const { user, token } = await requestSignin(data);
 
       // toast({ description: capitalizeFirstLetter(message), position: "top", status: "success" });
 

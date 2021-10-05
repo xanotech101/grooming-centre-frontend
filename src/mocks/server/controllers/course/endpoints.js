@@ -3,11 +3,11 @@ import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import { courseListingRes } from "./responses";
 
-const getCourseListing = rest.get(
+const adminGetCourseListing = rest.get(
   getUrl("/admin/courses"),
   handleSuccessResponse(courseListingRes)
 );
 
-const course = [getCourseListing];
+const course = [adminGetCourseListing];
 
 export default course;
