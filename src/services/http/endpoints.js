@@ -145,6 +145,21 @@ export const adminGetCourseListing = async () => {
 
   return { courses: data };
 };
+
+/**
+ * Endpoint to get `course-listing`
+ *
+ * @returns Promise<{ data: `CourseListArray` }>
+ */
+export const userGetCourseListing = async () => {
+  const path = `/course/user/courses`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { courses: data };
+};
 //----------- END OF Course Endpoints
 //
 //
