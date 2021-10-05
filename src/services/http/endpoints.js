@@ -134,7 +134,7 @@ export const adminEditCourse = async (courseId, body) => {
 /**
  * Endpoint to get `course-listing`
  *
- * @returns Promise<{ data: `CourseListArray` }>
+ * @returns Promise<{ courses: `CourseListArray` }>
  */
 export const adminGetCourseListing = async () => {
   const path = `/admin/courses`;
@@ -149,7 +149,7 @@ export const adminGetCourseListing = async () => {
 /**
  * Endpoint to get `course-listing`
  *
- * @returns Promise<{ data: `CourseListArray` }>
+ * @returns Promise<{ courses: `CourseListArray` }>
  */
 export const userGetCourseListing = async () => {
   const path = `/course/user/courses`;
