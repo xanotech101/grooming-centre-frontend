@@ -14,6 +14,9 @@ const fontSizes = {
     level6: "8px",
     level7: "6px",
   },
+  others: {
+    1: "28px",
+  },
 };
 
 export default fontSizes;

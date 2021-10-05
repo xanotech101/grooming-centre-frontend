@@ -5,7 +5,8 @@ import { FaCalendar } from "react-icons/fa";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import { Route } from "react-router-dom";
-import coverImagePlaceholder from "../../../../assets/images/onboarding1.png";
+import coverImagePlaceholder from "../../../../assets/images/User_CourseDetailsHeader.svg";
+import avatarImagePlaceholder from "../../../../assets/images/Avatar.svg";
 import { Button, Heading, Image, Spinner, Text } from "../../../../components";
 import { useFakeLoading } from "../../../../hooks";
 import breakpoints, {
@@ -89,18 +90,43 @@ const CourseDetailsPage = () => {
     <Box>
       <Box
         as="section"
-        backgroundColor="secondary.9"
         padding={10}
         marginBottom={10}
+        // backgroundColor="secondary.9"
         color="white"
+        position="relative"
       >
-        <Stack spacing={7} {...maxWidthStyles_userPages}>
+        <Image
+          src={coverImagePlaceholder}
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          position="absolute"
+          alt="Course Header"
+        />
+        <Box
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          position="absolute"
+          backgroundColor="black"
+          opacity={0.7}
+        ></Box>
+
+        <Stack
+          spacing={7}
+          position="relative"
+          // zIndex={1}
+          {...maxWidthStyles_userPages}
+        >
           <Heading>{title}</Heading>
           <Text as="level2">{description}</Text>
 
           <HStack spacing={4}>
             <Image
-              src={instructor.image || coverImagePlaceholder}
+              src={instructor.image || avatarImagePlaceholder}
               rounded="full"
               boxSize="40px"
             />
