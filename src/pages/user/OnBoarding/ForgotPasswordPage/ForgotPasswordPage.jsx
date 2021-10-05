@@ -38,7 +38,11 @@ const ForgotPasswordPage = () => {
   return (
     <OnBoardingFormLayout
       onSubmit={handleSubmit(onSubmit)}
-      renderHeader={() => <Heading as="h2">Forgot password</Heading>}
+      renderHeader={() => (
+        <Heading as="h1" fontSize="heading.h3">
+          Forgot password
+        </Heading>
+      )}
       renderInputs={() => (
         <Input
           id="email"

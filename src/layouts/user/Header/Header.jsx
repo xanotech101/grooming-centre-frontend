@@ -9,6 +9,7 @@ import {
   MenuList,
 } from "@chakra-ui/menu";
 import { MdNotificationsActive } from "react-icons/md";
+import avatarImagePlaceholder from "../../../assets/images/Avatar.svg";
 import { BrandLogo, Button, Image, SearchBar } from "../../../components";
 import { useApp } from "../../../contexts";
 import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
@@ -49,7 +50,7 @@ const Avatar = () => {
   return (
     <Menu>
       <MenuButton as={IconButton} colorScheme="pink" isRound>
-        <Image rounded="full" boxSize="40px" isLoading />
+        <Image rounded="full" boxSize="40px" src={avatarImagePlaceholder} />
       </MenuButton>
 
       <MenuList position="relative" zIndex={2}>

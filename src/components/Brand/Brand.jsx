@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
+import imagePlaceholder from "../../assets/images/Brand.svg";
 import { Image, Link, Text } from "..";
 
 export const Brand = ({ sm, textColor }) => {
@@ -19,7 +20,7 @@ export const Brand = ({ sm, textColor }) => {
             fontSize={sm ? "text.level1" : "heading.h2"}
             lineHeight="30px"
             textColor={textColor}
-            transform="translateY(20%)"
+            // transform="translateY(20%)"
           >
             UNKNOWN
           </Text>
@@ -39,7 +40,12 @@ export const BrandLogo = ({ sm, ...rest }) => {
 
 const Logo = ({ sm, ...rest }) => {
   return (
-    <Image boxSize={sm ? "40px" : "50px"} isLoading rounded="full" {...rest} />
+    <Image
+      src={imagePlaceholder}
+      boxSize={sm ? "40px" : "50px"}
+      rounded="full"
+      {...rest}
+    />
   );
 };
 

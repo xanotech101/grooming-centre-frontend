@@ -1,6 +1,7 @@
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, HStack } from "@chakra-ui/layout";
 import onBoardingImage from "../../../assets/images/onboarding1.png";
+import bgImagePlaceholder from "../../../assets/images/Auth.svg";
 import { Heading, Text } from "../../../components";
 
 const Hero = () => {
@@ -24,8 +25,21 @@ const Hero = () => {
         flexDirection="column"
         justifyContent="center"
         textAlign="center"
+        position="relative"
       >
+        <Image
+          src={bgImagePlaceholder}
+          // width="150%"
+          // height="100%"
+          opacity={0.5}
+          top={0}
+          left={0}
+          position="absolute"
+          alt="Course Header"
+        />
+
         <Flex
+          position="relative"
           flexDirection="column"
           alignItems="center"
           marginTop="-10"
