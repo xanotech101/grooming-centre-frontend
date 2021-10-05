@@ -1,8 +1,8 @@
 import { Grid } from "@chakra-ui/layout";
 import { CourseBoxCard } from "../../../components";
-import { courses } from "../../../pages/user/Courses/fakeCourses";
+// import { courses } from "../../../pages/user/Courses/fakeCourses";
 
-export const CoursesGridLayout = () => {
+export const CoursesGridLayout = ({ courses }) => {
   return (
     <Grid
       className="courses-grid-layout"
@@ -25,8 +25,15 @@ export const CoursesGridLayout = () => {
       rowGap={{ base: "40px", laptop: "50px" }}
       padding={1}
     >
-      {courses.map((course, index) => (
-        <CourseBoxCard key={index} {...course} />
+      {courses.err}
+
+      {courses.loading &&
+        Array(8)
+          .fill("")
+          .map((_, index) => <CourseBoxCard key={index} isLoading />)}
+
+      {courses.data?.map((course, index) => (
+        <CourseBoxCard key={index} {...course} isLoading={course.loading} />
       ))}
     </Grid>
   );

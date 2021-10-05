@@ -1,13 +1,18 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
-import { courseListingRes } from "./responses";
+import { adminCourseListingRes, userCourseListingRes } from "./responses";
 
-const getCourseListing = rest.get(
+const adminGetCourseListing = rest.get(
   getUrl("/admin/courses"),
-  handleSuccessResponse(courseListingRes)
+  handleSuccessResponse(adminCourseListingRes)
 );
 
-const course = [getCourseListing];
+const userGetCourseListing = rest.get(
+  getUrl("/course/user/courses"),
+  handleSuccessResponse(userCourseListingRes)
+);
+
+const course = [adminGetCourseListing, userGetCourseListing];
 
 export default course;

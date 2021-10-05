@@ -1,8 +1,11 @@
 import { Route } from "react-router-dom";
 import { CoursesGridLayout } from "../../../layouts";
+import useCourses from "./hooks/useCourses";
 
 const InProgressCoursesPage = () => {
-  return <CoursesGridLayout />;
+  const { courses } = useCourses();
+
+  return <CoursesGridLayout courses={courses} />;
 };
 
 const InProgressCoursesPageRoute = ({ ...rest }) => {

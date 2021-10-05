@@ -1,27 +1,24 @@
 import { Box, Flex, HStack, Icon, Stack } from "@chakra-ui/react";
-import { Skeleton, SkeletonText } from "@chakra-ui/skeleton";
+import { Skeleton } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
 import { AiFillBook } from "react-icons/ai";
 import { BsFillClockFill } from "react-icons/bs";
-import { Heading, Image, Link, Text } from "..";
+import { Heading, Image, Link, Text, SkeletonText } from "..";
 import { getDuration } from "../../utils";
-import coverImagePlaceholder from "../../assets/images/onboarding1.png";
-import { useFakeLoading } from "../../hooks";
+import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 
 export const CourseBoxCard = ({
-  coverImage,
+  thumbnail,
   disabled,
   duration,
-  id = "course-slug", // TODO: remove this line
+  id,
   instructor,
-  // isLoading = true,
+  isLoading,
   lessonCount,
-  progress,
+  progressPercentage,
   title,
 }) => {
   duration = getDuration(duration);
-
-  const isLoading = useFakeLoading();
 
   return (
     <Link
@@ -30,12 +27,12 @@ export const CourseBoxCard = ({
       }`}
       href={`/courses/details/${id}`}
     >
-      {progress !== 0 && !isLoading ? (
+      {progressPercentage !== 0 && !isLoading ? (
         <Box
           backgroundColor="accent.5"
           position="absolute"
           zIndex={1}
-          width={`${progress}%`}
+          width={`${progressPercentage}%`}
           paddingY={1}
           textShadow="1px 1px 1.5px rgba(0, 0, 0, .5)"
         >
@@ -45,13 +42,13 @@ export const CourseBoxCard = ({
             color="white"
             width="100px"
           >
-            Progress {progress}%
+            progress {progressPercentage}%
           </Text>
         </Box>
       ) : null}
 
       <Image
-        src={coverImage || coverImagePlaceholder}
+        src={thumbnail || thumbnailPlaceholder}
         filter={disabled ? "sepia(10%)" : "none"}
         isLoading={isLoading}
         className="course-box-card__image"
@@ -70,7 +67,7 @@ export const CourseBoxCard = ({
       >
         <HStack spacing={2}>
           <Image
-            src={instructor.image || coverImagePlaceholder}
+            src={instructor?.image || thumbnailPlaceholder}
             isLoading={isLoading}
             boxSize="37px"
             rounded="full"
@@ -79,13 +76,15 @@ export const CourseBoxCard = ({
           <Box flex={1}>
             {isLoading ? (
               <>
-                <SkeletonText noOfLines={2} />
+                <SkeletonText numberOfLines={2} />
               </>
             ) : (
               <>
-                <Text>{instructor.name}</Text>
+                <Text>
+                  {`${instructor?.firstName} ${instructor?.lastName}`}
+                </Text>
                 <Text as="level5" color="accent.3">
-                  {instructor.role}
+                  {instructor?.title}
                 </Text>
               </>
             )}
@@ -94,7 +93,7 @@ export const CourseBoxCard = ({
 
         <Box flex={1}>
           {isLoading ? (
-            <SkeletonText noOfLines={2} />
+            <SkeletonText numberOfLines={2} />
           ) : (
             <Heading as="h3" fontSize="h4">
               {title}
@@ -123,7 +122,7 @@ export const CourseBoxCard = ({
                 </Icon>
                 {/* TODO: convert minutes to hours and minutes */}
                 <Text>
-                  {duration.hours}hrs {duration.minutes}mins
+                  {duration?.hours}hrs {duration.minutes}mins
                 </Text>
               </Flex>
             </>
@@ -135,17 +134,18 @@ export const CourseBoxCard = ({
 };
 
 CourseBoxCard.propTypes = {
-  coverImage: PropTypes.string,
+  thumbnail: PropTypes.string,
   disabled: PropTypes.bool,
   duration: PropTypes.number,
   id: PropTypes.string,
   isLoading: PropTypes.bool,
   lessonCount: PropTypes.number,
-  progress: PropTypes.number,
+  progressPercentage: PropTypes.number,
   title: PropTypes.string,
   instructor: PropTypes.shape({
-    image: PropTypes.string,
-    name: PropTypes.string,
+    profilePics: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
     role: PropTypes.string,
   }),
 };

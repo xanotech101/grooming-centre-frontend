@@ -49,7 +49,7 @@ const Avatar = () => {
 
   return (
     <Menu>
-      <MenuButton as={IconButton} colorScheme="pink" isRound>
+      <MenuButton as={IconButton} isRound>
         <Image rounded="full" boxSize="40px" src={avatarImagePlaceholder} />
       </MenuButton>
 

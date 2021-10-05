@@ -6,7 +6,7 @@ import { http } from "..";
  *
  * @returns Promise<{ data: `User` }>
  */
-export const getCurrentUser = async () => {
+export const requestMyData = async () => {
   const path = "/me";
 
   const {
@@ -66,7 +66,7 @@ export const userResetPassword = async (body) => {
  * @param {{email: string, password: string}} body
  * @returns Promise<{ user: `Object`, token: `string`, message: `string` }>
  */
-export const userSignin = async (body) => {
+export const requestSignin = async (body) => {
   const path = "/login";
 
   const {
@@ -87,7 +87,7 @@ export const userSignin = async (body) => {
  *
  * @returns Promise<{ data: `UserListArray` }>
  */
-export const getUserListing = async () => {
+export const adminGetUserListing = async () => {
   const path = `/admin/users`;
 
   const {
@@ -105,7 +105,7 @@ export const getUserListing = async () => {
  * @param {{ title: string, instructorId: string, description: string, departmentId: string, }} body
  * @returns Promise<{ message: `string`, data: `Course` }>
  */
-export const createCourse = async (body) => {
+export const adminCreateCourse = async (body) => {
   const path = "/course/create";
 
   const {
@@ -121,7 +121,7 @@ export const createCourse = async (body) => {
  * @param {object} body
  * @returns Promise<{ message: `string`, data: `Course` }>
  */
-export const editCourse = async (courseId, body) => {
+export const adminEditCourse = async (courseId, body) => {
   const path = `/course/edit/${courseId}`;
 
   const {
@@ -134,10 +134,25 @@ export const editCourse = async (courseId, body) => {
 /**
  * Endpoint to get `course-listing`
  *
- * @returns Promise<{ data: `CourseListArray` }>
+ * @returns Promise<{ courses: `CourseListArray` }>
  */
-export const getCourseListing = async () => {
+export const adminGetCourseListing = async () => {
   const path = `/admin/courses`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { courses: data };
+};
+
+/**
+ * Endpoint to get `course-listing`
+ *
+ * @returns Promise<{ courses: `CourseListArray` }>
+ */
+export const userGetCourseListing = async () => {
+  const path = `/course/user/courses`;
 
   const {
     data: { data },
@@ -154,7 +169,7 @@ export const getCourseListing = async () => {
  * @param {{name: string, active: boolean}} body
  * @returns Promise<{ message: `string`, data: `Department` }>
  */
-export const createDepartment = async (body) => {
+export const adminCreateDepartment = async (body) => {
   const path = "/department/create";
 
   const {
@@ -206,7 +221,7 @@ export const superAdminInviteAdmin = async (body) => {
  * Endpoint to get meta data
  * @returns Promise<{ data: `Object` }>
  */
-export const getMetadata = async () => {
+export const requestMetadata = async () => {
   const path = "/metadata";
 
   const {

@@ -3,11 +3,11 @@ import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import { userListingRes } from "./responses";
 
-const getUserListing = rest.get(
+const adminGetUserListing = rest.get(
   getUrl("/admin/users"),
   handleSuccessResponse(userListingRes)
 );
 
-const user = [getUserListing];
+const user = [adminGetUserListing];
 
 export default user;

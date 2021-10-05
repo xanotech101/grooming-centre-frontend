@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react";
-import { getCurrentUser, getMetadata } from "../../services";
+import { requestMyData, requestMetadata } from "../../services";
 import { AppContext } from "./AppProvider";
 
 /**
@@ -26,7 +26,7 @@ export const useApp = () => {
 
   const fetchMetadata = useCallback(async () => {
     try {
-      const { data } = await getMetadata();
+      const { data } = await requestMetadata();
       setState((prev) => ({ ...prev, metadata: data }));
     } catch (err) {
       console.error(err);
@@ -35,7 +35,7 @@ export const useApp = () => {
 
   const fetchCurrentUser = useCallback(async () => {
     try {
-      const { data } = await getCurrentUser();
+      const { data } = await requestMyData();
       setState((prev) => ({ ...prev, user: data }));
     } catch (err) {
       console.error(err);

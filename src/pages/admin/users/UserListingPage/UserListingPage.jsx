@@ -4,7 +4,7 @@ import { FaSortAmountUpAlt } from "react-icons/fa";
 import { Button, Heading, Table } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { getUserListing } from "../../../../services";
+import { adminGetUserListing } from "../../../../services";
 
 const tableProps = {
   filterControls: [
@@ -95,7 +95,7 @@ const useUserListing = () => {
       setRows({ loading: true });
 
       try {
-        const { users } = await getUserListing();
+        const { users } = await adminGetUserListing();
 
         const data = mapper ? users.map(mapper) : users;
         setRows({ data });
