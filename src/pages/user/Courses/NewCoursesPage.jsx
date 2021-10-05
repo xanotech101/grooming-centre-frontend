@@ -1,8 +1,11 @@
 import { Route } from "react-router-dom";
 import { CoursesGridLayout } from "../../../layouts";
+import useCourses from "./hooks/useCourses";
 
 const NewCoursesPage = () => {
-  return <CoursesGridLayout />;
+  const { courses } = useCourses();
+
+  return <CoursesGridLayout courses={courses} />;
 };
 
 const NewCoursesPageRoute = ({ ...rest }) => {
