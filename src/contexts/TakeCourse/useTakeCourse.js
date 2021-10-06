@@ -1,4 +1,7 @@
 import { useContext, useEffect } from "react";
+import { useParams } from "react-router";
+import { useCache } from "..";
+import useCourseDetails from "../../pages/user/Courses/CourseDetails/hooks/useCourseDetails";
 import { TakeCourseContext } from "./TakeCourseProvider";
 
 const takeCourseData = {
@@ -78,6 +81,13 @@ const fetchTakeCourseData = async () =>
  * }
  */
 export const useTakeCourse = () => {
+  const { course_id } = useParams();
+  // console.log(course_id);
+
+  const { fetchCourseDetails, courseDetails } = useCourseDetails(course_id);
+
+  const cacheManager = useCache();
+
   const context = useContext(TakeCourseContext);
   if (!context) {
     throw new Error(
@@ -94,24 +104,38 @@ export const useTakeCourse = () => {
       setState((prev) => ({ ...prev, isLoading: true }));
 
       try {
-        const data = await fetchTakeCourseData();
+        await fetchCourseDetails();
 
-        if (isMounted) {
-          setState((prev) => ({ ...prev, data, isLoading: false }));
-        }
+        // const data = await fetchTakeCourseData();
+
+        // if (isMounted) {
+        //   setState((prev) => ({ ...prev, data, isLoading: false }));
+        // }
       } catch (err) {
         setState({ data: null, err, isLoading: false });
         console.error(err);
       }
     };
 
-    fetchData();
+    if (course_id) fetchData();
 
     return () => {
       isMounted = false;
       setState((prev) => ({ ...prev, isLoading: false }));
     };
-  }, [setState]);
+  }, [course_id]);
+
+  useEffect(() => {
+    if (cacheManager.state[course_id]) {
+      setState({ data: cacheManager.state[course_id] });
+    }
+  }, [cacheManager.state[course_id]]);
+
+  // useEffect(() => {
+  //   if (state.data) {
+  //     console.log(state.data);
+  //   }
+  // }, [state.data]);
 
   return {
     state,

@@ -71,28 +71,30 @@ const Sidebar = ({ manager }) => {
           {isLoading ? (
             <SkeletonText numberOfLines={10} height="37px" spacing={1} />
           ) : (
-            links?.map((link) => (
-              <li key={link.id}>
-                {link.disabled ? (
-                  renderContent(link, { opacity: 0.5, cursor: "not-allowed" })
-                ) : (
-                  <Link
-                    navLink
-                    href={link.to}
-                    exact={true}
-                    style={{
-                      display: "block",
-                    }}
-                    activeStyle={{
-                      background: colors.primary.base,
-                      color: colors.white,
-                    }}
-                  >
-                    {renderContent(link)}
-                  </Link>
-                )}
-              </li>
-            ))
+            links?.map((link) => {
+              return (
+                <li key={link.id}>
+                  {link.disabled ? (
+                    renderContent(link, { opacity: 0.5, cursor: "not-allowed" })
+                  ) : (
+                    <Link
+                      navLink
+                      href={link.to}
+                      exact={true}
+                      style={{
+                        display: "block",
+                      }}
+                      activeStyle={{
+                        background: colors.primary.base,
+                        color: colors.white,
+                      }}
+                    >
+                      {renderContent(link)}
+                    </Link>
+                  )}
+                </li>
+              );
+            })
           )}
         </Box>
       </Box>

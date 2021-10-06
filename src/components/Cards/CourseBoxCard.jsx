@@ -67,7 +67,7 @@ export const CourseBoxCard = ({
       >
         <HStack spacing={2}>
           <Image
-            src={instructor?.image || thumbnailPlaceholder}
+            src={instructor?.profilePics || thumbnailPlaceholder}
             isLoading={isLoading}
             boxSize="37px"
             rounded="full"

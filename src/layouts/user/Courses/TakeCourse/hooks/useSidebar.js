@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import { useTakeCourse } from "../../../../../contexts";
+import { useParams } from "react-router-dom";
+import { useApp, useTakeCourse } from "../../../../../contexts";
 
-const mapLessonsToLinks = (data) => {
-  const links = data?.lessons.reduce((accumulator, lesson, index) => {
+const mapLessonsToLinks = (data, getLessonTypeName) => {
+  const links = data?.lessons?.reduce((accumulator, lesson, index) => {
     const link = {
       id: lesson.id,
       to: `/courses/take/${data.id}/lessons/${lesson.id}`,
       text: lesson.title,
       disabled: lesson.disabled,
-      type: lesson.lessonType.name,
+      type: getLessonTypeName(lesson.lessonTypeId),
     };
     accumulator.push(link);
 
     if (index === data.lessons.length - 1) {
       const link = {
-        id: data.assessment.id,
+        id: data.assessment.id || Math.random(), // TODO: remove
         to: `/courses/take/${data.id}/assessment`,
         text: "Assessment",
         disabled: data.assessment.disabled,
@@ -34,14 +35,21 @@ const mapLessonsToLinks = (data) => {
  * @returns Object { links: `Array<Object>` | `null`, courseTitle: `string`, isLoading: `boolean` }
  */
 const useSidebar = () => {
+  const p = useParams();
+
+  console.log(p);
+
+  const { getOneMetadata } = useApp();
   const takeCourseManger = useTakeCourse();
   const { state } = takeCourseManger;
+
+  const getLessonTypeName = (id) => getOneMetadata("lessonType", id)?.name;
 
   const [links, setLinks] = useState(null);
 
   useEffect(() => {
     if (state.data) {
-      const links = mapLessonsToLinks(state.data);
+      const links = mapLessonsToLinks(state.data, getLessonTypeName);
       setLinks(links);
     }
   }, [state?.data]);

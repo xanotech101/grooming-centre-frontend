@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useTakeCourse } from "../../../../../contexts";
 
 const getLesson = (data, id) => {
-  const lesson = data.lessons.find((lesson) => lesson.id === id);
+  const lesson = data.lessons?.find((lesson) => lesson.id === id);
   return lesson;
 };
 
@@ -62,7 +62,8 @@ const useLessonDetails = (sidebarLinks) => {
   const completeAndContinueIsDisabled =
     isLoading ||
     currentLink?.index ===
-      sidebarLinks?.filter((link) => !link.disabled).length - 1;
+      // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO:redo or remove
+      sidebarLinks?.filter((link) => !link.disabled).length - 2;
 
   return {
     lesson,

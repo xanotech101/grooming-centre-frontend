@@ -110,7 +110,7 @@ const CourseDetailsPage = () => {
           <Button
             link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lessons[0].id}`}
           >
-            Take Course
+            Take Lesson
           </Button>
         </Flex>
 
