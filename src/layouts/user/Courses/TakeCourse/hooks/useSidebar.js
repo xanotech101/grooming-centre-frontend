@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useApp, useTakeCourse } from "../../../../../contexts";
 
 const mapLessonsToLinks = (data, getLessonTypeName) => {
@@ -35,10 +34,6 @@ const mapLessonsToLinks = (data, getLessonTypeName) => {
  * @returns Object { links: `Array<Object>` | `null`, courseTitle: `string`, isLoading: `boolean` }
  */
 const useSidebar = () => {
-  const p = useParams();
-
-  console.log(p);
-
   const { getOneMetadata } = useApp();
   const takeCourseManger = useTakeCourse();
   const { state } = takeCourseManger;
@@ -52,7 +47,11 @@ const useSidebar = () => {
       const links = mapLessonsToLinks(state.data, getLessonTypeName);
       setLinks(links);
     }
-  }, [state?.data]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.data]);
+
+  console.log(state.data);
 
   const courseTitle = state.data?.title;
   const isLoading = state.isLoading;
