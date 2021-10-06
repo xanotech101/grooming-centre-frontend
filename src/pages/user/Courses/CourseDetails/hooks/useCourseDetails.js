@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { userGetCourseDetails } from "../../../../../services";
 
 const useCourseDetails = () => {
+  const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const [courseDetails, setCourseDetails] = useState({
     data: null,
@@ -12,15 +14,22 @@ const useCourseDetails = () => {
   });
   let { id } = useParams();
 
-  const fetchCourseDetails = useCallback(async () => {
-    console.log(id);
+  const fetcher = async () => {
+    const { course } = await userGetCourseDetails(id);
 
+    return course;
+  };
+
+  const fetchCourseDetails = useCallback(async () => {
     setCourseDetails({ loading: true });
 
     try {
-      const { course } = await userGetCourseDetails(id);
+      const courseDetails = await handleGetOrSetAndGet(
+        "courseDetails",
+        fetcher
+      );
 
-      if (componentIsMount) setCourseDetails({ data: course });
+      if (componentIsMount) setCourseDetails({ data: courseDetails });
     } catch (err) {
       if (componentIsMount) setCourseDetails({ err: err.message });
     }

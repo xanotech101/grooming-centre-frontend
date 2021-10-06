@@ -4,7 +4,7 @@ import { CacheContext } from "./CacheProvider";
 /**
  * Abstracts the `CacheContext` with `useContext`, also provides helpers
  *
- * @returns {{ cache, handleGet, handleSet, handleDelete, handleClear, handleGetOrSetAndGet }}
+ * @returns {{ state, handleGet, handleSet, handleDelete, handleClear, handleGetOrSetAndGet: (key: string, cb: () => Promise<Item<any>>) }}
  */
 export const useCache = () => {
   const context = useContext(CacheContext);
@@ -65,7 +65,7 @@ export const useCache = () => {
    * @returns {Promise<Item<any>>}
    */
   const handleGetOrSetAndGet = async (key, cb) => {
-    const item = handleGet(key);
+    let item = handleGet(key);
     if (item) return item;
 
     item = await cb();
@@ -74,7 +74,7 @@ export const useCache = () => {
   };
 
   return {
-    cache: state,
+    state,
     handleGet,
     handleSet,
     handleDelete,

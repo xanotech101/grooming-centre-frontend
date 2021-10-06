@@ -26,166 +26,161 @@ const CourseDetailsPage = () => {
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
-  return (
-    <>
-      {(isLoading || isError) && (
-        <Flex
-          // Make the height 100% of the screen minus the `height` of the Header and Footer
-          height="calc(100vh - 200px)"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {isLoading ? (
-            <Spinner />
-          ) : isError ? (
-            <Heading color="red.500">{isError}</Heading>
-          ) : null}
-        </Flex>
-      )}
-
-      <Box>
+  return isLoading || isError ? (
+    <Flex
+      // Make the height 100% of the screen minus the `height` of the Header and Footer
+      height="calc(100vh - 200px)"
+      justifyContent="center"
+      alignItems="center"
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : isError ? (
+        <Heading color="red.500">{isError}</Heading>
+      ) : null}
+    </Flex>
+  ) : (
+    <Box>
+      <Box
+        as="section"
+        padding={10}
+        marginBottom={10}
+        // backgroundColor="secondary.9"
+        color="white"
+        position="relative"
+      >
+        <Image
+          src={courseDetailsData?.thumbnail || coverImagePlaceholder}
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          position="absolute"
+          alt="Course Header"
+        />
         <Box
-          as="section"
-          padding={10}
-          marginBottom={10}
-          // backgroundColor="secondary.9"
-          color="white"
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          position="absolute"
+          backgroundColor="black"
+          opacity={0.7}
+        ></Box>
+
+        <Stack
+          spacing={7}
           position="relative"
+          // zIndex={1}
+          {...maxWidthStyles_userPages}
         >
-          <Image
-            src={courseDetailsData?.thumbnail || coverImagePlaceholder}
-            width="100%"
-            height="100%"
-            top={0}
-            left={0}
-            position="absolute"
-            alt="Course Header"
-          />
-          <Box
-            width="100%"
-            height="100%"
-            top={0}
-            left={0}
-            position="absolute"
-            backgroundColor="black"
-            opacity={0.7}
-          ></Box>
+          <Heading>{courseDetailsData?.title}</Heading>
+          <Text as="level2">{courseDetailsData?.description}</Text>
 
-          <Stack
-            spacing={7}
-            position="relative"
-            // zIndex={1}
-            {...maxWidthStyles_userPages}
-          >
-            <Heading>{courseDetailsData?.title}</Heading>
-            <Text as="level2">{courseDetailsData?.description}</Text>
+          <HStack spacing={4}>
+            <Image
+              src={
+                courseDetailsData?.instructor.profilePics ||
+                avatarImagePlaceholder
+              }
+              rounded="full"
+              boxSize="40px"
+            />
 
-            <HStack spacing={4}>
-              <Image
-                src={
-                  courseDetailsData?.instructor.profilePics ||
-                  avatarImagePlaceholder
-                }
-                rounded="full"
-                boxSize="40px"
-              />
-
-              <Text as="level1" bold>
-                {`${courseDetailsData?.instructor.firstName} ${courseDetailsData?.instructor.lastName}`}
-              </Text>
-            </HStack>
-          </Stack>
-        </Box>
-
-        <Box
-          padding={5}
-          minHeight="50vh"
-          maxWidth={breakpoints.laptop}
-          marginX="auto"
-        >
-          <Flex justifyContent="flex-end" marginBottom={10}>
-            <Button
-              link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lesson[0].id}`}
-            >
-              Take Course
-            </Button>
-          </Flex>
-
-          <Accordion heading="Course Details">
-            <Flex justifyContent="space-between" padding={2}>
-              <InfoContent
-                title="Duration"
-                date={`${duration.hours} hours ${duration.minutes} minutes`}
-                icon={<BsClockFill />}
-              />
-              <InfoContent
-                title="Start Date"
-                date={courseDetailsData?.lesson[0].startTime}
-                icon={<FaCalendar />}
-              />
-              <InfoContent
-                title="End Date"
-                date={
-                  courseDetailsData?.lesson[
-                    courseDetailsData?.lesson.length - 1
-                  ].endTime
-                }
-                icon={<FaCalendar />}
-              />
-            </Flex>
-          </Accordion>
-
-          <Accordion heading="Course Lessons">
-            {courseDetailsData?.lesson.map((lesson, index) => {
-              const duration = getDuration(lesson.duration);
-
-              const lessonTypeName = getOneMetadata(
-                "lessonType",
-                lesson.lessonTypeId
-              )?.name;
-
-              return (
-                <Flex
-                  key={index}
-                  justifyContent="space-between"
-                  paddingY={3}
-                  paddingX={2}
-                  borderBottom="1px"
-                  borderColor="accent.1"
-                >
-                  <InfoContent
-                    title={lesson.startTime}
-                    date={`${lesson.startTime} to ${lesson.endTime}`}
-                    icon={<FaCalendar />}
-                    flex={0.6}
-                    opacity={lesson.disabled ? 0.5 : 1}
-                  />
-                  <InfoContent
-                    title={lesson.title}
-                    date={`${duration.hours} hours ${duration.minutes} minutes`}
-                    icon={
-                      lessonTypeName !== "video" ? <VscFiles /> : <IoVideocam />
-                    }
-                    flex={1}
-                    marginLeft={16}
-                    opacity={lesson.disabled ? 0.5 : 1}
-                  />
-
-                  <Button
-                    link={`/courses/take/${courseDetailsData?.id}/lessons/${lesson.id}`}
-                    secondary
-                    sm
-                    disabled={lesson.locked}
-                  >
-                    View Lesson
-                  </Button>
-                </Flex>
-              );
-            })}
-          </Accordion>
-        </Box>
+            <Text as="level1" bold>
+              {`${courseDetailsData?.instructor.firstName} ${courseDetailsData?.instructor.lastName}`}
+            </Text>
+          </HStack>
+        </Stack>
       </Box>
-    </>
+
+      <Box
+        padding={5}
+        minHeight="50vh"
+        maxWidth={breakpoints.laptop}
+        marginX="auto"
+      >
+        <Flex justifyContent="flex-end" marginBottom={10}>
+          <Button
+            link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lesson[0].id}`}
+          >
+            Take Course
+          </Button>
+        </Flex>
+
+        <Accordion heading="Course Details">
+          <Flex justifyContent="space-between" padding={2}>
+            <InfoContent
+              title="Duration"
+              date={`${duration.hours} hours ${duration.minutes} minutes`}
+              icon={<BsClockFill />}
+            />
+            <InfoContent
+              title="Start Date"
+              date={courseDetailsData?.lesson[0].startTime}
+              icon={<FaCalendar />}
+            />
+            <InfoContent
+              title="End Date"
+              date={
+                courseDetailsData?.lesson[courseDetailsData?.lesson.length - 1]
+                  .endTime
+              }
+              icon={<FaCalendar />}
+            />
+          </Flex>
+        </Accordion>
+
+        <Accordion heading="Course Lessons">
+          {courseDetailsData?.lesson.map((lesson, index) => {
+            const duration = getDuration(lesson.duration);
+
+            const lessonTypeName = getOneMetadata(
+              "lessonType",
+              lesson.lessonTypeId
+            )?.name;
+
+            return (
+              <Flex
+                key={index}
+                justifyContent="space-between"
+                paddingY={3}
+                paddingX={2}
+                borderBottom="1px"
+                borderColor="accent.1"
+              >
+                <InfoContent
+                  title={lesson.startTime}
+                  date={`${lesson.startTime} to ${lesson.endTime}`}
+                  icon={<FaCalendar />}
+                  flex={0.6}
+                  opacity={lesson.disabled ? 0.5 : 1}
+                />
+                <InfoContent
+                  title={lesson.title}
+                  date={`${duration.hours} hours ${duration.minutes} minutes`}
+                  icon={
+                    lessonTypeName !== "video" ? <VscFiles /> : <IoVideocam />
+                  }
+                  flex={1}
+                  marginLeft={16}
+                  opacity={lesson.disabled ? 0.5 : 1}
+                />
+
+                <Button
+                  link={`/courses/take/${courseDetailsData?.id}/lessons/${lesson.id}`}
+                  secondary
+                  sm
+                  disabled={lesson.locked}
+                >
+                  View Lesson
+                </Button>
+              </Flex>
+            );
+          })}
+        </Accordion>
+      </Box>
+    </Box>
   );
 };
 
