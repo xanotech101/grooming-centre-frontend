@@ -82,7 +82,7 @@ export const userCourseDetailsRes = {
       lastName: "doe",
       title: "Team Lead",
     },
-    lesson: [
+    lessons: [
       {
         id: "036dd7aa-8a8d-4c1c-b712-98a695827360",
         title: "Introduction to HTML",

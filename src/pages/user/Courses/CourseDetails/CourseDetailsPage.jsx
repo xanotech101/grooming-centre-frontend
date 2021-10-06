@@ -15,9 +15,15 @@ import { useApp } from "../../../../contexts";
 import { getDuration } from "../../../../utils";
 import useAccordion from "./hooks/useAccordion";
 import useCourseDetails from "./hooks/useCourseDetails";
+import { useEffect } from "react";
 
 const CourseDetailsPage = () => {
-  const { courseDetails } = useCourseDetails();
+  const { courseDetails, fetchCourseDetails } = useCourseDetails();
+
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [fetchCourseDetails]);
+
   const { getOneMetadata } = useApp();
 
   const courseDetailsData = courseDetails.data;
@@ -102,7 +108,7 @@ const CourseDetailsPage = () => {
       >
         <Flex justifyContent="flex-end" marginBottom={10}>
           <Button
-            link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lesson[0].id}`}
+            link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lessons[0].id}`}
           >
             Take Course
           </Button>
@@ -117,14 +123,15 @@ const CourseDetailsPage = () => {
             />
             <InfoContent
               title="Start Date"
-              date={courseDetailsData?.lesson[0].startTime}
+              date={courseDetailsData?.lessons[0].startTime}
               icon={<FaCalendar />}
             />
             <InfoContent
               title="End Date"
               date={
-                courseDetailsData?.lesson[courseDetailsData?.lesson.length - 1]
-                  .endTime
+                courseDetailsData?.lessons[
+                  courseDetailsData?.lessons.length - 1
+                ].endTime
               }
               icon={<FaCalendar />}
             />
@@ -132,7 +139,7 @@ const CourseDetailsPage = () => {
         </Accordion>
 
         <Accordion heading="Course Lessons">
-          {courseDetailsData?.lesson.map((lesson, index) => {
+          {courseDetailsData?.lessons.map((lesson, index) => {
             const duration = getDuration(lesson.duration);
 
             const lessonTypeName = getOneMetadata(

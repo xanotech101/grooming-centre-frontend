@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
@@ -24,23 +24,17 @@ const useCourseDetails = () => {
     setCourseDetails({ loading: true });
 
     try {
-      const courseDetails = await handleGetOrSetAndGet(
-        "courseDetails",
-        fetcher
-      );
+      let courseDetails = await handleGetOrSetAndGet(id, fetcher);
 
       if (componentIsMount) setCourseDetails({ data: courseDetails });
     } catch (err) {
       if (componentIsMount) setCourseDetails({ err: err.message });
     }
-  }, [fetcher, handleGetOrSetAndGet, componentIsMount]);
-
-  useEffect(() => {
-    fetchCourseDetails();
-  }, [fetchCourseDetails]);
+  }, [id, componentIsMount]);
 
   return {
     courseDetails,
+    fetchCourseDetails,
   };
 };
 
