@@ -18,7 +18,6 @@ const useCourseDetails = (courseId) => {
 
   const fetcher = useCallback(async () => {
     const { course } = await userGetCourseDetails(id);
-
     return course;
   }, [id]);
 
