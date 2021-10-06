@@ -4,7 +4,7 @@ import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { userGetCourseDetails } from "../../../../../services";
 
-const useCourseDetails = () => {
+const useCourseDetails = (courseId) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const [courseDetails, setCourseDetails] = useState({
@@ -12,7 +12,9 @@ const useCourseDetails = () => {
     loading: false,
     err: null,
   });
-  let { id } = useParams();
+  let params = useParams();
+
+  const id = courseId || params.id;
 
   const fetcher = useCallback(async () => {
     const { course } = await userGetCourseDetails(id);
@@ -30,6 +32,8 @@ const useCourseDetails = () => {
     } catch (err) {
       if (componentIsMount) setCourseDetails({ err: err.message });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, componentIsMount]);
 
   return {
