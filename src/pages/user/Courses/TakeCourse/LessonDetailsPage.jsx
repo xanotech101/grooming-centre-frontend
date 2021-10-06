@@ -97,7 +97,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
               </Box>
             ) : (
               <Box
-                bg="accent.1"
+                bg="others.1"
                 paddingTop={10}
                 paddingBottom={10}
                 paddingX={{ base: 0, laptop: 10 }}
