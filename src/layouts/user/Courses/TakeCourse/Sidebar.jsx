@@ -14,12 +14,13 @@ import {
 import colors from "../../../../theme/colors";
 
 const Sidebar = ({ manager }) => {
-  const { links, courseTitle, isLoading } = manager;
+  const { course, links, isLoading } = manager;
 
   const renderContent = (link, props) => (
     <Tooltip label={link.text} aria-label={link.text}>
       <HStack spacing={2} padding={2} {...props}>
         <Icon fontSize="text.level1">
+          {/* {console.log(link.type)} */}
           {link.type !== "video" ? <VscFiles /> : <IoVideocam />}
         </Icon>
 
@@ -48,7 +49,7 @@ const Sidebar = ({ manager }) => {
             ghost
             leftIcon={<AiOutlineLeft />}
             flex={1}
-            link={`/courses/details/courseId`}
+            link={course?.id && `/courses/details/${course.id}`}
           >
             Back
           </Button>
@@ -61,7 +62,7 @@ const Sidebar = ({ manager }) => {
           {isLoading ? (
             <SkeletonText />
           ) : (
-            <Heading fontSize="h4">{courseTitle}</Heading>
+            <Heading fontSize="h4">{course?.title}</Heading>
           )}
         </Box>
       </Box>

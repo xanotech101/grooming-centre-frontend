@@ -109,7 +109,7 @@ export const userCourseDetailsRes_courseId_1 = {
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         startTime: "2021-010-18 04:25 PM",
         endTime: "2021-010-18 05:35 PM",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
       {
         id: "lessonId_2",
@@ -119,7 +119,7 @@ export const userCourseDetailsRes_courseId_1 = {
         startTime: "2021-010-21 02:25 PM",
         endTime: "2021-010-21 03:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
       {
         id: "lessonId_3",
@@ -130,7 +130,7 @@ export const userCourseDetailsRes_courseId_1 = {
         startTime: "2021-010-18 11:25 AM",
         endTime: "2021-010-18 12:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
       },
     ],
     assessment: [],
@@ -163,7 +163,7 @@ export const userCourseDetailsRes_courseId_3 = {
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         startTime: "2021-010-18 04:25 PM",
         endTime: "2021-010-18 05:35 PM",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
       {
         id: "lessonId_5",
@@ -173,7 +173,7 @@ export const userCourseDetailsRes_courseId_3 = {
         startTime: "2021-010-21 02:25 PM",
         endTime: "2021-010-21 03:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
       },
       {
         id: "lessonId_7",
@@ -184,7 +184,7 @@ export const userCourseDetailsRes_courseId_3 = {
         startTime: "2021-010-18 11:25 AM",
         endTime: "2021-010-18 12:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
       {
         id: "lessonId_8",
@@ -195,7 +195,7 @@ export const userCourseDetailsRes_courseId_3 = {
         startTime: "2021-010-18 11:25 AM",
         endTime: "2021-010-18 12:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
     ],
     assessment: [],

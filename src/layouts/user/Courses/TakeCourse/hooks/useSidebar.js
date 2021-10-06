@@ -34,31 +34,32 @@ const mapLessonsToLinks = (data, getLessonTypeName) => {
  * @returns Object { links: `Array<Object>` | `null`, courseTitle: `string`, isLoading: `boolean` }
  */
 const useSidebar = () => {
-  const { getOneMetadata } = useApp();
+  const appManager = useApp();
   const takeCourseManger = useTakeCourse();
-  const { state } = takeCourseManger;
 
-  const getLessonTypeName = (id) => getOneMetadata("lessonType", id)?.name;
+  const getLessonTypeName = (id) =>
+    appManager.getOneMetadata("lessonType", id)?.name;
 
   const [links, setLinks] = useState(null);
 
   useEffect(() => {
-    if (state.data) {
-      const links = mapLessonsToLinks(state.data, getLessonTypeName);
+    if (takeCourseManger.state.data && appManager.state.metadata) {
+      const links = mapLessonsToLinks(
+        takeCourseManger.state.data,
+        getLessonTypeName
+      );
       setLinks(links);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.data]);
+  }, [takeCourseManger.state.data, appManager.state.metadata]);
 
-  console.log(state.data);
-
-  const courseTitle = state.data?.title;
-  const isLoading = state.isLoading;
+  const course = takeCourseManger.state.data;
+  const isLoading = takeCourseManger.state.isLoading;
 
   return {
+    course,
     links,
-    courseTitle,
     isLoading,
   };
 };
