@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
@@ -64,23 +64,52 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
           )}
         </Box>
 
-        <Box height="calc((100vw - 250px - 48px) / 2)" marginBottom={10}>
-          {isLoading ? (
-            <Skeleton width="100%" height="100%" />
-          ) : (
-            <Box width="100%" height="100%" backgroundColor="accent.2">
+        <Flex
+          width="100%"
+          height={{ base: "100%", laptop: "50%" }}
+          flexDirection={{ base: "column", laptop: "row" }}
+        >
+          <Box
+            height="100%"
+            width={{ base: "100%", laptop: "60%" }}
+            bg="accent.2"
+          >
+            {isLoading ? (
+              <Skeleton width="100%" height="100%" />
+            ) : (
               <ReactPlayer
                 url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
                 width="100%"
                 height="100%"
               />
-            </Box>
-          )}
-        </Box>
-
-        <Box>
-          {isLoading ? <SkeletonText numberOfLines={10} /> : lesson?.content}
-        </Box>
+            )}
+          </Box>
+          <Box height="100%" width={{ base: "100%", laptop: "40%" }}>
+            {isLoading ? (
+              <Box
+                paddingTop={10}
+                paddingBottom={10}
+                paddingX={{ base: 0, laptop: 10 }}
+                width="100%"
+                height="100%"
+              >
+                <SkeletonText numberOfLines={10} />
+              </Box>
+            ) : (
+              <Box
+                bg="accent.1"
+                paddingTop={10}
+                paddingBottom={10}
+                paddingX={{ base: 0, laptop: 10 }}
+                width="100%"
+                height="100%"
+                overflowY="auto"
+              >
+                <Text>{lesson?.content}</Text>
+              </Box>
+            )}
+          </Box>
+        </Flex>
       </Box>
     </Flex>
   );
