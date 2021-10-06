@@ -41,7 +41,7 @@ export const userCourseListingRes = {
         lastName: "doe",
         title: "Team Lead",
       },
-      progressPercentage: 0,
+      progressPercentage: 75,
     },
     {
       id: "courseId_1",
@@ -61,7 +61,7 @@ export const userCourseListingRes = {
         lastName: "bar",
         title: "Senior Facility Manager",
       },
-      progressPercentage: 75,
+      progressPercentage: 0,
     },
   ],
 };
