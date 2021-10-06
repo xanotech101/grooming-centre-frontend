@@ -14,11 +14,11 @@ const useCourseDetails = () => {
   });
   let { id } = useParams();
 
-  const fetcher = async () => {
+  const fetcher = useCallback(async () => {
     const { course } = await userGetCourseDetails(id);
 
     return course;
-  };
+  }, [id]);
 
   const fetchCourseDetails = useCallback(async () => {
     setCourseDetails({ loading: true });
@@ -33,7 +33,7 @@ const useCourseDetails = () => {
     } catch (err) {
       if (componentIsMount) setCourseDetails({ err: err.message });
     }
-  }, [componentIsMount, id]);
+  }, [fetcher, handleGetOrSetAndGet, componentIsMount]);
 
   useEffect(() => {
     fetchCourseDetails();
