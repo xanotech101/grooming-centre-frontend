@@ -1,10 +1,13 @@
+import { useToast } from "@chakra-ui/toast";
 import { Box, Flex, Icon, Grid } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
+import { useEffect } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
+import { capitalizeFirstLetter } from "../../../../utils/formatString";
 
 const Player = ({
   width = "100%",
@@ -25,43 +28,44 @@ const Player = ({
       position="relative"
       {...rest}
     >
-      <Flex
-        justifyContent="center"
-        alignItems="center"
-        position="absolute"
-        zIndex={1}
-        top={0}
-        left={0}
-        width="100%"
-        height="100%"
-        cursor="pointer"
-        sx={{
-          [!playing && "&:hover .icon"]: {
-            opacity: 1,
-          },
-        }}
-        onClick={onPlayToggle}
-      >
-        <Grid
-          opacity={0}
-          transition=".5s"
-          className="icon"
-          placeItems="center"
-          width="50px"
-          height="50px"
-          // padding={5}
-          rounded="full"
-          backgroundColor={"white"}
+      {!controls && (
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          position="absolute"
+          zIndex={1}
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          cursor="pointer"
+          sx={{
+            [!playing && "&:hover .icon"]: {
+              opacity: 1,
+            },
+          }}
+          onClick={onPlayToggle}
         >
-          <Icon
-            color="black"
-            fontSize="heading.h3"
-            transform={!playing && "translateX(2px)"}
+          <Grid
+            opacity={0}
+            transition="1s"
+            className="icon"
+            placeItems="center"
+            width="50px"
+            height="50px"
+            rounded="full"
+            backgroundColor={"white"}
           >
-            {playing ? <FaPause /> : <FaPlay />}
-          </Icon>
-        </Grid>
-      </Flex>
+            <Icon
+              color="black"
+              fontSize="heading.h3"
+              transform={!playing && "translateX(2px)"}
+            >
+              {playing ? <FaPause /> : <FaPlay />}
+            </Icon>
+          </Grid>
+        </Flex>
+      )}
 
       <ReactPlayer
         url={url}
@@ -85,11 +89,24 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     previousIsDisabled,
     videoHasBeenCompleted,
     videoIsPlaying,
+    endLessonIsLoading,
+    endLessonHasError,
     handlePrevious,
     handleCompleteAndContinue,
     handleVideoHasEnded,
     handleVideoPlayToggle,
   } = manager;
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (endLessonHasError)
+      toast({
+        description: capitalizeFirstLetter(endLessonHasError),
+        position: "top",
+        status: "error",
+      });
+  }, [toast, endLessonHasError]);
 
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
@@ -115,6 +132,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
             flex={1}
             disabled={completeAndContinueIsDisabled}
             onClick={handleCompleteAndContinue}
+            isLoading={endLessonIsLoading}
           >
             Complete And Continue
           </Button>

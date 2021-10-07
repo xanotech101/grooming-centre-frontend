@@ -3,13 +3,19 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useCache, useTakeCourse } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
-import { requestLessonDetails } from "../../../../../services";
+import {
+  requestEndLesson,
+  requestLessonDetails,
+} from "../../../../../services";
 
 const usePlayer = ({ lessonHasBeenCompleted }) => {
   const [videoPlayedCount, setVideoPlayedCount] = useState(0);
-  const [videoHasBeenCompleted, setVideoHasEnded] = useState(
-    lessonHasBeenCompleted
-  );
+  const [videoHasBeenCompleted, setVideoHasEnded] = useState();
+
+  useEffect(() => {
+    setVideoHasEnded(lessonHasBeenCompleted);
+  }, [lessonHasBeenCompleted]);
+
   const [videoIsPlaying, setVideoIsPlaying] = useState(false);
 
   const handleVideoProgress = ({
@@ -56,7 +62,7 @@ const usePlayer = ({ lessonHasBeenCompleted }) => {
  * }}
  */
 const useLessonDetails = (sidebarLinks) => {
-  const { handleGetOrSetAndGet } = useCache();
+  const { handleGetOrSetAndGet, handleDelete } = useCache();
   const componentIsMount = useComponentIsMount();
   const { lesson_id: lessonId, course_id: courseId } = useParams();
   const { push } = useHistory();
@@ -70,7 +76,7 @@ const useLessonDetails = (sidebarLinks) => {
     err: null,
   });
   const videoPlayerManager = usePlayer({
-    lessonHasBeenCompleted: false, // TODO:replace with a dynamic `lesson.hasBeenCompleted`
+    lessonHasBeenCompleted: lessonDetails.data?.hasEnded, // TODO:replace with a dynamic `lesson.hasEnded`
   });
 
   const [currentLink, setCurrentLink] = useState();
@@ -79,7 +85,33 @@ const useLessonDetails = (sidebarLinks) => {
     const previousLink = sidebarLinks[currentLink.index - 1];
     push(`/courses/take/${courseId}/lessons/${previousLink.id}`);
   };
-  const handleCompleteAndContinue = () => {
+
+  const [endLesson, setEndLesson] = useState({
+    success: false,
+    loading: false,
+    error: null,
+  });
+
+  const handleEndLesson = async () => {
+    if (!lessonDetails.data?.hasEnded) {
+      setEndLesson({ loading: true });
+
+      try {
+        await requestEndLesson(lessonId);
+        handleDelete(lessonId);
+        setEndLesson({ success: true });
+      } catch (err) {
+        setEndLesson({ error: err.message });
+      }
+    } else {
+      setEndLesson({ success: true });
+    }
+  };
+
+  const handleCompleteAndContinue = async () => {
+    await handleEndLesson();
+  };
+  const handleContinueToNextLesson = useCallback(() => {
     const nextLink = sidebarLinks[currentLink.index + 1];
 
     if (nextLink.type !== "assessment") {
@@ -87,13 +119,29 @@ const useLessonDetails = (sidebarLinks) => {
     } else {
       push(`/courses/take/${courseId}/assessment`);
     }
-  };
+  }, [currentLink?.index, courseId, sidebarLinks, push]);
+
+  const endLessonIsSuccessful = endLesson.success;
+  const endLessonIsLoading = endLesson.loading;
+  const endLessonHasError = endLesson.error;
+
+  const isLastEnabledLesson =
+    currentLink?.index ===
+    // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
+    sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
+
+  useEffect(() => {
+    if (endLessonIsSuccessful && !isLastEnabledLesson) {
+      handleContinueToNextLesson();
+      setEndLesson({ success: false });
+    }
+  }, [endLessonIsSuccessful, handleContinueToNextLesson]);
 
   const fetcher = useCallback(async () => {
     const { lesson } = await requestLessonDetails(lessonId);
     return lesson;
   }, [lessonId]);
-  const fetchCourseDetails = useCallback(async () => {
+  const fetchLessonDetails = useCallback(async () => {
     setLessonDetails({ loading: true });
 
     try {
@@ -113,19 +161,17 @@ const useLessonDetails = (sidebarLinks) => {
   }, [sidebarLinks, lessonId]);
 
   useEffect(() => {
-    fetchCourseDetails();
-  }, [fetchCourseDetails]);
+    fetchLessonDetails();
+  }, [fetchLessonDetails]);
 
   const lesson = lessonDetails.data;
   const isLoading = lessonDetails.loading;
   const error = lessonDetails.err;
   const previousIsDisabled = isLoading || currentLink?.index <= 0;
-  const completeAndContinueIsDisabled =
-    isLoading ||
-    !videoPlayerManager.videoHasBeenCompleted ||
-    currentLink?.index ===
-      // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
-      sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
+
+  const completeAndContinueIsDisabled = lesson?.hasEnded
+    ? false
+    : isLoading || !videoPlayerManager.videoHasBeenCompleted;
 
   return {
     lesson,
@@ -135,6 +181,9 @@ const useLessonDetails = (sidebarLinks) => {
     completeAndContinueIsDisabled,
     handlePrevious,
     handleCompleteAndContinue,
+    endLessonIsSuccessful,
+    endLessonIsLoading,
+    endLessonHasError,
     ...videoPlayerManager,
   };
 };
