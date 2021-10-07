@@ -135,7 +135,7 @@ const useLessonDetails = (sidebarLinks) => {
       handleContinueToNextLesson();
       setEndLesson({ success: false });
     }
-  }, [endLessonIsSuccessful, handleContinueToNextLesson]);
+  }, [isLastEnabledLesson, endLessonIsSuccessful, handleContinueToNextLesson]);
 
   const fetcher = useCallback(async () => {
     const { lesson } = await requestLessonDetails(lessonId);
