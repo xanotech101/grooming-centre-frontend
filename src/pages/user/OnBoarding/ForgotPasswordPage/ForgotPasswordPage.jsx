@@ -15,7 +15,7 @@ const ForgotPasswordPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, hasSubmitted },
+    formState: { errors, isSubmitting, hasSubmitted },
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -44,13 +44,25 @@ const ForgotPasswordPage = () => {
         </Heading>
       )}
       renderInputs={() => (
+        <>
         <Input
           id="email"
           type="email"
           label="Email"
-          isRequired
-          {...register("email")}
+          {...register("email", {
+            required: "Email can't be empty",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              message: "Enter a valid e-mail address",
+            },
+          })}
         />
+         {errors.email ? (
+            <Text color="secondary.5" style={{ marginTop: 0 }}>
+              {errors.email.message}
+            </Text>
+      ) : null}
+    </>
       )}
       renderSubmit={(props) => (
         <Button isLoading={isSubmitting} {...props}>

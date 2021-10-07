@@ -81,11 +81,11 @@ const SigninPage = () => {
               },
             })}
           />
-          {errors.email && (
+          {errors.email ? (
             <Text color="secondary.5" style={{ marginTop: 0 }}>
               {errors.email.message}
             </Text>
-          )}
+          ): null}
           <Input
             id="password"
             type="password"
