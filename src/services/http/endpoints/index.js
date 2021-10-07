@@ -1,10 +1,10 @@
-import { http } from "..";
+import { http } from "../..";
 
 //----------- Auth Endpoints
 /**
  * Endpoint to request for the current loggedIn user - (auth)
  *
- * @returns Promise<{ data: `User` }>
+ * @returns {Promise<{ data: User }>}
  */
 export const requestMyData = async () => {
   const path = "/me";
@@ -19,7 +19,7 @@ export const requestMyData = async () => {
 /**
  * Endpoint for user to create new password - (auth)
  * @param {{ password: string }} body
- * @returns Promise<{  message: `string` }>
+ * @returns {Promise<{  message: string }>}
  */
 export const userCreateNewPassword = async (body) => {
   const path = "/password/create/new";
@@ -34,7 +34,7 @@ export const userCreateNewPassword = async (body) => {
 /**
  * Endpoint to request a reset password - (auth)
  * @param {{ email: string }} body
- * @returns Promise<{ message: `string` }>
+ * @returns {Promise<{ message: string }>}
  */
 export const userForgetPassword = async (body) => {
   const path = "/forgot/password";
@@ -49,7 +49,7 @@ export const userForgetPassword = async (body) => {
 /**
  * Endpoint to actually reset password - (auth)
  * @param {{ password: string }} body
- * @returns Promise<{ message: `string` }>
+ * @returns {Promise<{ message: string }>}
  */
 export const userResetPassword = async (body) => {
   const path = "/password/reset";
@@ -64,7 +64,7 @@ export const userResetPassword = async (body) => {
 /**
  * Endpoint for user signin - (auth)
  * @param {{email: string, password: string}} body
- * @returns Promise<{ user: `Object`, token: `string`, message: `string` }>
+ * @returns {Promise<{ user: `Object`, token: `string`, message: string }>}
  */
 export const requestSignin = async (body) => {
   const path = "/login";
@@ -86,7 +86,7 @@ export const requestSignin = async (body) => {
 /**
  * Endpoint to get `user-listing`
  *
- * @returns Promise<{ data: `UserListArray` }>
+ * @returns {Promise<{ data: UserListArray }>}
  */
 export const adminGetUserListing = async () => {
   const path = `/admin/users`;
@@ -105,7 +105,7 @@ export const adminGetUserListing = async () => {
 /**
  * Endpoint for course creation
  * @param {{ title: string, instructorId: string, description: string, departmentId: string, }} body
- * @returns Promise<{ message: `string`, data: `Course` }>
+ * @returns {Promise<{ message: string, data: Course }>}
  */
 export const adminCreateCourse = async (body) => {
   const path = "/course/create";
@@ -121,7 +121,7 @@ export const adminCreateCourse = async (body) => {
  * Endpoint for course editing/modification
  * @param {string} courseId
  * @param {object} body
- * @returns Promise<{ message: `string`, data: `Course` }>
+ * @returns {Promise<{ message: string, data: Course }>}
  */
 export const adminEditCourse = async (courseId, body) => {
   const path = `/course/edit/${courseId}`;
@@ -136,7 +136,7 @@ export const adminEditCourse = async (courseId, body) => {
 /**
  * Endpoint to get `course-listing`
  *
- * @returns Promise<{ courses: `CourseListArray` }>
+ * @returns {Promise<{ courses: CourseListArray }>}
  */
 export const adminGetCourseListing = async () => {
   const path = `/admin/courses`;
@@ -151,7 +151,7 @@ export const adminGetCourseListing = async () => {
 /**
  * Endpoint to get `course-listing`
  *
- * @returns Promise<{ courses: `CourseListArray` }>
+ * @returns {Promise<{ courses: CourseListArray }>}
  */
 export const userGetCourseListing = async () => {
   const path = `/course/user/courses`;
@@ -167,7 +167,7 @@ export const userGetCourseListing = async () => {
  * Endpoint to get `course-details` for a user
  * @param {string} id - courseId
  *
- * @returns Promise<{ course: `CourseListArray` }>
+ * @returns {Promise<{ course: Course }>}
  */
 export const userGetCourseDetails = async (id) => {
   const path = `/course/${id}`;
@@ -186,7 +186,7 @@ export const userGetCourseDetails = async (id) => {
 /**
  * Endpoint for department creation
  * @param {{name: string, active: boolean}} body
- * @returns Promise<{ message: `string`, data: `Department` }>
+ * @returns {Promise<{ message: string, data: Department }>}
  */
 export const adminCreateDepartment = async (body) => {
   const path = "/department/create";
@@ -208,7 +208,7 @@ export const adminCreateDepartment = async (body) => {
 /**
  * Endpoint for first step to user creation
  * @param {{ email: string, roleId: string, departmentId: string }} body
- * @returns Promise<{ message: `string` }>
+ * @returns {Promise<{ message: string }>}
  */
 export const adminInviteUser = async (body) => {
   const path = "/admin/invite/user";
@@ -223,7 +223,7 @@ export const adminInviteUser = async (body) => {
 /**
  * Endpoint for first step to admin creation - (super admin)
  * @param {{ email: string, roleId: string, departmentId: string }} body
- * @returns Promise<{ message: `string` }>
+ * @returns {Promise<{ message: string }>}
  */
 export const superAdminInviteAdmin = async (body) => {
   const path = "/superadmin/invite/admin";
@@ -239,7 +239,7 @@ export const superAdminInviteAdmin = async (body) => {
 //========== Uncategorised Endpoints
 /**
  * Endpoint to get meta data
- * @returns Promise<{ data: `Object` }>
+ * @returns {Promise<{ data: Object }>}
  */
 export const requestMetadata = async () => {
   const path = "/metadata";
