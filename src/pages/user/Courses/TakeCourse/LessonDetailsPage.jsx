@@ -1,9 +1,79 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Icon, Grid } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
+import { FaPause, FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
+
+const Player = ({
+  width = "100%",
+  height = "100%",
+  backgroundColor,
+  url,
+  onEnded,
+  onPlayToggle,
+  controls,
+  playing = false,
+  ...rest
+}) => {
+  return (
+    <Box
+      width={width}
+      height={height}
+      backgroundColor={backgroundColor}
+      position="relative"
+      {...rest}
+    >
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        position="absolute"
+        zIndex={1}
+        top={0}
+        left={0}
+        width="100%"
+        height="100%"
+        cursor="pointer"
+        sx={{
+          [!playing && "&:hover .icon"]: {
+            opacity: 1,
+          },
+        }}
+        onClick={onPlayToggle}
+      >
+        <Grid
+          opacity={0}
+          transition=".5s"
+          className="icon"
+          placeItems="center"
+          width="50px"
+          height="50px"
+          // padding={5}
+          rounded="full"
+          backgroundColor={"white"}
+        >
+          <Icon
+            color="black"
+            fontSize="heading.h3"
+            transform={!playing && "translateX(2px)"}
+          >
+            {playing ? <FaPause /> : <FaPlay />}
+          </Icon>
+        </Grid>
+      </Flex>
+
+      <ReactPlayer
+        url={url}
+        onEnded={onEnded}
+        playing={playing}
+        controls={controls}
+        width="100%"
+        height="100%"
+      />
+    </Box>
+  );
+};
 
 const LessonDetailsPage = ({ sidebarLinks }) => {
   const manager = useLessonDetails(sidebarLinks);
@@ -13,9 +83,12 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     error,
     completeAndContinueIsDisabled,
     previousIsDisabled,
+    videoHasBeenCompleted,
+    videoIsPlaying,
     handlePrevious,
     handleCompleteAndContinue,
     handleVideoHasEnded,
+    handleVideoPlayToggle,
   } = manager;
 
   return (
@@ -74,15 +147,13 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
               {isLoading ? (
                 <Skeleton width="100%" height="100%" />
               ) : (
-                <Box width="100%" height="100%" backgroundColor="accent.2">
-                  <ReactPlayer
-                    url={lesson?.file}
-                    onEnded={handleVideoHasEnded}
-                    controls
-                    width="100%"
-                    height="100%"
-                  />
-                </Box>
+                <Player
+                  url={lesson?.file}
+                  onEnded={handleVideoHasEnded}
+                  onPlayToggle={handleVideoPlayToggle}
+                  controls={videoHasBeenCompleted}
+                  playing={videoIsPlaying}
+                />
               )}
             </Box>
 
