@@ -22,7 +22,7 @@ const SigninPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     reset,
   } = useForm();
   const appManager = useApp();
@@ -73,16 +73,36 @@ const SigninPage = () => {
             id="email"
             type="email"
             label="Email"
-            isRequired
-            {...register("email")}
+            {...register("email", {
+              required: "Email can't be empty",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Enter a valid e-mail address",
+              },
+            })}
           />
+          {errors.email && (
+            <Text color="secondary.5" style={{ marginTop: 0 }}>
+              {errors.email.message}
+            </Text>
+          )}
           <Input
             id="password"
             type="password"
             label="Password"
-            isRequired
-            {...register("password")}
+            {...register("password", {
+              required: "Password can't be empty",
+              minLength: {
+                value: 3,
+                message: "Password should not be less than 3 characters",
+              },
+            })}
           />
+          {errors.password ? (
+            <Text color="secondary.5" style={{ marginTop: 0 }}>
+              {errors.password.message}
+            </Text>
+          ) : null}
           {isCheckingAuth && <AuthCheck />}
         </>
       )}
