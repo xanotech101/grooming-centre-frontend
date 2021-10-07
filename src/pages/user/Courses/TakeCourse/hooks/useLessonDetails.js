@@ -5,6 +5,32 @@ import { useCache, useTakeCourse } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { requestLessonDetails } from "../../../../../services";
 
+const usePlayer = ({ lessonHasBeenCompleted }) => {
+  const [videoPlayedCount, setVideoPlayedCount] = useState(0);
+  const [videoHasBeenCompleted, setVideoHasEnded] = useState(
+    lessonHasBeenCompleted
+  );
+
+  const handleVideoProgress = ({
+    // playedSeconds,
+    // loadedSeconds, loaded
+    played,
+  }) => {
+    setVideoPlayedCount(played);
+  };
+
+  const handleVideoHasEnded = () => {
+    setVideoHasEnded(true);
+  };
+
+  return {
+    videoPlayedCount,
+    handleVideoProgress,
+    videoHasBeenCompleted,
+    handleVideoHasEnded,
+  };
+};
+
 /**
  * Lesson state `Manager`
  * @param { Array<{}> | null } sidebarLinks
@@ -12,10 +38,14 @@ import { requestLessonDetails } from "../../../../../services";
  * @returns {{
  *  lesson: Lesson<{}> | null,
  *  isLoading: boolean,
+ *  videoPlayedCount: number,
+ *  videoHasBeenCompleted: boolean,
  *  previousIsDisabled: boolean,
  *  completeAndContinueIsDisabled: boolean,
  *  handlePrevious: () => void,
  *  handleCompleteAndContinue: () => void,
+ *  handleVideoProgress: (progress: ReactPlayerProgress) => void,
+ *  handleVideoHasEnded: () => void,
  * }}
  */
 const useLessonDetails = (sidebarLinks) => {
@@ -32,6 +62,15 @@ const useLessonDetails = (sidebarLinks) => {
     loading: false,
     err: null,
   });
+  const {
+    handleVideoProgress,
+    videoPlayedCount,
+    videoHasBeenCompleted,
+    handleVideoHasEnded,
+  } = usePlayer({
+    lessonHasBeenCompleted: false, // TODO:replace with a dynamic `lesson.hasBeenCompleted`
+  });
+
   const [currentLink, setCurrentLink] = useState();
 
   const handlePrevious = () => {
@@ -81,9 +120,10 @@ const useLessonDetails = (sidebarLinks) => {
   const previousIsDisabled = isLoading || currentLink?.index <= 0;
   const completeAndContinueIsDisabled =
     isLoading ||
+    !videoHasBeenCompleted ||
     currentLink?.index ===
-      // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO:redo or remove
-      sidebarLinks?.filter((link) => !link.disabled).length - 2;
+      // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
+      sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
 
   return {
     lesson,
@@ -91,8 +131,12 @@ const useLessonDetails = (sidebarLinks) => {
     error,
     previousIsDisabled,
     completeAndContinueIsDisabled,
+    videoPlayedCount,
+    videoHasBeenCompleted,
     handlePrevious,
     handleCompleteAndContinue,
+    handleVideoProgress,
+    handleVideoHasEnded,
   };
 };
 

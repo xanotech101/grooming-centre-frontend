@@ -15,6 +15,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     previousIsDisabled,
     handlePrevious,
     handleCompleteAndContinue,
+    handleVideoHasEnded,
   } = manager;
 
   return (
@@ -75,7 +76,9 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
               ) : (
                 <Box width="100%" height="100%" backgroundColor="accent.2">
                   <ReactPlayer
-                    url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+                    url={lesson?.file}
+                    onEnded={handleVideoHasEnded}
+                    controls
                     width="100%"
                     height="100%"
                   />
