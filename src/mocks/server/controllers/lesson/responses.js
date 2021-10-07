@@ -57,3 +57,7 @@ export const requestLessonDetailsRes_lessonId_3 = {
     },
   },
 };
+
+export const requestEndLessonRes = {
+  message: "lesson ended successfully",
+};

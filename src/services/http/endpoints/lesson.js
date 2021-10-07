@@ -15,3 +15,18 @@ export const requestLessonDetails = async (id) => {
 
   return { lesson: data };
 };
+/**
+ * Endpoint to end a lesson
+ * @param {string} id - lessonId
+ *
+ * @returns {Promise<{ message: string }>}
+ */
+export const requestEndLesson = async (id) => {
+  const path = `/lesson/${id}/end`; // TODO: change path
+
+  const {
+    data: { message },
+  } = await http.post(path); // TODO: change method
+
+  return { message };
+};
