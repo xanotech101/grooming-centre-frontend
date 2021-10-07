@@ -77,6 +77,7 @@ const useLessonDetails = (sidebarLinks) => {
 
   const lesson = lessonDetails.data;
   const isLoading = lessonDetails.loading;
+  const error = lessonDetails.err;
   const previousIsDisabled = isLoading || currentLink?.index <= 0;
   const completeAndContinueIsDisabled =
     isLoading ||
@@ -87,6 +88,7 @@ const useLessonDetails = (sidebarLinks) => {
   return {
     lesson,
     isLoading,
+    error,
     previousIsDisabled,
     completeAndContinueIsDisabled,
     handlePrevious,

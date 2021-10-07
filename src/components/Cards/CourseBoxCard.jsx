@@ -26,6 +26,7 @@ export const CourseBoxCard = ({
         disabled ? "course-box-card--disabled" : ""
       }`}
       href={`/courses/details/${id}`}
+      disabled={isLoading}
     >
       {progressPercentage !== 0 && !isLoading ? (
         <Box

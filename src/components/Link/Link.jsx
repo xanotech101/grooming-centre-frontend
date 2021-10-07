@@ -6,13 +6,20 @@ export const Link = ({
   activeStyle,
   children,
   className,
+  disabled,
   exact,
   href,
   navLink,
   style,
   onClick,
 }) => {
-  const props = { children, className, to: href, style, onClick };
+  const props = {
+    children,
+    className: `${className}${disabled ? " disabled-link" : ""}`,
+    to: href,
+    style,
+    onClick,
+  };
 
   return navLink ? (
     <NavLink
@@ -34,6 +41,7 @@ Link.propTypes = {
   exact: PropTypes.bool,
   href: PropTypes.string.isRequired,
   navLink: PropTypes.bool,
+  disabled: PropTypes.bool,
   style: PropTypes.object,
   onClick: PropTypes.func,
 };
