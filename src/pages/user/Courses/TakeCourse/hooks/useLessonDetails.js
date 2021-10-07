@@ -1,40 +1,38 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useTakeCourse } from "../../../../../contexts";
-
-const getLesson = (data, id) => {
-  const lesson = data.lessons?.find((lesson) => lesson.id === id);
-  return lesson;
-};
+import { useCache, useTakeCourse } from "../../../../../contexts";
+import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import { requestLessonDetails } from "../../../../../services";
 
 /**
  * Lesson state `Manager`
  * @param { Array<{}> | null } sidebarLinks
- * 
- * @returns Object { 
- *  lesson: `Object` | `null`, 
- *  isLoading: `boolean`,
- *  previousIsDisabled: `boolean`,
-    completeAndContinueIsDisabled: `boolean`,
-    handlePrevious: `() => void`,
-    handleCompleteAndContinue: `() => void`, 
- * }
+ *
+ * @returns {{
+ *  lesson: Lesson<{}> | null,
+ *  isLoading: boolean,
+ *  previousIsDisabled: boolean,
+ *  completeAndContinueIsDisabled: boolean,
+ *  handlePrevious: () => void,
+ *  handleCompleteAndContinue: () => void,
+ * }}
  */
 const useLessonDetails = (sidebarLinks) => {
+  const { handleGetOrSetAndGet } = useCache();
+  const componentIsMount = useComponentIsMount();
   const { lesson_id: lessonId, course_id: courseId } = useParams();
   const { push } = useHistory();
-  const takeCourseManger = useTakeCourse();
-  const { state } = takeCourseManger;
 
-  const [lesson, setLesson] = useState(null);
+  // To make sure the `Sidebar` links renders correctly
+  useTakeCourse();
+
+  const [lessonDetails, setLessonDetails] = useState({
+    data: null,
+    loading: false,
+    err: null,
+  });
   const [currentLink, setCurrentLink] = useState();
-
-  useEffect(() => {
-    const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
-    const link = { index, ...sidebarLinks?.[index] };
-    setCurrentLink(link);
-  }, [sidebarLinks, lessonId]);
 
   const handlePrevious = () => {
     const previousLink = sidebarLinks[currentLink.index - 1];
@@ -50,14 +48,35 @@ const useLessonDetails = (sidebarLinks) => {
     }
   };
 
-  useEffect(() => {
-    if (state.data) {
-      const lesson = getLesson(state.data, lessonId);
-      setLesson(lesson);
-    }
-  }, [state?.data, lessonId]);
+  const fetcher = useCallback(async () => {
+    const { lesson } = await requestLessonDetails(lessonId);
+    return lesson;
+  }, [lessonId]);
+  const fetchCourseDetails = useCallback(async () => {
+    setLessonDetails({ loading: true });
 
-  const isLoading = state.isLoading;
+    try {
+      const lessonDetails = await handleGetOrSetAndGet(lessonId, fetcher);
+      if (componentIsMount) setLessonDetails({ data: lessonDetails });
+    } catch (err) {
+      if (componentIsMount) setLessonDetails({ err: err.message });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonId, componentIsMount]);
+
+  useEffect(() => {
+    const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
+    const link = { index, ...sidebarLinks?.[index] };
+    setCurrentLink(link);
+  }, [sidebarLinks, lessonId]);
+
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [fetchCourseDetails]);
+
+  const lesson = lessonDetails.data;
+  const isLoading = lessonDetails.loading;
   const previousIsDisabled = isLoading || currentLink?.index <= 0;
   const completeAndContinueIsDisabled =
     isLoading ||

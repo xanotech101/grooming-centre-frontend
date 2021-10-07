@@ -8,15 +8,15 @@ import {
 } from "./responses";
 
 const requestLessonDetailsForLessonId_1 = rest.get(
-  getUrl("/lesson/lesson_1"),
+  getUrl("/lesson/lessonId_1"),
   handleSuccessResponse(requestLessonDetailsRes_lessonId_1)
 );
 const requestLessonDetailsForLessonId_2 = rest.get(
-  getUrl("/lesson/lesson_2"),
+  getUrl("/lesson/lessonId_2"),
   handleSuccessResponse(requestLessonDetailsRes_lessonId_2)
 );
 const requestLessonDetailsForLessonId_3 = rest.get(
-  getUrl("/lesson/lesson_3"),
+  getUrl("/lesson/lessonId_3"),
   handleSuccessResponse(requestLessonDetailsRes_lessonId_3)
 );
 

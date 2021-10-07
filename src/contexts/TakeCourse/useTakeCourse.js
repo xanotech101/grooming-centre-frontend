@@ -5,7 +5,7 @@ import useCourseDetails from "../../pages/user/Courses/CourseDetails/hooks/useCo
 import { TakeCourseContext } from "./TakeCourseProvider";
 
 /**
- * TakeCourseLayout state `Manager` - its consumes the ContextProvider and returns whats necessary.
+ * TakeCourseLayout state `Manager` - its consumes the ContextProvider and returns whats neccessary.
  *
  * @returns  Object {
  *  state: {
@@ -17,6 +17,8 @@ import { TakeCourseContext } from "./TakeCourseProvider";
  */
 export const useTakeCourse = () => {
   const { course_id } = useParams();
+  // console.log(course_id);
+
   const { fetchCourseDetails } = useCourseDetails(course_id);
 
   const cacheManager = useCache();
@@ -36,8 +38,14 @@ export const useTakeCourse = () => {
 
       try {
         await fetchCourseDetails();
+
+        // const data = await fetchTakeCourseData();
+
+        // if (isMounted) {
+        //   setState((prev) => ({ ...prev, data, isLoading: false }));
+        // }
       } catch (err) {
-        setState({ data: null, err, isLoading: false });
+        setState({ err: err.message });
         console.error(err);
       }
     };
@@ -54,6 +62,12 @@ export const useTakeCourse = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cacheManager.state[course_id]]);
+
+  // useEffect(() => {
+  //   if (state.data) {
+  //     console.log(state.data);
+  //   }
+  // }, [state.data]);
 
   return {
     state,

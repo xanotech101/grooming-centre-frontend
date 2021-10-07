@@ -20,7 +20,6 @@ const Sidebar = ({ manager }) => {
     <Tooltip label={link.text} aria-label={link.text}>
       <HStack spacing={2} padding={2} {...props}>
         <Icon fontSize="text.level1">
-          {/* {console.log(link.type)} */}
           {link.type !== "video" ? <VscFiles /> : <IoVideocam />}
         </Icon>
 

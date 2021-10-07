@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useApp, useTakeCourse } from "../../../../../contexts";
 
 const mapLessonsToLinks = (data, getLessonTypeName) => {
@@ -35,32 +34,20 @@ const mapLessonsToLinks = (data, getLessonTypeName) => {
  */
 const useSidebar = () => {
   const appManager = useApp();
-  const takeCourseManger = useTakeCourse();
+  const {
+    state: { data: course, isLoading },
+  } = useTakeCourse();
 
   const getLessonTypeName = (id) =>
     appManager.getOneMetadata("lessonType", id)?.name;
+  const links = mapLessonsToLinks(course, getLessonTypeName);
 
-  const [links, setLinks] = useState(null);
-
-  useEffect(() => {
-    if (takeCourseManger.state.data && appManager.state.metadata) {
-      const links = mapLessonsToLinks(
-        takeCourseManger.state.data,
-        getLessonTypeName
-      );
-      setLinks(links);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [takeCourseManger.state.data, appManager.state.metadata]);
-
-  const course = takeCourseManger.state.data;
-  const isLoading = takeCourseManger.state.isLoading;
+  const loading = isLoading || !appManager.state.metadata; // TODO:replace with `!appManager.metadataIsLoading`
 
   return {
     course,
     links,
-    isLoading,
+    isLoading: loading,
   };
 };
 

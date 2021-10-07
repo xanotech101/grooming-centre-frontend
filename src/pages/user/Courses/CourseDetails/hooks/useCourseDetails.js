@@ -12,8 +12,8 @@ const useCourseDetails = (courseId) => {
     loading: false,
     err: null,
   });
-  let params = useParams();
 
+  let params = useParams();
   const id = courseId || params.id;
 
   const fetcher = useCallback(async () => {

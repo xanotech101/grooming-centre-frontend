@@ -28,8 +28,6 @@ const buildOptions = (options) => ({
   ...options,
 });
 const buildURL = (path) => {
-  console.log(baseURL, path);
-
   return baseURL + path;
 };
 
