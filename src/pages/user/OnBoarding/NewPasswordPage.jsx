@@ -19,7 +19,7 @@ const NewPasswordPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm();
-  const values = getValues(); // { test: "test-input", test1: "test1-input" }
+  const values = getValues();
 
   const { handleLogout } = useApp();
   const { replace } = useHistory();

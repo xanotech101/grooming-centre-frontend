@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-import { Input, Select,Text } from "../../../../components";
+import { Input, Select, Text } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
@@ -95,7 +95,6 @@ const CreateUserPage = ({
         <Select
           label="Department"
           options={populateSelectOptions(metadata?.departments)}
-          // isRequired={departmentIsRequired}
           id="departmentId"
           isLoading={!metadata?.departments}
           {...register("departmentId", {
