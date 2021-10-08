@@ -9,9 +9,11 @@ import {
   AssessmentPreviewPageRoute,
   LessonDetailsPageRoute,
 } from "../../../../pages/user";
+import { useIsAuthRedirect } from "../../../../hooks/useAuthCheckRedirect";
 
 const TakeCourseLayout = () => {
   const sidebarManager = useSidebar();
+   useIsAuthRedirect();
 
   return (
     <Flex maxWidth={breakpoints["4k"]} marginX="auto" height="100vh">
