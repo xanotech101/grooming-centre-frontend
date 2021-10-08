@@ -5,14 +5,14 @@ import { useEffect } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
-import { Button, Heading, SkeletonText } from "../../../../components";
+import { Button, Heading, SkeletonText, Text } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 
 const Player = ({
   width = "100%",
   height = "100%",
-  backgroundColor,
+  backgroundColor = "accent.1",
   url,
   onEnded,
   onPlayToggle,
@@ -161,27 +161,56 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
               )}
             </Box>
 
-            <Box height="calc((100vw - 250px - 48px) / 2)" marginBottom={10}>
-              {isLoading ? (
-                <Skeleton width="100%" height="100%" />
-              ) : (
-                <Player
-                  url={lesson?.file}
-                  onEnded={handleVideoHasEnded}
-                  onPlayToggle={handleVideoPlayToggle}
-                  controls={videoHasBeenCompleted}
-                  playing={videoIsPlaying}
-                />
-              )}
-            </Box>
+            <Flex
+              width="100%"
+              // height={{ base: "100%", laptop: "50%" }}
+              flexDirection={{ base: "column", laptop: "row" }}
+            >
+              <Box width={{ base: "100%", laptop: "60%" }} bg="accent.2">
+                {isLoading ? (
+                  <Skeleton width="100%" height="100%" />
+                ) : (
+                  <Player
+                    url={lesson?.file}
+                    onEnded={handleVideoHasEnded}
+                    onPlayToggle={handleVideoPlayToggle}
+                    controls={videoHasBeenCompleted}
+                    playing={videoIsPlaying}
+                  />
+                )}
+              </Box>
 
-            <Box>
-              {isLoading ? (
-                <SkeletonText numberOfLines={10} />
-              ) : (
-                lesson?.content
-              )}
-            </Box>
+              <Box height="65vh" width={{ base: "100%", laptop: "40%" }}>
+                {isLoading ? (
+                  <Box
+                    paddingTop={10}
+                    paddingBottom={10}
+                    paddingX={{ base: 0, laptop: 10 }}
+                    width="100%"
+                    height="100%"
+                  >
+                    <SkeletonText
+                      numberOfLines={10}
+                      spacing={3}
+                      marginBottom={10}
+                    />
+                    <SkeletonText numberOfLines={5} spacing={3} />
+                  </Box>
+                ) : (
+                  <Box
+                    bg="others.1"
+                    paddingTop={10}
+                    paddingBottom={10}
+                    paddingX={{ base: 0, laptop: 10 }}
+                    width="100%"
+                    height="100%"
+                    overflowY="auto"
+                  >
+                    <Text>{lesson?.content}</Text>
+                  </Box>
+                )}
+              </Box>
+            </Flex>
           </>
         )}
       </Box>
