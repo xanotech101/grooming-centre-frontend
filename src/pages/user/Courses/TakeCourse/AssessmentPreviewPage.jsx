@@ -9,12 +9,17 @@ import {
 import { BsClockFill } from "react-icons/bs";
 import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText, Text } from "../../../../components";
+import { useTakeCourse } from "../../../../contexts";
 import { getDuration } from "../../../../utils";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useAssessmentPreview from "./hooks/useAssessmentPreview";
 
 const AssessmentPreviewPage = ({ sidebarLinks }) => {
-  const { assessment, isLoading, error } = useAssessmentPreview(sidebarLinks);
+  const { assessment, isLoading, error } = useAssessmentPreview({
+    sidebarLinks,
+  });
+  useTakeCourse();
+
   const duration = getDuration(assessment.duration);
 
   return error ? (

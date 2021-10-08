@@ -2,9 +2,13 @@ import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
 import { Button, Heading, Text } from "../../../components";
+import useAssessmentPreview from "../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import breakpoints from "../../../theme/breakpoints";
+import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 
 const AssessmentLayout = () => {
+  const { assessment, isLoading, error } = useAssessmentPreview();
+
   const renderSubHeading = (heading) => (
     <Box
       as="header"
@@ -17,7 +21,13 @@ const AssessmentLayout = () => {
     </Box>
   );
 
-  return (
+  return isLoading ? (
+    <PageLoaderLayout />
+  ) : error ? (
+    <PageLoaderLayout>
+      <Heading>{error}</Heading>
+    </PageLoaderLayout>
+  ) : (
     <Flex
       justifyContent="center"
       alignItems="flex-start"
@@ -40,7 +50,7 @@ const AssessmentLayout = () => {
           paddingX={10}
         >
           <Heading as="h1" fontSize="heading.h4">
-            HTML Assessment
+            {assessment.topic}
           </Heading>
         </Box>
 
@@ -164,7 +174,7 @@ const AssessmentLayout = () => {
                       border="1px"
                       borderColor="transparent"
                     >
-                      <Text bold as="level">
+                      <Text bold as="level1">
                         {index + 1}
                       </Text>
                     </Flex>
@@ -178,7 +188,7 @@ const AssessmentLayout = () => {
                   border="1px"
                   borderColor="primary.base"
                 >
-                  <Text bold as="level">
+                  <Text bold as="level1">
                     10
                   </Text>
                 </Flex>

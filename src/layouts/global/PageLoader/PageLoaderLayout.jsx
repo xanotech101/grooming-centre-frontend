@@ -1,10 +1,10 @@
 import { Grid } from "@chakra-ui/layout";
 import { Spinner } from "../../../components";
 
-export const PageLoaderLayout = () => {
+export const PageLoaderLayout = ({ children = <Spinner /> }) => {
   return (
     <Grid height="100vh" width="100vw" placeItems="center">
-      <Spinner />
+      {children}
     </Grid>
   );
 };

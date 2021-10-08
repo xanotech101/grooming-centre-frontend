@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCache, useTakeCourse } from "../../../../../contexts";
+import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { requestAssessmentDetails } from "../../../../../services";
 
@@ -14,13 +14,10 @@ import { requestAssessmentDetails } from "../../../../../services";
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = (sidebarLinks) => {
+const useAssessmentPreview = ({ sidebarLinks }) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
-
-  // To make sure the `Sidebar` links renders correctly
-  useTakeCourse();
 
   const index = sidebarLinks?.findIndex((link) => link.id === assessment_id);
   const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };

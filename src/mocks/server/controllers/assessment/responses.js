@@ -10,14 +10,65 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
       {
         id: "questionsId_1",
         question: "How do you create an HTML tag?",
+        options: [
+          {
+            id: "optionId_1",
+            name: "Me",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_2",
+            name: "Myself",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "and I",
+            optionIndex: "2",
+          },
+        ],
       },
       {
         id: "questionsId_2",
         question: "How do you create style rules?",
+        options: [
+          {
+            id: "optionId_1",
+            name: "Me",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_2",
+            name: "Myself",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "and I",
+            optionIndex: "2",
+          },
+        ],
       },
       {
         id: "questionsId_3",
         question: "Why do you create a style rule?",
+        options: [
+          {
+            id: "optionId_1",
+            name: "Me",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_2",
+            name: "Myself",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "and I",
+            optionIndex: "2",
+          },
+        ],
       },
     ],
   },
@@ -35,6 +86,16 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
       {
         id: "questionsId_1",
         question: "How do you create an HTML tag?",
+
+        options: [
+          {
+            id: "optionId_1",
+            name: "me",
+            assessmentQuestionId: "ad44e67e-a109-4d4c-ab4c-f617633cf18f",
+            isAnswer: false,
+            optionIndex: "2",
+          },
+        ],
       },
       {
         id: "questionsId_2",
