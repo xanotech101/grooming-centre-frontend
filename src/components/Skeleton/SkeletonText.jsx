@@ -6,11 +6,12 @@ export const SkeletonText = ({
   numberOfLines = 2,
   height = "10px",
   spacing = 2,
+  ...rest
 }) => {
   const lines = Array(numberOfLines - 1).fill();
 
   return (
-    <Stack spacing={spacing}>
+    <Stack spacing={spacing} {...rest}>
       {lines.map((_, index) => (
         <Skeleton key={index} width="100%" height={height} />
       ))}

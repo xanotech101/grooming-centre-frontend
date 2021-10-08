@@ -1,37 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { userGetCourseDetails } from "../../../../../services";
 
-const useCourseDetails = () => {
+const useCourseDetails = (courseId) => {
+  const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const [courseDetails, setCourseDetails] = useState({
     data: null,
     loading: false,
     err: null,
   });
-  let { id } = useParams();
+
+  let params = useParams();
+  const id = courseId || params.id;
+
+  const fetcher = useCallback(async () => {
+    const { course } = await userGetCourseDetails(id);
+    return course;
+  }, [id]);
 
   const fetchCourseDetails = useCallback(async () => {
-    console.log(id);
-
     setCourseDetails({ loading: true });
 
     try {
-      const { course } = await userGetCourseDetails(id);
+      let courseDetails = await handleGetOrSetAndGet(id, fetcher);
 
-      if (componentIsMount) setCourseDetails({ data: course });
+      if (componentIsMount) setCourseDetails({ data: courseDetails });
     } catch (err) {
       if (componentIsMount) setCourseDetails({ err: err.message });
     }
-  }, [componentIsMount, id]);
 
-  useEffect(() => {
-    fetchCourseDetails();
-  }, [fetchCourseDetails]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, componentIsMount]);
 
   return {
     courseDetails,
+    fetchCourseDetails,
   };
 };
 

@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
-import { useTakeCourse } from "../../../../../contexts";
+import { useApp, useTakeCourse } from "../../../../../contexts";
 
-const mapLessonsToLinks = (data) => {
-  const links = data?.lessons.reduce((accumulator, lesson, index) => {
+const mapLessonsToLinks = (data, getLessonTypeName) => {
+  const links = data?.lessons?.reduce((accumulator, lesson, index) => {
     const link = {
       id: lesson.id,
       to: `/courses/take/${data.id}/lessons/${lesson.id}`,
       text: lesson.title,
       disabled: lesson.disabled,
-      type: lesson.lessonType.name,
+      type: getLessonTypeName(lesson.lessonTypeId),
     };
     accumulator.push(link);
 
     if (index === data.lessons.length - 1) {
       const link = {
-        id: data.assessment.id,
+        id: data.assessment.id || Math.random(), // TODO: remove
         to: `/courses/take/${data.id}/assessment`,
         text: "Assessment",
         disabled: data.assessment.disabled,
@@ -34,25 +33,21 @@ const mapLessonsToLinks = (data) => {
  * @returns Object { links: `Array<Object>` | `null`, courseTitle: `string`, isLoading: `boolean` }
  */
 const useSidebar = () => {
-  const takeCourseManger = useTakeCourse();
-  const { state } = takeCourseManger;
+  const appManager = useApp();
+  const {
+    state: { data: course, isLoading },
+  } = useTakeCourse();
 
-  const [links, setLinks] = useState(null);
+  const getLessonTypeName = (id) =>
+    appManager.getOneMetadata("lessonType", id)?.name;
+  const links = mapLessonsToLinks(course, getLessonTypeName);
 
-  useEffect(() => {
-    if (state.data) {
-      const links = mapLessonsToLinks(state.data);
-      setLinks(links);
-    }
-  }, [state?.data]);
-
-  const courseTitle = state.data?.title;
-  const isLoading = state.isLoading;
+  const loading = isLoading || !appManager.state.metadata; // TODO:replace with `!appManager.metadataIsLoading`
 
   return {
+    course,
     links,
-    courseTitle,
-    isLoading,
+    isLoading: loading,
   };
 };
 

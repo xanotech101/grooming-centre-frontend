@@ -3,7 +3,8 @@ import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
   adminCourseListingRes,
-  userCourseDetailsRes,
+  userCourseDetailsRes_courseId_1,
+  userCourseDetailsRes_courseId_3,
   userCourseListingRes,
 } from "./responses";
 
@@ -17,15 +18,20 @@ const userGetCourseListing = rest.get(
   handleSuccessResponse(userCourseListingRes)
 );
 
-const userGetCourseDetails = rest.get(
+const userGetCourseDetailsForCourseId_1 = rest.get(
   getUrl("/course/courseId_1"),
-  handleSuccessResponse(userCourseDetailsRes)
+  handleSuccessResponse(userCourseDetailsRes_courseId_1)
+);
+const userGetCourseDetailsForCourseId_3 = rest.get(
+  getUrl("/course/courseId_3"),
+  handleSuccessResponse(userCourseDetailsRes_courseId_3)
 );
 
 const course = [
   adminGetCourseListing,
   userGetCourseListing,
-  userGetCourseDetails,
+  userGetCourseDetailsForCourseId_1,
+  userGetCourseDetailsForCourseId_3,
 ];
 
 export default course;

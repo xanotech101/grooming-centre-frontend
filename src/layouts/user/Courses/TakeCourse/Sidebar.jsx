@@ -14,7 +14,7 @@ import {
 import colors from "../../../../theme/colors";
 
 const Sidebar = ({ manager }) => {
-  const { links, courseTitle, isLoading } = manager;
+  const { course, links, isLoading } = manager;
 
   const renderContent = (link, props) => (
     <Tooltip label={link.text} aria-label={link.text}>
@@ -48,7 +48,7 @@ const Sidebar = ({ manager }) => {
             ghost
             leftIcon={<AiOutlineLeft />}
             flex={1}
-            link={`/courses/details/courseId`}
+            link={course?.id && `/courses/details/${course.id}`}
           >
             Back
           </Button>
@@ -61,7 +61,7 @@ const Sidebar = ({ manager }) => {
           {isLoading ? (
             <SkeletonText />
           ) : (
-            <Heading fontSize="h4">{courseTitle}</Heading>
+            <Heading fontSize="h4">{course?.title}</Heading>
           )}
         </Box>
       </Box>
@@ -71,28 +71,30 @@ const Sidebar = ({ manager }) => {
           {isLoading ? (
             <SkeletonText numberOfLines={10} height="37px" spacing={1} />
           ) : (
-            links?.map((link) => (
-              <li key={link.id}>
-                {link.disabled ? (
-                  renderContent(link, { opacity: 0.5, cursor: "not-allowed" })
-                ) : (
-                  <Link
-                    navLink
-                    href={link.to}
-                    exact={true}
-                    style={{
-                      display: "block",
-                    }}
-                    activeStyle={{
-                      background: colors.primary.base,
-                      color: colors.white,
-                    }}
-                  >
-                    {renderContent(link)}
-                  </Link>
-                )}
-              </li>
-            ))
+            links?.map((link) => {
+              return (
+                <li key={link.id}>
+                  {link.disabled ? (
+                    renderContent(link, { opacity: 0.5, cursor: "not-allowed" })
+                  ) : (
+                    <Link
+                      navLink
+                      href={link.to}
+                      exact={true}
+                      style={{
+                        display: "block",
+                      }}
+                      activeStyle={{
+                        background: colors.primary.base,
+                        color: colors.white,
+                      }}
+                    >
+                      {renderContent(link)}
+                    </Link>
+                  )}
+                </li>
+              );
+            })
           )}
         </Box>
       </Box>

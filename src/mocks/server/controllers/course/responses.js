@@ -32,6 +32,45 @@ export const userCourseListingRes = {
       title: "Web dev 2021",
       thumbnail:
         "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
+      lessonCount: 23,
+      instructor: {
+        id: "instructorId_2",
+        profilePics:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+        firstName: "jane",
+        lastName: "bar",
+        title: "Senior Facility Manager",
+      },
+      progressPercentage: 75,
+    },
+
+    {
+      id: "courseId_3",
+      duration: 100,
+      description: "React Design Patters",
+      disabled: false,
+      title: "Become A React Guru",
+      thumbnail:
+        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
+      lessonCount: 24,
+      instructor: {
+        id: "instructorId_3",
+        profilePics:
+          "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
+        firstName: "Richcode",
+        lastName: "dart",
+        title: "Junior Developer",
+      },
+      progressPercentage: 13,
+    },
+    {
+      id: "courseId_2",
+      duration: 180,
+      description: "Nodejs Advanced Concept",
+      disabled: true,
+      title: "Backend Development",
+      thumbnail:
+        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
       lessonCount: 0,
       instructor: {
         id: "instructorId_1",
@@ -43,30 +82,10 @@ export const userCourseListingRes = {
       },
       progressPercentage: 0,
     },
-    {
-      id: "courseId_1",
-      duration: 180,
-      description: "Nodejs Advanced Concept",
-      disabled: true,
-      title: "Backend Development",
-      thumbnail:
-        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
-      // departmentId: "departmentId_2",
-      lessonCount: 24,
-      instructor: {
-        id: "instructorId_2",
-        profilePics:
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
-        firstName: "jane",
-        lastName: "bar",
-        title: "Senior Facility Manager",
-      },
-      progressPercentage: 75,
-    },
   ],
 };
 
-export const userCourseDetailsRes = {
+export const userCourseDetailsRes_courseId_1 = {
   data: {
     id: "courseId_1",
     duration: 120,
@@ -75,46 +94,85 @@ export const userCourseDetailsRes = {
     thumbnail:
       "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
     instructor: {
-      id: "instructorId_1",
+      id: "instructorId_2",
       profilePics:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
-      firstName: "john",
-      lastName: "doe",
-      title: "Team Lead",
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      firstName: "jane",
+      lastName: "bar",
+      title: "Senior Facility Manager",
     },
-    lesson: [
+    lessons: [
       {
-        id: "036dd7aa-8a8d-4c1c-b712-98a695827360",
+        id: "lessonId_1",
         title: "Introduction to HTML",
-        content:
-          "This course introduces you to all what you need to know about HTML",
-        file: "https://res.cloudinary.com/oluwatobby/video/upload/v1632310108/yt5s.com-React_in_100_Seconds_720p_a0tzha.mp4",
         startTime: "2021-010-18 04:25 PM",
         endTime: "2021-010-18 05:35 PM",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
       {
-        id: "2bb0376e-8181-4c9a-9a80-f339135cf9e7",
+        id: "lessonId_2",
         title: "Introduction to GO",
-        content:
-          "This course introduces you to all what you need to know about Go",
-        file: "https://res.cloudinary.com/oluwatobby/video/upload/v1632310108/yt5s.com-React_in_100_Seconds_720p_a0tzha.mp4",
         startTime: "2021-010-21 02:25 PM",
         endTime: "2021-010-21 03:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
       },
       {
-        id: "3b85b326-e211-4f41-8f2e-239c90f1bc5f",
+        id: "lessonId_3",
         title: "Introduction to CSS",
         disabled: true,
-        content:
-          "This course introduces you to all what you need to know about CSS",
-        file: "https://res.cloudinary.com/oluwatobby/video/upload/v1632310108/yt5s.com-React_in_100_Seconds_720p_a0tzha.mp4",
         startTime: "2021-010-18 11:25 AM",
         endTime: "2021-010-18 12:35 PM",
         courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
-        lessonTypeId: "b4de5c1c-fa91-4572-b05c-a7eaab62a8cd",
+        lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
+      },
+    ],
+    assessment: [],
+  },
+};
+
+export const userCourseDetailsRes_courseId_3 = {
+  data: {
+    id: "courseId_3",
+    duration: 100,
+    description: "React Design Patters",
+    disabled: false,
+    title: "Become A React Guru",
+    thumbnail:
+      "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
+    lessonCount: 24,
+    instructor: {
+      id: "instructorId_3",
+      profilePics:
+        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
+      firstName: "Richcode",
+      lastName: "dart",
+      title: "Junior Developer",
+    },
+    lessons: [
+      {
+        id: "lessonId_1",
+        title: "Introduction to HTML",
+        startTime: "2021-010-18 04:25 PM",
+        endTime: "2021-010-18 05:35 PM",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
+      },
+      {
+        id: "lessonId_2",
+        title: "Introduction to GO",
+        startTime: "2021-010-21 02:25 PM",
+        endTime: "2021-010-21 03:35 PM",
+        courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
+        lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
+      },
+      {
+        id: "lessonId_3",
+        title: "Introduction to CSS",
+        disabled: true,
+        startTime: "2021-010-18 11:25 AM",
+        endTime: "2021-010-18 12:35 PM",
+        courseId: "f3596e22-a60d-4ca8-be1c-f238445441b6",
+        lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
       },
     ],
     assessment: [],
