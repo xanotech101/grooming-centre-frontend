@@ -23,7 +23,7 @@ const useAssessmentPreview = (sidebarLinks) => {
   useTakeCourse();
 
   const index = sidebarLinks?.findIndex((link) => link.id === assessment_id);
-  const currentAssessmentLink = { index, ...sidebarLinks?.[index] };
+  const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
 
   const [assessmentDetails, setAssessmentDetails] = useState({
     data: null,

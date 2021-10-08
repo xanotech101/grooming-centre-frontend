@@ -8,12 +8,14 @@ import {
 } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { Route } from "react-router-dom";
-import { Button, Heading, SkeletonText } from "../../../../components";
+import { Button, Heading, SkeletonText, Text } from "../../../../components";
+import { getDuration } from "../../../../utils";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useAssessmentPreview from "./hooks/useAssessmentPreview";
 
 const AssessmentPreviewPage = ({ sidebarLinks }) => {
   const { assessment, isLoading, error } = useAssessmentPreview(sidebarLinks);
+  const duration = getDuration(assessment.duration);
 
   return error ? (
     <Grid placeItems="center" height="100vh" width="100%">
@@ -38,25 +40,33 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
         {isLoading ? (
           <SkeletonText numberOfLines={4} spacing={5} />
         ) : (
-          <List spacing={2}>
-            <ListItem>
+          <List spacing={3}>
+            <ListItem d="flex" alignItems="center">
               <ListIcon fontSize="text.level1" color="accent.2">
                 <BsClockFill />
               </ListIcon>
-              {assessment.questionCount} multiple choice questions
+
+              <Text>{assessment.questionCount} multiple choice questions</Text>
             </ListItem>
-            <ListItem>
+            <ListItem d="flex" alignItems="center">
               <ListIcon fontSize="text.level1" color="accent.2">
                 <BsClockFill />
               </ListIcon>
-              {assessment.duration}
+
+              <Text>
+                {duration.hours && `${duration.hours} hours `}
+                {duration.minutes && `${duration.minutes} minutes.`}
+              </Text>
             </ListItem>
-            <ListItem>
+            <ListItem d="flex" alignItems="center">
               <ListIcon fontSize="text.level1" color="accent.2">
                 <BsClockFill />
               </ListIcon>
-              Score a minimum of {assessment.minimumPercentageScoreToEarnABadge}
-              % to earn a badge
+
+              <Text>
+                Score a minimum of{" "}
+                {assessment.minimumPercentageScoreToEarnABadge}% to earn a badge
+              </Text>
             </ListItem>
           </List>
         )}
@@ -64,15 +74,21 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
 
       <UnorderedList spacing={2} paddingBottom={10}>
         <ListItem>
-          You must complete this assessment in one session — make sure your
-          internet is reliable.
+          <Text>
+            You must complete this assessment in one session — make sure your
+            internet is reliable.
+          </Text>
         </ListItem>
         <ListItem>
-          You can only take this assessment once, so do well to put in your
-          best.
+          <Text>
+            You can only take this assessment once, so do well to put in your
+            best.
+          </Text>
         </ListItem>
         <ListItem>
-          We won’t show your results to anyone without your permission.
+          <Text>
+            We won’t show your results to anyone without your permission.
+          </Text>
         </ListItem>
       </UnorderedList>
 
