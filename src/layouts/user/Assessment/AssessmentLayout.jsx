@@ -41,6 +41,8 @@ const useAssessment = () => {
     if (assessment) {
       setCurrentQuestion(assessment.questions?.[0]);
     } // TODO: sort questions by `questionIndex`
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment.questions?.[0]]);
 
   const handleQuestionChange = (question) => {
