@@ -80,6 +80,7 @@ export const requestSignin = async (body) => {
 };
 //========= END OF Auth Endpoints
 //
+
 //
 //----------- User Endpoints
 /**
@@ -98,6 +99,7 @@ export const adminGetUserListing = async () => {
 };
 //----------- END OF User Endpoints
 //
+
 //
 //----------- Course Endpoints
 /**
@@ -160,8 +162,25 @@ export const userGetCourseListing = async () => {
 
   return { courses: data };
 };
+
+/**
+ * Endpoint to get `course-details` for a user
+ * @param {string} id - courseId
+ *
+ * @returns Promise<{ course: `CourseListArray` }>
+ */
+export const userGetCourseDetails = async (id) => {
+  const path = `/course/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { course: data };
+};
 //----------- END OF Course Endpoints
 //
+
 //
 //----------- Department Endpoints
 /**
@@ -183,6 +202,7 @@ export const adminCreateDepartment = async (body) => {
 };
 //----------- END OF Department Endpoints
 //
+
 //
 //----------- User Creation
 /**
