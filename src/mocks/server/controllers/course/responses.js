@@ -127,7 +127,22 @@ export const userCourseDetailsRes_courseId_1 = {
         lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
       },
     ],
-    assessment: [],
+    assessments: [
+      {
+        id: "assessmentId_1",
+        topic: "Introduction to HTML",
+        duration: 70,
+        questionCount: 20,
+        minimumPercentageScoreToEarnABadge: 80,
+      },
+      {
+        id: "assessmentId_2",
+        topic: "HTML architecture",
+        duration: 50,
+        questionCount: 13,
+        minimumPercentageScoreToEarnABadge: 90,
+      },
+    ],
   },
 };
 
@@ -175,6 +190,21 @@ export const userCourseDetailsRes_courseId_3 = {
         lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
       },
     ],
-    assessment: [],
+    assessments: [
+      {
+        id: "assessmentId_1",
+        topic: "Introduction to HTML",
+        duration: 70,
+        questionCount: 20,
+        minimumPercentageScoreToEarnABadge: 80,
+      },
+      {
+        id: "assessmentId_2",
+        topic: "HTML architecture",
+        duration: 50,
+        questionCount: 13,
+        minimumPercentageScoreToEarnABadge: 90,
+      },
+    ],
   },
 };
