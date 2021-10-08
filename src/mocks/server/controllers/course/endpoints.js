@@ -1,7 +1,11 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
-import { adminCourseListingRes, userCourseListingRes } from "./responses";
+import {
+  adminCourseListingRes,
+  userCourseDetailsRes,
+  userCourseListingRes,
+} from "./responses";
 
 const adminGetCourseListing = rest.get(
   getUrl("/admin/courses"),
@@ -13,6 +17,15 @@ const userGetCourseListing = rest.get(
   handleSuccessResponse(userCourseListingRes)
 );
 
-const course = [adminGetCourseListing, userGetCourseListing];
+const userGetCourseDetails = rest.get(
+  getUrl("/course/courseId_1"),
+  handleSuccessResponse(userCourseDetailsRes)
+);
+
+const course = [
+  adminGetCourseListing,
+  userGetCourseListing,
+  userGetCourseDetails,
+];
 
 export default course;
