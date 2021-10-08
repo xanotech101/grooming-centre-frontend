@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-import { Input, Select } from "../../../../components";
+import { Input, Select,Text } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
@@ -28,7 +28,7 @@ const CreateUserPage = ({
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = formManager;
 
   const metadata = propMetadata || appManager.state.metadata;
@@ -78,20 +78,38 @@ const CreateUserPage = ({
         {/* <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}> */}
         <Input
           label="User's email"
-          isRequired
-          {...register("email")}
           id="email"
+          {...register("email", {
+            required: "Email can't be empty",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              message: "Enter a valid e-mail address",
+            },
+          })}
         />
-
+        {errors.email ? (
+          <Text color="secondary.5" style={{ marginTop: 0 }}>
+            {errors.email.message}
+          </Text>
+        ) : null}
         <Select
           label="Department"
           options={populateSelectOptions(metadata?.departments)}
-          isRequired={departmentIsRequired}
-          {...register("departmentId")}
+          // isRequired={departmentIsRequired}
           id="departmentId"
           isLoading={!metadata?.departments}
+          {...register("departmentId", {
+            required: {
+              value: { departmentIsRequired },
+              message: "Please select a department",
+            },
+          })}
         />
-
+        {errors.departmentId ? (
+          <Text color="secondary.5" style={{ marginTop: 0 }}>
+            {errors.departmentId.message}
+          </Text>
+        ) : null}
         <Select
           label="Select Role"
           options={populateSelectOptions(metadata?.userRoles, (userRole) => {
@@ -111,10 +129,16 @@ const CreateUserPage = ({
             }
           })}
           isLoading={!metadata?.userRoles}
-          isRequired
-          {...register("roleId")}
+          {...register("roleId", {
+            required: "Please select a role",
+          })}
           id="roleId"
         />
+        {errors.roleId ? (
+          <Text color="secondary.5" style={{ marginTop: 0 }}>
+            {errors.roleId.message}
+          </Text>
+        ) : null}
         {/* </Grid> */}
       </Stack>
     </CreatePageLayout>
