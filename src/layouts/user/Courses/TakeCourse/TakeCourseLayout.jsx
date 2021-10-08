@@ -4,7 +4,7 @@ import { TakeCourseProvider } from "../../../../contexts";
 import breakpoints from "../../../../theme/breakpoints";
 import Sidebar from "./Sidebar";
 import useSidebar from "./hooks/useSidebar";
-import { Switch } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
 import {
   AssessmentPreviewPageRoute,
   LessonDetailsPageRoute,
@@ -25,9 +25,12 @@ const TakeCourseLayout = () => {
           sidebarLinks={sidebarManager.links}
         />
         <AssessmentPreviewPageRoute
+          exact
           path="/courses/take/:course_id/assessment/:assessment_id"
           sidebarLinks={sidebarManager.links}
         />
+
+        <Redirect to="/not-found" />
       </Switch>
     </Flex>
   );

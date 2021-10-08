@@ -1,14 +1,24 @@
-import { Box, UnorderedList, ListItem, List, ListIcon } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  UnorderedList,
+  ListItem,
+  List,
+  ListIcon,
+} from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText } from "../../../../components";
+import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useAssessmentPreview from "./hooks/useAssessmentPreview";
 
 const AssessmentPreviewPage = ({ sidebarLinks }) => {
   const { assessment, isLoading, error } = useAssessmentPreview(sidebarLinks);
 
   return error ? (
-    <Heading as="h3">{error}</Heading>
+    <Grid placeItems="center" height="100vh" width="100%">
+      <Heading as="h3">{capitalizeFirstLetter(error)}</Heading>
+    </Grid>
   ) : (
     <Box paddingTop={10} as="main" paddingX={6}>
       <Heading as="h1" fontSize="heading.h3" marginBottom={5}>
@@ -16,7 +26,7 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
       </Heading>
 
       {!isLoading && (
-        <Heading fontSize="heading.h4">Topics: {assessment?.topic}</Heading>
+        <Heading fontSize="heading.h4">Topics: {assessment.topic}</Heading>
       )}
 
       <Box
@@ -33,20 +43,20 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
               <ListIcon fontSize="text.level1" color="accent.2">
                 <BsClockFill />
               </ListIcon>
-              {assessment?.questionCount} multiple choice questions
+              {assessment.questionCount} multiple choice questions
             </ListItem>
             <ListItem>
               <ListIcon fontSize="text.level1" color="accent.2">
                 <BsClockFill />
               </ListIcon>
-              {assessment?.duration}
+              {assessment.duration}
             </ListItem>
             <ListItem>
               <ListIcon fontSize="text.level1" color="accent.2">
                 <BsClockFill />
               </ListIcon>
-              Score a minimum of{" "}
-              {assessment?.minimumPercentageScoreToEarnABadge}% to earn a badge
+              Score a minimum of {assessment.minimumPercentageScoreToEarnABadge}
+              % to earn a badge
             </ListItem>
           </List>
         )}
@@ -67,7 +77,7 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
       </UnorderedList>
 
       <Button
-        link={`/courses/take/${assessment?.courseId}/assessment/${assessment?.id}/start`}
+        link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}`}
         disabled={isLoading && error}
       >
         Take Assessment

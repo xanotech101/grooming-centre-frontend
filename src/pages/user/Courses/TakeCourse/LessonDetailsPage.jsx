@@ -32,15 +32,15 @@ const Player = ({
           width="100%"
           height="100%"
           cursor="pointer"
-          sx={{
-            [!playing && "&:hover .icon"]: {
-              opacity: 1,
-            },
-          }}
+          // sx={{
+          //   [!playing && "&:hover .icon"]: {
+          //     opacity: 1,
+          //   },
+          // }}
           onClick={onPlayToggle}
         >
           <Grid
-            opacity={0}
+            opacity={playing ? 0 : 1}
             transition="1s"
             className="icon"
             placeItems="center"
@@ -141,7 +141,9 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
         overflowY="auto"
       >
         {error ? (
-          <Heading as="h3">{error}</Heading>
+          <Grid placeItems="center" height="100%" width="100%">
+            <Heading as="h3">{capitalizeFirstLetter(error)}</Heading>
+          </Grid>
         ) : (
           <>
             <Box marginBottom={10}>
