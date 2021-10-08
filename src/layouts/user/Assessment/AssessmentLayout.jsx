@@ -1,13 +1,79 @@
 import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { Button, Heading, Text } from "../../../components";
 import useAssessmentPreview from "../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import breakpoints from "../../../theme/breakpoints";
 import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 
-const AssessmentLayout = () => {
+/**
+ * sorts by the index field
+ * @param {*} arrayKey
+ * @param {*} field
+ * @returns {Array}
+ */
+const sortByIndexField = (array, field) =>
+  array
+    ? [...array].sort((a, b) => {
+        if (a[field] > b[field]) return 1;
+        if (a[field] <= b[field]) return -1;
+        return -1;
+      })
+    : [];
+
+const useAssessment = () => {
   const { assessment, isLoading, error } = useAssessmentPreview();
+
+  assessment.questions = sortByIndexField(
+    assessment.questions,
+    "questionIndex"
+  );
+
+  assessment.questions?.forEach((question) => {
+    question.options = sortByIndexField(question.options, "optionIndex");
+  });
+
+  const [currentQuestion, setCurrentQuestion] = useState({});
+
+  useEffect(() => {
+    console.log("effect", assessment.questions);
+    if (assessment) {
+      setCurrentQuestion(assessment.questions?.[0]);
+    } // TODO: sort questions by `questionIndex`
+  }, [assessment.questions?.[0]]);
+
+  const handleQuestionChange = (question) => {
+    console.log(question);
+
+    setCurrentQuestion(question);
+  };
+
+  return {
+    assessment,
+    isLoading,
+    error,
+    currentQuestion,
+    handleQuestionChange,
+  };
+};
+
+// let submitReqBody = {
+//   // TODO:remove
+//   assessmentId: [
+//     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
+//     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
+//   ],
+// }; // TODO:remove
+
+const AssessmentLayout = () => {
+  const {
+    assessment,
+    currentQuestion,
+    error,
+    isLoading,
+    handleQuestionChange,
+  } = useAssessment();
 
   const renderSubHeading = (heading) => (
     <Box
@@ -64,7 +130,11 @@ const AssessmentLayout = () => {
             paddingRight={5}
             marginRight={5}
           >
-            {renderSubHeading("Question 1 of 20")}
+            {renderSubHeading(
+              `Question ${currentQuestion?.questionIndex + 1} of ${
+                assessment.questionCount
+              }`
+            )}
             <Flex
               flexDirection="column"
               justifyContent="space-between"
@@ -73,24 +143,16 @@ const AssessmentLayout = () => {
               // minHeight="500px"
             >
               <Text marginBottom={6} flex={0.2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet,
-                eros cursus nunc integer amet donec rhoncus ut posuere?
+                {currentQuestion?.question}
               </Text>
 
               <RadioGroup defaultValue="1" marginBottom={8} flex={1}>
                 <Stack spacing={4}>
-                  <Radio value="1">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                  <Radio value="2">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                  <Radio value="3">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                  <Radio value="4">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
+                  {currentQuestion?.options?.map((option) => (
+                    <Radio key={option.id} value={option.id}>
+                      <Text>{option.name}</Text>
+                    </Radio>
+                  ))}
                 </Stack>
               </RadioGroup>
 
@@ -132,7 +194,7 @@ const AssessmentLayout = () => {
                 Questions
               </Heading>
 
-              <Flex justifyContent="space-between" marginBottom={2}>
+              <Flex justifyContent="space-between" marginY={5}>
                 <HStack spacing={2}>
                   <Box
                     width="20px"
@@ -160,43 +222,53 @@ const AssessmentLayout = () => {
               </Flex>
 
               <Grid templateColumns="repeat(5, 1fr)" gap={2}>
-                {Array(9)
-                  .fill()
-                  .map((_, index) => (
-                    <Flex
-                      key={index}
-                      alignItems="center"
-                      justifyContent="center"
-                      boxSize="40px"
-                      rounded="4px"
-                      backgroundColor="primary.base"
-                      color="white"
-                      border="1px"
-                      borderColor="transparent"
-                    >
-                      <Text bold as="level1">
-                        {index + 1}
-                      </Text>
-                    </Flex>
-                  ))}
-
-                <Flex
-                  alignItems="center"
-                  justifyContent="center"
-                  boxSize="40px"
-                  rounded="4px"
-                  border="1px"
-                  borderColor="primary.base"
-                >
-                  <Text bold as="level1">
-                    10
-                  </Text>
-                </Flex>
+                {assessment?.questions?.map((question, index) => (
+                  <ButtonNavItem
+                    key={index}
+                    number={index + 1}
+                    isCurrent={
+                      currentQuestion?.questionIndex === question.questionIndex
+                    }
+                    onClick={handleQuestionChange.bind(null, question)}
+                  />
+                ))}
               </Grid>
             </Box>
           </Box>
         </Flex>
       </Box>
+    </Flex>
+  );
+};
+
+const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
+  const styleProps = answered
+    ? {
+        backgroundColor: "primary.base",
+        color: "white",
+        borderColor: "transparent",
+      }
+    : {
+        borderColor: "primary.base",
+      };
+
+  return (
+    <Flex
+      justifyContent="center"
+      boxSize="40px"
+      rounded="4px"
+      alignItems="center"
+      border="1px"
+      as="button"
+      cursor="pointer"
+      onClick={onClick}
+      transition=".5s"
+      transform={isCurrent && "scale(1.1)"}
+      {...styleProps}
+    >
+      <Text bold as="level1">
+        {number}
+      </Text>
     </Flex>
   );
 };

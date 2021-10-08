@@ -14,7 +14,7 @@ import { requestAssessmentDetails } from "../../../../../services";
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = ({ sidebarLinks }) => {
+const useAssessmentPreview = (sidebarLinks) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
@@ -45,7 +45,6 @@ const useAssessmentPreview = ({ sidebarLinks }) => {
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
-      console.log(err.message);
       if (componentIsMount) setAssessmentDetails({ err: err.message });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,8 +57,6 @@ const useAssessmentPreview = ({ sidebarLinks }) => {
   const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
   const isLoading = assessmentDetails.loading;
   const error = assessmentDetails.err;
-
-  console.log(isLoading);
 
   return {
     assessment,

@@ -23,6 +23,12 @@ export const requestAssessmentDetails = async (id) => {
     questions: data.questions.map((q) => ({
       id: q.id,
       question: q.question,
+      questionIndex: +q.questionIndex,
+      options: q.options.map((opt) => ({
+        id: opt.id,
+        name: opt.name,
+        optionIndex: +opt.optionIndex,
+      })),
     })),
   };
 

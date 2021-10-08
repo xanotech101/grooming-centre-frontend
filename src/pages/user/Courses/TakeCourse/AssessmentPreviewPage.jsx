@@ -15,9 +15,7 @@ import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useAssessmentPreview from "./hooks/useAssessmentPreview";
 
 const AssessmentPreviewPage = ({ sidebarLinks }) => {
-  const { assessment, isLoading, error } = useAssessmentPreview({
-    sidebarLinks,
-  });
+  const { assessment, isLoading, error } = useAssessmentPreview(sidebarLinks);
   useTakeCourse();
 
   const duration = getDuration(assessment.duration);
