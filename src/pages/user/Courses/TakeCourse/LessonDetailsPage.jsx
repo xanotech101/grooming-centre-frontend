@@ -147,6 +147,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
         flex={1}
         overflowY="auto"
       >
+        {/*  */}
         {error ? (
           <Heading as="h3">{error}</Heading>
         ) : (
