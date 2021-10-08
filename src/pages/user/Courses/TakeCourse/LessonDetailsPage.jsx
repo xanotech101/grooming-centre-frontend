@@ -12,7 +12,6 @@ import { capitalizeFirstLetter } from "../../../../utils/formatString";
 const Player = ({
   width = "100%",
   height = "100%",
-  backgroundColor = "accent.1",
   url,
   onEnded,
   onPlayToggle,
@@ -21,13 +20,7 @@ const Player = ({
   ...rest
 }) => {
   return (
-    <Box
-      width={width}
-      height={height}
-      backgroundColor={backgroundColor}
-      position="relative"
-      {...rest}
-    >
+    <Box width={width} height={height} position="relative" {...rest}>
       {!controls && (
         <Flex
           justifyContent="center"
@@ -163,7 +156,6 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
 
             <Flex
               width="100%"
-              // height={{ base: "100%", laptop: "50%" }}
               flexDirection={{ base: "column", laptop: "row" }}
             >
               <Box width={{ base: "100%", laptop: "60%" }} bg="accent.2">
@@ -171,6 +163,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
                   <Skeleton width="100%" height="100%" />
                 ) : (
                   <Player
+                    minHeight={"300px"}
                     url={lesson?.file}
                     onEnded={handleVideoHasEnded}
                     onPlayToggle={handleVideoPlayToggle}
@@ -199,6 +192,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
                 ) : (
                   <Box
                     bg="others.1"
+                    marginTop={{ base: 2, laptop: 0 }}
                     paddingTop={10}
                     paddingBottom={10}
                     paddingX={{ base: 0, laptop: 10 }}

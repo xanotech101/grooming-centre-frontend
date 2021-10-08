@@ -1,29 +1,35 @@
 import { useApp, useTakeCourse } from "../../../../../contexts";
 
-const mapLessonsToLinks = (data, getLessonTypeName) => {
-  const links = data?.lessons?.reduce((accumulator, lesson, index) => {
-    const link = {
-      id: lesson.id,
-      to: `/courses/take/${data.id}/lessons/${lesson.id}`,
-      text: lesson.title,
-      disabled: lesson.disabled,
-      type: getLessonTypeName(lesson.lessonTypeId),
-    };
-    accumulator.push(link);
-
-    if (index === data.lessons.length - 1) {
-      const link = {
-        id: data.assessment.id || Math.random(), // TODO: remove
-        to: `/courses/take/${data.id}/assessment`,
-        text: "Assessment",
-        disabled: data.assessment.disabled,
-        type: "assessment",
-      };
+const mapLessonsToLinks = (course, getLessonTypeName) => {
+  const reduceToLinks = (arrayKey, mapper) =>
+    course?.[arrayKey]?.reduce((accumulator, item, index) => {
+      const link = mapper(item, index);
       accumulator.push(link);
-    }
+      return accumulator;
+    }, []);
 
-    return accumulator;
-  }, []);
+  const mapLessonToLink = (lesson) => ({
+    id: lesson.id,
+    to: `/courses/take/${course.id}/lessons/${lesson.id}`,
+    text: lesson.title,
+    disabled: lesson.disabled,
+    type: getLessonTypeName(lesson.lessonTypeId),
+  });
+  const mapAssessmentToLink = (assessment, index) => ({
+    id: assessment.id,
+    to: `/courses/take/${assessment.id}/assessment`,
+    text: `Assessment ${index + 1}`,
+    disabled: assessment.disabled,
+    type: "assessment",
+  });
+
+  const links =
+    course?.lessons && course?.assessments
+      ? [
+          ...reduceToLinks("lessons", mapLessonToLink),
+          ...reduceToLinks("assessments", mapAssessmentToLink),
+        ]
+      : [];
 
   return links;
 };

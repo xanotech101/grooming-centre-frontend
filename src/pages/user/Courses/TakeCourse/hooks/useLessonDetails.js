@@ -94,6 +94,8 @@ const useLessonDetails = (sidebarLinks) => {
 
   const handleEndLesson = async () => {
     if (!lessonDetails.data?.hasEnded) {
+      console.log("end the lesson");
+
       setEndLesson({ loading: true });
 
       try {
@@ -125,17 +127,22 @@ const useLessonDetails = (sidebarLinks) => {
   const endLessonIsLoading = endLesson.loading;
   const endLessonHasError = endLesson.error;
 
-  const isLastEnabledLesson =
-    currentLink?.index ===
-    // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
-    sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
+  // const isLastEnabledLesson =
+  //   currentLink?.index ===
+  //   // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
+  //   sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
+
+  const nextLessonIsDisabled = sidebarLinks?.[currentLink?.index + 1]?.disabled;
 
   useEffect(() => {
-    if (endLessonIsSuccessful && !isLastEnabledLesson) {
-      handleContinueToNextLesson();
+    // if (endLessonIsSuccessful && !nextLessonIsDisabled) {
+    if (endLessonIsSuccessful) {
+      if (!nextLessonIsDisabled) {
+        handleContinueToNextLesson();
+      }
       setEndLesson({ success: false });
     }
-  }, [isLastEnabledLesson, endLessonIsSuccessful, handleContinueToNextLesson]);
+  }, [nextLessonIsDisabled, endLessonIsSuccessful, handleContinueToNextLesson]);
 
   const fetcher = useCallback(async () => {
     const { lesson } = await requestLessonDetails(lessonId);
@@ -169,9 +176,27 @@ const useLessonDetails = (sidebarLinks) => {
   const error = lessonDetails.err;
   const previousIsDisabled = isLoading || currentLink?.index <= 0;
 
-  const completeAndContinueIsDisabled = lesson?.hasEnded
-    ? false
-    : isLoading || !videoPlayerManager.videoHasBeenCompleted;
+  const getCompleteAndContinueIsDisabled = () => {
+    if (isLoading) return true;
+    if (lesson?.hasEnded) return false;
+    if (videoPlayerManager.videoHasBeenCompleted) return false;
+
+    return true;
+  };
+
+  const completeAndContinueIsDisabled = getCompleteAndContinueIsDisabled();
+
+  // lesson?.hasEnded
+  // ? false
+  // : isLoading || !videoPlayerManager.videoHasBeenCompleted;
+
+  console.log({
+    completeAndContinueIsDisabled,
+    nextLessonIsDisabled,
+    endLessonIsSuccessful,
+    isLoading,
+    videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
+  });
 
   return {
     lesson,
