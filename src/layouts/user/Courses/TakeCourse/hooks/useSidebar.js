@@ -17,7 +17,7 @@ const mapLessonsToLinks = (course, getLessonTypeName) => {
   });
   const mapAssessmentToLink = (assessment, index) => ({
     id: assessment.id,
-    to: `/courses/take/${assessment.id}/assessment`,
+    to: `/courses/take/${course.id}/assessment/${assessment.id}`,
     text: `Assessment ${index + 1}`,
     disabled: assessment.disabled,
     type: "assessment",

@@ -13,7 +13,7 @@ import { useIsAuthRedirect } from "../../../../hooks/useAuthCheckRedirect";
 
 const TakeCourseLayout = () => {
   const sidebarManager = useSidebar();
-   useIsAuthRedirect();
+  useIsAuthRedirect();
 
   return (
     <Flex maxWidth={breakpoints["4k"]} marginX="auto" height="100vh">
@@ -24,7 +24,10 @@ const TakeCourseLayout = () => {
           path="/courses/take/:course_id/lessons/:lesson_id"
           sidebarLinks={sidebarManager.links}
         />
-        <AssessmentPreviewPageRoute path="/courses/take/:course_id/assessment" />
+        <AssessmentPreviewPageRoute
+          path="/courses/take/:course_id/assessment/:assessment_id"
+          sidebarLinks={sidebarManager.links}
+        />
       </Switch>
     </Flex>
   );

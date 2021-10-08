@@ -79,10 +79,11 @@ const useLessonDetails = (sidebarLinks) => {
     lessonHasBeenCompleted: lessonDetails.data?.hasEnded, // TODO:replace with a dynamic `lesson.hasEnded`
   });
 
-  const [currentLink, setCurrentLink] = useState();
+  const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
+  const currentLessonLink = { index, ...sidebarLinks?.[index] };
 
   const handlePrevious = () => {
-    const previousLink = sidebarLinks[currentLink.index - 1];
+    const previousLink = sidebarLinks[currentLessonLink.index - 1];
     push(`/courses/take/${courseId}/lessons/${previousLink.id}`);
   };
 
@@ -114,14 +115,14 @@ const useLessonDetails = (sidebarLinks) => {
     await handleEndLesson();
   };
   const handleContinueToNextLesson = useCallback(() => {
-    const nextLink = sidebarLinks[currentLink.index + 1];
+    const nextLink = sidebarLinks[currentLessonLink.index + 1];
 
     if (nextLink.type !== "assessment") {
       push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
     } else {
       push(`/courses/take/${courseId}/assessment`);
     }
-  }, [currentLink?.index, courseId, sidebarLinks, push]);
+  }, [currentLessonLink?.index, courseId, sidebarLinks, push]);
 
   const endLessonIsSuccessful = endLesson.success;
   const endLessonIsLoading = endLesson.loading;
@@ -132,7 +133,8 @@ const useLessonDetails = (sidebarLinks) => {
   //   // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
   //   sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
 
-  const nextLessonIsDisabled = sidebarLinks?.[currentLink?.index + 1]?.disabled;
+  const nextLessonIsDisabled =
+    sidebarLinks?.[currentLessonLink?.index + 1]?.disabled;
 
   useEffect(() => {
     // if (endLessonIsSuccessful && !nextLessonIsDisabled) {
@@ -162,19 +164,13 @@ const useLessonDetails = (sidebarLinks) => {
   }, [lessonId, componentIsMount]);
 
   useEffect(() => {
-    const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
-    const link = { index, ...sidebarLinks?.[index] };
-    setCurrentLink(link);
-  }, [sidebarLinks, lessonId]);
-
-  useEffect(() => {
     fetchLessonDetails();
   }, [fetchLessonDetails]);
 
   const lesson = lessonDetails.data;
   const isLoading = lessonDetails.loading;
   const error = lessonDetails.err;
-  const previousIsDisabled = isLoading || currentLink?.index <= 0;
+  const previousIsDisabled = isLoading || currentLessonLink?.index <= 0;
 
   const getCompleteAndContinueIsDisabled = () => {
     if (isLoading) return true;

@@ -129,7 +129,6 @@ export const userCourseDetailsRes_courseId_1 = {
     ],
     assessments: [
       {
-        disabled: true,
         id: "assessmentId_1",
         topic: "Introduction to HTML",
         duration: 70,
@@ -144,6 +143,7 @@ export const userCourseDetailsRes_courseId_1 = {
         minimumPercentageScoreToEarnABadge: 90,
       },
       {
+        disabled: true,
         id: "assessmentId_3",
         topic: "HTML semantics",
         // duration: 50,

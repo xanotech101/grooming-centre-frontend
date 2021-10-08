@@ -1,6 +1,7 @@
 export const requestAssessmentDetailsRes_assessmentId_1 = {
   data: {
     id: "assessmentId_1",
+    courseId: "courseId_3",
     topic: "Introduction to HTML",
     duration: 70,
     questionCount: 20,
@@ -25,6 +26,7 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
 export const requestAssessmentDetailsRes_assessmentId_2 = {
   data: {
     id: "assessmentId_2",
+    courseId: "courseId_3",
     topic: "HTML architecture",
     duration: 50,
     questionCount: 13,
