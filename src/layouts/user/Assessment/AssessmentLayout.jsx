@@ -15,7 +15,6 @@ import { AiOutlineLeft } from "react-icons/ai";
 import { HiBadgeCheck } from "react-icons/hi";
 import { Route, useParams } from "react-router-dom";
 import { Button, Heading, Text } from "../../../components";
-import assessment from "../../../mocks/server/controllers/assessment/endpoints";
 import useAssessmentPreview from "../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { submitAssessment } from "../../../services";
 import breakpoints from "../../../theme/breakpoints";
