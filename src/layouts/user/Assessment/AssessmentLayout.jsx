@@ -220,14 +220,23 @@ const useAssessment = () => {
     });
 
     try {
-      // const newAnswers =  { // TODO:remove
-      //   assessmentId: [
-      //     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
-      //     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
-      //   ],
-      // }; // TODO:remove
+      const answers = {};
 
-      await submitAssessment(assessment.id, selectedAnswers);
+      answers[assessment.id] = Reflect.ownKeys(selectedAnswers).reduce(
+        (accumulator, assessmentQuestionId) => {
+          const selectedAssessmentOptionId =
+            selectedAnswers[assessmentQuestionId];
+
+          const answer = { assessmentQuestionId, selectedAssessmentOptionId };
+
+          accumulator.push(answer);
+
+          return accumulator;
+        },
+        []
+      );
+
+      await submitAssessment(assessment.id, answers);
 
       setSubmitStatus({
         success: true,
