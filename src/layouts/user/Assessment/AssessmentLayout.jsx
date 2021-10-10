@@ -290,11 +290,21 @@ const useAssessment = () => {
     });
   };
 
-  const handleQuestionChange = (question) => {
-    console.log(question);
+  const handleQuestionChange = (question) => setCurrentQuestion(question);
 
-    setCurrentQuestion(question);
+  const handleNextQuestion = (e) => {
+    e.preventDefault();
+
+    const nextQuestion =
+      assessment.questions[currentQuestion?.questionIndex + 1];
+
+    handleQuestionChange(nextQuestion);
   };
+
+  const shouldSubmit =
+    assessment.questionCount - 1 === currentQuestion?.questionIndex
+      ? true
+      : false;
 
   return {
     assessment,
@@ -303,8 +313,10 @@ const useAssessment = () => {
     error,
     submitStatus,
     currentQuestion,
+    shouldSubmit,
     handleSubmitConfirmation,
     handleQuestionChange,
+    handleNextQuestion,
     timerManger,
     modalManager: {
       ...modalManager,
@@ -323,10 +335,11 @@ const AssessmentLayout = () => {
     error,
     isLoading,
     timerManger,
-    // submitStatus,
+    shouldSubmit,
     modalManager,
     handleSubmitConfirmation,
     handleQuestionChange,
+    handleNextQuestion,
   } = useAssessment();
 
   const renderSubHeading = (heading) => (
@@ -412,7 +425,9 @@ const AssessmentLayout = () => {
                   as="form"
                   flex={1}
                   // minHeight="500px"
-                  onSubmit={handleSubmitConfirmation}
+                  onSubmit={
+                    shouldSubmit ? handleSubmitConfirmation : handleNextQuestion
+                  }
                 >
                   <Text marginBottom={6} flex={0.2}>
                     {currentQuestion?.question}
@@ -430,8 +445,9 @@ const AssessmentLayout = () => {
 
                   <Flex justifyContent="space-between">
                     <Button secondary>Previous</Button>
-                    <Button type="submit" on>
-                      Next
+
+                    <Button type="submit">
+                      {shouldSubmit ? "Submit" : "Next"}
                     </Button>
                   </Flex>
                 </Flex>
