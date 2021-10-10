@@ -301,10 +301,19 @@ const useAssessment = () => {
     handleQuestionChange(nextQuestion);
   };
 
+  const handlePreviousQuestion = () => {
+    const previousQuestion =
+      assessment.questions[currentQuestion?.questionIndex - 1];
+
+    handleQuestionChange(previousQuestion);
+  };
+
   const shouldSubmit =
     assessment.questionCount - 1 === currentQuestion?.questionIndex
       ? true
       : false;
+
+  const disablePreviousQuestion = !currentQuestion?.questionIndex;
 
   return {
     assessment,
@@ -314,9 +323,11 @@ const useAssessment = () => {
     submitStatus,
     currentQuestion,
     shouldSubmit,
+    disablePreviousQuestion,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
+    handlePreviousQuestion,
     timerManger,
     modalManager: {
       ...modalManager,
@@ -337,9 +348,11 @@ const AssessmentLayout = () => {
     timerManger,
     shouldSubmit,
     modalManager,
+    disablePreviousQuestion,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
+    handlePreviousQuestion,
   } = useAssessment();
 
   const renderSubHeading = (heading) => (
@@ -444,7 +457,13 @@ const AssessmentLayout = () => {
                   </RadioGroup>
 
                   <Flex justifyContent="space-between">
-                    <Button secondary>Previous</Button>
+                    <Button
+                      secondary
+                      onClick={handlePreviousQuestion}
+                      disabled={disablePreviousQuestion}
+                    >
+                      Previous
+                    </Button>
 
                     <Button type="submit">
                       {shouldSubmit ? "Submit" : "Next"}
