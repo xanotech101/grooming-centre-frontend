@@ -52,20 +52,31 @@ const useTimer = ({
 
     [endDate]
   );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const [hasEnded, setHasEnded] = useState({ elapsed: false, timeout: false });
+  const startTime = useMemo(
+    () => startDate?.getTime(),
+
+    [startDate]
+  );
+  const [hasEnded, setHasEnded] = useState({
+    elapsed: false,
+    timeout: false,
+    notYetTime: false,
+  });
 
   useEffect(() => {
-    if (endTime && nowTime) {
-      if (nowTime > endTime) {
+    if (nowTime) {
+      if (endTime && nowTime > endTime) {
         setHasEnded({ elapsed: true });
+      }
+      if (endTime && startTime > nowTime) {
+        setHasEnded({ notYetTime: true });
       }
     }
 
     if (hasTimeout) {
       setHasEnded({ timeout: true });
     }
-  }, [endTime, nowTime, hasTimeout]);
+  }, [endTime, nowTime, hasTimeout, startTime]);
 
   // Initialize startDate
   useEffect(() => {
@@ -112,14 +123,12 @@ const useTimer = ({
   }, [timeLeftHMS.hours, timeLeftHMS.minutes, timeLeftHMS.seconds]);
 
   const intervalIdRef = useRef();
-  const handleStopCountdown = (id) => clearInterval(id);
+  const handleStopCountdown = () => clearInterval(intervalIdRef.current);
 
   // Implement countdown
   useEffect(() => {
     if (startCountDown) {
       intervalIdRef.current = setInterval(() => {
-        console.log("count down");
-
         setStartDate((prev) => {
           if (
             +timeLeftHMS.hours === 0 &&
@@ -133,9 +142,9 @@ const useTimer = ({
         });
       }, 1000);
 
-      return () => handleStopCountdown(intervalIdRef.current);
+      return () => handleStopCountdown();
     } else {
-      handleStopCountdown(intervalIdRef.current);
+      handleStopCountdown();
     }
   }, [
     startCountDown,
@@ -148,6 +157,7 @@ const useTimer = ({
   return {
     timeLeft,
     hasEnded,
+    handleStopCountdown,
   };
 };
 
@@ -179,8 +189,10 @@ const useAssessment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment.questions?.[0]]);
 
-  // Handle Late comer :)
+  // Handle Late/TooEarly comer :)
   useEffect(() => {
+    if (timerManger.hasEnded.notYetTime)
+      setError("This assessment is not yet time to be taken");
     if (timerManger.hasEnded.elapsed)
       setError("This assessment has already ended");
 
@@ -243,14 +255,15 @@ const useAssessment = () => {
 
   const handleAfterSubmit = () => {
     modalManager.onOpen();
+    setModalCanClose(false);
+    setModalPrompt(null);
     setModalContent(
       <CongratsModalContent
         redirectLink={`/courses/details/${course_id}`}
         contextText={assessment.topic}
       />
     );
-    setModalCanClose(false);
-    setModalPrompt(null);
+    timerManger.handleStopCountdown();
   };
 
   // Setup UI after success submission
@@ -513,8 +526,6 @@ const CustomModal = ({
   prompt,
   children,
 }) => {
-  console.log(prompt);
-
   return (
     <Modal isOpen={isOpen} onClose={canClose ? onClose : () => {}}>
       <ModalOverlay />
