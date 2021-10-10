@@ -207,16 +207,7 @@ const useAssessment = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [assessment.hasBeenTaken]);//TODO: uncomment
 
-  const [answers, setAnswers] = useState(
-    {}
-
-    // { // TODO:remove
-    //   assessmentId: [
-    //     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
-    //     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
-    //   ],
-    // }; // TODO:remove
-  );
+  const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submitStatus, setSubmitStatus] = useState({
     success: false,
     error: false,
@@ -229,7 +220,14 @@ const useAssessment = () => {
     });
 
     try {
-      await submitAssessment(assessment.id, answers);
+      // const newAnswers =  { // TODO:remove
+      //   assessmentId: [
+      //     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
+      //     { assessmentQuestionId: "", selectedAssessmentOptionId: "" }, // TODO:remove
+      //   ],
+      // }; // TODO:remove
+
+      await submitAssessment(assessment.id, selectedAnswers);
 
       setSubmitStatus({
         success: true,
@@ -239,7 +237,7 @@ const useAssessment = () => {
         error: error.message,
       });
     }
-  }, [answers, assessment.id]);
+  }, [selectedAnswers, assessment.id]);
 
   // Automatically submit when timeout
   useEffect(() => {
@@ -283,7 +281,19 @@ const useAssessment = () => {
     setModalContent(null);
     setModalPrompt({
       heading: "Are you sure you want to submit your assessment?",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. A, tristique aliquam adipiscing senectus nulla nibh..",
+      body: (
+        <>
+          <Text marginBottom={5}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. A,
+            tristique aliquam adipiscing senectus nulla nibh.."
+          </Text>
+
+          <Text marginBottom={5}>
+            Answered <b>{Reflect.ownKeys(selectedAnswers).length}</b> of{" "}
+            <b>{assessment.questionCount}</b>
+          </Text>
+        </>
+      ),
       submitProps: {
         onClick: handleSubmit,
       },
@@ -308,6 +318,13 @@ const useAssessment = () => {
     handleQuestionChange(previousQuestion);
   };
 
+  const handleOptionSelect = (selectedAssessmentOptionId) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [currentQuestion?.id]: selectedAssessmentOptionId,
+    }));
+  };
+
   const shouldSubmit =
     assessment.questionCount - 1 === currentQuestion?.questionIndex
       ? true
@@ -324,10 +341,12 @@ const useAssessment = () => {
     currentQuestion,
     shouldSubmit,
     disablePreviousQuestion,
+    selectedAnswers,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
     handlePreviousQuestion,
+    handleOptionSelect,
     timerManger,
     modalManager: {
       ...modalManager,
@@ -343,16 +362,18 @@ const AssessmentLayout = () => {
     assessment,
     course_id,
     currentQuestion,
+    disablePreviousQuestion,
     error,
     isLoading,
-    timerManger,
-    shouldSubmit,
     modalManager,
-    disablePreviousQuestion,
+    shouldSubmit,
+    selectedAnswers,
+    timerManger,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
     handlePreviousQuestion,
+    handleOptionSelect,
   } = useAssessment();
 
   const renderSubHeading = (heading) => (
@@ -446,7 +467,13 @@ const AssessmentLayout = () => {
                     {currentQuestion?.question}
                   </Text>
 
-                  <RadioGroup defaultValue="1" marginBottom={8} flex={1}>
+                  <RadioGroup
+                    defaultValue="1"
+                    marginBottom={8}
+                    flex={1}
+                    onChange={handleOptionSelect}
+                    value={selectedAnswers[currentQuestion?.id]}
+                  >
                     <Stack spacing={4}>
                       {currentQuestion?.options?.map((option) => (
                         <Radio key={option.id} value={option.id}>
@@ -539,6 +566,7 @@ const AssessmentLayout = () => {
                           currentQuestion?.questionIndex ===
                           question.questionIndex
                         }
+                        answered={selectedAnswers[question?.id]}
                         onClick={handleQuestionChange.bind(null, question)}
                       />
                     ))}
