@@ -3,8 +3,9 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     id: "assessmentId_1",
     courseId: "courseId_3",
     topic: "Introduction to HTML",
-    startTime: new Date(),
-    duration: 70,
+    startTime: "Sun Oct 10 2021 18:40:00 GMT+0100 (West Africa Standard Time)",
+    endTime: "Sun Oct 10 2021 18:40:03 GMT+0100 (West Africa Standard Time)",
+    duration: 20,
     questionCount: 3,
     minimumPercentageScoreToEarnABadge: 80,
     questions: [

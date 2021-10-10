@@ -26,7 +26,7 @@ const TakeCourseLayout = () => {
         />
         <AssessmentPreviewPageRoute
           exact
-          path="/courses/take/:course_id/assessment/:assessment_id"
+          path="/courses/take/:course_id/assessment/:assessment_id" // TODO: replace `/take` to `/preview`
           sidebarLinks={sidebarManager.links}
         />
 

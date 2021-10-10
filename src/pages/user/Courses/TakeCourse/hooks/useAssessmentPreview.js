@@ -58,6 +58,7 @@ const useAssessmentPreview = (sidebarLinks) => {
   const isLoading = assessmentDetails.loading;
   const error = assessmentDetails.err;
 
+
   return {
     assessment,
     isLoading,

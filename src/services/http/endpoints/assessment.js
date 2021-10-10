@@ -19,6 +19,8 @@ export const requestAssessmentDetails = async (id) => {
     topic: data.topic,
     duration: data.duration,
     questionCount: data.questionCount,
+    startTime: data.startTime,
+    endTime: data.endTime,
     minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
     questions: data.questions.map((q) => ({
       id: q.id,
