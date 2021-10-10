@@ -84,8 +84,9 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
     id: "assessmentId_2",
     courseId: "courseId_3",
     topic: "HTML architecture",
-    startTime: new Date(),
-    duration: 50,
+    startTime: "Sun Oct 10 2021 23:39:00 GMT+0100 (West Africa Standard Time)",
+    endTime: "Sun Oct 10 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
+    duration: 20,
     questionCount: 3,
     minimumPercentageScoreToEarnABadge: 90,
     questions: [
