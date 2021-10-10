@@ -7,7 +7,6 @@ import "../styles/user-header-nav-link.scss";
 import {
   AdminLayoutRoute,
   AssessmentLayoutRoute,
-  AssessmentHasEndedRoute,
   TakeCourseLayoutRoute,
   UserLayoutRoute,
 } from "../layouts";
@@ -60,10 +59,6 @@ const AppConfig = () => {
       <AssessmentLayoutRoute
         exact
         path="/courses/take/:course_id/assessment/start/:assessment_id"
-      />
-      <AssessmentHasEndedRoute
-        exact
-        path="/courses/take/:course_id/assessment/end/:assessment_id"
       />
       <TakeCourseLayoutRoute path="/courses/take" />
       <UserLayoutRoute path="/" />

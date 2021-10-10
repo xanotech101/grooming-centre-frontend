@@ -4,6 +4,7 @@ import { handleSuccessResponse } from "../helpers";
 import {
   requestAssessmentDetailsRes_assessmentId_1,
   requestAssessmentDetailsRes_assessmentId_2,
+  submitAssessmentRes,
 } from "./responses";
 
 const requestAssessmentDetailsForAssessmentId = [
@@ -17,6 +18,14 @@ const requestAssessmentDetailsForAssessmentId = [
   ),
 ];
 
-const assessment = [...requestAssessmentDetailsForAssessmentId];
+const submitAssessment = rest.post(
+  getUrl("/assessment/assessmentId_1/submit"),
+  handleSuccessResponse(submitAssessmentRes)
+);
+
+const assessment = [
+  ...requestAssessmentDetailsForAssessmentId,
+  submitAssessment,
+];
 
 export default assessment;
