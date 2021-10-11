@@ -4,33 +4,26 @@ import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import { Brand, Button, Input, Text } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
-import { userCreateNewPassword, userResetPassword } from "../../../services";
+import { userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
 import { useHistory } from "react-router-dom";
-import useQueryParams from "../../../hooks/useQueryParams";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
 
-const NewPasswordPage = () => {
+const ResetPasswordPage = () => {
   const toast = useToast();
   const {
     register,
     handleSubmit,
     getValues,
-    formState: { errors, isSubmitting },
     reset,
+    formState: { errors, isSubmitting },
   } = useForm();
   const values = getValues();
 
   const { handleLogout } = useApp();
   const { replace } = useHistory();
-  const queryParams = useQueryParams();
-
-  const resetToken = queryParams.get("resetToken");
 
   const onSubmit = async (data) => {
-    const handleRequest = (body) =>
-      resetToken ? userResetPassword(body) : userCreateNewPassword(body);
-
     try {
       if (data.password !== data.confirmPassword) {
         throw new Error("Passwords must match");
@@ -38,7 +31,7 @@ const NewPasswordPage = () => {
 
       const body = { password: data.password };
 
-      const { message } = await handleRequest(body);
+      const { message } = await userResetPassword(body);
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -93,7 +86,8 @@ const NewPasswordPage = () => {
             label="Confirm password"
             {...register("confirmPassword", {
               required: "Confirm password can't be empty",
-              validate: (value) => value === values.password || "Password must match",
+              validate: (value) =>
+                value === values.password || "Password must match",
             })}
           />
           {errors.confirmPassword ? (
@@ -105,13 +99,15 @@ const NewPasswordPage = () => {
       )}
       renderSubmit={(props) => (
         <Button {...props} isLoading={isSubmitting}>
-          {resetToken ? "Reset password" : "Create new password"}
+          Reset password
         </Button>
       )}
     />
   );
-};;
+};
 
-export const NewPasswordPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <NewPasswordPage {...props} />} />;
+export const ResetPasswordPageRoute = ({ ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => <ResetPasswordPage {...props} />} />
+  );
 };

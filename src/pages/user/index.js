@@ -8,4 +8,5 @@ export * from "./ForumPage";
 export * from "./LibraryPage";
 export * from "./OnBoarding/SigninPage";
 export * from "./OnBoarding/ForgotPasswordPage/ForgotPasswordPage";
-export * from "./OnBoarding/NewPasswordPage";
+export * from "./OnBoarding/UpdateDetailsPage";
+export * from "./OnBoarding/ResetPasswordPage";

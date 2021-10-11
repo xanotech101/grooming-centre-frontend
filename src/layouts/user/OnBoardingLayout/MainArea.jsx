@@ -3,7 +3,8 @@ import { Redirect } from "react-router-dom";
 import { Switch } from "react-router-dom";
 import {
   ForgotPasswordPageRoute,
-  NewPasswordPageRoute,
+  ResetPasswordPageRoute,
+  UpdateDetailsPageRoute,
   SigninPageRoute,
 } from "../../../pages/user";
 
@@ -18,7 +19,8 @@ const MainArea = () => {
       <Switch>
         <SigninPageRoute exact path="/auth/signin" />
         <ForgotPasswordPageRoute exact path="/auth/forgot-password" />
-        <NewPasswordPageRoute exact path="/auth/new-password" />
+        <ResetPasswordPageRoute exact path="/auth/reset-password" />
+        <UpdateDetailsPageRoute exact path="/auth/update-details" />
 
         <Redirect to="/not-found" />
       </Switch>
