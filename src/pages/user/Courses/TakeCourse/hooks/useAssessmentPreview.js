@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import useQueryParams from "../../../../../hooks/useQueryParams";
 import { requestAssessmentDetails } from "../../../../../services";
+import { requestExaminationDetails } from "../../../../../services/http/endpoints/examination";
 
 /**
  * Assessment state`Manager`
@@ -18,6 +20,8 @@ const useAssessmentPreview = (sidebarLinks) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
+  const queryParams = useQueryParams();
+  const isExamination = queryParams.get("examination");
 
   const index = sidebarLinks?.findIndex((link) => link.id === assessment_id);
   const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
@@ -29,10 +33,14 @@ const useAssessmentPreview = (sidebarLinks) => {
   });
 
   const fetcher = useCallback(async () => {
-    const { assessment } = await requestAssessmentDetails(assessment_id);
+    const data = await (isExamination
+      ? // `assessment_id` is `examinationId` in this case
+        requestExaminationDetails(assessment_id)
+      : requestAssessmentDetails(assessment_id));
 
-    return assessment;
-  }, [assessment_id]);
+    return isExamination ? data.examination : data.assessment;
+  }, [assessment_id, isExamination]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });
@@ -43,8 +51,11 @@ const useAssessmentPreview = (sidebarLinks) => {
         fetcher
       );
 
+      console.log(assessmentDetails, assessment_id);
+
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
+      console.error(err);
       if (componentIsMount) setAssessmentDetails({ err: err.message });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,6 +76,7 @@ const useAssessmentPreview = (sidebarLinks) => {
     isLoading,
     error,
     setError,
+    isExamination,
   };
 };
 
