@@ -31,7 +31,6 @@ export const useAuthCheckRedirect = (timeout = 0) => {
         if (departmentId) {
           return replace("/");
         }
-
         replace("/admin");
       }
     };
