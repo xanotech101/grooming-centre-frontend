@@ -3,8 +3,29 @@ import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
 import { Button, Heading, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
+import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
+import useAssessment from "./hooks/useAssessment";
+import { CustomModal } from "./Modal";
 
 const AssessmentLayout = () => {
+  const {
+    assessment,
+    course_id,
+    currentQuestion,
+    disablePreviousQuestion,
+    error,
+    isLoading,
+    modalManager,
+    shouldSubmit,
+    selectedAnswers,
+    timerCountdownManger,
+    handleSubmitConfirmation,
+    handleQuestionChange,
+    handleNextQuestion,
+    handlePreviousQuestion,
+    handleOptionSelect,
+  } = useAssessment();
+
   const renderSubHeading = (heading) => (
     <Box
       as="header"
@@ -17,176 +38,228 @@ const AssessmentLayout = () => {
     </Box>
   );
 
+  const renderContent = () =>
+    isLoading ? (
+      <PageLoaderLayout />
+    ) : error ? (
+      <PageLoaderLayout>
+        <Heading as="h1" fontSize="heading.h3">
+          {error}
+        </Heading>
+
+        <Button link={`/courses/details/${course_id}`} marginTop={10}>
+          Back to course
+        </Button>
+      </PageLoaderLayout>
+    ) : (
+      <>
+        <CustomModal
+          onClose={modalManager.onClose}
+          canClose={modalManager.canClose}
+          isOpen={modalManager.isOpen}
+          prompt={modalManager.prompt}
+        >
+          {modalManager.content}
+        </CustomModal>
+
+        <Flex
+          justifyContent="center"
+          alignItems="flex-start"
+          backgroundColor="accent.1"
+          height="100vh"
+          width="100vw"
+        >
+          <Box
+            width="100%"
+            maxWidth={breakpoints.laptop}
+            backgroundColor="white"
+            marginTop={20}
+            shadow="0px 2px 7px rgba(0, 0, 0, 0.1)"
+          >
+            <Box
+              as="header"
+              color="white"
+              backgroundColor="primary.base"
+              padding={5}
+              paddingX={10}
+            >
+              <Heading as="h1" fontSize="heading.h4">
+                {assessment.topic}
+              </Heading>
+            </Box>
+
+            <Flex paddingX={10} paddingY={5} height="100%">
+              <Flex
+                flexDirection="column"
+                as="main"
+                flex={1}
+                borderRight="1px"
+                borderColor="accent.2"
+                paddingRight={5}
+                marginRight={5}
+              >
+                {renderSubHeading(
+                  `Question ${currentQuestion?.questionIndex + 1} of ${
+                    assessment.questionCount
+                  }`
+                )}
+                <Flex
+                  flexDirection="column"
+                  justifyContent="space-between"
+                  as="form"
+                  flex={1}
+                  // minHeight="500px"
+                  onSubmit={
+                    shouldSubmit ? handleSubmitConfirmation : handleNextQuestion
+                  }
+                >
+                  <Text marginBottom={6} flex={0.2}>
+                    {currentQuestion?.question}
+                  </Text>
+
+                  <RadioGroup
+                    defaultValue="1"
+                    marginBottom={8}
+                    flex={1}
+                    onChange={handleOptionSelect}
+                    value={selectedAnswers[currentQuestion?.id]}
+                  >
+                    <Stack spacing={4}>
+                      {currentQuestion?.options?.map((option) => (
+                        <Radio key={option.id} value={option.id}>
+                          <Text>{option.name}</Text>
+                        </Radio>
+                      ))}
+                    </Stack>
+                  </RadioGroup>
+
+                  <Flex justifyContent="space-between">
+                    <Button
+                      secondary
+                      onClick={handlePreviousQuestion}
+                      disabled={disablePreviousQuestion}
+                    >
+                      Previous
+                    </Button>
+
+                    <Button type="submit">
+                      {shouldSubmit ? "Submit" : "Next"}
+                    </Button>
+                  </Flex>
+                </Flex>
+              </Flex>
+
+              <Box as="aside" flex="0 0 232px">
+                {renderSubHeading("Time Left")}
+
+                <Flex justifyContent="space-between" marginBottom={6}>
+                  <Box textAlign="center">
+                    <Text bold as="level1">
+                      {timerCountdownManger.timeLeft.hours || "00"}
+                    </Text>
+                    <Text color="accent.2">hours</Text>
+                  </Box>
+
+                  <Box textAlign="center">
+                    <Text bold as="level1">
+                      {timerCountdownManger.timeLeft.minutes}
+                    </Text>
+                    <Text color="accent.2">minutes</Text>
+                  </Box>
+
+                  <Box textAlign="center">
+                    <Text bold as="level1">
+                      {timerCountdownManger.timeLeft.seconds}
+                    </Text>
+                    <Text color="accent.2">seconds</Text>
+                  </Box>
+                </Flex>
+
+                <Box>
+                  <Heading as="h3" fontSize="text.level3" marginBottom={2}>
+                    Questions
+                  </Heading>
+
+                  <Flex justifyContent="space-between" marginY={5}>
+                    <HStack spacing={2}>
+                      <Box
+                        width="20px"
+                        height="6px"
+                        backgroundColor="primary.base"
+                        border="1px"
+                        borderColor="transparent"
+                      ></Box>
+                      <Text as="level5" bold>
+                        Answered
+                      </Text>
+                    </HStack>
+
+                    <HStack spacing={2}>
+                      <Box
+                        width="20px"
+                        height="6px"
+                        border="1px"
+                        borderColor="primary.base"
+                      ></Box>
+                      <Text as="level5" bold>
+                        Unanswered
+                      </Text>
+                    </HStack>
+                  </Flex>
+
+                  <Grid templateColumns="repeat(5, 1fr)" gap={2}>
+                    {assessment?.questions?.map((question, index) => (
+                      <ButtonNavItem
+                        key={index}
+                        number={index + 1}
+                        isCurrent={
+                          currentQuestion?.questionIndex ===
+                          question.questionIndex
+                        }
+                        answered={selectedAnswers[question?.id]}
+                        onClick={handleQuestionChange.bind(null, question)}
+                      />
+                    ))}
+                  </Grid>
+                </Box>
+              </Box>
+            </Flex>
+          </Box>
+        </Flex>
+      </>
+    );
+
+  return renderContent();
+};
+
+const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
+  const styleProps = answered
+    ? {
+        backgroundColor: "primary.base",
+        color: "white",
+        borderColor: "transparent",
+      }
+    : {
+        borderColor: "primary.base",
+      };
+
   return (
     <Flex
       justifyContent="center"
-      alignItems="flex-start"
-      backgroundColor="accent.1"
-      height="100vh"
-      width="100vw"
+      boxSize="40px"
+      rounded="4px"
+      alignItems="center"
+      border="1px"
+      as="button"
+      cursor="pointer"
+      onClick={onClick}
+      transition=".5s"
+      transform={isCurrent && "scale(1.1)"}
+      {...styleProps}
     >
-      <Box
-        width="100%"
-        maxWidth={breakpoints.laptop}
-        backgroundColor="white"
-        marginTop={20}
-        shadow="0px 2px 7px rgba(0, 0, 0, 0.1)"
-      >
-        <Box
-          as="header"
-          color="white"
-          backgroundColor="primary.base"
-          padding={5}
-          paddingX={10}
-        >
-          <Heading as="h1" fontSize="heading.h4">
-            HTML Assessment
-          </Heading>
-        </Box>
-
-        <Flex paddingX={10} paddingY={5} height="100%">
-          <Flex
-            flexDirection="column"
-            as="main"
-            flex={1}
-            borderRight="1px"
-            borderColor="accent.2"
-            paddingRight={5}
-            marginRight={5}
-          >
-            {renderSubHeading("Question 1 of 20")}
-            <Flex
-              flexDirection="column"
-              justifyContent="space-between"
-              as="form"
-              flex={1}
-              // minHeight="500px"
-            >
-              <Text marginBottom={6} flex={0.2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet,
-                eros cursus nunc integer amet donec rhoncus ut posuere?
-              </Text>
-
-              <RadioGroup defaultValue="1" marginBottom={8} flex={1}>
-                <Stack spacing={4}>
-                  <Radio value="1">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                  <Radio value="2">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                  <Radio value="3">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                  <Radio value="4">
-                    <Text>Lorem Ipsum</Text>
-                  </Radio>
-                </Stack>
-              </RadioGroup>
-
-              <Flex justifyContent="space-between">
-                <Button secondary>Previous</Button>
-                <Button type="submit">Next</Button>
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <Box as="aside" flex="0 0 232px">
-            {renderSubHeading("Time Left")}
-
-            <Flex justifyContent="space-between" marginBottom={6}>
-              <Box textAlign="center">
-                <Text bold as="level1">
-                  01
-                </Text>
-                <Text color="accent.2">hours</Text>
-              </Box>
-
-              <Box textAlign="center">
-                <Text bold as="level1">
-                  12
-                </Text>
-                <Text color="accent.2">minutes</Text>
-              </Box>
-
-              <Box textAlign="center">
-                <Text bold as="level1">
-                  30
-                </Text>
-                <Text color="accent.2">seconds</Text>
-              </Box>
-            </Flex>
-
-            <Box>
-              <Heading as="h3" fontSize="text.level3" marginBottom={2}>
-                Questions
-              </Heading>
-
-              <Flex justifyContent="space-between" marginBottom={2}>
-                <HStack spacing={2}>
-                  <Box
-                    width="20px"
-                    height="6px"
-                    backgroundColor="primary.base"
-                    border="1px"
-                    borderColor="transparent"
-                  ></Box>
-                  <Text as="level5" bold>
-                    Answered
-                  </Text>
-                </HStack>
-
-                <HStack spacing={2}>
-                  <Box
-                    width="20px"
-                    height="6px"
-                    border="1px"
-                    borderColor="primary.base"
-                  ></Box>
-                  <Text as="level5" bold>
-                    Unanswered
-                  </Text>
-                </HStack>
-              </Flex>
-
-              <Grid templateColumns="repeat(5, 1fr)" gap={2}>
-                {Array(9)
-                  .fill()
-                  .map((_, index) => (
-                    <Flex
-                      key={index}
-                      alignItems="center"
-                      justifyContent="center"
-                      boxSize="40px"
-                      rounded="4px"
-                      backgroundColor="primary.base"
-                      color="white"
-                      border="1px"
-                      borderColor="transparent"
-                    >
-                      <Text bold as="level">
-                        {index + 1}
-                      </Text>
-                    </Flex>
-                  ))}
-
-                <Flex
-                  alignItems="center"
-                  justifyContent="center"
-                  boxSize="40px"
-                  rounded="4px"
-                  border="1px"
-                  borderColor="primary.base"
-                >
-                  <Text bold as="level">
-                    10
-                  </Text>
-                </Flex>
-              </Grid>
-            </Box>
-          </Box>
-        </Flex>
-      </Box>
+      <Text bold as="level1">
+        {number}
+      </Text>
     </Flex>
   );
 };
@@ -196,3 +269,32 @@ export const AssessmentLayoutRoute = ({ ...rest }) => {
     <Route {...rest} render={(props) => <AssessmentLayout {...props} />} />
   );
 };
+
+// const AssessmentHasEnded = () => {
+//   const queryParam = useQueryParams();
+//   const { course_id } = useParams();
+
+//   const message = queryParam.get("elapsed")
+//     ? "This assessment has already ended"
+//     : queryParam.get("timeout")
+//     ? "Timeout! you answers has been submitted"
+//     : "";
+
+//   return (
+//     <PageLoaderLayout>
+//       <Heading as="h1" fontSize="heading.h3">
+//         {message}
+//       </Heading>
+
+//       <Button link={`/courses/details/${course_id}`} marginTop={10}>
+//         Back to course
+//       </Button>
+//     </PageLoaderLayout>
+//   );
+// };
+
+// export const AssessmentHasEndedRoute = ({ ...rest }) => {
+//   return (
+//     <Route {...rest} render={(props) => <AssessmentHasEnded {...props} />} />
+//   );
+// };
