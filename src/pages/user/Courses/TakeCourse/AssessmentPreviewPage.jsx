@@ -11,6 +11,7 @@ import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText, Text } from "../../../../components";
 import { useTakeCourse } from "../../../../contexts";
 import { getDuration } from "../../../../utils";
+import useQueryParams from "../../../../hooks/useQueryParams";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useAssessmentPreview from "./hooks/useAssessmentPreview";
 
@@ -18,6 +19,7 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
   const { assessment, isLoading, error } = useAssessmentPreview(sidebarLinks);
   useTakeCourse();
 
+  const isExamination = useQueryParams().get("examination");
   const duration = getDuration(assessment.duration);
 
   return error ? (
@@ -57,8 +59,8 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
               </ListIcon>
 
               <Text>
-                {duration.hours && `${duration.hours} hours `}
-                {duration.minutes && `${duration.minutes} minutes.`}
+                {duration.hours ? `${duration.hours} hours ` : null}
+                {duration.minutes ? `${duration.minutes} minutes.` : null}
               </Text>
             </ListItem>
             <ListItem d="flex" alignItems="center">
@@ -95,12 +97,23 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
         </ListItem>
       </UnorderedList>
 
-      <Button
-        link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}`}
-        disabled={isLoading && error}
-      >
-        Take Assessment
-      </Button>
+      {console.log(isExamination ? "?examination=true" : null)}
+
+      {isExamination ? (
+        <Button
+          link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}?examination=true`}
+          disabled={isLoading && error}
+        >
+          Take Examination
+        </Button>
+      ) : (
+        <Button
+          link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}`}
+          disabled={isLoading && error}
+        >
+          Take Assessment
+        </Button>
+      )}
     </Box>
   );
 };

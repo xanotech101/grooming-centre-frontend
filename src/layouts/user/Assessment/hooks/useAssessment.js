@@ -2,8 +2,10 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Text } from "../../../../components";
+import useQueryParams from "../../../../hooks/useQueryParams";
 import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { submitAssessment } from "../../../../services";
+import { submitExamination } from "../../../../services/http/endpoints/examination";
 import { sortByIndexField } from "../../../../utils";
 import { CongratsModalContent } from "../Modal";
 import useTimerCountdown from "./useTimerCountdown";
@@ -61,6 +63,8 @@ const useAssessment = () => {
     loading: false,
   });
 
+  const isExamination = useQueryParams().get("examination");
+
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
       loading: true,
@@ -83,7 +87,9 @@ const useAssessment = () => {
         []
       );
 
-      await submitAssessment(assessment.id, answers);
+      await (isExamination
+        ? submitExamination(assessment.id, answers)
+        : submitAssessment(assessment.id, answers));
 
       setSubmitStatus({
         success: true,
@@ -93,7 +99,7 @@ const useAssessment = () => {
         error: error.message,
       });
     }
-  }, [selectedAnswers, assessment.id]);
+  }, [assessment.id, selectedAnswers, isExamination]);
 
   // Automatically submit when timeout
   useEffect(() => {

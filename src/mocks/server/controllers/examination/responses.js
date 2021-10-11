@@ -3,9 +3,9 @@ export const requestExaminationRes_examinationId_1 = {
     id: "examinationId_1",
     courseId: "courseId_3",
     title: "Html examination",
-    startTime: "Sun Oct 10 2021 23:39:00 GMT+0100 (West Africa Standard Time)",
-    endTime: "Sun Oct 10 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
-    duration: 20,
+    startTime: new Date(new Date()),
+    endTime: new Date(new Date().getTime() + 1000 * 60 * 5),
+    duration: 5,
     questionCount: 3,
     minimumPercentageScoreToEarnABadge: 80,
     questions: [

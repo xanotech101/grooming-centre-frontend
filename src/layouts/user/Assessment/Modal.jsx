@@ -1,4 +1,3 @@
-import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { Flex, Grid } from "@chakra-ui/layout";
 import {
@@ -11,7 +10,7 @@ import {
 } from "@chakra-ui/modal";
 import { AiOutlineLeft } from "react-icons/ai";
 import { HiBadgeCheck } from "react-icons/hi";
-import { Heading, Text } from "../../../components";
+import { Heading, Text, Button } from "../../../components";
 
 export const CongratsModalContent = ({ redirectLink, contextText }) => (
   <Grid placeItems="center" minHeight="300px">
