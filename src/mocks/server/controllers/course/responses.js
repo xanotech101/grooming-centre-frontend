@@ -151,6 +151,12 @@ export const userCourseDetailsRes_courseId_1 = {
         // minimumPercentageScoreToEarnABadge: 90,
       },
     ],
+    examination: {
+      id: "examinationId_1",
+      duration: 70,
+      questionCount: 20,
+      minimumPercentageScoreToEarnABadge: 80,
+    },
   },
 };
 
@@ -214,5 +220,11 @@ export const userCourseDetailsRes_courseId_3 = {
         minimumPercentageScoreToEarnABadge: 90,
       },
     ],
+    examination: {
+      id: "examinationId_1",
+      duration: 70,
+      questionCount: 20,
+      minimumPercentageScoreToEarnABadge: 80,
+    },
   },
 };

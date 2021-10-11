@@ -28,6 +28,13 @@ const mapLessonsToLinks = (course, getLessonTypeName) => {
       ? [
           ...reduceToLinks("lessons", mapLessonToLink),
           ...reduceToLinks("assessments", mapAssessmentToLink),
+          {
+            id: course.examination.id,
+            to: `/courses/take/${course.id}/assessment/${course.examination.id}?exam=true`,
+            text: "Examination",
+            disabled: course.examination.disabled,
+            type: "examination",
+          },
         ]
       : [];
 
