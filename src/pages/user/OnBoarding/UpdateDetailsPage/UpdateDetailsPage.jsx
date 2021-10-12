@@ -113,6 +113,7 @@ const UpdateDetailsPage = () => {
                 id="firstName"
                 error={errors.firstName?.message}
                 label="First Name"
+                isRequired
                 {...register("firstName", {
                   required: "First Name is required",
                 })}
@@ -122,6 +123,7 @@ const UpdateDetailsPage = () => {
                 id="lastName"
                 error={errors.lastName?.message}
                 label="Last Name"
+                isRequired
                 {...register("lastName", {
                   required: "Last Name is required",
                 })}
@@ -155,6 +157,7 @@ const UpdateDetailsPage = () => {
                 error={errors.email?.message}
                 label="Email Address"
                 type="email"
+                isRequired
                 {...register("email", {
                   required: "Email is required",
                 })}
@@ -183,6 +186,7 @@ const UpdateDetailsPage = () => {
                 error={errors.password?.message}
                 label="New Password"
                 type="password"
+                isRequired
                 {...register("password", {
                   required: "New Password is required",
                 })}
@@ -193,6 +197,7 @@ const UpdateDetailsPage = () => {
                 error={errors.confirmPassword?.message}
                 label="Confirm Password"
                 type="password"
+                isRequired
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
                   validate: (value) =>
