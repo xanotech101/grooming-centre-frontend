@@ -1,5 +1,7 @@
+import assessment from "./assessment/endpoints";
 import auth from "./auth/endpoints";
 import course from "./course/endpoints";
+import examination from "./examination/endpoints";
 import lesson from "./lesson/endpoints";
 import user from "./user/endpoints";
 import coursesOverview from "./coursesoverview/endpoints";
@@ -11,7 +13,9 @@ const commonHandlers = [
   ...lesson,
   ...user,
   ...coursesOverview,
-  ...certificate
+  ...certificate,
+  ...examination,
+  ...assessment,
 ]; 
 
 const handlers = {

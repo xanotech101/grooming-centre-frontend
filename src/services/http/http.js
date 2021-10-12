@@ -2,7 +2,6 @@ import axios from "axios";
 import AppError from "./AppError";
 
 // Intercept all Errors
-// TODO: uncomment
 axios.interceptors.response.use(null, (err) => {
   const error = new AppError(err);
 
@@ -12,6 +11,8 @@ axios.interceptors.response.use(null, (err) => {
 export const baseURL = "https://groomingcenter.herokuapp.com/api/v1";
 
 const token = localStorage.getItem("token");
+
+console.log(token);
 
 const defaultOptions = (explicitToken = token) => ({
   // timeout's the request in a minute by default

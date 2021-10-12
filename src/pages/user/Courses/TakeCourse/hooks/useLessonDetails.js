@@ -79,10 +79,11 @@ const useLessonDetails = (sidebarLinks) => {
     lessonHasBeenCompleted: lessonDetails.data?.hasEnded, // TODO:replace with a dynamic `lesson.hasEnded`
   });
 
-  const [currentLink, setCurrentLink] = useState();
+  const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
+  const currentLessonLink = { index, ...sidebarLinks?.[index] };
 
   const handlePrevious = () => {
-    const previousLink = sidebarLinks[currentLink.index - 1];
+    const previousLink = sidebarLinks[currentLessonLink.index - 1];
     push(`/courses/take/${courseId}/lessons/${previousLink.id}`);
   };
 
@@ -94,6 +95,8 @@ const useLessonDetails = (sidebarLinks) => {
 
   const handleEndLesson = async () => {
     if (!lessonDetails.data?.hasEnded) {
+      console.log("end the lesson");
+
       setEndLesson({ loading: true });
 
       try {
@@ -112,30 +115,36 @@ const useLessonDetails = (sidebarLinks) => {
     await handleEndLesson();
   };
   const handleContinueToNextLesson = useCallback(() => {
-    const nextLink = sidebarLinks[currentLink.index + 1];
+    const nextLink = sidebarLinks[currentLessonLink.index + 1];
 
     if (nextLink.type !== "assessment") {
       push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
     } else {
       push(`/courses/take/${courseId}/assessment`);
     }
-  }, [currentLink?.index, courseId, sidebarLinks, push]);
+  }, [currentLessonLink?.index, courseId, sidebarLinks, push]);
 
   const endLessonIsSuccessful = endLesson.success;
   const endLessonIsLoading = endLesson.loading;
   const endLessonHasError = endLesson.error;
 
-  const isLastEnabledLesson =
-    currentLink?.index ===
-    // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
-    sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
+  // const isLastEnabledLesson =
+  //   currentLink?.index ===
+  //   // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
+  //   sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
+
+  const nextLessonIsDisabled =
+    sidebarLinks?.[currentLessonLink?.index + 1]?.disabled;
 
   useEffect(() => {
-    if (endLessonIsSuccessful && !isLastEnabledLesson) {
-      handleContinueToNextLesson();
+    // if (endLessonIsSuccessful && !nextLessonIsDisabled) {
+    if (endLessonIsSuccessful) {
+      if (!nextLessonIsDisabled) {
+        handleContinueToNextLesson();
+      }
       setEndLesson({ success: false });
     }
-  }, [isLastEnabledLesson, endLessonIsSuccessful, handleContinueToNextLesson]);
+  }, [nextLessonIsDisabled, endLessonIsSuccessful, handleContinueToNextLesson]);
 
   const fetcher = useCallback(async () => {
     const { lesson } = await requestLessonDetails(lessonId);
@@ -155,23 +164,35 @@ const useLessonDetails = (sidebarLinks) => {
   }, [lessonId, componentIsMount]);
 
   useEffect(() => {
-    const index = sidebarLinks?.findIndex((link) => link.id === lessonId);
-    const link = { index, ...sidebarLinks?.[index] };
-    setCurrentLink(link);
-  }, [sidebarLinks, lessonId]);
-
-  useEffect(() => {
     fetchLessonDetails();
   }, [fetchLessonDetails]);
 
   const lesson = lessonDetails.data;
   const isLoading = lessonDetails.loading;
   const error = lessonDetails.err;
-  const previousIsDisabled = isLoading || currentLink?.index <= 0;
+  const previousIsDisabled = isLoading || currentLessonLink?.index <= 0;
 
-  const completeAndContinueIsDisabled = lesson?.hasEnded
-    ? false
-    : isLoading || !videoPlayerManager.videoHasBeenCompleted;
+  const getCompleteAndContinueIsDisabled = () => {
+    if (isLoading) return true;
+    if (lesson?.hasEnded) return false;
+    if (videoPlayerManager.videoHasBeenCompleted) return false;
+
+    return true;
+  };
+
+  const completeAndContinueIsDisabled = getCompleteAndContinueIsDisabled();
+
+  // lesson?.hasEnded
+  // ? false
+  // : isLoading || !videoPlayerManager.videoHasBeenCompleted;
+
+  console.log({
+    completeAndContinueIsDisabled,
+    nextLessonIsDisabled,
+    endLessonIsSuccessful,
+    isLoading,
+    videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
+  });
 
   return {
     lesson,

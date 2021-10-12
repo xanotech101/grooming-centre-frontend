@@ -6,8 +6,10 @@ import Footer from "./Footer";
 import { Box } from "@chakra-ui/layout";
 import breakpoints from "../../theme/breakpoints";
 import { useIsAuthRedirect } from "../../hooks/useAuthCheckRedirect";
+import { usePageRefreshAfterLogin } from "../../hooks";
 
 const UserLayout = () => {
+  usePageRefreshAfterLogin();
   useIsAuthRedirect();
 
   return (

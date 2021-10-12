@@ -56,7 +56,10 @@ const AppConfig = () => {
   return (
     <Switch>
       <AdminLayoutRoute path="/admin" />
-      <AssessmentLayoutRoute path="/courses/take/:course_id/assessment/start" />
+      <AssessmentLayoutRoute
+        exact
+        path="/courses/take/:course_id/assessment/start/:assessment_id"
+      />
       <TakeCourseLayoutRoute path="/courses/take" />
       <UserLayoutRoute path="/" />
     </Switch>
