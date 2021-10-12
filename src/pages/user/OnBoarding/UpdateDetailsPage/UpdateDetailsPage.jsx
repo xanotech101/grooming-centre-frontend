@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/toast";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Text, Heading, Input, Button } from "../../../../components";
+import { Text, Heading, Input, Button, Upload } from "../../../../components";
 import { requestUpdateDetails } from "../../../../services";
 import { useHistory } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
@@ -25,10 +25,6 @@ const UpdateDetailsPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      if (data.password !== data.confirmPassword) {
-        throw new Error("Passwords must match");
-      }
-
       const body = { password: data.password };
 
       const { message } = await requestUpdateDetails(body);
@@ -39,7 +35,7 @@ const UpdateDetailsPage = () => {
       });
       reset();
 
-      replace("/auth/signin");
+      replace("/");
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
@@ -101,6 +97,7 @@ const UpdateDetailsPage = () => {
               </GridItem>
 
               <Input
+                data-testid="input"
                 id="firstName"
                 error={errors.firstName?.message}
                 label="First Name"
@@ -109,12 +106,21 @@ const UpdateDetailsPage = () => {
                 })}
               />
               <Input
+                data-testid="input"
                 id="lastName"
                 error={errors.lastName?.message}
                 label="Last Name"
                 {...register("lastName", {
                   required: "Last Name is required",
                 })}
+              />
+
+              {/* TODO: replace with MiniUpload component */}
+              <Upload
+                isMini
+                id="profilePicture"
+                label="Profile Picture"
+                // error={errors.lastName?.message} // TODO: handle error inside the component
               />
               {/* empty column */}
               <Box></Box>
@@ -132,6 +138,7 @@ const UpdateDetailsPage = () => {
               </GridItem>
 
               <Input
+                data-testid="input"
                 id="email"
                 error={errors.email?.message}
                 label="Email Address"
@@ -141,13 +148,12 @@ const UpdateDetailsPage = () => {
                 })}
               />
               <Input
+                data-testid="input"
                 id="phone"
                 error={errors.phone?.message}
                 label="Phone Number"
                 type="number"
-                {...register("phone", {
-                  required: "Phone Number is required",
-                })}
+                {...register("phone")}
               />
             </Grid>
 
@@ -160,8 +166,9 @@ const UpdateDetailsPage = () => {
               </GridItem>
 
               <Input
-                error="sds"
+                data-testid="input"
                 id="password"
+                error={errors.password?.message}
                 label="New Password"
                 type="password"
                 {...register("password", {
@@ -169,6 +176,7 @@ const UpdateDetailsPage = () => {
                 })}
               />
               <Input
+                data-testid="input"
                 id="confirmPassword"
                 error={errors.confirmPassword?.message}
                 label="Confirm Password"

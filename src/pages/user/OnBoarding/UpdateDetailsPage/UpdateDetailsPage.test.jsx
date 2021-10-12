@@ -12,5 +12,8 @@ describe("UpdateDetailsPage", () => {
 
     let errorMessages = await screen.findAllByText(/is required/i);
     expect(errorMessages.length).toBe(5);
+
+    const allInputs = screen.getAllByTestId("input");
+    expect(allInputs.length).toBe(6);
   });
 });
