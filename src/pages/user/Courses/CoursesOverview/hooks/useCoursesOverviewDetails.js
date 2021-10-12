@@ -15,31 +15,42 @@ const [coursesOverviewDetails, setCoursesOverviewDetails] = useState({
   err: null,
 });
 
-const fetcher = useCallback(async () => {
+  const fetcher = useCallback(async () => {
   const { coursesOverview } = await requestCoursesOverviewDetails();
   return coursesOverview;
 }, []);
 const fetchCoursesOverviewDetails = useCallback(async () => {
-  setCoursesOverviewDetails({ loading: true });
 
+  
+  setCoursesOverviewDetails({ loading: true });
+  
   try {
-    const coursesOverviewDetails = await handleGetOrSetAndGet(fetcher);
+
+    const coursesOverviewDetails = await handleGetOrSetAndGet(
+      "coursesOverviewDetails",
+      fetcher
+    );
+    // console.log(coursesOverviewDetails);
     if (componentIsMount)
-      setCoursesOverviewDetails({ data: coursesOverviewDetails });
+    setCoursesOverviewDetails({ data: coursesOverviewDetails });
   } catch (err) {
+    console.log(err.message);
     if (componentIsMount) setCoursesOverviewDetails({ err: err.message });
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [componentIsMount]);
-  
-   useEffect(() => {
+
+useEffect(() => {
+     
      fetchCoursesOverviewDetails();
    }, [fetchCoursesOverviewDetails]);
 
    const coursesOverview = coursesOverviewDetails.data;
    const isLoading = coursesOverviewDetails.loading;
    const error = coursesOverviewDetails.err;
+
+  
    
 
    return {

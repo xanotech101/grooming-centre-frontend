@@ -1,5 +1,6 @@
 export * from "./Courses/CourseDetails/CourseDetailsPage";
 export * from "./Courses/CoursesPagesRouter";
+export * from "./Courses/CoursesOverview/CoursesOverviewPage";
 export * from "./Courses/TakeCourse/LessonDetailsPage";
 export * from "./Courses/TakeCourse/AssessmentPreviewPage";
 export * from "./DashboardPage";
@@ -9,3 +10,4 @@ export * from "./LibraryPage";
 export * from "./OnBoarding/SigninPage";
 export * from "./OnBoarding/ForgotPasswordPage/ForgotPasswordPage";
 export * from "./OnBoarding/NewPasswordPage";
+export * from "./Certificate/CertificatePage";
