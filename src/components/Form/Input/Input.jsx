@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import FormGroup, { FormGroupPropTypes } from "./FormGroup";
+import FormGroup, { FormGroupPropTypes } from "../FormGroup";
 import { Input as InputChakraui } from "@chakra-ui/input";
 import { forwardRef } from "react";
 
