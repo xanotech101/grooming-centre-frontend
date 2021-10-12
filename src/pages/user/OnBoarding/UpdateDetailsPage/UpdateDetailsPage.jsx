@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import { Text, Heading, Input, Button } from "../../../../components";
 import { requestUpdateDetails } from "../../../../services";
-import { useApp } from "../../../../contexts";
 import { useHistory } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import breakpoints from "../../../../theme/breakpoints";
@@ -22,8 +21,6 @@ const UpdateDetailsPage = () => {
     reset,
   } = useForm();
   const values = getValues();
-
-  const { handleLogout } = useApp();
   const { replace } = useHistory();
 
   const onSubmit = async (data) => {
@@ -40,7 +37,6 @@ const UpdateDetailsPage = () => {
         position: "top",
         status: "success",
       });
-      handleLogout();
       reset();
 
       replace("/auth/signin");
@@ -106,6 +102,7 @@ const UpdateDetailsPage = () => {
 
               <Input
                 id="firstName"
+                error={errors.firstName?.message}
                 label="First Name"
                 {...register("firstName", {
                   required: "First Name is required",
@@ -113,6 +110,7 @@ const UpdateDetailsPage = () => {
               />
               <Input
                 id="lastName"
+                error={errors.lastName?.message}
                 label="Last Name"
                 {...register("lastName", {
                   required: "Last Name is required",
@@ -135,6 +133,7 @@ const UpdateDetailsPage = () => {
 
               <Input
                 id="email"
+                error={errors.email?.message}
                 label="Email Address"
                 type="email"
                 {...register("email", {
@@ -143,6 +142,7 @@ const UpdateDetailsPage = () => {
               />
               <Input
                 id="phone"
+                error={errors.phone?.message}
                 label="Phone Number"
                 type="number"
                 {...register("phone", {
@@ -170,6 +170,7 @@ const UpdateDetailsPage = () => {
               />
               <Input
                 id="confirmPassword"
+                error={errors.confirmPassword?.message}
                 label="Confirm Password"
                 type="password"
                 {...register("confirmPassword", {
