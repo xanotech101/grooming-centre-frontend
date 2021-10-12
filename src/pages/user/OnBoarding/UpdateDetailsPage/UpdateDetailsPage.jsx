@@ -1,71 +1,65 @@
-// import { useToast } from "@chakra-ui/toast";
+import { useToast } from "@chakra-ui/toast";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
-// import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
+import { Text, Heading, Input, Button } from "../../../../components";
 import {
-  // Brand, Button, Input,
-  Text,
-  Heading,
-  Input,
-  Button,
-} from "../../../../components";
-// import { OnBoardingFormLayout } from "../../../layouts";
-// import { userCreateNewPassword, userResetPassword } from "../../../services";
-// import { useApp } from "../../../contexts";
-// import { useHistory } from "react-router-dom";
-// import useQueryParams from "../../../hooks/useQueryParams";
-// import { capitalizeFirstLetter } from "../../../utils/formatString";
+  requestUpdateDetails,
+  userCreateNewPassword,
+  userResetPassword,
+} from "../../../../services";
+import { useApp } from "../../../../contexts";
+import { useHistory } from "react-router-dom";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import breakpoints from "../../../../theme/breakpoints";
 
 const UpdateDetailsPage = () => {
   // usePageRefreshAfterLogin(); //TODO: uncomment
   // useIsAuthRedirect(); //TODO: uncomment
 
-  // const toast = useToast();
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   getValues,
-  //   formState: { errors, isSubmitting },
-  //   reset,
-  // } = useForm();
-  // const values = getValues();
+  const toast = useToast();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+  const values = getValues();
 
-  // const { handleLogout } = useApp();
-  // const { replace } = useHistory();
-  // const queryParams = useQueryParams();
+  const { handleLogout } = useApp();
+  const { replace } = useHistory();
+  const queryParams = useQueryParams();
 
-  // const resetToken = queryParams.get("resetToken");
+  const resetToken = queryParams.get("resetToken");
 
-  // const onSubmit = async (data) => {
-  //   const handleRequest = (body) =>
-  //     resetToken ? userResetPassword(body) : userCreateNewPassword(body);
+  const onSubmit = async (data) => {
+    try {
+      if (data.password !== data.confirmPassword) {
+        throw new Error("Passwords must match");
+      }
 
-  //   try {
-  //     if (data.password !== data.confirmPassword) {
-  //       throw new Error("Passwords must match");
-  //     }
+      const body = { password: data.password };
 
-  //     const body = { password: data.password };
+      const { message } = await requestUpdateDetails(body);
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
+      handleLogout();
+      reset();
 
-  //     const { message } = await handleRequest(body);
-  //     toast({
-  //       description: capitalizeFirstLetter(message),
-  //       position: "top",
-  //       status: "success",
-  //     });
-  //     handleLogout();
-  //     reset();
-
-  //     replace("/auth/signin");
-  //   } catch (err) {
-  //     toast({
-  //       description: capitalizeFirstLetter(err.message),
-  //       position: "top",
-  //       status: "error",
-  //     });
-  //   }
-  // };
+      replace("/auth/signin");
+    } catch (err) {
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
+    }
+  };
 
   return (
     <Box
@@ -106,7 +100,7 @@ const UpdateDetailsPage = () => {
           width="100%"
           shadow="0px 2px 7px rgba(0, 0, 0, 0.1)"
         >
-          <Box as="form">
+          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
               <GridItem colSpan={2}>
                 <Heading marginBottom={5} fontSize="heading.h4">
@@ -118,10 +112,28 @@ const UpdateDetailsPage = () => {
                 </Text>
               </GridItem>
 
-              <Input id="firstName" label="First Name" />
-              <Input id="lastName" label="Last Name" />
+              <Input
+                id="firstName"
+                label="First Name"
+                {...register("firstName", {
+                  required: "firstName is required",
+                })}
+              />
+              <Input
+                id="lastName"
+                label="Last Name"
+                {...register("lastName", {
+                  required: "lastName is required",
+                })}
+              />
 
-              <Input id="lastName" label="Profile Picture" />
+              <Input
+                id="lastName"
+                label="Profile Picture"
+                {...register("lastName", {
+                  required: "lastName is required",
+                })}
+              />
               {/* empty column */}
               <Box></Box>
             </Grid>
@@ -137,8 +149,22 @@ const UpdateDetailsPage = () => {
                 </Text>
               </GridItem>
 
-              <Input id="email" label="Email Address" type="email" />
-              <Input id="phone" label="Phone Number" type="number" />
+              <Input
+                id="email"
+                label="Email Address"
+                type="email"
+                {...register("email", {
+                  required: "email is required",
+                })}
+              />
+              <Input
+                id="phone"
+                label="Phone Number"
+                type="number"
+                {...register("phone", {
+                  required: "phone is required",
+                })}
+              />
             </Grid>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
@@ -149,7 +175,12 @@ const UpdateDetailsPage = () => {
                 <Text>Kindly set a new password for your account</Text>
               </GridItem>
 
-              <Input id="password" label="New Password" type="password" />
+              <Input
+                id="password"
+                label="New Password"
+                type="password"
+                {...register("password", { required: "password is required" })}
+              />
               <Input
                 id="confirmPassword"
                 label="Confirm Password"
@@ -161,7 +192,12 @@ const UpdateDetailsPage = () => {
               <Button secondary marginRight={6} link="/">
                 Cancel
               </Button>
-              <Button type="submit" data-testid="submit">
+              <Button
+                type="submit"
+                data-testid="submit"
+                isLoading={isSubmitting}
+                disabled={isSubmitting}
+              >
                 Update
               </Button>
             </Flex>
