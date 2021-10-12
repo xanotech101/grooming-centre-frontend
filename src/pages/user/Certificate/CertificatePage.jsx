@@ -17,10 +17,11 @@ const CertificatePage = () => {
         <>
           <Certificate style={{ display: "flex", position: "relative" }} />
           <Text
+          color="black"
             style={{
               display: "flex",
               position: "absolute",
-              top: "480px",
+              top: "490px",
               fontSize: "72px",
               fontFamily: "Sacramento",
             }}
