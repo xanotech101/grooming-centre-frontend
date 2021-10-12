@@ -94,7 +94,13 @@ export const userGetCourseDetails = async (id) => {
     data: { data },
   } = await http.get(path);
 
-  return { course: data };
+  return {
+    course: {
+      // TODO: remove lazy mapping
+      ...data, // TODO: remove lazy mapping
+      lessons: data.lesson, // TODO: remove lazy mapping
+    }, // TODO: remove lazy mapping
+  };
 };
 //----------- END OF Course Endpoints
 //
