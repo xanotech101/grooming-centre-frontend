@@ -6,6 +6,7 @@ import { forwardRef } from "react";
 export const Select = forwardRef(
   (
     {
+      error,
       id,
       isRequired,
       isLoading,
@@ -24,6 +25,7 @@ export const Select = forwardRef(
         label={label}
         isRequired={isRequired}
         isLoading={isLoading}
+        error={error}
         renderControl={(props) => (
           <SelectChakraui
             value={value}

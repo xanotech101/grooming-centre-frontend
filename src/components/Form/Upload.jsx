@@ -9,7 +9,10 @@ import { Button } from "..";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 
 export const Upload = forwardRef(
-  ({ id, isRequired, label, onFileSelect, width = "100%", ...rest }, ref) => {
+  (
+    { error, id, isRequired, label, onFileSelect, width = "100%", ...rest },
+    ref
+  ) => {
     const onDrop = useCallback(
       (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
@@ -28,6 +31,7 @@ export const Upload = forwardRef(
         id={id}
         label={label}
         isRequired={isRequired}
+        error={error}
         renderControl={(props) => (
           <Flex
             flexDirection="column"

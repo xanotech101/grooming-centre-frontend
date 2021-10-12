@@ -4,12 +4,16 @@ import { Input as InputChakraui } from "@chakra-ui/input";
 import { forwardRef } from "react";
 
 export const Input = forwardRef(
-  ({ id, isRequired, label, value, onChange = () => {}, ...rest }, ref) => {
+  (
+    { error, id, isRequired, label, value, onChange = () => {}, ...rest },
+    ref
+  ) => {
     return (
       <FormGroup
         id={id}
         label={label}
         isRequired={isRequired}
+        error={error}
         renderControl={(props) => (
           <InputChakraui
             _focus={{

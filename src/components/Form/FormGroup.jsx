@@ -3,9 +3,16 @@ import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { BsDot } from "react-icons/bs";
-import { Spinner } from "..";
+import { Spinner, Text } from "..";
 
-const FormGroup = ({ id, isRequired, isLoading, label, renderControl }) => {
+const FormGroup = ({
+  id,
+  isRequired,
+  isLoading,
+  label,
+  renderControl,
+  error,
+}) => {
   return (
     <FormControl
       id={id}
@@ -32,6 +39,12 @@ const FormGroup = ({ id, isRequired, isLoading, label, renderControl }) => {
 
         {isLoading && <Spinner size="md" position="absolute" right={2} />}
       </Flex>
+
+      {error && (
+        <Text color="secondary.5" style={{ marginTop: 0 }}>
+          {error}
+        </Text>
+      )}
     </FormControl>
   );
 };
@@ -42,6 +55,7 @@ export const FormGroupPropTypes = {
   isRequired: PropTypes.bool,
   label: PropTypes.string,
   isLoading: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 FormGroup.propTypes = FormGroupPropTypes;

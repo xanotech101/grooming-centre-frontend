@@ -3,6 +3,7 @@ import FormGroup, { FormGroupPropTypes } from "../FormGroup";
 import { DatePicker as DatePickerMUI } from "@material-ui/pickers";
 
 export const DatePicker = ({
+  error,
   id,
   isRequired,
   label,
@@ -14,6 +15,7 @@ export const DatePicker = ({
       id={id}
       label={label}
       isRequired={isRequired}
+      error={error}
       renderControl={() => (
         <DatePickerMUI
           className="date-time-picker"
