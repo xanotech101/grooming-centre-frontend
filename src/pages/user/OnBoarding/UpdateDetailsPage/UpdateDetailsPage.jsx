@@ -18,6 +18,9 @@ import {
 import breakpoints from "../../../../theme/breakpoints";
 
 const UpdateDetailsPage = () => {
+  // usePageRefreshAfterLogin(); //TODO: uncomment
+  // useIsAuthRedirect(); //TODO: uncomment
+
   // const toast = useToast();
   // const {
   //   register,
@@ -172,3 +175,5 @@ export const UpdateDetailsPageRoute = ({ ...rest }) => {
     <Route {...rest} render={(props) => <UpdateDetailsPage {...props} />} />
   );
 };
+
+export default UpdateDetailsPage;
