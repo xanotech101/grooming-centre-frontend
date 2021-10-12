@@ -3,14 +3,9 @@ import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import { Text, Heading, Input, Button } from "../../../../components";
-import {
-  requestUpdateDetails,
-  userCreateNewPassword,
-  userResetPassword,
-} from "../../../../services";
+import { requestUpdateDetails } from "../../../../services";
 import { useApp } from "../../../../contexts";
 import { useHistory } from "react-router-dom";
-import useQueryParams from "../../../../hooks/useQueryParams";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import breakpoints from "../../../../theme/breakpoints";
 
@@ -30,9 +25,6 @@ const UpdateDetailsPage = () => {
 
   const { handleLogout } = useApp();
   const { replace } = useHistory();
-  const queryParams = useQueryParams();
-
-  const resetToken = queryParams.get("resetToken");
 
   const onSubmit = async (data) => {
     try {
@@ -116,22 +108,14 @@ const UpdateDetailsPage = () => {
                 id="firstName"
                 label="First Name"
                 {...register("firstName", {
-                  required: "firstName is required",
+                  required: "First Name is required",
                 })}
               />
               <Input
                 id="lastName"
                 label="Last Name"
                 {...register("lastName", {
-                  required: "lastName is required",
-                })}
-              />
-
-              <Input
-                id="lastName"
-                label="Profile Picture"
-                {...register("lastName", {
-                  required: "lastName is required",
+                  required: "Last Name is required",
                 })}
               />
               {/* empty column */}
@@ -154,7 +138,7 @@ const UpdateDetailsPage = () => {
                 label="Email Address"
                 type="email"
                 {...register("email", {
-                  required: "email is required",
+                  required: "Email is required",
                 })}
               />
               <Input
@@ -162,7 +146,7 @@ const UpdateDetailsPage = () => {
                 label="Phone Number"
                 type="number"
                 {...register("phone", {
-                  required: "phone is required",
+                  required: "Phone Number is required",
                 })}
               />
             </Grid>
@@ -176,15 +160,23 @@ const UpdateDetailsPage = () => {
               </GridItem>
 
               <Input
+                error="sds"
                 id="password"
                 label="New Password"
                 type="password"
-                {...register("password", { required: "password is required" })}
+                {...register("password", {
+                  required: "New Password is required",
+                })}
               />
               <Input
                 id="confirmPassword"
                 label="Confirm Password"
                 type="password"
+                {...register("confirmPassword", {
+                  required: "Confirm Password is required",
+                  validate: (value) =>
+                    value === values.password || "Password must match",
+                })}
               />
             </Grid>
 
