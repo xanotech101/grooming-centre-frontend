@@ -16,12 +16,12 @@ export const requestMyData = async () => {
 };
 
 /**
- * Endpoint for user to create new password - (auth)
- * @param {{ password: string }} body
+ * Endpoint for user to update his information - (auth)
+ * @param {{ password: string, firstName: string, lastName: string, email: string, phone: string}} body
  * @returns {Promise<{  message: string }>}
  */
-export const userCreateNewPassword = async (body) => {
-  const path = "/password/create/new";
+export const requestUpdateDetails = async (body) => {
+  const path = "/update-details"; //TODO: might change
 
   const {
     data: { message },

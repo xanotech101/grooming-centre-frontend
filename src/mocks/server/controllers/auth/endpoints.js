@@ -6,6 +6,7 @@ import {
   superAdminInviteAdminRes,
   userForgetPasswordRes,
   userResetPasswordRes,
+  requestUpdateDetailsRes,
 } from "./responses";
 
 const superAdminInviteAdmin = rest.post(
@@ -26,8 +27,17 @@ const userForgetPassword = rest.post(
   handleSuccessResponse(userForgetPasswordRes)
 );
 
+const requestUpdateDetails = rest.post(
+  getUrl("/update-details"), //TODO: might change
+  handleSuccessResponse(requestUpdateDetailsRes)
+);
+
 export const userForgetPasswordError = rest.post(
   getUrl("/forgot/password"),
+  (_req, res, ctx) => res(ctx.status(500))
+);
+export const requestUpdateDetailsError = rest.post(
+  getUrl("/update-details"),
   (_req, res, ctx) => res(ctx.status(500))
 );
 
@@ -36,6 +46,7 @@ const auth = [
   adminInviteUser,
   userResetPassword,
   userForgetPassword,
+  requestUpdateDetails,
 ];
 
 export default auth;

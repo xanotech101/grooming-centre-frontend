@@ -13,3 +13,7 @@ export const userResetPasswordRes = {
 export const userForgetPasswordRes = {
   message: "email sent please check your mail",
 };
+
+export const requestUpdateDetailsRes = {
+  message: "details updated successfully",
+};

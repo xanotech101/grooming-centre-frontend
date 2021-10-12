@@ -8,14 +8,14 @@ import {
   Heading,
   Input,
   Button,
-} from "../../../components";
+} from "../../../../components";
 // import { OnBoardingFormLayout } from "../../../layouts";
 // import { userCreateNewPassword, userResetPassword } from "../../../services";
 // import { useApp } from "../../../contexts";
 // import { useHistory } from "react-router-dom";
 // import useQueryParams from "../../../hooks/useQueryParams";
 // import { capitalizeFirstLetter } from "../../../utils/formatString";
-import breakpoints from "../../../theme/breakpoints";
+import breakpoints from "../../../../theme/breakpoints";
 
 const UpdateDetailsPage = () => {
   // const toast = useToast();
