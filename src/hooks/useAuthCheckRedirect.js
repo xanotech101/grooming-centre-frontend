@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useApp } from "../contexts";
 
-export const useIsAuthRedirect = () => {
+export const useIsAuthenticatedRedirect = () => {
   const appManager = useApp();
   const { replace } = useHistory();
 
@@ -14,7 +14,7 @@ export const useIsAuthRedirect = () => {
 };
 
 export const useAuthCheckRedirect = (timeout = 0) => {
-  useIsAuthRedirect();
+  useIsAuthenticatedRedirect();
 
   const appManager = useApp();
   const { replace } = useHistory();
@@ -48,4 +48,15 @@ export const useAuthCheckRedirect = (timeout = 0) => {
     replace,
     timeout,
   ]);
+};
+
+export const useUserIsNewRedirect = () => {
+  const appManager = useApp();
+  const { replace } = useHistory();
+
+  useEffect(() => {
+    if (appManager.state.user?.isInviteActive) {
+      replace("/auth/update-details");
+    }
+  }, [appManager.state.user?.isInviteActive, replace]);
 };

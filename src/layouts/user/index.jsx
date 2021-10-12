@@ -5,12 +5,16 @@ import MainArea from "./MainArea";
 import Footer from "./Footer";
 import { Box } from "@chakra-ui/layout";
 import breakpoints from "../../theme/breakpoints";
-import { useIsAuthRedirect } from "../../hooks/useAuthCheckRedirect";
-import { usePageRefreshAfterLogin } from "../../hooks";
+import {
+  useIsAuthenticatedRedirect,
+  usePageRefreshAfterLogin,
+  useUserIsNewRedirect,
+} from "../../hooks";
 
 const UserLayout = () => {
   usePageRefreshAfterLogin();
-  useIsAuthRedirect();
+  useIsAuthenticatedRedirect();
+  useUserIsNewRedirect();
 
   return (
     <Box maxWidth={breakpoints["4k"]} marginX="auto">

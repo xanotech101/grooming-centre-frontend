@@ -36,7 +36,13 @@ export const useApp = () => {
   const fetchCurrentUser = useCallback(async () => {
     try {
       const { data } = await requestMyData();
-      setState((prev) => ({ ...prev, user: data }));
+      setState((prev) => ({
+        ...prev,
+        user: {
+          ...data,
+          // isInviteActive: true // TODO: uncomment to test OR delete this line when implemented on the server
+        },
+      }));
     } catch (err) {
       console.error(err);
     }

@@ -7,10 +7,14 @@ import { requestUpdateDetails } from "../../../../services";
 import { useHistory } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import breakpoints from "../../../../theme/breakpoints";
+import {
+  useIsAuthenticatedRedirect,
+  usePageRefreshAfterLogin,
+} from "../../../../hooks";
 
 const UpdateDetailsPage = () => {
-  // usePageRefreshAfterLogin(); //TODO: uncomment
-  // useIsAuthRedirect(); //TODO: uncomment
+  usePageRefreshAfterLogin();
+  useIsAuthenticatedRedirect();
 
   const toast = useToast();
   const {

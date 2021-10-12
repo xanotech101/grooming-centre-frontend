@@ -3,7 +3,7 @@ import { render } from "../../../../utils";
 import UserListingPage from "./UserListingPage";
 
 describe("UserListingPage", () => {
-  beforeEach(() => render(UserListingPage, { wrapWithRouter: true }));
+  beforeEach(() => render(() => <UserListingPage />, { wrapWithRouter: true }));
 
   it("renders the heading of page", () => {
     expect(

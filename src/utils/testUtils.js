@@ -5,14 +5,17 @@ import { Router } from "react-router-dom";
 /**
  * Mount component to the DOM for testing purposes and unmount after each test case runs.
  *
- * @param {*} Component
+ * @param {(props: {}) => ReactElement} renderComponent
  * @param {{ props: {}, wrapWithRouter: boolean } }} options
  */
-export const render = (Component, { props, wrapWithRouter }) => {
+export const render = (renderComponent, { wrapWithRouter }) => {
   const history = createMemoryHistory();
-  const component = <Component {...props} />;
 
   rtl(
-    wrapWithRouter ? <Router history={history}>{component}</Router> : component
+    wrapWithRouter ? (
+      <Router history={history}>{renderComponent()}</Router>
+    ) : (
+      renderComponent()
+    )
   );
 };
