@@ -110,20 +110,15 @@ const CreateUserPage = ({
         ) : null}
         <Select
           label="Select Role"
-          options={populateSelectOptions(metadata?.userRoles, (userRole) => {
-            const userRoleName = appManager.getOneMetadata(
-              "userRoles",
-              userRole.id
-            )?.name;
+          options={populateSelectOptions(metadata?.userRoles, (r) => {
+            const role = appManager.getOneMetadata("userRoles", r.id)?.name;
 
-            if (userRoleName !== "super admin") {
+            if (role !== "super admin") {
               return true;
             }
 
-            if (!creatorRoleIsSuperAdmin) {
-              if (userRoleName !== "admin") {
-                return true;
-              }
+            if (!creatorRoleIsSuperAdmin && role !== "admin") {
+              return true;
             }
           })}
           isLoading={!metadata?.userRoles}
