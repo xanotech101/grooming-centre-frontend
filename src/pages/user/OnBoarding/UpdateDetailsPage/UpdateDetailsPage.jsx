@@ -161,7 +161,9 @@ const UpdateDetailsPage = () => {
               <Button secondary marginRight={6} link="/">
                 Cancel
               </Button>
-              <Button type="submit">Update</Button>
+              <Button type="submit" data-testid="submit">
+                Update
+              </Button>
             </Flex>
           </Box>
         </Box>

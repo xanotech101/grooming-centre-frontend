@@ -7,11 +7,10 @@ describe("UpdateDetailsPage", () => {
   it("handles input validation", () => {
     render(UpdateDetailsPage, { wrapWithRouter: true });
 
-    const submitButton = screen.getByText(/update/i);
+    const submitButton = screen.getByTestId("submit");
     user.click(submitButton);
 
-    let errorMessages = screen.getByAllText(/is required/i);
-
+    let errorMessages = screen.getAllByText(/is required/i);
     expect(errorMessages.length).toBe(5);
   });
 });

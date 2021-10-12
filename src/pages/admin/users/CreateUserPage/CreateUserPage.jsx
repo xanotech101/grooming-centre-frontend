@@ -79,6 +79,7 @@ const CreateUserPage = ({
         <Input
           label="User's email"
           id="email"
+          isRequired
           {...register("email", {
             required: "Email can't be empty",
             pattern: {
@@ -97,11 +98,9 @@ const CreateUserPage = ({
           options={populateSelectOptions(metadata?.departments)}
           id="departmentId"
           isLoading={!metadata?.departments}
+          isRequired={departmentIsRequired}
           {...register("departmentId", {
-            required: {
-              value: { departmentIsRequired },
-              message: "Please select a department",
-            },
+            required: departmentIsRequired && "Please select a department",
           })}
         />
         {errors.departmentId ? (
@@ -128,6 +127,7 @@ const CreateUserPage = ({
             }
           })}
           isLoading={!metadata?.userRoles}
+          isRequired
           {...register("roleId", {
             required: "Please select a role",
           })}
