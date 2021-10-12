@@ -41,7 +41,12 @@ const FormGroup = ({
       </Flex>
 
       {error && (
-        <Text color="secondary.5" style={{ marginTop: 0 }}>
+        <Text
+          position="absolute"
+          bottom={-5}
+          color="secondary.5"
+          style={{ marginTop: 0 }}
+        >
           {error}
         </Text>
       )}

@@ -2,7 +2,15 @@ import { useToast } from "@chakra-ui/toast";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Text, Heading, Input, Button, Upload } from "../../../../components";
+import {
+  Text,
+  Heading,
+  Input,
+  Button,
+  Upload,
+  PasswordInput,
+  PhoneNumberInput,
+} from "../../../../components";
 import { requestUpdateDetails } from "../../../../services";
 import { useHistory } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
@@ -119,13 +127,13 @@ const UpdateDetailsPage = () => {
                 })}
               />
 
-              {/* TODO: replace with MiniUpload component */}
               <Upload
                 isMini
                 id="profilePicture"
                 label="Profile Picture"
                 // error={errors.lastName?.message} // TODO: handle error inside the component
               />
+
               {/* empty column */}
               <Box></Box>
             </Grid>
@@ -151,7 +159,7 @@ const UpdateDetailsPage = () => {
                   required: "Email is required",
                 })}
               />
-              <Input
+              <PhoneNumberInput
                 data-testid="input"
                 id="phone"
                 error={errors.phone?.message}
@@ -169,7 +177,7 @@ const UpdateDetailsPage = () => {
                 <Text>Kindly set a new password for your account</Text>
               </GridItem>
 
-              <Input
+              <PasswordInput
                 data-testid="input"
                 id="password"
                 error={errors.password?.message}
@@ -179,7 +187,7 @@ const UpdateDetailsPage = () => {
                   required: "New Password is required",
                 })}
               />
-              <Input
+              <PasswordInput
                 data-testid="input"
                 id="confirmPassword"
                 error={errors.confirmPassword?.message}
