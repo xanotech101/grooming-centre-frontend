@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import useQueryParams from "../../../../../hooks/useQueryParams";
-import { requestAssessmentDetails } from "../../../../../services";
-import { requestExaminationDetails } from "../../../../../services/http/endpoints/examination";
+import {
+  requestAssessmentDetails,
+  requestExaminationDetails,
+} from "../../../../../services";
 
 /**
  * Assessment state`Manager`
