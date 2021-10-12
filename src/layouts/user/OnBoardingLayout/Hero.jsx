@@ -26,11 +26,13 @@ const Hero = () => {
         justifyContent="center"
         textAlign="center"
         position="relative"
+        overflow="hidden"
       >
         <Image
           src={bgImagePlaceholder}
-          // width="150%"
-          // height="100%"
+          width="100%"
+          height="100%"
+          objectFit="cover"
           opacity={0.5}
           top={0}
           left={0}

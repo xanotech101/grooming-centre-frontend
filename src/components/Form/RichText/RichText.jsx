@@ -4,6 +4,7 @@ import MUIRichTextEditor from "mui-rte";
 import { Box } from "@chakra-ui/layout";
 
 export const RichText = ({
+  error,
   id,
   isRequired,
   label,
@@ -37,6 +38,7 @@ export const RichText = ({
       id={id}
       label={label}
       isRequired={isRequired}
+      error={error}
       renderControl={() => (
         <Box
           border="1px"

@@ -2,43 +2,32 @@ import { useToast } from "@chakra-ui/toast";
 import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Brand, Button, Input, Text } from "../../../components";
+import { Brand, Button, Input } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
-import { userCreateNewPassword, userResetPassword } from "../../../services";
+import { userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
 import { useHistory } from "react-router-dom";
-import useQueryParams from "../../../hooks/useQueryParams";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
 
-const NewPasswordPage = () => {
+const ResetPasswordPage = () => {
   const toast = useToast();
   const {
     register,
     handleSubmit,
     getValues,
-    formState: { errors, isSubmitting },
     reset,
+    formState: { errors, isSubmitting },
   } = useForm();
   const values = getValues();
 
   const { handleLogout } = useApp();
   const { replace } = useHistory();
-  const queryParams = useQueryParams();
-
-  const resetToken = queryParams.get("resetToken");
 
   const onSubmit = async (data) => {
-    const handleRequest = (body) =>
-      resetToken ? userResetPassword(body) : userCreateNewPassword(body);
-
     try {
-      if (data.password !== data.confirmPassword) {
-        throw new Error("Passwords must match");
-      }
-
       const body = { password: data.password };
 
-      const { message } = await handleRequest(body);
+      const { message } = await userResetPassword(body);
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -71,6 +60,7 @@ const NewPasswordPage = () => {
             id="new-password"
             type="password"
             label="New password"
+            error={errors.password?.message}
             {...register("password", {
               required: {
                 value: true,
@@ -82,36 +72,30 @@ const NewPasswordPage = () => {
               },
             })}
           />
-          {errors.password ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.password.message}
-            </Text>
-          ) : null}
           <Input
             id="confirmPassword"
             type="password"
             label="Confirm password"
+            error={errors.confirmPassword?.message}
             {...register("confirmPassword", {
               required: "Confirm password can't be empty",
-              validate: (value) => value === values.password || "Password must match",
+              validate: (value) =>
+                value === values.password || "Password must match",
             })}
           />
-          {errors.confirmPassword ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.confirmPassword.message}
-            </Text>
-          ) : null}
         </>
       )}
       renderSubmit={(props) => (
         <Button {...props} isLoading={isSubmitting}>
-          {resetToken ? "Reset password" : "Create new password"}
+          Reset password
         </Button>
       )}
     />
   );
-};;
+};
 
-export const NewPasswordPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <NewPasswordPage {...props} />} />;
+export const ResetPasswordPageRoute = ({ ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => <ResetPasswordPage {...props} />} />
+  );
 };

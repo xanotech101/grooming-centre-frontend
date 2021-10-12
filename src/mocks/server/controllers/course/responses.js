@@ -101,7 +101,7 @@ export const userCourseDetailsRes_courseId_1 = {
       lastName: "bar",
       title: "Senior Facility Manager",
     },
-    lessons: [
+    lesson: [
       {
         id: "lessonId_1",
         title: "Introduction to HTML",
@@ -178,7 +178,7 @@ export const userCourseDetailsRes_courseId_3 = {
       lastName: "dart",
       title: "Junior Developer",
     },
-    lessons: [
+    lesson: [
       {
         id: "lessonId_1",
         title: "Introduction to HTML",

@@ -3,6 +3,7 @@ import FormGroup, { FormGroupPropTypes } from "../FormGroup";
 import { TimePicker as TimePickerMUI } from "@material-ui/pickers";
 
 export const TimePicker = ({
+  error,
   id,
   isRequired,
   label,
@@ -14,6 +15,7 @@ export const TimePicker = ({
       id={id}
       label={label}
       isRequired={isRequired}
+      error={error}
       renderControl={() => (
         <TimePickerMUI
           className="date-time-picker"

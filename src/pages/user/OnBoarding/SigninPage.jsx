@@ -85,7 +85,7 @@ const SigninPage = () => {
             <Text color="secondary.5" style={{ marginTop: 0 }}>
               {errors.email.message}
             </Text>
-          ): null}
+          ) : null}
           <Input
             id="password"
             type="password"

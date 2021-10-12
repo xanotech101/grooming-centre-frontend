@@ -79,6 +79,7 @@ const CreateUserPage = ({
         <Input
           label="User's email"
           id="email"
+          isRequired
           {...register("email", {
             required: "Email can't be empty",
             pattern: {
@@ -97,11 +98,9 @@ const CreateUserPage = ({
           options={populateSelectOptions(metadata?.departments)}
           id="departmentId"
           isLoading={!metadata?.departments}
+          isRequired={departmentIsRequired}
           {...register("departmentId", {
-            required: {
-              value: { departmentIsRequired },
-              message: "Please select a department",
-            },
+            required: departmentIsRequired && "Please select a department",
           })}
         />
         {errors.departmentId ? (
@@ -111,23 +110,19 @@ const CreateUserPage = ({
         ) : null}
         <Select
           label="Select Role"
-          options={populateSelectOptions(metadata?.userRoles, (userRole) => {
-            const userRoleName = appManager.getOneMetadata(
-              "userRoles",
-              userRole.id
-            )?.name;
+          options={populateSelectOptions(metadata?.userRoles, (r) => {
+            const role = appManager.getOneMetadata("userRoles", r.id)?.name;
 
-            if (userRoleName !== "super admin") {
+            if (role !== "super admin") {
               return true;
             }
 
-            if (!creatorRoleIsSuperAdmin) {
-              if (userRoleName !== "admin") {
-                return true;
-              }
+            if (!creatorRoleIsSuperAdmin && role !== "admin") {
+              return true;
             }
           })}
           isLoading={!metadata?.userRoles}
+          isRequired
           {...register("roleId", {
             required: "Please select a role",
           })}

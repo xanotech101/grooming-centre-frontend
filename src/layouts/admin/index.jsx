@@ -2,8 +2,11 @@ import { Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom";
 import { useApp } from "../../contexts";
-import { usePageRefreshAfterLogin } from "../../hooks";
-import { useIsAuthRedirect } from "../../hooks/useAuthCheckRedirect";
+import {
+  useIsAuthenticatedRedirect,
+  usePageRefreshAfterLogin,
+  useUserIsNewRedirect,
+} from "../../hooks";
 import breakpoints from "../../theme/breakpoints";
 import Header from "./Header";
 import MainArea from "./MainArea/MainArea";
@@ -34,7 +37,8 @@ const useRedirect = () => {
 const AdminLayout = () => {
   usePageRefreshAfterLogin();
   useRedirect();
-  useIsAuthRedirect();
+  useIsAuthenticatedRedirect();
+  useUserIsNewRedirect();
 
   return (
     <Flex
