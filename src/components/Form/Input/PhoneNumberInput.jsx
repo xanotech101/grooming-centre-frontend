@@ -20,7 +20,13 @@ export const PhoneNumberInput = forwardRef((props, ref) => {
       >
         <Text>+234</Text>
       </Flex>
-      <Input pl={20} placeholder="8124567891" ref={ref} {...props} type="tel" />
+      <Input
+        pl={20}
+        placeholder="8124567891"
+        ref={ref}
+        {...props}
+        type="number"
+      />
     </Box>
   );
 });
