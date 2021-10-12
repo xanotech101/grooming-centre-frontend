@@ -186,16 +186,17 @@ const DashboardPage = () => {
         <Section title="Overview" flex={1} marginRight={10}>
           <Grid templateColumns=".6fr .6fr 1fr 1fr" columnGap={4} rowGap={10}>
             {/* First Row */}
+            <Link href={`/courses/overview`}>
             <MiniBox padding={3}>
               <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
                 <GiUpgrade />
               </Icon>
-
               <Text bold as="level1">
-                400
+              75%
               </Text>
               <Text color="accent.3">Total Grade</Text>
             </MiniBox>
+            </Link>
             <MiniBox padding={3}>
               <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
                 <BiCertification />
