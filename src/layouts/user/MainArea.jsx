@@ -8,7 +8,8 @@ import {
   EventsPageRoute,
   ForumPageRoute,
   LibraryPageRoute,
-  CoursesOverviewPageRoute
+  CoursesOverviewPageRoute,
+   CertificatePageRoute
 } from "../../pages/user";
 
 const MainArea = () => {
@@ -21,6 +22,7 @@ const MainArea = () => {
         <EventsPageRoute exact path="/events" />
         <CourseDetailsPageRoute path="/courses/details/:id" />
         <CoursesOverviewPageRoute path="/courses/overview" />
+        <CertificatePageRoute path="/courses/:course_id/certificate" />
         <CoursesPagesRoute path="/courses" />
         <Redirect exact from="/" to="/courses" />
 
