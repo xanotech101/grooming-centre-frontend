@@ -27,6 +27,9 @@ const colors = {
   },
   others: {
     1: "#FDFDFD",
+    2: "#46BD84",
+    3: "#800020",
+    4: "#0083E2",
   },
   white: "#FFFFFF",
   black: "#000000",
