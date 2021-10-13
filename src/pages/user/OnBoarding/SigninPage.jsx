@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
   Checkbox,
   Input,
   Link,
+  PasswordInput,
   Text,
 } from "../../../components";
 import { useApp } from "../../../contexts";
@@ -26,15 +27,13 @@ const SigninPage = () => {
     reset,
   } = useForm();
   const appManager = useApp();
-  const { handleLogout } = appManager;
+  // const { handleLogout } = appManager;
 
   const [isCheckingAuth, setIsCheckingAuth] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       const { user, token } = await requestSignin(data);
-
-      // toast({ description: capitalizeFirstLetter(message), position: "top", status: "success" });
 
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
@@ -56,9 +55,9 @@ const SigninPage = () => {
   };
 
   // TODO: remove or keep based on business
-  useEffect(() => {
-    handleLogout();
-  }, [handleLogout]);
+  // useEffect(() => {
+  //   handleLogout();
+  // }, [handleLogout]);
 
   return (
     <OnBoardingFormLayout
@@ -86,9 +85,8 @@ const SigninPage = () => {
               {errors.email.message}
             </Text>
           ) : null}
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             label="Password"
             {...register("password", {
               required: "Password can't be empty",

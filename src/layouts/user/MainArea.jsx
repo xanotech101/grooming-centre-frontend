@@ -1,15 +1,15 @@
 import { Box } from "@chakra-ui/layout";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { ForumLayoutRoute } from "../../layouts";
 
 import {
   CourseDetailsPageRoute,
   CoursesPagesRoute,
   DashboardPageRoute,
   EventsPageRoute,
-  ForumPageRoute,
   LibraryPageRoute,
   CoursesOverviewPageRoute,
-   CertificatePageRoute
+  CertificatePageRoute,
 } from "../../pages/user";
 
 const MainArea = () => {
@@ -18,7 +18,7 @@ const MainArea = () => {
       <Switch>
         <DashboardPageRoute exact path="/dashboard" />
         <LibraryPageRoute exact path="/library" />
-        <ForumPageRoute exact path="/forum" />
+        <ForumLayoutRoute exact path="/forum" />
         <EventsPageRoute exact path="/events" />
         <CourseDetailsPageRoute path="/courses/details/:id" />
         <CoursesOverviewPageRoute path="/courses/overview" />

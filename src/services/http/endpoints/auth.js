@@ -31,6 +31,21 @@ export const requestUpdateDetails = async (body) => {
 };
 
 /**
+ * Endpoint for user to create new password - (auth)
+ * @param {{ password: string }} body
+ * @returns {Promise<{  message: string }>}
+ */
+export const userCreateNewPassword = async (body) => {
+  const path = "/password/create/new";
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+/**
  * Endpoint to request a reset password - (auth)
  * @param {{ email: string }} body
  * @returns {Promise<{ message: string }>}
