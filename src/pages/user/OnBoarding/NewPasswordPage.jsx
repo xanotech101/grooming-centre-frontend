@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/toast";
 import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Brand, Button, Input, Text } from "../../../components";
+import { Brand, Button, Input } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
@@ -71,6 +71,7 @@ const NewPasswordPage = () => {
             id="new-password"
             type="password"
             label="New password"
+            error={errors.password?.message}
             {...register("password", {
               required: {
                 value: true,
@@ -82,25 +83,17 @@ const NewPasswordPage = () => {
               },
             })}
           />
-          {errors.password ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.password.message}
-            </Text>
-          ) : null}
           <Input
             id="confirmPassword"
             type="password"
             label="Confirm password"
+            error={errors.confirmPassword?.message}
             {...register("confirmPassword", {
               required: "Confirm password can't be empty",
-              validate: (value) => value === values.password || "Password must match",
+              validate: (value) =>
+                value === values.password || "Password must match",
             })}
           />
-          {errors.confirmPassword ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.confirmPassword.message}
-            </Text>
-          ) : null}
         </>
       )}
       renderSubmit={(props) => (
@@ -110,7 +103,7 @@ const NewPasswordPage = () => {
       )}
     />
   );
-};;
+};
 
 export const NewPasswordPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <NewPasswordPage {...props} />} />;

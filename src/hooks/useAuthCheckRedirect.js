@@ -56,7 +56,7 @@ export const useUserIsNewRedirect = () => {
 
   useEffect(() => {
     if (appManager.state.user?.isInviteActive) {
-      replace("/auth/update-details");
+      replace("/auth/new-password");
     }
   }, [appManager.state.user?.isInviteActive, replace]);
 };
