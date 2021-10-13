@@ -16,7 +16,6 @@ export const PasswordInput = forwardRef((props, ref) => {
         bottom={1}
         variant="ghost"
         _hover={{ bg: "white" }}
-        _focus={{ border: "none", bg: "white" }}
         _active={{ bg: "white" }}
         size="sm"
         onClick={handleClick}

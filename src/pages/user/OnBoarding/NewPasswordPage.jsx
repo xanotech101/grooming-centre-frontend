@@ -2,7 +2,13 @@ import { useToast } from "@chakra-ui/toast";
 import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Brand, Button, Input } from "../../../components";
+import {
+  Brand,
+  Button,
+  Heading,
+  Input,
+  PasswordInput,
+} from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
@@ -60,16 +66,15 @@ const NewPasswordPage = () => {
   return (
     <OnBoardingFormLayout
       renderHeader={() => (
-        <Flex justifyContent="center" textAlign="left">
-          <Brand />
-        </Flex>
+        <Heading as="h1" fontSize="heading.h4">
+          Kindly update your password
+        </Heading>
       )}
       onSubmit={handleSubmit(onSubmit)}
       renderInputs={() => (
         <>
-          <Input
+          <PasswordInput
             id="new-password"
-            type="password"
             label="New password"
             error={errors.password?.message}
             {...register("password", {
@@ -83,9 +88,8 @@ const NewPasswordPage = () => {
               },
             })}
           />
-          <Input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
             label="Confirm password"
             error={errors.confirmPassword?.message}
             {...register("confirmPassword", {
