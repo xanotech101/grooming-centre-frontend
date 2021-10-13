@@ -1,14 +1,7 @@
 import { useToast } from "@chakra-ui/toast";
-import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import {
-  Brand,
-  Button,
-  Heading,
-  Input,
-  PasswordInput,
-} from "../../../components";
+import { Button, Heading, PasswordInput } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";

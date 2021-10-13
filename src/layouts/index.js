@@ -7,5 +7,6 @@ export * from "./user/Assessment/AssessmentLayout";
 export * from "./user/Courses/CoursesGridLayout";
 export * from "./user/Courses/CoursesRowLayout";
 export * from "./user/Courses/TakeCourse/TakeCourseLayout";
+export * from "./user/Forum/ForumLayout";
 export * from "./user/OnBoardingLayout/FormLayout";
 export * from "./user/OnBoardingLayout/OnBoardingLayout";
