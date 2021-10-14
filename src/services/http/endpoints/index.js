@@ -99,6 +99,7 @@ export const userGetCourseDetails = async (id) => {
       // TODO: remove lazy mapping
       ...data, // TODO: remove lazy mapping
       lessons: data.lesson, // TODO: remove lazy mapping
+      assessments: data.assessment, // TODO: remove lazy mapping
     }, // TODO: remove lazy mapping
   };
 };

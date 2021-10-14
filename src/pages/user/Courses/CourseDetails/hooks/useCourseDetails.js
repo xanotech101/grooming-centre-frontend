@@ -29,6 +29,7 @@ const useCourseDetails = (courseId) => {
 
       if (componentIsMount) setCourseDetails({ data: courseDetails });
     } catch (err) {
+      console.log(err);
       if (componentIsMount) setCourseDetails({ err: err.message });
     }
 

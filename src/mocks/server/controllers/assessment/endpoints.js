@@ -18,14 +18,20 @@ const requestAssessmentDetailsForAssessmentId = [
   ),
 ];
 
-const submitAssessment = rest.post(
-  getUrl("/assessment/assessmentId_1/submit"),
-  handleSuccessResponse(submitAssessmentRes)
-);
+const submitAssessment = [
+  rest.post(
+    getUrl("/assessment/assessmentId_1/submit"),
+    handleSuccessResponse(submitAssessmentRes)
+  ),
+  rest.post(
+    getUrl("/assessment/assessmentId_2/submit"),
+    handleSuccessResponse(submitAssessmentRes)
+  ),
+];
 
 const assessment = [
   ...requestAssessmentDetailsForAssessmentId,
-  submitAssessment,
+  ...submitAssessment,
 ];
 
 export default assessment;

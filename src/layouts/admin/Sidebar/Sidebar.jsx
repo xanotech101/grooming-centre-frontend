@@ -39,7 +39,7 @@ const Sidebar = () => {
 
             {state.user && (
               <>
-                <Link href={`/admin/users/${state.user.id}/profile`}>
+                <Link href={`/admin/users/details/${state.user.id}/profile`}>
                   <Text fontSize="heading.h3">
                     {state.user.firstName || "NotSet"} {state.user.lastName}
                   </Text>
