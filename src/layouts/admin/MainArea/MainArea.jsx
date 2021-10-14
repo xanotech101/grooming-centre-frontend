@@ -26,7 +26,7 @@ const MainArea = () => {
           />
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
-          <UserInfoPageRoute exact path="/admin/users/details/:id" />
+          <UserInfoPageRoute path="/admin/users/details" />
           {/* 
             <DepartmentsPageRoute exact path="/admin/others/departments" />
             <RolesPageRoute exact path="/admin/other" /> 

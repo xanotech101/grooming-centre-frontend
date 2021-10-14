@@ -70,7 +70,7 @@ export const userResetPassword = async (body) => {
 
   const {
     data: { message },
-  } = await http.post(path, body);
+  } = await http.patch(path, body);
 
   return { message };
 };

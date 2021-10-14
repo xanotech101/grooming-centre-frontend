@@ -1,0 +1,19 @@
+.user-forum-sidebar-link {
+  padding: 10px;
+  padding-left: 24px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--secondary-05);
+  }
+
+  &--active {
+    color: var(--white);
+    background-color: var(--primary-base);
+
+    &:hover {
+      background-color: var(--primary-hover);
+    }
+  }
+}

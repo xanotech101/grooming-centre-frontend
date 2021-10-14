@@ -1,77 +1,36 @@
 export const requestAssessmentDetailsRes_assessmentId_1 = {
   data: {
     id: "assessmentId_1",
+    title: "Html assessment",
+    duration: 60,
+    amountOfQuestions: null,
+    startTime: "Sun Oct 14 2021 15:00:00 GMT+0100 (West Africa Standard Time)",
+    endTime: "Sun Oct 14 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
     courseId: "courseId_3",
-    topic: "Introduction to HTML",
-    startTime: "Sun Oct 10 2021 23:39:00 GMT+0100 (West Africa Standard Time)",
-    endTime: "Sun Oct 10 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
-    duration: 20,
-    questionCount: 3,
-    minimumPercentageScoreToEarnABadge: 80,
-    questions: [
+    assessmentQuestions: [
       {
         id: "questionsId_1",
-        question: "How do you create an HTML tag?",
-        questionIndex: "2",
+        question: "How create an HTML?",
         options: [
           {
             id: "optionId_1",
-            name: "Me",
-            optionIndex: "2",
+            name: "me",
+            optionIndex: "1",
           },
           {
             id: "optionId_2",
-            name: "Myself",
-            optionIndex: "0",
-          },
-          {
-            id: "optionId_3",
-            name: "and I",
-            optionIndex: "1",
-          },
-        ],
-      },
-      {
-        id: "questionsId_2",
-        question: "How do you create style rules?",
-        questionIndex: "0",
-        options: [
-          {
-            id: "optionId_1",
-            name: "Me",
+            name: "you",
             optionIndex: "2",
           },
           {
-            id: "optionId_2",
-            name: "Myself",
-            optionIndex: "0",
-          },
-          {
             id: "optionId_3",
-            name: "and I",
-            optionIndex: "1",
-          },
-        ],
-      },
-      {
-        id: "questionsId_3",
-        question: "Why do you create a style rule?",
-        questionIndex: "1",
-        options: [
-          {
-            id: "optionId_1",
-            name: "Me",
-            optionIndex: "2",
+            name: "them",
+            optionIndex: "3",
           },
           {
-            id: "optionId_2",
-            name: "Myself",
-            optionIndex: "0",
-          },
-          {
-            id: "optionId_3",
-            name: "and I",
-            optionIndex: "1",
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
           },
         ],
       },
@@ -82,77 +41,62 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
 export const requestAssessmentDetailsRes_assessmentId_2 = {
   data: {
     id: "assessmentId_2",
+    title: "CSS assessment",
+    duration: 60,
+    amountOfQuestions: null,
+    startTime: "Sun Oct 14 2021 15:00:00 GMT+0100 (West Africa Standard Time)",
+    endTime: "Sun Oct 14 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
     courseId: "courseId_3",
-    topic: "HTML architecture",
-    startTime: "Sun Oct 10 2021 23:39:00 GMT+0100 (West Africa Standard Time)",
-    endTime: "Sun Oct 10 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
-    duration: 20,
-    questionCount: 3,
-    minimumPercentageScoreToEarnABadge: 90,
-    questions: [
+    assessmentQuestions: [
       {
         id: "questionsId_1",
-        question: "How do you create an HTML tag?",
-        questionIndex: "2",
+        question: "How create an HTML?",
         options: [
           {
             id: "optionId_1",
-            name: "Me",
-            optionIndex: "2",
+            name: "me",
+            optionIndex: "1",
           },
           {
             id: "optionId_2",
-            name: "Myself",
-            optionIndex: "0",
+            name: "you",
+            optionIndex: "2",
           },
           {
             id: "optionId_3",
-            name: "and I",
-            optionIndex: "1",
+            name: "them",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
           },
         ],
       },
       {
         id: "questionsId_2",
-        question: "How do you create style rules?",
-        questionIndex: "0",
+        question: "How do you create an HTML3?",
         options: [
           {
             id: "optionId_1",
-            name: "Me",
-            optionIndex: "2",
+            name: "me",
+            optionIndex: "1",
           },
           {
             id: "optionId_2",
-            name: "Myself",
-            optionIndex: "0",
-          },
-          {
-            id: "optionId_3",
-            name: "and I",
-            optionIndex: "1",
-          },
-        ],
-      },
-      {
-        id: "questionsId_3",
-        question: "Why do you create a style rule?",
-        questionIndex: "1",
-        options: [
-          {
-            id: "optionId_1",
-            name: "Me",
+            name: "you",
             optionIndex: "2",
           },
           {
-            id: "optionId_2",
-            name: "Myself",
-            optionIndex: "0",
+            id: "optionId_3",
+            name: "them",
+            optionIndex: "3",
           },
           {
-            id: "optionId_3",
-            name: "and I",
-            optionIndex: "1",
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
           },
         ],
       },

@@ -18,7 +18,7 @@ const adminInviteUser = rest.post(
   handleSuccessResponse(adminInviteUserRes)
 );
 
-const userResetPassword = rest.post(
+const userResetPassword = rest.patch(
   getUrl("/password/reset"),
   handleSuccessResponse(userResetPasswordRes)
 );

@@ -4,6 +4,7 @@ import "../styles/course-box-card.scss";
 import "../styles/courses-row-layout.scss";
 import "../styles/globalStyles.scss";
 import "../styles/user-header-nav-link.scss";
+import "../styles/user-forum-sidebar-link.scss";
 import {
   AdminLayoutRoute,
   AssessmentLayoutRoute,
