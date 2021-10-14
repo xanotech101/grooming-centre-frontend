@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 
-const Questions = () => {
+const QuestionsPage = () => {
   return (
     <>
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate
@@ -540,6 +540,6 @@ const Questions = () => {
   );
 };
 
-export const QuestionsRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <Questions {...props} />} />;
+export const QuestionsPageRoute = ({ ...rest }) => {
+  return <Route {...rest} render={(props) => <QuestionsPage {...props} />} />;
 };

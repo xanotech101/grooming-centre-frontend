@@ -1,22 +1,24 @@
 import { Box } from "@chakra-ui/react";
 import { Switch } from "react-router-dom";
 import {
-  MentionsRoute,
-  QuestionsRoute,
-  TagsRoute,
-  YourAnswersRoute,
-  YourQuestionsRoute,
+  AddQuestionPageRoute,
+  MentionsPageRoute,
+  QuestionsPageRoute,
+  TagsPageRoute,
+  YourAnswersPageRoute,
+  YourQuestionsPageRoute,
 } from "../../../pages/user";
 
 const MainArea = ({ ...rest }) => {
   return (
     <Box {...rest}>
       <Switch>
-        <QuestionsRoute path="/forum/questions" />
-        <TagsRoute path="/forum/tags" />
-        <MentionsRoute path="/forum/mentions" />
-        <YourQuestionsRoute path="/forum/your-questions" />
-        <YourAnswersRoute path="/forum/your-answers" />
+        <AddQuestionPageRoute path="/forum/questions/add" />
+        <QuestionsPageRoute path="/forum/questions" />
+        <TagsPageRoute path="/forum/tags" />
+        <MentionsPageRoute path="/forum/mentions" />
+        <YourQuestionsPageRoute path="/forum/your-questions" />
+        <YourAnswersPageRoute path="/forum/your-answers" />
       </Switch>
     </Box>
   );

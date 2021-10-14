@@ -66,7 +66,7 @@ const Header = ({ ...rest }) => {
         ))}
       </HStack>
 
-      <Button>Ask a question</Button>
+      <Button link="/forum/questions/add">Ask a question</Button>
     </Flex>
   );
 };
