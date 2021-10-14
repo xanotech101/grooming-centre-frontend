@@ -9,8 +9,7 @@ import { Link, SearchBar, Text } from "../../../components";
 
 const menuLinks = [
   {
-    href: "/forum",
-    exact: true,
+    href: "/forum/questions",
     text: "Questions",
     icon: <AiOutlineUnorderedList />,
   },
