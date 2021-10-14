@@ -1,4 +1,4 @@
-import { Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Button } from "../../../components";
 import useQueryParams from "../../../hooks/useQueryParams";
@@ -61,7 +61,7 @@ const Header = ({ ...rest }) => {
             {...getStyles(link.tab)}
             paddingX={3}
           >
-            {link.icon} {link.text}
+            {link.icon} <Box paddingRight={1}></Box> {link.text}
           </Button>
         ))}
       </HStack>
