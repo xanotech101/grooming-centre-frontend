@@ -9,29 +9,29 @@ import { Link, SearchBar, Text } from "../../../components";
 
 const menuLinks = [
   {
-    href: "/forum/questions",
+    href: "/forum/questions?tab=new",
     text: "Questions",
     icon: <AiOutlineUnorderedList />,
   },
   {
-    href: "/forum/tags",
+    href: "/forum/tags?tab=new",
     text: "Tags",
     icon: <BsTag />,
   },
   {
-    href: "/forum/mentions",
+    href: "/forum/mentions?tab=new",
     text: "Mentions",
     icon: <BsTag />,
   },
 ];
 const personalNavLinks = [
   {
-    href: "/forum/your-questions",
+    href: "/forum/your-questions?tab=new",
     text: "Your questions",
     icon: <AiOutlineQuestionCircle />,
   },
   {
-    href: "/forum/your-answers",
+    href: "/forum/your-answers?tab=new",
     text: "Your answers",
     icon: <AiOutlineComment />,
   },
