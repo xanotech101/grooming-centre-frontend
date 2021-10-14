@@ -16,16 +16,18 @@ export const requestAssessmentDetails = async (id) => {
   const assessment = {
     id: data.id,
     courseId: data.courseId,
-    topic: data.topic,
+    topic: data.title,
     duration: data.duration,
-    questionCount: data.questionCount,
+    questionCount: data.amountOfQuestions || data.assessmentQuestions.length,
     startTime: data.startTime,
     endTime: data.endTime,
-    minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
-    questions: data.questions.map((q) => ({
+    minimumPercentageScoreToEarnABadge:
+      data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
+    questions: data.assessmentQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,
-      questionIndex: +q.questionIndex,
+      // questionIndex: +q.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
+      questionIndex: index, // TODO: might remove `index`
       options: q.options.map((opt) => ({
         id: opt.id,
         name: opt.name,

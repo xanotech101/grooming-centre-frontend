@@ -10,11 +10,11 @@ const MainArea = () => {
   return (
     <Box flex={1} overflowY="scroll">
       <Switch>
-        <ProfilePageRoute path="/admin/users/:id/profile" />
-        <CertificatePageRoute path="/admin/users/:id/certificate" />
-        <CoursesPageRoute path="/admin/users/:id/courses" />
-        <BadgesPageRoute path="/admin/users/:id/badges" />
-        <GradeHistoryPageRoute path="/admin/users/:id/grade-history" />
+        <ProfilePageRoute path="/admin/users/details/:id/profile" />
+        <CertificatePageRoute path="/admin/users/details/:id/certificate" />
+        <CoursesPageRoute path="/admin/users/details/:id/courses" />
+        <BadgesPageRoute path="/admin/users/details/:id/badges" />
+        <GradeHistoryPageRoute path="/admin/users/details/:id/grade-history" />
       </Switch>
     </Box>
   );

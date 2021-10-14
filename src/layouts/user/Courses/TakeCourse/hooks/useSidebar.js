@@ -1,6 +1,6 @@
 import { useApp, useTakeCourse } from "../../../../../contexts";
 
-const mapLessonsToLinks = (course, getLessonTypeName) => {
+const mapLessonsToLinks = (course) => {
   const reduceToLinks = (arrayKey, mapper) =>
     course?.[arrayKey]?.reduce((accumulator, item, index) => {
       const link = mapper(item, index);
@@ -13,7 +13,7 @@ const mapLessonsToLinks = (course, getLessonTypeName) => {
     to: `/courses/take/${course.id}/lessons/${lesson.id}`,
     text: lesson.title,
     disabled: lesson.disabled,
-    type: getLessonTypeName(lesson.lessonTypeId),
+    type: lesson.lessonType.name,
   });
   const mapAssessmentToLink = (assessment, index) => ({
     id: assessment.id,
@@ -28,15 +28,20 @@ const mapLessonsToLinks = (course, getLessonTypeName) => {
       ? [
           ...reduceToLinks("lessons", mapLessonToLink),
           ...reduceToLinks("assessments", mapAssessmentToLink),
-          {
-            id: course.examination.id,
-            to: `/courses/take/${course.id}/assessment/${course.examination.id}?examination=true`,
-            text: "Examination",
-            disabled: course.examination.disabled,
-            type: "examination",
-          },
         ]
       : [];
+
+  const examination = {
+    id: course?.examination?.id,
+    to: `/courses/take/${course?.id}/assessment/${course?.examination?.id}?examination=true`,
+    text: "Examination",
+    disabled: course?.examination?.disabled,
+    type: "examination",
+  };
+
+  if (course?.examination) links.push(examination);
+
+  console.log(links);
 
   return links;
 };
@@ -51,9 +56,7 @@ const useSidebar = () => {
     state: { data: course, isLoading },
   } = useTakeCourse();
 
-  const getLessonTypeName = (id) =>
-    appManager.getOneMetadata("lessonType", id)?.name;
-  const links = mapLessonsToLinks(course, getLessonTypeName);
+  const links = mapLessonsToLinks(course);
 
   const loading = isLoading || !appManager.state.metadata; // TODO:replace with `!appManager.metadataIsLoading`
 

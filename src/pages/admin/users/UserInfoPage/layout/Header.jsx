@@ -5,23 +5,23 @@ import colors from "../../../../../theme/colors";
 
 const links = [
   {
-    href: (userId) => `/admin/users/${userId}/profile`,
+    href: (userId) => `/admin/users/details/${userId}/profile`,
     text: "Profile",
   },
   {
-    href: (userId) => `/admin/users/${userId}/certificate`,
+    href: (userId) => `/admin/users/details/${userId}/certificate`,
     text: "Certificate",
   },
   {
-    href: (userId) => `/admin/users/${userId}/courses`,
+    href: (userId) => `/admin/users/details/${userId}/courses`,
     text: "Courses",
   },
   {
-    href: (userId) => `/admin/users/${userId}/badges`,
+    href: (userId) => `/admin/users/details/${userId}/badges`,
     text: "Badges",
   },
   {
-    href: (userId) => `/admin/users/${userId}/grade-history`,
+    href: (userId) => `/admin/users/details/${userId}/grade-history`,
     text: "Grade History",
   },
 ];

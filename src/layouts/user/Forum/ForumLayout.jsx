@@ -7,7 +7,7 @@ import MainArea from "./MainArea";
 const ForumLayout = () => {
   return (
     <Flex paddingTop={5}>
-      <Sidebar width="300px" />
+      <Sidebar width="250px" />
 
       <Box flex={1} padding={5} paddingTop={0}>
         <Header marginBottom={5} />

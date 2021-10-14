@@ -18,7 +18,7 @@ const MainArea = () => {
       <Switch>
         <DashboardPageRoute exact path="/dashboard" />
         <LibraryPageRoute exact path="/library" />
-        <ForumLayoutRoute exact path="/forum" />
+        <ForumLayoutRoute path="/forum" />
         <EventsPageRoute exact path="/events" />
         <CourseDetailsPageRoute path="/courses/details/:id" />
         <CoursesOverviewPageRoute path="/courses/overview" />
