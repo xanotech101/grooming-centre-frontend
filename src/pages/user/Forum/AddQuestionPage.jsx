@@ -1,8 +1,24 @@
 import { Box, Stack } from "@chakra-ui/layout";
+import { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { Button, Input, Select, Textarea } from "../../../components";
+import {
+  userForumGetCategories,
+  userForumPublishQuestion,
+} from "../../../services/http/endpoints/forum/question";
 
 const AddQuestionPage = () => {
+  useEffect(() => {
+    const f = async () => {
+      await userForumPublishQuestion();
+      const { categories } = await userForumGetCategories();
+
+      console.log(categories);
+    };
+
+    f();
+  }, []);
+
   const selectOptions = [
     { value: "#", label: "cat 1" },
     { value: "#", label: "cat 2" },

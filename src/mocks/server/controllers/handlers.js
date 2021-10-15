@@ -6,6 +6,7 @@ import lesson from "./lesson/endpoints";
 import user from "./user/endpoints";
 import coursesOverview from "./coursesoverview/endpoints";
 import certificate from "./certificate/endpoints";
+import forumQuestion from "./forum/question/endpoints";
 
 const commonHandlers = [
   ...auth,
@@ -16,7 +17,8 @@ const commonHandlers = [
   ...certificate,
   ...examination,
   ...assessment,
-]; 
+  ...forumQuestion,
+];
 
 const handlers = {
   dev: [...commonHandlers],
