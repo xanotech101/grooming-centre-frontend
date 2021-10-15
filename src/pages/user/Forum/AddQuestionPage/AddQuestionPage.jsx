@@ -6,8 +6,6 @@ import useAddQuestionPage from "./hooks/useAddQuestionPage";
 const AddQuestionPage = () => {
   const { categories, formManager, handleSubmit } = useAddQuestionPage();
 
-  console.log(formManager?.formState?.errors);
-
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
 
