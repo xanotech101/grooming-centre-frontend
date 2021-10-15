@@ -12,7 +12,7 @@ export const Select = forwardRef(
       isRequired,
       isLoading,
       label,
-      options,
+      options = [],
       value,
       placeholder,
       onChange = () => {},

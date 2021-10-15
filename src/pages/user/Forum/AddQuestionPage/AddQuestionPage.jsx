@@ -1,34 +1,19 @@
 import { Box, Stack } from "@chakra-ui/layout";
-import { useEffect } from "react";
 import { Route } from "react-router-dom";
-import { Button, Input, Select, Textarea } from "../../../components";
-import {
-  userForumGetCategories,
-  userForumPublishQuestion,
-} from "../../../services/http/endpoints/forum/question";
+import { Button, Input, Select, Textarea } from "../../../../components";
+import useAddQuestionPage from "./hooks/useAddQuestionPage";
 
 const AddQuestionPage = () => {
-  useEffect(() => {
-    const f = async () => {
-      await userForumPublishQuestion();
-      const { categories } = await userForumGetCategories();
-
-      console.log(categories);
-    };
-
-    f();
-  }, []);
-
-  const selectOptions = [
-    { value: "#", label: "cat 1" },
-    { value: "#", label: "cat 2" },
-    { value: "#", label: "cat 3" },
-  ];
+  const { categories } = useAddQuestionPage();
 
   return (
     <Box shadow="2px 1px 3px rgba(0, 0, 0, 0.15)" padding={7} margin={2}>
       <Stack spacing={5} as="form">
-        <Select placeholder="Choose categories" options={selectOptions} />
+        <Select
+          placeholder="Choose categories"
+          options={categories.data}
+          isLoading={categories.loading}
+        />
         <Input placeholder="Type catching attention title" />
         <Textarea placeholder="Type your question" minHeight="150px" />
         <Input placeholder="Choose up to three tags" />

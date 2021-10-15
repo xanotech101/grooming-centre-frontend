@@ -5,7 +5,7 @@ export * from "./Courses/TakeCourse/LessonDetailsPage";
 export * from "./Courses/TakeCourse/AssessmentPreviewPage";
 export * from "./DashboardPage";
 export * from "./EventsPage";
-export * from "./Forum/AddQuestionPage";
+export * from "./Forum/AddQuestionPage/AddQuestionPage";
 export * from "./Forum/MentionsPage";
 export * from "./Forum/QuestionsPage";
 export * from "./Forum/TagsPage";
