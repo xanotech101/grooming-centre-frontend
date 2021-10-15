@@ -1,7 +1,7 @@
 import { Route } from "react-router-dom";
 import { Flex, Box } from "@chakra-ui/layout";
 import { Aside, Sidebar } from "./Sidebars";
-import Header from "./Header";
+import Header from "./Header/Header";
 import MainArea from "./MainArea";
 
 const ForumLayout = () => {
