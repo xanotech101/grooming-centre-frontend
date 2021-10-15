@@ -1,10 +1,12 @@
 import { Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table } from "../../../../components";
+import { Button, Heading, Table, Breadcrumb } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetUserListing } from "../../../../services";
+import { BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+
 
 const tableProps = {
   filterControls: [
@@ -130,6 +132,13 @@ const UserListingPage = () => {
 
   return (
     <AdminMainAreaWrapper>
+      <Breadcrumb
+        item2={
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href="#">Users</BreadcrumbLink>
+          </BreadcrumbItem>
+        }
+      />
       <Flex
         justifyContent="space-between"
         alignItems="center"
