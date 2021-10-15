@@ -44,7 +44,7 @@ const personalNavLinks = [
 export const Sidebar = ({ ...rest }) => {
   return (
     <Box {...rest}>
-      <SearchBar marginBottom={5} />
+      <SearchBar marginBottom={5} border="none" />
 
       <Box as="nav">
         <Flex as="ul" listStyleType="none" flexDirection="column">

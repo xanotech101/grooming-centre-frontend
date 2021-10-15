@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 import { Select as SelectChakraui } from "@chakra-ui/select";
 import { forwardRef } from "react";
+import { Box } from "@chakra-ui/layout";
 
 export const Select = forwardRef(
   (
@@ -34,7 +35,9 @@ export const Select = forwardRef(
             {...props}
             {...rest}
           >
-            <option>{placeholder}</option>
+            <Box as="option" color="accent.3">
+              {placeholder}
+            </Box>
 
             {options?.map((option) => (
               <option key={option.value} value={option.value}>
