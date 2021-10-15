@@ -22,16 +22,16 @@ export const userForumGetCategories = async () => {
 
 /**
  * Endpoint to publish a forum question
- * @param {{ categoryId: string, title: string, question: string, tags: Array<{ id: string | null, tag: string }> }} id - lessonId // TODO: signature might change
+ * @param {{ categoryId: string, title: string, question: string, tags: Array<{ id: string | null, tag: string }> }} question // TODO: signature might change
  *
  * @returns {Promise<{ message: string }>}
  */
-export const userForumPublishQuestion = async (id) => {
+export const userForumPublishQuestion = async (question) => {
   const path = `/forum/add-question`; // TODO: change path
 
   const {
     data: { message },
-  } = await http.post(path); // TODO: change method
+  } = await http.post(path, question);
 
   return { message };
 };
