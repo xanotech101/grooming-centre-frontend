@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-import { Input, Select, Text } from "../../../../components";
+import { Input, Select, Text, Breadcrumb } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
@@ -10,6 +10,7 @@ import {
   capitalizeWords,
 } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
+import { BreadcrumbItem, BreadcrumbLink, Box } from "@chakra-ui/react";
 
 const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
@@ -68,74 +69,90 @@ const CreateUserPage = ({
   };
 
   return (
-    <CreatePageLayout
-      title="Create User"
-      submitButtonText="Submit"
-      submitButtonIsLoading={isSubmitting}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Stack spacing={10} marginBottom={10} maxWidth="386px">
-        {/* <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}> */}
-        <Input
-          label="User's email"
-          id="email"
-          isRequired
-          {...register("email", {
-            required: "Email can't be empty",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Enter a valid e-mail address",
-            },
-          })}
+    <>
+      <Box paddingLeft={6}>
+        <Breadcrumb
+          item2={
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/admin/users">Users</BreadcrumbLink>
+            </BreadcrumbItem>
+          }
+          item3={
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink href="#">Create Users</BreadcrumbLink>
+            </BreadcrumbItem>
+          }
         />
-        {errors.email ? (
-          <Text color="secondary.5" style={{ marginTop: 0 }}>
-            {errors.email.message}
-          </Text>
-        ) : null}
-        <Select
-          label="Department"
-          options={populateSelectOptions(metadata?.departments)}
-          id="departmentId"
-          isLoading={!metadata?.departments}
-          isRequired={departmentIsRequired}
-          {...register("departmentId", {
-            required: departmentIsRequired && "Please select a department",
-          })}
-        />
-        {errors.departmentId ? (
-          <Text color="secondary.5" style={{ marginTop: 0 }}>
-            {errors.departmentId.message}
-          </Text>
-        ) : null}
-        <Select
-          label="Select Role"
-          options={populateSelectOptions(metadata?.userRoles, (r) => {
-            const role = appManager.getOneMetadata("userRoles", r.id)?.name;
+      </Box>
+      <CreatePageLayout
+        title="Create User"
+        submitButtonText="Submit"
+        submitButtonIsLoading={isSubmitting}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Stack spacing={10} marginBottom={10} maxWidth="386px">
+          {/* <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}> */}
+          <Input
+            label="User's email"
+            id="email"
+            isRequired
+            {...register("email", {
+              required: "Email can't be empty",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Enter a valid e-mail address",
+              },
+            })}
+          />
+          {errors.email ? (
+            <Text color="secondary.5" style={{ marginTop: 0 }}>
+              {errors.email.message}
+            </Text>
+          ) : null}
+          <Select
+            label="Department"
+            options={populateSelectOptions(metadata?.departments)}
+            id="departmentId"
+            isLoading={!metadata?.departments}
+            isRequired={departmentIsRequired}
+            {...register("departmentId", {
+              required: departmentIsRequired && "Please select a department",
+            })}
+          />
+          {errors.departmentId ? (
+            <Text color="secondary.5" style={{ marginTop: 0 }}>
+              {errors.departmentId.message}
+            </Text>
+          ) : null}
+          <Select
+            label="Select Role"
+            options={populateSelectOptions(metadata?.userRoles, (r) => {
+              const role = appManager.getOneMetadata("userRoles", r.id)?.name;
 
-            if (role !== "super admin") {
-              return true;
-            }
+              if (role !== "super admin") {
+                return true;
+              }
 
-            if (!creatorRoleIsSuperAdmin && role !== "admin") {
-              return true;
-            }
-          })}
-          isLoading={!metadata?.userRoles}
-          isRequired
-          {...register("roleId", {
-            required: "Please select a role",
-          })}
-          id="roleId"
-        />
-        {errors.roleId ? (
-          <Text color="secondary.5" style={{ marginTop: 0 }}>
-            {errors.roleId.message}
-          </Text>
-        ) : null}
-        {/* </Grid> */}
-      </Stack>
-    </CreatePageLayout>
+              if (!creatorRoleIsSuperAdmin && role !== "admin") {
+                return true;
+              }
+            })}
+            isLoading={!metadata?.userRoles}
+            isRequired
+            {...register("roleId", {
+              required: "Please select a role",
+            })}
+            id="roleId"
+          />
+          {errors.roleId ? (
+            <Text color="secondary.5" style={{ marginTop: 0 }}>
+              {errors.roleId.message}
+            </Text>
+          ) : null}
+          {/* </Grid> */}
+        </Stack>
+      </CreatePageLayout>
+    </>
   );
 };
 
