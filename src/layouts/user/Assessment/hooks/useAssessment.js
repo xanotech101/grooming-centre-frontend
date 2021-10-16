@@ -26,8 +26,9 @@ const useAssessment = () => {
 
   const timerCountdownManger = useTimerCountdown({
     startDate: assessment.startTime,
-    endDate: assessment.endTime,
+    duration: assessment.duration,
   });
+  
 
   // Initialize the first question
   useEffect(() => {
@@ -196,6 +197,8 @@ const useAssessment = () => {
 
   return {
     assessment,
+    startDate: assessment.startTime,
+    duration: assessment.duration,
     course_id,
     isLoading,
     error,
@@ -204,6 +207,8 @@ const useAssessment = () => {
     shouldSubmit,
     disablePreviousQuestion,
     selectedAnswers,
+     handleAfterSubmit,
+    handleSubmit,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,

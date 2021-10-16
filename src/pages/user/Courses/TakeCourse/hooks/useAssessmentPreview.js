@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCache } from "../../../../../contexts";
+// import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import useQueryParams from "../../../../../hooks/useQueryParams";
 import {
@@ -19,7 +19,7 @@ import {
  * }}
  */
 const useAssessmentPreview = (sidebarLinks) => {
-  const { handleGetOrSetAndGet } = useCache();
+  // const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
   const queryParams = useQueryParams();
@@ -48,10 +48,11 @@ const useAssessmentPreview = (sidebarLinks) => {
     setAssessmentDetails({ loading: true });
 
     try {
-      const assessmentDetails = await handleGetOrSetAndGet(
-        assessment_id,
-        fetcher
-      );
+      // const assessmentDetails = await handleGetOrSetAndGet(
+      //   assessment_id,
+      //   fetcher
+      // );
+      const assessmentDetails = await fetcher();
 
       console.log(assessmentDetails, assessment_id);
 

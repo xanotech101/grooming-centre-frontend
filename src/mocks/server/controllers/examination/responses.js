@@ -1,11 +1,11 @@
+// T00:00:00Z00
 export const requestExaminationRes_examinationId_1 = {
   data: {
     id: "examinationId_1",
     courseId: "courseId_3",
     title: "Html examination",
-    startTime: new Date(new Date()),
-    endTime: new Date(new Date().getTime() + 1000 * 60 * 5),
-    duration: 5,
+    startTime: "2021-10-16T11:31:00.319Z",
+    duration: 30,
     questionCount: 3,
     minimumPercentageScoreToEarnABadge: 80,
     questions: [
