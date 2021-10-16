@@ -6,14 +6,17 @@ import { useState } from "react";
  *  selectedTags: Array<{ id: string, label: string }>,
  *  handleTagSelectMany: (tag) => void,
  *  handleTagSelectOne: (tag) => void,
- *  handleTagDeselect: (tag) => void
+ *  handleTagDeselect: (tag) => void,
+ * handleClearAllSelectedTags: () => void
  * }}
  */
 export const useSelectedTags = () => {
   const [selectedTags, setSelectedTags] = useState([]);
 
   const handleTagSelectMany = (tag) => {
-    const selectedTag = [...selectedTags].find(({ id }) => id === tag.id);
+    const selectedTag = [...selectedTags].find(
+      ({ label }) => label === tag.label
+    );
 
     if (!selectedTag) {
       setSelectedTags((prev) => [...prev, tag]);
@@ -33,10 +36,15 @@ export const useSelectedTags = () => {
     setSelectedTags(newSelectedTags);
   };
 
+  const handleClearAllSelectedTags = () => {
+    setSelectedTags([]);
+  };
+
   return {
     selectedTags,
     handleTagSelectMany,
     handleTagSelectOne,
     handleTagDeselect,
+    handleClearAllSelectedTags,
   };
 };

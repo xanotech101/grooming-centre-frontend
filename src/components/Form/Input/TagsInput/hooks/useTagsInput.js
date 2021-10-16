@@ -4,6 +4,11 @@ import { useFetch } from "../../../../../hooks";
 import { userForumGetTags } from "../../../../../services";
 import { capitalizeFirstLetter } from "../../../../../utils";
 
+export const getTagInput = () => {
+  const tagsInput = document.querySelector("#tags");
+  return tagsInput;
+};
+
 const useTagsInput = (props) => {
   const { selectedTags } = props;
   const toast = useToast();

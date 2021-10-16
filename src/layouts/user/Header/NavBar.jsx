@@ -15,7 +15,7 @@ const links = [
     text: "Library",
   },
   {
-    href: "/forum/questions?tab=new",
+    href: "/forum",
     text: "Forum",
   },
   {

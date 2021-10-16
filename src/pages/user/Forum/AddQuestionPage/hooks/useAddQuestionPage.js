@@ -11,10 +11,11 @@ import { capitalizeFirstLetter } from "../../../../../utils/formatString";
 
 /**
  * Manages AddQuestionPage state
+ * @param {{ selectedTags: Array<{ value: string, label: string }>, handleClearAllSelectedTags: () => }} props
  *
  * @returns {{ formManager: ReactHookForm, categories: { data: ?Array<{ value: string, label: string }>, loading: boolean, err: ?string }, handleSubmit: () => Promise<void> }}
  */
-const useAddQuestionPage = () => {
+const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
   const toast = useToast();
   const { resource: categories, handleFetchResource } = useFetchAndCache();
 
@@ -45,6 +46,10 @@ const useAddQuestionPage = () => {
 
   const handlePublishQuestion = async (question) => {
     try {
+      if (!selectedTags.length)
+        throw new Error("Please select at least one tag");
+      question.selectedTags = selectedTags;
+
       const { message } = await userForumPublishQuestion(question);
 
       toast({
@@ -54,6 +59,7 @@ const useAddQuestionPage = () => {
       });
 
       formManager.reset();
+      handleClearAllSelectedTags();
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),

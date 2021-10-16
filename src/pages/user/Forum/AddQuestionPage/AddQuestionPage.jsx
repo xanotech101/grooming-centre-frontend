@@ -1,4 +1,5 @@
 import { Box, Stack } from "@chakra-ui/layout";
+import { useState } from "react";
 import { Route } from "react-router-dom";
 import {
   Button,
@@ -7,25 +8,64 @@ import {
   TagsInput,
   Textarea,
 } from "../../../../components";
+import { getTagInput } from "../../../../components/Form/Input/TagsInput/hooks/useTagsInput";
 import { useSelectedTags } from "../../../../hooks";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
+import { v4 as uuid } from "uuid";
 
 const AddQuestionPage = () => {
-  const { categories, formManager, handleSubmit } = useAddQuestionPage();
+  const {
+    selectedTags,
+    handleTagSelectMany,
+    handleTagDeselect,
+    handleClearAllSelectedTags,
+  } = useSelectedTags();
 
-  const { selectedTags, handleTagSelectMany, handleTagDeselect } =
-    useSelectedTags();
+  const { categories, formManager, handleSubmit } = useAddQuestionPage({
+    selectedTags,
+    handleClearAllSelectedTags,
+  });
 
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
 
-  const handleTagType = ({ target: { value } }) => {
-    console.log(value);
+  const [typedTagValue, setTypedTagValue] = useState("");
+
+  const handleTagInputEnterKeyPress = ({ key }) => {
+    if (key === "Enter") {
+      const tag = { id: `no-id--${uuid()}`, label: typedTagValue };
+
+      handleTagSelectMany(tag);
+      getTagInput().value = "";
+      getTagInput().focus();
+    }
   };
+
+  const handleTagType = ({ target: { value } }) => {
+    setTypedTagValue(value);
+  };
+
+  function handleStopSubmissionWithEnterKey(e) {
+    var node = e.target ? e.target : e.srcElement ? e.srcElement : null;
+    if (node.type === "textarea") return true;
+
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+
+      // Allow `textarea` to use Enter key
+      return false;
+    }
+  }
 
   return (
     <Box shadow="2px 1px 3px rgba(0, 0, 0, 0.15)" padding={7} margin={2}>
-      <Stack spacing={6} as="form" onSubmit={handleSubmit()}>
+      <Stack
+        spacing={6}
+        as="form"
+        onSubmit={handleSubmit()}
+        onKeyPress={handleStopSubmissionWithEnterKey}
+      >
         <Select
           id="categoryId"
           placeholder="Choose categories"
@@ -68,6 +108,7 @@ const AddQuestionPage = () => {
           placeholder="Choose up to three tags"
           selectedTags={selectedTags}
           onChange={handleTagType}
+          onKeyUp={handleTagInputEnterKeyPress}
           onTagSelect={handleTagSelectMany}
           onTagDeselect={handleTagDeselect}
         />

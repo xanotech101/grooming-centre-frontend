@@ -29,6 +29,16 @@ export const TagsInput = forwardRef((props, ref) => {
     getTagInput().focus();
   };
 
+  const inputTagInput = getTagInput();
+
+  useEffect(() => {
+    if (!inputTagInput?.value) {
+      handleClearResource();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputTagInput?.value]);
+
   const handleTagDeselect = (tag) => {
     props.onTagDeselect(tag);
   };
