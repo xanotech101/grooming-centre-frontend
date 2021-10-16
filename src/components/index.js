@@ -1,6 +1,7 @@
 export * from "./Brand/Brand";
 export * from "./Button/Button";
 export * from "./Cards/CourseBoxCard";
+export * from "./Clock/Clock";
 export * from "./Form/Checkbox";
 export * from "./Form/DateTimePicker/DatePicker";
 export * from "./Form/DateTimePicker/TimePicker";
