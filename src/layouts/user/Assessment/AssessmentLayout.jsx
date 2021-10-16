@@ -269,12 +269,12 @@ const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
       boxSize="40px"
       rounded="4px"
       alignItems="center"
-      border="1px"
       as="button"
       cursor="pointer"
       onClick={onClick}
-      transition=".5s"
-      transform={isCurrent && "scale(1.1)"}
+      transition=".1s"
+      border={isCurrent ? "2px" : "1px"}
+      transform={isCurrent && "scale(1.05)"}
       {...styleProps}
     >
       <Text bold as="level1">

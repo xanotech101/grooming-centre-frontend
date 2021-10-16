@@ -1,33 +1,43 @@
 import { useToast } from "@chakra-ui/toast";
-import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Brand, Button, Input } from "../../../components";
+import { Button, Heading, PasswordInput } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
-import { userResetPassword } from "../../../services";
+import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
 import { useHistory } from "react-router-dom";
+import useQueryParams from "../../../hooks/useQueryParams";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
 
-const ResetPasswordPage = () => {
+const NewPasswordPage = () => {
   const toast = useToast();
   const {
     register,
     handleSubmit,
     getValues,
-    reset,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm();
   const values = getValues();
 
   const { handleLogout } = useApp();
   const { replace } = useHistory();
+  const queryParams = useQueryParams();
+
+  const resetToken = queryParams.get("resetToken");
 
   const onSubmit = async (data) => {
+    const handleRequest = (body) =>
+      resetToken ? userResetPassword(body) : userCreateNewPassword(body);
+
     try {
+      if (data.password !== data.confirmPassword) {
+        throw new Error("Passwords must match");
+      }
+
       const body = { password: data.password };
 
-      const { message } = await userResetPassword(body);
+      const { message } = await handleRequest(body);
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -49,16 +59,15 @@ const ResetPasswordPage = () => {
   return (
     <OnBoardingFormLayout
       renderHeader={() => (
-        <Flex justifyContent="center" textAlign="left">
-          <Brand />
-        </Flex>
+        <Heading as="h1" fontSize="heading.h4">
+          Kindly update your password
+        </Heading>
       )}
       onSubmit={handleSubmit(onSubmit)}
       renderInputs={() => (
         <>
-          <Input
+          <PasswordInput
             id="new-password"
-            type="password"
             label="New password"
             error={errors.password?.message}
             {...register("password", {
@@ -72,9 +81,8 @@ const ResetPasswordPage = () => {
               },
             })}
           />
-          <Input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
             label="Confirm password"
             error={errors.confirmPassword?.message}
             {...register("confirmPassword", {
@@ -87,15 +95,13 @@ const ResetPasswordPage = () => {
       )}
       renderSubmit={(props) => (
         <Button {...props} isLoading={isSubmitting}>
-          Reset password
+          {resetToken ? "Reset password" : "Create new password"}
         </Button>
       )}
     />
   );
 };
 
-export const ResetPasswordPageRoute = ({ ...rest }) => {
-  return (
-    <Route {...rest} render={(props) => <ResetPasswordPage {...props} />} />
-  );
+export const NewPasswordPageRoute = ({ ...rest }) => {
+  return <Route {...rest} render={(props) => <NewPasswordPage {...props} />} />;
 };

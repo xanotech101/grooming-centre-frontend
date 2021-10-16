@@ -15,9 +15,11 @@ const useAssessment = () => {
   const { course_id } = useParams();
 
   assessment.questions = sortByIndexField(
-    assessment.questions,
-    "questionIndex"
-  );
+    // TODO: propose this field to be implemented by the BACKEND team
+    assessment.questions, // TODO: propose this field to be implemented by the BACKEND team
+    "questionIndex" // TODO: propose this field to be implemented by the BACKEND team
+  ); // TODO: propose this field to be implemented by the BACKEND team
+
   assessment.questions?.forEach((question) => {
     question.options = sortByIndexField(question.options, "optionIndex");
   });

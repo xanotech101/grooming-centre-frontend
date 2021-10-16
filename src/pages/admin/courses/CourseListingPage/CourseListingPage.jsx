@@ -1,12 +1,16 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table, Text } from "../../../../components";
+import { Button, Heading, Table, Text, Breadcrumb } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetCourseListing } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
+import {
+  BreadcrumbItem,
+  BreadcrumbLink,
+} from "@chakra-ui/react";
 
 const tableProps = {
   filterControls: [
@@ -135,6 +139,13 @@ const CourseListingPage = () => {
 
   return (
     <AdminMainAreaWrapper>
+      <Breadcrumb
+        item2={
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href="#">Courses</BreadcrumbLink>
+          </BreadcrumbItem>
+        }
+      />
       <Flex
         justifyContent="space-between"
         alignItems="center"
