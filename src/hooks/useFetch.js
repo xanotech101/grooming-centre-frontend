@@ -4,9 +4,9 @@ import { useComponentIsMount } from ".";
 import { useCache } from "../contexts";
 
 /**
- * Fetches resource ans caches it with `useCache.handleGetOrSetAndGet`
+ * Fetches, manages and `caches` the resource
  *
- * @returns {{ resource: { data: null | {}, loading: boolean, err: null | string }, handleFetchResource: ({ cacheKey: string, fetcher: () => Promise<{}> }) => void }}
+ * @returns {{ resource: { data: null | {}, loading: boolean, err: null | string }, handleFetchResource: ({ cacheKey: string, fetcher: () => Promise<any> }) => void }}
  */
 export const useFetchAndCache = () => {
   const { handleGetOrSetAndGet } = useCache();
@@ -37,5 +37,47 @@ export const useFetchAndCache = () => {
   return {
     resource,
     handleFetchResource,
+  };
+};
+
+/**
+ * Fetches and manages the resources
+ *
+ * @returns {{ resource: { data: null | {}, loading: boolean, err: null | string }, handleClearResource: () => void, handleFetchResource: ({ fetcher: () => Promise<any> }) => void }}
+ */
+export const useFetch = () => {
+  const componentIsMount = useComponentIsMount();
+
+  const [resource, setResource] = useState({
+    data: null,
+    loading: false,
+    err: null,
+  });
+
+  const handleFetchResource = useCallback(
+    async ({ fetcher }) => {
+      setResource({ loading: true });
+
+      try {
+        const resource = await fetcher();
+
+        console.log(resource);
+
+        if (componentIsMount) setResource({ data: resource });
+      } catch (err) {
+        if (componentIsMount) setResource({ err: err.message });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [componentIsMount]
+  );
+
+  const handleClearResource = () =>
+    setResource((prev) => ({ ...prev, data: null }));
+
+  return {
+    resource,
+    handleFetchResource,
+    handleClearResource,
   };
 };

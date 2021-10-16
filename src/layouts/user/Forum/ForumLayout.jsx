@@ -12,8 +12,8 @@ const ForumLayout = () => {
       <Box flex={1} padding={7} paddingTop={0}>
         <Header marginBottom={7} />
 
-        <Flex overflowY="auto" height="calc(100vh - 170px)">
-          <MainArea flex={1} marginRight={7} />
+        <Flex overflowY="auto" height="calc(100vh - 90px)">
+          <MainArea flex={1} maxWidth="100%" marginRight={7} />
 
           <Aside
             width="250px"

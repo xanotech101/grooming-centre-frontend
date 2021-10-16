@@ -7,7 +7,7 @@ export * from "./Form/DateTimePicker/TimePicker";
 export * from "./Form/Input/Input";
 export * from "./Form/Input/PasswordInput";
 export * from "./Form/Input/PhoneNumberInput";
-export * from "./Form/Input/TagsInput";
+export * from "./Form/Input/TagsInput/TagsInput";
 export * from "./Form/RichText/RichText";
 export * from "./Form/RichText/useRichText";
 export * from "./Form/Select";

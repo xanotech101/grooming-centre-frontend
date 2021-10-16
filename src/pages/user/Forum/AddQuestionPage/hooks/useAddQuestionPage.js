@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useFetchAndCache } from "../../../../../hooks";
@@ -12,7 +12,7 @@ import { capitalizeFirstLetter } from "../../../../../utils/formatString";
 /**
  * Manages AddQuestionPage state
  *
- * @returns {{ formManager: ReactHookForm,  categories: { data: ?Array<{ value: string, label: string }>, loading: boolean, err: ?string }, handleSubmit: () => Promise<void>}}
+ * @returns {{ formManager: ReactHookForm, categories: { data: ?Array<{ value: string, label: string }>, loading: boolean, err: ?string }, handleSubmit: () => Promise<void> }}
  */
 const useAddQuestionPage = () => {
   const toast = useToast();
@@ -22,6 +22,7 @@ const useAddQuestionPage = () => {
     const { categories } = await userForumGetCategories();
     return categories;
   }, []);
+
   // Handle fetch category
   useEffect(() => {
     handleFetchResource({ cacheKey: "forum-categories", fetcher });
@@ -66,8 +67,8 @@ const useAddQuestionPage = () => {
 
   return {
     categories,
-    handleSubmit,
     formManager,
+    handleSubmit,
   };
 };
 

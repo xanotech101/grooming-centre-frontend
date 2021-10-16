@@ -1,13 +1,27 @@
 import { Box, Stack } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
-import { Button, Input, Select, Textarea } from "../../../../components";
+import {
+  Button,
+  Input,
+  Select,
+  TagsInput,
+  Textarea,
+} from "../../../../components";
+import { useSelectedTags } from "../../../../hooks";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
 
 const AddQuestionPage = () => {
   const { categories, formManager, handleSubmit } = useAddQuestionPage();
 
+  const { selectedTags, handleTagSelectMany, handleTagDeselect } =
+    useSelectedTags();
+
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
+
+  const handleTagType = ({ target: { value } }) => {
+    console.log(value);
+  };
 
   return (
     <Box shadow="2px 1px 3px rgba(0, 0, 0, 0.15)" padding={7} margin={2}>
@@ -49,7 +63,14 @@ const AddQuestionPage = () => {
           })}
         />
 
-        <Input id="tags" placeholder="Choose up to three tags" />
+        <TagsInput
+          id="tags"
+          placeholder="Choose up to three tags"
+          selectedTags={selectedTags}
+          onChange={handleTagType}
+          onTagSelect={handleTagSelectMany}
+          onTagDeselect={handleTagDeselect}
+        />
 
         <Box textAlign="right" paddingTop={2}>
           <Button type="submit">Publish</Button>
