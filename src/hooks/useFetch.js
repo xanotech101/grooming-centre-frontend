@@ -27,6 +27,7 @@ export const useFetchAndCache = () => {
 
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {
+        console.error(err);
         if (componentIsMount) setResource({ err: err.message });
       }
     },
@@ -65,6 +66,7 @@ export const useFetch = () => {
 
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {
+        console.error(err);
         if (componentIsMount) setResource({ err: err.message });
       }
     },

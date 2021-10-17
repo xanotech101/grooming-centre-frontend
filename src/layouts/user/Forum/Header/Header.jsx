@@ -53,14 +53,16 @@ const Header = ({ ...rest }) => {
           ))}
         </HStack>
 
-        <AddQuestionButton />
+        <AskAQuestionButton />
       </Flex>
     )
   );
 };
 
-export const AddQuestionButton = () => (
-  <Button link="/forum/your-questions/add">Ask a question</Button>
+export const AskAQuestionButton = ({ ...rest }) => (
+  <Button link="/forum/your-questions/add" {...rest}>
+    Ask a question
+  </Button>
 );
 
 export default Header;

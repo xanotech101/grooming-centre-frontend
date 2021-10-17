@@ -8,7 +8,7 @@ import {
 } from "react-icons/ai";
 import { BsDot, BsTag } from "react-icons/bs";
 import { Heading, Link, SearchBar, Text } from "../../../components";
-import { AddQuestionButton } from "./Header/Header";
+import { AskAQuestionButton } from "./Header/Header";
 import useDisplayHeader from "./Header/hooks/useDisplayHeader";
 
 const menuLinks = [
@@ -111,7 +111,7 @@ export const Aside = ({ ...rest }) => {
     <Box as="aside" {...rest}>
       {pageDoNotRequireHeader() && !isAddQuestionPage && (
         <Box marginBottom={8} textAlign="right">
-          <AddQuestionButton />
+          <AskAQuestionButton />
         </Box>
       )}
 
