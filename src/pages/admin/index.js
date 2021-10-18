@@ -7,3 +7,4 @@ export * from "./NotFoundPage";
 export * from "./users/CreateUserPage/CreateUserPage";
 export * from "./users/UserListingPage/UserListingPage";
 export * from "./users/UserInfoPage/layout/UserInfoPage";
+export * from "./courses/EditCourseInfoPage";
