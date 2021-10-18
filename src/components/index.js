@@ -21,3 +21,4 @@ export * from "./Table/Table";
 export * from "./Typography/Heading";
 export * from "./Typography/Text";
 export * from "./Breadcrumb/Breadcrumb";
+export * from "./Clock/Clock";
