@@ -14,8 +14,8 @@ const MainArea = ({ ...rest }) => {
   return (
     <Box {...rest}>
       <Switch>
-        <QuestionDetailsPageRoute path="/forum/questions/:id" />
-        <QuestionsPageRoute path="/forum/details/questions" />
+        <QuestionDetailsPageRoute path="/forum/questions/details/:id" />
+        <QuestionsPageRoute path="/forum/questions" />
         <TagsPageRoute path="/forum/tags" />
         <MentionsPageRoute path="/forum/mentions" />
         <AddQuestionPageRoute path="/forum/your-questions/add" />
