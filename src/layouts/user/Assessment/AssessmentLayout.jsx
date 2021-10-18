@@ -33,7 +33,7 @@ const AssessmentLayout = () => {
     submitStatus,
   } = useAssessment();
 
-  console.log(assessment);
+  // console.log(assessment);
 
   // Handle Late/TooEarly comer :)
 
@@ -51,12 +51,14 @@ const AssessmentLayout = () => {
     if (isElapsed) {
       handleSubmit();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isElapsed]);
 
   useEffect(() => {
     if (submitStatus.success) {
       handleAfterSubmit();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitStatus.success]);
 
   const renderSubHeading = (heading) => (
