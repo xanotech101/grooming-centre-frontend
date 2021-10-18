@@ -106,7 +106,6 @@ export const CourseBoxCard = ({
           {isLoading ? (
             <>
               <Skeleton height="7px" width="80px" />
-
               <Skeleton height="7px" width="80px" />
             </>
           ) : (

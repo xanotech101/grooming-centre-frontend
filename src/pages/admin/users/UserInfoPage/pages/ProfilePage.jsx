@@ -14,7 +14,7 @@ import Icon from "@chakra-ui/icon";
 import { FiCheckSquare } from "react-icons/fi";
 import { BiCertification } from "react-icons/bi";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
-import { BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+import { BreadcrumbItem } from "@chakra-ui/react";
 
 const ProfilePage = () => {
   const {
@@ -31,12 +31,12 @@ const ProfilePage = () => {
         <Breadcrumb
           item2={
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/users">Users</BreadcrumbLink>
+              <Link href="/admin/users">Users</Link>
             </BreadcrumbItem>
           }
           item3={
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href="#">Profile</BreadcrumbLink>
+              <Link href="#">Profile</Link>
             </BreadcrumbItem>
           }
         />
@@ -141,7 +141,7 @@ const ProfilePage = () => {
   );
 };
 
-const Detail = ({ name, value, valueProps }) => {
+export const Detail = ({ name, value, valueProps }) => {
   return (
     <Grid templateColumns="110px 1fr" spacing={5} marginBottom={5}>
       <Text bold textTransform="capitalize">
@@ -152,7 +152,7 @@ const Detail = ({ name, value, valueProps }) => {
   );
 };
 
-const Section = ({ heading, children }) => {
+export const Section = ({ heading, children }) => {
   return (
     <Box as="section" marginBottom={10}>
       <Box as="header">
@@ -166,7 +166,7 @@ const Section = ({ heading, children }) => {
   );
 };
 
-const OverviewBox = ({
+export const OverviewBox = ({
   iconBackgroundColor,
   icon,
   name,

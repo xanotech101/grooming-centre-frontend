@@ -4,7 +4,14 @@ import { handleSuccessResponse } from "../../helpers";
 import {
   userForumPublishQuestionRes,
   userForumGetCategoriesRes,
+  userForumGetQuestionsRes,
 } from "./responses";
+
+const userForumGetQuestions = rest.get(
+  // TODO: change `method`
+  getUrl("/forum/questions"), // TODO: change `path`
+  handleSuccessResponse(userForumGetQuestionsRes)
+);
 
 const userForumGetCategories = rest.get(
   // TODO: change `method`
@@ -18,6 +25,10 @@ const userForumPublishQuestion = rest.post(
   handleSuccessResponse(userForumPublishQuestionRes)
 );
 
-const forumQuestion = [userForumGetCategories, userForumPublishQuestion];
+const forumQuestion = [
+  userForumGetCategories,
+  userForumPublishQuestion,
+  userForumGetQuestions,
+];
 
 export default forumQuestion;

@@ -1,9 +1,9 @@
 import { Grid, GridItem } from "@chakra-ui/layout";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Input, Textarea, Select, Text, Breadcrumb } from "../../../components";
+import { Input, Textarea, Select, Text, Breadcrumb, Link } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
-import { BreadcrumbItem, BreadcrumbLink, Box } from "@chakra-ui/react";
+import { BreadcrumbItem, Box } from "@chakra-ui/react";
 
 const CreateCoursePage = () => {
   const {
@@ -21,12 +21,12 @@ const CreateCoursePage = () => {
         <Breadcrumb
           item2={
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/courses">Courses</BreadcrumbLink>
+              <Link href="/admin/courses">Courses</Link>
             </BreadcrumbItem>
           }
           item3={
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href="#">Create Courses</BreadcrumbLink>
+              <Link href="#">Create Courses</Link>
             </BreadcrumbItem>
           }
         />

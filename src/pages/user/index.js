@@ -7,7 +7,7 @@ export * from "./DashboardPage";
 export * from "./EventsPage";
 export * from "./Forum/AddQuestionPage/AddQuestionPage";
 export * from "./Forum/MentionsPage";
-export * from "./Forum/QuestionsPage";
+export * from "./Forum/QuestionsPage/QuestionsPage";
 export * from "./Forum/TagsPage";
 export * from "./Forum/YourAnswersPage";
 export * from "./Forum/YourQuestionsPage";
