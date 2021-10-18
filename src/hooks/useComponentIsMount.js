@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useComponentIsMount = () => {
+export const useComponentIsMount = () => {
   const [componentIsMount, setComponentIsMount] = useState(true);
 
   useEffect(() => {

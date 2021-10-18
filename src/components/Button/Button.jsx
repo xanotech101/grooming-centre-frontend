@@ -9,6 +9,8 @@ export const Button = ({
   children,
   disabled,
   ghost,
+  blue,
+  ordinary,
   iconAriaLabel,
   leftIcon,
   link,
@@ -47,6 +49,23 @@ export const Button = ({
             backgroundColor: "secondary.05",
           },
         }
+      : blue
+      ? {
+          ...commonStyles,
+          textColor: "white",
+          backgroundColor: "others.4",
+          _hover: !disabled && {
+            opacity: 0.8,
+          },
+        }
+      : ordinary
+      ? {
+          ...commonStyles,
+          backgroundColor: "accent.1",
+          color: "accent.3",
+          border: "none",
+          _hover: !disabled && { opacity: 0.8 },
+        }
       : {
           ...commonStyles,
           backgroundColor: "primary.base",
@@ -63,7 +82,6 @@ export const Button = ({
         }
       : xs
       ? {
-          // paddingX: "10px",
           size: "xs",
         }
       : {
@@ -137,6 +155,8 @@ Button.propTypes = {
   children: PropTypes.any,
   disabled: PropTypes.bool,
   ghost: PropTypes.bool,
+  blue: PropTypes.bool,
+  ordinary: PropTypes.bool,
   iconAriaLabel: PropTypes.string,
   link: PropTypes.string,
   leftIcon: PropTypes.element,

@@ -5,7 +5,16 @@ import { forwardRef } from "react";
 
 export const Input = forwardRef(
   (
-    { error, id, isRequired, label, value, onChange = () => {}, ...rest },
+    {
+      error,
+      id,
+      isRequired,
+      isLoading,
+      label,
+      value,
+      onChange = () => {},
+      ...rest
+    },
     ref
   ) => {
     return (
@@ -13,6 +22,7 @@ export const Input = forwardRef(
         id={id}
         label={label}
         isRequired={isRequired}
+        isLoading={isLoading}
         error={error}
         renderControl={(props) => (
           <InputChakraui

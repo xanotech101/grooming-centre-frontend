@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 export const PasswordInput = forwardRef((props, ref) => {
   const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
+  const handleClick = () => setShow((show) => !show);
 
   return (
     <Box position="relative" height="fit-content">
