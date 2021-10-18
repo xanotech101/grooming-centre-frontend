@@ -56,15 +56,15 @@ export const adminEditCourse = async (courseId, body) => {
  *
  * @returns {Promise<{ courses: CourseListArray }>}
  */
-export const adminGetCourseListing = async () => {
-  const path = `/admin/courses`;
+// export const adminGetCourseListing = async () => {
+//   const path = `/admin/courses`;
 
-  const {
-    data: { data },
-  } = await http.get(path);
+//   const {
+//     data: { data },
+//   } = await http.get(path);
 
-  return { courses: data };
-};
+//   return { courses: data };
+// };
 
 /**
  * Endpoint to get `course-listing`

@@ -6,3 +6,4 @@ export * from "./http/endpoints/examination";
 export * from "./http/endpoints/coursesOverview";
 export * from "./http/endpoints/certificate";
 export * from "./http/endpoints/lesson";
+export * from "./http/endpoints/course";
