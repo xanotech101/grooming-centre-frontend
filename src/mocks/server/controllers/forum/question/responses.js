@@ -37,6 +37,7 @@ export const userForumGetQuestionsRes = {
         firstName: "jane",
         lastName: "bar",
       },
+      commentsCount: 10,
     },
     {
       id: "questionId_2",
@@ -54,6 +55,7 @@ export const userForumGetQuestionsRes = {
         firstName: "jane",
         lastName: "bar",
       },
+      commentsCount: 10,
     },
   ],
 };

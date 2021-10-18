@@ -30,6 +30,7 @@ export const userForumGetQuestions = async () => {
       profilePics: question.user.profilePics,
       fullName: `${question.user.firstName} ${question.user.lastName}`,
     },
+    commentsCount: question.commentsCount,
   }));
 
   return { questions };

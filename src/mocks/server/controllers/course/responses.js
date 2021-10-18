@@ -43,7 +43,6 @@ export const userCourseListingRes = {
       },
       progressPercentage: 75,
     },
-
     {
       id: "courseId_3",
       duration: 100,
