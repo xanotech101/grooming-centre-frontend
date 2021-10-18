@@ -27,7 +27,7 @@ export const SearchBar = ({
       as="form"
       border="1px"
       backgroundColor="white"
-      textColor="accent.2"
+      textColor="accent.3"
       rounded="4px"
       overflow="hidden"
       height={sm ? "33px" : "auto"}
@@ -46,7 +46,7 @@ export const SearchBar = ({
         id={uniqueId}
         // color={query ? "black" : "inherit"}
         _focus={{
-          textColor: adminLayoutHeaderStyle ? "white" : "black",
+          // textColor: adminLayoutHeaderStyle ? "white" : "black",
           transform: "scale(1.01)",
           "&::placeholder": {
             textColor: "black",

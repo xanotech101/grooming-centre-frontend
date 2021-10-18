@@ -13,12 +13,13 @@ import {
   Text,
 } from "../../../components";
 import { useApp } from "../../../contexts";
-import { useAuthCheckRedirect } from "../../../hooks/useAuthCheckRedirect";
+import { useRemoveRefresh, useAuthCheckRedirect } from "../../../hooks";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { requestSignin } from "../../../services";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
 
 const SigninPage = () => {
+  useRemoveRefresh();
   const toast = useToast();
   const {
     register,
@@ -27,7 +28,6 @@ const SigninPage = () => {
     reset,
   } = useForm();
   const appManager = useApp();
-  // const { handleLogout } = appManager;
 
   const [isCheckingAuth, setIsCheckingAuth] = useState(false);
 
@@ -53,11 +53,6 @@ const SigninPage = () => {
       });
     }
   };
-
-  // TODO: remove or keep based on business
-  // useEffect(() => {
-  //   handleLogout();
-  // }, [handleLogout]);
 
   return (
     <OnBoardingFormLayout

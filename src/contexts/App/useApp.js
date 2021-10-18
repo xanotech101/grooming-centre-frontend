@@ -71,7 +71,7 @@ export const useApp = () => {
   );
 
   const handleLogout = useCallback(() => {
-    localStorage.removeItem("token", "refresh");
+    localStorage.removeItem("token");
     setState((prev) => ({ ...prev, user: null, token: null }));
   }, [setState]);
 
