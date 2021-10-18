@@ -24,7 +24,7 @@ export const userForumGetQuestionsRes = {
     {
       id: "questionId_1",
       title: "How to patch KDE on FreeBSD?",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat aliquet maecenas ut sit nulla",
+      body: "Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.",
       createdAt: new Date(),
       tags: [
         { id: "forumTagId_1", name: "javascript" },
@@ -42,7 +42,7 @@ export const userForumGetQuestionsRes = {
     {
       id: "questionId_2",
       title: "What is a difference between Java nad JavaScript?",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat aliquet maecenas ut sit nulla",
+      body: "Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.",
       createdAt: new Date(),
       tags: [
         { id: "forumTagId_1", name: "javascript" },
@@ -58,4 +58,60 @@ export const userForumGetQuestionsRes = {
       commentsCount: 10,
     },
   ],
+};
+
+export const userForumGetQuestionDetailsRes_questionId_1 = {
+  data: {
+    id: "questionId_1",
+    title: "How to patch KDE on FreeBSD?",
+    body: `
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      `,
+    createdAt: new Date(),
+    tags: [
+      { id: "forumTagId_1", name: "javascript" },
+      { id: "forumTagId_2", name: "dart" },
+    ],
+    user: {
+      id: "userId_2",
+      profilePics:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      firstName: "jane",
+      lastName: "bar",
+    },
+    commentsCount: 10,
+  },
+};
+
+export const userForumGetQuestionDetailsRes_questionId_2 = {
+  data: {
+    id: "questionId_2",
+    title: "What is a difference between Java nad JavaScript?",
+    body: `
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      Posuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.
+      `,
+    createdAt: new Date(),
+    tags: [
+      { id: "forumTagId_1", name: "javascript" },
+      { id: "forumTagId_2", name: "dart" },
+    ],
+    user: {
+      id: "userId_2",
+      profilePics:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      firstName: "jane",
+      lastName: "bar",
+    },
+    commentsCount: 10,
+  },
 };

@@ -41,7 +41,7 @@ const QuestionsPage = () => {
       )}
 
       {questions.data?.map((question) => (
-        <QuestionListCard key={question.id} {...question} />
+        <QuestionListCard key={question.id} {...question}  />
       ))}
     </>
   );

@@ -1,3 +1,4 @@
+import { truncateText } from "../../../../utils";
 import { http } from "../../http";
 
 /**
@@ -19,7 +20,7 @@ export const userForumGetQuestions = async () => {
   const questions = data.map((question) => ({
     id: question.id,
     title: question.title,
-    body: question.body,
+    body: truncateText(question.body, 100),
     createdAt: question.createdAt,
     tags: question.tags.map((tag) => ({
       id: tag.id,
@@ -34,6 +35,48 @@ export const userForumGetQuestions = async () => {
   }));
 
   return { questions };
+};
+
+/**
+ * Endpoint to get forum question details
+ * @param {string} id - questionId
+ *
+ * @returns {
+ *   Promise<{
+ *     {
+ *     id: string,
+ *     name: string,
+ *     body: string,
+ *     tags: Array<{ value: string, label: string }>,
+ *     user: { id: string, profilePics: string, fullName: string }>
+ *   }>
+ * }
+ */
+export const userForumGetQuestionDetails = async (id) => {
+  const path = `/forum/questions/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const question = {
+    id: data.id,
+    title: data.title,
+    body: data.body,
+    createdAt: data.createdAt,
+    tags: data.tags.map((tag) => ({
+      id: tag.id,
+      label: tag.name,
+    })),
+    user: {
+      id: data.user.id,
+      profilePics: data.user.profilePics,
+      fullName: `${data.user.firstName} ${data.user.lastName}`,
+    },
+    commentsCount: data.commentsCount,
+  };
+
+  return { question };
 };
 
 /**
