@@ -43,7 +43,7 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
     title: "CSS assessment",
     duration: 60,
     amountOfQuestions: null,
-    startTime: "2021-10-16T09:50:00.319Z",
+    startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     assessmentQuestions: [
       {
