@@ -8,3 +8,4 @@ export * from "./http/endpoints/forum/tag";
 export * from "./http/endpoints/coursesOverview";
 export * from "./http/endpoints/certificate";
 export * from "./http/endpoints/lesson";
+export * from "./http/endpoints/course";

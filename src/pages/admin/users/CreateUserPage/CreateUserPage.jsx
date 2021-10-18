@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-import { Input, Select, Text, Breadcrumb } from "../../../../components";
+import { Input, Select, Text, Breadcrumb, Link } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
@@ -10,7 +10,7 @@ import {
   capitalizeWords,
 } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
-import { BreadcrumbItem, BreadcrumbLink, Box } from "@chakra-ui/react";
+import { BreadcrumbItem, Box } from "@chakra-ui/react";
 
 const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
@@ -74,12 +74,12 @@ const CreateUserPage = ({
         <Breadcrumb
           item2={
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/users">Users</BreadcrumbLink>
+              <Link href="/admin/users">Users</Link>
             </BreadcrumbItem>
           }
           item3={
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href="#">Create Users</BreadcrumbLink>
+              <Link href="#">Create Users</Link>
             </BreadcrumbItem>
           }
         />

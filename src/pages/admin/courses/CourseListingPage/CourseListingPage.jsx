@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table, Text, Breadcrumb } from "../../../../components";
+import { Button, Heading, Table, Text, Breadcrumb, Link } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetCourseListing } from "../../../../services";
@@ -9,7 +9,6 @@ import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 import {
   BreadcrumbItem,
-  BreadcrumbLink,
 } from "@chakra-ui/react";
 
 const tableProps = {
@@ -142,7 +141,7 @@ const CourseListingPage = () => {
       <Breadcrumb
         item2={
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">Courses</BreadcrumbLink>
+            <Link href="#">Courses</Link>
           </BreadcrumbItem>
         }
       />

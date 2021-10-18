@@ -9,7 +9,9 @@ import {
   DashboardPageRoute,
   NotFoundPageRoute,
   UserInfoPageRoute,
+  ViewCourseInfoPageRoute,
   UserListingPageRoute,
+  
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -24,6 +26,7 @@ const MainArea = () => {
             exact
             path="/admin/courses/:id/lessons/create"
           />
+          <ViewCourseInfoPageRoute path="/admin/courses/details" />
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
           <UserInfoPageRoute path="/admin/users/details" />
