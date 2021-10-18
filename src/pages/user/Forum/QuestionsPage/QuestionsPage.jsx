@@ -12,7 +12,9 @@ const QuestionsPage = () => {
   console.log(questions);
 
   const questionsIsEmpty =
-    !questions.loading && !questions.err && !questions.length;
+    !questions.loading && !questions.err && !questions.data?.length
+      ? true
+      : false;
 
   return (
     <>
