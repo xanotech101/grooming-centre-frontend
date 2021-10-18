@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
-import { Button, Heading, Text } from "../../../components";
+import { Button, Heading, Text, Clock } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 import useAssessment from "./hooks/useAssessment";
 import { CustomModal } from "./Modal";
+import parseMs from "../../../utils/parseMs";
 
 const AssessmentLayout = () => {
   const {
@@ -13,20 +15,49 @@ const AssessmentLayout = () => {
     course_id,
     currentQuestion,
     disablePreviousQuestion,
-    error,
+    // error,
     isLoading,
     modalManager,
     shouldSubmit,
     selectedAnswers,
-    timerCountdownManger,
+    // timerCountdownManger,
+    startDate,
+    duration,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
     handlePreviousQuestion,
     handleOptionSelect,
+    handleSubmit,
+    handleAfterSubmit,
+    submitStatus,
   } = useAssessment();
 
   console.log(assessment);
+
+  // Handle Late/TooEarly comer :)
+
+  const isElapsed =
+    Date.now() > new Date(startDate).getTime() + duration * 60 * 1000;
+  const stillTooSoon = Date.now() < new Date(startDate).getTime();
+
+  const error = stillTooSoon
+    ? "This assessment is not yet time to be taken"
+    : isElapsed
+    ? "This assessment has already ended"
+    : null;
+
+  useEffect(() => {
+    if (isElapsed) {
+      handleSubmit();
+    }
+  }, [isElapsed]);
+
+  useEffect(() => {
+    if (submitStatus.success) {
+      handleAfterSubmit();
+    }
+  }, [submitStatus.success]);
 
   const renderSubHeading = (heading) => (
     <Box
@@ -55,15 +86,6 @@ const AssessmentLayout = () => {
       </PageLoaderLayout>
     ) : (
       <>
-        <CustomModal
-          onClose={modalManager.onClose}
-          canClose={modalManager.canClose}
-          isOpen={modalManager.isOpen}
-          prompt={modalManager.prompt}
-        >
-          {modalManager.content}
-        </CustomModal>
-
         <Flex
           justifyContent="center"
           alignItems="flex-start"
@@ -154,28 +176,18 @@ const AssessmentLayout = () => {
               <Box as="aside" flex="0 0 232px">
                 {renderSubHeading("Time Left")}
 
-                <Flex justifyContent="space-between" marginBottom={6}>
-                  <Box textAlign="center">
-                    <Text bold as="level1">
-                      {timerCountdownManger.timeLeft.hours || "00"}
-                    </Text>
-                    <Text color="accent.2">hours</Text>
-                  </Box>
-
-                  <Box textAlign="center">
-                    <Text bold as="level1">
-                      {timerCountdownManger.timeLeft.minutes}
-                    </Text>
-                    <Text color="accent.2">minutes</Text>
-                  </Box>
-
-                  <Box textAlign="center">
-                    <Text bold as="level1">
-                      {timerCountdownManger.timeLeft.seconds}
-                    </Text>
-                    <Text color="accent.2">seconds</Text>
-                  </Box>
-                </Flex>
+                {duration ? (
+                  <Clock
+                    duration={duration * 60}
+                    startAt={
+                      (duration -
+                        parseMs(Date.now() - new Date(startDate).getTime())
+                          .minutes) *
+                      60 *
+                      1000
+                    }
+                  />
+                ) : null}
 
                 <Box>
                   <Heading as="h3" fontSize="text.level3" marginBottom={2}>
@@ -228,6 +240,14 @@ const AssessmentLayout = () => {
             </Flex>
           </Box>
         </Flex>
+        <CustomModal
+          onClose={modalManager.onClose}
+          canClose={modalManager.canClose}
+          isOpen={modalManager.isOpen}
+          prompt={modalManager.prompt}
+        >
+          {modalManager.content}
+        </CustomModal>
       </>
     );
 
