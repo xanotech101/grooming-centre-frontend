@@ -5,7 +5,7 @@ import { http } from "../../http";
  *
  * @returns {
  *   Promise<{
- *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }> }>
+ *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, user: { id: string, profilePics: string, fullName: string } }>
  *   }>
  * }
  */
@@ -20,10 +20,16 @@ export const userForumGetQuestions = async () => {
     id: question.id,
     title: question.title,
     body: question.body,
+    createdAt: question.createdAt,
     tags: question.tags.map((tag) => ({
       id: tag.id,
       label: tag.name,
     })),
+    user: {
+      id: question.user.id,
+      profilePics: question.user.profilePics,
+      fullName: `${question.user.firstName} ${question.user.lastName}`,
+    },
   }));
 
   return { questions };

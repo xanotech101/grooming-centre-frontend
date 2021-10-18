@@ -1,6 +1,5 @@
-import { Box } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
-import { Heading, Text } from "../../../../components";
+import { Heading, QuestionListCard, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { AskAQuestionButton } from "../../../../layouts/user/Forum/Header/Header";
 import { capitalizeWords } from "../../../../utils";
@@ -42,7 +41,7 @@ const QuestionsPage = () => {
       )}
 
       {questions.data?.map((question) => (
-        <Box key={question.id}>{question.title}</Box>
+        <QuestionListCard key={question.id} {...question} />
       ))}
     </>
   );
