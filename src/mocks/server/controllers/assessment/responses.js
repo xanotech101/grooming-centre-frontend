@@ -4,8 +4,7 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     title: "Html assessment",
     duration: 60,
     amountOfQuestions: null,
-    startTime: "Sun Oct 14 2021 15:00:00 GMT+0100 (West Africa Standard Time)",
-    endTime: "Sun Oct 14 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
+    startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     assessmentQuestions: [
       {
@@ -44,8 +43,7 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
     title: "CSS assessment",
     duration: 60,
     amountOfQuestions: null,
-    startTime: "Sun Oct 14 2021 15:00:00 GMT+0100 (West Africa Standard Time)",
-    endTime: "Sun Oct 14 2021 23:59:40 GMT+0100 (West Africa Standard Time)",
+    startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     assessmentQuestions: [
       {
