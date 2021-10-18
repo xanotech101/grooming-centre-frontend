@@ -92,7 +92,7 @@ export const userCourseDetailsRes_courseId_1 = {
     disabled: false,
     title: "PHP course for mid-level engineers",
     thumbnail:
-      "http://res.cloudinary.com/xanotech/image/upload/v1634039307/grooming-centre/courseThumnails/Understanding%20delete%20%14%20Perfection%20Kills.pdf",
+      "https://res.cloudinary.com/xanotech/image/upload/v1634039307/grooming-centre/courseThumnails/Understanding%20delete%20%14%20Perfection%20Kills.pdf",
     lesson: [
       {
         id: "lessonId_1",
@@ -126,7 +126,7 @@ export const userCourseDetailsRes_courseId_3 = {
     disabled: false,
     title: "mock titles",
     thumbnail:
-      "http://res.cloudinary.com/xanotech/image/upload/v1634039307/grooming-centre/courseThumnails/Understanding%20delete%20%14%20Perfection%20Kills.pdf",
+      "https://res.cloudinary.com/xanotech/image/upload/v1634039307/grooming-centre/courseThumnails/Understanding%20delete%20%14%20Perfection%20Kills.pdf",
     lesson: [
       {
         id: "lessonId_1",

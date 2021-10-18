@@ -20,7 +20,6 @@ export const requestAssessmentDetails = async (id) => {
     duration: data.duration,
     questionCount: data.amountOfQuestions || data.assessmentQuestions.length,
     startTime: data.startTime,
-    endTime: data.endTime,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
     questions: data.assessmentQuestions.map((q, index) => ({
