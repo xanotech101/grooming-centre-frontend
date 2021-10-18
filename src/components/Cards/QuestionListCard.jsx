@@ -66,7 +66,7 @@ export const QuestionListCard = ({
             </Box>
           </HStack>
 
-          <Button asIcon ghost>
+          <Button asIcon ghost link="#">
             <HiDotsVertical />
           </Button>
         </Flex>

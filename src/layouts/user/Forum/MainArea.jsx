@@ -3,6 +3,7 @@ import { Switch } from "react-router-dom";
 import {
   AddQuestionPageRoute,
   MentionsPageRoute,
+  QuestionDetailsPageRoute,
   QuestionsPageRoute,
   TagsPageRoute,
   YourAnswersPageRoute,
@@ -13,7 +14,8 @@ const MainArea = ({ ...rest }) => {
   return (
     <Box {...rest}>
       <Switch>
-        <QuestionsPageRoute path="/forum/questions" />
+        <QuestionDetailsPageRoute path="/forum/questions/:id" />
+        <QuestionsPageRoute path="/forum/details/questions" />
         <TagsPageRoute path="/forum/tags" />
         <MentionsPageRoute path="/forum/mentions" />
         <AddQuestionPageRoute path="/forum/your-questions/add" />
