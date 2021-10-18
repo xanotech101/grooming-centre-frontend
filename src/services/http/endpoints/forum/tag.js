@@ -3,7 +3,7 @@ import { http } from "../../http";
 /**
  * Endpoint to get forum tags
  *
- * @returns {Promise<{ tags: { value: string, label: string } }>}
+ * @returns {Promise<{ tags: Array<{ value: string, label: string }> }>}
  */
 export const userForumGetTags = async () => {
   const path = `/forum/tags`; // TODO: pass in filter values

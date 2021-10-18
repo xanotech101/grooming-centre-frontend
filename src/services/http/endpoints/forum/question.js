@@ -1,6 +1,42 @@
 import { http } from "../../http";
 
 /**
+ * Endpoint to get forum questions
+ *
+ * @returns {
+ *   Promise<{
+ *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, user: { id: string, profilePics: string, fullName: string } }>
+ *   }>
+ * }
+ */
+export const userForumGetQuestions = async () => {
+  const path = `/forum/questions`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const questions = data.map((question) => ({
+    id: question.id,
+    title: question.title,
+    body: question.body,
+    createdAt: question.createdAt,
+    tags: question.tags.map((tag) => ({
+      id: tag.id,
+      label: tag.name,
+    })),
+    user: {
+      id: question.user.id,
+      profilePics: question.user.profilePics,
+      fullName: `${question.user.firstName} ${question.user.lastName}`,
+    },
+    commentsCount: question.commentsCount,
+  }));
+
+  return { questions };
+};
+
+/**
  * Endpoint to get forum categories
  *
  * @returns {Promise<{ categories: { value: string, label: string } }>}

@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/layout";
 import { Spinner } from "../../../components";
 
-export const PageLoaderLayout = ({ children = <Spinner /> }) => {
+export const PageLoaderLayout = ({ children = <Spinner />, ...rest }) => {
   return (
     <Flex
       justifyContent="center"
@@ -10,6 +10,7 @@ export const PageLoaderLayout = ({ children = <Spinner /> }) => {
       height="100vh"
       width="100vw"
       placeItems="center"
+      {...rest}
     >
       {children}
     </Flex>
