@@ -43,7 +43,7 @@ export const QuestionListCard = ({
           <Image
             src={user?.profilePics || thumbnailPlaceholder}
             // isLoading={isLoading}
-            boxSize="37px"
+            boxSize="40px"
             rounded="full"
           />
 

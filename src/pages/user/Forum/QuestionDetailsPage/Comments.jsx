@@ -1,6 +1,13 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { useState } from "react";
-import { Button, Heading, Input, Text } from "../../../../components";
+import {
+  Button,
+  CommentListCard,
+  Heading,
+  Input,
+  ReplyListCard,
+  Text,
+} from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
 import useComments from "./hooks/useComments";
@@ -29,6 +36,7 @@ const Comments = () => {
           <Header />
           <CommentForm />
           <CommentList data={comments.data} />
+          <ReplyListCard /> {/* TODO: remove */}
         </>
       ) : null}
     </Box>
@@ -57,19 +65,25 @@ const NoComments = () => {
 };
 
 const CommentList = ({ data }) => {
-  return data.map((comment) => <Box key={comment.id}>{comment.body}</Box>);
+  return data.map((comment) => (
+    <CommentListCard key={comment.id} {...comment} />
+  ));
 };
 
 const CommentForm = () => (
   <Box
     as="form"
     shadow="2px 1px 5px rgba(0, 0, 0, 0.15)"
-    rounded="5px"
-    padding={6}
+    paddingX={6}
+    paddingY={3}
     margin={1}
     marginBottom={5}
   >
-    <Input placeholder="Type here your wise suggestion" marginBottom={3} />
+    <Input
+      id="comment"
+      placeholder="Type here your wise suggestion"
+      marginBottom={3}
+    />
 
     <Flex justifyContent="flex-end">
       <Button type="submit">Suggest</Button>
