@@ -42,7 +42,7 @@ export const userForumGetComments = async (questionId) => {
  * @returns {Promise<{ message: string }>}
  */
 export const userForumAddComment = async (body) => {
-  const path = `/forum/comments/${body.questionId}/reply`; // TODO: change path
+  const path = `/forum/questions/${body.questionId}/comments/reply`; // TODO: change path
 
   const {
     data: { message },
