@@ -1,4 +1,5 @@
 import { Box, Flex } from "@chakra-ui/layout";
+import { useState } from "react";
 import { Button, Heading, Input, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
@@ -34,18 +35,26 @@ const Comments = () => {
   );
 };
 
-const NoComments = () => (
-  <PageLoaderLayout height="70%" width="100%">
-    <Heading as="h3" marginBottom={3}>
-      No Comments
-    </Heading>
-    <Text as="level3" marginBottom={7}>
-      Be the first to comment under this thread.
-    </Text>
+const NoComments = () => {
+  const [commentClicked, setCommentClicked] = useState(false);
 
-    <Button sm>Comment</Button>
-  </PageLoaderLayout>
-);
+  return !commentClicked ? (
+    <PageLoaderLayout height="70%" width="100%">
+      <Heading as="h3" marginBottom={3}>
+        No Comments
+      </Heading>
+      <Text as="level3" marginBottom={7}>
+        Be the first to comment under this thread.
+      </Text>
+
+      <Button sm onClick={() => setCommentClicked(true)}>
+        Comment
+      </Button>
+    </PageLoaderLayout>
+  ) : (
+    <CommentForm />
+  );
+};
 
 const CommentList = ({ data }) => {
   return data.map((comment) => <Box key={comment.id}>{comment.body}</Box>);
