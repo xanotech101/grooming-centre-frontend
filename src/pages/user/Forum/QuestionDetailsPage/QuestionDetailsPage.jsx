@@ -2,6 +2,7 @@ import { Route } from "react-router-dom";
 import { Heading, QuestionListCard } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
+import Comments from "./Comments";
 import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
@@ -22,6 +23,8 @@ const QuestionDetailsPage = () => {
       {question.data && (
         <>
           <QuestionListCard key={question.id} {...question.data} disabled />
+
+          <Comments />
         </>
       )}
     </>

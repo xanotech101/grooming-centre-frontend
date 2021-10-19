@@ -11,7 +11,7 @@ export const QuestionListCard = ({
   id,
   title,
   body,
-  commentsCount,
+  commentCount,
   tags,
   user,
   // isLoading,
@@ -83,7 +83,7 @@ export const QuestionListCard = ({
             <BiComment />
           </Icon>
 
-          <Text>{commentsCount}</Text>
+          <Text>{commentCount}</Text>
         </Flex>
       </Flex>
     </Stack>
@@ -103,7 +103,7 @@ QuestionListCard.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
   createdAt: PropTypes.string,
-  commentsCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  commentCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tags: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

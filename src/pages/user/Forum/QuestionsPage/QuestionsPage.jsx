@@ -8,8 +8,6 @@ import useQuestionsPage from "./hooks/useQuestionsPage";
 const QuestionsPage = () => {
   const { questions } = useQuestionsPage();
 
-  console.log(questions);
-
   const questionsIsEmpty =
     !questions.loading && !questions.err && !questions.data?.length
       ? true
@@ -41,7 +39,7 @@ const QuestionsPage = () => {
       )}
 
       {questions.data?.map((question) => (
-        <QuestionListCard key={question.id} {...question}  />
+        <QuestionListCard key={question.id} {...question} />
       ))}
     </>
   );

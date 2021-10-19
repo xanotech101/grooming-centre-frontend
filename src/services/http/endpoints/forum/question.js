@@ -31,7 +31,7 @@ export const userForumGetQuestions = async () => {
       profilePics: question.user.profilePics,
       fullName: `${question.user.firstName} ${question.user.lastName}`,
     },
-    commentsCount: question.commentsCount,
+    commentCount: question.commentCount,
   }));
 
   return { questions };
@@ -73,7 +73,7 @@ export const userForumGetQuestionDetails = async (id) => {
       profilePics: data.user.profilePics,
       fullName: `${data.user.firstName} ${data.user.lastName}`,
     },
-    commentsCount: data.commentsCount,
+    commentCount: data.commentCount,
   };
 
   return { question };

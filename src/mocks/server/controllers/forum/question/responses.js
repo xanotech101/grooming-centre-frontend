@@ -37,7 +37,7 @@ export const userForumGetQuestionsRes = {
         firstName: "jane",
         lastName: "bar",
       },
-      commentsCount: 10,
+      commentCount: 10,
     },
     {
       id: "questionId_2",
@@ -55,7 +55,7 @@ export const userForumGetQuestionsRes = {
         firstName: "jane",
         lastName: "bar",
       },
-      commentsCount: 10,
+      commentCount: 10,
     },
   ],
 };
@@ -84,7 +84,7 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
       firstName: "jane",
       lastName: "bar",
     },
-    commentsCount: 10,
+    commentCount: 10,
   },
 };
 
@@ -112,6 +112,6 @@ export const userForumGetQuestionDetailsRes_questionId_2 = {
       firstName: "jane",
       lastName: "bar",
     },
-    commentsCount: 10,
+    commentCount: 10,
   },
 };
