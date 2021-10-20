@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { Switch } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
 import {
   AddQuestionPageRoute,
   MentionsPageRoute,
@@ -14,6 +14,7 @@ const MainArea = ({ ...rest }) => {
   return (
     <Box {...rest}>
       <Switch>
+        <Redirect from="/forum" exact to="/forum/questions?tab=new" />
         <QuestionDetailsPageRoute path="/forum/questions/details/:id" />
         <QuestionsPageRoute path="/forum/questions" />
         <TagsPageRoute path="/forum/tags" />
