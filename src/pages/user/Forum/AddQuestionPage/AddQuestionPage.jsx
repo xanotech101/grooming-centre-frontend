@@ -12,13 +12,8 @@ import { getTagInput } from "../../../../components/Form/Input/TagsInput/hooks/u
 import { useSelectedTags } from "../../../../hooks";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
 import { v4 as uuid } from "uuid";
-import { useApp } from "../../../../contexts";
 
 const AddQuestionPage = () => {
-  const {
-    state: { user },
-  } = useApp();
-
   const {
     selectedTags,
     handleTagSelectMany,
