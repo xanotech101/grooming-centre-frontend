@@ -16,6 +16,8 @@ export const CommentListCard = ({
   likes,
   dislikes,
   user,
+  onReplyToggle,
+  displayReplies,
 }) => {
   return (
     <Stack
@@ -67,8 +69,11 @@ export const CommentListCard = ({
         <HStack spacing={3}>
           <PlainButtonWithIcon
             color="accent.6"
-            text={`Show All Replies (${replyCount})`}
+            text={`${
+              displayReplies ? "Hide" : "Show"
+            } All Replies (${replyCount})`}
             icon={<FiChevronsDown />}
+            onClick={onReplyToggle}
           />
 
           <PlainButtonWithIcon
@@ -105,4 +110,6 @@ CommentListCard.propTypes = {
     profilePics: PropTypes.string,
     fullName: PropTypes.string,
   }),
+  onReplyToggle: PropTypes.func,
+  displayReplies: PropTypes.bool,
 };

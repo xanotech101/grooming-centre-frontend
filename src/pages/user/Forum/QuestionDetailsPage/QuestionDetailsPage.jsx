@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 import { Heading, QuestionListCard } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
-import Comments from "./Comments";
+import Comments from "./Comments/Comments";
 import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
