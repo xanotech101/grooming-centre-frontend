@@ -52,6 +52,7 @@ const coursesIsLoading = !courses;
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
+            link={`/admin/course/edit/${courses?.[0].id}`}
           >
             Edit
           </Button>

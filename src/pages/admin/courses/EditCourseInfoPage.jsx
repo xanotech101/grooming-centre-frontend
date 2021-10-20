@@ -1,9 +1,17 @@
 import { Grid, GridItem } from "@chakra-ui/layout";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Input, Textarea, Select, Text, Breadcrumb } from "../../../components";
+import {
+  Input,
+  Textarea,
+  Select,
+  Text,
+  Breadcrumb,
+  Link, Image
+} from "../../../components";
 import { EditPageLayout } from "../../../layouts";
-import { BreadcrumbItem, BreadcrumbLink, Box } from "@chakra-ui/react";
+import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import useCourselisting from "./hooks/useCourseListing";
 
 const EditCourseInfoPage = () => {
   const {
@@ -11,10 +19,13 @@ const EditCourseInfoPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
+ const manager = useCourselisting();
+
+  const { courses } = manager;
 
   const onSubmit = async (data) => {
-    console.log(data);
+   console.log(data);
   };
 
   return (
@@ -23,12 +34,12 @@ const EditCourseInfoPage = () => {
         <Breadcrumb
           item2={
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/courses">Courses</BreadcrumbLink>
+              <Link href="/admin/courses">Courses</Link>
             </BreadcrumbItem>
           }
           item3={
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href="#">Edit Courses</BreadcrumbLink>
+              <Link href="#">Edit Courses</Link>
             </BreadcrumbItem>
           }
         />
@@ -44,6 +55,7 @@ const EditCourseInfoPage = () => {
           <GridItem>
             <Input
               label="Course title"
+              placeholder={courses?.[0].title}
               id="title"
               {...register("title", {
                 required: "Title is required",
@@ -58,6 +70,8 @@ const EditCourseInfoPage = () => {
           <GridItem>
             <Select
               label="Course department"
+              id="department"
+              placeholder={courses?.[0].department}
               options={[
                 { label: "Dept 1", value: "dept-1" },
                 { label: "Dept 2", value: "dept-2" },
@@ -75,10 +89,11 @@ const EditCourseInfoPage = () => {
           </GridItem>
         </Grid>
         {/* Row 2 */}
-        <Grid >
+        <Grid marginBottom={10}>
           <Textarea
             minHeight="150px"
             label="Course description"
+            placeholder={courses?.[0].content}
             id="description"
             {...register("description", {
               required: "Please add a description",
@@ -89,6 +104,19 @@ const EditCourseInfoPage = () => {
               {errors.description.message}
             </Text>
           ) : null}
+        </Grid>
+        {/* Row 3 */}
+        <Grid>
+          <Text fontSize="text.level2" marginBottom={10}>
+            Course Image
+          </Text>
+          <Image
+            backgroundColor="accent.3"
+            src={courses?.[0].thumbnail}
+            alt="Course Header"
+            width="223px"
+            height="136px"
+          />
         </Grid>
       </EditPageLayout>
     </>
