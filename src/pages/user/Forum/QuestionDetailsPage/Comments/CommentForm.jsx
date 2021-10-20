@@ -2,13 +2,18 @@ import { Box, Flex } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
+import { v4 as uuid } from "uuid";
 import { Button, Heading, Input } from "../../../../../components";
-import { userForumAddComment } from "../../../../../services";
+import {
+  userForumAddComment,
+  userForumAddReply,
+} from "../../../../../services";
 import { capitalizeFirstLetter } from "../../../../../utils";
 
-const CommentForm = ({ isReply }) => {
-  const { id } = useParams();
+const CommentForm = ({ isReply, commentId }) => {
+  const { id: questionId } = useParams();
   const toast = useToast();
+  const id = commentId || questionId;
 
   const {
     register,
@@ -19,9 +24,11 @@ const CommentForm = ({ isReply }) => {
 
   const onSubmit = async (data) => {
     try {
-      const body = { questionId: id, commentText: data.comment };
+      const body = { id, text: data.text };
 
-      const { message } = await userForumAddComment(body);
+      const { message } = await (isReply
+        ? userForumAddReply
+        : userForumAddComment)(body);
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -42,10 +49,10 @@ const CommentForm = ({ isReply }) => {
   const renderContent = () => (
     <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <Input
-        id="comment"
+        id={`${isReply ? "reply" : "comment"}--${uuid()}`}
         placeholder="Type here your wise suggestion"
         marginBottom={3}
-        {...register("comment", {
+        {...register("text", {
           required: true,
         })}
         size={isReply && "sm"}

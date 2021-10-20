@@ -104,7 +104,7 @@ export const CommentListCard = ({
         </HStack>
       </Flex>
 
-      {displayReplyForm && <CommentForm isReply />}
+      {displayReplyForm && <CommentForm isReply commentId={id} />}
     </Stack>
   );
 };

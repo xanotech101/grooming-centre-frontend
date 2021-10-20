@@ -45,16 +45,32 @@ export const userForumGetComments = async (questionId) => {
 
 /**
  * Endpoint to add a forum comment
- * @param {{ questionId: string, commentText: string }} body // TODO: signature might change
+ * @param {{ id: string, text: string }} body // TODO: signature might change
  *
  * @returns {Promise<{ message: string }>}
  */
 export const userForumAddComment = async (body) => {
-  const path = `/forum/questions/${body.questionId}/comments/reply`; // TODO: change path
+  const path = `/forum/questions/${body.id}/comments/reply`; // TODO: change path
 
   const {
     data: { message },
-  } = await http.post(path, { commentText: body.commentText });
+  } = await http.post(path, { commentText: body.text });
+
+  return { message };
+};
+
+/**
+ * Endpoint to add a forum reply
+ * @param {{ id: string, text: string }} body // TODO: signature might change
+ *
+ * @returns {Promise<{ message: string }>}
+ */
+export const userForumAddReply = async (body) => {
+  const path = `/forum/comments/${body.id}/reply`; // TODO: change path
+
+  const {
+    data: { message },
+  } = await http.post(path, { replyText: body.text });
 
   return { message };
 };

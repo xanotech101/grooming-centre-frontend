@@ -5,6 +5,7 @@ import {
   userForumGetCommentsRes_questionId_1,
   userForumGetCommentsRes_questionId_2,
   userForumAddCommentRes,
+  userForumReplyACommentRes,
 } from "./responses";
 
 const userForumGetComments = [
@@ -33,6 +34,23 @@ const userForumAddComment = [
   ),
 ];
 
-const forumComment = [...userForumGetComments, ...userForumAddComment];
+const userForumAddReply = [
+  rest.post(
+    // TODO: change `method`
+    getUrl("/forum/comments/commentId_1/reply"), // TODO: change `path`
+    handleSuccessResponse(userForumReplyACommentRes)
+  ),
+  rest.post(
+    // TODO: change `method`
+    getUrl("/forum/comments/commentId_2/reply"), // TODO: change `path`
+    handleSuccessResponse(userForumReplyACommentRes)
+  ),
+];
+
+const forumComment = [
+  ...userForumGetComments,
+  ...userForumAddComment,
+  ...userForumAddReply,
+];
 
 export default forumComment;
