@@ -8,8 +8,7 @@ const CommentList = ({ data }) => {
 const CommentListItem = ({ comment }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
 
-  const handleDisplayRepliesToggle = () =>
-    comment.replies.length && setDisplayReplies((prev) => !prev);
+  const handleDisplayRepliesToggle = () => setDisplayReplies((prev) => !prev);
 
   const renderReplies = () =>
     displayReplies &&

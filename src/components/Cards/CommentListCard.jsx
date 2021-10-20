@@ -1,11 +1,26 @@
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { FiChevronsDown, FiCornerDownRight } from "react-icons/fi";
 import { HiDotsVertical } from "react-icons/hi";
 import { Button, Image, Text } from "..";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
+import CommentForm from "../../pages/user/Forum/QuestionDetailsPage/Comments/CommentForm";
+
+const useCommentListCard = () => {
+  const [displayReplyForm, setDisplayReplyForm] = useState(false);
+
+  const handleDisplayReplyForm = () => setDisplayReplyForm(true);
+  const handleHideReplyForm = () => setDisplayReplyForm(true);
+
+  return {
+    displayReplyForm,
+    handleDisplayReplyForm,
+    handleHideReplyForm,
+  };
+};
 
 export const CommentListCard = ({
   id,
@@ -19,6 +34,8 @@ export const CommentListCard = ({
   onReplyToggle,
   displayReplies,
 }) => {
+  const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
+
   return (
     <Stack
       paddingY={3}
@@ -67,22 +84,27 @@ export const CommentListCard = ({
         </HStack>
 
         <HStack spacing={3}>
-          <PlainButtonWithIcon
-            color="accent.6"
-            text={`${
-              displayReplies ? "Hide" : "Show"
-            } All Replies (${replyCount})`}
-            icon={<FiChevronsDown />}
-            onClick={onReplyToggle}
-          />
+          {replyCount ? (
+            <PlainButtonWithIcon
+              color="accent.6"
+              text={`${
+                displayReplies ? "Hide" : "Show"
+              } All Replies (${replyCount})`}
+              icon={<FiChevronsDown />}
+              onClick={onReplyToggle}
+            />
+          ) : null}
 
           <PlainButtonWithIcon
             color="accent.6"
             text="Reply"
             icon={<FiCornerDownRight />}
+            onClick={handleDisplayReplyForm}
           />
         </HStack>
       </Flex>
+
+      {displayReplyForm && <CommentForm isReply />}
     </Stack>
   );
 };

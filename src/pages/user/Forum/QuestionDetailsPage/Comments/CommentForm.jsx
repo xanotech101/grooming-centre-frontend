@@ -6,7 +6,7 @@ import { Button, Heading, Input } from "../../../../../components";
 import { userForumAddComment } from "../../../../../services";
 import { capitalizeFirstLetter } from "../../../../../utils";
 
-const CommentForm = () => {
+const CommentForm = ({ isReply }) => {
   const { id } = useParams();
   const toast = useToast();
 
@@ -39,38 +39,48 @@ const CommentForm = () => {
     }
   };
 
+  const renderContent = () => (
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        id="comment"
+        placeholder="Type here your wise suggestion"
+        marginBottom={3}
+        {...register("comment", {
+          required: true,
+        })}
+        size={isReply && "sm"}
+      />
+
+      <Flex justifyContent="flex-end">
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+          sm={isReply}
+        >
+          Suggest
+        </Button>
+      </Flex>
+    </Box>
+  );
+
   return (
     <>
-      <Header />
+      {!isReply && <Header />}
 
-      <Box
-        as="form"
-        shadow="2px 1px 5px rgba(0, 0, 0, 0.15)"
-        paddingX={6}
-        paddingY={3}
-        margin={1}
-        marginBottom={5}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Input
-          id="comment"
-          placeholder="Type here your wise suggestion"
-          marginBottom={3}
-          {...register("comment", {
-            required: true,
-          })}
-        />
-
-        <Flex justifyContent="flex-end">
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            isLoading={isSubmitting}
-          >
-            Suggest
-          </Button>
-        </Flex>
-      </Box>
+      {isReply ? (
+        renderContent()
+      ) : (
+        <Box
+          shadow="2px 1px 5px rgba(0, 0, 0, 0.15)"
+          paddingX={6}
+          paddingY={3}
+          margin={1}
+          marginBottom={5}
+        >
+          {renderContent()}
+        </Box>
+      )}
     </>
   );
 };
