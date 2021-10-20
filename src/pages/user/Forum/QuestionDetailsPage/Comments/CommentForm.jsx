@@ -46,9 +46,9 @@ const CommentForm = ({
       });
 
       const currentUser = {
-        id: user?.data?.id,
-        profilePics: user?.data?.profilePics,
-        fullName: getFullName(user?.data),
+        id: user?.id,
+        profilePics: user?.profilePics,
+        fullName: getFullName(user),
       };
 
       if (isReply) {

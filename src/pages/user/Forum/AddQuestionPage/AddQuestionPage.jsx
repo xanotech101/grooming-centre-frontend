@@ -12,8 +12,13 @@ import { getTagInput } from "../../../../components/Form/Input/TagsInput/hooks/u
 import { useSelectedTags } from "../../../../hooks";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
 import { v4 as uuid } from "uuid";
+import { useApp } from "../../../../contexts";
 
 const AddQuestionPage = () => {
+  const {
+    state: { user },
+  } = useApp();
+
   const {
     selectedTags,
     handleTagSelectMany,
@@ -21,10 +26,11 @@ const AddQuestionPage = () => {
     handleClearAllSelectedTags,
   } = useSelectedTags();
 
-  const { categories, formManager, handleSubmit } = useAddQuestionPage({
-    selectedTags,
-    handleClearAllSelectedTags,
-  });
+  const { categories, formManager, handleSubmit, disableForm } =
+    useAddQuestionPage({
+      selectedTags,
+      handleClearAllSelectedTags,
+    });
 
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
@@ -114,7 +120,9 @@ const AddQuestionPage = () => {
         />
 
         <Box textAlign="right" paddingTop={2}>
-          <Button type="submit">Publish</Button>
+          <Button type="submit" disabled={disableForm} isLoading={disableForm}>
+            Publish
+          </Button>
         </Box>
       </Stack>
     </Box>

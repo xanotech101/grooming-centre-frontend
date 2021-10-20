@@ -11,7 +11,7 @@ import {
 
 const userForumGetQuestions = rest.get(
   // TODO: change `method`
-  getUrl("/forum/questions"), // TODO: change `path`
+  getUrl("/forum/question"), // TODO: change `path`
   handleSuccessResponse(userForumGetQuestionsRes)
 );
 
@@ -23,7 +23,7 @@ const userForumGetCategories = rest.get(
 
 const userForumPublishQuestion = rest.post(
   // TODO: change `method`
-  getUrl("/forum/add-question"), // TODO: change `path`
+  getUrl("/forum/question/create"), // TODO: change `path`
   handleSuccessResponse(userForumPublishQuestionRes)
 );
 

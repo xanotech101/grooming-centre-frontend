@@ -11,27 +11,29 @@ import { http } from "../../http";
  * }
  */
 export const userForumGetQuestions = async () => {
-  const path = `/forum/questions`;
+  const path = `/forum/question`;
 
   const {
     data: { data },
   } = await http.get(path);
 
-  const questions = data.map((question) => ({
+  const questions = data.rows.map((question) => ({
     id: question.id,
     title: question.title,
-    body: truncateText(question.body, 100),
+    body: truncateText(question.question, 100),
     createdAt: question.createdAt,
+    // TODO: propose to the backend team
     tags: question.tags.map((tag) => ({
       id: tag.id,
       label: tag.name,
     })),
+    // TODO: propose to the backend team
     user: {
       id: question.user.id,
       profilePics: question.user.profilePics,
       fullName: `${question.user.firstName} ${question.user.lastName}`,
     },
-    commentCount: question.commentCount,
+    commentCount: question.commentCount, // TODO: propose to the backend team
   }));
 
   return { questions };
@@ -47,6 +49,8 @@ export const userForumGetQuestions = async () => {
  *     id: string,
  *     name: string,
  *     body: string,
+ *     createdAt: string,
+ *     commentCount: number,
  *     tags: Array<{ value: string, label: string }>,
  *     user: { id: string, profilePics: string, fullName: string }>
  *   }>
@@ -62,18 +66,18 @@ export const userForumGetQuestionDetails = async (id) => {
   const question = {
     id: data.id,
     title: data.title,
-    body: data.body,
+    body: data.question,
+    commentCount: data.forumComments.length,
     createdAt: data.createdAt,
     tags: data.tags.map((tag) => ({
       id: tag.id,
-      label: tag.name,
+      label: tag.title,
     })),
     user: {
       id: data.user.id,
       profilePics: data.user.profilePics,
       fullName: `${data.user.firstName} ${data.user.lastName}`,
     },
-    commentCount: data.commentCount,
   };
 
   return { question };
@@ -101,12 +105,12 @@ export const userForumGetCategories = async () => {
 
 /**
  * Endpoint to publish a forum question
- * @param {{ categoryId: string, title: string, question: string, tags: Array<{ id: string | null, tag: string }> }} question // TODO: signature might change
+ * @param {{ categoryId: string, userId: string, title: string, question: string, tagId: Array<string> }} question // TODO: signature might change
  *
  * @returns {Promise<{ message: string }>}
  */
 export const userForumPublishQuestion = async (question) => {
-  const path = `/forum/add-question`; // TODO: change path
+  const path = `/forum/question/create`; // TODO: change path
 
   const {
     data: { message },
