@@ -41,7 +41,8 @@ export const EditPageLayout = ({
           <Box as="form" flex={1} onSubmit={onSubmit}>
             <Box
               paddingX={5}
-              paddingY={10}
+              paddingTop={10}
+              paddingBottom={20}
               shadow="md"
               rounded="sm"
               backgroundColor="white"
