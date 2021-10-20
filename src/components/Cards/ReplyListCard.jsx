@@ -1,8 +1,15 @@
 import { Box, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
+import { useEffect, useRef } from "react";
 import { Text } from "..";
 
 export const ReplyListCard = ({ id, body, user }) => {
+  const userRef = useRef();
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
   return (
     <Stack
       paddingY={3}
@@ -22,7 +29,9 @@ export const ReplyListCard = ({ id, body, user }) => {
         color="accent.3"
         paddingTop={2}
       >
-        by <b>@{user.fullName.replace(" ", "_")}</b>
+        <Text ref={userRef} tabIndex={0}>
+          by <b>@{user.fullName.replace(" ", "_")}</b>
+        </Text>
       </Box>
     </Stack>
   );
