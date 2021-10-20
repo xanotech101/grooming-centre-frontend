@@ -31,6 +31,7 @@ export const CommentListCard = ({
   likes,
   dislikes,
   user,
+  onReplySuccess,
   onReplyToggle,
   displayReplies,
 }) => {
@@ -104,7 +105,9 @@ export const CommentListCard = ({
         </HStack>
       </Flex>
 
-      {displayReplyForm && <CommentForm isReply commentId={id} />}
+      {displayReplyForm && (
+        <CommentForm isReply onReplySuccess={onReplySuccess} commentId={id} />
+      )}
     </Stack>
   );
 };
@@ -134,4 +137,5 @@ CommentListCard.propTypes = {
   }),
   onReplyToggle: PropTypes.func,
   displayReplies: PropTypes.bool,
+  onReplySuccess: PropTypes.func,
 };

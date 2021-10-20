@@ -79,6 +79,7 @@ export const useFetch = () => {
 
   return {
     resource,
+    setResource,
     handleFetchResource,
     handleClearResource,
   };

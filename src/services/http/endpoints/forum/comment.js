@@ -1,3 +1,4 @@
+import { getFullName } from "../../../../utils";
 import { http } from "../../http";
 
 /**
@@ -28,14 +29,14 @@ export const userForumGetComments = async (questionId) => {
     user: {
       id: comment.user.id,
       profilePics: comment.user.profilePics,
-      fullName: `${comment.user.firstName} ${comment.user.lastName}`,
+      fullName: getFullName(comment.user),
     },
     replies: comment.replies.map((reply) => ({
       id: reply.id,
       body: reply.body,
       user: {
         id: reply.user.id,
-        fullName: `${reply.user.firstName} ${reply.user.lastName}`,
+        fullName: getFullName(reply.user),
       },
     })),
   }));

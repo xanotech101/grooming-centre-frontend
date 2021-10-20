@@ -4,15 +4,24 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
 import { Button, Heading, Input } from "../../../../../components";
+import { useApp } from "../../../../../contexts";
 import {
   userForumAddComment,
   userForumAddReply,
 } from "../../../../../services";
-import { capitalizeFirstLetter } from "../../../../../utils";
+import { capitalizeFirstLetter, getFullName } from "../../../../../utils";
 
-const CommentForm = ({ isReply, commentId }) => {
+const CommentForm = ({
+  isReply,
+  commentId,
+  onReplySuccess,
+  onCommentSuccess,
+}) => {
   const { id: questionId } = useParams();
   const toast = useToast();
+  const {
+    state: { user },
+  } = useApp();
   const id = commentId || questionId;
 
   const {
@@ -27,14 +36,44 @@ const CommentForm = ({ isReply, commentId }) => {
       const body = { id, text: data.text };
 
       const { message } = await (isReply
-        ? userForumAddReply
-        : userForumAddComment)(body);
+        ? userForumAddReply(body)
+        : userForumAddComment(body));
 
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
         status: "success",
       });
+
+      const currentUser = {
+        id: user?.data?.id,
+        profilePics: user?.data?.profilePics,
+        fullName: getFullName(user?.data),
+      };
+
+      if (isReply) {
+        const reply = {
+          id: uuid(),
+          body: data.text,
+          user: currentUser,
+        };
+
+        onReplySuccess(id, reply);
+      } else {
+        const comment = {
+          id: uuid(),
+          // questionId: comment.questionId, // TODO: delete or add the real payload
+          createdAt: `few seconds ago`,
+          body: data.text,
+          likes: 0,
+          dislikes: 0,
+          replyCount: 0,
+          user: currentUser,
+          replies: [],
+        };
+
+        onCommentSuccess(comment);
+      }
 
       reset();
     } catch (error) {

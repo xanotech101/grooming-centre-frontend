@@ -8,7 +8,7 @@ import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
 const Comments = () => {
-  const { comments } = useComments();
+  const { comments, handleAddReply, handleAddComment } = useComments();
   const commentsIsEmpty =
     !comments.loading && !comments.err && !comments.data?.length ? true : false;
 
@@ -28,8 +28,8 @@ const Comments = () => {
 
       {comments.data?.length ? (
         <>
-          <CommentForm />
-          <CommentList data={comments.data} />
+          <CommentForm onCommentSuccess={handleAddComment} />
+          <CommentList data={comments.data} onReplySuccess={handleAddReply} />
         </>
       ) : null}
     </Box>
