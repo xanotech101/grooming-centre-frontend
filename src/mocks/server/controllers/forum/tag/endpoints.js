@@ -4,8 +4,7 @@ import { handleSuccessResponse } from "../../helpers";
 import { userForumGetTagsRes } from "./responses";
 
 const userForumGetTags = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/tags"), // TODO: change `path`
+  getUrl("/forum/tag"),
   handleSuccessResponse(userForumGetTagsRes)
 );
 
