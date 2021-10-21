@@ -12,6 +12,8 @@ import {
   ViewCourseInfoPageRoute,
   ViewLessonInfoPageRoute,
   UserListingPageRoute,
+  EditCourseInfoPageRoute,
+  
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -26,6 +28,7 @@ const MainArea = () => {
             exact
             path="/admin/courses/:id/lessons/create"
           />
+          <EditCourseInfoPageRoute exact path="/admin/course/edit/:id" />
           <ViewCourseInfoPageRoute path="/admin/courses/details" />
           <ViewLessonInfoPageRoute
             exact

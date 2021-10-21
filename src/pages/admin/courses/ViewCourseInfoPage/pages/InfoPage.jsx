@@ -1,28 +1,46 @@
+import { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { Box, Grid, Flex } from "@chakra-ui/layout";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import {
   Heading,
-  Breadcrumb, SkeletonText, Text, Button, Link, Image 
+  Breadcrumb, SkeletonText, Text, Button, Link, Image, Spinner 
 } from "../../../../../components";
 import { OverviewBox } from "../../../users/UserInfoPage/pages/ProfilePage";
 import { FiCheckSquare } from "react-icons/fi";
 import { BiCertification } from "react-icons/bi";
 import { ImArrowUp } from "react-icons/im";
-import useCourseListing from "../../hooks/useCourseListing";
+import useCourseDetails from "../../../../user/Courses/CourseDetails/hooks/useCourseDetails";
 import { FaEdit } from "react-icons/fa";
+
 const InfoPage = () => {
+  const { courseDetails, fetchCourseDetails } = useCourseDetails();
 
-  const manager = useCourseListing();
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [fetchCourseDetails]);
 
-  const { courses, isLoading } = manager;
+  const courseDetailsData = courseDetails.data;
 
-const coursesIsLoading = !courses;
+  const isLoading = courseDetails.loading;
+  const isError = courseDetails.err;
 
-
-
-
-  return (
+  console.log(courseDetailsData); 
+ 
+  return isLoading || isError ? (
+    <Flex
+      // Make the height 100% of the screen minus the `height` of the Header and Footer
+      height="calc(100vh - 200px)"
+      justifyContent="center"
+      alignItems="center"
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : isError ? (
+        <Heading color="red.500">{isError}</Heading>
+      ) : null}
+    </Flex>
+  ) : (
     <Box paddingX={4}>
       <Box paddingX={4}>
         <Breadcrumb
@@ -52,6 +70,7 @@ const coursesIsLoading = !courses;
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
+            link={`/admin/course/edit/${courseDetailsData?.id}`}
           >
             Edit
           </Button>
@@ -68,7 +87,7 @@ const coursesIsLoading = !courses;
               color="black"
               paddingBottom={8}
             >
-              {courses?.[0].title}
+              {courseDetailsData?.title}
             </Heading>
           )}
 
@@ -80,7 +99,7 @@ const coursesIsLoading = !courses;
             <Box width={{ base: "100%", laptop: "60%" }}>
               <Image
                 backgroundColor="accent.3"
-                src={courses?.[0].thumbnail}
+                src={courseDetailsData?.thumbnail}
                 alt="Course Header"
               />
             </Box>
@@ -91,7 +110,7 @@ const coursesIsLoading = !courses;
               height="26vh"
               overflowY="auto"
             >
-              <Text>{courses?.[0].content}</Text>
+              <Text color="accent.3">{courseDetailsData?.content}</Text>
             </Box>
           </Flex>
         </Box>
@@ -106,33 +125,34 @@ const coursesIsLoading = !courses;
             gap={3}
           >
             <OverviewBox
-              value={courses?.[0].lesson}
-              name="Grade Point"
+              value={courseDetailsData?.lessons.length}
+              name="Lessons"
               icon={<ImArrowUp />}
               iconBackgroundColor="accent.6"
-              href={`/admin/courses/${courses?.id}/lesson`}
-              isLoading={coursesIsLoading}
+              href={`/admin/courses/${courseDetailsData?.id}/lesson`}
+              isLoading={isLoading}
             />
             <OverviewBox
-              value={courses?.[0].assessment}
-              name="Completed Courses"
+              value={courseDetailsData?.assessment.length}
+              name="Assessment"
               icon={<FiCheckSquare />}
               iconBackgroundColor="accent.7"
-              href={`/admin/courses/${courses?.id}/assessment`}
-              isLoading={coursesIsLoading}
+              href={`/admin/courses/${courseDetailsData?.id}/assessment`}
+              isLoading={isLoading}
             />
             <OverviewBox
-              value={courses?.[0].exams}
-              name="Certificates"
+              value="1"
+              name="Exams"
               icon={<BiCertification />}
               iconBackgroundColor="secondary.5"
-              href={`/admin/courses/${courses?.id}/exam`}
-              isLoading={coursesIsLoading}
+              href={`/admin/courses/${courseDetailsData?.id}/exam`}
+              isLoading={isLoading}
             />
           </Grid>
         </Box>
       </Box>
-    </Box>
+      </Box>
+      
   );
   
 };
