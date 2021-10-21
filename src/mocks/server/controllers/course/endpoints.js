@@ -6,11 +6,17 @@ import {
   userCourseDetailsRes_courseId_1,
   userCourseDetailsRes_courseId_3,
   userCourseListingRes,
+  adminCreateCourseRes,
 } from "./responses";
 
 const adminGetCourseListing = rest.get(
   getUrl("/admin/courses"),
   handleSuccessResponse(adminCourseListingRes)
+);
+
+const adminCreateCourse = rest.post(
+  getUrl("/course/create"),
+  handleSuccessResponse(adminCreateCourseRes)
 );
 
 const userGetCourseListing = rest.get(
@@ -32,6 +38,7 @@ const course = [
   userGetCourseListing,
   userGetCourseDetailsForCourseId_1,
   userGetCourseDetailsForCourseId_3,
+  adminCreateCourse
 ];
 
 export default course;
