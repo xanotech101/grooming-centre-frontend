@@ -24,7 +24,7 @@ const useCommentListCard = () => {
 
 export const CommentListCard = ({
   id,
-  questionId,
+  // questionId,
   createdAt,
   body,
   replyCount,
