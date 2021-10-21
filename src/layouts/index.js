@@ -10,3 +10,4 @@ export * from "./user/Courses/TakeCourse/TakeCourseLayout";
 export * from "./user/Forum/ForumLayout";
 export * from "./user/OnBoardingLayout/FormLayout";
 export * from "./user/OnBoardingLayout/OnBoardingLayout";
+export * from "./admin/EditPageLayout";

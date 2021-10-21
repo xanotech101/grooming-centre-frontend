@@ -8,10 +8,10 @@ import {
   Select,
   TimePicker,
   Upload,
-  useRichText, Breadcrumb
+  useRichText, Breadcrumb, Link
 } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
-import { BreadcrumbItem, BreadcrumbLink, Box } from "@chakra-ui/react";
+import { BreadcrumbItem, Box } from "@chakra-ui/react";
 
 const CreateLessonPage = () => {
   const richTextHook = useRichText();
@@ -22,17 +22,17 @@ const CreateLessonPage = () => {
         <Breadcrumb
           item2={
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/courses">Courses</BreadcrumbLink>
+              <Link href="/admin/courses">Courses</Link>
             </BreadcrumbItem>
           }
           item3={
             <BreadcrumbItem >
-              <BreadcrumbLink href="#">Lessons</BreadcrumbLink>
+              <Link href="#">Lessons</Link>
             </BreadcrumbItem>
           }
           item4={
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href="#">Create</BreadcrumbLink>
+              <Link href="#">Create</Link>
             </BreadcrumbItem>
           }
         />

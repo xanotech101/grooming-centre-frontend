@@ -1,11 +1,11 @@
 import { Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table, Breadcrumb } from "../../../../components";
+import { Button, Heading, Table, Breadcrumb, Link } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetUserListing } from "../../../../services";
-import { BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+import { BreadcrumbItem } from "@chakra-ui/react";
 
 
 const tableProps = {
@@ -135,7 +135,7 @@ const UserListingPage = () => {
       <Breadcrumb
         item2={
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">Users</BreadcrumbLink>
+            <Link href="#">Users</Link>
           </BreadcrumbItem>
         }
       />
