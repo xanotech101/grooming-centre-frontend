@@ -57,6 +57,10 @@ export const adminCourseListingRes = {
   ],
 };
 
+export const adminCreateCourseRes = {
+  message: "course created successfully",
+};
+
 export const userCourseListingRes = {
   data: [
     {
