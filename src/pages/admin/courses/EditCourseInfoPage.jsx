@@ -1,4 +1,5 @@
-import { Grid, GridItem } from "@chakra-ui/layout";
+import { useEffect } from "react";
+import { Grid, GridItem, Box, Flex } from "@chakra-ui/layout";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
 import {
@@ -7,120 +8,167 @@ import {
   Select,
   Text,
   Breadcrumb,
-  Link, Image
+  Link, Spinner, Heading, Upload
 } from "../../../components";
 import { EditPageLayout } from "../../../layouts";
-import { BreadcrumbItem, Box } from "@chakra-ui/react";
-import useCourselisting from "./hooks/useCourseListing";
+import { BreadcrumbItem } from "@chakra-ui/react";
+import useCourseDetails from "../../user/Courses/CourseDetails/hooks/useCourseDetails";
+import { useApp } from "../../../contexts";
+import {
+  capitalizeWords
+} from "../../../utils/formatString";
+import useEditCourseInfo from "./hooks/useEditCourseInfo";
 
-const EditCourseInfoPage = () => {
+
+
+const EditCourseInfoPage = ({ metadata: propMetadata }) => {
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
- const manager = useCourselisting();
+  const appManager = useApp();
 
-  const { courses } = manager;
+  const metadata = propMetadata || appManager.state.metadata;
+
+  const { courseDetails, fetchCourseDetails } = useCourseDetails();
+
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [fetchCourseDetails]);
+
+  const courseDetailsData = courseDetails.data;
+
+  const isLoading = courseDetails.loading;
+  const isError = courseDetails.err;
+   
+  useEffect(() => {
+    if (courseDetailsData) {
+      setValue('title', courseDetailsData.title)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseDetailsData]);
+  useEffect(() => {
+    if (courseDetailsData && metadata?.departments) {
+      setValue("departmentId", courseDetailsData.departmentId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseDetailsData, metadata?.departments]);
+  useEffect(() => {
+    if (courseDetailsData) {
+      setValue('description', courseDetailsData.content);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseDetailsData]);
+
+  const {submitEditedCourse} = useEditCourseInfo();
 
   const onSubmit = async (data) => {
-   console.log(data);
+    submitEditedCourse(data);
   };
 
-  return (
-    <>
-      <Box paddingLeft={6}>
-        <Breadcrumb
-          item2={
-            <BreadcrumbItem>
-              <Link href="/admin/courses">Courses</Link>
-            </BreadcrumbItem>
-          }
-          item3={
-            <BreadcrumbItem isCurrentPage>
-              <Link href="#">Edit Courses</Link>
-            </BreadcrumbItem>
-          }
-        />
-      </Box>
+   const populateSelectOptions = (data, filterBody = () => true) => {
+     return data?.filter(filterBody)?.map((item) => ({
+       label: capitalizeWords(item.name),
+       value: item.id,
+     }));
+   };
 
-      <EditPageLayout
-        title="Edit Course Details"
-        submitButtonText="Save"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
-          {/* Row 1 */}
-          <GridItem>
-            <Input
-              label="Course title"
-              placeholder={courses?.[0].title}
-              id="title"
-              {...register("title", {
-                required: "Title is required",
-              })}
-            />
-            {errors.title ? (
-              <Text color="secondary.5" style={{ marginTop: 0 }}>
-                {errors.title.message}
-              </Text>
-            ) : null}
-          </GridItem>
-          <GridItem>
-            <Select
-              label="Course department"
-              id="department"
-              placeholder={courses?.[0].department}
-              options={[
-                { label: "Dept 1", value: "dept-1" },
-                { label: "Dept 2", value: "dept-2" },
-                { label: "Dept 3", value: "dept-3" },
-              ]}
-              {...register("department", {
-                required: "Please select a department",
-              })}
-            />
-            {errors.department ? (
-              <Text color="secondary.5" style={{ marginTop: 0 }}>
-                {errors.department.message}
-              </Text>
-            ) : null}
-          </GridItem>
-        </Grid>
-        {/* Row 2 */}
-        <Grid marginBottom={10}>
-          <Textarea
-            minHeight="150px"
-            label="Course description"
-            placeholder={courses?.[0].content}
-            id="description"
-            {...register("description", {
-              required: "Please add a description",
-            })}
-          />
-          {errors.description ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.description.message}
-            </Text>
-          ) : null}
-        </Grid>
-        {/* Row 3 */}
-        <Grid>
-          <Text fontSize="text.level2" marginBottom={10}>
-            Course Image
-          </Text>
-          <Image
-            backgroundColor="accent.3"
-            src={courses?.[0].thumbnail}
-            alt="Course Header"
-            width="223px"
-            height="136px"
-          />
-        </Grid>
-      </EditPageLayout>
-    </>
-  );
+   return isLoading || isError ? (
+     <Flex
+       // Make the height 100% of the screen minus the `height` of the Header and Footer
+       height="calc(100vh - 200px)"
+       justifyContent="center"
+       alignItems="center"
+     >
+       {isLoading ? (
+         <Spinner />
+       ) : isError ? (
+         <Heading color="red.500">{isError}</Heading>
+       ) : null}
+     </Flex>
+   ) : (
+     <>
+       <Box paddingLeft={6}>
+         <Breadcrumb
+           item2={
+             <BreadcrumbItem>
+               <Link href="/admin/courses">Courses</Link>
+             </BreadcrumbItem>
+           }
+           item3={
+             <BreadcrumbItem isCurrentPage>
+               <Link href="#">Edit Courses</Link>
+             </BreadcrumbItem>
+           }
+         />
+       </Box>
+
+       <EditPageLayout
+         title="Edit Course Details"
+         submitButtonText="Save"
+         onSubmit={handleSubmit(onSubmit)}
+       >
+         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+           {/* Row 1 */}
+           <GridItem>
+             <Input
+               label="Course title"
+               id="title"
+               {...register("title", {
+                 required: "Title is required",
+               })}
+             />
+             {errors.title ? (
+               <Text color="secondary.5" style={{ marginTop: 0 }}>
+                 {errors.title.message}
+               </Text>
+             ) : null}
+           </GridItem>
+           <GridItem>
+             <Select
+               label="Select department"
+               options={populateSelectOptions(metadata?.departments)}
+               id="departmentId"
+               isLoading={!metadata?.departments}
+               {...register("departmentId", {
+                 required: "Please select a department",
+               })}
+             />
+             {errors.departmentId ? (
+               <Text color="secondary.5" style={{ marginTop: 0 }}>
+                 {errors.departmentId.message}
+               </Text>
+             ) : null}
+           </GridItem>
+         </Grid>
+         {/* Row 2 */}
+         <Grid marginBottom={10}>
+           <Textarea
+             minHeight="150px"
+             label="Course description"
+             id="description"
+             {...register("description", {
+               required: "Please add a description",
+             })}
+           />
+           {errors.description ? (
+             <Text color="secondary.5" style={{ marginTop: 0 }}>
+               {errors.description.message}
+             </Text>
+           ) : null}
+         </Grid>
+         {/* Row 3 */}
+         <Grid>
+          
+             <Upload id="courseImage" imageUrl={courseDetailsData?.thumbnail} alt="Course Image" label="Course Image" />
+          
+         </Grid>
+       </EditPageLayout>
+     </>
+   );
 };
 
 export const EditCourseInfoPageRoute = ({ component: Component, ...rest }) => {

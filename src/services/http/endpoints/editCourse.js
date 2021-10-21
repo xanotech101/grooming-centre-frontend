@@ -11,9 +11,8 @@ export const adminEditCourse = async (courseId, body) => {
 
   const {
     data: { message, data },
-  } = await http.post(path, body);
+  } = await http.patch(path, body);
 
-console.log(data);
 
   return { message, data: data[0] };
 };
