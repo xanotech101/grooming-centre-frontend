@@ -1,12 +1,21 @@
 import Icon from "@chakra-ui/icon";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalFooter,
+  ModalBody,
+  useDisclosure,
+} from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { BiComment } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
 import { Image, Link, SelectedTags, Text } from "..";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
+import { Button } from "../";
 
 export const QuestionListCard = ({
   id,
@@ -113,11 +122,39 @@ export const ForumMessageCardMoreIconButton = ({ context = "comment" }) => {
 
       <MenuList position="relative" zIndex={2}>
         <MenuItem>Edit {context}</MenuItem>
-        <MenuItem color="secondary.6">Delete {context}</MenuItem>
+
+        <DeleteMenuItemButton context={context} />
       </MenuList>
     </Menu>
   );
 };
+
+function DeleteMenuItemButton({ context }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <MenuItem color="secondary.6" onClick={onOpen}>
+        Delete {context}
+      </MenuItem>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody>
+            Are you sure you want to continue? This action cannot be reversed.
+          </ModalBody>
+
+          <ModalFooter>
+            <Button marginRight={3} onClick={onClose} sm ghost>
+              Close
+            </Button>
+            <Button sm>Delete {context}</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 
 QuestionListCard.propTypes = {
   id: PropTypes.string,
