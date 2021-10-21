@@ -21,36 +21,21 @@ const userForumGetComments = [
   ),
 ];
 
-const userForumAddComment = [
-  rest.post(
-    // TODO: change `method`
-    getUrl("/forum/questions/questionId_1/comments/reply"), // TODO: change `path`
-    handleSuccessResponse(userForumAddCommentRes)
-  ),
-  rest.post(
-    // TODO: change `method`
-    getUrl("/forum/questions/questionId_2/comments/reply"), // TODO: change `path`
-    handleSuccessResponse(userForumAddCommentRes)
-  ),
-];
+const userForumAddComment = rest.post(
+  // TODO: change `method`
+  getUrl("/forum/comment/create"), // TODO: change `path`
+  handleSuccessResponse(userForumAddCommentRes)
+);
 
-const userForumAddReply = [
-  rest.post(
-    // TODO: change `method`
-    getUrl("/forum/comments/commentId_1/reply"), // TODO: change `path`
-    handleSuccessResponse(userForumReplyACommentRes)
-  ),
-  rest.post(
-    // TODO: change `method`
-    getUrl("/forum/comments/commentId_2/reply"), // TODO: change `path`
-    handleSuccessResponse(userForumReplyACommentRes)
-  ),
-];
+const userForumAddReply = rest.post(
+  getUrl("/forum/comment/create"),
+  handleSuccessResponse(userForumReplyACommentRes)
+);
 
 const forumComment = [
   ...userForumGetComments,
-  ...userForumAddComment,
-  ...userForumAddReply,
+  userForumAddComment,
+  userForumAddReply,
 ];
 
 export default forumComment;

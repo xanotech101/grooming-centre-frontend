@@ -3,7 +3,11 @@ import { CommentListCard, ReplyListCard } from "../../../../../components";
 
 const CommentList = ({ data, onReplySuccess }) => {
   return data.map((comment) => (
-    <CommentListItem onReplySuccess={onReplySuccess} comment={comment} />
+    <CommentListItem
+      key={comment.id}
+      onReplySuccess={onReplySuccess}
+      comment={comment}
+    />
   ));
 };
 

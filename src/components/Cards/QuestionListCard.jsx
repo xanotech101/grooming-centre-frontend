@@ -14,7 +14,6 @@ export const QuestionListCard = ({
   commentCount,
   tags,
   user,
-  // isLoading,
   disabled,
   createdAt,
 }) => {
@@ -26,11 +25,20 @@ export const QuestionListCard = ({
     borderRadius: "5px",
   };
 
-  const renderCard = () => (
+  // return disabled ? (
+  //   renderCard()
+  // ) : (
+  //   <Link href={`/forum/questions/details/${id}`} style={boxStyle}>
+  //     {renderCard()}
+  //   </Link>
+  // );
+
+  return (
     <Stack
       padding={6}
       spacing={4}
-      {...(disabled ? boxStyle : {})}
+      {...boxStyle}
+      position="relative"
       _hover={
         !disabled && {
           transform: "scale(1.005)",
@@ -38,33 +46,36 @@ export const QuestionListCard = ({
         }
       }
     >
+      {!disabled && (
+        <Link
+          href={`/forum/questions/details/${id}`}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+        ></Link>
+      )}
+
       <Flex alignItems="center" justifyContent="space-between" marginBottom={2}>
         <HStack spacing={5}>
           <Image
             src={user?.profilePics || thumbnailPlaceholder}
-            // isLoading={isLoading}
             boxSize="40px"
             rounded="full"
           />
 
           <Box flex={1}>
-            {/* {isLoading ? (
-          <>
-            <SkeletonText numberOfLines={2} />
-          </>
-        ) : (
-          <> */}
             <Text bold>{capitalizeWords(user.fullName)}</Text>
             <Text as="level5" color="accent.3">
               {createdAt}
             </Text>
-            {/* </>
-        )
-        } */}
           </Box>
         </HStack>
 
-        <Button asIcon ghost link="#">
+        <Button asIcon ghost position="relative" zIndex={1}>
           <HiDotsVertical />
         </Button>
       </Flex>
@@ -87,14 +98,6 @@ export const QuestionListCard = ({
         </Flex>
       </Flex>
     </Stack>
-  );
-
-  return disabled ? (
-    renderCard()
-  ) : (
-    <Link href={`/forum/questions/details/${id}`} style={boxStyle}>
-      {renderCard()}
-    </Link>
   );
 };
 

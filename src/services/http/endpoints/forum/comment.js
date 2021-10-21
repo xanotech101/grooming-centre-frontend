@@ -46,32 +46,46 @@ export const userForumGetComments = async (questionId) => {
 
 /**
  * Endpoint to add a forum comment
- * @param {{ id: string, text: string }} body // TODO: signature might change
+ * @param {{ comment: string, questionId: string, userId: string }} body
  *
- * @returns {Promise<{ message: string }>}
+ * @returns {Promise<{ message: string, data: { id: string, body: string, questionId: string, likes: number, dislikes: number, createdAt: Date } }>}
  */
 export const userForumAddComment = async (body) => {
-  const path = `/forum/questions/${body.id}/comments/reply`; // TODO: change path
+  const path = `/forum/comment/create`;
 
   const {
-    data: { message },
-  } = await http.post(path, { commentText: body.text });
+    data: { message, data },
+  } = await http.post(path, { ...body, type: 1 });
 
-  return { message };
+  const comment = {
+    id: data.id,
+    body: data.comment,
+    questionId: data.questionId,
+    createdAt: data.createdAt,
+    likes: data.likes,
+    dislikes: data.dislikes,
+  };
+
+  return { message, data: comment };
 };
 
 /**
  * Endpoint to add a forum reply
- * @param {{ id: string, text: string }} body // TODO: signature might change
+ * @param {{ comment: string, questionId: string, userId: string, commentId: string }} body
  *
- * @returns {Promise<{ message: string }>}
+ * @returns {Promise<{ message: string, data: { id: string, body: string }}>}
  */
 export const userForumAddReply = async (body) => {
-  const path = `/forum/comments/${body.id}/reply`; // TODO: change path
+  const path = `/forum/comment/create`;
 
   const {
-    data: { message },
-  } = await http.post(path, { replyText: body.text });
+    data: { message, data },
+  } = await http.post(path, { ...body, type: 2 });
 
-  return { message };
+  const reply = {
+    id: data.id,
+    body: data.comment,
+  };
+
+  return { message, data: reply };
 };

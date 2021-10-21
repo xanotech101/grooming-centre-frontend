@@ -1,9 +1,22 @@
 export const userForumReplyACommentRes = {
   message: "comment replied successfully",
+  data: {
+    id: `${Date.now()}`,
+    comment: "I love this comment",
+    commentId: "commentId_1",
+  },
 };
 
 export const userForumAddCommentRes = {
   message: "comment added successfully",
+  data: {
+    id: `${Date.now()}`,
+    comment: "I love this question",
+    questionId: "questionId_1",
+    createdAt: "2021-10-20T05:37:27.110Z",
+    likes: 0,
+    dislikes: 0,
+  },
 };
 
 export const userForumGetCommentsRes_questionId_1 = {

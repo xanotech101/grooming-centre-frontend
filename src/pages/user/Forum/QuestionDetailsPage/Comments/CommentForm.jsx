@@ -22,7 +22,6 @@ const CommentForm = ({
   const {
     state: { user },
   } = useApp();
-  const id = commentId || questionId;
 
   const {
     register,
@@ -33,10 +32,10 @@ const CommentForm = ({
 
   const onSubmit = async (data) => {
     try {
-      const body = { id, text: data.text };
+      const body = { comment: data.text, questionId, userId: user?.id };
 
-      const { message } = await (isReply
-        ? userForumAddReply(body)
+      const { message, data: responseData } = await (isReply
+        ? userForumAddReply({ ...body, commentId })
         : userForumAddComment(body));
 
       toast({
@@ -53,21 +52,14 @@ const CommentForm = ({
 
       if (isReply) {
         const reply = {
-          id: uuid(),
-          body: data.text,
+          ...responseData,
           user: currentUser,
         };
 
-        onReplySuccess(id, reply);
+        onReplySuccess(commentId, reply);
       } else {
         const comment = {
-          id: uuid(),
-          // questionId: comment.questionId, // TODO: delete or add the real payload
-          createdAt: `few seconds ago`,
-          body: data.text,
-          likes: 0,
-          dislikes: 0,
-          replyCount: 0,
+          ...responseData,
           user: currentUser,
           replies: [],
         };
