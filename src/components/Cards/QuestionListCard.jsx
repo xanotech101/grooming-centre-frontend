@@ -1,9 +1,10 @@
 import Icon from "@chakra-ui/icon";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { BiComment } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
-import { Button, Image, Link, SelectedTags, Text } from "..";
+import { Image, Link, SelectedTags, Text } from "..";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
 
@@ -75,9 +76,7 @@ export const QuestionListCard = ({
           </Box>
         </HStack>
 
-        <Button asIcon ghost position="relative" zIndex={1}>
-          <HiDotsVertical />
-        </Button>
+        <ForumMessageCardMoreIconButton />
       </Flex>
 
       <Text bold as="level3">
@@ -98,6 +97,25 @@ export const QuestionListCard = ({
         </Flex>
       </Flex>
     </Stack>
+  );
+};
+
+export const ForumMessageCardMoreIconButton = ({ context = "comment" }) => {
+  return (
+    <Menu placement="bottom-end">
+      <MenuButton
+        padding={2}
+        rounded="full"
+        _hover={{ backgroundColor: "secondary.05" }}
+      >
+        <HiDotsVertical />
+      </MenuButton>
+
+      <MenuList position="relative" zIndex={2}>
+        <MenuItem>Edit {context}</MenuItem>
+        <MenuItem color="secondary.6">Delete {context}</MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

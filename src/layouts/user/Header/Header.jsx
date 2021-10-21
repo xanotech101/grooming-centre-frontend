@@ -60,7 +60,9 @@ const Avatar = () => {
           <MenuItem>Examination</MenuItem>
         </MenuGroup>
         <MenuDivider />
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout} color="secondary.6">
+          Logout
+        </MenuItem>
       </MenuList>
     </Menu>
   );

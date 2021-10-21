@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { FiChevronsDown, FiCornerDownRight } from "react-icons/fi";
-import { HiDotsVertical } from "react-icons/hi";
-import { Button, Image, Text } from "..";
+import { Image, Text } from "..";
+import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
 import CommentForm from "../../pages/user/Forum/QuestionDetailsPage/Comments/CommentForm";
@@ -64,9 +64,7 @@ export const CommentListCard = ({
           </Box>
         </HStack>
 
-        <Button asIcon ghost fontSize="text.level3">
-          <HiDotsVertical />
-        </Button>
+        <ForumMessageCardMoreIconButton context="reply" />
       </Flex>
 
       <Text paddingBottom={2}>{body}</Text>
