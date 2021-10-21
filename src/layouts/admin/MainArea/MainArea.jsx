@@ -10,8 +10,8 @@ import {
   NotFoundPageRoute,
   UserInfoPageRoute,
   ViewCourseInfoPageRoute,
+  ViewLessonInfoPageRoute,
   UserListingPageRoute,
-  
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -27,6 +27,10 @@ const MainArea = () => {
             path="/admin/courses/:id/lessons/create"
           />
           <ViewCourseInfoPageRoute path="/admin/courses/details" />
+          <ViewLessonInfoPageRoute
+            exact
+            path="/admin/courses/:courseId/lesson/:lessonId/view"
+          />
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
           <UserInfoPageRoute path="/admin/users/details" />
