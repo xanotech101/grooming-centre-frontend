@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { forwardRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { Button } from "..";
+import { Button, Image } from "..";
 import FormGroup, { FormGroupPropTypes } from "./FormGroup";
 
 export const Upload = forwardRef(
@@ -16,6 +16,8 @@ export const Upload = forwardRef(
       id,
       isRequired,
       isMini,
+      imageUrl,
+      alt,
       label,
       onFileSelect,
       width = "100%",
@@ -36,39 +38,56 @@ export const Upload = forwardRef(
       onDrop,
     });
 
-    const renderContent = (props) => (
-      <Flex
-        flexDirection="column"
-        justifyContent="center"
-        width={width}
-        padding={5}
-        border="1px dashed"
-        {...props}
-        {...getRootProps()}
-      >
-        <Input ref={ref} {...getInputProps()} {...rest} />
+    const renderContent = (props) => {
+      
 
-        <Stack alignItems="center" textAlign="center" spacing={2}>
-          <Box>
-            <Icon color="primary.base" fontSize="25px" width="30px">
-              <FaCloudUploadAlt />
-            </Icon>
+      const style = !imageUrl ? {
+        flexDirection:"column",
+        justifyContent:"center",
+        width,
+        padding: 5,
+        border: "1px dashed",
+      }: {}
 
-            {isDragActive ? (
-              <Text>Drop The File Here ...</Text>
-            ) : (
-              <Text>Drag & Drop Your Files Here</Text>
-            )}
-          </Box>
+      return (
+        <Flex {...style} {...props} {...getRootProps()}>
+          <Input ref={ref} {...getInputProps()} {...rest} />
 
-          <Text color="accent.2">Or</Text>
+          {imageUrl ? (
+            <>
+              <Image src={imageUrl} width="223px" height="136px" alt={alt} />
+              <MiniUploadContent
+                getRootProps={getRootProps}
+                getInputProps={getInputProps}
+                hideImage
+                wrapperProps={{ alignItems: "flex-end", paddingLeft: "16px" }}
+                props={props}
+                rest={{ ...rest }}
+              />
+            </>
+          ) : (
+            <Stack alignItems="center" textAlign="center" spacing={2}>
+              <Box>
+                <Icon color="primary.base" fontSize="25px" width="30px">
+                  <FaCloudUploadAlt />
+                </Icon>
 
-          <Button width="fit-content" sm>
-            Browse files
-          </Button>
-        </Stack>
-      </Flex>
-    );
+                {isDragActive ? (
+                  <Text>Drop The File Here ...</Text>
+                ) : (
+                  <Text>Drag & Drop Your Files Here</Text>
+                )}
+              </Box>
+
+              <Text color="accent.2">Or</Text>
+
+              <Button width="fit-content" sm>
+                Browse files
+              </Button>
+            </Stack>
+          )}
+        </Flex>
+      );};
 
     return (
       <FormGroup
@@ -94,9 +113,12 @@ export const Upload = forwardRef(
 );
 
 const MiniUploadContent = forwardRef(
-  ({ getRootProps, getInputProps, props, rest }, ref) => (
-    <Flex alignItems="center">
-      <Skeleton boxSize="60px" rounded="full" marginRight={5} />
+  (
+    { getRootProps, getInputProps, hideImage, wrapperProps, props, rest },
+    ref
+  ) => (
+    <Flex alignItems="center" {...wrapperProps}>
+      {!hideImage && <Skeleton boxSize="60px" rounded="full" marginRight={5} />}
 
       <Box {...props} {...getRootProps()}>
         <Input ref={ref} {...getInputProps()} {...rest} />
