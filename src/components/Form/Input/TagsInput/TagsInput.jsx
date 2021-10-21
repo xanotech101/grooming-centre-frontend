@@ -12,52 +12,73 @@ const getTagInput = () => {
   return tagsInput;
 };
 
-export const TagsInput = forwardRef((props, ref) => {
-  const debounce = useDebounceTyping();
-  const { selectedTags, handleTagSearch, tagsResult, handleClearResource } =
-    useTagsInput(props);
+export const TagsInput = forwardRef(
+  (
+    {
+      onChange,
+      onTagSelect,
+      onTagDeselect,
+      isCreatingTag,
+      selectedTags: propSelectedTags,
+      ...rest
+    },
+    ref
+  ) => {
+    const props = {
+      onChange,
+      onTagSelect,
+      onTagDeselect,
+      isCreatingTag,
+      propSelectedTags,
+    };
 
-  const handleTagType = (e) => {
-    handleClearResource();
-    debounce.handleType(e, handleTagSearch);
-    props.onChange(e);
-  };
+    const debounce = useDebounceTyping();
+    const { selectedTags, handleTagSearch, tagsResult, handleClearResource } =
+      useTagsInput(props);
 
-  const handleTagSelect = (tag) => {
-    props.onTagSelect(tag);
-    handleClearResource();
-    getTagInput().value = "";
-    getTagInput().focus();
-  };
-
-  const inputTagInput = getTagInput();
-
-  useEffect(() => {
-    if (!inputTagInput?.value) {
+    const handleTagType = (e) => {
       handleClearResource();
-    }
+      debounce.handleType(e, handleTagSearch);
+      onChange(e);
+    };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputTagInput?.value]);
+    const handleTagSelect = (tag) => {
+      onTagSelect(tag);
+      handleClearResource();
+      getTagInput().value = "";
+      getTagInput().focus();
+    };
 
-  const handleTagDeselect = (tag) => {
-    props.onTagDeselect(tag);
-  };
+    const inputTagInput = getTagInput();
 
-  return (
-    <Box position="relative">
-      <Input
-        ref={ref}
-        {...props}
-        onChange={handleTagType}
-        isLoading={tagsResult.loading}
-      />
+    useEffect(() => {
+      if (!inputTagInput?.value) {
+        handleClearResource();
+      }
 
-      {tagsResult.data && (
-        <TagsResult results={tagsResult.data} onTagSelect={handleTagSelect} />
-      )}
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputTagInput?.value]);
 
-      <SelectedTags tags={selectedTags} onTagDeselect={handleTagDeselect} />
-    </Box>
-  );
-});
+    const handleTagDeselect = (tag) => {
+      onTagDeselect(tag);
+    };
+
+    return (
+      <Box position="relative">
+        <Input
+          ref={ref}
+          {...rest}
+          onChange={handleTagType}
+          isLoading={tagsResult.loading || isCreatingTag}
+          disabled={isCreatingTag}
+        />
+
+        {tagsResult.data && (
+          <TagsResult results={tagsResult.data} onTagSelect={handleTagSelect} />
+        )}
+
+        <SelectedTags tags={selectedTags} onTagDeselect={handleTagDeselect} />
+      </Box>
+    );
+  }
+);

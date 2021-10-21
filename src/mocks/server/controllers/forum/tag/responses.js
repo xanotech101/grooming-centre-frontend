@@ -10,3 +10,10 @@ export const userForumGetTagsRes = {
     },
   ],
 };
+
+export const userForumCreateTagRes = {
+  data: {
+    id: "newTagId_1",
+    title: "new tag",
+  },
+};

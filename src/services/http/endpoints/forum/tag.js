@@ -19,3 +19,24 @@ export const userForumGetTags = async () => {
 
   return { tags };
 };
+
+/**
+ * Endpoint to create forum tag
+ * @param {{ title: string }} body
+ *
+ * @returns {Promise<{ tag: { value: string, label: string }}>}
+ */
+export const userForumCreateTag = async (body) => {
+  const path = `/forum/tag/create`;
+
+  const {
+    data: { data },
+  } = await http.post(path, body);
+
+  const tag = {
+    id: data.id,
+    label: data.title,
+  };
+
+  return { tag };
+};
