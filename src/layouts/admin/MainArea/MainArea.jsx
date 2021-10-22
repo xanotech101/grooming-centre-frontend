@@ -10,6 +10,7 @@ import {
   NotFoundPageRoute,
   UserInfoPageRoute,
   ViewCourseInfoPageRoute,
+  ViewLessonInfoPageRoute,
   UserListingPageRoute,
   EditCourseInfoPageRoute,
   
@@ -29,6 +30,10 @@ const MainArea = () => {
           />
           <EditCourseInfoPageRoute exact path="/admin/course/edit/:id" />
           <ViewCourseInfoPageRoute path="/admin/courses/details" />
+          <ViewLessonInfoPageRoute
+            exact
+            path="/admin/courses/:courseId/lesson/:lessonId/view"
+          />
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
           <UserInfoPageRoute path="/admin/users/details" />
