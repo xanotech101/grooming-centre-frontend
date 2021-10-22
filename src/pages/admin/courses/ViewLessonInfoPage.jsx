@@ -56,6 +56,7 @@ const ViewLessonInfoPage = () => {
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
+            link={`/admin/course/${lesson?.courseId}/lesson/edit/${lesson?.id}`}
           >
             Edit
           </Button>
@@ -110,10 +111,7 @@ const ViewLessonInfoPage = () => {
                         Active
                       </Badge>
                     ) : null || lesson?.active === false ? (
-                      <Badge
-                        variant="subtle"
-                        colorScheme="red"
-                      >
+                      <Badge variant="subtle" colorScheme="red">
                         Inactive
                       </Badge>
                     ) : null}
