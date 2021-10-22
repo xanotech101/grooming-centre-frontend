@@ -1,8 +1,8 @@
-export * from "./admin";
+export * from "./admin/AdminLayout";
 export * from "./admin/CreatePageLayout";
 export * from "./admin/MainArea/Wrapper";
 export * from "./global/PageLoader/PageLoaderLayout";
-export * from "./user";
+export * from "./user/UserLayout";
 export * from "./user/Assessment/AssessmentLayout";
 export * from "./user/Courses/CoursesGridLayout";
 export * from "./user/Courses/CoursesRowLayout";
@@ -10,3 +10,4 @@ export * from "./user/Courses/TakeCourse/TakeCourseLayout";
 export * from "./user/Forum/ForumLayout";
 export * from "./user/OnBoardingLayout/FormLayout";
 export * from "./user/OnBoardingLayout/OnBoardingLayout";
+export * from "./admin/EditPageLayout";

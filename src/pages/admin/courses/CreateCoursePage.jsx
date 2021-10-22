@@ -1,18 +1,39 @@
 import { Grid, GridItem } from "@chakra-ui/layout";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Input, Textarea, Select, Text, Breadcrumb, Link } from "../../../components";
+import { Input, Textarea, Select, Text, Breadcrumb, Link, Upload, Checkbox } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { useApp } from "../../../contexts";
+import { capitalizeWords } from "../../../utils";
+import { useHistory } from "react-router";
 
-const CreateCoursePage = () => {
+const CreateCoursePage = ({ metadata: propMetadata }) => {
   const {
     register,
-    handleSubmit, formState: { errors },
+    handleSubmit,
+    formState: { errors },
   } = useForm();
+
+  const history = useHistory();
+
+
+  const appManager = useApp();
+
+  const metadata = propMetadata || appManager.state.metadata;
 
   const onSubmit = async (data) => {
     console.log(data);
+     setTimeout(() => {
+       history.push(`/admin/courses/details/courseId_1/info`);
+     }, 5000);
+  };
+
+  const populateSelectOptions = (data, filterBody = () => true) => {
+    return data?.filter(filterBody)?.map((item) => ({
+      label: capitalizeWords(item.name),
+      value: item.id,
+    }));
   };
 
   return (
@@ -55,25 +76,23 @@ const CreateCoursePage = () => {
           </GridItem>
           <GridItem>
             <Select
-              label="Course department"
-              options={[
-                { label: "Dept 1", value: "dept-1" },
-                { label: "Dept 2", value: "dept-2" },
-                { label: "Dept 3", value: "dept-3" },
-              ]}
-              {...register("department", {
-                required: "Please select a department",
-              })}
-            />
-            {errors.department ? (
-              <Text color="secondary.5" style={{ marginTop: 0 }}>
-                {errors.department.message}
-              </Text>
-            ) : null}
+               label="Select department"
+               options={populateSelectOptions(metadata?.departments)}
+               id="departmentId"
+               isLoading={!metadata?.departments}
+               {...register("departmentId", {
+                 required: "Please select a department",
+               })}
+             />
+             {errors.departmentId ? (
+               <Text color="secondary.5" style={{ marginTop: 0 }}>
+                 {errors.departmentId.message}
+               </Text>
+             ) : null}
           </GridItem>
         </Grid>
         {/* Row 2 */}
-        <Grid mb={16}>
+        <Grid marginBottom={10}>
           <Textarea
             minHeight="150px"
             label="Course description"
@@ -87,6 +106,37 @@ const CreateCoursePage = () => {
               {errors.description.message}
             </Text>
           ) : null}
+        </Grid>
+        {/* Row 3 */}
+        <Grid marginBottom={10}>
+          <GridItem colSpan={2}>
+            <Upload
+              id="courseFile"
+              label="Course Image"
+              isRequired
+              onFileSelect={(file) => console.log(file)}
+            />
+          </GridItem>
+        </Grid>
+        {/* Row 4 */}
+        <Grid marginBottom={10}>
+          <GridItem colSpan={2}>
+            <Upload
+              id="course-certificate"
+              label="Course Certificate"
+              isRequired
+              onFileSelect={(file) => console.log(file)}
+            />
+          </GridItem>
+        </Grid>
+        {/* Row 5 */}
+        <Grid marginBottom={10}>
+          <GridItem>
+            <Checkbox
+              label="Use default certificate"
+              borderColor="primary.base"
+            />
+          </GridItem>
         </Grid>
       </CreatePageLayout>
     </>

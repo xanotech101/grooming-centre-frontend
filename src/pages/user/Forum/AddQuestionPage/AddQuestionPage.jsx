@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/toast";
 import { Box, Stack } from "@chakra-ui/layout";
 import { useState } from "react";
 import { Route } from "react-router-dom";
@@ -10,8 +11,9 @@ import {
 } from "../../../../components";
 import { getTagInput } from "../../../../components/Form/Input/TagsInput/hooks/useTagsInput";
 import { useSelectedTags } from "../../../../hooks";
+import { capitalizeFirstLetter } from "../../../../utils";
+import { userForumCreateTag } from "../../../../services";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
-import { v4 as uuid } from "uuid";
 
 const AddQuestionPage = () => {
   const {
@@ -21,23 +23,39 @@ const AddQuestionPage = () => {
     handleClearAllSelectedTags,
   } = useSelectedTags();
 
-  const { categories, formManager, handleSubmit } = useAddQuestionPage({
-    selectedTags,
-    handleClearAllSelectedTags,
-  });
+  const { categories, formManager, handleSubmit, disableForm } =
+    useAddQuestionPage({
+      selectedTags,
+      handleClearAllSelectedTags,
+    });
 
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
 
   const [typedTagValue, setTypedTagValue] = useState("");
 
-  const handleTagInputEnterKeyPress = ({ key }) => {
-    if (key === "Enter") {
-      const tag = { id: `no-id--${uuid()}`, label: typedTagValue };
+  const [isCreatingTag, setIsCreatingTag] = useState(false);
+  const toast = useToast();
 
-      handleTagSelectMany(tag);
-      getTagInput().value = "";
-      getTagInput().focus();
+  const handleTagInputEnterKeyPress = async ({ key }) => {
+    if (key === "Enter") {
+      try {
+        setIsCreatingTag(true);
+
+        const { tag } = await userForumCreateTag({ title: typedTagValue });
+
+        handleTagSelectMany(tag);
+        getTagInput().value = "";
+        getTagInput().focus();
+      } catch (err) {
+        toast({
+          description: capitalizeFirstLetter(err.message),
+          position: "top",
+          status: "error",
+        });
+      } finally {
+        setIsCreatingTag(false);
+      }
     }
   };
 
@@ -106,15 +124,18 @@ const AddQuestionPage = () => {
         <TagsInput
           id="tags"
           placeholder="Choose up to three tags"
+          onKeyUp={handleTagInputEnterKeyPress}
           selectedTags={selectedTags}
           onChange={handleTagType}
-          onKeyUp={handleTagInputEnterKeyPress}
           onTagSelect={handleTagSelectMany}
           onTagDeselect={handleTagDeselect}
+          isCreatingTag={isCreatingTag}
         />
 
         <Box textAlign="right" paddingTop={2}>
-          <Button type="submit">Publish</Button>
+          <Button type="submit" disabled={disableForm} isLoading={disableForm}>
+            Publish
+          </Button>
         </Box>
       </Stack>
     </Box>

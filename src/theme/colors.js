@@ -30,6 +30,8 @@ const colors = {
     2: "#46BD84",
     3: "#800020",
     4: "#0083E2",
+    5: "#4FAC16",
+    6: "#DCFDD4",
   },
   white: "#FFFFFF",
   black: "#000000",
