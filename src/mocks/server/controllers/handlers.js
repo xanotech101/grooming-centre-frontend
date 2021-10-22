@@ -8,6 +8,7 @@ import coursesOverview from "./coursesoverview/endpoints";
 import certificate from "./certificate/endpoints";
 import forumQuestion from "./forum/question/endpoints";
 import forumTag from "./forum/tag/endpoints";
+import forumComment from "./forum/comment/endpoints";
 import editCourse from "./editcourseinfo/endpoints";
 
 const commonHandlers = [
@@ -19,8 +20,9 @@ const commonHandlers = [
   ...certificate,
   ...examination,
   ...assessment,
-  ...forumQuestion,
   ...forumTag,
+  ...forumQuestion,
+  ...forumComment,
   ...editCourse,
 ];
 

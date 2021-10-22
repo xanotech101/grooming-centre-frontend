@@ -41,8 +41,10 @@ export const Input = forwardRef(
   }
 );
 
-Input.propTypes = {
+export const InputPropTypes = {
   ...FormGroupPropTypes,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
+
+Input.propTypes = InputPropTypes;

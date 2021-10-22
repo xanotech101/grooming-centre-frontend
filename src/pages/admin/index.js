@@ -12,3 +12,7 @@ export * from "./users/UserInfoPage/layout/UserInfoPage";
 export * from "./users/UserInfoPage/pages/ProfilePage";
 export * from "./courses/EditCourseInfoPage";
 export * from "./courses/EditLessonInfoPage";
+export * from "./courses/CreateAssessmentPage/layout/CreateAssessmentPage";
+
+
+

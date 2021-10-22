@@ -1,25 +1,22 @@
 import { Text as TextChakraui } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 
-export const Text = ({
-  as = "level4",
-  bold,
-  children,
-  italic,
-  fontSize,
-  ...rest
-}) => {
-  return (
-    <TextChakraui
-      fontWeight={bold ? "bold" : "regular"}
-      fontSize={fontSize || `text.${as}`}
-      fontStyle={italic && "italic"}
-      {...rest}
-    >
-      {children}
-    </TextChakraui>
-  );
-};
+export const Text = forwardRef(
+  ({ as = "level4", bold, children, italic, fontSize, ...rest }, ref) => {
+    return (
+      <TextChakraui
+        fontWeight={bold ? "bold" : "regular"}
+        fontSize={fontSize || `text.${as}`}
+        fontStyle={italic && "italic"}
+        ref={ref}
+        {...rest}
+      >
+        {children}
+      </TextChakraui>
+    );
+  }
+);
 
 Text.propTypes = {
   as: PropTypes.oneOf([
