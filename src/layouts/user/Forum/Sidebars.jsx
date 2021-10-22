@@ -23,19 +23,19 @@ const menuLinks = [
     icon: <BsTag />,
   },
   {
-    href: "/forum/mentions?tab=new",
+    href: "/forum/mentions",
     text: "Mentions",
     icon: <BsTag />,
   },
 ];
 const personalNavLinks = [
   {
-    href: "/forum/your-questions?tab=new",
+    href: "/forum/your-questions",
     text: "Your questions",
     icon: <AiOutlineQuestionCircle />,
   },
   {
-    href: "/forum/your-answers?tab=new",
+    href: "/forum/your-answers",
     text: "Your answers",
     icon: <AiOutlineComment />,
   },

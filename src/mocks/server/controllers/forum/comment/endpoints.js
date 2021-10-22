@@ -6,6 +6,7 @@ import {
   userForumGetCommentsRes_questionId_2,
   userForumAddCommentRes,
   userForumReplyACommentRes,
+  userForumGetYourAnswersRes,
 } from "./responses";
 
 const userForumGetComments = [
@@ -21,6 +22,12 @@ const userForumGetComments = [
   ),
 ];
 
+const userForumGetYourAnswers = rest.get(
+  // TODO: change `method`
+  getUrl("/forum/your-answers"), // TODO: change `path`
+  handleSuccessResponse(userForumGetYourAnswersRes)
+);
+
 const userForumAddComment = rest.post(
   // TODO: change `method`
   getUrl("/forum/comment/create"), // TODO: change `path`
@@ -34,6 +41,7 @@ const userForumAddReply = rest.post(
 
 const forumComment = [
   ...userForumGetComments,
+  userForumGetYourAnswers,
   userForumAddComment,
   userForumAddReply,
 ];

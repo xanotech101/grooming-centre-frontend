@@ -78,3 +78,45 @@ export const userForumGetCommentsRes_questionId_1 = {
 export const userForumGetCommentsRes_questionId_2 = {
   data: [],
 };
+
+export const userForumGetYourAnswersRes = {
+  data: [
+    {
+      id: "commentId_1",
+      questionId: "questionId_1",
+      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      createdAt: new Date(),
+      likes: 2,
+      dislikes: 21,
+      replies: [],
+    },
+    {
+      id: "commentId_2",
+      questionId: "questionId_1",
+      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      createdAt: new Date(),
+      likes: 2,
+      dislikes: 21,
+      replies: [
+        {
+          id: "replyId_1",
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          user: {
+            id: "userId_1",
+            firstName: "jane",
+            lastName: "bar",
+          },
+        },
+        {
+          id: "replyId_2",
+          body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+          user: {
+            id: "userId_1",
+            firstName: "jane",
+            lastName: "bar",
+          },
+        },
+      ],
+    },
+  ],
+};

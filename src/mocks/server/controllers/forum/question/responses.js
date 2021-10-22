@@ -28,7 +28,6 @@ export const userForumGetQuestionsRes = {
         title: "File uploadrgo",
         question: "How to upload files to cloudinary",
         createdAt: "2021-10-19T23:37:54.484Z",
-        // "categoryId": "859a3300-3054-4bab-8d24-d01909d0f150",
         userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f",
         tags: [
           { id: "forumTagId_1", name: "javascript" },
@@ -48,7 +47,6 @@ export const userForumGetQuestionsRes = {
         title: "File uploaders",
         question: "How to upload files to cloudinary",
         createdAt: "2021-10-20T05:16:51.057Z",
-        // "categoryId": "859a3300-3054-4bab-8d24-d01909d0f150",
         userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f",
         tags: [
           { id: "forumTagId_1", name: "javascript" },
@@ -73,7 +71,6 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
     title: "File uploaders",
     question: "How to upload files to cloudinary",
     createdAt: "2021-10-20T05:16:51.057Z",
-    // "categoryId": "859a3300-3054-4bab-8d24-d01909d0f150",
     user: {
       id: "userId_2",
       profilePics:
@@ -133,7 +130,6 @@ export const userForumGetQuestionDetailsRes_questionId_2 = {
     title: "File uploaders",
     question: "How to upload files to cloudinary",
     createdAt: "2021-10-20T05:16:51.057Z",
-    // "categoryId": "859a3300-3054-4bab-8d24-d01909d0f150",
     userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f", // TODO: won't take this
     // TODO: propose to the backend team
     user: {

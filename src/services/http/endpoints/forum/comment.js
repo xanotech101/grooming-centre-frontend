@@ -2,6 +2,43 @@ import { getFullName } from "../../../../utils";
 import { http } from "../../http";
 
 /**
+ * Endpoint to get the current user forum answers
+ *
+ * @returns {
+ *   Promise<{
+ *     comments: Array<Comment>
+ *   }>
+ * }
+ */
+export const userForumGetYourAnswers = async () => {
+  const path = `/forum/your-answers`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const comments = data.map((comment) => ({
+    id: comment.id,
+    questionId: comment.questionId,
+    createdAt: comment.createdAt,
+    body: comment.body,
+    replyCount: comment.replies.length,
+    likes: comment.likes,
+    dislikes: comment.dislikes,
+    replies: comment.replies.map((reply) => ({
+      id: reply.id,
+      body: reply.body,
+      user: {
+        id: reply.user.id,
+        fullName: getFullName(reply.user),
+      },
+    })),
+  }));
+
+  return { comments };
+};
+
+/**
  * Endpoint to get forum comments
  * @param {string} questionId
  *
