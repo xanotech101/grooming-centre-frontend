@@ -39,6 +39,48 @@ export const userForumGetYourAnswers = async () => {
 };
 
 /**
+ * Endpoint to get forum mentions
+ *
+ * @returns {
+ *   Promise<{
+ *     comments: Array<Comment>
+ *   }>
+ * }
+ */
+export const userForumGetMentions = async () => {
+  const path = `/forum/mentions`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const comments = data.map((comment) => ({
+    id: comment.id,
+    questionId: comment.questionId,
+    createdAt: comment.createdAt,
+    body: comment.body,
+    replyCount: comment.replies.length,
+    likes: comment.likes,
+    dislikes: comment.dislikes,
+    user: {
+      id: comment.user.id,
+      profilePics: comment.user.profilePics,
+      fullName: getFullName(comment.user),
+    },
+    replies: comment.replies.map((reply) => ({
+      id: reply.id,
+      body: reply.body,
+      user: {
+        id: reply.user.id,
+        fullName: getFullName(reply.user),
+      },
+    })),
+  }));
+
+  return { comments };
+};
+
+/**
  * Endpoint to get forum comments
  * @param {string} questionId
  *

@@ -6,6 +6,7 @@ import {
   userForumGetCommentsRes_questionId_2,
   userForumAddCommentRes,
   userForumReplyACommentRes,
+  userForumGetMentionsRes,
   userForumGetYourAnswersRes,
 } from "./responses";
 
@@ -22,12 +23,6 @@ const userForumGetComments = [
   ),
 ];
 
-const userForumGetYourAnswers = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/your-answers"), // TODO: change `path`
-  handleSuccessResponse(userForumGetYourAnswersRes)
-);
-
 const userForumAddComment = rest.post(
   // TODO: change `method`
   getUrl("/forum/comment/create"), // TODO: change `path`
@@ -39,9 +34,22 @@ const userForumAddReply = rest.post(
   handleSuccessResponse(userForumReplyACommentRes)
 );
 
+const userForumGetYourAnswers = rest.get(
+  // TODO: change `method`
+  getUrl("/forum/your-answers"), // TODO: change `path`
+  handleSuccessResponse(userForumGetYourAnswersRes)
+);
+
+const userForumGetMentions = rest.get(
+  // TODO: change `method`
+  getUrl("/forum/mentions"), // TODO: change `path`
+  handleSuccessResponse(userForumGetMentionsRes)
+);
+
 const forumComment = [
   ...userForumGetComments,
   userForumGetYourAnswers,
+  userForumGetMentions,
   userForumAddComment,
   userForumAddReply,
 ];
