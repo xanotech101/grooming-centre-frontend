@@ -7,6 +7,7 @@ import {
   userForumGetQuestionsRes,
   userForumGetQuestionDetailsRes_questionId_1,
   userForumGetQuestionDetailsRes_questionId_2,
+  userForumGetYourQuestionsRes,
 } from "./responses";
 
 const userForumGetQuestions = rest.get(
@@ -40,10 +41,17 @@ const userForumGetQuestionDetails = [
   ),
 ];
 
+const userForumGetYourQuestions = rest.get(
+  // TODO: change `method`
+  getUrl("/forum/your-questions"), // TODO: change `path`
+  handleSuccessResponse(userForumGetYourQuestionsRes)
+);
+
 const forumQuestion = [
   userForumGetCategories,
   userForumPublishQuestion,
   userForumGetQuestions,
+  userForumGetYourQuestions,
   ...userForumGetQuestionDetails,
 ];
 

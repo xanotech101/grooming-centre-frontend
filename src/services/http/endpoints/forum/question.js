@@ -2,6 +2,37 @@ import { truncateText } from "../../../../utils";
 import { http } from "../../http";
 
 /**
+ * Endpoint to get the current user forum questions
+ *
+ * @returns {
+ *   Promise<{
+ *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, commentCount: number }>
+ *   }>
+ * }
+ */
+export const userForumGetYourQuestions = async () => {
+  const path = `/forum/your-questions`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const questions = data.rows.map((question) => ({
+    id: question.id,
+    title: question.title,
+    body: truncateText(question.question, 100),
+    createdAt: question.createdAt,
+    // TODO: propose to the backend team
+    tags: question.tags.map((tag) => ({
+      id: tag.id,
+      label: tag.name,
+    })),
+    commentCount: question.commentCount, // TODO: propose to the backend team
+  }));
+
+  return { questions };
+};
+/**
  * Endpoint to get forum questions
  *
  * @returns {
