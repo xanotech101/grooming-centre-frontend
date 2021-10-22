@@ -1,11 +1,7 @@
 import { useEffect } from "react";
-import { useCallback } from "react";
-import { useParams } from "react-router";
 import { useFetch } from "../../../../../hooks";
-import { userForumGetComments } from "../../../../../services";
 
-const useComments = () => {
-  const { id } = useParams();
+const useComments = (fetcher) => {
   const {
     resource: comments,
     setResource: setComments,
@@ -26,18 +22,10 @@ const useComments = () => {
 
     setComments((prev) => ({ ...prev, data: newComments }));
   };
-
-  const fetcher = useCallback(async () => {
-    const { comments } = await userForumGetComments(id);
-    return comments;
-  }, [id]);
-
   // Handle fetch category
   useEffect(() => {
     handleFetchResource({ fetcher });
   }, [handleFetchResource, fetcher]);
-
-  console.log(comments);
 
   return {
     comments,

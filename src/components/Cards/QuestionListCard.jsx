@@ -35,14 +35,6 @@ export const QuestionListCard = ({
     borderRadius: "5px",
   };
 
-  // return disabled ? (
-  //   renderCard()
-  // ) : (
-  //   <Link href={`/forum/questions/details/${id}`} style={boxStyle}>
-  //     {renderCard()}
-  //   </Link>
-  // );
-
   return (
     <Stack
       padding={6}
@@ -85,7 +77,7 @@ export const QuestionListCard = ({
           </Box>
         </HStack>
 
-        <ForumMessageCardMoreIconButton />
+        <ForumMessageCardMoreIconButton position="relative" />
       </Flex>
 
       <Text bold as="level3">
@@ -109,13 +101,17 @@ export const QuestionListCard = ({
   );
 };
 
-export const ForumMessageCardMoreIconButton = ({ context = "comment" }) => {
+export const ForumMessageCardMoreIconButton = ({
+  context = "comment",
+  ...rest
+}) => {
   return (
     <Menu placement="bottom-end">
       <MenuButton
         padding={2}
         rounded="full"
         _hover={{ backgroundColor: "secondary.05" }}
+        {...rest}
       >
         <HiDotsVertical />
       </MenuButton>

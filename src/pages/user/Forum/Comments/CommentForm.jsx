@@ -3,13 +3,10 @@ import { useToast } from "@chakra-ui/toast";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
-import { Button, Heading, Input } from "../../../../../components";
-import { useApp } from "../../../../../contexts";
-import {
-  userForumAddComment,
-  userForumAddReply,
-} from "../../../../../services";
-import { capitalizeFirstLetter, getFullName } from "../../../../../utils";
+import { Button, Heading, Input } from "../../../../components";
+import { useApp } from "../../../../contexts";
+import { userForumAddComment, userForumAddReply } from "../../../../services";
+import { capitalizeFirstLetter, getFullName } from "../../../../utils";
 
 const CommentForm = ({
   isReply,

@@ -7,7 +7,7 @@ import { Image, Text } from "..";
 import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
-import CommentForm from "../../pages/user/Forum/QuestionDetailsPage/Comments/CommentForm";
+import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 
 const useCommentListCard = () => {
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
@@ -24,7 +24,7 @@ const useCommentListCard = () => {
 
 export const CommentListCard = ({
   id,
-  // questionId,
+  questionId,
   createdAt,
   body,
   replyCount,
@@ -34,6 +34,7 @@ export const CommentListCard = ({
   onReplySuccess,
   onReplyToggle,
   displayReplies,
+  noBorder,
 }) => {
   const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
 
@@ -45,7 +46,7 @@ export const CommentListCard = ({
       shadow="2px 1px 5px rgba(0, 0, 0, 0.15)"
       margin={1}
       marginBottom={5}
-      borderLeft="5px solid"
+      borderLeft={!noBorder && "5px solid"}
       borderColor="accent.7"
     >
       <Flex alignItems="center" justifyContent="space-between" marginBottom={2}>
@@ -136,4 +137,5 @@ CommentListCard.propTypes = {
   onReplyToggle: PropTypes.func,
   displayReplies: PropTypes.bool,
   onReplySuccess: PropTypes.func,
+  noBorder: PropTypes.bool,
 };

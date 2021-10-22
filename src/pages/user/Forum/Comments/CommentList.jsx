@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CommentListCard, ReplyListCard } from "../../../../../components";
+import { CommentListCard, ReplyListCard } from "../../../../components";
 
 const CommentList = ({ data, onReplySuccess }) => {
   return data.map((comment) => (
