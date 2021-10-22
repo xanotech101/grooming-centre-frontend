@@ -12,9 +12,24 @@ import {
 } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router";
 
 const CreateLessonPage = () => {
   const richTextHook = useRichText();
+   const history = useHistory();
+
+  const {
+    handleSubmit,
+  } = useForm();
+
+   const onSubmit = async (data) => {
+     console.log(data);
+     setTimeout(() => {
+       history.push(`/admin/courses/:courseId_1/lesson/lessonId_1/view`);
+     }, 5000);
+   };
+
 
   return (
     <>
@@ -26,7 +41,7 @@ const CreateLessonPage = () => {
             </BreadcrumbItem>
           }
           item3={
-            <BreadcrumbItem >
+            <BreadcrumbItem>
               <Link href="#">Lessons</Link>
             </BreadcrumbItem>
           }
@@ -38,7 +53,11 @@ const CreateLessonPage = () => {
         />
       </Box>
 
-      <CreatePageLayout title="Create Lesson" submitButtonText="Add Lesson">
+      <CreatePageLayout
+        title="Create Lesson"
+        submitButtonText="Add Lesson"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
           {/* Row 1 */}
           <GridItem colSpan={2}>
