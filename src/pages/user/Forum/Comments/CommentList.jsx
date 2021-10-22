@@ -13,9 +13,7 @@ const CommentList = ({ data, onReplySuccess, commentCardProps }) => {
 
 const CommentListItem = ({ comment, onReplySuccess }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
-
   const handleDisplayRepliesToggle = () => setDisplayReplies((prev) => !prev);
-
   const renderReplies = () =>
     displayReplies &&
     comment.replies.map((reply) => <ReplyListCard key={reply.id} {...reply} />);

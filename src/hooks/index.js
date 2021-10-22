@@ -7,3 +7,4 @@ export * from "./useComponentIsMount";
 export * from "./useQueryParams";
 export * from "./useFetch";
 export * from "./useSelectedTags";
+export * from "./useLoggedInUserIsTheCreator";

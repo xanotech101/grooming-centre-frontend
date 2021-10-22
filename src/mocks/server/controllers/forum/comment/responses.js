@@ -45,11 +45,11 @@ export const userForumGetCommentsRes_questionId_1 = {
       likes: 2,
       dislikes: 21,
       user: {
-        id: "userId_1",
+        id: "7afb6282-732c-4667-9898-eb2f866f4a78",
         profilePics:
           "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
-        firstName: "jane",
-        lastName: "bar",
+        firstName: "my",
+        lastName: "name",
       },
       replies: [
         {
@@ -147,11 +147,11 @@ export const userForumGetMentionsRes = {
       likes: 2,
       dislikes: 21,
       user: {
-        id: "userId_1",
+        id: "7afb6282-732c-4667-9898-eb2f866f4a78",
         profilePics:
           "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
-        firstName: "jane",
-        lastName: "bar",
+        firstName: "my",
+        lastName: "name",
       },
       replies: [
         {

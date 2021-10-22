@@ -24,7 +24,7 @@ const QuestionDetailsPage = () => {
 
       {question.data && (
         <>
-          <QuestionListCard key={question.id} {...question.data} disabled />
+          <QuestionListCard {...question.data} disabled />
 
           <Comments commentsManager={commentsManager} canAddComment>
             {({ handleAddComment, comments, handleAddReply }) => {

@@ -8,6 +8,7 @@ import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
+import { useLoggedInUserIsTheCreator } from "../../hooks";
 
 const useCommentListCard = () => {
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
@@ -39,6 +40,8 @@ export const CommentListCard = ({
 }) => {
   const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
 
+  const showMoreIconButton = useLoggedInUserIsTheCreator(user);
+
   return (
     <Stack
       paddingY={3}
@@ -49,30 +52,41 @@ export const CommentListCard = ({
       marginBottom={5}
       borderLeft={!noBorder && "5px solid"}
       borderColor="accent.7"
+      position="relative"
     >
       <Box>
-        <Flex
-          alignItems="center"
-          justifyContent="space-between"
-          marginBottom={2}
-        >
-          <HStack spacing={5}>
-            <Image
-              src={user?.profilePics || thumbnailPlaceholder}
-              boxSize="30px"
-              rounded="full"
-            />
+        {user ? (
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            marginBottom={2}
+          >
+            <HStack spacing={5}>
+              <Image
+                src={user.profilePics || thumbnailPlaceholder}
+                boxSize="30px"
+                rounded="full"
+              />
 
-            <Box flex={1}>
-              <Text bold>{capitalizeWords(user.fullName)}</Text>
-              <Text as="level5" color="accent.3">
-                {createdAt}
-              </Text>
+              <Box flex={1}>
+                <Text bold>{capitalizeWords(user.fullName)}</Text>
+                <Text as="level5" color="accent.3">
+                  {createdAt}
+                </Text>
+              </Box>
+            </HStack>
+
+            {showMoreIconButton && (
+              <ForumMessageCardMoreIconButton context="comment" />
+            )}
+          </Flex>
+        ) : (
+          showMoreIconButton && (
+            <Box position="absolute" top={1} right={1}>
+              <ForumMessageCardMoreIconButton context="comment" />
             </Box>
-          </HStack>
-
-          <ForumMessageCardMoreIconButton context="reply" />
-        </Flex>
+          )
+        )}
         {replyingToUser && (
           <Text opacity={0.8}>
             Replying to{" "}

@@ -17,7 +17,10 @@ const MentionsPage = () => {
           <CommentList
             data={comments.data}
             onReplySuccess={handleAddReply}
-            commentCardProps={{ noBorder: true, replyingToUser: user }}
+            commentCardProps={{
+              noBorder: true,
+              replyingToUser: user,
+            }}
           />
         </>
       )}
