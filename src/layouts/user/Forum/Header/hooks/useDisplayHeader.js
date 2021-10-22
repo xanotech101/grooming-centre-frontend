@@ -9,7 +9,9 @@ const useDisplayHeader = () => {
   const { pathname } = useLocation();
   const pageDoNotRequireHeader = () =>
     // /(forum\/your-questions\/add|forum\/your-answers)/i.test(pathname) //TODO: use or remove
-    /(forum\/your-questions|forum\/your-answers)/i.test(pathname)
+    /(forum\/your-questions|forum\/your-answers|forum\/questions\/details)/i.test(
+      pathname
+    )
       ? true
       : false;
 

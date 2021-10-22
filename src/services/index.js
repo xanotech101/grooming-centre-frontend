@@ -3,6 +3,7 @@ export * from "./http/endpoints/auth";
 export * from "./http/endpoints/assessment";
 export * from "./http/endpoints/index";
 export * from "./http/endpoints/examination";
+export * from "./http/endpoints/forum/comment";
 export * from "./http/endpoints/forum/question";
 export * from "./http/endpoints/forum/tag";
 export * from "./http/endpoints/coursesOverview";

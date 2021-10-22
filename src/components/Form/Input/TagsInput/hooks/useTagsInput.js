@@ -10,7 +10,7 @@ export const getTagInput = () => {
 };
 
 const useTagsInput = (props) => {
-  const { selectedTags } = props;
+  const { propSelectedTags } = props;
   const toast = useToast();
 
   const {
@@ -47,7 +47,7 @@ const useTagsInput = (props) => {
     }
   }, [tagsResult.err, toast]);
 
-  return { selectedTags, handleTagSearch, tagsResult, handleClearResource };
+  return { selectedTags: propSelectedTags, handleTagSearch, tagsResult, handleClearResource };
 };
 
 export default useTagsInput;
