@@ -11,7 +11,7 @@ export * from "./Forum/QuestionsPage/QuestionsPage";
 export * from "./Forum/QuestionDetailsPage/QuestionDetailsPage";
 export * from "./Forum/TagsPage";
 export * from "./Forum/YourAnswersPage/YourAnswersPage";
-export * from "./Forum/YourQuestionsPage";
+export * from "./Forum/YourQuestionsPage/YourQuestionsPage";
 export * from "./LibraryPage";
 export * from "./OnBoarding/SigninPage";
 export * from "./OnBoarding/ForgotPasswordPage/ForgotPasswordPage";
