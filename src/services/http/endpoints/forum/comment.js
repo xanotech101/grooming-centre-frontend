@@ -99,7 +99,6 @@ export const userForumGetComments = async (questionId) => {
 
   const comments = data.map((comment) => ({
     id: comment.id,
-    questionId: comment.questionId,
     createdAt: comment.createdAt,
     body: comment.body,
     replyCount: comment.replies.length,

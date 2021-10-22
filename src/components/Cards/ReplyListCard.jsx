@@ -2,12 +2,13 @@ import { Box, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import { Text } from "..";
+import { formatToUsername } from "../../utils";
 
 export const ReplyListCard = ({ id, body, user }) => {
-  const userRef = useRef();
+  const wrapperRef = useRef();
 
   useEffect(() => {
-    userRef.current.focus();
+    wrapperRef.current.focus();
   }, []);
 
   return (
@@ -20,6 +21,8 @@ export const ReplyListCard = ({ id, body, user }) => {
       marginBottom={5}
       borderLeft="10px solid"
       borderColor="accent.6"
+      ref={wrapperRef}
+      tabIndex={0}
     >
       <Text paddingBottom={2}>{body}</Text>
 
@@ -29,8 +32,8 @@ export const ReplyListCard = ({ id, body, user }) => {
         color="accent.3"
         paddingTop={2}
       >
-        <Text ref={userRef} tabIndex={0}>
-          by <b>@{user.fullName.replace(" ", "_")}</b>
+        <Text>
+          by <b>{formatToUsername(user.fullName)}</b>
         </Text>
       </Box>
     </Stack>

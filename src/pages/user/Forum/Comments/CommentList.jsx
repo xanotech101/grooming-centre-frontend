@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { CommentListCard, ReplyListCard } from "../../../../components";
 
-const CommentList = ({ data, onReplySuccess }) => {
+const CommentList = ({ data, onReplySuccess, commentCardProps }) => {
   return data.map((comment) => (
     <CommentListItem
       key={comment.id}
       onReplySuccess={onReplySuccess}
-      comment={comment}
+      comment={{ ...comment, ...commentCardProps }}
     />
   ));
 };

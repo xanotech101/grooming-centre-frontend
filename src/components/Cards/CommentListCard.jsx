@@ -2,11 +2,11 @@ import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { FiChevronsDown, FiCornerDownRight } from "react-icons/fi";
-import { Image, Text } from "..";
+import { FiChevronsDown, FiCornerDownRight, FiMenu } from "react-icons/fi";
+import { Image, Link, Text } from "..";
 import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
-import { capitalizeWords } from "../../utils";
+import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 
 const useCommentListCard = () => {
@@ -35,6 +35,7 @@ export const CommentListCard = ({
   onReplyToggle,
   displayReplies,
   noBorder,
+  replyingToUser,
 }) => {
   const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
 
@@ -49,24 +50,38 @@ export const CommentListCard = ({
       borderLeft={!noBorder && "5px solid"}
       borderColor="accent.7"
     >
-      <Flex alignItems="center" justifyContent="space-between" marginBottom={2}>
-        <HStack spacing={5}>
-          <Image
-            src={user?.profilePics || thumbnailPlaceholder}
-            boxSize="30px"
-            rounded="full"
-          />
+      <Box>
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          marginBottom={2}
+        >
+          <HStack spacing={5}>
+            <Image
+              src={user?.profilePics || thumbnailPlaceholder}
+              boxSize="30px"
+              rounded="full"
+            />
 
-          <Box flex={1}>
-            <Text bold>{capitalizeWords(user.fullName)}</Text>
-            <Text as="level5" color="accent.3">
-              {createdAt}
-            </Text>
-          </Box>
-        </HStack>
+            <Box flex={1}>
+              <Text bold>{capitalizeWords(user.fullName)}</Text>
+              <Text as="level5" color="accent.3">
+                {createdAt}
+              </Text>
+            </Box>
+          </HStack>
 
-        <ForumMessageCardMoreIconButton context="reply" />
-      </Flex>
+          <ForumMessageCardMoreIconButton context="reply" />
+        </Flex>
+        {replyingToUser && (
+          <Text opacity={0.8}>
+            Replying to{" "}
+            <Box as="b" color="secondary.6">
+              {formatToUsername(getFullName(replyingToUser))}
+            </Box>
+          </Text>
+        )}
+      </Box>
 
       <Text paddingBottom={2}>{body}</Text>
 
@@ -84,6 +99,15 @@ export const CommentListCard = ({
         </HStack>
 
         <HStack spacing={3}>
+          {questionId && (
+            <PlainButtonWithIcon
+              color="accent.6"
+              text={"View question"}
+              icon={<FiMenu />}
+              link={`/forum/questions/details/${questionId}`}
+            />
+          )}
+
           {replyCount ? (
             <PlainButtonWithIcon
               color="accent.6"
@@ -111,15 +135,19 @@ export const CommentListCard = ({
   );
 };
 
-const PlainButtonWithIcon = ({ icon, text, ...rest }) => (
-  <Flex {...rest} alignItems="center" as="button">
-    {icon}
+const PlainButtonWithIcon = ({ icon, text, link, ...rest }) => {
+  const renderContent = () => (
+    <Flex {...rest} alignItems="center" as={!link && "button"}>
+      {icon}
 
-    <Text as="level5" marginLeft={1}>
-      {text}
-    </Text>
-  </Flex>
-);
+      <Text as="level5" marginLeft={1}>
+        {text}
+      </Text>
+    </Flex>
+  );
+
+  return link ? <Link href={link}> {renderContent()}</Link> : renderContent();
+};
 
 CommentListCard.propTypes = {
   id: PropTypes.string,
@@ -134,6 +162,7 @@ CommentListCard.propTypes = {
     profilePics: PropTypes.string,
     fullName: PropTypes.string,
   }),
+  replyingToUser: PropTypes.object,
   onReplyToggle: PropTypes.func,
   displayReplies: PropTypes.bool,
   onReplySuccess: PropTypes.func,
