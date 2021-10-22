@@ -1,7 +1,8 @@
 import { Flex } from "@chakra-ui/layout";
-import { Link, Text } from "../../../../../components";
+import { useEffect } from "react";
+import { Heading, Link, Spinner, Text } from "../../../../../components";
 import colors from "../../../../../theme/colors";
-import useCourseListing from "../../hooks/useCourseListing";
+import useCourseDetails from "../../../../user/Courses/CourseDetails/hooks/useCourseDetails";
 
 const links = [
   {
@@ -23,19 +24,37 @@ const links = [
 ];
 
 const Header = () => {
+  const { courseDetails, fetchCourseDetails } = useCourseDetails();
 
-    const manager = useCourseListing();
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [fetchCourseDetails]);
 
-  const { courses } = manager;
+  const courseDetailsData = courseDetails.data;
 
-  return (
+  const isLoading = courseDetails.loading;
+  const isError = courseDetails.err;
+
+  return isLoading || isError ? (
+    <Flex
+      // Make the height 100% of the screen minus the `height` of the Header and Footer
+      height="calc(100vh - 200px)"
+      justifyContent="center"
+      alignItems="center"
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : isError ? (
+        <Heading color="red.500">{isError}</Heading>
+      ) : null}
+    </Flex>
+  ) : (
     <Flex
       alignItems="center"
       as="header"
       backgroundColor="white"
       height="50px"
-      paddingRight={5}
-      paddingLeft={10}
+      paddingLeft={20}
       shadow="0 2px 2px rgba(0, 0, 0, .05)"
       position="relative"
       zIndex={1}
@@ -46,7 +65,7 @@ const Header = () => {
             <li key={link.text}>
               <Link
                 navLink
-                href={link.href(courses?.[0].id)}
+                href={link.href(courseDetailsData?.id)}
                 style={{
                   color: colors.accent[2],
                   display: "block",
