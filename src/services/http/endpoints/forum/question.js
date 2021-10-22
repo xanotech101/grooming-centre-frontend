@@ -2,6 +2,43 @@ import { truncateText } from "../../../../utils";
 import { http } from "../../http";
 
 /**
+ * Endpoint to get forum questions result from a tag search
+ *
+ * @returns {
+ *   Promise<{
+ *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>,  user: { id: string, profilePics: string, fullName: string }, commentCount: number }>
+ *   }>
+ * }
+ */
+export const userForumGetATagSearchQuestionsResult = async (tagId) => {
+  const path = `/forum/tag/${tagId}/questions`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const questions = data.rows.map((question) => ({
+    id: question.id,
+    title: question.title,
+    body: truncateText(question.question, 100),
+    createdAt: question.createdAt,
+    // TODO: propose to the backend team
+    tags: question.tags.map((tag) => ({
+      id: tag.id,
+      label: tag.name,
+    })),
+    user: {
+      id: question.user.id,
+      profilePics: question.user.profilePics,
+      fullName: `${question.user.firstName} ${question.user.lastName}`,
+    },
+    commentCount: question.commentCount, // TODO: propose to the backend team
+  }));
+
+  return { questions };
+};
+
+/**
  * Endpoint to get the current user forum questions
  *
  * @returns {
@@ -32,12 +69,13 @@ export const userForumGetYourQuestions = async () => {
 
   return { questions };
 };
+
 /**
  * Endpoint to get forum questions
  *
  * @returns {
  *   Promise<{
- *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, user: { id: string, profilePics: string, fullName: string } }>
+ *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, user: { id: string, profilePics: string, fullName: string }, commentCount: number }>
  *   }>
  * }
  */

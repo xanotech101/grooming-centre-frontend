@@ -229,3 +229,49 @@ export const userForumGetYourQuestionsRes = {
     ],
   },
 };
+
+export const userForumGetATagSearchQuestionsResultRes = {
+  data: {
+    count: 2,
+    rows: [
+      {
+        id: "questionId_1",
+        title: "File uploadrgo",
+        question: "How to upload files to cloudinary",
+        createdAt: "2021-10-19T23:37:54.484Z",
+        userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f",
+        tags: [
+          { id: "forumTagId_1", name: "javascript" },
+          { id: "forumTagId_2", name: "dart" },
+        ],
+        user: {
+          id: "userId_2",
+          profilePics:
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+          firstName: "jane",
+          lastName: "bar",
+        },
+        commentCount: 10,
+      },
+      {
+        id: "questionId_2",
+        title: "File uploaders",
+        question: "How to upload files to cloudinary",
+        createdAt: "2021-10-20T05:16:51.057Z",
+        userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f",
+        tags: [
+          { id: "forumTagId_1", name: "javascript" },
+          { id: "forumTagId_2", name: "dart" },
+        ],
+        user: {
+          id: "userId_2",
+          profilePics:
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+          firstName: "jane",
+          lastName: "bar",
+        },
+        commentCount: 10,
+      },
+    ],
+  },
+};

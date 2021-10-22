@@ -8,6 +8,7 @@ import {
   userForumGetQuestionDetailsRes_questionId_1,
   userForumGetQuestionDetailsRes_questionId_2,
   userForumGetYourQuestionsRes,
+  userForumGetATagSearchQuestionsResultRes,
 } from "./responses";
 
 const userForumGetQuestions = rest.get(
@@ -47,11 +48,25 @@ const userForumGetYourQuestions = rest.get(
   handleSuccessResponse(userForumGetYourQuestionsRes)
 );
 
+const userForumGetATagSearchQuestionsResult = [
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/tag/tagId_1/questions"), // TODO: change `path`
+    handleSuccessResponse(userForumGetATagSearchQuestionsResultRes)
+  ),
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/tag/tagId_2/questions"), // TODO: change `path`
+    handleSuccessResponse(userForumGetATagSearchQuestionsResultRes)
+  ),
+];
+
 const forumQuestion = [
   userForumGetCategories,
   userForumPublishQuestion,
   userForumGetQuestions,
   userForumGetYourQuestions,
+  ...userForumGetATagSearchQuestionsResult,
   ...userForumGetQuestionDetails,
 ];
 
