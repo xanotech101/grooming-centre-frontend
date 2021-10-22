@@ -1,9 +1,19 @@
 export const userForumGetTagsRes = {
   data: [
-    { id: "forumTagId_1", name: "javascript" },
-    { id: "forumTagId_2", name: "dart" },
-    { id: "forumTagId_3", name: "css" },
-    { id: "forumTagId_4", name: "mock tags" },
-    { id: "forumTagId_5", name: "no filter lol" },
+    {
+      id: "tagId_1",
+      title: "Computer Science",
+    },
+    {
+      id: "tagId_2",
+      title: "Computer Engineering",
+    },
   ],
+};
+
+export const userForumCreateTagRes = {
+  data: {
+    id: "tagId_3",
+    title: "new tag",
+  },
 };

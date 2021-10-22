@@ -2,6 +2,7 @@ import { useToast } from "@chakra-ui/toast";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useApp } from "../../../../../contexts";
 import { useFetchAndCache } from "../../../../../hooks";
 import {
   userForumGetCategories,
@@ -11,7 +12,7 @@ import { capitalizeFirstLetter } from "../../../../../utils/formatString";
 
 /**
  * Manages AddQuestionPage state
- * @param {{ selectedTags: Array<{ value: string, label: string }>, handleClearAllSelectedTags: () => }} props
+ * @param {{ selectedTags: Array<{ id: string, label: string }>, handleClearAllSelectedTags: () => }} props
  *
  * @returns {{ formManager: ReactHookForm, categories: { data: ?Array<{ value: string, label: string }>, loading: boolean, err: ?string }, handleSubmit: () => Promise<void> }}
  */
@@ -43,14 +44,24 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
   }, [categories.err]);
 
   const formManager = useForm();
+  const {
+    state: { user },
+  } = useApp();
 
   const handlePublishQuestion = async (question) => {
     try {
       if (!selectedTags.length)
         throw new Error("Please select at least one tag");
-      question.selectedTags = selectedTags;
 
-      const { message } = await userForumPublishQuestion(question);
+      console.log(selectedTags);
+
+      const { message } = await userForumPublishQuestion({
+        title: question.title,
+        question: question.question,
+        categoryId: question.categoryId,
+        tagId: selectedTags.reduce((prev, tag) => [...prev, tag.id], []),
+        userId: user?.id,
+      });
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -71,10 +82,13 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
 
   const handleSubmit = () => formManager.handleSubmit(handlePublishQuestion);
 
+  const disableForm = formManager.formState.isSubmitting || !user;
+
   return {
     categories,
     formManager,
     handleSubmit,
+    disableForm,
   };
 };
 
