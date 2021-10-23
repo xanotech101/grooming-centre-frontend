@@ -13,6 +13,29 @@ export const useRedirectNonAuthUserToSigninPage = () => {
   }, [appManager.isAuthenticated, replace]);
 };
 
+const handleRedirectUserToRoleScreen = (appManager, replace) => {
+  if (appManager.state.user && appManager.state.metadata) {
+    const { userRoleId, departmentId } = appManager.state.user;
+    const role = appManager.getOneMetadata("userRoles", userRoleId);
+
+    console.log(
+      !/admin/i.test(role?.name),
+      role?.name,
+      appManager.state.user,
+      appManager.state
+    );
+
+    if (!/admin/i.test(role?.name)) {
+      return replace("/");
+    }
+    if (departmentId) {
+      return replace("/");
+    }
+
+    replace("/admin");
+  }
+};
+
 export const useRedirectAuthUserToRoleScreens = (timeout = 0) => {
   useRedirectNonAuthUserToSigninPage();
 
@@ -21,18 +44,7 @@ export const useRedirectAuthUserToRoleScreens = (timeout = 0) => {
 
   useEffect(() => {
     const handleRedirect = () => {
-      if (appManager.state.user && appManager.state.metadata) {
-        const { userRoleId, departmentId } = appManager.state.user;
-        const role = appManager.getOneMetadata("userRoles", userRoleId);
-
-        if (!/admin/i.test(role?.name)) {
-          return replace("/");
-        }
-        if (departmentId) {
-          return replace("/");
-        }
-        replace("/admin");
-      }
+      handleRedirectUserToRoleScreen(appManager, replace);
     };
 
     const timeoutId = setTimeout(handleRedirect, timeout);
@@ -79,7 +91,13 @@ export const useBlockAuthenticatedUserFromPage = () =>
       // }
 
       if (appManager.isAuthenticated) {
-        replace("/courses");
+        handleRedirectUserToRoleScreen(appManager, replace);
       }
-    }, [appManager.isAuthenticated, replace]);
+    }, [
+      replace,
+      appManager,
+      appManager.isAuthenticated,
+      appManager.state.user,
+      appManager.state.metadata,
+    ]);
   };
