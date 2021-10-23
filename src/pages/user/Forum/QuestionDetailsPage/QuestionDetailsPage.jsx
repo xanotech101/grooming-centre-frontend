@@ -2,11 +2,13 @@ import { Route } from "react-router-dom";
 import { Heading, QuestionListCard } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
-import Comments from "./Comments/Comments";
+import Comments from "../Comments/Comments";
+import CommentList from "../Comments/CommentList";
+import CommentForm from "../Comments/CommentForm";
 import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
-  const { question } = useQuestionDetailsPage();
+  const { question, commentsManager } = useQuestionDetailsPage();
 
   return (
     <>
@@ -22,9 +24,23 @@ const QuestionDetailsPage = () => {
 
       {question.data && (
         <>
-          <QuestionListCard key={question.id} {...question.data} disabled />
+          <QuestionListCard {...question.data} disabled />
 
-          <Comments />
+          <Comments commentsManager={commentsManager} canAddComment>
+            {({ handleAddComment, comments, handleAddReply }) => {
+              console.log(comments);
+
+              return (
+                <>
+                  <CommentForm onCommentSuccess={handleAddComment} />
+                  <CommentList
+                    data={comments.data}
+                    onReplySuccess={handleAddReply}
+                  />
+                </>
+              );
+            }}
+          </Comments>
         </>
       )}
     </>

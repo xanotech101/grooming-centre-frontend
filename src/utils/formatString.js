@@ -30,3 +30,13 @@ export function getFullName(user) {
     ? "anonymous"
     : `${user?.firstName} ${user?.lastName}`;
 }
+
+/**
+ * format fullName to `username`
+ * @param {string} fullName
+ *
+ * @returns {string}
+ */
+export function formatToUsername(fullName) {
+  return `@${fullName.replace(" ", "_")}`;
+}

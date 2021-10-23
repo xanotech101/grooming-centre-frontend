@@ -36,7 +36,7 @@ export const Link = ({
 Link.propTypes = {
   activeClassName: PropTypes.string,
   activeStyle: PropTypes.object,
-  children: PropTypes.any.isRequired,
+  children: PropTypes.any,
   className: PropTypes.string,
   exact: PropTypes.bool,
   href: PropTypes.string.isRequired,

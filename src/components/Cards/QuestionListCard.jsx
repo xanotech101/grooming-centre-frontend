@@ -16,6 +16,7 @@ import { Image, Link, SelectedTags, Text } from "..";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
 import { Button } from "../";
+import { useLoggedInUserIsTheCreator } from "../../hooks";
 
 export const QuestionListCard = ({
   id,
@@ -35,17 +36,12 @@ export const QuestionListCard = ({
     borderRadius: "5px",
   };
 
-  // return disabled ? (
-  //   renderCard()
-  // ) : (
-  //   <Link href={`/forum/questions/details/${id}`} style={boxStyle}>
-  //     {renderCard()}
-  //   </Link>
-  // );
+  const showMoreIconButton = useLoggedInUserIsTheCreator(user);
 
   return (
     <Stack
-      padding={6}
+      padding={user ? 6 : 4}
+      paddingTop={user ? 4 : 1}
       spacing={4}
       {...boxStyle}
       position="relative"
@@ -69,28 +65,42 @@ export const QuestionListCard = ({
         ></Link>
       )}
 
-      <Flex alignItems="center" justifyContent="space-between" marginBottom={2}>
-        <HStack spacing={5}>
-          <Image
-            src={user?.profilePics || thumbnailPlaceholder}
-            boxSize="40px"
-            rounded="full"
-          />
+      {user && (
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          marginBottom={2}
+        >
+          <HStack spacing={5}>
+            <Image
+              src={user?.profilePics || thumbnailPlaceholder}
+              boxSize="40px"
+              rounded="full"
+            />
 
-          <Box flex={1}>
-            <Text bold>{capitalizeWords(user.fullName)}</Text>
-            <Text as="level5" color="accent.3">
-              {createdAt}
-            </Text>
-          </Box>
-        </HStack>
+            <Box flex={1}>
+              <Text bold>{capitalizeWords(user.fullName)}</Text>
+              <Text as="level5" color="accent.3">
+                {createdAt}
+              </Text>
+            </Box>
+          </HStack>
 
-        <ForumMessageCardMoreIconButton />
+          {showMoreIconButton && (
+            <ForumMessageCardMoreIconButton position="relative" />
+          )}
+        </Flex>
+      )}
+
+      <Flex alignItems="center" justifyContent="space-between">
+        <Text bold as="level3">
+          {title}
+        </Text>
+
+        {showMoreIconButton && !user && (
+          <ForumMessageCardMoreIconButton position="relative" />
+        )}
       </Flex>
-
-      <Text bold as="level3">
-        {title}
-      </Text>
 
       <Text>{body}</Text>
 
@@ -109,13 +119,17 @@ export const QuestionListCard = ({
   );
 };
 
-export const ForumMessageCardMoreIconButton = ({ context = "comment" }) => {
+export const ForumMessageCardMoreIconButton = ({
+  context = "question",
+  ...rest
+}) => {
   return (
     <Menu placement="bottom-end">
       <MenuButton
         padding={2}
         rounded="full"
         _hover={{ backgroundColor: "secondary.05" }}
+        {...rest}
       >
         <HiDotsVertical />
       </MenuButton>

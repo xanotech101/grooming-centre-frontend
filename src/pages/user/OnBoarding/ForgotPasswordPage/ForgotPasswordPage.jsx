@@ -7,8 +7,11 @@ import { useForm } from "react-hook-form";
 import { userForgetPassword } from "../../../../services";
 import { useState } from "react";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
+import { useBlockAuthenticatedUserFromPage } from "../../../../hooks";
 
 const ForgotPasswordPage = () => {
+  useBlockAuthenticatedUserFromPage();
+
   const toast = useToast();
   const [status, setStatus] = useState({ success: false, err: false });
 
@@ -45,24 +48,24 @@ const ForgotPasswordPage = () => {
       )}
       renderInputs={() => (
         <>
-        <Input
-          id="email"
-          type="email"
-          label="Email"
-          {...register("email", {
-            required: "Email can't be empty",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Enter a valid e-mail address",
-            },
-          })}
-        />
-         {errors.email ? (
+          <Input
+            id="email"
+            type="email"
+            label="Email"
+            {...register("email", {
+              required: "Email can't be empty",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Enter a valid e-mail address",
+              },
+            })}
+          />
+          {errors.email ? (
             <Text color="secondary.5" style={{ marginTop: 0 }}>
               {errors.email.message}
             </Text>
-      ) : null}
-    </>
+          ) : null}
+        </>
       )}
       renderSubmit={(props) => (
         <Button isLoading={isSubmitting} {...props}>

@@ -20,6 +20,7 @@ export const TagsInput = forwardRef(
       onTagDeselect,
       isCreatingTag,
       selectedTags: propSelectedTags,
+      wrapperProps,
       ...rest
     },
     ref
@@ -39,7 +40,7 @@ export const TagsInput = forwardRef(
     const handleTagType = (e) => {
       handleClearResource();
       debounce.handleType(e, handleTagSearch);
-      onChange(e);
+      onChange?.(e);
     };
 
     const handleTagSelect = (tag) => {
@@ -64,7 +65,7 @@ export const TagsInput = forwardRef(
     };
 
     return (
-      <Box position="relative">
+      <Box position="relative" {...wrapperProps}>
         <Input
           ref={ref}
           {...rest}

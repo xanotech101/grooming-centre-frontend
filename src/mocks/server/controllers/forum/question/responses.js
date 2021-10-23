@@ -230,7 +230,7 @@ export const userForumGetYourQuestionsRes = {
   },
 };
 
-export const userForumGetATagSearchQuestionsResultRes = {
+export const userForumGetQuestionsByTagRes = {
   data: {
     count: 2,
     rows: [

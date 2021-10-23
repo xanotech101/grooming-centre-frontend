@@ -16,13 +16,13 @@ import { useHistory } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import breakpoints from "../../../../theme/breakpoints";
 import {
-  useIsAuthenticatedRedirect,
+  useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
 } from "../../../../hooks";
 
 const UpdateDetailsPage = () => {
   usePageRefreshAfterLogin();
-  useIsAuthenticatedRedirect();
+  useRedirectNonAuthUserToSigninPage();
 
   const toast = useToast();
   const {

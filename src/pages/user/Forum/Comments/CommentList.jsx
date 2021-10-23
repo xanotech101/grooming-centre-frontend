@@ -1,21 +1,19 @@
 import { useState } from "react";
-import { CommentListCard, ReplyListCard } from "../../../../../components";
+import { CommentListCard, ReplyListCard } from "../../../../components";
 
-const CommentList = ({ data, onReplySuccess }) => {
+const CommentList = ({ data, onReplySuccess, commentCardProps }) => {
   return data.map((comment) => (
     <CommentListItem
       key={comment.id}
       onReplySuccess={onReplySuccess}
-      comment={comment}
+      comment={{ ...comment, ...commentCardProps }}
     />
   ));
 };
 
 const CommentListItem = ({ comment, onReplySuccess }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
-
   const handleDisplayRepliesToggle = () => setDisplayReplies((prev) => !prev);
-
   const renderReplies = () =>
     displayReplies &&
     comment.replies.map((reply) => <ReplyListCard key={reply.id} {...reply} />);

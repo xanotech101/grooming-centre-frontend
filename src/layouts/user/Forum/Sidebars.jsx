@@ -18,7 +18,7 @@ const menuLinks = [
     icon: <AiOutlineUnorderedList />,
   },
   {
-    href: "/forum/tags?tab=new",
+    href: "/forum/tags",
     text: "Tags",
     icon: <BsTag />,
   },

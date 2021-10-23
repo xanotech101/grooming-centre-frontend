@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/menu";
 import { MdNotificationsActive } from "react-icons/md";
 import avatarImagePlaceholder from "../../../assets/images/Avatar.svg";
-import { BrandLogo, Button, Image, SearchBar } from "../../../components";
+import { BrandLogo, Button, Image } from "../../../components";
 import { useApp } from "../../../contexts";
 import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import NavBar from "./NavBar";
@@ -24,13 +24,13 @@ const Header = () => {
         minHeight="60px"
         {...maxWidthStyles_userPages}
       >
-        <HStack spacing={{ base: 2, laptop: 5 }}>
+        <HStack spacing={{ base: 2, laptop: 5 }} flex={1}>
           <BrandLogo sm marginRight={{ base: 2, laptop: 5 }} />
 
-          <SearchBar width="400px" display={{ base: "none", tablet: "flex" }} />
+          {/* <SearchBar width="400px" display={{ base: "none", tablet: "flex" }} /> */}
         </HStack>
 
-        <NavBar display={{ base: "none", laptop: "flex" }} />
+        <NavBar display={{ base: "none", laptop: "flex" }} flex={1} />
 
         <ButtonGroup spacing={{ base: 2, laptop: 5 }}>
           <Avatar />

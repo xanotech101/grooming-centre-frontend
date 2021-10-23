@@ -187,15 +187,15 @@ const DashboardPage = () => {
           <Grid templateColumns=".6fr .6fr 1fr 1fr" columnGap={4} rowGap={10}>
             {/* First Row */}
             <Link href={`/courses/overview`}>
-            <MiniBox padding={3}>
-              <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
-                <GiUpgrade />
-              </Icon>
-              <Text bold as="level1">
-              75%
-              </Text>
-              <Text color="accent.3">Total Grade</Text>
-            </MiniBox>
+              <MiniBox padding={3}>
+                <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
+                  <GiUpgrade />
+                </Icon>
+                <Text bold as="level1">
+                  75%
+                </Text>
+                <Text color="accent.3">Total Grade</Text>
+              </MiniBox>
             </Link>
             <MiniBox padding={3}>
               <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
@@ -336,9 +336,9 @@ const DashboardPage = () => {
         </Section>
       </Flex>
 
-      <Section title="Ongoing Courses" titleSeeAllHref="#">
+      {/* <Section title="Ongoing Courses" titleSeeAllHref="#">
         <CoursesRowLayout />
-      </Section>
+      </Section> */}
 
       <Section title="Completed Courses" titleSeeAllHref="#">
         <CoursesRowLayout />

@@ -6,15 +6,15 @@ import Footer from "./Footer";
 import { Box } from "@chakra-ui/layout";
 import breakpoints from "../../theme/breakpoints";
 import {
-  useIsAuthenticatedRedirect,
+  useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
-  useUserIsNewRedirect,
+  useRedirectNewUserToNewPasswordPage,
 } from "../../hooks";
 
 const UserLayout = () => {
   usePageRefreshAfterLogin();
-  useIsAuthenticatedRedirect();
-  useUserIsNewRedirect();
+  useRedirectNonAuthUserToSigninPage();
+  useRedirectNewUserToNewPasswordPage();
 
   return (
     <Box maxWidth={breakpoints["4k"]} marginX="auto">
