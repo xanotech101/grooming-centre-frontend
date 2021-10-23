@@ -1,11 +1,11 @@
-export const userForumReplyACommentRes = {
-  message: "comment replied successfully",
-  data: {
-    id: `${Date.now()}`,
-    comment: "I love this comment",
-    commentId: "commentId_1",
-  },
-};
+// export const userForumReplyACommentRes = {
+//   message: "comment replied successfully",
+//   data: {
+//     id: `${Date.now()}`,
+//     comment: "I love this comment",
+//     commentId: "commentId_1",
+//   },
+// };
 
 export const userForumAddCommentRes = {
   message: "comment added successfully",

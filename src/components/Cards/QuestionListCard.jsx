@@ -41,7 +41,7 @@ export const QuestionListCard = ({
   return (
     <Stack
       padding={user ? 6 : 4}
-      paddingTop={user ? 6 : 1}
+      paddingTop={user ? 4 : 1}
       spacing={4}
       {...boxStyle}
       position="relative"

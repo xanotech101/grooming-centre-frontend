@@ -15,7 +15,7 @@ const Comments = ({ commentsManager, children, canAddComment }) => {
       {comments.loading && <PageLoaderLayout height="30vh" width="100%" />}
 
       {comments.err && (
-        <PageLoaderLayout height="70%" width="100%">
+        <PageLoaderLayout height="30vh" width="100%">
           <Heading as="h3" marginBottom={3} color="red.500">
             {capitalizeWords(comments.err)}
           </Heading>

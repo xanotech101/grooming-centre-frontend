@@ -5,7 +5,7 @@ import {
   userForumGetCommentsRes_questionId_1,
   userForumGetCommentsRes_questionId_2,
   userForumAddCommentRes,
-  userForumReplyACommentRes,
+  // userForumReplyACommentRes,
   userForumGetMentionsRes,
   userForumGetYourAnswersRes,
 } from "./responses";
@@ -29,10 +29,10 @@ const userForumAddComment = rest.post(
   handleSuccessResponse(userForumAddCommentRes)
 );
 
-const userForumAddReply = rest.post(
-  getUrl("/forum/comment/create"),
-  handleSuccessResponse(userForumReplyACommentRes)
-);
+// const userForumAddReply = rest.post(
+//   getUrl("/forum/comment/create"),
+//   handleSuccessResponse(userForumReplyACommentRes)
+// );
 
 const userForumGetYourAnswers = rest.get(
   // TODO: change `method`
@@ -51,7 +51,7 @@ const forumComment = [
   userForumGetYourAnswers,
   userForumGetMentions,
   userForumAddComment,
-  userForumAddReply,
+  // userForumAddReply,
 ];
 
 export default forumComment;

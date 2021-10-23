@@ -93,7 +93,7 @@ const CommentForm = ({
           isLoading={isSubmitting}
           sm={isReply}
         >
-          Suggest
+          {isReply ? "Reply" : "Comment"}
         </Button>
       </Flex>
     </Box>
