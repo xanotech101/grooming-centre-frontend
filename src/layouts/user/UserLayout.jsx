@@ -5,6 +5,7 @@ import MainArea from "./MainArea";
 import Footer from "./Footer";
 import { Box } from "@chakra-ui/layout";
 import breakpoints from "../../theme/breakpoints";
+import { PageLoaderLayout } from "../global";
 import {
   useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
@@ -12,14 +13,14 @@ import {
 } from "../../hooks";
 
 const UserLayout = () => {
-  usePageRefreshAfterLogin();
+  const hasInitRefreshed = usePageRefreshAfterLogin();
   useRedirectNonAuthUserToSigninPage();
   useRedirectNewUserToNewPasswordPage();
 
   return (
     <Box maxWidth={breakpoints["4k"]} marginX="auto">
       <Header />
-      <MainArea />
+      {!hasInitRefreshed ? <PageLoaderLayout /> : <MainArea />}
       <Footer />
     </Box>
   );

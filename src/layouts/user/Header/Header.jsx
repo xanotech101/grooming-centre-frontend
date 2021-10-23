@@ -30,7 +30,12 @@ const Header = () => {
           {/* <SearchBar width="400px" display={{ base: "none", tablet: "flex" }} /> */}
         </HStack>
 
-        <NavBar display={{ base: "none", laptop: "flex" }} flex={1} />
+        <NavBar
+          display={{ base: "none", tablet: "flex" }}
+          flex={1}
+          marginRight={5}
+        />
+        {/* <NavBar display={{ base: "none", laptop: "flex" }} flex={1} /> */}
 
         <ButtonGroup spacing={{ base: 2, laptop: 5 }}>
           <Avatar />
