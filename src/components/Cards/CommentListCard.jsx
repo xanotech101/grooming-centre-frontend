@@ -133,12 +133,14 @@ export const CommentListCard = ({
             />
           ) : null}
 
-          <PlainButtonWithIcon
-            color="accent.6"
-            text="Reply"
-            icon={<FiCornerDownRight />}
-            onClick={handleDisplayReplyForm}
-          />
+          {onReplySuccess && (
+            <PlainButtonWithIcon
+              color="accent.6"
+              text="Reply"
+              icon={<FiCornerDownRight />}
+              onClick={handleDisplayReplyForm}
+            />
+          )}
         </HStack>
       </Flex>
 

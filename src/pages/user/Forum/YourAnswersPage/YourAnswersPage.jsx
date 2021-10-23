@@ -8,11 +8,10 @@ const YourAnswersPage = () => {
 
   return (
     <Comments commentsManager={commentsManager}>
-      {({ comments, handleAddReply }) => (
+      {({ comments }) => (
         <>
           <CommentList
             data={comments.data}
-            onReplySuccess={handleAddReply}
             commentCardProps={{ noBorder: true }}
           />
         </>
