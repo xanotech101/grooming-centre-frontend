@@ -4,7 +4,7 @@ import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
 import { Button, Heading, Text, Clock } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
-import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
+import { PageLoaderLayout } from "../../global";
 import useAssessment from "./hooks/useAssessment";
 import { CustomModal } from "./Modal";
 import parseMs from "../../../utils/parseMs";
