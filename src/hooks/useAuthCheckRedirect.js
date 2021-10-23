@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useApp } from "../contexts";
 
-export const useIsAuthenticatedRedirect = () => {
+export const useRedirectNonAuthUserToSigninPage = () => {
   const appManager = useApp();
   const { replace } = useHistory();
 
@@ -13,8 +13,8 @@ export const useIsAuthenticatedRedirect = () => {
   }, [appManager.isAuthenticated, replace]);
 };
 
-export const useAuthCheckRedirect = (timeout = 0) => {
-  useIsAuthenticatedRedirect();
+export const useRedirectAuthUserToRoleScreens = (timeout = 0) => {
+  useRedirectNonAuthUserToSigninPage();
 
   const appManager = useApp();
   const { replace } = useHistory();
@@ -50,7 +50,7 @@ export const useAuthCheckRedirect = (timeout = 0) => {
   ]);
 };
 
-export const useUserIsNewRedirect = () => {
+export const useRedirectNewUserToNewPasswordPage = () => {
   const appManager = useApp();
   const { replace } = useHistory();
 
@@ -60,3 +60,26 @@ export const useUserIsNewRedirect = () => {
     }
   }, [appManager.state.user?.isInviteActive, replace]);
 };
+
+export const useBlockAuthenticatedUserFromPage = () =>
+  // { pardonNewUser }
+  {
+    const { replace } = useHistory();
+
+    const appManager = useApp();
+
+    // pardonNewUser =
+    //   pardonNewUser &&
+    //   appManager.isAuthenticated &&
+    //   appManager.state.user.isInviteActive;
+
+    useEffect(() => {
+      // if (pardonNewUser) {
+      //   return;
+      // }
+
+      if (appManager.isAuthenticated) {
+        replace("/courses");
+      }
+    }, [appManager.isAuthenticated, replace]);
+  };

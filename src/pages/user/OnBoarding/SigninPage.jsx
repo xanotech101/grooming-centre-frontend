@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Route } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import {
   Brand,
   Button,
@@ -13,14 +13,21 @@ import {
   Text,
 } from "../../../components";
 import { useApp } from "../../../contexts";
-import { useRemoveRefresh, useAuthCheckRedirect } from "../../../hooks";
+import {
+  useRemoveRefresh,
+  useRedirectAuthUserToRoleScreens,
+  useBlockAuthenticatedUserFromPage,
+} from "../../../hooks";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { requestSignin } from "../../../services";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
 
 const SigninPage = () => {
   useRemoveRefresh();
+  useBlockAuthenticatedUserFromPage();
+
   const toast = useToast();
+  const { replace } = useHistory();
   const {
     register,
     handleSubmit,
@@ -39,7 +46,7 @@ const SigninPage = () => {
       appManager.handleSetCurrentUser(user);
 
       if (user.isInviteActive) {
-        window.location.replace("/auth/new-password");
+        replace("/auth/new-password");
       } else {
         setIsCheckingAuth(true);
       }
@@ -75,11 +82,13 @@ const SigninPage = () => {
               },
             })}
           />
+
           {errors.email ? (
             <Text color="secondary.5" style={{ marginTop: 0 }}>
               {errors.email.message}
             </Text>
           ) : null}
+
           <PasswordInput
             id="password"
             label="Password"
@@ -91,12 +100,14 @@ const SigninPage = () => {
               },
             })}
           />
+
           {errors.password ? (
             <Text color="secondary.5" style={{ marginTop: 0 }}>
               {errors.password.message}
             </Text>
           ) : null}
-          {isCheckingAuth && <AuthCheck />}
+
+          {isCheckingAuth && <AuthCheckAndRedirect />}
         </>
       )}
       onSubmit={handleSubmit(onSubmit)}
@@ -123,8 +134,8 @@ const SigninPage = () => {
   );
 };
 
-const AuthCheck = () => {
-  useAuthCheckRedirect(1000);
+const AuthCheckAndRedirect = () => {
+  useRedirectAuthUserToRoleScreens(1000);
 
   return null;
 };

@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom";
 import { useApp } from "../../contexts";
 import {
-  useIsAuthenticatedRedirect,
+  useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
-  useUserIsNewRedirect,
+  useRedirectNewUserToNewPasswordPage,
 } from "../../hooks";
 import breakpoints from "../../theme/breakpoints";
 import Header from "./Header";
@@ -37,8 +37,8 @@ const useRedirect = () => {
 const AdminLayout = () => {
   usePageRefreshAfterLogin();
   useRedirect();
-  useIsAuthenticatedRedirect();
-  useUserIsNewRedirect();
+  useRedirectNonAuthUserToSigninPage();
+  useRedirectNewUserToNewPasswordPage();
 
   return (
     <Flex

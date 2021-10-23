@@ -9,11 +9,15 @@ import {
   AssessmentPreviewPageRoute,
   LessonDetailsPageRoute,
 } from "../../../../pages/user";
-import { useIsAuthenticatedRedirect } from "../../../../hooks/useAuthCheckRedirect";
+import {
+  useRedirectNonAuthUserToSigninPage,
+  useRedirectNewUserToNewPasswordPage,
+} from "../../../../hooks";
 
 const TakeCourseLayout = () => {
   const sidebarManager = useSidebar();
-  useIsAuthenticatedRedirect();
+  useRedirectNonAuthUserToSigninPage();
+  useRedirectNewUserToNewPasswordPage();
 
   return (
     <Flex maxWidth={breakpoints["4k"]} marginX="auto" height="100vh">

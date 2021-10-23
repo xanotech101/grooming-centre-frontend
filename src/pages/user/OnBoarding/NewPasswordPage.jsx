@@ -5,11 +5,17 @@ import { Button, Heading, PasswordInput } from "../../../components";
 import { OnBoardingFormLayout } from "../../../layouts";
 import { userCreateNewPassword, userResetPassword } from "../../../services";
 import { useApp } from "../../../contexts";
-import { useHistory } from "react-router-dom";
 import useQueryParams from "../../../hooks/useQueryParams";
 import { capitalizeFirstLetter } from "../../../utils/formatString";
+import {
+  useRedirectNonAuthUserToSigninPage,
+  usePageRefreshAfterLogin,
+} from "../../../hooks";
 
 const NewPasswordPage = () => {
+  usePageRefreshAfterLogin();
+  useRedirectNonAuthUserToSigninPage();
+
   const toast = useToast();
   const {
     register,
@@ -21,7 +27,6 @@ const NewPasswordPage = () => {
   const values = getValues();
 
   const { handleLogout } = useApp();
-  const { replace } = useHistory();
   const queryParams = useQueryParams();
 
   const resetToken = queryParams.get("resetToken");
@@ -45,8 +50,6 @@ const NewPasswordPage = () => {
       });
       handleLogout();
       reset();
-
-      replace("/auth/signin");
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
