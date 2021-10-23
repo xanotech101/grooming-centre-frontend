@@ -6,6 +6,7 @@ import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { useApp } from "../../../contexts";
 import { capitalizeWords } from "../../../utils";
+import { useHistory } from "react-router";
 
 const CreateCoursePage = ({ metadata: propMetadata }) => {
   const {
@@ -14,12 +15,18 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
+
   const appManager = useApp();
 
   const metadata = propMetadata || appManager.state.metadata;
 
   const onSubmit = async (data) => {
     console.log(data);
+     setTimeout(() => {
+       history.push(`/admin/courses/details/courseId_1/info`);
+     }, 5000);
   };
 
   const populateSelectOptions = (data, filterBody = () => true) => {
