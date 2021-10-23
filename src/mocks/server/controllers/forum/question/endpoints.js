@@ -8,7 +8,7 @@ import {
   userForumGetQuestionDetailsRes_questionId_1,
   userForumGetQuestionDetailsRes_questionId_2,
   userForumGetYourQuestionsRes,
-  userForumGetATagSearchQuestionsResultRes,
+  userForumGetQuestionsByTagRes,
 } from "./responses";
 
 const userForumGetQuestions = rest.get(
@@ -48,16 +48,16 @@ const userForumGetYourQuestions = rest.get(
   handleSuccessResponse(userForumGetYourQuestionsRes)
 );
 
-const userForumGetATagSearchQuestionsResult = [
+const userForumGetQuestionsByTag = [
   rest.get(
     // TODO: change `method`
     getUrl("/forum/tag/tagId_1/questions"), // TODO: change `path`
-    handleSuccessResponse(userForumGetATagSearchQuestionsResultRes)
+    handleSuccessResponse(userForumGetQuestionsByTagRes)
   ),
   rest.get(
     // TODO: change `method`
     getUrl("/forum/tag/tagId_2/questions"), // TODO: change `path`
-    handleSuccessResponse(userForumGetATagSearchQuestionsResultRes)
+    handleSuccessResponse(userForumGetQuestionsByTagRes)
   ),
 ];
 
@@ -66,7 +66,7 @@ const forumQuestion = [
   userForumPublishQuestion,
   userForumGetQuestions,
   userForumGetYourQuestions,
-  ...userForumGetATagSearchQuestionsResult,
+  ...userForumGetQuestionsByTag,
   ...userForumGetQuestionDetails,
 ];
 

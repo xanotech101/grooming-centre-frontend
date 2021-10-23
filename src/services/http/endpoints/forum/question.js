@@ -10,7 +10,7 @@ import { http } from "../../http";
  *   }>
  * }
  */
-export const userForumGetATagSearchQuestionsResult = async (tagId) => {
+export const userForumGetQuestionsByTag = async (tagId) => {
   const path = `/forum/tag/${tagId}/questions`;
 
   const {

@@ -9,7 +9,7 @@ export * from "./Forum/AddQuestionPage/AddQuestionPage";
 export * from "./Forum/MentionsPage/MentionsPage";
 export * from "./Forum/QuestionsPage/QuestionsPage";
 export * from "./Forum/QuestionDetailsPage/QuestionDetailsPage";
-export * from "./Forum/TagsPage";
+export * from "./Forum/TagsPage/TagsPage";
 export * from "./Forum/YourAnswersPage/YourAnswersPage";
 export * from "./Forum/YourQuestionsPage/YourQuestionsPage";
 export * from "./LibraryPage";

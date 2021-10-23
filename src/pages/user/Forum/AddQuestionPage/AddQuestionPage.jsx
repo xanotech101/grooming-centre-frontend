@@ -37,6 +37,10 @@ const AddQuestionPage = () => {
   const [isCreatingTag, setIsCreatingTag] = useState(false);
   const toast = useToast();
 
+  /**
+   * This event handler let the user Add an unknown `tag` by hitting enter key while typing
+   * @param {ChangeEvent<HTMLInputElement>} event
+   */
   const handleTagInputEnterKeyPress = async ({ key }) => {
     if (key === "Enter") {
       try {
@@ -125,11 +129,11 @@ const AddQuestionPage = () => {
           id="tags"
           placeholder="Choose up to three tags"
           onKeyUp={handleTagInputEnterKeyPress}
+          isCreatingTag={isCreatingTag}
           selectedTags={selectedTags}
           onChange={handleTagType}
           onTagSelect={handleTagSelectMany}
           onTagDeselect={handleTagDeselect}
-          isCreatingTag={isCreatingTag}
         />
 
         <Box textAlign="right" paddingTop={2}>
