@@ -17,7 +17,7 @@ export * from "./Form/RichText/RichText";
 export * from "./Form/RichText/useRichText";
 export * from "./Form/Select";
 export * from "./Form/Textarea";
-export * from "./Form/Upload";
+export * from "./Form/Upload/Upload";
 export * from "./Image/Image";
 export * from "./Link/Link";
 export * from "./SearchBar/SearchBar";

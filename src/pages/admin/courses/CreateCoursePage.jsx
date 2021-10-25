@@ -15,18 +15,26 @@ import {
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { useApp } from "../../../contexts";
-import { capitalizeFirstLetter, capitalizeWords } from "../../../utils";
+import {
+  appendFormData,
+  capitalizeFirstLetter,
+  capitalizeWords,
+} from "../../../utils";
 import { useHistory } from "react-router";
 import { adminCreateCourse } from "../../../services";
+import { useUpload } from "../../../hooks";
 
 const CreateCoursePage = ({ metadata: propMetadata }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const history = useHistory();
+  const thumbnailUpload = useUpload();
+  const certificateUpload = useUpload();
+
+  const { push } = useHistory();
   const appManager = useApp();
   const metadata = propMetadata || appManager.state.metadata;
 
@@ -34,7 +42,14 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   const onSubmit = async (data) => {
     try {
-      const body = { ...data, thumbnail: null, certificate: null };
+      const thumbnail =
+        thumbnailUpload.handleGetFileAndValidate("Course Image");
+      const certificate =
+        certificateUpload.handleGetFileAndValidate("Certificate");
+
+      data = { ...data, thumbnail, certificate };
+      const body = appendFormData(data);
+
       const { course } = await adminCreateCourse(body);
 
       toast({
@@ -43,7 +58,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         status: "success",
       });
 
-      history.push(`/admin/courses/details/${course.id}/info`);
+      push(`/admin/courses/details/${course.id}/info`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -81,7 +96,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         title="Create Course"
         submitButtonText="Add Course"
         onSubmit={handleSubmit(onSubmit)}
-        submitButtonIsLoading={isSubmitSuccessful}
+        submitButtonIsLoading={isSubmitting}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
           {/* Row 1 */}
@@ -136,10 +151,12 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         <Grid marginBottom={10}>
           <GridItem colSpan={2}>
             <Upload
-              id="courseFile"
-              label="Course Image"
+              id="thumbnail"
               isRequired
-              onFileSelect={(file) => console.log(file)}
+              label="Course Image"
+              onFileSelect={thumbnailUpload.handleFileSelect}
+              imageUrl={thumbnailUpload.image.url}
+              accept={thumbnailUpload.accept}
             />
           </GridItem>
         </Grid>
@@ -150,7 +167,9 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               id="course-certificate"
               label="Course Certificate"
               isRequired
-              onFileSelect={(file) => console.log(file)}
+              onFileSelect={certificateUpload.handleFileSelect}
+              imageUrl={certificateUpload.image.url}
+              accept={certificateUpload.accept}
             />
           </GridItem>
         </Grid>

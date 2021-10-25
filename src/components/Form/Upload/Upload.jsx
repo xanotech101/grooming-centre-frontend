@@ -1,13 +1,13 @@
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
-import { Skeleton } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
 import { forwardRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { Button, Image } from "..";
-import FormGroup, { FormGroupPropTypes } from "./FormGroup";
+import { Button, Image } from "../..";
+import FormGroup, { FormGroupPropTypes } from "../FormGroup";
+import MiniUploadContent from "./MiniUploadContent";
 
 export const Upload = forwardRef(
   (
@@ -21,6 +21,7 @@ export const Upload = forwardRef(
       label,
       onFileSelect,
       width = "100%",
+      accept,
       ...rest
     },
     ref
@@ -36,18 +37,19 @@ export const Upload = forwardRef(
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
+      accept,
     });
 
     const renderContent = (props) => {
-      
-
-      const style = !imageUrl ? {
-        flexDirection:"column",
-        justifyContent:"center",
-        width,
-        padding: 5,
-        border: "1px dashed",
-      }: {}
+      const style = !imageUrl
+        ? {
+            flexDirection: "column",
+            justifyContent: "center",
+            width,
+            padding: 5,
+            border: "1px dashed",
+          }
+        : {};
 
       return (
         <Flex {...style} {...props} {...getRootProps()}>
@@ -87,7 +89,8 @@ export const Upload = forwardRef(
             </Stack>
           )}
         </Flex>
-      );};
+      );
+    };
 
     return (
       <FormGroup
@@ -110,25 +113,6 @@ export const Upload = forwardRef(
       />
     );
   }
-);
-
-const MiniUploadContent = forwardRef(
-  (
-    { getRootProps, getInputProps, hideImage, wrapperProps, props, rest },
-    ref
-  ) => (
-    <Flex alignItems="center" {...wrapperProps}>
-      {!hideImage && <Skeleton boxSize="60px" rounded="full" marginRight={5} />}
-
-      <Box {...props} {...getRootProps()}>
-        <Input ref={ref} {...getInputProps()} {...rest} />
-
-        <Button width="fit-content" secondary>
-          Upload
-        </Button>
-      </Box>
-    </Flex>
-  )
 );
 
 Upload.propTypes = {
