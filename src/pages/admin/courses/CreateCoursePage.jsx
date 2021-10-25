@@ -1,32 +1,55 @@
+import { useToast } from "@chakra-ui/toast";
 import { Grid, GridItem } from "@chakra-ui/layout";
 import { useForm } from "react-hook-form";
 import { Route } from "react-router-dom";
-import { Input, Textarea, Select, Text, Breadcrumb, Link, Upload, Checkbox } from "../../../components";
+import {
+  Input,
+  Textarea,
+  Select,
+  Text,
+  Breadcrumb,
+  Link,
+  Upload,
+  Checkbox,
+} from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { useApp } from "../../../contexts";
-import { capitalizeWords } from "../../../utils";
+import { capitalizeFirstLetter, capitalizeWords } from "../../../utils";
 import { useHistory } from "react-router";
+import { adminCreateCourse } from "../../../services";
 
 const CreateCoursePage = ({ metadata: propMetadata }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm();
 
   const history = useHistory();
-
-
   const appManager = useApp();
-
   const metadata = propMetadata || appManager.state.metadata;
 
+  const toast = useToast();
+
   const onSubmit = async (data) => {
-    console.log(data);
-     setTimeout(() => {
-       history.push(`/admin/courses/details/courseId_1/info`);
-     }, 5000);
+    try {
+      const body = { ...data, thumbnail: null, certificate: null };
+      await adminCreateCourse(body);
+      toast({
+        description: capitalizeFirstLetter("Course Created successfully"),
+        position: "top",
+        status: "success",
+      });
+
+      history.push(`/admin/courses/details/courseId_1/info`);
+    } catch (error) {
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
   };
 
   const populateSelectOptions = (data, filterBody = () => true) => {
@@ -57,6 +80,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         title="Create Course"
         submitButtonText="Add Course"
         onSubmit={handleSubmit(onSubmit)}
+        submitButtonIsLoading={isSubmitSuccessful}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
           {/* Row 1 */}
@@ -76,19 +100,19 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
           </GridItem>
           <GridItem>
             <Select
-               label="Select department"
-               options={populateSelectOptions(metadata?.departments)}
-               id="departmentId"
-               isLoading={!metadata?.departments}
-               {...register("departmentId", {
-                 required: "Please select a department",
-               })}
-             />
-             {errors.departmentId ? (
-               <Text color="secondary.5" style={{ marginTop: 0 }}>
-                 {errors.departmentId.message}
-               </Text>
-             ) : null}
+              label="Select department"
+              options={populateSelectOptions(metadata?.departments)}
+              id="departmentId"
+              isLoading={!metadata?.departments}
+              {...register("departmentId", {
+                required: "Please select a department",
+              })}
+            />
+            {errors.departmentId ? (
+              <Text color="secondary.5" style={{ marginTop: 0 }}>
+                {errors.departmentId.message}
+              </Text>
+            ) : null}
           </GridItem>
         </Grid>
         {/* Row 2 */}

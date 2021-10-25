@@ -22,7 +22,7 @@ export const adminGetUserListing = async () => {
 //----------- Course Endpoints
 /**
  * Endpoint for course creation
- * @param {{ title: string, instructorId: string, description: string, departmentId: string, }} body
+ * @param {{ title: string, thumbnail: File, certificate: File, description: string, departmentId: string, }} body
  * @returns {Promise<{ message: string, data: Course }>}
  */
 export const adminCreateCourse = async (body) => {
@@ -34,7 +34,6 @@ export const adminCreateCourse = async (body) => {
 
   return { message, data };
 };
-
 
 /**
  * Endpoint to get `course-listing`
