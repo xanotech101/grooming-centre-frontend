@@ -6,21 +6,33 @@ import { Button } from "../..";
 
 const MiniUploadContent = forwardRef(
   (
-    { getRootProps, getInputProps, hideImage, wrapperProps, props, rest },
+    { getRootProps, getInputProps, hideImage, wrapperProps, mute, props, rest },
     ref
-  ) => (
-    <Flex alignItems="center" {...wrapperProps}>
-      {!hideImage && <Skeleton boxSize="60px" rounded="full" marginRight={5} />}
+  ) => {
+    const renderContent = () => (
+      <Button width="fit-content" secondary>
+        Upload
+      </Button>
+    );
 
-      <Box {...props} {...getRootProps()}>
-        <Input ref={ref} {...getInputProps()} {...rest} />
+    return (
+      <Flex alignItems="center" {...wrapperProps}>
+        {!hideImage && (
+          <Skeleton boxSize="60px" rounded="full" marginRight={5} />
+        )}
 
-        <Button width="fit-content" secondary>
-          Upload
-        </Button>
-      </Box>
-    </Flex>
-  )
+        {mute ? (
+          renderContent()
+        ) : (
+          <Box {...props} {...getRootProps()}>
+            <Input ref={ref} {...getInputProps()} {...rest} />
+
+            {renderContent()}
+          </Box>
+        )}
+      </Flex>
+    );
+  }
 );
 
 export default MiniUploadContent;

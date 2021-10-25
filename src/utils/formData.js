@@ -11,7 +11,10 @@ export const appendFormData = (data) => {
   for (const fieldKey in data) {
     if (Object.hasOwnProperty.call(data, fieldKey)) {
       const fieldValue = data[fieldKey];
-      formData.append(fieldKey, fieldValue);
+
+      if (fieldValue) {
+        formData.append(fieldKey, fieldValue);
+      }
     }
   }
 

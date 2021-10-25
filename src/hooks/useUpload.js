@@ -4,7 +4,7 @@ export const useUpload = (props) => {
   const initAccept = props?.initAccept || "image/jpeg, image/png";
 
   const [accept, setAccept] = useState(initAccept);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [image, setImage] = useState({ url: null });
 
   const handleFileSelect = (file) => {
@@ -13,10 +13,15 @@ export const useUpload = (props) => {
     setImage({ url });
     setFile(file);
   };
+
+  const handleInitialImageSelect = (url) => {
+    setImage({ url });
+  };
+
   const handleAcceptChange = (accept) => setAccept(accept);
 
   const handleGetFileAndValidate = (label) => {
-    if (!file) throw new Error(`Please upload a ${label}`);
+    if (!image.url) throw new Error(`Please upload a ${label}`);
 
     return file;
   };
@@ -28,5 +33,6 @@ export const useUpload = (props) => {
     handleFileSelect,
     handleAcceptChange,
     handleGetFileAndValidate,
+    handleInitialImageSelect,
   };
 };

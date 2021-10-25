@@ -59,12 +59,10 @@ export const Upload = forwardRef(
             <>
               <Image src={imageUrl} width="223px" height="136px" alt={alt} />
               <MiniUploadContent
-                getRootProps={getRootProps}
-                getInputProps={getInputProps}
+                mute
                 hideImage
                 wrapperProps={{ alignItems: "flex-end", paddingLeft: "16px" }}
                 props={props}
-                rest={{ ...rest }}
               />
             </>
           ) : (

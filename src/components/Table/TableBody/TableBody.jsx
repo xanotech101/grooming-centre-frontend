@@ -52,7 +52,9 @@ const TableBody = ({
 
           {columns.map((col) =>
             col.renderContent ? (
-              col.renderContent(row[col.key])
+              <Box key={col.id} {...generalCellStyles}>
+                {col.renderContent(row[col.key])}
+              </Box>
             ) : (
               <Cell
                 key={col.id}
