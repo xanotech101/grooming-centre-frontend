@@ -35,14 +35,15 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   const onSubmit = async (data) => {
     try {
       const body = { ...data, thumbnail: null, certificate: null };
-      await adminCreateCourse(body);
+      const { course } = await adminCreateCourse(body);
+
       toast({
         description: capitalizeFirstLetter("Course Created successfully"),
         position: "top",
         status: "success",
       });
 
-      history.push(`/admin/courses/details/courseId_1/info`);
+      history.push(`/admin/courses/details/${course.id}/info`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),

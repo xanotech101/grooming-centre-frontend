@@ -23,7 +23,7 @@ export const adminGetUserListing = async () => {
 /**
  * Endpoint for course creation
  * @param {{ title: string, thumbnail: File, certificate: File, description: string, departmentId: string, }} body
- * @returns {Promise<{ message: string, data: Course }>}
+ * @returns {Promise<{ message: string, course: { id: string } }>}
  */
 export const adminCreateCourse = async (body) => {
   const path = "/course/create";
@@ -32,7 +32,9 @@ export const adminCreateCourse = async (body) => {
     data: { message, data },
   } = await http.post(path, body);
 
-  return { message, data };
+  const course = { id: data.id };
+
+  return { message, course };
 };
 
 /**
