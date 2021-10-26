@@ -128,9 +128,6 @@ const QuestionsPage = () => {
   );
 };
 
-const AddAnotherQuestion = () => {
-  return "add another question";
-};
 
 const QuestionsPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <QuestionsPage {...props} />} />;

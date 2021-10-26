@@ -54,3 +54,35 @@ export const submitAssessment = async (id, body) => {
 
   return { message };
 };
+
+
+/**
+ * Endpoint for assessment creation
+ * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body
+ * @returns {Promise<{ message: string, data: Assessment }>}
+ */
+export const adminCreateAssessment = async (body) => {
+  const path = "/assessment/create";
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  return { message, data };
+};
+
+
+/**
+ * Endpoint for assessmentQuestions creation
+ * @param {{ assessmentId: string, question: string, option: []}} body
+ * @returns {Promise<{ message: string, data: assessmentQuestion }>}
+ */
+export const adminCreateAssessmentQuestion = async (body) => {
+  const path = "/assessment/question/create/new";
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  return { message, data };
+};
