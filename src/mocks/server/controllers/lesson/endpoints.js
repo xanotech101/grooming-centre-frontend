@@ -3,6 +3,8 @@ import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
   adminCreateLessonRes,
+  adminEditLessonRes_lessonId_1,
+  adminEditLessonRes_lessonId_2,
   adminGetLessonListingRes,
   requestEndLessonRes,
   requestLessonDetailsRes_lessonId_1,
@@ -44,6 +46,19 @@ const adminCreateLesson = rest.post(
   handleSuccessResponse(adminCreateLessonRes)
 );
 
+const adminEditLesson = [
+  rest.patch(
+    // TODO: change `method`
+    getUrl("lesson/edit/lessonId_1"), // TODO: change `path`
+    handleSuccessResponse(adminEditLessonRes_lessonId_1)
+  ),
+  rest.patch(
+    // TODO: change `method`
+    getUrl("lesson/edit/lessonId_2"), // TODO: change `path`
+    handleSuccessResponse(adminEditLessonRes_lessonId_2)
+  ),
+];
+
 const adminGetLessonListing = rest.post(
   // TODO: change `method`
   getUrl("/lesson/admin"), // TODO: change `path`
@@ -53,6 +68,7 @@ const adminGetLessonListing = rest.post(
 const lesson = [
   ...requestLessonDetailsForLessonId,
   ...requestEndLesson,
+  ...adminEditLesson,
   adminGetLessonListing,
   adminCreateLesson,
 ];

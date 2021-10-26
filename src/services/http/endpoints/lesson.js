@@ -51,6 +51,25 @@ export const adminCreateLesson = async (body) => {
 
   return { message, lesson };
 };
+/**
+ * Endpoint to for admin to edit a lesson
+ * @param {{ title: ?string, content: ?string, lessonTypeId: ?string, startTime: ?Date, endTime: ?Date, file: ?File }} body
+ *
+ * @returns {Promise<{ message: string, lesson: { id: string } }>}
+ */
+export const adminEditLesson = async (lessonId, body) => {
+  const path = `/lesson/edit/${lessonId}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const lesson = {
+    id: data[0].id,
+  };
+
+  return { message, lesson };
+};
 
 /**
  * Endpoint to for admin to create a lesson

@@ -4,6 +4,22 @@ export const adminCreateLessonRes = {
     id: "lessonId_1",
   },
 };
+export const adminEditLessonRes_lessonId_1 = {
+  message: "lesson updated successfully",
+  data: [
+    {
+      id: "lessonId_1",
+    },
+  ],
+};
+export const adminEditLessonRes_lessonId_2 = {
+  message: "lesson updated successfully",
+  data: [
+    {
+      id: "lessonId_2",
+    },
+  ],
+};
 
 export const adminGetLessonListingRes = {
   data: {
