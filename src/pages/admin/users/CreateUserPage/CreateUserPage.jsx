@@ -5,12 +5,10 @@ import { Input, Select, Text, Breadcrumb, Link } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
-import {
-  capitalizeFirstLetter,
-  capitalizeWords,
-} from "../../../../utils/formatString";
+import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { populateSelectOptions } from "../../../../utils";
 
 const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
@@ -59,13 +57,6 @@ const CreateUserPage = ({
         status: "error",
       });
     }
-  };
-
-  const populateSelectOptions = (data, filterBody = () => true) => {
-    return data?.filter(filterBody)?.map((item) => ({
-      label: capitalizeWords(item.name),
-      value: item.id,
-    }));
   };
 
   return (

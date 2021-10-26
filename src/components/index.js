@@ -14,7 +14,6 @@ export * from "./Form/Input/PhoneNumberInput";
 export * from "./Form/Input/TagsInput/TagsInput";
 export * from "./Form/Input/TagsInput/SelectedTags";
 export * from "./Form/RichText/RichText";
-export * from "./Form/RichText/useRichText";
 export * from "./Form/Select";
 export * from "./Form/Textarea";
 export * from "./Form/Upload/Upload";

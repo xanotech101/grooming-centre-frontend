@@ -1,35 +1,102 @@
+import { useToast } from "@chakra-ui/toast";
 import { Grid, GridItem } from "@chakra-ui/layout";
-
-import { Route } from "react-router-dom";
 import {
-  DatePicker,
+  Route,
+  useParams,
+  // useHistory
+} from "react-router-dom";
+import {
+  DateTimePicker,
   Input,
   RichText,
   Select,
-  TimePicker,
   Upload,
-  useRichText, Breadcrumb, Link
+  Breadcrumb,
+  Link,
 } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router";
+import { useDateTimePicker, useUpload, useRichText } from "../../../hooks";
+import { capitalizeFirstLetter, populateSelectOptions } from "../../../utils";
+import { useApp } from "../../../contexts";
+import { useEffect } from "react";
 
 const CreateLessonPage = () => {
-  const richTextHook = useRichText();
-   const history = useHistory();
+  const { courseId } = useParams();
+  const courseIsUnknown = courseId === "unknown";
+
+  // const history = useHistory();
+  const toast = useToast();
 
   const {
     handleSubmit,
+    register,
+    watch,
+    getValues,
+    formState: { errors },
   } = useForm();
 
-   const onSubmit = async (data) => {
-     console.log(data);
-     setTimeout(() => {
-       history.push(`/admin/courses/:courseId_1/lesson/lessonId_1/view`);
-     }, 5000);
-   };
+  const {
+    state: { metadata },
+    getOneMetadata,
+  } = useApp();
 
+  const startTimeManager = useDateTimePicker();
+  const endTimeManager = useDateTimePicker();
+  const fileManager = useUpload();
+  const contentManager = useRichText();
+
+  // Control `Lesson File` with `File Type`
+  useEffect(() => {
+    const subscription = watch((data, { name, type }) => {
+      if (name === "lessonTypeId" && type === "change") {
+        fileManager.handleFileSelect(null);
+
+        const lessonType = getOneMetadata(
+          "lessonType",
+          data.lessonTypeId
+        )?.name;
+
+        if (lessonType === "pdf") {
+          fileManager.handleAcceptChange("application/pdf");
+        }
+        if (lessonType === "video") {
+          fileManager.handleAcceptChange("video/mp4, video/mkv");
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch, metadata]);
+
+  const onSubmit = async (data) => {
+    try {
+      const startTime =
+        startTimeManager.handleGetValueAndValidate("Start Time");
+      const endTime = endTimeManager.handleGetValueAndValidate("End Time");
+      const content = contentManager.handleGetValueAndValidate("Content");
+      const file = fileManager.handleGetFileAndValidate("Lesson File");
+
+      data = { ...data, startTime, endTime, file, content };
+
+      console.log(data);
+      toast({
+        description: capitalizeFirstLetter("created"),
+        position: "top",
+        status: "success",
+      });
+
+      // history.push(`/admin/courses/:courseId_1/lesson/lessonId_1/view`);
+    } catch (error) {
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
+  };
 
   return (
     <>
@@ -59,74 +126,90 @@ const CreateLessonPage = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
-          {/* Row 1 */}
-          <GridItem colSpan={2}>
-            <Input id="lesson-name" isRequired label="Lesson name" />
-          </GridItem>
+          {courseIsUnknown && (
+            <GridItem>
+              <Select
+                id="courseId"
+                label="Select course"
+                options={[
+                  { label: "Course 1", value: "Course-1" },
+                  { label: "Course 2", value: "Course-2" },
+                  { label: "Course 3", value: "Course-3" },
+                ]}
+                isRequired
+                error={errors.courseId?.message}
+                {...register("courseId", {
+                  required: "Please select a Course",
+                })}
+              />
+            </GridItem>
+          )}
 
-          {/* Row 2 */}
-          <GridItem rowStart={2}>
-            <Select
-              id="select-course"
-              label="Select course"
-              options={[
-                { label: "Course 1", value: "Course-1" },
-                { label: "Course 2", value: "Course-2" },
-                { label: "Course 3", value: "Course-3" },
-              ]}
+          <GridItem colSpan={courseIsUnknown ? 1 : 2}>
+            <Input
+              id="title"
               isRequired
-            />
-          </GridItem>
-          <GridItem rowStart={2}>
-            <DatePicker id="lesson-date" isRequired label="Lesson date" />
-          </GridItem>
-
-          {/* Row 3 */}
-          <GridItem rowStart={3}>
-            <TimePicker
-              id="lesson-start-time"
-              isRequired
-              label="Lesson start time"
-            />
-          </GridItem>
-          <GridItem rowStart={3}>
-            <TimePicker
-              id="lesson-end-time"
-              isRequired
-              label="Lesson end time"
+              label="Lesson title"
+              error={errors.title?.message}
+              {...register("title", { required: "Lesson title is required" })}
             />
           </GridItem>
 
-          {/* Row 4 */}
+          <GridItem>
+            <DateTimePicker
+              id="startTime"
+              isRequired
+              label="Start date & time"
+              value={startTimeManager.value}
+              onChange={startTimeManager.handleChange}
+              // error={errors.startTime?.message}
+              // {...register("startTime", { required: "Start time is required" })}
+            />
+          </GridItem>
+
+          <GridItem>
+            <DateTimePicker
+              id="EndTime"
+              isRequired
+              label="End date & time"
+              value={endTimeManager.value}
+              onChange={endTimeManager.handleChange}
+            />
+          </GridItem>
+
           <GridItem colSpan={2}>
             <RichText
               height="250px"
               id="content"
               label="Content"
-              onChange={richTextHook.onChange}
+              onChange={contentManager.handleChange}
             />
           </GridItem>
 
-          {/* Row 5 */}
-          <GridItem rowStart={5}>
+          <GridItem>
             <Select
-              id="file-type"
+              id="lessonTypeId"
               label="File type"
-              value="pdf"
-              options={[
-                { label: "PDF", value: "pdf" },
-                { label: "Video", value: "video" },
-              ]}
+              options={populateSelectOptions(metadata?.lessonType)}
+              isLoading={!metadata?.lessonType}
               isRequired
+              error={errors.lessonTypeId?.message}
+              {...register("lessonTypeId", {
+                required: "File type is required",
+              })}
             />
           </GridItem>
 
           <GridItem colSpan={2}>
             <Upload
-              id="lesson-file"
+              id="file"
               label="Lesson file"
               isRequired
-              onFileSelect={(file) => console.log(file)}
+              videoUrl={fileManager.video.url}
+              pdfUrl={fileManager.pdf.url}
+              disabled={!getValues("lessonTypeId")}
+              onFileSelect={fileManager.handleFileSelect}
+              accept={fileManager.accept}
             />
           </GridItem>
         </Grid>

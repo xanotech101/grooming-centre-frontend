@@ -9,7 +9,7 @@ export const RichText = ({
   isRequired,
   label,
   placeholder,
-  onChange = () => {},
+  onChange,
 }) => {
   const save = (data) => {
     console.log(data);

@@ -1,16 +1,42 @@
 import { useState } from "react";
 
-export const useUpload = (props) => {
-  const initAccept = props?.initAccept || "image/jpeg, image/png";
+export const useUpload = () => {
+  const initAccept = "image/jpeg, image/png";
 
   const [accept, setAccept] = useState(initAccept);
   const [file, setFile] = useState(null);
   const [image, setImage] = useState({ url: null });
+  const [video, setVideo] = useState({ url: null });
+  const [pdf, setPdf] = useState({ url: null });
 
   const handleFileSelect = (file) => {
-    const url = URL.createObjectURL(file);
+    const fileIsAnImage = /(image)/i.test(accept);
+    const fileIsAVideo = /(video)/i.test(accept);
+    const fileIsPDF = /(pdf)/i.test(accept);
 
-    setImage({ url });
+    if (file) {
+      if (fileIsAnImage) {
+        const url = URL.createObjectURL(file);
+        setImage({ url });
+      }
+
+      if (fileIsAVideo) {
+        const url = URL.createObjectURL(file);
+        setVideo({ url });
+      }
+
+      if (fileIsPDF) {
+        const url = URL.createObjectURL(file);
+        setPdf({ url });
+      }
+    } else {
+      setVideo({ url: null });
+      setImage({ url: null });
+      setPdf({ url: null });
+    }
+
+    console.log(file, fileIsPDF);
+
     setFile(file);
   };
 
@@ -21,7 +47,8 @@ export const useUpload = (props) => {
   const handleAcceptChange = (accept) => setAccept(accept);
 
   const handleGetFileAndValidate = (label) => {
-    if (!image.url) throw new Error(`Please upload a ${label}`);
+    if (!image.url && !video.url && !pdf.url)
+      throw new Error(`Please upload a ${label}`);
 
     return file;
   };
@@ -29,6 +56,8 @@ export const useUpload = (props) => {
   return {
     accept,
     image,
+    video,
+    pdf,
     file,
     handleFileSelect,
     handleAcceptChange,

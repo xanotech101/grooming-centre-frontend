@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/layout";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import {
@@ -127,6 +127,7 @@ const useCourseListing = () => {
 };
 
 const LessonPage = () => {
+  const { id: courseId } = useParams();
   const { rows, setRows, fetchCourses } = useCourseListing();
 
   useEffect(() => {
@@ -167,7 +168,9 @@ const LessonPage = () => {
           Lessons
         </Heading>
 
-        <Button link="/admin/courses/:id/lessons/create">Add Lesson</Button>
+        <Button link={`/admin/courses/${courseId}/lessons/edit/new`}>
+          Add Lesson
+        </Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />

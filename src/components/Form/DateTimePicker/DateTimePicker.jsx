@@ -9,7 +9,7 @@ export const DateTimePicker = ({
   label,
   value,
   helperText,
-  onChange = () => {},
+  onChange,
 }) => {
   return (
     <FormGroup

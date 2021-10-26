@@ -28,7 +28,7 @@ const MainArea = () => {
           {/* <EditCourseInfoPageRoute exact path="/admin/courses/edit/:id" /> */}
           <CreateLessonPageRoute
             exact
-            path="/admin/courses/:id/lessons/create"
+            path="/admin/courses/:courseId/lessons/edit/:lessonId"
           />
           <CreateAssessmentPageRoute path="/admin/courses/:id/assessment" />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
