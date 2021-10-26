@@ -12,7 +12,7 @@ import {
   ViewCourseInfoPageRoute,
   ViewLessonInfoPageRoute,
   UserListingPageRoute,
-  EditCourseInfoPageRoute,
+  // EditCourseInfoPageRoute,
   EditLessonInfoPageRoute,
   AssessmentPageRoute,
 } from "../../../pages/admin";
@@ -24,15 +24,18 @@ const MainArea = () => {
         <Switch>
           <DashboardPageRoute exact path="/admin" />
           <CourseListingPageRoute exact path="/admin/courses" />
-          <CreateCoursePageRoute exact path="/admin/courses/create" />
+          <CreateCoursePageRoute exact path="/admin/course/edit/:id" />
+          {/* <EditCourseInfoPageRoute exact path="/admin/course/edit/:id" /> */}
           <CreateLessonPageRoute
             exact
             path="/admin/courses/:id/lessons/create"
           />
           <AssessmentPageRoute path="/admin/courses/:id/assessment/:assessmentId" />
-          <EditCourseInfoPageRoute exact path="/admin/course/edit/:id" />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
-          <EditLessonInfoPageRoute exact path="/admin/course/:courseId/lesson/edit/:lessonId" />
+          <EditLessonInfoPageRoute
+            exact
+            path="/admin/course/:courseId/lesson/edit/:lessonId"
+          />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
           <ViewLessonInfoPageRoute
             exact
