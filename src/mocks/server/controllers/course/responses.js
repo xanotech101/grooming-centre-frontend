@@ -1,7 +1,7 @@
 export const adminCourseListingRes = {
   data: [
     {
-      id: 23,
+      id: "courseId_1",
       title: "The implication of financial crisis in the society",
       instructor: {
         firstName: "Roman",
@@ -16,7 +16,7 @@ export const adminCourseListingRes = {
         "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
     },
     {
-      id: 1,
+      id: "courseId_3",
       title: "The best course on automation testing",
       instructor: {
         firstName: "Richcode",
@@ -35,6 +35,27 @@ export const adminCourseListingRes = {
 
 export const adminCreateCourseRes = {
   message: "course created successfully",
+  data: {
+    id: "courseId_1",
+  },
+};
+
+export const adminEditCourseRes_courseId_1 = {
+  message: "course updated successfully",
+  data: [
+    {
+      id: "courseId_1",
+    },
+  ],
+};
+
+export const adminEditCourseRes_courseId_3 = {
+  message: "course updated successfully",
+  data: [
+    {
+      id: "courseId_3",
+    },
+  ],
 };
 
 export const userCourseListingRes = {
@@ -109,6 +130,8 @@ export const userCourseDetailsRes_courseId_1 = {
       "Lorem ipsum dolor sit amet consectetur adipisicing elit.Maxime mollitia,molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborumnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentiumoptio, eaque rerum! Provident similique accusantium nemo autem. Veritatisobcaecati tenetur iure eius earum ut molestias architecto voluptate aliquamnihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint.",
     thumbnail:
       "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
+    certificate:
+      "https://images.unsplash.com/photo-1570610159825-ec5d3823660c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1033&q=80",
     lesson: [
       {
         id: "lessonId_1",
@@ -146,6 +169,8 @@ export const userCourseDetailsRes_courseId_3 = {
       "Lorem ipsum dolor sit amet consectetur adipisicing elit.Maxime mollitia,molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborumnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentiumoptio, eaque rerum! Provident similique accusantium nemo autem. Veritatisobcaecati tenetur iure eius earum ut molestias architecto voluptate aliquamnihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint.",
     thumbnail:
       "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
+    certificate:
+      "https://images.unsplash.com/photo-1570610159825-ec5d3823660c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1033&q=80",
     lesson: [
       {
         id: "lessonId_1",

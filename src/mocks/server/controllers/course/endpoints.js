@@ -7,6 +7,8 @@ import {
   userCourseDetailsRes_courseId_3,
   userCourseListingRes,
   adminCreateCourseRes,
+  adminEditCourseRes_courseId_1,
+  adminEditCourseRes_courseId_3,
 } from "./responses";
 
 const adminGetCourseListing = rest.get(
@@ -19,26 +21,40 @@ const adminCreateCourse = rest.post(
   handleSuccessResponse(adminCreateCourseRes)
 );
 
+const adminEditCourse = [
+  rest.patch(
+    getUrl("/course/edit/courseId_1"),
+    handleSuccessResponse(adminEditCourseRes_courseId_1)
+  ),
+
+  rest.patch(
+    getUrl("/course/edit/courseId_3"),
+    handleSuccessResponse(adminEditCourseRes_courseId_3)
+  ),
+];
+
 const userGetCourseListing = rest.get(
   getUrl("/course/user/courses"),
   handleSuccessResponse(userCourseListingRes)
 );
 
-const userGetCourseDetailsForCourseId_1 = rest.get(
-  getUrl("/course/courseId_1"),
-  handleSuccessResponse(userCourseDetailsRes_courseId_1)
-);
-const userGetCourseDetailsForCourseId_3 = rest.get(
-  getUrl("/course/courseId_3"),
-  handleSuccessResponse(userCourseDetailsRes_courseId_3)
-);
+const userGetCourseDetails = [
+  rest.get(
+    getUrl("/course/courseId_1"),
+    handleSuccessResponse(userCourseDetailsRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/course/courseId_3"),
+    handleSuccessResponse(userCourseDetailsRes_courseId_3)
+  ),
+];
 
 const course = [
   adminGetCourseListing,
   userGetCourseListing,
-  userGetCourseDetailsForCourseId_1,
-  userGetCourseDetailsForCourseId_3,
-  adminCreateCourse
+  adminCreateCourse,
+  ...userGetCourseDetails,
+  ...adminEditCourse,
 ];
 
 export default course;
