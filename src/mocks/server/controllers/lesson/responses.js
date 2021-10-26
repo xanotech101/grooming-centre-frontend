@@ -1,3 +1,10 @@
+export const adminCreateLessonRes = {
+  message: "lesson created successfully",
+  data: {
+    id: "lessonId_1",
+  },
+};
+
 export const requestLessonDetailsRes_lessonId_1 = {
   data: {
     // hasEnded: true, // TODO:remove

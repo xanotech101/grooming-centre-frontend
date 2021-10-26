@@ -2,6 +2,7 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
+  adminCreateLessonRes,
   requestEndLessonRes,
   requestLessonDetailsRes_lessonId_1,
   requestLessonDetailsRes_lessonId_2,
@@ -36,6 +37,16 @@ const requestEndLesson = [
   ),
 ];
 
-const lesson = [...requestLessonDetailsForLessonId, ...requestEndLesson];
+const adminCreateLesson = rest.post(
+  // TODO: change `method`
+  getUrl("/lesson/create"), // TODO: change `path`
+  handleSuccessResponse(adminCreateLessonRes)
+);
+
+const lesson = [
+  ...requestLessonDetailsForLessonId,
+  ...requestEndLesson,
+  adminCreateLesson,
+];
 
 export default lesson;

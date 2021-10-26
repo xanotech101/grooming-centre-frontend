@@ -1,10 +1,6 @@
 import { useToast } from "@chakra-ui/toast";
 import { Grid, GridItem } from "@chakra-ui/layout";
-import {
-  Route,
-  useParams,
-  // useHistory
-} from "react-router-dom";
+import { Route, useParams, useHistory } from "react-router-dom";
 import {
   DateTimePicker,
   Input,
@@ -18,15 +14,21 @@ import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useDateTimePicker, useUpload, useRichText } from "../../../hooks";
-import { capitalizeFirstLetter, populateSelectOptions } from "../../../utils";
+import {
+  appendFormData,
+  capitalizeFirstLetter,
+  formatDateToISO,
+  populateSelectOptions,
+} from "../../../utils";
 import { useApp } from "../../../contexts";
 import { useEffect } from "react";
+import { adminCreateLesson } from "../../../services";
 
 const CreateLessonPage = () => {
   const { courseId } = useParams();
   const courseIsUnknown = courseId === "unknown";
 
-  // const history = useHistory();
+  const { push } = useHistory();
   const toast = useToast();
 
   const {
@@ -61,6 +63,7 @@ const CreateLessonPage = () => {
         if (lessonType === "pdf") {
           fileManager.handleAcceptChange("application/pdf");
         }
+
         if (lessonType === "video") {
           fileManager.handleAcceptChange("video/mp4, video/mkv");
         }
@@ -79,16 +82,25 @@ const CreateLessonPage = () => {
       const content = contentManager.handleGetValueAndValidate("Content");
       const file = fileManager.handleGetFileAndValidate("Lesson File");
 
-      data = { ...data, startTime, endTime, file, content };
+      data = {
+        ...data,
+        file,
+        content,
+        startTime: formatDateToISO(startTime),
+        endTime: formatDateToISO(endTime),
+      };
 
-      console.log(data);
+      const body = appendFormData(data);
+
+      const { message, lesson } = await adminCreateLesson(body);
+
       toast({
-        description: capitalizeFirstLetter("created"),
+        description: capitalizeFirstLetter(message),
         position: "top",
         status: "success",
       });
 
-      // history.push(`/admin/courses/:courseId_1/lesson/lessonId_1/view`);
+      push(`/admin/courses/${courseId}/lesson/${lesson.id}/view`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -136,7 +148,7 @@ const CreateLessonPage = () => {
                   { label: "Course 2", value: "Course-2" },
                   { label: "Course 3", value: "Course-3" },
                 ]}
-                isRequired
+                isRequire
                 error={errors.courseId?.message}
                 {...register("courseId", {
                   required: "Please select a Course",
