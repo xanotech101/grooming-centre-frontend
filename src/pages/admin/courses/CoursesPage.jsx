@@ -26,7 +26,7 @@ export const CoursesPage = () => {
           paddingBottom={10}
         >
           <ButtonGroup display="flex" justifyContent="flex-end">
-            <Button link="/admin/course/edit/new">Add Course</Button>
+            <Button link="/admin/courses/edit/new">Add Course</Button>
 
             <Button link="/admin/courses/:id/lessons/create" secondary>
               Add Lesson

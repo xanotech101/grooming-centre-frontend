@@ -167,7 +167,7 @@ const CourseListingPage = () => {
           Courses
         </Heading>
 
-        <Button link="/admin/course/edit/new">Add Course</Button>
+        <Button link="/admin/courses/edit/new">Add Course</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />
