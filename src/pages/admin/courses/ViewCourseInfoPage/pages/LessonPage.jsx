@@ -12,7 +12,7 @@ import {
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetCourseListing } from "../../../../../services";
+import { adminGetLessonListing } from "../../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 
@@ -48,16 +48,17 @@ const tableProps = {
 
   columns: [
     {
-      id: "1",
-      key: "id",
-      text: "Lesson ID",
-      fraction: "100px",
-    },
-    {
-      id: "2",
+      id: "title",
       key: "title",
       text: "Lesson Title",
-      fraction: "2fr",
+      fraction: "5fr",
+      renderContent: (data) => (
+        <Link
+          href={`/admin/courses/${data.courseId}/lesson/${data.lessonId}/view`}
+        >
+          <Text>{data.text}</Text>
+        </Link>
+      ),
     },
     {
       id: "4",
@@ -91,7 +92,7 @@ const tableProps = {
   },
 };
 
-const useCourseListing = () => {
+const useLessonListing = () => {
   const componentIsMount = useComponentIsMount();
 
   const [rows, setRows] = useState({
@@ -100,14 +101,14 @@ const useCourseListing = () => {
     err: false,
   });
 
-  const fetchCourses = useCallback(
+  const fetchLessons = useCallback(
     async (mapper) => {
       setRows({ loading: true });
 
       try {
-        const { courses } = await adminGetCourseListing();
+        const { lessons } = await adminGetLessonListing();
 
-        const data = mapper ? courses.map(mapper) : courses;
+        const data = mapper ? lessons.map(mapper) : lessons;
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
@@ -122,24 +123,28 @@ const useCourseListing = () => {
   return {
     rows,
     setRows,
-    fetchCourses,
+    fetchLessons,
   };
 };
 
 const LessonPage = () => {
   const { id: courseId } = useParams();
-  const { rows, setRows, fetchCourses } = useCourseListing();
+  const { rows, setRows, fetchLessons } = useLessonListing();
 
   useEffect(() => {
-    const mapCourseToRow = (course) => ({
-      id: course.id,
-      title: course.title,
-      startDate: course.startDate,
-      status: course.isPublished,
+    const mapCourseToRow = (lesson) => ({
+      id: lesson.id,
+      title: {
+        text: lesson.title,
+        lessonId: lesson.id,
+        courseId: lesson.courseId,
+      },
+      startDate: lesson.startTime,
+      status: lesson.active,
     });
 
-    fetchCourses(mapCourseToRow);
-  }, [fetchCourses]);
+    fetchLessons(mapCourseToRow);
+  }, [fetchLessons]);
 
   return (
     <AdminMainAreaWrapper>

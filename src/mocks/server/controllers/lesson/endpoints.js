@@ -3,6 +3,7 @@ import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
   adminCreateLessonRes,
+  adminGetLessonListingRes,
   requestEndLessonRes,
   requestLessonDetailsRes_lessonId_1,
   requestLessonDetailsRes_lessonId_2,
@@ -43,9 +44,16 @@ const adminCreateLesson = rest.post(
   handleSuccessResponse(adminCreateLessonRes)
 );
 
+const adminGetLessonListing = rest.post(
+  // TODO: change `method`
+  getUrl("/lesson/admin"), // TODO: change `path`
+  handleSuccessResponse(adminGetLessonListingRes)
+);
+
 const lesson = [
   ...requestLessonDetailsForLessonId,
   ...requestEndLesson,
+  adminGetLessonListing,
   adminCreateLesson,
 ];
 

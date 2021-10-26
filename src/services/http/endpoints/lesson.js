@@ -51,3 +51,27 @@ export const adminCreateLesson = async (body) => {
 
   return { message, lesson };
 };
+
+/**
+ * Endpoint to for admin to create a lesson
+ * @param {{ title: string, content: string, lessonTypeId: string, startTime: Date, endTime: Date, file: File }} body
+ *
+ * @returns {Promise<{ message: string, lessons: Array<{ id: string, title: string, startTime: Date, active: boolean, courseId: string }>}>}
+ */
+export const adminGetLessonListing = async (body) => {
+  const path = `/lesson/admin`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const lessons = data.rows.map((lesson) => ({
+    id: lesson.id,
+    title: lesson.title,
+    startTime: lesson.startTime,
+    active: lesson.active,
+    courseId: lesson.courseId,
+  }));
+
+  return { message, lessons };
+};

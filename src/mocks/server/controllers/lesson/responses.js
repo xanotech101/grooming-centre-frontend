@@ -5,6 +5,27 @@ export const adminCreateLessonRes = {
   },
 };
 
+export const adminGetLessonListingRes = {
+  data: {
+    rows: [
+      {
+        id: "lessonId_1",
+        courseId: "courseId_1",
+        title: "Introduction to GO",
+        startTime: "2021-010-21 02:25 PM",
+        active: true,
+      },
+      {
+        id: "lessonId_2",
+        courseId: "courseId_2",
+        title: "Advance GO",
+        startTime: "2021-010-21 02:25 PM",
+        active: false,
+      },
+    ],
+  },
+};
+
 export const requestLessonDetailsRes_lessonId_1 = {
   data: {
     // hasEnded: true, // TODO:remove
