@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import Header from "./Header";
 import MainArea from "./MainArea";
 
-const CreateAssessmentPage = () => {
+const AssessmentPage = () => {
   return (
     <Flex flexDirection="column" height="100%">
       <Header />
@@ -12,8 +12,8 @@ const CreateAssessmentPage = () => {
   );
 };
 
-export const CreateAssessmentPageRoute = ({ ...rest }) => {
+export const AssessmentPageRoute = ({ ...rest }) => {
   return (
-    <Route {...rest} render={(props) => <CreateAssessmentPage {...props} />} />
+    <Route {...rest} render={(props) => <AssessmentPage {...props} />} />
   );
 };
