@@ -37,6 +37,30 @@ export const requestExaminationDetails = async (id) => {
 };
 
 /**
+ * Endpoint for examination listing
+ * @param {string} courseId
+ *
+ * @returns {Promise<{ examinations: Array<{ id: string, courseId: string, title: string,  startTime: Date, duration: number }> }>}
+ */
+export const adminGetExaminationListing = async (courseId) => {
+  const path = `/examination/course/${courseId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const examinations = data.map((examination) => ({
+    id: examination.id,
+    title: examination.title,
+    courseId: examination.courseId,
+    duration: examination.duration,
+    startTime: examination.startTime,
+  }));
+
+  return { examinations };
+};
+
+/**
  * Endpoint to submit an `examination`
  * @param {string} id - examinationId
  * @param {{}} body - answers

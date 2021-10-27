@@ -106,7 +106,7 @@ export const submitAssessmentRes = {
   message: "submit successful",
 };
 
-export const adminGetAssessmentListingRes_courseId_1 = {
+export const adminGetExaminationListingRes_courseId_1 = {
   data: [
     {
       id: "assessmentId_1",
@@ -118,7 +118,7 @@ export const adminGetAssessmentListingRes_courseId_1 = {
   ],
 };
 
-export const adminGetAssessmentListingRes_courseId_3 = {
+export const adminGetExaminationListingRes_courseId_3 = {
   data: [
     {
       id: "assessmentId_2",

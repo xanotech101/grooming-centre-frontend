@@ -5,14 +5,14 @@ import {
   Button,
   Heading,
   Table,
+  Text,
   Breadcrumb,
   Link,
-  Text,
 } from "../../../../../components";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetAssessmentListing } from "../../../../../services";
+import { adminGetExaminationListing } from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
 
@@ -39,11 +39,11 @@ const tableProps = {
     {
       id: "2",
       key: "title",
-      text: "Assessment Title",
+      text: "Examination Title",
       fraction: "2fr",
       renderContent: (data) => (
         <Link
-          href={`/admin/courses/${data.courseId}/assessment/${data.assessmentId}/overview`}
+          href={`/admin/courses/${data.courseId}/assessment/${data.examinationId}/overview`}
         >
           <Text>{data.text}</Text>
         </Link>
@@ -69,7 +69,7 @@ const tableProps = {
   },
 };
 
-const useAssessmentListing = () => {
+const useExaminationListing = () => {
   const componentIsMount = useComponentIsMount();
   const { id: courseId } = useParams();
 
@@ -84,9 +84,9 @@ const useAssessmentListing = () => {
       setRows({ loading: true });
 
       try {
-        const { assessments } = await adminGetAssessmentListing(courseId);
+        const { examinations } = await adminGetExaminationListing(courseId);
 
-        const data = mapper ? assessments.map(mapper) : assessments;
+        const data = mapper ? examinations.map(mapper) : examinations;
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
@@ -106,16 +106,20 @@ const useAssessmentListing = () => {
   };
 };
 
-const AssessmentListingPage = () => {
-  const { rows, setRows, fetchCourses } = useAssessmentListing();
+const ExamListingPage = () => {
+  const { rows, setRows, fetchCourses } = useExaminationListing();
   const { id: courseId } = useParams();
 
   useEffect(() => {
-    const mapCourseToRow = (assessment) => ({
-      id: assessment.id,
-      title: { text: assessment.title, assessmentId: assessment.id, courseId },
-      startDate: assessment.startTime,
-      duration: getDuration(assessment.duration).combinedText,
+    const mapCourseToRow = (examination) => ({
+      id: examination.id,
+      title: {
+        text: examination.title,
+        examinationId: examination.id,
+        courseId,
+      },
+      startDate: examination.startTime,
+      duration: getDuration(examination.duration).combinedText,
     });
 
     fetchCourses(mapCourseToRow);
@@ -131,7 +135,7 @@ const AssessmentListingPage = () => {
         }
         item3={
           <BreadcrumbItem isCurrentPage>
-            <Link href="#">Assessments</Link>
+            <Link href="#">Examination</Link>
           </BreadcrumbItem>
         }
       />
@@ -145,11 +149,13 @@ const AssessmentListingPage = () => {
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
-          Assessments
+          Examination
         </Heading>
 
-        <Button link={`/admin/courses/${courseId}/assessment/new/overview`}>
-          Add Assessment
+        <Button
+          link={`/admin/courses/${courseId}/assessment/new/overview?examination=true`}
+        >
+          Add Examination
         </Button>
       </Flex>
 
@@ -158,10 +164,8 @@ const AssessmentListingPage = () => {
   );
 };
 
-export const AssessmentListingPageRoute = ({ ...rest }) => {
-  return (
-    <Route {...rest} render={(props) => <AssessmentListingPage {...props} />} />
-  );
+export const ExamListingPageRoute = ({ ...rest }) => {
+  return <Route {...rest} render={(props) => <ExamListingPage {...props} />} />;
 };
 
-export default AssessmentListingPageRoute;
+export default ExamListingPageRoute;
