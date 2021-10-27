@@ -1,0 +1,157 @@
+import { Route, useParams } from "react-router-dom";
+import { Flex } from "@chakra-ui/layout";
+import { BreadcrumbItem } from "@chakra-ui/react";
+import {
+  Button,
+  Heading,
+  Table,
+  Breadcrumb,
+  Link,
+} from "../../../../../components";
+import { FaSortAmountUpAlt } from "react-icons/fa";
+import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
+import { useCallback, useEffect, useState } from "react";
+import { adminGetCourseListing } from "../../../../../services";
+import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import { getDuration } from "../../../../../utils";
+
+const tableProps = {
+  filterControls: [
+    {
+      triggerText: "Sort",
+      triggerIcon: <FaSortAmountUpAlt />,
+      width: "200px",
+      position: "right-bottom",
+      noFilterTags: true,
+      body: {
+        radios: [
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
+        ],
+      },
+    },
+  ],
+
+  columns: [
+    {
+      id: "2",
+      key: "title",
+      text: "Assessment Title",
+      fraction: "2fr",
+    },
+    {
+      id: "4",
+      key: "startDate",
+      text: "Start Date",
+      fraction: "200px",
+    },
+    {
+      id: "5",
+      key: "duration",
+      text: "Duration",
+      fraction: "100px",
+    },
+  ],
+
+  options: {
+    action: true,
+    selection: true,
+  },
+};
+
+const useCourseListing = () => {
+  const componentIsMount = useComponentIsMount();
+
+  const [rows, setRows] = useState({
+    data: null,
+    loading: false,
+    err: false,
+  });
+
+  const fetchCourses = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
+
+      try {
+        const { courses } = await adminGetCourseListing();
+
+        const data = mapper ? courses.map(mapper) : courses;
+
+        if (componentIsMount) setRows({ data });
+      } catch (err) {
+        if (componentIsMount) setRows({ err: true });
+      } finally {
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [setRows, componentIsMount]
+  );
+
+  return {
+    rows,
+    setRows,
+    fetchCourses,
+  };
+};
+
+const AssessmentListingPage = () => {
+  const { rows, setRows, fetchCourses } = useCourseListing();
+  const { id: courseId } = useParams();
+
+  useEffect(() => {
+    const mapCourseToRow = (assessment) => ({
+      id: assessment.id,
+      title: assessment.title,
+      startDate: assessment.startTime,
+      duration: getDuration(assessment.duration).combinedText,
+    });
+
+    fetchCourses(mapCourseToRow);
+  }, [fetchCourses]);
+
+  return (
+    <AdminMainAreaWrapper>
+      <Breadcrumb
+        item2={
+          <BreadcrumbItem isCurrentPage>
+            <Link href="/admin/courses">Courses </Link>
+          </BreadcrumbItem>
+        }
+        item3={
+          <BreadcrumbItem isCurrentPage>
+            <Link href="#">Assessments</Link>
+          </BreadcrumbItem>
+        }
+      />
+
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        borderBottom="1px"
+        borderColor="accent.2"
+        paddingBottom={5}
+        marginBottom={5}
+      >
+        <Heading as="h1" fontSize="heading.h3">
+          Assessments
+        </Heading>
+
+        <Button link={`/admin/courses/${courseId}/assessment/new/overview`}>
+          Add Assessment
+        </Button>
+      </Flex>
+
+      <Table {...tableProps} rows={rows} setRows={setRows} />
+    </AdminMainAreaWrapper>
+  );
+};
+
+export const AssessmentListingPageRoute = ({ ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => <AssessmentListingPage {...props} />} />
+  );
+};
+
+export default AssessmentListingPageRoute;
