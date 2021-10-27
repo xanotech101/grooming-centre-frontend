@@ -36,6 +36,26 @@ export const requestExaminationDetails = async (id) => {
   return { examination };
 };
 
+
+/**
+ * Endpoint for examination creation
+ * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body
+ * @returns {Promise<{ message: string, examination: { id: string } }>}
+ */
+export const adminCreateExamination = async (body) => {
+  const path = `/examination/create`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+   const examination = {
+     id: data.id,
+   };
+
+   return { message, examination };
+};
+
 /**
  * Endpoint to submit an `examination`
  * @param {string} id - examinationId

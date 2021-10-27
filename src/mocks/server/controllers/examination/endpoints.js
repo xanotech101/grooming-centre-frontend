@@ -4,6 +4,7 @@ import { handleSuccessResponse } from "../helpers";
 import {
   requestExaminationRes_examinationId_1,
   submitExaminationRes,
+  adminCreateExaminationRes,
 } from "./responses";
 
 const requestExaminationForAssessmentId = [
@@ -18,6 +19,12 @@ const submitExamination = rest.post(
   handleSuccessResponse(submitExaminationRes)
 );
 
-const examination = [...requestExaminationForAssessmentId, submitExamination];
+
+const adminCreateExamination = rest.post(
+  getUrl("/examination/create"),
+  handleSuccessResponse(adminCreateExaminationRes)
+);
+
+const examination = [...requestExaminationForAssessmentId, submitExamination, adminCreateExamination];
 
 export default examination;

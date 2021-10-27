@@ -9,7 +9,7 @@ import {
   useQueryParams,
 } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
-import { adminCreateAssessment } from "../../../../../services";
+import { adminCreateAssessment, adminCreateExamination } from "../../../../../services";
 import {
   appendFormData,
   capitalizeFirstLetter,
@@ -48,7 +48,7 @@ const OverviewPage = () => {
 
       const body = appendFormData(data);
 
-      const { message, assessment } = await adminCreateAssessment(body);
+      const { message, assessment, examination } = await (isExamination ? adminCreateExamination(body) : adminCreateAssessment(body));
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -56,6 +56,9 @@ const OverviewPage = () => {
         status: "success",
       });
       setTimeout(() => {
+        isExamination ?  push(
+          `/admin/courses/${courseId}/assessment/${examination.id}/questions?examination=true`
+        ) :
         push(
           `/admin/courses/${courseId}/assessment/${assessment.id}/questions`
         );
