@@ -4,7 +4,13 @@ import { Box, Grid, Flex } from "@chakra-ui/layout";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import {
   Heading,
-  Breadcrumb, SkeletonText, Text, Button, Link, Image, Spinner 
+  Breadcrumb,
+  SkeletonText,
+  Text,
+  Button,
+  Link,
+  Image,
+  Spinner,
 } from "../../../../../components";
 import { OverviewBox } from "../../../users/UserInfoPage/pages/ProfilePage";
 import { FiCheckSquare } from "react-icons/fi";
@@ -25,8 +31,8 @@ const InfoPage = () => {
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
-  console.log(courseDetailsData); 
- 
+  console.log(courseDetailsData);
+
   return isLoading || isError ? (
     <Flex
       // Make the height 100% of the screen minus the `height` of the Header and Footer
@@ -70,7 +76,7 @@ const InfoPage = () => {
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
-            link={`/admin/course/edit/${courseDetailsData?.id}`}
+            link={`/admin/courses/edit/${courseDetailsData?.id}`}
           >
             Edit
           </Button>
@@ -151,12 +157,9 @@ const InfoPage = () => {
           </Grid>
         </Box>
       </Box>
-      </Box>
-      
+    </Box>
   );
-  
 };
-
 
 const InfoPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <InfoPage {...props} />} />;

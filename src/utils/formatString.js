@@ -40,3 +40,13 @@ export function getFullName(user) {
 export function formatToUsername(fullName) {
   return `@${fullName.replace(" ", "_")}`;
 }
+
+/**
+ * format Date to ISO 8601 format
+ * @param {Date}
+ *
+ * @returns {Date}
+ */
+export function formatDateToISO(date) {
+  return new Date(date).toISOString();
+}

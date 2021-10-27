@@ -17,6 +17,8 @@ export const Upload = forwardRef(
       isRequired,
       isMini,
       imageUrl,
+      videoUrl,
+      pdfUrl,
       alt,
       label,
       onFileSelect,
@@ -40,8 +42,10 @@ export const Upload = forwardRef(
       accept,
     });
 
+    const hasUploaded = imageUrl || videoUrl || pdfUrl;
+
     const renderContent = (props) => {
-      const style = !imageUrl
+      const style = !hasUploaded
         ? {
             flexDirection: "column",
             justifyContent: "center",
@@ -55,9 +59,22 @@ export const Upload = forwardRef(
         <Flex {...style} {...props} {...getRootProps()}>
           <Input ref={ref} {...getInputProps()} {...rest} />
 
-          {imageUrl ? (
+          {hasUploaded ? (
             <>
-              <Image src={imageUrl} width="223px" height="136px" alt={alt} />
+              {videoUrl ? (
+                <video src={videoUrl} controls width="300px" height="150px" />
+              ) : pdfUrl ? (
+                <object
+                  width="100%"
+                  height="400"
+                  data={pdfUrl}
+                  type="application/pdf"
+                >
+                  {" "}
+                </object>
+              ) : (
+                <Image src={imageUrl} width="300px" height="150px" alt={alt} />
+              )}
               <MiniUploadContent
                 mute
                 hideImage

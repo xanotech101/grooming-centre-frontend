@@ -9,7 +9,8 @@ export const RichText = ({
   isRequired,
   label,
   placeholder,
-  onChange = () => {},
+  defaultValue,
+  onChange,
 }) => {
   const save = (data) => {
     console.log(data);
@@ -61,6 +62,7 @@ export const RichText = ({
             }}
             draftEditorProps={{ spellCheck: true }}
             onChange={onChange}
+            defaultValue={defaultValue}
           />
         </Box>
       )}
@@ -72,5 +74,6 @@ RichText.propTypes = {
   ...FormGroupPropTypes,
   placeholder: PropTypes.string,
   value: PropTypes.string,
+  defaultValue: PropTypes.any,
   onChange: PropTypes.func,
 };

@@ -10,8 +10,8 @@ const MiniUploadContent = forwardRef(
     ref
   ) => {
     const renderContent = () => (
-      <Button width="fit-content" secondary>
-        Upload
+      <Button width="fit-content" secondary sm>
+        Re-upload
       </Button>
     );
 

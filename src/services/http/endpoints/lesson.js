@@ -15,6 +15,7 @@ export const requestLessonDetails = async (id) => {
 
   return { lesson: data };
 };
+
 /**
  * Endpoint to end a lesson
  * @param {string} id - lessonId
@@ -29,4 +30,67 @@ export const requestEndLesson = async (id) => {
   } = await http.post(path); // TODO: change method
 
   return { message };
+};
+
+/**
+ * Endpoint to for admin to create a lesson
+ * @param {{ title: string, content: string, lessonTypeId: string, startTime: Date, endTime: Date, file: File }} body
+ *
+ * @returns {Promise<{ message: string, lesson: { id: string } }>}
+ */
+export const adminCreateLesson = async (body) => {
+  const path = `/lesson/create`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const lesson = {
+    id: data.id,
+  };
+
+  return { message, lesson };
+};
+/**
+ * Endpoint to for admin to edit a lesson
+ * @param {{ title: ?string, content: ?string, lessonTypeId: ?string, startTime: ?Date, endTime: ?Date, file: ?File, courseId: string }} body
+ *
+ * @returns {Promise<{ message: string, lesson: { id: string } }>}
+ */
+export const adminEditLesson = async (lessonId, body) => {
+  const path = `/lesson/edit/${lessonId}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const lesson = {
+    id: data[0].id,
+  };
+
+  return { message, lesson };
+};
+
+/**
+ * Endpoint to for admin to create a lesson
+ * @param {{ title: string, content: string, lessonTypeId: string, startTime: Date, endTime: Date, file: File, courseId: string }} body
+ *
+ * @returns {Promise<{ message: string, lessons: Array<{ id: string, title: string, startTime: Date, active: boolean, courseId: string }>}>}
+ */
+export const adminGetLessonListing = async (body) => {
+  const path = `/lesson/admin`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const lessons = data.rows.map((lesson) => ({
+    id: lesson.id,
+    title: lesson.title,
+    startTime: lesson.startTime,
+    active: lesson.active,
+    courseId: lesson.courseId,
+  }));
+
+  return { message, lessons };
 };

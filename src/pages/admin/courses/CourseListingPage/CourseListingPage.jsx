@@ -52,9 +52,9 @@ const tableProps = {
       key: "title",
       text: "Course Title",
       fraction: "400px",
-      renderContent: (title) => (
-        <Link href={`/admin/courses/details/${title.courseId}/info`}>
-          <Text>{title.text}</Text>
+      renderContent: (data) => (
+        <Link href={`/admin/courses/details/${data.courseId}/info`}>
+          <Text>{data.text}</Text>
         </Link>
       ),
     },
@@ -167,7 +167,7 @@ const CourseListingPage = () => {
           Courses
         </Heading>
 
-        <Button link="/admin/course/edit/new">Add Course</Button>
+        <Button link="/admin/courses/edit/new">Add Course</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />
