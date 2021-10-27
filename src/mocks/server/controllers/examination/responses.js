@@ -40,3 +40,10 @@ export const requestExaminationRes_examinationId_1 = {
 export const submitExaminationRes = {
   message: "submit successful",
 };
+
+export const adminCreateExaminationRes = {
+  message: "Examination created successfully",
+  data: {
+    id: "examinationId_1",
+  },
+};

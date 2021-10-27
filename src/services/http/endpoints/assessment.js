@@ -59,16 +59,20 @@ export const submitAssessment = async (id, body) => {
 /**
  * Endpoint for assessment creation
  * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body
- * @returns {Promise<{ message: string, data: Assessment }>}
+ * @returns {Promise<{ message: string, assessment: { id: string } }>}
  */
 export const adminCreateAssessment = async (body) => {
-  const path = "/assessment/create";
+  const path = `/assessment/create`;
 
   const {
     data: { message, data },
   } = await http.post(path, body);
 
-  return { message, data };
+   const assessment = {
+     id: data.id,
+   };
+
+   return { message, assessment };
 };
 
 

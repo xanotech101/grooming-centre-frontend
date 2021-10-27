@@ -5,6 +5,7 @@ import {
   requestAssessmentDetailsRes_assessmentId_1,
   requestAssessmentDetailsRes_assessmentId_2,
   submitAssessmentRes,
+  adminCreateAssessmentRes,
 } from "./responses";
 
 const requestAssessmentDetailsForAssessmentId = [
@@ -29,9 +30,15 @@ const submitAssessment = [
   ),
 ];
 
+const adminCreateAssessment = rest.post(
+  getUrl("/assessment/create"),
+  handleSuccessResponse(adminCreateAssessmentRes)
+);
+
 const assessment = [
   ...requestAssessmentDetailsForAssessmentId,
   ...submitAssessment,
+  adminCreateAssessment,
 ];
 
 export default assessment;
