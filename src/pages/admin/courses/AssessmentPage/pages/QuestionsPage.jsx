@@ -21,31 +21,17 @@ const QuestionsPage = () => {
   const isAddAnotherQuestion = useQueryParams().get("add-another-question");
   const { id: courseId, assessmentId } = useParams();
 
-  const { register, handleSubmit } = useForm();
+  const { register, reset, handleSubmit } = useForm();
   const questionRichTextManager = useRichText();
 
   const onSubmit = async (data) => {
     try {
       const question =
         questionRichTextManager.handleGetValueAndValidate("Content");
+      const options = buildOptions(data);
 
-      const options = [];
-
-      for (const item in data) {
-        if (Object.hasOwnProperty.call(data, item) && /option/.test(item)) {
-          const name = data[item];
-          const optionIndex = +item.replace("option-", "");
-          const isAnswer = +data.answer === optionIndex;
-
-          const option = {
-            name,
-            isAnswer,
-            optionIndex,
-          };
-
-          options.push(option);
-        }
-      }
+      const hasAnswer = options.find((opt) => opt.isAnswer);
+      if (!hasAnswer) throw new Error("Please select an answer");
 
       data = {
         assessmentId,
@@ -60,15 +46,15 @@ const QuestionsPage = () => {
       //   ? adminEditLesson(lessonId, body)
       //   : adminCreateLesson(body));
 
+      reset();
       toast({
         description: capitalizeFirstLetter("created success"),
         position: "top",
         status: "success",
       });
-
-      // push(
-      //   `/admin/courses/${courseId}/assessment/${assessmentId}/questions?add-another-question=true`
-      // );
+      push(
+        `/admin/courses/${courseId}/assessment/${assessmentId}/questions?add-another-question=true`
+      );
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -128,7 +114,7 @@ const QuestionsPage = () => {
                   <Input
                     id="option-1"
                     label="Option 01"
-                    {...register("option-1")}
+                    {...register("option-1", { required: "must not be empty" })}
                     placeholder="Enter the first option here"
                   />
                 </Flex>
@@ -144,7 +130,7 @@ const QuestionsPage = () => {
                   <Input
                     id="option-2"
                     label="Option 02"
-                    {...register("option-2")}
+                    {...register("option-2", { required: "must not be empty" })}
                     placeholder="Enter the first option here"
                   />
                 </Flex>
@@ -160,7 +146,7 @@ const QuestionsPage = () => {
                   <Input
                     id="option-3"
                     label="Option 03"
-                    {...register("option-3")}
+                    {...register("option-3", { required: "must not be empty" })}
                     placeholder="Enter the first option here"
                   />
                 </Flex>
@@ -175,7 +161,7 @@ const QuestionsPage = () => {
                   <Input
                     id="option-4"
                     label="Option 04"
-                    {...register("option-4")}
+                    {...register("option-4", { required: "must not be empty" })}
                     placeholder="Enter the first option here"
                   />
                 </Flex>
@@ -200,6 +186,28 @@ const QuestionsPage = () => {
       </Box>
     </Flex>
   );
+};
+
+const buildOptions = (data) => {
+  const options = [];
+
+  for (const item in data) {
+    if (Object.hasOwnProperty.call(data, item) && /option/.test(item)) {
+      const name = data[item];
+      const optionIndex = +item.replace("option-", "");
+      const isAnswer = +data.answer === optionIndex;
+
+      const option = {
+        name,
+        isAnswer,
+        optionIndex,
+      };
+
+      options.push(option);
+    }
+  }
+
+  return options;
 };
 
 const QuestionOverviewBox = ({ questionNumber, question }) => {
