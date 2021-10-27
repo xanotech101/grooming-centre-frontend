@@ -105,3 +105,10 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
 export const submitAssessmentRes = {
   message: "submit successful",
 };
+
+export const adminCreateAssessmentRes = {
+  message: "Assessment created successfully",
+  data: {
+    id: "assessmentId_1",
+  },
+};
