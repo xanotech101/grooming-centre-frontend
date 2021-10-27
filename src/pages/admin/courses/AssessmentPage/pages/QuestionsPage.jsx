@@ -9,15 +9,43 @@ import {
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { useHistory, useParams } from "react-router";
+import useQueryParams from "../../../../../hooks/useQueryParams";
+import {FiMoreHorizontal} from "react-icons/fi";
+
 
 const QuestionsPage = () => {
+  const { push } = useHistory();
+  const isAddAnotherQuestion = useQueryParams().get("add-another-question");
+  const { id: courseId, assessmentId } = useParams();
+
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
+    setTimeout(() => {
+      push(
+        `/admin/courses/${courseId}/assessment/${assessmentId}/questions?add-another-question=true`
+      );
+    }, 3000);
   };
 
   return (
-      <Flex as="form" onSubmit={handleSubmit(onSubmit)} >
+    <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
+      {isAddAnotherQuestion ? (
+        <Box padding={6} width="70%">
+          <QuestionOverviewBox
+            questionNumber="Question 01"
+            question="What is the meaning of what you dont know?"
+          />
+          <Box paddingTop={10}>
+            <Button
+              link={`/admin/courses/${courseId}/assessment/new/questions`}
+            >
+              Add Another Question
+            </Button>
+          </Box>
+        </Box>
+      ) : (
         <Box padding={6} width="70%">
           <Box
             paddingTop="20px"
@@ -55,51 +83,51 @@ const QuestionsPage = () => {
                   />
                 </Flex>
 
-                 <Flex flexDirection="row" paddingBottom={6}>
-                <Radio
-                  paddingTop={8}
-                  paddingRight={6}
-                  value="2"
-                  id="radio-2"
-                  {...register("answer")}
-                />
-                <Input
-                  id="option-2"
-                  label="Option 02"
-                  {...register("option-2")}
-                  placeholder="Enter the first option here"
-                />
+                <Flex flexDirection="row" paddingBottom={6}>
+                  <Radio
+                    paddingTop={8}
+                    paddingRight={6}
+                    value="2"
+                    id="radio-2"
+                    {...register("answer")}
+                  />
+                  <Input
+                    id="option-2"
+                    label="Option 02"
+                    {...register("option-2")}
+                    placeholder="Enter the first option here"
+                  />
                 </Flex>
 
-                 <Flex flexDirection="row" paddingBottom={6}>
-                <Radio
-                  paddingTop={8}
-                  paddingRight={6}
-                  value="3"
-                  id="radio-3"
-                  {...register("answer")}
-                />
-                <Input
-                  id="option-3"
-                  label="Option 03"
-                  {...register("option-3")}
-                  placeholder="Enter the first option here"
-                />
+                <Flex flexDirection="row" paddingBottom={6}>
+                  <Radio
+                    paddingTop={8}
+                    paddingRight={6}
+                    value="3"
+                    id="radio-3"
+                    {...register("answer")}
+                  />
+                  <Input
+                    id="option-3"
+                    label="Option 03"
+                    {...register("option-3")}
+                    placeholder="Enter the first option here"
+                  />
                 </Flex>
-                 <Flex flexDirection="row" paddingBottom={6}>
-                <Radio
-                  paddingTop={8}
-                  paddingRight={6}
-                  value="4"
-                  id="radio-4"
-                  {...register("answer")}
-                />
-                <Input
-                  id="option-4"
-                  label="Option 04"
-                  {...register("option-4")}
-                  placeholder="Enter the first option here"
-                />
+                <Flex flexDirection="row" paddingBottom={6}>
+                  <Radio
+                    paddingTop={8}
+                    paddingRight={6}
+                    value="4"
+                    id="radio-4"
+                    {...register("answer")}
+                  />
+                  <Input
+                    id="option-4"
+                    label="Option 04"
+                    {...register("option-4")}
+                    placeholder="Enter the first option here"
+                  />
                 </Flex>
               </Stack>
             </RadioGroup>
@@ -108,26 +136,49 @@ const QuestionsPage = () => {
             <Button type="submit">Add Question</Button>
           </Flex>
         </Box>
-        <Box padding={6} width="30%">
-          <Box
-            paddingTop="20px"
-            paddingX="20px"
-            paddingBottom="60px"
-            backgroundColor="white"
-          >
-            <Heading fontSize="heading.h5">Questions Overview</Heading>
-          </Box>
-          <Box paddingTop={6}>
-            <Button secondary>Save as Draft</Button>
-          </Box>
-          <Box paddingTop={4}>
-            <Button>Create Assessment</Button>
-          </Box>
+      )}
+      <Box padding={6} width="30%">
+        <Box
+          paddingTop="20px"
+          paddingX="20px"
+          paddingBottom="60px"
+          backgroundColor="white"
+          height={240}
+        >
+          <Heading fontSize="heading.h5">Questions Overview</Heading>
         </Box>
-      </Flex>
+      </Box>
+    </Flex>
   );
 };
 
+const QuestionOverviewBox = ({ questionNumber, question }) => {
+  return (
+    <Flex
+      alignItems="center"
+      justifyContent="space-between"
+      backgroundColor="white"
+      padding={6}
+    >
+      <Box>
+        <Heading fontSize="heading.h4">{questionNumber}</Heading>
+        <Text paddingTop={2} color="accent.3">
+          {question}
+        </Text>
+      </Box>
+      <Button
+        _hover={{
+          background: "none",
+          color:"others.3"
+        }}
+        _focus={{border: "none", background: "white"}}
+        asIcon
+      >
+        <FiMoreHorizontal />
+      </Button>
+    </Flex>
+  );
+};
 
 const QuestionsPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <QuestionsPage {...props} />} />;
