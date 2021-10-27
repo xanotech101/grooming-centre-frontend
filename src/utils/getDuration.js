@@ -9,9 +9,11 @@ export function getDuration(number) {
   const tempMinutes = (tempHours - hours) * 60;
   const minutes = Math.round(tempMinutes);
 
-  const combinedText = `${hours ? `${hours} hours ` : null} ${
-    minutes ? `${minutes} minutes.` : null
-  }}`;
+  const getSCharacter = (x) => (!(x <= 1) ? "s" : "");
+
+  const combinedText = `${
+    hours ? `${hours} hour${getSCharacter(hours)} ` : ""
+  } ${minutes ? `${minutes} minute${getSCharacter(minutes)}` : ""}`;
 
   return { hours, minutes, combinedText };
 }

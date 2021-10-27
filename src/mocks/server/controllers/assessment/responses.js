@@ -105,3 +105,27 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
 export const submitAssessmentRes = {
   message: "submit successful",
 };
+
+export const adminGetAssessmentListingRes_courseId_1 = {
+  data: [
+    {
+      id: "assessmentId_1",
+      title: "Html assessment",
+      courseId: "courseId_1",
+      duration: 90,
+      startTime: "2021-010-18 04:20 PM",
+    },
+  ],
+};
+
+export const adminGetAssessmentListingRes_courseId_3 = {
+  data: [
+    {
+      id: "assessmentId_2",
+      title: "CSS assessment",
+      courseId: "courseId_3",
+      duration: 90,
+      startTime: "2021-010-18 04:20 PM",
+    },
+  ],
+};

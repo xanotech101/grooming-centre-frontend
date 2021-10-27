@@ -7,11 +7,12 @@ import {
   Table,
   Breadcrumb,
   Link,
+  Text,
 } from "../../../../../components";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetCourseListing } from "../../../../../services";
+import { adminGetAssessmentListing } from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
 
@@ -40,6 +41,13 @@ const tableProps = {
       key: "title",
       text: "Assessment Title",
       fraction: "2fr",
+      renderContent: (data) => (
+        <Link
+          href={`/admin/courses/${data.courseId}/assessment/${data.assessmentId}/overview`}
+        >
+          <Text>{data.text}</Text>
+        </Link>
+      ),
     },
     {
       id: "4",
@@ -51,7 +59,7 @@ const tableProps = {
       id: "5",
       key: "duration",
       text: "Duration",
-      fraction: "100px",
+      fraction: "150px",
     },
   ],
 
@@ -63,6 +71,7 @@ const tableProps = {
 
 const useCourseListing = () => {
   const componentIsMount = useComponentIsMount();
+  const { id: courseId } = useParams();
 
   const [rows, setRows] = useState({
     data: null,
@@ -75,18 +84,19 @@ const useCourseListing = () => {
       setRows({ loading: true });
 
       try {
-        const { courses } = await adminGetCourseListing();
+        const { assessments } = await adminGetAssessmentListing(courseId);
 
-        const data = mapper ? courses.map(mapper) : courses;
+        const data = mapper ? assessments.map(mapper) : assessments;
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
+        console.error(err);
         if (componentIsMount) setRows({ err: true });
       } finally {
         if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
       }
     },
-    [setRows, componentIsMount]
+    [setRows, componentIsMount, courseId]
   );
 
   return {
@@ -103,7 +113,7 @@ const AssessmentListingPage = () => {
   useEffect(() => {
     const mapCourseToRow = (assessment) => ({
       id: assessment.id,
-      title: assessment.title,
+      title: { text: assessment.title, assessmentId: assessment.id },
       startDate: assessment.startTime,
       duration: getDuration(assessment.duration).combinedText,
     });

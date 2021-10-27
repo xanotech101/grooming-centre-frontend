@@ -55,7 +55,6 @@ export const submitAssessment = async (id, body) => {
   return { message };
 };
 
-
 /**
  * Endpoint for assessment creation
  * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body
@@ -71,7 +70,6 @@ export const adminCreateAssessment = async (body) => {
   return { message, data };
 };
 
-
 /**
  * Endpoint for assessmentQuestions creation
  * @param {{ assessmentId: string, question: string, option: []}} body
@@ -85,4 +83,28 @@ export const adminCreateAssessmentQuestion = async (body) => {
   } = await http.post(path, body);
 
   return { message, data };
+};
+
+/**
+ * Endpoint for assessment listing
+ * @param {string} courseId
+ *
+ * @returns {Promise<{ assessments: Array<{ id: string, courseId: string, title: string,  startTime: Date, duration: number }> }>}
+ */
+export const adminGetAssessmentListing = async (courseId) => {
+  const path = `/assessment/course/${courseId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const assessments = data.map((assessment) => ({
+    id: assessment.id,
+    title: assessment.title,
+    courseId: assessment.courseId,
+    duration: assessment.duration,
+    startTime: assessment.startTime,
+  }));
+
+  return { assessments };
 };
