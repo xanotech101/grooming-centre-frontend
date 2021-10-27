@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/toast";
 import { Flex, Box } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import {
@@ -10,23 +11,71 @@ import {
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
-import useQueryParams from "../../../../../hooks/useQueryParams";
-import {FiMoreHorizontal} from "react-icons/fi";
-
+import { useRichText, useQueryParams } from "../../../../../hooks";
+import { capitalizeFirstLetter } from "../../../../../utils";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 const QuestionsPage = () => {
   const { push } = useHistory();
+  const toast = useToast();
   const isAddAnotherQuestion = useQueryParams().get("add-another-question");
   const { id: courseId, assessmentId } = useParams();
 
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    setTimeout(() => {
-      push(
-        `/admin/courses/${courseId}/assessment/${assessmentId}/questions?add-another-question=true`
-      );
-    }, 3000);
+  const questionRichTextManager = useRichText();
+
+  const onSubmit = async (data) => {
+    try {
+      const question =
+        questionRichTextManager.handleGetValueAndValidate("Content");
+
+      const options = [];
+
+      for (const item in data) {
+        if (Object.hasOwnProperty.call(data, item) && /option/.test(item)) {
+          const name = data[item];
+          const optionIndex = +item.replace("option-", "");
+          const isAnswer = +data.answer === optionIndex;
+
+          const option = {
+            name,
+            isAnswer,
+            optionIndex,
+          };
+
+          options.push(option);
+        }
+      }
+
+      data = {
+        assessmentId,
+        question,
+        options,
+      };
+
+      console.log(data);
+      // const body = appendFormData(data);
+
+      // const { message, lesson } = await (isEditMode
+      //   ? adminEditLesson(lessonId, body)
+      //   : adminCreateLesson(body));
+
+      toast({
+        description: capitalizeFirstLetter("created success"),
+        position: "top",
+        status: "success",
+      });
+
+      // push(
+      //   `/admin/courses/${courseId}/assessment/${assessmentId}/questions?add-another-question=true`
+      // );
+    } catch (error) {
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
   };
 
   return (
@@ -58,6 +107,7 @@ const QuestionsPage = () => {
               id="content"
               label="Question 01"
               placeholder="Enter your question here"
+              onChange={questionRichTextManager.handleChange}
             />
           </Box>
           <Box marginTop={10} padding={6} backgroundColor="white">
@@ -169,9 +219,9 @@ const QuestionOverviewBox = ({ questionNumber, question }) => {
       <Button
         _hover={{
           background: "none",
-          color:"others.3"
+          color: "others.3",
         }}
-        _focus={{border: "none", background: "white"}}
+        _focus={{ border: "none", background: "white" }}
         asIcon
       >
         <FiMoreHorizontal />
