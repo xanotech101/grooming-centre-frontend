@@ -8,7 +8,7 @@ export const requestExaminationRes_examinationId_1 = {
     courseId: "courseId_3",
     examinationQuestions: [
       {
-        id: "questionsId_1",
+        id: "questionId_1",
         question: "How create an HTML?",
         options: [
           {
@@ -47,7 +47,7 @@ export const requestExaminationRes_examinationId_2 = {
     courseId: "courseId_1",
     examinationQuestions: [
       {
-        id: "questionsId_1",
+        id: "questionId_1",
         question: "How create an HTML?",
         options: [
           {

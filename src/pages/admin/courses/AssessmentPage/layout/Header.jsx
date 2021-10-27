@@ -6,19 +6,19 @@ import colors from "../../../../../theme/colors";
 
 const links = [
   {
-    href: (courseId, assessmentId
-    ) => `/admin/courses/${courseId}/assessment/${assessmentId}/overview`,
+    href: (courseId, assessmentId) =>
+      `/admin/courses/${courseId}/assessment/${assessmentId}/overview`,
     text: "Overview",
   },
   {
     href: (courseId, assessmentId) =>
-      `/admin/courses/${courseId}/assessment/${assessmentId}/questions`,
+      `/admin/courses/${courseId}/assessment/${assessmentId}/questions/new`,
     text: "Questions",
   },
 ];
 
 const Header = () => {
-  const {id:courseId, assessmentId} = useParams();
+  const { id: courseId, assessmentId } = useParams();
 
   return (
     <Flex

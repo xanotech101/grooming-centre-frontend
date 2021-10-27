@@ -39,6 +39,34 @@ export const requestAssessmentDetails = async (id) => {
 };
 
 /**
+ * Endpoint for Admin to get `question-details`
+ * @param {string} questionId
+ *
+ * @returns {Promise<{ question: Question }>}
+ */
+export const adminGetQuestionDetails = async (questionId) => {
+  const path = `/admin/questions/${questionId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const question = {
+    id: data.id,
+    question: data.question,
+    // questionIndex: +data.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
+    options: data.options.map((opt) => ({
+      id: opt.id,
+      name: opt.name,
+      optionIndex: +opt.optionIndex,
+      isAnswer: opt.isAnswer,
+    })),
+  };
+
+  return { question };
+};
+
+/**
  * Endpoint to submit an `assessment`
  * @param {string} id - assessmentId
  * @param {{}} body - answers
@@ -56,18 +84,51 @@ export const submitAssessment = async (id, body) => {
 };
 
 /**
- * Endpoint for assessment creation
- * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body
- * @returns {Promise<{ message: string, data: Assessment }>}
+ * Endpoint for admin to create a question
+ * @param {string} id - assessmentId
+ * @param {{}} body - answers
+ *
+ * @returns {Promise<{ message: string }>}
  */
-export const adminCreateAssessment = async (body) => {
-  const path = "/assessment/create";
+export const adminCreateAssessment = async (id, body) => {
+  const path = `/assessment/${id}/submit`;
 
   const {
-    data: { message, data },
+    data: { message },
   } = await http.post(path, body);
 
-  return { message, data };
+  return { message };
+};
+
+/**
+ * Endpoint for assessment creation
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminCreateQuestion = async (body) => {
+  const path = "/assessment/question/create/new";
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+/**
+ * Endpoint for assessment modification/update
+ * @param {string} questionId
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminEditQuestion = async (questionId, body) => {
+  const path = `/assessment/question/edit/${questionId}`;
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
 };
 
 /**

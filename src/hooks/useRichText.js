@@ -12,6 +12,8 @@ export const useRichText = () => {
     const raw = convertToRaw(value.getCurrentContent());
     const stringified = JSON.stringify(raw);
 
+    console.log(stringified);
+
     setData((prev) => ({ ...prev, stringified, raw }));
   };
 

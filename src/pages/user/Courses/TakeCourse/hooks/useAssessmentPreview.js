@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import { useCache } from "../../../../../contexts";
+import { useCache } from "../../../../../contexts";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import useQueryParams from "../../../../../hooks/useQueryParams";
 import {
@@ -18,14 +18,17 @@ import {
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = (sidebarLinks) => {
-  // const { handleGetOrSetAndGet } = useCache();
+const useAssessmentPreview = (sidebarLinks, assessmentId) => {
+  const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
+
+  assessmentId = assessmentId || assessment_id;
+
   const queryParams = useQueryParams();
   const isExamination = queryParams.get("examination");
 
-  const index = sidebarLinks?.findIndex((link) => link.id === assessment_id);
+  const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
   const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
 
   const [assessmentDetails, setAssessmentDetails] = useState({
@@ -36,25 +39,25 @@ const useAssessmentPreview = (sidebarLinks) => {
 
   const fetcher = useCallback(async () => {
     const data = await (isExamination
-      ? // `assessment_id` is `examinationId` in this case
-        requestExaminationDetails(assessment_id)
-      : requestAssessmentDetails(assessment_id));
+      ? // `assessmentId` is `examinationId` in this case
+        requestExaminationDetails(assessmentId)
+      : requestAssessmentDetails(assessmentId));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessment_id, isExamination]);
+  }, [assessmentId, isExamination]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });
 
     try {
-      // const assessmentDetails = await handleGetOrSetAndGet(
-      //   assessment_id,
-      //   fetcher
-      // );
-       const assessmentDetails = await fetcher();
+      const assessmentDetails = await handleGetOrSetAndGet(
+        assessmentId,
+        fetcher
+      );
+      //  const assessmentDetails = await fetcher();
 
-      console.log(assessmentDetails, assessment_id);
+      console.log(assessmentDetails, assessmentId);
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
@@ -62,7 +65,7 @@ const useAssessmentPreview = (sidebarLinks) => {
       if (componentIsMount) setAssessmentDetails({ err: err.message });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment_id, componentIsMount]);
+  }, [assessmentId, componentIsMount]);
 
   useEffect(() => {
     fetchAssessmentDetails();
