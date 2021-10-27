@@ -32,6 +32,6 @@ export const DateTimePicker = ({
 
 DateTimePicker.propTypes = {
   ...FormGroupPropTypes,
-  value: PropTypes.instanceOf(Date),
+  value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   onChange: PropTypes.func,
 };
