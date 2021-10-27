@@ -205,7 +205,7 @@ const CreateLessonPage = () => {
           }
           item4={
             <BreadcrumbItem isCurrentPage>
-              <Link href="#">Create</Link>
+              <Link href="#">{isEditMode ? "Edit" : "Create"}</Link>
             </BreadcrumbItem>
           }
         />
