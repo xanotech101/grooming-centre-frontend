@@ -53,7 +53,7 @@ export const adminCreateLesson = async (body) => {
 };
 /**
  * Endpoint to for admin to edit a lesson
- * @param {{ title: ?string, content: ?string, lessonTypeId: ?string, startTime: ?Date, endTime: ?Date, file: ?File }} body
+ * @param {{ title: ?string, content: ?string, lessonTypeId: ?string, startTime: ?Date, endTime: ?Date, file: ?File, courseId: string }} body
  *
  * @returns {Promise<{ message: string, lesson: { id: string } }>}
  */
@@ -73,7 +73,7 @@ export const adminEditLesson = async (lessonId, body) => {
 
 /**
  * Endpoint to for admin to create a lesson
- * @param {{ title: string, content: string, lessonTypeId: string, startTime: Date, endTime: Date, file: File }} body
+ * @param {{ title: string, content: string, lessonTypeId: string, startTime: Date, endTime: Date, file: File, courseId: string }} body
  *
  * @returns {Promise<{ message: string, lessons: Array<{ id: string, title: string, startTime: Date, active: boolean, courseId: string }>}>}
  */

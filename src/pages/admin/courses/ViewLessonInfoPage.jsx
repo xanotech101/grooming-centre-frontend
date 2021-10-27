@@ -54,7 +54,7 @@ const ViewLessonInfoPage = () => {
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
-            link={`/admin/courses/${lesson?.courseId}/lesson/edit/${lesson?.id}`}
+            link={`/admin/courses/${lesson?.courseId}/lessons/edit/${lesson?.id}`}
           >
             Edit
           </Button>

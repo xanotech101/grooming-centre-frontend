@@ -43,6 +43,12 @@ export const useUpload = () => {
   const handleInitialImageSelect = (url) => {
     setImage({ url });
   };
+  const handleInitialVideoSelect = (url) => {
+    setVideo({ url });
+  };
+  const handleInitialPdfSelect = (url) => {
+    setPdf({ url });
+  };
 
   const handleAcceptChange = (accept) => setAccept(accept);
 
@@ -63,5 +69,7 @@ export const useUpload = () => {
     handleAcceptChange,
     handleGetFileAndValidate,
     handleInitialImageSelect,
+    handleInitialVideoSelect,
+    handleInitialPdfSelect,
   };
 };

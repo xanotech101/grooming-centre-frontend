@@ -49,12 +49,12 @@ const adminCreateLesson = rest.post(
 const adminEditLesson = [
   rest.patch(
     // TODO: change `method`
-    getUrl("lesson/edit/lessonId_1"), // TODO: change `path`
+    getUrl("/lesson/edit/lessonId_1"), // TODO: change `path`
     handleSuccessResponse(adminEditLessonRes_lessonId_1)
   ),
   rest.patch(
     // TODO: change `method`
-    getUrl("lesson/edit/lessonId_2"), // TODO: change `path`
+    getUrl("/lesson/edit/lessonId_2"), // TODO: change `path`
     handleSuccessResponse(adminEditLessonRes_lessonId_2)
   ),
 ];

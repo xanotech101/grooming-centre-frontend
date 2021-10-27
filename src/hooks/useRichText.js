@@ -2,13 +2,21 @@ import { convertToRaw } from "draft-js";
 import { useState } from "react";
 
 export const useRichText = () => {
-  const [data, setData] = useState({ stringified: null, raw: null });
+  const [data, setData] = useState({
+    stringified: null,
+    raw: null,
+    default: null,
+  });
 
   const handleChange = (value) => {
     const raw = convertToRaw(value.getCurrentContent());
     const stringified = JSON.stringify(raw);
 
-    setData({ stringified, raw });
+    setData((prev) => ({ ...prev, stringified, raw }));
+  };
+
+  const handleInitData = (stringified) => {
+    setData((prev) => ({ ...prev, default: stringified }));
   };
 
   const handleGetValueAndValidate = (label) => {
@@ -25,5 +33,6 @@ export const useRichText = () => {
     data,
     handleChange,
     handleGetValueAndValidate,
+    handleInitData,
   };
 };

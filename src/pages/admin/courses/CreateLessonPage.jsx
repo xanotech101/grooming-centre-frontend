@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { Grid, GridItem } from "@chakra-ui/layout";
+import { Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { Route, useParams, useHistory } from "react-router-dom";
 import {
   DateTimePicker,
@@ -9,6 +9,8 @@ import {
   Upload,
   Breadcrumb,
   Link,
+  Heading,
+  Spinner,
 } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
@@ -22,10 +24,12 @@ import {
 } from "../../../utils";
 import { useApp } from "../../../contexts";
 import { useEffect } from "react";
-import { adminCreateLesson } from "../../../services";
+import { adminCreateLesson, adminEditLesson } from "../../../services";
+import useViewLessonInfo from "./hooks/useViewLessonInfo";
 
 const CreateLessonPage = () => {
-  const { courseId } = useParams();
+  const { courseId, lessonId } = useParams();
+  const isEditMode = lessonId && lessonId !== "new";
   const courseIsUnknown = courseId === "unknown";
 
   const { push } = useHistory();
@@ -36,7 +40,8 @@ const CreateLessonPage = () => {
     register,
     watch,
     getValues,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const {
@@ -49,31 +54,89 @@ const CreateLessonPage = () => {
   const fileManager = useUpload();
   const contentManager = useRichText();
 
+  const { lesson, isLoading, isError } = useViewLessonInfo();
+
+  // Init `Title` value
+  useEffect(() => {
+    if (lesson) {
+      setValue("title", lesson.title);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson]);
+
+  // Init `Dates` value
+  useEffect(() => {
+    if (lesson) {
+      startTimeManager.handleChange(lesson.startTime);
+      endTimeManager.handleChange(lesson.endTime);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson]);
+
+  // Init `Content` data
+  useEffect(() => {
+    if (lesson) {
+      contentManager.handleInitData(lesson.content);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson]);
+
+  const setLessonAccept = (lessonTypeId) => {
+    const lessonType = getOneMetadata("lessonType", lessonTypeId)?.name;
+
+    if (lessonType === "pdf") {
+      fileManager.handleAcceptChange("application/pdf");
+    }
+
+    if (lessonType === "video") {
+      fileManager.handleAcceptChange("video/mp4, video/mkv");
+    }
+  };
+
+  // Init `lessonTypeId` value and set `accept` for file upload input
+  useEffect(() => {
+    if (lesson && metadata) {
+      setValue("lessonTypeId", lesson.lessonTypeId);
+      setLessonAccept(lesson.lessonTypeId);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson, metadata]);
+
+  // Init `Lesson File` file url
+  useEffect(() => {
+    if (lesson) {
+      const fileIsAVideo = /((\.)(mp4|mkv))$/i.test(lesson.file);
+      const fileIsPDF = /(\.pdf)$/i.test(lesson.file);
+
+      if (fileIsAVideo) {
+        fileManager.handleInitialVideoSelect(lesson.file);
+      }
+      if (fileIsPDF) {
+        fileManager.handleInitialPdfSelect(lesson.file);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson]);
+
   // Control `Lesson File` with `File Type`
   useEffect(() => {
     const subscription = watch((data, { name, type }) => {
-      if (name === "lessonTypeId" && type === "change") {
+      console.log({ name, type, data });
+
+      if (name === "lessonTypeId") {
         fileManager.handleFileSelect(null);
 
-        const lessonType = getOneMetadata(
-          "lessonType",
-          data.lessonTypeId
-        )?.name;
-
-        if (lessonType === "pdf") {
-          fileManager.handleAcceptChange("application/pdf");
-        }
-
-        if (lessonType === "video") {
-          fileManager.handleAcceptChange("video/mp4, video/mkv");
-        }
+        setLessonAccept(data.lessonTypeId);
       }
     });
+
     return () => subscription.unsubscribe();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch, metadata]);
 
+  // Handle form submission
   const onSubmit = async (data) => {
     try {
       const startTime =
@@ -84,6 +147,7 @@ const CreateLessonPage = () => {
 
       data = {
         ...data,
+        courseId,
         file,
         content,
         startTime: formatDateToISO(startTime),
@@ -92,7 +156,9 @@ const CreateLessonPage = () => {
 
       const body = appendFormData(data);
 
-      const { message, lesson } = await adminCreateLesson(body);
+      const { message, lesson } = await (isEditMode
+        ? adminEditLesson(lessonId, body)
+        : adminCreateLesson(body));
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -110,7 +176,20 @@ const CreateLessonPage = () => {
     }
   };
 
-  return (
+  return isEditMode && (isLoading || isError) ? (
+    <Flex
+      // Make the height 100% of the screen minus the `height` of the Header and Footer
+      height="calc(100vh - 200px)"
+      justifyContent="center"
+      alignItems="center"
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : isError ? (
+        <Heading color="red.500">{isError}</Heading>
+      ) : null}
+    </Flex>
+  ) : (
     <>
       <Box paddingLeft={6}>
         <Breadcrumb
@@ -133,9 +212,11 @@ const CreateLessonPage = () => {
       </Box>
 
       <CreatePageLayout
-        title="Create Lesson"
-        submitButtonText="Add Lesson"
+        title={isEditMode ? "Edit Lesson details" : "Create Lesson"}
+        submitButtonText={isEditMode ? "Update Lesson" : "Add Lesson"}
         onSubmit={handleSubmit(onSubmit)}
+        submitButtonIsDisabled={!metadata}
+        submitButtonIsLoading={isSubmitting}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
           {courseIsUnknown && (
@@ -174,8 +255,6 @@ const CreateLessonPage = () => {
               label="Start date & time"
               value={startTimeManager.value}
               onChange={startTimeManager.handleChange}
-              // error={errors.startTime?.message}
-              // {...register("startTime", { required: "Start time is required" })}
             />
           </GridItem>
 
@@ -194,6 +273,7 @@ const CreateLessonPage = () => {
               height="250px"
               id="content"
               label="Content"
+              defaultValue={contentManager.data.default}
               onChange={contentManager.handleChange}
             />
           </GridItem>
