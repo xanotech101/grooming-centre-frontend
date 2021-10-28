@@ -102,6 +102,23 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
   },
 };
 
+export const adminEditAssessmentRes_assessmentId_1 = {
+  message: "Assessment updated successfully",
+  data: [
+    {
+      id: "assessmentId_1",
+    },
+  ],
+};
+export const adminEditAssessmentRes_assessmentId_2 = {
+  message: "Assessment updated successfully",
+  data: [
+    {
+      id: "assessmentId_2",
+    },
+  ],
+};
+
 export const submitAssessmentRes = {
   message: "submit successful",
 };
