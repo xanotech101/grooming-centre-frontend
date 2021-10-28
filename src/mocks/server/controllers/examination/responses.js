@@ -7,8 +7,6 @@ export const requestExaminationRes_examinationId_1 = {
     startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     active: true,
-    startTime: "2021-10-20T11:50:00.319Z",
-    courseId: "courseId_1",
     examinationQuestions: [
       {
         id: "questionId_1",
