@@ -4,13 +4,14 @@ import { handleSuccessResponse } from "../helpers";
 import {
   adminCreateAssessmentQuestionRes,
   adminEditQuestionRes,
-  adminGetExaminationListingRes_courseId_1,
-  adminGetExaminationListingRes_courseId_3,
+  adminGetAssessmentListingRes_courseId_1,
+  adminGetAssessmentListingRes_courseId_3,
   adminGetQuestionDetailsRes_questionId_1,
   adminGetQuestionDetailsRes_questionId_2,
   requestAssessmentDetailsRes_assessmentId_1,
   requestAssessmentDetailsRes_assessmentId_2,
   submitAssessmentRes,
+  adminCreateAssessmentRes,
 } from "./responses";
 
 const adminGetQuestionDetails = [
@@ -65,13 +66,18 @@ const adminEditQuestion = [
 const adminGetAssessmentListing = [
   rest.get(
     getUrl("/assessment/course/courseId_1"),
-    handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
+    handleSuccessResponse(adminGetAssessmentListingRes_courseId_1)
   ),
   rest.get(
     getUrl("/assessment/course/courseId_3"),
-    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+    handleSuccessResponse(adminGetAssessmentListingRes_courseId_3)
   ),
 ];
+
+const adminCreateAssessment = rest.post(
+  getUrl("/assessment/create"),
+  handleSuccessResponse(adminCreateAssessmentRes)
+);
 
 const assessment = [
   adminCreateAssessmentQuestion,
@@ -80,6 +86,7 @@ const assessment = [
   ...requestAssessmentDetails,
   ...submitAssessment,
   ...adminGetAssessmentListing,
+  adminCreateAssessment,
 ];
 
 export default assessment;

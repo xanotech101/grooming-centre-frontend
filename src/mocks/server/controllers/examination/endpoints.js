@@ -8,6 +8,7 @@ import {
   requestExaminationRes_examinationId_2,
   submitExaminationRes,
   adminCreateExaminationQuestionRes,
+  adminCreateExaminationRes,
 } from "./responses";
 
 const requestExamination = [
@@ -48,7 +49,13 @@ const adminCreateExaminationQuestion = rest.post(
   handleSuccessResponse(adminCreateExaminationQuestionRes)
 );
 
+const adminCreateExamination = rest.post(
+  getUrl("/examination/create"),
+  handleSuccessResponse(adminCreateExaminationRes)
+);
+
 const examination = [
+  adminCreateExamination,
   adminCreateExaminationQuestion,
   ...requestExamination,
   ...adminGetExaminationListing,

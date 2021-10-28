@@ -107,3 +107,10 @@ export const submitExaminationRes = {
 export const adminCreateExaminationQuestionRes = {
   message: "examination question created successfully",
 };
+
+export const adminCreateExaminationRes = {
+  message: "Examination created successfully",
+  data: {
+    id: "examinationId_1",
+  },
+};

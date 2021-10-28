@@ -41,6 +41,7 @@ const Header = () => {
       as="header"
       backgroundColor="white"
       height="50px"
+      disabled={isLoading || isError}
       paddingLeft={20}
       shadow="0 2px 2px rgba(0, 0, 0, .05)"
       position="relative"

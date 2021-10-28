@@ -178,7 +178,7 @@ export const adminEditQuestionRes = {
   message: "question updated successfully",
 };
 
-export const adminGetExaminationListingRes_courseId_1 = {
+export const adminGetAssessmentListingRes_courseId_1 = {
   data: [
     {
       id: "assessmentId_1",
@@ -190,7 +190,7 @@ export const adminGetExaminationListingRes_courseId_1 = {
   ],
 };
 
-export const adminGetExaminationListingRes_courseId_3 = {
+export const adminGetAssessmentListingRes_courseId_3 = {
   data: [
     {
       id: "assessmentId_2",
@@ -200,4 +200,11 @@ export const adminGetExaminationListingRes_courseId_3 = {
       startTime: "2021-010-18 04:20 PM",
     },
   ],
+};
+
+export const adminCreateAssessmentRes = {
+  message: "Assessment created successfully",
+  data: {
+    id: "assessmentId_1",
+  },
 };
