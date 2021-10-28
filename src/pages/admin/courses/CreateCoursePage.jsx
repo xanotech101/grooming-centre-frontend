@@ -6,7 +6,6 @@ import {
   Input,
   Textarea,
   Select,
-  Text,
   Breadcrumb,
   Link,
   Upload,
@@ -197,12 +196,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             {...register("description", {
               required: "Please add a description",
             })}
+            error={errors.description?.message}
           />
-          {errors.description ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.description.message}
-            </Text>
-          ) : null}
         </Grid>
         {/* Row 3 */}
         <Grid marginBottom={10}>
