@@ -5,7 +5,7 @@ import { http } from "../http";
  * @returns {Promise<{ courses: CourseListArray }>}
  */
 export const adminGetCourseListing = async () => {
-  const path = `/admin/courses`;
+  const path = `/course/admin/list`;
 
   const {
     data: { data },

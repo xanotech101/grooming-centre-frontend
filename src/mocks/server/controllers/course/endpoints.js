@@ -12,7 +12,7 @@ import {
 } from "./responses";
 
 const adminGetCourseListing = rest.get(
-  getUrl("/admin/courses"),
+  getUrl("/course/admin/list"),
   handleSuccessResponse(adminCourseListingRes)
 );
 
