@@ -2,7 +2,7 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
-  adminCreateQuestionRes,
+  adminCreateAssessmentQuestionRes,
   adminEditQuestionRes,
   adminGetExaminationListingRes_courseId_1,
   adminGetExaminationListingRes_courseId_3,
@@ -46,9 +46,9 @@ const submitAssessment = [
   ),
 ];
 
-const adminCreateQuestion = rest.post(
+const adminCreateAssessmentQuestion = rest.post(
   getUrl("/assessment/question/create/new"),
-  handleSuccessResponse(adminCreateQuestionRes)
+  handleSuccessResponse(adminCreateAssessmentQuestionRes)
 );
 
 const adminEditQuestion = [
@@ -74,7 +74,7 @@ const adminGetAssessmentListing = [
 ];
 
 const assessment = [
-  adminCreateQuestion,
+  adminCreateAssessmentQuestion,
   ...adminEditQuestion,
   ...adminGetQuestionDetails,
   ...requestAssessmentDetails,

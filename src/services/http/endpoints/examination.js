@@ -18,13 +18,13 @@ export const requestExaminationDetails = async (id) => {
     courseId: data.courseId,
     topic: data.title,
     duration: data.duration,
-    questionCount: data.questionCount,
+    questionCount: data.examinationQuestions.length,
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
-    questions: data.questions.map((q) => ({
+    questions: data.examinationQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,
-      questionIndex: +q.questionIndex,
+      questionIndex: +q.questionIndex || index,
       options: q.options.map((opt) => ({
         id: opt.id,
         name: opt.name,
@@ -69,6 +69,21 @@ export const adminGetExaminationListing = async (courseId) => {
  */
 export const submitExamination = async (id, body) => {
   const path = `/examination/${id}/submit`;
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+/**
+ * Endpoint for examination question creation
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminCreateExaminationQuestion = async (body) => {
+  const path = "/examination/question/create/new";
 
   const {
     data: { message },

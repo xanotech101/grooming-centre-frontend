@@ -6,19 +6,31 @@ import colors from "../../../../../theme/colors";
 
 const links = [
   {
-    href: (courseId, assessmentId) =>
+    matcher: (courseId, assessmentId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/overview`,
+    href: (courseId, assessmentId, isExamination) =>
+      `/admin/courses/${courseId}/assessment/${assessmentId}/overview${
+        isExamination ? "?examination=true" : ""
+      }`,
     text: "Overview",
   },
   {
-    href: (courseId, assessmentId) =>
-      `/admin/courses/${courseId}/assessment/${assessmentId}/questions/new`,
+    matcher: (courseId, assessmentId) =>
+      `/admin/courses/${courseId}/assessment/${assessmentId}/questions`,
+    href: (courseId, assessmentId, isExamination) =>
+      `/admin/courses/${courseId}/assessment/${assessmentId}/questions/new${
+        isExamination ? "?examination=true" : ""
+      }`,
     text: "Questions",
   },
 ];
 
 const Header = () => {
   const { id: courseId, assessmentId } = useParams();
+  const isExamination = /examination/i.test(window.location.search);
+
+  const isActiveLink = (LinkMatcher) =>
+    window.location.pathname.includes(LinkMatcher);
 
   return (
     <Flex
@@ -36,14 +48,12 @@ const Header = () => {
           {links.map((link) => (
             <li key={link.text}>
               <Link
-                navLink
-                href={link.href(courseId, assessmentId)}
+                href={link.href(courseId, assessmentId, isExamination)}
                 style={{
-                  color: colors.accent[2],
+                  color: isActiveLink(link.matcher(courseId, assessmentId))
+                    ? colors.black
+                    : colors.accent[2],
                   display: "block",
-                }}
-                activeStyle={{
-                  color: colors.black,
                 }}
                 disabled={assessmentId === "new"}
               >

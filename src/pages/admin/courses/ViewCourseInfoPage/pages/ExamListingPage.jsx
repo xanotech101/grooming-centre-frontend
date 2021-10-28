@@ -43,7 +43,7 @@ const tableProps = {
       fraction: "2fr",
       renderContent: (data) => (
         <Link
-          href={`/admin/courses/${data.courseId}/assessment/${data.examinationId}/overview`}
+          href={`/admin/courses/${data.courseId}/assessment/${data.examinationId}/overview?examination=true`}
         >
           <Text>{data.text}</Text>
         </Link>

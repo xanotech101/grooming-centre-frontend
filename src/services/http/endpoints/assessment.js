@@ -101,11 +101,11 @@ export const adminCreateAssessment = async (id, body) => {
 };
 
 /**
- * Endpoint for assessment creation
+ * Endpoint for assessment question creation
  * @param {object} body
  * @returns {Promise<{ message: string }>}
  */
-export const adminCreateQuestion = async (body) => {
+export const adminCreateAssessmentQuestion = async (body) => {
   const path = "/assessment/question/create/new";
 
   const {
@@ -129,21 +129,6 @@ export const adminEditQuestion = async (questionId, body) => {
   } = await http.post(path, body);
 
   return { message };
-};
-
-/**
- * Endpoint for assessmentQuestions creation
- * @param {{ assessmentId: string, question: string, option: []}} body
- * @returns {Promise<{ message: string, data: assessmentQuestion }>}
- */
-export const adminCreateAssessmentQuestion = async (body) => {
-  const path = "/assessment/question/create/new";
-
-  const {
-    data: { message, data },
-  } = await http.post(path, body);
-
-  return { message, data };
 };
 
 /**

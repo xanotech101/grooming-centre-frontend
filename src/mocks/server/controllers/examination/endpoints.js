@@ -7,6 +7,7 @@ import {
   requestExaminationRes_examinationId_1,
   requestExaminationRes_examinationId_2,
   submitExaminationRes,
+  adminCreateExaminationQuestionRes,
 } from "./responses";
 
 const requestExamination = [
@@ -42,7 +43,13 @@ const submitExamination = [
   ),
 ];
 
+const adminCreateExaminationQuestion = rest.post(
+  getUrl("/examination/question/create/new"),
+  handleSuccessResponse(adminCreateExaminationQuestionRes)
+);
+
 const examination = [
+  adminCreateExaminationQuestion,
   ...requestExamination,
   ...adminGetExaminationListing,
   ...submitExamination,

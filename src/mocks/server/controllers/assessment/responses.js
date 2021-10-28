@@ -171,8 +171,8 @@ export const submitAssessmentRes = {
   message: "submit successful",
 };
 
-export const adminCreateQuestionRes = {
-  message: "question created successfully",
+export const adminCreateAssessmentQuestionRes = {
+  message: "assessment question created successfully",
 };
 export const adminEditQuestionRes = {
   message: "question updated successfully",

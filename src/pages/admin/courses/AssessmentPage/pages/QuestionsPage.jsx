@@ -21,7 +21,8 @@ import {
 } from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
-  adminCreateQuestion,
+  adminCreateAssessmentQuestion,
+  adminCreateExaminationQuestion,
   adminEditQuestion,
   adminGetQuestionDetails,
 } from "../../../../../services";
@@ -29,9 +30,15 @@ import useAssessmentPreview from "../../../../../pages/user/Courses/TakeCourse/h
 import { PageLoaderLayout } from "../../../../../layouts";
 import { useCallback, useEffect, useState } from "react";
 
+const questionListingLink = (courseId, assessmentId, isExamination) =>
+  `/admin/courses/${courseId}/assessment/${assessmentId}/questions/list?question-listing=true${
+    isExamination ? "&examination=true" : ""
+  }`;
+
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
   const { id: courseId, assessmentId } = useParams();
+  const isExamination = /examination/i.test(window.location.search);
 
   // // Remove Scrollbar on the body
   // useEffect(() => {
@@ -44,27 +51,41 @@ const QuestionsPage = () => {
   // }, []);
 
   return (
-    <Flex>
-      {isQuestionListingPage ? <QuestionListingPage /> : <CreateQuestionPage />}
+    <>
+      <Heading fontSize="heading.h3" paddingTop={3} paddingX={6}>
+        {isExamination ? "Examination" : "Assessment"}
+      </Heading>
 
-      <Box padding={6} width="30%">
-        <Box
-          paddingTop="20px"
-          paddingX="20px"
-          paddingBottom="60px"
-          backgroundColor="white"
-          height={240}
-        >
-          <Heading fontSize="heading.h5">
-            <Link
-              href={`/admin/courses/${courseId}/assessment/${assessmentId}/questions/list?question-listing=true`}
-            >
-              Questions Overview
-            </Link>
-          </Heading>
+      <Flex>
+        {isQuestionListingPage ? (
+          <QuestionListingPage />
+        ) : (
+          <CreateQuestionPage />
+        )}
+
+        <Box padding={6} width="30%">
+          <Box
+            paddingTop="20px"
+            paddingX="20px"
+            paddingBottom="60px"
+            backgroundColor="white"
+            height={240}
+          >
+            <Heading fontSize="heading.h5">
+              <Link
+                href={questionListingLink(
+                  courseId,
+                  assessmentId,
+                  isExamination
+                )}
+              >
+                Questions Overview
+              </Link>
+            </Heading>
+          </Box>
         </Box>
-      </Box>
-    </Flex>
+      </Flex>
+    </>
   );
 };
 
@@ -97,6 +118,7 @@ const CreateQuestionPage = () => {
   const { push } = useHistory();
   const toast = useToast();
   const { id: courseId, assessmentId, questionId } = useParams();
+  const isExamination = /examination/i.test(window.location.search);
 
   // const {
   //   assessment,
@@ -182,7 +204,9 @@ const CreateQuestionPage = () => {
 
       const { message } = await (isEditMode
         ? adminEditQuestion(questionId, body)
-        : adminCreateQuestion(body));
+        : isExamination
+        ? adminCreateExaminationQuestion(body)
+        : adminCreateAssessmentQuestion(body));
       reset();
 
       toast({
@@ -190,9 +214,7 @@ const CreateQuestionPage = () => {
         position: "top",
         status: "success",
       });
-      push(
-        `/admin/courses/${courseId}/assessment/${assessmentId}/questions/list?question-listing=true`
-      );
+      push(questionListingLink(courseId, assessmentId, isExamination));
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -304,6 +326,7 @@ const QuestionListingPage = () => {
     null,
     assessmentId
   );
+  const isExamination = /examination/i.test(window.location.search);
 
   const questions = assessment?.questions;
 
@@ -345,7 +368,9 @@ const QuestionListingPage = () => {
 
       <Box paddingTop={10}>
         <Button
-          link={`/admin/courses/${courseId}/assessment/${assessmentId}/questions/new`}
+          link={`/admin/courses/${courseId}/assessment/${assessmentId}/questions/new${
+            isExamination ? "?examination=true" : ""
+          }`}
         >
           Add Another Question
         </Button>
@@ -356,7 +381,10 @@ const QuestionListingPage = () => {
 
 const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
   const { id: courseId, assessmentId } = useParams();
-  const editLink = `/admin/courses/${courseId}/assessment/${assessmentId}/questions/${id}`;
+  const isExamination = /examination/i.test(window.location.search);
+  const editLink = `/admin/courses/${courseId}/assessment/${assessmentId}/questions/${id}${
+    isExamination ? "?examination=true" : ""
+  }`;
 
   return (
     <Flex

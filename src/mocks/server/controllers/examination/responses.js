@@ -103,3 +103,7 @@ export const adminGetExaminationListingRes_courseId_1 = {
 export const submitExaminationRes = {
   message: "submit successful",
 };
+
+export const adminCreateExaminationQuestionRes = {
+  message: "examination question created successfully",
+};
