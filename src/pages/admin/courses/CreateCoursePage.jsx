@@ -6,7 +6,6 @@ import {
   Input,
   Textarea,
   Select,
-  Text,
   Breadcrumb,
   Link,
   Upload,
@@ -49,12 +48,17 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   const onSubmit = async (data) => {
     try {
-      const thumbnail =
-        thumbnailUpload.handleGetFileAndValidate("Course Image");
-      const certificate =
-        certificateUpload.handleGetFileAndValidate("Certificate");
+      const file = thumbnailUpload.handleGetFileAndValidate("Course Image"); // TODO: delete old api design
+      // const thumbnail =
+      //   thumbnailUpload.handleGetFileAndValidate("Course Image"); // TODO: uncomment
+      // const certificate =
+      //   certificateUpload.handleGetFileAndValidate("Certificate"); // TODO: uncomment
 
-      data = { ...data, thumbnail, certificate };
+      data = {
+        ...data,
+        // thumbnail, certificate // TODO: uncomment
+        file, // TODO: delete old api design
+      };
       const body = appendFormData(data);
 
       const { course, message } = await (isEditMode
@@ -90,7 +94,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   useEffect(() => {
     if (courseDetailsData) {
       thumbnailUpload.handleInitialImageSelect(courseDetailsData.thumbnail);
-      certificateUpload.handleInitialImageSelect(courseDetailsData.certificate);
+      // certificateUpload.handleInitialImageSelect(courseDetailsData.certificate); // TODO: uncomment
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,12 +171,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               {...register("title", {
                 required: "Title is required",
               })}
+              error={errors.title?.message}
             />
-            {errors.title ? (
-              <Text color="secondary.5" style={{ marginTop: 0 }}>
-                {errors.title.message}
-              </Text>
-            ) : null}
           </GridItem>
           <GridItem>
             <Select
@@ -183,12 +183,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               {...register("departmentId", {
                 required: "Please select a department",
               })}
+              error={errors.departmentId?.message}
             />
-            {errors.departmentId ? (
-              <Text color="secondary.5" style={{ marginTop: 0 }}>
-                {errors.departmentId.message}
-              </Text>
-            ) : null}
           </GridItem>
         </Grid>
         {/* Row 2 */}
@@ -200,12 +196,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             {...register("description", {
               required: "Please add a description",
             })}
+            error={errors.description?.message}
           />
-          {errors.description ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.description.message}
-            </Text>
-          ) : null}
         </Grid>
         {/* Row 3 */}
         <Grid marginBottom={10}>
