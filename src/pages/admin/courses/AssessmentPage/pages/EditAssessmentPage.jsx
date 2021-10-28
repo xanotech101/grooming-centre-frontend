@@ -3,20 +3,19 @@ import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import {
-  Button,
-  DateTimePicker,
-  Input,
-} from "../../../../../components";
-import {
-  useDateTimePicker,
-  useGoBack,
-} from "../../../../../hooks";
+import { Button, DateTimePicker, Input } from "../../../../../components";
+import { useDateTimePicker, useGoBack } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
-import { adminEditAssessment, adminEditExamination } from "../../../../../services";
+import {
+  adminEditAssessment,
+  adminEditExamination,
+} from "../../../../../services";
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
-import { appendFormData, capitalizeFirstLetter, formatDateToISO } from "../../../../../utils";
-
+import {
+  appendFormData,
+  capitalizeFirstLetter,
+  formatDateToISO,
+} from "../../../../../utils";
 
 const EditAssessmentPage = () => {
   const { id: courseId, assessmentId } = useParams();
@@ -50,11 +49,11 @@ const EditAssessmentPage = () => {
 
   // Init `StartTime` value
   useEffect(() => {
-    if (assessment) {
+    if (assessment?.startTime) {
       startTimeManager.handleChange(assessment.startTime);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessment?.startTime]);
 
   // Init `Duration` value
   useEffect(() => {
@@ -146,7 +145,7 @@ const EditAssessmentPage = () => {
             <GridItem>
               <Input
                 label="Number of Questions"
-                type="nuumber"
+                type="number"
                 id="numberOfQuestions"
                 placeholder="Enter number of questions"
                 error={errors.numberOfQuestions?.message}
