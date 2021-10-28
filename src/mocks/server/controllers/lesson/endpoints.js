@@ -59,8 +59,7 @@ const adminEditLesson = [
   ),
 ];
 
-const adminGetLessonListing = rest.post(
-  // TODO: change `method`
+const adminGetLessonListing = rest.get(
   getUrl("/lesson/admin"), // TODO: change `path`
   handleSuccessResponse(adminGetLessonListingRes)
 );
