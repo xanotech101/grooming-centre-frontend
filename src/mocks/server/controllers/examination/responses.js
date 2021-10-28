@@ -6,6 +6,9 @@ export const requestExaminationRes_examinationId_1 = {
     amountOfQuestions: null,
     startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
+    active: true,
+    startTime: "2021-10-20T11:50:00.319Z",
+    courseId: "courseId_1",
     examinationQuestions: [
       {
         id: "questionId_1",
@@ -113,4 +116,22 @@ export const adminCreateExaminationRes = {
   data: {
     id: "examinationId_1",
   },
+};
+
+export const adminEditExaminationRes_examinationId_1 = {
+  message: "Examination updated successfully",
+  data: [
+    {
+      id: "examinationId_1",
+    },
+  ],
+};
+
+export const adminEditExaminationRes_examinationId_2 = {
+  message: "Examination updated successfully",
+  data: [
+    {
+      id: "examinationId_2",
+    },
+  ],
 };

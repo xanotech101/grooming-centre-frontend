@@ -229,7 +229,7 @@ const CreateLessonPage = () => {
                   { label: "Course 2", value: "Course-2" },
                   { label: "Course 3", value: "Course-3" },
                 ]}
-                isRequire
+                isRequired
                 error={errors.courseId?.message}
                 {...register("courseId", {
                   required: "Please select a Course",

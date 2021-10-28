@@ -156,3 +156,23 @@ export const adminGetAssessmentListing = async (courseId) => {
 
   return { assessments };
 };
+
+/**
+ * Endpoint to for admin to edit a assessment
+ * @param {{ title: ?string, duration: number, amountOfQuestions: number, startTime: ?Date, courseId: string }} body
+ *
+ * @returns {Promise<{ message: string, assessment: { id: string } }>}
+ */
+export const adminEditAssessment = async (assessmentId, body) => {
+  const path = `/assessment/edit/${assessmentId}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const assessment = {
+    id: data[0].id,
+  };
+
+  return { message, assessment };
+};

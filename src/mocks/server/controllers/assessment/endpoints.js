@@ -12,6 +12,8 @@ import {
   requestAssessmentDetailsRes_assessmentId_2,
   submitAssessmentRes,
   adminCreateAssessmentRes,
+  adminEditAssessmentRes_assessmentId_1,
+  adminEditAssessmentRes_assessmentId_2,
 } from "./responses";
 
 const adminGetQuestionDetails = [
@@ -79,6 +81,19 @@ const adminCreateAssessment = rest.post(
   handleSuccessResponse(adminCreateAssessmentRes)
 );
 
+const adminEditAssessment = [
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/assessment/edit/assessmentId_1"), // TODO: change `path`
+    handleSuccessResponse(adminEditAssessmentRes_assessmentId_1)
+  ),
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/assessment/edit/assessmentId_2"), // TODO: change `path`
+    handleSuccessResponse(adminEditAssessmentRes_assessmentId_2)
+  ),
+];
+
 const assessment = [
   adminCreateAssessmentQuestion,
   ...adminEditQuestion,
@@ -87,6 +102,7 @@ const assessment = [
   ...submitAssessment,
   ...adminGetAssessmentListing,
   adminCreateAssessment,
+  ...adminEditAssessment
 ];
 
 export default assessment;

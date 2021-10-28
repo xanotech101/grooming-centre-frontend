@@ -9,6 +9,8 @@ import {
   submitExaminationRes,
   adminCreateExaminationQuestionRes,
   adminCreateExaminationRes,
+  adminEditExaminationRes_examinationId_1,
+  adminEditExaminationRes_examinationId_2,
 } from "./responses";
 
 const requestExamination = [
@@ -54,12 +56,26 @@ const adminCreateExamination = rest.post(
   handleSuccessResponse(adminCreateExaminationRes)
 );
 
+const adminEditExamination = [
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/examination/edit/examinationId_1"), // TODO: change `path`
+    handleSuccessResponse(adminEditExaminationRes_examinationId_1)
+  ),
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/examination/edit/examinationId_2"), // TODO: change `path`
+    handleSuccessResponse(adminEditExaminationRes_examinationId_2)
+  ),
+];
+
 const examination = [
   adminCreateExamination,
   adminCreateExaminationQuestion,
   ...requestExamination,
   ...adminGetExaminationListing,
   ...submitExamination,
+  ...adminEditExamination,
 ];
 
 export default examination;
