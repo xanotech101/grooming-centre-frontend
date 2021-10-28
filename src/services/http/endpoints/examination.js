@@ -18,10 +18,10 @@ export const requestExaminationDetails = async (id) => {
     courseId: data.courseId,
     topic: data.title,
     duration: data.duration,
-    questionCount: data.questionCount,
+    questionCount: data.examinationQuestions.length,
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
-    questions: data.questions.map((q) => ({
+    questions: data.examinationQuestions.map((q) => ({
       id: q.id,
       question: q.question,
       questionIndex: +q.questionIndex,
@@ -71,4 +71,24 @@ export const submitExamination = async (id, body) => {
   } = await http.post(path, body);
 
   return { message };
+};
+
+/**
+ * Endpoint to for admin to edit a examination
+ * @param {{ title: ?string, duration: number, amountOfQuestions: number, startTime: ?Date, courseId: string }} body
+ *
+ * @returns {Promise<{ message: string, examination: { id: string } }>}
+ */
+export const adminEditExamination = async (examinationId, body) => {
+  const path = `/examination/edit/${examinationId}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const examination = {
+    id: data[0].id,
+  };
+
+  return { message, examination };
 };
