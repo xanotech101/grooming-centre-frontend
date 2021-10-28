@@ -27,19 +27,14 @@ const links = [
     icon: <IoIosCalendar />,
   },
   {
-    text: "others",
-    matcher: "/admin/others",
+    text: "departments",
+    href: "/admin/departments",
     icon: <FiSettings />,
-    links: [
-      {
-        href: "/admin/others/departments",
-        text: "departments",
-      },
-      {
-        href: "/admin/others/role",
-        text: "roles",
-      },
-    ],
+  },
+  {
+    href: "/admin/role",
+    text: "roles",
+    icon: <IoIosCalendar />,
   },
 ];
 
