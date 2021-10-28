@@ -2,8 +2,8 @@ import { Box } from "@chakra-ui/layout";
 import { Switch } from "react-router-dom";
 import InfoPageRoute from "../pages/InfoPage";
 import LessonPageRoute from "../pages/LessonPage";
-import AssessmentPageRoute from "../pages/AssessmentPage";
-import ExamPageRoute from "../pages/ExamPage";
+import AssessmentListingPageRoute from "../pages/AssessmentListingPage";
+import ExamListingPageRoute from "../pages/ExamListingPage";
 
 const MainArea = () => {
   return (
@@ -11,9 +11,8 @@ const MainArea = () => {
       <Switch>
         <InfoPageRoute path="/admin/courses/details/:id/info" />
         <LessonPageRoute path="/admin/courses/details/:id/lessons" />
-        <AssessmentPageRoute path="/admin/courses/details/:id/assessment" />
-        <ExamPageRoute path="/admin/courses/details/:id/exam" />
-        
+        <AssessmentListingPageRoute path="/admin/courses/details/:id/assessment" />
+        <ExamListingPageRoute path="/admin/courses/details/:id/exam" />
       </Switch>
     </Box>
   );

@@ -1,13 +1,19 @@
 /**
- * @param {*} number - minutes
- * @returns object {hours: `number`, minutes: `number`}
+ * @param {number} number - in minutes
+ * @returns {{hours: number, minutes: number, combinedText: string}}
  */
 
 export function getDuration(number) {
-  var tempHours = number / 60;
-  var hours = Math.floor(tempHours);
-  var tempMinutes = (tempHours - hours) * 60;
-  var minutes = Math.round(tempMinutes);
+  const tempHours = number / 60;
+  const hours = Math.floor(tempHours);
+  const tempMinutes = (tempHours - hours) * 60;
+  const minutes = Math.round(tempMinutes);
 
-  return { hours, minutes };
+  const getSCharacter = (x) => (!(x <= 1) ? "s" : "");
+
+  const combinedText = `${
+    hours ? `${hours} hour${getSCharacter(hours)} ` : ""
+  } ${minutes ? `${minutes} minute${getSCharacter(minutes)}` : ""}`;
+
+  return { hours, minutes, combinedText };
 }
