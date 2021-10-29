@@ -48,16 +48,15 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   const onSubmit = async (data) => {
     try {
-      const file = thumbnailUpload.handleGetFileAndValidate("Course Image"); // TODO: delete old api design
-      // const thumbnail =
-      //   thumbnailUpload.handleGetFileAndValidate("Course Image"); // TODO: uncomment
-      // const certificate =
-      //   certificateUpload.handleGetFileAndValidate("Certificate"); // TODO: uncomment
+      const courseThumbnail =
+        thumbnailUpload.handleGetFileAndValidate("Course Image");
+      const certificate =
+        certificateUpload.handleGetFileAndValidate("Certificate");
 
       data = {
         ...data,
-        // thumbnail, certificate // TODO: uncomment
-        file, // TODO: delete old api design
+        courseThumbnail,
+        certificate,
       };
       const body = appendFormData(data);
 
