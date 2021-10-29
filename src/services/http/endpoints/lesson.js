@@ -82,7 +82,7 @@ export const adminGetLessonListing = async (body) => {
 
   const {
     data: { message, data },
-  } = await http.post(path, body);
+  } = await http.get(path, body);
 
   const lessons = data.rows.map((lesson) => ({
     id: lesson.id,

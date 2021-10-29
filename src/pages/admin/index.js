@@ -13,6 +13,6 @@ export * from "./users/UserInfoPage/pages/ProfilePage";
 export * from "./courses/EditCourseInfoPage";
 export * from "./courses/EditLessonInfoPage";
 export * from "./courses/AssessmentPage/layout/AssessmentPage";
-
+export * from "./departments/DepartmentListingPage";
 
 

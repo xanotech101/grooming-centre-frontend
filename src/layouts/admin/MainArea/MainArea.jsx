@@ -15,6 +15,7 @@ import {
   // EditCourseInfoPageRoute,
   EditLessonInfoPageRoute,
   AssessmentPageRoute,
+  DepartmentListingPageRoute
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -44,10 +45,10 @@ const MainArea = () => {
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
           <UserInfoPageRoute path="/admin/users/details" />
-          {/* 
-            <DepartmentsPageRoute exact path="/admin/others/departments" />
-            <RolesPageRoute exact path="/admin/other" /> 
-          */}
+          
+            <DepartmentListingPageRoute exact path="/admin/departments" />
+            {/* <RolesPageRoute exact path="/admin/other" />  */}
+         
           <NotFoundPageRoute />
         </Switch>
       </Box>
