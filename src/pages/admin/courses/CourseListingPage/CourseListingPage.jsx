@@ -51,7 +51,7 @@ const tableProps = {
       id: "1",
       key: "title",
       text: "Course Title",
-      fraction: "400px",
+      fraction: "3fr",
       renderContent: (data) => (
         <Link href={`/admin/courses/details/${data.courseId}/info`}>
           <Text>{data.text}</Text>
