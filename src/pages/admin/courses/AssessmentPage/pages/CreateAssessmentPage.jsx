@@ -68,10 +68,10 @@ const CreateAssessmentPage = () => {
       setTimeout(() => {
         isExamination
           ? push(
-              `/admin/courses/${courseId}/assessment/${examination.id}/questions?examination=true`
+              `/admin/courses/${courseId}/assessment/${examination.id}/questions/new?examination=true`
             )
           : push(
-              `/admin/courses/${courseId}/assessment/${assessment.id}/questions`
+              `/admin/courses/${courseId}/assessment/${assessment.id}/questions/new`
             );
       }, 2000);
     } catch (error) {
@@ -120,7 +120,7 @@ const CreateAssessmentPage = () => {
             <GridItem>
               <Input
                 label="Number of Questions"
-                type="nuumber"
+                type="number"
                 id="numberOfQuestions"
                 placeholder="Enter number of questions"
                 error={errors.numberOfQuestions?.message}
