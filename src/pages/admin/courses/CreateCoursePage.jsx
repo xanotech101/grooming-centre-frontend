@@ -93,9 +93,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   useEffect(() => {
     if (courseDetailsData) {
       thumbnailUpload.handleInitialImageSelect(courseDetailsData.thumbnail);
-      // certificateUpload.handleInitialImageSelect(courseDetailsData.certificate); // TODO: uncomment
+      certificateUpload.handleInitialImageSelect(courseDetailsData.certificate);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData]);
 

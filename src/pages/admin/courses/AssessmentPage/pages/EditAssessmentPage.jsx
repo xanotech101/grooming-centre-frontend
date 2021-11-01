@@ -66,7 +66,7 @@ const EditAssessmentPage = () => {
   // Init `Number of Questions` value
   useEffect(() => {
     if (assessment) {
-      setValue("numberOfQuestions", assessment?.questionCount);
+      setValue("amountOfQuestions", assessment?.questionCount);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment]);
@@ -146,10 +146,10 @@ const EditAssessmentPage = () => {
               <Input
                 label="Number of Questions"
                 type="number"
-                id="numberOfQuestions"
+                id="amountOfQuestions"
                 placeholder="Enter number of questions"
-                error={errors.numberOfQuestions?.message}
-                {...register("numberOfQuestions", {
+                error={errors.amountOfQuestions?.message}
+                {...register("amountOfQuestions", {
                   required: "Please enter number of questions",
                 })}
               />
