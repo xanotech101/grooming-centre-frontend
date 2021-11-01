@@ -113,7 +113,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   }, [courseDetailsData, metadata?.departments]);
   useEffect(() => {
     if (courseDetailsData) {
-      setValue("description", courseDetailsData.content);
+      setValue("description", courseDetailsData.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData]);
