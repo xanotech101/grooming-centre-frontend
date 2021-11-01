@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from "react";
 import { adminGetLessonListing } from "../../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import dayjs from "dayjs";
 
 const tableProps = {
   filterControls: [
@@ -139,7 +140,7 @@ const LessonPage = () => {
         lessonId: lesson.id,
         courseId: lesson.courseId,
       },
-      startDate: lesson.startTime,
+      startDate: dayjs(lesson.startTime).format("DD/MM/YYYY h:mm a"),
       status: lesson.active,
     });
 

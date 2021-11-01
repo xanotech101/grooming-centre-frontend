@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from "react";
 import { requestExaminationDetails } from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
+import dayjs from "dayjs";
 
 const tableProps = {
   filterControls: [
@@ -118,7 +119,7 @@ const ExamListingPage = () => {
         examinationId: examination.id,
         courseId,
       },
-      startDate: examination.startTime,
+      startDate: dayjs(examination.startTime).format("DD/MM/YYYY h:mm a"),
       duration: getDuration(examination.duration).combinedText,
     });
 
