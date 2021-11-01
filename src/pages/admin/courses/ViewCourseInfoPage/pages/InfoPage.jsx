@@ -116,7 +116,7 @@ const InfoPage = () => {
               height="26vh"
               overflowY="auto"
             >
-              <Text color="accent.3">{courseDetailsData?.content}</Text>
+              <Text color="accent.3">{courseDetailsData?.description}</Text>
             </Box>
           </Flex>
         </Box>

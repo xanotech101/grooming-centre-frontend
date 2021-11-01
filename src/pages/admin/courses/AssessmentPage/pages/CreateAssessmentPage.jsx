@@ -2,11 +2,7 @@ import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { useForm } from "react-hook-form";
 import { useParams, useHistory } from "react-router-dom";
-import {
-  Button,
-  DateTimePicker,
-  Input,
-} from "../../../../../components";
+import { Button, DateTimePicker, Input } from "../../../../../components";
 import { useDateTimePicker, useGoBack } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
@@ -19,7 +15,6 @@ import {
   formatDateToISO,
 } from "../../../../../utils";
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
-
 
 const CreateAssessmentPage = () => {
   const { id: courseId, assessmentId } = useParams();
@@ -37,10 +32,7 @@ const CreateAssessmentPage = () => {
 
   const startTimeManager = useDateTimePicker();
 
-  const { isExamination } = useAssessmentPreview(
-    null,
-    assessmentId
-  );
+  const { isExamination } = useAssessmentPreview(null, assessmentId);
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -121,10 +113,10 @@ const CreateAssessmentPage = () => {
               <Input
                 label="Number of Questions"
                 type="number"
-                id="numberOfQuestions"
+                id="amountOfQuestions"
                 placeholder="Enter number of questions"
-                error={errors.numberOfQuestions?.message}
-                {...register("numberOfQuestions", {
+                error={errors.amountOfQuestions?.message}
+                {...register("amountOfQuestions", {
                   required: "Please enter number of questions",
                 })}
               />

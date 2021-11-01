@@ -15,6 +15,7 @@ import { adminGetCourseListing } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 import { BreadcrumbItem } from "@chakra-ui/react";
+import dayjs from "dayjs";
 
 const tableProps = {
   filterControls: [
@@ -138,7 +139,7 @@ const CourseListingPage = () => {
     const mapCourseToRow = (course) => ({
       id: course.id,
       title: { text: course.title, courseId: course.id },
-      startDate: course.startDate,
+      startDate: dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
       status: course.isPublished,
       instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
     });

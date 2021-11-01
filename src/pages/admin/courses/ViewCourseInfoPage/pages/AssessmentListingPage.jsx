@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from "react";
 import { adminGetAssessmentListing } from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
+import dayjs from "dayjs";
 
 const tableProps = {
   filterControls: [
@@ -114,7 +115,7 @@ const AssessmentListingPage = () => {
     const mapCourseToRow = (assessment) => ({
       id: assessment.id,
       title: { text: assessment.title, assessmentId: assessment.id, courseId },
-      startDate: assessment.startTime,
+      startDate: dayjs(assessment.startTime).format("DD/MM/YYYY h:mm a"),
       duration: getDuration(assessment.duration).combinedText,
     });
 

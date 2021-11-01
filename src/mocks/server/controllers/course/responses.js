@@ -4,6 +4,7 @@ export const adminCourseListingRes = {
       {
         id: "courseId_1",
         title: "The implication of financial crisis in the society",
+        description: "Financial Concept",
         user: {
           firstName: "Shalom",
           lastName: "Brain",
@@ -14,6 +15,7 @@ export const adminCourseListingRes = {
       {
         id: "courseId_3",
         title: "The best course on automation testing",
+        description: "Advanced Testing Concept",
         user: {
           firstName: "Richcode",
           lastName: "dart",
