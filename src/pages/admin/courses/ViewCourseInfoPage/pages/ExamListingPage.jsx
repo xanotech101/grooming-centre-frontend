@@ -12,7 +12,7 @@ import {
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetExaminationListing } from "../../../../../services";
+import { requestExaminationDetails } from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
 
@@ -84,7 +84,7 @@ const useExaminationListing = () => {
       setRows({ loading: true });
 
       try {
-        const { examinations } = await adminGetExaminationListing(courseId);
+        const { examinations } = await requestExaminationDetails(courseId);
 
         const data = mapper ? examinations.map(mapper) : examinations;
 
