@@ -108,7 +108,7 @@ export const adminCreateAssessment = async (body) => {
  * @returns {Promise<{ message: string }>}
  */
 export const adminCreateAssessmentQuestion = async (body) => {
-  const path = "/assessment/question/create/new";
+  const path = "/assessment/question/create";
 
   const {
     data: { message },

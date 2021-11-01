@@ -78,7 +78,7 @@ export const submitExamination = async (id, body) => {
  * @returns {Promise<{ message: string }>}
  */
 export const adminCreateExaminationQuestion = async (body) => {
-  const path = "/examination/question/create/new";
+  const path = "/examination/question/create";
 
   const {
     data: { message },
