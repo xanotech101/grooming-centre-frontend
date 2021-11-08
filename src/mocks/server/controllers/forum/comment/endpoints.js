@@ -8,6 +8,8 @@ import {
   // userForumReplyACommentRes,
   userForumGetMentionsRes,
   userForumGetYourAnswersRes,
+  userForumEditCommentRes,
+  userForumDeleteCommentRes,
 } from "./responses";
 
 const userForumGetComments = [
@@ -20,6 +22,32 @@ const userForumGetComments = [
     // TODO: change `method`
     getUrl("/forum/questions/questionId_2/comments"), // TODO: change `path`
     handleSuccessResponse(userForumGetCommentsRes_questionId_2)
+  ),
+];
+
+const userForumEditComment = [
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/forum/comments/commentId_1"), // TODO: change `path`
+    handleSuccessResponse(userForumEditCommentRes)
+  ),
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/forum/comments/commentId_2"), // TODO: change `path`
+    handleSuccessResponse(userForumEditCommentRes)
+  ),
+];
+
+const userForumDeleteComment = [
+  rest.delete(
+    // TODO: change `method`
+    getUrl("/forum/comments/commentId_1"), // TODO: change `path`
+    handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+  rest.delete(
+    // TODO: change `method`
+    getUrl("/forum/comments/commentId_2"), // TODO: change `path`
+    handleSuccessResponse(userForumDeleteCommentRes)
   ),
 ];
 
@@ -48,6 +76,8 @@ const userForumGetMentions = rest.get(
 
 const forumComment = [
   ...userForumGetComments,
+  ...userForumEditComment,
+  ...userForumDeleteComment,
   userForumGetYourAnswers,
   userForumGetMentions,
   userForumAddComment,
