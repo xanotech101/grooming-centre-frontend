@@ -39,6 +39,8 @@ const EditAssessmentPage = () => {
     assessmentId
   );
 
+  console.log(assessment)
+
   // Init `Title` value
   useEffect(() => {
     if (assessment) {

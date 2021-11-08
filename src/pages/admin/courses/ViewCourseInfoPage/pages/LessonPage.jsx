@@ -94,6 +94,7 @@ const tableProps = {
 };
 
 const useLessonListing = () => {
+   const { id: courseId } = useParams();
   const componentIsMount = useComponentIsMount();
 
   const [rows, setRows] = useState({
@@ -107,18 +108,19 @@ const useLessonListing = () => {
       setRows({ loading: true });
 
       try {
-        const { lessons } = await adminGetLessonListing();
+        const { lessons } = await adminGetLessonListing(courseId);
 
         const data = mapper ? lessons.map(mapper) : lessons;
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
+        console.error(err);
         if (componentIsMount) setRows({ err: true });
       } finally {
         if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
       }
     },
-    [setRows, componentIsMount]
+    [setRows, componentIsMount, courseId]
   );
 
   return {

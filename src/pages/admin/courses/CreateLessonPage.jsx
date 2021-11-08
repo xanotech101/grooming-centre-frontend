@@ -56,6 +56,8 @@ const CreateLessonPage = () => {
 
   const { lesson, isLoading, isError } = useViewLessonInfo();
 
+
+
   // Init `Title` value
   useEffect(() => {
     if (lesson) {
@@ -200,7 +202,11 @@ const CreateLessonPage = () => {
           }
           item3={
             <BreadcrumbItem>
-              <Link href="#">Lessons</Link>
+              <Link
+                href={` /admin/courses/${courseId}/lesson/${lessonId}/view`}
+              >
+                Lessons
+              </Link>
             </BreadcrumbItem>
           }
           item4={
