@@ -123,6 +123,44 @@ export const userForumGetComments = async (questionId) => {
 };
 
 /**
+ * Endpoint to edit forum comment
+ * @param {string} commentId
+ *
+ * @returns {
+ *   Promise<{
+ *     comment: { body: string }
+ *   }>
+ * }
+ */
+export const userForumEditComment = async (commentId) => {
+  const path = `/forum/comments/${commentId}`;
+
+  const {
+    data: { data },
+  } = await http.patch(path);
+
+  const comment = {
+    body: data.comment,
+  };
+
+  return { comment };
+};
+
+/**
+ * Endpoint to delete forum comment
+ * @param {string} commentId
+ *
+ * @returns {
+ *   Promise<void>
+ * }
+ */
+export const userForumDeleteComment = async (commentId) => {
+  const path = `/forum/comments/${commentId}`;
+
+  await http.delete(path);
+};
+
+/**
  * Endpoint to add a forum comment
  * @param {{ comment: string, questionId: string, userId: string }} body
  *

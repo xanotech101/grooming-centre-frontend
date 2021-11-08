@@ -19,6 +19,16 @@ export const userForumAddCommentRes = {
   },
 };
 
+export const userForumEditCommentRes = {
+  message: "comment updated successfully",
+  data: {
+    comment: "I still so much love this question",
+  },
+};
+export const userForumDeleteCommentRes = {
+  message: "comment deleted successfully",
+};
+
 export const userForumGetCommentsRes_questionId_1 = {
   data: [
     {
@@ -45,7 +55,7 @@ export const userForumGetCommentsRes_questionId_1 = {
       likes: 2,
       dislikes: 21,
       user: {
-        id: "7afb6282-732c-4667-9898-eb2f866f4a78",
+        id: "a272afb9-abde-469b-bbfa-178580aefb81",
         profilePics:
           "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
         firstName: "my",
@@ -147,7 +157,7 @@ export const userForumGetMentionsRes = {
       likes: 2,
       dislikes: 21,
       user: {
-        id: "7afb6282-732c-4667-9898-eb2f866f4a78",
+        id: "a272afb9-abde-469b-bbfa-178580aefb81",
         profilePics:
           "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
         firstName: "my",
