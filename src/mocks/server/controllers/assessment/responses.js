@@ -68,7 +68,7 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     id: "assessmentId_1",
     title: "Html assessment",
     duration: 60,
-    amountOfQuestions: null,
+    amountOfQuestions: 57,
     startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     assessmentQuestions: [
@@ -107,7 +107,7 @@ export const requestAssessmentDetailsRes_assessmentId_2 = {
     id: "assessmentId_2",
     title: "CSS assessment",
     duration: 60,
-    amountOfQuestions: null,
+    amountOfQuestions: 70,
     startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     assessmentQuestions: [
@@ -191,7 +191,7 @@ export const submitAssessmentRes = {
 export const adminCreateAssessmentQuestionRes = {
   message: "assessment question created successfully",
 };
-export const adminEditQuestionRes = {
+export const adminEditAssessmentQuestionRes = {
   message: "question updated successfully",
 };
 

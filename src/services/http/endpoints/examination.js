@@ -2,7 +2,7 @@ import { http } from "../http";
 
 /**
  * Endpoint to get `examination-details`
- * @param {string} id - examinationId
+ * @param {string} id - courseId
  *
  * @returns {Promise<{ examination: Examination }>}
  */
@@ -18,7 +18,7 @@ export const requestExaminationDetails = async (id) => {
     courseId: data.courseId,
     topic: data.title,
     duration: data.duration,
-    questionCount: data.examinationQuestions.length,
+    questionCount: data.amountOfQuestions,
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
     questions: data.examinationQuestions.map((q, index) => ({
@@ -53,6 +53,30 @@ export const adminCreateExamination = async (body) => {
   };
 
   return { message, examination };
+};
+
+/**
+ * Endpoint for examination listing
+ * @param {string} courseId
+ *
+ * @returns {Promise<{ examinations: Array<{ id: string, examinationId: string, title: string,  startTime: Date, duration: number }> }>}
+ */
+export const adminGetExaminationListing = async (courseId) => {
+  const path = `/examination/${courseId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const examinations = [{
+    id: data.id,
+    title: data.title,
+    examinationId: data.examinationId,
+    duration: data.duration,
+    startTime: data.startTime,
+  }]
+
+  return { examinations };
 };
 
 /**
@@ -105,4 +129,19 @@ export const adminEditExamination = async (examinationId, body) => {
   };
 
   return { message, examination };
+};
+
+/**
+ * Endpoint for examination modification/update
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminEditExaminationQuestion = async (body) => {
+  const path = `/examination/question/edit`;
+
+  const {
+    data: { message },
+  } = await http.patch(path, body);
+
+  return { message };
 };

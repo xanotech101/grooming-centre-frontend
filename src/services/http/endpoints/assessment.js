@@ -18,7 +18,7 @@ export const requestAssessmentDetails = async (id) => {
     courseId: data.courseId,
     topic: data.title,
     duration: data.duration,
-    questionCount: data.amountOfQuestions || data.assessmentQuestions.length,
+    questionCount: data.amountOfQuestions,
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
@@ -119,16 +119,15 @@ export const adminCreateAssessmentQuestion = async (body) => {
 
 /**
  * Endpoint for assessment modification/update
- * @param {string} questionId
  * @param {object} body
  * @returns {Promise<{ message: string }>}
  */
-export const adminEditQuestion = async (questionId, body) => {
-  const path = `/assessment/question/edit/${questionId}`;
+export const adminEditAssessmentQuestion = async (body) => {
+  const path = `/assessment/question/edit`;
 
   const {
     data: { message },
-  } = await http.post(path, body);
+  } = await http.patch(path, body);
 
   return { message };
 };
