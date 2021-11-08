@@ -12,9 +12,10 @@ import {
   ViewCourseInfoPageRoute,
   ViewLessonInfoPageRoute,
   UserListingPageRoute,
-  EditCourseInfoPageRoute,
+  // EditCourseInfoPageRoute,
   EditLessonInfoPageRoute,
-  CreateAssessmentPageRoute,
+  AssessmentPageRoute,
+  DepartmentListingPageRoute
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -24,15 +25,18 @@ const MainArea = () => {
         <Switch>
           <DashboardPageRoute exact path="/admin" />
           <CourseListingPageRoute exact path="/admin/courses" />
-          <CreateCoursePageRoute exact path="/admin/courses/create" />
+          <CreateCoursePageRoute exact path="/admin/courses/edit/:id" />
+          {/* <EditCourseInfoPageRoute exact path="/admin/courses/edit/:id" /> */}
           <CreateLessonPageRoute
             exact
-            path="/admin/courses/:id/lessons/create"
+            path="/admin/courses/:courseId/lessons/edit/:lessonId"
           />
-          <CreateAssessmentPageRoute path="/admin/courses/:id/assessment" />
-          <EditCourseInfoPageRoute exact path="/admin/course/edit/:id" />
+          <AssessmentPageRoute path="/admin/courses/:id/assessment/:assessmentId" />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
-          <EditLessonInfoPageRoute exact path="/admin/course/:courseId/lesson/edit/:lessonId" />
+          <EditLessonInfoPageRoute
+            exact
+            path="/admin/courses/:courseId/lesson/edit/:lessonId"
+          />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
           <ViewLessonInfoPageRoute
             exact
@@ -41,10 +45,10 @@ const MainArea = () => {
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
           <UserInfoPageRoute path="/admin/users/details" />
-          {/* 
-            <DepartmentsPageRoute exact path="/admin/others/departments" />
-            <RolesPageRoute exact path="/admin/other" /> 
-          */}
+          
+            <DepartmentListingPageRoute exact path="/admin/departments" />
+            {/* <RolesPageRoute exact path="/admin/other" />  */}
+         
           <NotFoundPageRoute />
         </Switch>
       </Box>

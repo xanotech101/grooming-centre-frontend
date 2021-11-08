@@ -10,6 +10,7 @@ export const CreatePageLayout = ({
   submitButtonText,
   subTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   submitButtonIsLoading,
+  submitButtonIsDisabled,
   title,
   onSubmit,
 }) => {
@@ -56,7 +57,7 @@ export const CreatePageLayout = ({
             <Button
               type="submit"
               isLoading={submitButtonIsLoading}
-              disabled={submitButtonIsLoading}
+              disabled={submitButtonIsDisabled || submitButtonIsLoading}
               loadingText={submitButtonText}
             >
               {submitButtonText}
@@ -73,6 +74,7 @@ CreatePageLayout.propTypes = {
   submitButtonText: PropTypes.string.isRequired,
   subTitle: PropTypes.string,
   submitButtonIsLoading: PropTypes.bool,
+  submitButtonIsDisabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),

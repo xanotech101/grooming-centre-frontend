@@ -7,8 +7,8 @@ const MainArea = () => {
   return (
     <Box flex={1} overflowY="scroll">
       <Switch>
-        <OverviewPageRoute path="/admin/courses/:id/assessment/create" />
-        <QuestionsPageRoute path="/admin/courses/:id/assessment/questions" />
+        <OverviewPageRoute path="/admin/courses/:id/assessment/:assessmentId/overview" />
+        <QuestionsPageRoute path="/admin/courses/:id/assessment/:assessmentId/questions/:questionId" />
       </Switch>
     </Box>
   );

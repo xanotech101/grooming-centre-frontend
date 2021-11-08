@@ -4,7 +4,13 @@ import { Box, Grid, Flex } from "@chakra-ui/layout";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import {
   Heading,
-  Breadcrumb, SkeletonText, Text, Button, Link, Image, Spinner 
+  Breadcrumb,
+  SkeletonText,
+  Text,
+  Button,
+  Link,
+  Image,
+  Spinner,
 } from "../../../../../components";
 import { OverviewBox } from "../../../users/UserInfoPage/pages/ProfilePage";
 import { FiCheckSquare } from "react-icons/fi";
@@ -25,8 +31,8 @@ const InfoPage = () => {
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
-  console.log(courseDetailsData); 
- 
+  console.log(courseDetailsData);
+
   return isLoading || isError ? (
     <Flex
       // Make the height 100% of the screen minus the `height` of the Header and Footer
@@ -70,7 +76,7 @@ const InfoPage = () => {
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
-            link={`/admin/course/edit/${courseDetailsData?.id}`}
+            link={`/admin/courses/edit/${courseDetailsData?.id}`}
           >
             Edit
           </Button>
@@ -110,7 +116,7 @@ const InfoPage = () => {
               height="26vh"
               overflowY="auto"
             >
-              <Text color="accent.3">{courseDetailsData?.content}</Text>
+              <Text color="accent.3">{courseDetailsData?.description}</Text>
             </Box>
           </Flex>
         </Box>
@@ -129,7 +135,7 @@ const InfoPage = () => {
               name="Lessons"
               icon={<ImArrowUp />}
               iconBackgroundColor="accent.6"
-              href={`/admin/courses/${courseDetailsData?.id}/lesson`}
+              href={`/admin/courses/details/${courseDetailsData?.id}/lessons`}
               isLoading={isLoading}
             />
             <OverviewBox
@@ -137,7 +143,7 @@ const InfoPage = () => {
               name="Assessment"
               icon={<FiCheckSquare />}
               iconBackgroundColor="accent.7"
-              href={`/admin/courses/${courseDetailsData?.id}/assessment`}
+              href={`/admin/courses/details/${courseDetailsData?.id}/assessment`}
               isLoading={isLoading}
             />
             <OverviewBox
@@ -145,18 +151,15 @@ const InfoPage = () => {
               name="Exams"
               icon={<BiCertification />}
               iconBackgroundColor="secondary.5"
-              href={`/admin/courses/${courseDetailsData?.id}/exam`}
+              href={`/admin/courses/details/${courseDetailsData?.id}/exam`}
               isLoading={isLoading}
             />
           </Grid>
         </Box>
       </Box>
-      </Box>
-      
+    </Box>
   );
-  
 };
-
 
 const InfoPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <InfoPage {...props} />} />;

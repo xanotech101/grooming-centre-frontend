@@ -10,6 +10,7 @@ import forumQuestion from "./forum/question/endpoints";
 import forumTag from "./forum/tag/endpoints";
 import forumComment from "./forum/comment/endpoints";
 import editCourse from "./editcourseinfo/endpoints";
+import department from "./department/endpoints";
 
 const commonHandlers = [
   ...auth,
@@ -24,6 +25,7 @@ const commonHandlers = [
   ...forumQuestion,
   ...forumComment,
   ...editCourse,
+  ...department,
 ];
 
 const handlers = {

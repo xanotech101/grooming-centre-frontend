@@ -2,6 +2,10 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
+  adminCreateLessonRes,
+  adminEditLessonRes_lessonId_1,
+  adminEditLessonRes_lessonId_2,
+  adminGetLessonListingRes,
   requestEndLessonRes,
   requestLessonDetailsRes_lessonId_1,
   requestLessonDetailsRes_lessonId_2,
@@ -36,6 +40,36 @@ const requestEndLesson = [
   ),
 ];
 
-const lesson = [...requestLessonDetailsForLessonId, ...requestEndLesson];
+const adminCreateLesson = rest.post(
+  // TODO: change `method`
+  getUrl("/lesson/create"), // TODO: change `path`
+  handleSuccessResponse(adminCreateLessonRes)
+);
+
+const adminEditLesson = [
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/lesson/edit/lessonId_1"), // TODO: change `path`
+    handleSuccessResponse(adminEditLessonRes_lessonId_1)
+  ),
+  rest.patch(
+    // TODO: change `method`
+    getUrl("/lesson/edit/lessonId_2"), // TODO: change `path`
+    handleSuccessResponse(adminEditLessonRes_lessonId_2)
+  ),
+];
+
+const adminGetLessonListing = rest.get(
+  getUrl("/lesson/admin"), // TODO: change `path`
+  handleSuccessResponse(adminGetLessonListingRes)
+);
+
+const lesson = [
+  ...requestLessonDetailsForLessonId,
+  ...requestEndLesson,
+  ...adminEditLesson,
+  adminGetLessonListing,
+  adminCreateLesson,
+];
 
 export default lesson;

@@ -1,13 +1,13 @@
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
-import { Skeleton } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
 import { forwardRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { Button, Image } from "..";
-import FormGroup, { FormGroupPropTypes } from "./FormGroup";
+import { Button, Image } from "../..";
+import FormGroup, { FormGroupPropTypes } from "../FormGroup";
+import MiniUploadContent from "./MiniUploadContent";
 
 export const Upload = forwardRef(
   (
@@ -17,10 +17,13 @@ export const Upload = forwardRef(
       isRequired,
       isMini,
       imageUrl,
+      videoUrl,
+      pdfUrl,
       alt,
       label,
       onFileSelect,
       width = "100%",
+      accept,
       ...rest
     },
     ref
@@ -36,33 +39,47 @@ export const Upload = forwardRef(
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
+      accept,
     });
 
-    const renderContent = (props) => {
-      
+    const hasUploaded = imageUrl || videoUrl || pdfUrl;
 
-      const style = !imageUrl ? {
-        flexDirection:"column",
-        justifyContent:"center",
-        width,
-        padding: 5,
-        border: "1px dashed",
-      }: {}
+    const renderContent = (props) => {
+      const style = !hasUploaded
+        ? {
+            flexDirection: "column",
+            justifyContent: "center",
+            width,
+            padding: 5,
+            border: "1px dashed",
+          }
+        : {};
 
       return (
         <Flex {...style} {...props} {...getRootProps()}>
           <Input ref={ref} {...getInputProps()} {...rest} />
 
-          {imageUrl ? (
+          {hasUploaded ? (
             <>
-              <Image src={imageUrl} width="223px" height="136px" alt={alt} />
+              {videoUrl ? (
+                <video src={videoUrl} controls width="300px" height="150px" />
+              ) : pdfUrl ? (
+                <object
+                  width="100%"
+                  height="400"
+                  data={pdfUrl}
+                  type="application/pdf"
+                >
+                  {" "}
+                </object>
+              ) : (
+                <Image src={imageUrl} width="300px" height="150px" alt={alt} />
+              )}
               <MiniUploadContent
-                getRootProps={getRootProps}
-                getInputProps={getInputProps}
+                mute
                 hideImage
                 wrapperProps={{ alignItems: "flex-end", paddingLeft: "16px" }}
                 props={props}
-                rest={{ ...rest }}
               />
             </>
           ) : (
@@ -87,7 +104,8 @@ export const Upload = forwardRef(
             </Stack>
           )}
         </Flex>
-      );};
+      );
+    };
 
     return (
       <FormGroup
@@ -110,25 +128,6 @@ export const Upload = forwardRef(
       />
     );
   }
-);
-
-const MiniUploadContent = forwardRef(
-  (
-    { getRootProps, getInputProps, hideImage, wrapperProps, props, rest },
-    ref
-  ) => (
-    <Flex alignItems="center" {...wrapperProps}>
-      {!hideImage && <Skeleton boxSize="60px" rounded="full" marginRight={5} />}
-
-      <Box {...props} {...getRootProps()}>
-        <Input ref={ref} {...getInputProps()} {...rest} />
-
-        <Button width="fit-content" secondary>
-          Upload
-        </Button>
-      </Box>
-    </Flex>
-  )
 );
 
 Upload.propTypes = {

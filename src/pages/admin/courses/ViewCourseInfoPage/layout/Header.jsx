@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/layout";
 import { useEffect } from "react";
-import { Heading, Link, Spinner, Text } from "../../../../../components";
+import { Link, Text } from "../../../../../components";
 import colors from "../../../../../theme/colors";
 import useCourseDetails from "../../../../user/Courses/CourseDetails/hooks/useCourseDetails";
 
@@ -35,25 +35,13 @@ const Header = () => {
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
-  return isLoading || isError ? (
-    <Flex
-      // Make the height 100% of the screen minus the `height` of the Header and Footer
-      height="calc(100vh - 200px)"
-      justifyContent="center"
-      alignItems="center"
-    >
-      {isLoading ? (
-        <Spinner />
-      ) : isError ? (
-        <Heading color="red.500">{isError}</Heading>
-      ) : null}
-    </Flex>
-  ) : (
+  return (
     <Flex
       alignItems="center"
       as="header"
       backgroundColor="white"
       height="50px"
+      disabled={isLoading || isError}
       paddingLeft={20}
       shadow="0 2px 2px rgba(0, 0, 0, .05)"
       position="relative"
@@ -65,6 +53,7 @@ const Header = () => {
             <li key={link.text}>
               <Link
                 navLink
+                disabled={isLoading || isError}
                 href={link.href(courseDetailsData?.id)}
                 style={{
                   color: colors.accent[2],

@@ -1,15 +1,21 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table, Text, Breadcrumb, Link } from "../../../../components";
+import {
+  Button,
+  Heading,
+  Table,
+  Text,
+  Breadcrumb,
+  Link,
+} from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetCourseListing } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
-import {
-  BreadcrumbItem,
-} from "@chakra-ui/react";
+import { BreadcrumbItem } from "@chakra-ui/react";
+import dayjs from "dayjs";
 
 const tableProps = {
   filterControls: [
@@ -46,25 +52,30 @@ const tableProps = {
       id: "1",
       key: "title",
       text: "Course Title",
-      fraction: "2fr",
+      fraction: "3fr",
+      renderContent: (data) => (
+        <Link href={`/admin/courses/details/${data.courseId}/info`}>
+          <Text>{data.text}</Text>
+        </Link>
+      ),
     },
     {
       id: "3",
       key: "instructor",
       text: "Instructor",
-      minWidth: "100px",
+      fraction: "100px",
     },
     {
       id: "4",
       key: "startDate",
       text: "Start Date",
-      minWidth: "100px",
+      fraction: "200px",
     },
     {
       id: "5",
       key: "status",
       text: "Status",
-      fraction: "100px",
+      fraction: "130px",
       renderContent: (status) => (
         <Box>
           <Tag
@@ -127,8 +138,8 @@ const CourseListingPage = () => {
   useEffect(() => {
     const mapCourseToRow = (course) => ({
       id: course.id,
-      title: course.title,
-      startDate: course.startDate,
+      title: { text: course.title, courseId: course.id },
+      startDate: dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
       status: course.isPublished,
       instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
     });
@@ -157,7 +168,7 @@ const CourseListingPage = () => {
           Courses
         </Heading>
 
-        <Button link="/admin/courses/create">Add Course</Button>
+        <Button link="/admin/courses/edit/new">Add Course</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />

@@ -7,18 +7,16 @@ import {
   Button,
   Text,
   Link,
-  SkeletonText
+  SkeletonText,
 } from "../../../components";
 import { FaEdit } from "react-icons/fa";
 import useViewLessonInfo from "./hooks/useViewLessonInfo";
 
-
 const ViewLessonInfoPage = () => {
+  const manager = useViewLessonInfo();
 
-  const manager = useViewLessonInfo()
-  
-  const { lesson, isLoading} = manager;
- 
+  const { lesson, isLoading } = manager;
+
   return (
     <Box paddingX={4}>
       <Box paddingX={4}>
@@ -56,7 +54,7 @@ const ViewLessonInfoPage = () => {
             sizes="small"
             rightIcon={<FaEdit />}
             secondary
-            link={`/admin/course/${lesson?.courseId}/lesson/edit/${lesson?.id}`}
+            link={`/admin/courses/${lesson?.courseId}/lessons/edit/${lesson?.id}`}
           >
             Edit
           </Button>
@@ -136,7 +134,6 @@ const ViewLessonInfoPage = () => {
       </Box>
     </Box>
   );
-  
 };
 
 export const ViewLessonInfoPageRoute = ({ ...rest }) => {

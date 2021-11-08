@@ -18,13 +18,13 @@ export const requestExaminationDetails = async (id) => {
     courseId: data.courseId,
     topic: data.title,
     duration: data.duration,
-    questionCount: data.questionCount,
+    questionCount: data.examinationQuestions.length,
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
-    questions: data.questions.map((q) => ({
+    questions: data.examinationQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,
-      questionIndex: +q.questionIndex,
+      questionIndex: +q.questionIndex || index,
       options: q.options.map((opt) => ({
         id: opt.id,
         name: opt.name,
@@ -34,6 +34,25 @@ export const requestExaminationDetails = async (id) => {
   };
 
   return { examination };
+};
+
+/**
+ * Endpoint for examination creation
+ * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body
+ * @returns {Promise<{ message: string, examination: { id: string } }>}
+ */
+export const adminCreateExamination = async (body) => {
+  const path = `/examination/create`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const examination = {
+    id: data.id,
+  };
+
+  return { message, examination };
 };
 
 /**
@@ -51,4 +70,39 @@ export const submitExamination = async (id, body) => {
   } = await http.post(path, body);
 
   return { message };
+};
+
+/**
+ * Endpoint for examination question creation
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminCreateExaminationQuestion = async (body) => {
+  const path = "/examination/question/create";
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+/**
+ * Endpoint to for admin to edit a examination
+ * @param {{ title: ?string, duration: number, amountOfQuestions: number, startTime: ?Date, courseId: string }} body
+ *
+ * @returns {Promise<{ message: string, examination: { id: string } }>}
+ */
+export const adminEditExamination = async (examinationId, body) => {
+  const path = `/examination/edit/${examinationId}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const examination = {
+    id: data[0].id,
+  };
+
+  return { message, examination };
 };
