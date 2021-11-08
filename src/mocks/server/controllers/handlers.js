@@ -11,6 +11,7 @@ import forumTag from "./forum/tag/endpoints";
 import forumComment from "./forum/comment/endpoints";
 import editCourse from "./editcourseinfo/endpoints";
 import department from "./department/endpoints";
+import metadata from "./metadata/endpoints";
 
 const commonHandlers = [
   ...auth,
@@ -26,6 +27,7 @@ const commonHandlers = [
   ...forumComment,
   ...editCourse,
   ...department,
+  ...metadata,
 ];
 
 const handlers = {

@@ -7,7 +7,10 @@ import {
   userForgetPasswordRes,
   userResetPasswordRes,
   requestUpdateDetailsRes,
+  requestSigninRes,
 } from "./responses";
+
+import { requestMyDataRes } from "./me_response";
 
 const superAdminInviteAdmin = rest.post(
   getUrl("/superadmin/invite/admin"),
@@ -16,6 +19,11 @@ const superAdminInviteAdmin = rest.post(
 const adminInviteUser = rest.post(
   getUrl("/admin/invite/user"),
   handleSuccessResponse(adminInviteUserRes)
+);
+
+const requestSignin = rest.post(
+  getUrl("/login"),
+  handleSuccessResponse(requestSigninRes)
 );
 
 const userResetPassword = rest.patch(
@@ -32,6 +40,11 @@ const requestUpdateDetails = rest.post(
   handleSuccessResponse(requestUpdateDetailsRes)
 );
 
+const requestMyData = rest.get(
+  getUrl("/me"), //TODO: might change
+  handleSuccessResponse(requestMyDataRes)
+);
+
 export const userForgetPasswordError = rest.post(
   getUrl("/forgot/password"),
   (_req, res, ctx) => res(ctx.status(500))
@@ -42,11 +55,13 @@ export const requestUpdateDetailsError = rest.post(
 );
 
 const auth = [
+  requestSignin,
   superAdminInviteAdmin,
   adminInviteUser,
   userResetPassword,
   userForgetPassword,
   requestUpdateDetails,
+  requestMyData,
 ];
 
 export default auth;
