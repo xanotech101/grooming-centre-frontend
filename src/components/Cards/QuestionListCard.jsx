@@ -17,6 +17,7 @@ import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords } from "../../utils";
 import { Button } from "../";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export const QuestionListCard = ({
   id,
@@ -27,6 +28,7 @@ export const QuestionListCard = ({
   user,
   disabled,
   createdAt,
+  active,
 }) => {
   const boxStyle = {
     boxShadow: "2px 1px 5px rgba(0, 0, 0, 0.15)",
@@ -86,28 +88,34 @@ export const QuestionListCard = ({
             </Box>
           </HStack>
 
-          {showMoreIconButton && (
+          {showMoreIconButton && active && (
             <ForumMessageCardMoreIconButton position="relative" />
           )}
         </Flex>
       )}
 
-      <Flex alignItems="center" justifyContent="space-between">
-        <Text bold as="level3">
-          {title}
-        </Text>
+      {active ? (
+        <>
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text bold as="level3">
+              {title}
+            </Text>
 
-        {showMoreIconButton && !user && (
-          <ForumMessageCardMoreIconButton position="relative" />
-        )}
-      </Flex>
+            {showMoreIconButton && !user && (
+              <ForumMessageCardMoreIconButton position="relative" />
+            )}
+          </Flex>
 
-      <Text>{body}</Text>
+          <Text>{body}</Text>
+        </>
+      ) : (
+        <DeletedMsg />
+      )}
 
       <Flex justifyContent="space-between" alignItems="center">
-        <SelectedTags tags={tags} />
+        {active && <SelectedTags tags={tags} />}
 
-        <Flex>
+        <Flex justifyContent="flex-end" flex={1}>
           <Icon fontSize="heading.h4" transform="translateY(3px)">
             <BiComment />
           </Icon>
@@ -170,11 +178,23 @@ function DeleteMenuItemButton({ context }) {
   );
 }
 
+export const DeletedMsg = ({ context = "question" }) => (
+  <Flex flexDir="column" justifyContent="center" alignItems="center" h="80px">
+    <Icon color="red.500" fontSize="heading.h3">
+      <AiOutlineCloseCircle />
+    </Icon>
+    <Text bold as="level3">
+      This {context} has been deleted
+    </Text>
+  </Flex>
+);
+
 QuestionListCard.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   body: PropTypes.string,
   createdAt: PropTypes.string,
+  active: PropTypes.bool,
   commentCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tags: PropTypes.arrayOf(
     PropTypes.shape({

@@ -4,6 +4,7 @@ import { handleSuccessResponse } from "../../helpers";
 import {
   userForumGetCommentsRes_questionId_1,
   userForumGetCommentsRes_questionId_2,
+  userForumGetCommentsRes_questionId_3,
   userForumAddCommentRes,
   // userForumReplyACommentRes,
   userForumGetMentionsRes,
@@ -22,6 +23,11 @@ const userForumGetComments = [
     // TODO: change `method`
     getUrl("/forum/questions/questionId_2/comments"), // TODO: change `path`
     handleSuccessResponse(userForumGetCommentsRes_questionId_2)
+  ),
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/questions/questionId_3/comments"), // TODO: change `path`
+    handleSuccessResponse(userForumGetCommentsRes_questionId_3)
   ),
 ];
 

@@ -101,7 +101,7 @@ const CommentForm = ({
 
   return (
     <>
-      {!isReply && <Header />}
+      {!isReply && <CommentsHeader />}
 
       {isReply ? (
         renderContent()
@@ -120,7 +120,7 @@ const CommentForm = ({
   );
 };
 
-const Header = () => (
+export const CommentsHeader = () => (
   <Box marginBottom={5} textAlign="center">
     <Heading color="accent.2" fontSize="heading.h4">
       Comments

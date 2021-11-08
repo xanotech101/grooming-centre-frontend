@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { FiChevronsDown, FiCornerDownRight, FiMenu } from "react-icons/fi";
-import { Image, Link, Text } from "..";
+import { DeletedMsg, Image, Link, Text } from "..";
 import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
@@ -36,6 +36,7 @@ export const CommentListCard = ({
   onReplyToggle,
   displayReplies,
   noBorder,
+  active,
   replyingToUser,
 }) => {
   const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
@@ -76,12 +77,13 @@ export const CommentListCard = ({
               </Box>
             </HStack>
 
-            {showMoreIconButton && (
+            {showMoreIconButton && active && (
               <ForumMessageCardMoreIconButton context="comment" />
             )}
           </Flex>
         ) : (
-          showMoreIconButton && (
+          showMoreIconButton &&
+          active && (
             <Box position="absolute" top={1} right={1}>
               <ForumMessageCardMoreIconButton context="comment" />
             </Box>
@@ -97,7 +99,11 @@ export const CommentListCard = ({
         )}
       </Box>
 
-      <Text paddingBottom={2}>{body}</Text>
+      {active ? (
+        <Text paddingBottom={2}>{body}</Text>
+      ) : (
+        <DeletedMsg context="comment" />
+      )}
 
       <Flex
         justifyContent="space-between"
@@ -106,13 +112,15 @@ export const CommentListCard = ({
         borderColor="accent.1"
         paddingTop={2}
       >
-        <HStack spacing={3}>
-          <PlainButtonWithIcon text={likes} icon={<AiOutlineLike />} />
+        {active && (
+          <HStack spacing={3}>
+            <PlainButtonWithIcon text={likes} icon={<AiOutlineLike />} />
 
-          <PlainButtonWithIcon text={dislikes} icon={<AiOutlineDislike />} />
-        </HStack>
+            <PlainButtonWithIcon text={dislikes} icon={<AiOutlineDislike />} />
+          </HStack>
+        )}
 
-        <HStack spacing={3}>
+        <HStack spacing={3} flex={1} justifyContent="flex-end">
           {questionId && (
             <PlainButtonWithIcon
               color="accent.6"
@@ -138,6 +146,8 @@ export const CommentListCard = ({
               color="accent.6"
               text="Reply"
               icon={<FiCornerDownRight />}
+              disabled={!active}
+              opacity={!active ? 0.7 : 1}
               onClick={handleDisplayReplyForm}
             />
           )}
@@ -183,4 +193,5 @@ CommentListCard.propTypes = {
   displayReplies: PropTypes.bool,
   onReplySuccess: PropTypes.func,
   noBorder: PropTypes.bool,
+  active: PropTypes.bool,
 };

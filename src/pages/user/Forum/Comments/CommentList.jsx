@@ -16,7 +16,9 @@ const CommentListItem = ({ comment, onReplySuccess }) => {
   const handleDisplayRepliesToggle = () => setDisplayReplies((prev) => !prev);
   const renderReplies = () =>
     displayReplies &&
-    comment.replies.map((reply) => <ReplyListCard key={reply.id} {...reply} />);
+    comment.replies
+      .filter(({ active }) => active)
+      .map((reply) => <ReplyListCard key={reply.id} {...reply} />);
 
   return (
     <>

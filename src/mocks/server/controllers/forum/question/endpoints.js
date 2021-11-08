@@ -7,6 +7,7 @@ import {
   userForumGetQuestionsRes,
   userForumGetQuestionDetailsRes_questionId_1,
   userForumGetQuestionDetailsRes_questionId_2,
+  userForumGetQuestionDetailsRes_questionId_3,
   userForumGetYourQuestionsRes,
   userForumGetQuestionsByTagRes,
 } from "./responses";
@@ -39,6 +40,11 @@ const userForumGetQuestionDetails = [
     // TODO: change `method`
     getUrl("/forum/questions/questionId_2"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_2)
+  ),
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/questions/questionId_3"), // TODO: change `path`
+    handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_3)
   ),
 ];
 

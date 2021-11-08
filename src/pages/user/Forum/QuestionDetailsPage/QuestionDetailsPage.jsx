@@ -4,7 +4,7 @@ import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
 import Comments from "../Comments/Comments";
 import CommentList from "../Comments/CommentList";
-import CommentForm from "../Comments/CommentForm";
+import CommentForm, { CommentsHeader } from "../Comments/CommentForm";
 import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
@@ -32,7 +32,11 @@ const QuestionDetailsPage = () => {
 
               return (
                 <>
-                  <CommentForm onCommentSuccess={handleAddComment} />
+                  {question.data?.active ? (
+                    <CommentForm onCommentSuccess={handleAddComment} />
+                  ) : (
+                    <CommentsHeader />
+                  )}
                   <CommentList
                     data={comments.data}
                     onReplySuccess={handleAddReply}

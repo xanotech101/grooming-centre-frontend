@@ -25,6 +25,7 @@ export const userForumGetYourAnswers = async () => {
     replyCount: comment.replies.length,
     likes: comment.likes,
     dislikes: comment.dislikes,
+    active: comment.active,
     replies: comment.replies.map((reply) => ({
       id: reply.id,
       body: reply.body,
@@ -104,6 +105,7 @@ export const userForumGetComments = async (questionId) => {
     replyCount: comment.replies.length,
     likes: comment.likes,
     dislikes: comment.dislikes,
+    active: comment.active,
     user: {
       id: comment.user.id,
       profilePics: comment.user.profilePics,
@@ -112,6 +114,7 @@ export const userForumGetComments = async (questionId) => {
     replies: comment.replies.map((reply) => ({
       id: reply.id,
       body: reply.body,
+      active: reply.active,
       user: {
         id: reply.user.id,
         fullName: getFullName(reply.user),
