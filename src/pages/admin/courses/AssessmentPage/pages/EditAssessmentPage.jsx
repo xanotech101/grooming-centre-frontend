@@ -96,11 +96,11 @@ const EditAssessmentPage = () => {
         position: "top",
         status: "success",
       });
-      setTimeout(() => {
+     
         isExamination
           ? push(`/admin/courses/details/${courseId}/exam`)
           : push(`/admin/courses/details/${courseId}/assessment`);
-      }, 2000);
+    
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),

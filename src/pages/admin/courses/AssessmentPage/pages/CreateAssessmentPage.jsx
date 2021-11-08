@@ -57,7 +57,7 @@ const CreateAssessmentPage = () => {
         position: "top",
         status: "success",
       });
-      setTimeout(() => {
+      
         isExamination
           ? push(
               `/admin/courses/${courseId}/assessment/${examination.id}/questions/new?examination=true`
@@ -65,7 +65,7 @@ const CreateAssessmentPage = () => {
           : push(
               `/admin/courses/${courseId}/assessment/${assessment.id}/questions/new`
             );
-      }, 2000);
+      
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
