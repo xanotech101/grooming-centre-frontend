@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+#Mock Logged In User Response
+/src/mocks/server/controllers/auth/me_response.js
+
 # testing
 /coverage
 
