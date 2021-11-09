@@ -89,7 +89,7 @@ const CommentForm = ({
           ...responseData,
           questionId: null,
           user: currentUser,
-          replies: [],
+          replies: responseData.replies || [],
         };
 
         onCommentSuccess(comment);

@@ -59,7 +59,28 @@ export const userForumEditCommentRes_commentId_4 = {
     active: true,
     createdAt: "2021-10-24T19:25:26.180Z",
     questionId: "questionId_1",
-    replies: [],
+    replies: [
+      {
+        id: "replyId_1",
+        active: true,
+        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+        user: {
+          id: "userId_2",
+          firstName: "jane",
+          lastName: "bar",
+        },
+      },
+      {
+        id: "replyId_2",
+        active: true,
+        body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+        user: {
+          id: "userId_2",
+          firstName: "jane",
+          lastName: "bar",
+        },
+      },
+    ],
   },
 };
 
@@ -84,28 +105,7 @@ export const userForumGetCommentsRes_questionId_1 = {
         firstName: "jane",
         lastName: "bar",
       },
-      replies: [
-        {
-          id: "replyId_1",
-          active: true,
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
-          user: {
-            id: "userId_2",
-            firstName: "jane",
-            lastName: "bar",
-          },
-        },
-        {
-          id: "replyId_2",
-          active: true,
-          body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
-          user: {
-            id: "userId_2",
-            firstName: "jane",
-            lastName: "bar",
-          },
-        },
-      ],
+      replies: [],
     },
     {
       id: "commentId_2",

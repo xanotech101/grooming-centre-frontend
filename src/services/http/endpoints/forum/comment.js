@@ -151,6 +151,16 @@ export const userForumEditComment = async (commentId, body) => {
     createdAt: data.createdAt,
     likes: data.likes,
     dislikes: data.dislikes,
+    replyCount: data.replies.length,
+    replies: data.replies.map((reply) => ({
+      id: reply.id,
+      body: reply.body,
+      active: reply.active,
+      user: {
+        id: reply.user.id,
+        fullName: getFullName(reply.user),
+      },
+    })),
   };
 
   return { message, data: comment };
