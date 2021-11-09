@@ -39,6 +39,8 @@ const EditAssessmentPage = () => {
     assessmentId
   );
 
+  console.log(assessment)
+
   // Init `Title` value
   useEffect(() => {
     if (assessment) {
@@ -66,7 +68,7 @@ const EditAssessmentPage = () => {
   // Init `Number of Questions` value
   useEffect(() => {
     if (assessment) {
-      setValue("numberOfQuestions", assessment?.questionCount);
+      setValue("amountOfQuestions", assessment?.questionCount);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment]);
@@ -94,11 +96,11 @@ const EditAssessmentPage = () => {
         position: "top",
         status: "success",
       });
-      setTimeout(() => {
+     
         isExamination
           ? push(`/admin/courses/details/${courseId}/exam`)
           : push(`/admin/courses/details/${courseId}/assessment`);
-      }, 2000);
+    
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -146,10 +148,10 @@ const EditAssessmentPage = () => {
               <Input
                 label="Number of Questions"
                 type="number"
-                id="numberOfQuestions"
+                id="amountOfQuestions"
                 placeholder="Enter number of questions"
-                error={errors.numberOfQuestions?.message}
-                {...register("numberOfQuestions", {
+                error={errors.amountOfQuestions?.message}
+                {...register("amountOfQuestions", {
                   required: "Please enter number of questions",
                 })}
               />

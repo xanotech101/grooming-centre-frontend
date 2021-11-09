@@ -34,7 +34,7 @@ export const userForumGetQuestionsRes = {
           { id: "forumTagId_2", name: "dart" },
         ],
         user: {
-          id: "userId_2",
+          id: "a272afb9-abde-469b-bbfa-178580aefb81",
           profilePics:
             "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
           firstName: "jane",
@@ -72,7 +72,7 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
     question: "How to upload files to cloudinary",
     createdAt: "2021-10-20T05:16:51.057Z",
     user: {
-      id: "userId_2",
+      id: "a272afb9-abde-469b-bbfa-178580aefb81",
       profilePics:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
       firstName: "jane",

@@ -48,16 +48,15 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   const onSubmit = async (data) => {
     try {
-      const file = thumbnailUpload.handleGetFileAndValidate("Course Image"); // TODO: delete old api design
-      // const thumbnail =
-      //   thumbnailUpload.handleGetFileAndValidate("Course Image"); // TODO: uncomment
-      // const certificate =
-      //   certificateUpload.handleGetFileAndValidate("Certificate"); // TODO: uncomment
+      const courseThumbnail =
+        thumbnailUpload.handleGetFileAndValidate("Course Image");
+      const certificate =
+        certificateUpload.handleGetFileAndValidate("Certificate");
 
       data = {
         ...data,
-        // thumbnail, certificate // TODO: uncomment
-        file, // TODO: delete old api design
+        courseThumbnail,
+        certificate,
       };
       const body = appendFormData(data);
 
@@ -94,9 +93,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   useEffect(() => {
     if (courseDetailsData) {
       thumbnailUpload.handleInitialImageSelect(courseDetailsData.thumbnail);
-      // certificateUpload.handleInitialImageSelect(courseDetailsData.certificate); // TODO: uncomment
+      certificateUpload.handleInitialImageSelect(courseDetailsData.certificate);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData]);
 
@@ -114,7 +112,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   }, [courseDetailsData, metadata?.departments]);
   useEffect(() => {
     if (courseDetailsData) {
-      setValue("description", courseDetailsData.content);
+      setValue("description", courseDetailsData.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData]);

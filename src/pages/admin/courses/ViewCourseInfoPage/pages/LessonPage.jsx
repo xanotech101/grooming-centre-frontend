@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from "react";
 import { adminGetLessonListing } from "../../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import dayjs from "dayjs";
 
 const tableProps = {
   filterControls: [
@@ -93,6 +94,7 @@ const tableProps = {
 };
 
 const useLessonListing = () => {
+   const { id: courseId } = useParams();
   const componentIsMount = useComponentIsMount();
 
   const [rows, setRows] = useState({
@@ -106,18 +108,19 @@ const useLessonListing = () => {
       setRows({ loading: true });
 
       try {
-        const { lessons } = await adminGetLessonListing();
+        const { lessons } = await adminGetLessonListing(courseId);
 
         const data = mapper ? lessons.map(mapper) : lessons;
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
+        console.error(err);
         if (componentIsMount) setRows({ err: true });
       } finally {
         if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
       }
     },
-    [setRows, componentIsMount]
+    [setRows, componentIsMount, courseId]
   );
 
   return {
@@ -139,7 +142,7 @@ const LessonPage = () => {
         lessonId: lesson.id,
         courseId: lesson.courseId,
       },
-      startDate: lesson.startTime,
+      startDate: dayjs(lesson.startTime).format("DD/MM/YYYY h:mm a"),
       status: lesson.active,
     });
 

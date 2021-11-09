@@ -21,7 +21,7 @@ export const adminEditLessonRes_lessonId_2 = {
   ],
 };
 
-export const adminGetLessonListingRes = {
+export const adminGetLessonListingRes_courseId_1 = {
   data: {
     rows: [
       {
@@ -31,9 +31,16 @@ export const adminGetLessonListingRes = {
         startTime: "2021-010-21 02:25 PM",
         active: true,
       },
+    ],
+  },
+};
+
+export const adminGetLessonListingRes_courseId_3 = {
+  data: {
+    rows: [
       {
         id: "lessonId_2",
-        courseId: "courseId_2",
+        courseId: "courseId_3",
         title: "Advance GO",
         startTime: "2021-010-21 02:25 PM",
         active: false,
@@ -53,9 +60,9 @@ export const requestLessonDetailsRes_lessonId_1 = {
     endTime: "2021-12-21T12:25:00.000Z",
     courseId: "courseId_1",
     active: true,
-    lessonTypeId: "6689d710-5488-43a4-9b71-11a3159af6f2",
+    lessonTypeId: "lessonTypeId_2",
     lessonType: {
-      id: "6689d710-5488-43a4-9b71-11a3159af6f2",
+      id: "lessonTypeId_2",
       name: "video",
     },
   },
@@ -72,9 +79,9 @@ export const requestLessonDetailsRes_lessonId_2 = {
     endTime: "2021-12-21T12:25:00.000Z",
     courseId: "courseId_2",
     active: false,
-    lessonTypeId: "4adf4cda-d69b-4d95-ad44-d1118529e246",
+    lessonTypeId: "lessonTypeId_1",
     lessonType: {
-      id: "4adf4cda-d69b-4d95-ad44-d1118529e246",
+      id: "lessonTypeId_1",
       name: "pdf",
     },
   },

@@ -1,36 +1,30 @@
 export const adminCourseListingRes = {
-  data: [
-    {
-      id: "courseId_1",
-      title: "The implication of financial crisis in the society",
-      instructor: {
-        firstName: "Roman",
-        lastName: "job",
+  data: {
+    rows: [
+      {
+        id: "courseId_1",
+        title: "The implication of financial crisis in the society",
+        description: "Financial Concept",
+        user: {
+          firstName: "Shalom",
+          lastName: "Brain",
+        },
+        startDate: new Date(),
+        isPublished: false,
       },
-      startDate: new Date(),
-      isPublished: false,
-      lesson: 34,
-      assessment: 30,
-      exams: 25,
-      thumbnail:
-        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
-    },
-    {
-      id: "courseId_3",
-      title: "The best course on automation testing",
-      instructor: {
-        firstName: "Richcode",
-        lastName: "dart",
+      {
+        id: "courseId_3",
+        title: "The best course on automation testing",
+        description: "Advanced Testing Concept",
+        user: {
+          firstName: "Richcode",
+          lastName: "dart",
+        },
+        startDate: new Date(),
+        isPublished: true,
       },
-      startDate: new Date(),
-      isPublished: true,
-      lesson: 14,
-      assessment: 20,
-      exams: 15,
-      thumbnail:
-        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
-    },
-  ],
+    ],
+  },
 };
 
 export const adminCreateCourseRes = {

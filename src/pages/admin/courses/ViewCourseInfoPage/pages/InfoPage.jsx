@@ -116,7 +116,7 @@ const InfoPage = () => {
               height="26vh"
               overflowY="auto"
             >
-              <Text color="accent.3">{courseDetailsData?.content}</Text>
+              <Text color="accent.3">{courseDetailsData?.description}</Text>
             </Box>
           </Flex>
         </Box>
@@ -135,7 +135,7 @@ const InfoPage = () => {
               name="Lessons"
               icon={<ImArrowUp />}
               iconBackgroundColor="accent.6"
-              href={`/admin/courses/${courseDetailsData?.id}/lesson`}
+              href={`/admin/courses/details/${courseDetailsData?.id}/lessons`}
               isLoading={isLoading}
             />
             <OverviewBox
@@ -143,7 +143,7 @@ const InfoPage = () => {
               name="Assessment"
               icon={<FiCheckSquare />}
               iconBackgroundColor="accent.7"
-              href={`/admin/courses/${courseDetailsData?.id}/assessment`}
+              href={`/admin/courses/details/${courseDetailsData?.id}/assessment`}
               isLoading={isLoading}
             />
             <OverviewBox
@@ -151,7 +151,7 @@ const InfoPage = () => {
               name="Exams"
               icon={<BiCertification />}
               iconBackgroundColor="secondary.5"
-              href={`/admin/courses/${courseDetailsData?.id}/exam`}
+              href={`/admin/courses/details/${courseDetailsData?.id}/exam`}
               isLoading={isLoading}
             />
           </Grid>

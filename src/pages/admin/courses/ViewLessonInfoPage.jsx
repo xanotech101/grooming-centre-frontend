@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { BreadcrumbItem, Badge } from "@chakra-ui/react";
 import {
@@ -17,6 +17,8 @@ const ViewLessonInfoPage = () => {
 
   const { lesson, isLoading } = manager;
 
+const {courseId} = useParams();
+
   return (
     <Box paddingX={4}>
       <Box paddingX={4}>
@@ -28,7 +30,7 @@ const ViewLessonInfoPage = () => {
           }
           item3={
             <BreadcrumbItem isCurrentPage>
-              <Link href={`/admin/courses/details/${lesson?.id}/lessons`}>
+              <Link href={`/admin/courses/details/${courseId}/lessons`}>
                 Lessons
               </Link>
             </BreadcrumbItem>

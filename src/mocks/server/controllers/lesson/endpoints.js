@@ -5,8 +5,9 @@ import {
   adminCreateLessonRes,
   adminEditLessonRes_lessonId_1,
   adminEditLessonRes_lessonId_2,
-  adminGetLessonListingRes,
   requestEndLessonRes,
+  adminGetLessonListingRes_courseId_1,
+  adminGetLessonListingRes_courseId_3,
   requestLessonDetailsRes_lessonId_1,
   requestLessonDetailsRes_lessonId_2,
   requestLessonDetailsRes_lessonId_3,
@@ -59,16 +60,23 @@ const adminEditLesson = [
   ),
 ];
 
-const adminGetLessonListing = rest.get(
-  getUrl("/lesson/admin"), // TODO: change `path`
-  handleSuccessResponse(adminGetLessonListingRes)
-);
+const adminGetLessonListing = [
+  rest.get(
+    getUrl("/lesson/admin/courseId_1"),
+    handleSuccessResponse(adminGetLessonListingRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/lesson/admin/courseId_3"),
+    handleSuccessResponse(adminGetLessonListingRes_courseId_3)
+  ),
+];
+
 
 const lesson = [
   ...requestLessonDetailsForLessonId,
   ...requestEndLesson,
   ...adminEditLesson,
-  adminGetLessonListing,
+  ...adminGetLessonListing,
   adminCreateLesson,
 ];
 

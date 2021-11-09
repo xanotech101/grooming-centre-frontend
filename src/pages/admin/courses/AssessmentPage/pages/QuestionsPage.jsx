@@ -23,7 +23,8 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import {
   adminCreateAssessmentQuestion,
   adminCreateExaminationQuestion,
-  adminEditQuestion,
+  adminEditAssessmentQuestion,
+  adminEditExaminationQuestion,
   adminGetQuestionDetails,
 } from "../../../../../services";
 import useAssessmentPreview from "../../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
@@ -182,7 +183,7 @@ const CreateQuestionPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      const question =
+      const questionText =
         questionRichTextManager.handleGetValueAndValidate("Question");
       const options = buildOptions({ ...data, answer });
 
@@ -190,11 +191,14 @@ const CreateQuestionPage = () => {
       const hasAnswer = options.find((opt) => opt.isAnswer);
       if (!hasAnswer) throw new Error("Please select an answer");
 
-      data = {
-        assessmentId,
-        question,
-        options,
-      };
+      data = isExamination
+        ? {
+            examinationId: assessmentId,
+            question: questionText,
+            options,
+          }
+        : { assessmentId, question: questionText, options };
+
       console.log(data.options);
       const body = appendFormData(data);
 
@@ -202,8 +206,32 @@ const CreateQuestionPage = () => {
       //   ? adminEditLesson(lessonId, body)
       //   : adminCreateLesson(body));
 
-      const { message } = await (isEditMode
-        ? adminEditQuestion(questionId, body)
+      const { message } = await (isEditMode && !isExamination
+        ? adminEditAssessmentQuestion({
+            question: {
+              id: questionId,
+              question: questionText,
+              assessmentId,
+            },
+            options: options.map((opt) => ({
+              ...opt,
+              id: question?.options.find(({ name }) => opt.name === name)?.id,
+              assessmentQuestionId: questionId,
+            })),
+          })
+        : isEditMode && isExamination
+        ? adminEditExaminationQuestion({
+            question: {
+              id: questionId,
+              question: questionText,
+              examinationId: assessmentId,
+            },
+            options: options.map((opt) => ({
+              ...opt,
+              id: question?.options.find(({ name }) => opt.name === name)?.id,
+              examinationQuestionId: questionId,
+            })),
+          })
         : isExamination
         ? adminCreateExaminationQuestion(body)
         : adminCreateAssessmentQuestion(body));
