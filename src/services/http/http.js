@@ -8,7 +8,7 @@ axios.interceptors.response.use(null, (err) => {
   return Promise.reject(error);
 });
 
-export const baseURL = "https://cors-anywhere.herokuapp.com/https://groomingcenter.herokuapp.com/api/v1";
+export const baseURL = "https://groomingcenter.herokuapp.com/api/v1";
 const token = localStorage.getItem("token");
 
 const defaultOptions = (explicitToken = token) => ({
