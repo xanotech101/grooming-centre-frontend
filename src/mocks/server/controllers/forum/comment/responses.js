@@ -17,8 +17,7 @@ export const userForumAddCommentRes = {
     questionId: "questionId_1",
     createdAt: "2021-10-20T05:37:27.110Z",
     active: true,
-    likes: 0,
-    dislikes: 0,
+    expressions: [],
     replies: [],
   },
 };
@@ -28,8 +27,7 @@ export const userForumEditCommentRes_commentId_2 = {
   data: {
     comment: "I still so much love this question",
     id: "commentId_2",
-    likes: 0,
-    dislikes: 0,
+    expressions: [],
     active: true,
     createdAt: "2021-10-24T19:25:26.180Z",
     questionId: "questionId_1",
@@ -41,8 +39,7 @@ export const userForumEditCommentRes_replyId_3 = {
   data: {
     comment: "I hate cucumbers",
     id: "replyId_3",
-    likes: 0,
-    dislikes: 2,
+    expressions: [],
     active: true,
     createdAt: "2021-10-24T19:25:26.180Z",
     questionId: "questionId_1",
@@ -54,8 +51,7 @@ export const userForumEditCommentRes_commentId_4 = {
   data: {
     comment: "I love to code",
     id: "commentId_4",
-    likes: 0,
-    dislikes: 2,
+    expressions: [],
     active: true,
     createdAt: "2021-10-24T19:25:26.180Z",
     questionId: "questionId_1",
@@ -96,8 +92,6 @@ export const userForumGetCommentsRes_questionId_1 = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
       user: {
         id: "userId_2",
         profilePics:
@@ -106,6 +100,23 @@ export const userForumGetCommentsRes_questionId_1 = {
         lastName: "bar",
       },
       replies: [],
+      expressions: [
+        {
+          id: "expId_1",
+          expression: "like",
+          userId: requestMyDataRes.data.id,
+        },
+        {
+          id: "expId_2",
+          expression: "dislike",
+          userId: "userId_2",
+        },
+        {
+          id: "expId_3",
+          expression: "dislike",
+          userId: "userId_3",
+        },
+      ],
     },
     {
       id: "commentId_2",
@@ -113,8 +124,7 @@ export const userForumGetCommentsRes_questionId_1 = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       user: {
         id: requestMyDataRes.data.id,
         profilePics:
@@ -160,8 +170,7 @@ export const userForumGetCommentsRes_questionId_3 = {
       questionId: "questionId_3",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       user: {
         id: "userId_2",
         profilePics:
@@ -177,8 +186,7 @@ export const userForumGetCommentsRes_questionId_3 = {
       questionId: "questionId_3",
       body: "Lorem ra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       user: {
         id: requestMyDataRes.data.id,
         profilePics:
@@ -205,8 +213,7 @@ export const userForumGetCommentsRes_questionId_3 = {
       questionId: "questionId_3",
       body: "Lorem ra ut integer nibh urna.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       user: {
         id: requestMyDataRes.data.id,
         profilePics:
@@ -258,8 +265,7 @@ export const userForumGetYourAnswersRes = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       replies: [],
     },
     {
@@ -268,8 +274,7 @@ export const userForumGetYourAnswersRes = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       replies: [
         {
           id: "replyId_1",
@@ -304,8 +309,7 @@ export const userForumGetMentionsRes = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       user: {
         id: "userId_2",
         profilePics:
@@ -321,8 +325,7 @@ export const userForumGetMentionsRes = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      likes: 2,
-      dislikes: 21,
+      expressions: [],
       user: {
         id: requestMyDataRes.data.id,
         profilePics:
