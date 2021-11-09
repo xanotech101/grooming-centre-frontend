@@ -6,7 +6,7 @@ import { capitalizeWords } from "../../../../utils";
 import CommentForm from "./CommentForm";
 
 const Comments = ({ commentsManager, children, canAddComment }) => {
-  const { comments, handleAddReply, handleAddComment } = commentsManager;
+  const { comments } = commentsManager;
   const commentsIsEmpty =
     !comments.loading && !comments.err && !comments.data?.length ? true : false;
 
@@ -24,9 +24,7 @@ const Comments = ({ commentsManager, children, canAddComment }) => {
 
       {commentsIsEmpty && <NoComments canAddComment={canAddComment} />}
 
-      {comments.data?.length
-        ? children({ handleAddComment, comments, handleAddReply })
-        : null}
+      {comments.data?.length ? children(commentsManager) : null}
     </Box>
   );
 };

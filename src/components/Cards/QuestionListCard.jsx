@@ -129,6 +129,9 @@ export const QuestionListCard = ({
 
 export const ForumMessageCardMoreIconButton = ({
   context = "question",
+  onEdit,
+  onDelete,
+  deleteStatusIsLoading,
   ...rest
 }) => {
   return (
@@ -143,15 +146,19 @@ export const ForumMessageCardMoreIconButton = ({
       </MenuButton>
 
       <MenuList position="relative" zIndex={2}>
-        <MenuItem>Edit {context}</MenuItem>
+        <MenuItem onClick={onEdit}>Edit {context}</MenuItem>
 
-        <DeleteMenuItemButton context={context} />
+        <DeleteMenuItemButton
+          context={context}
+          onDelete={onDelete}
+          deleteStatusIsLoading={deleteStatusIsLoading}
+        />
       </MenuList>
     </Menu>
   );
 };
 
-function DeleteMenuItemButton({ context }) {
+function DeleteMenuItemButton({ context, onDelete, deleteStatusIsLoading }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -170,7 +177,14 @@ function DeleteMenuItemButton({ context }) {
             <Button marginRight={3} onClick={onClose} sm ghost>
               Close
             </Button>
-            <Button sm>Delete {context}</Button>
+            <Button
+              sm
+              onClick={onDelete}
+              isLoading={deleteStatusIsLoading}
+              disabled={deleteStatusIsLoading}
+            >
+              Delete {context}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

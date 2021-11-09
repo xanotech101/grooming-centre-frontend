@@ -128,25 +128,32 @@ export const userForumGetComments = async (questionId) => {
 /**
  * Endpoint to edit forum comment
  * @param {string} commentId
+ * @param {object} body
  *
  * @returns {
  *   Promise<{
- *     comment: { body: string }
+ *     comment: { body: object, message: string }
  *   }>
  * }
  */
-export const userForumEditComment = async (commentId) => {
-  const path = `/forum/comments/${commentId}`;
+export const userForumEditComment = async (commentId, body) => {
+  const path = `/forum/comment/${commentId}`;
 
   const {
-    data: { data },
-  } = await http.patch(path);
+    data: { message, data },
+  } = await http.patch(path, { comment: body.comment });
 
   const comment = {
+    id: data.id,
     body: data.comment,
+    active: data.active,
+    questionId: data.questionId,
+    createdAt: data.createdAt,
+    likes: data.likes,
+    dislikes: data.dislikes,
   };
 
-  return { comment };
+  return { message, data: comment };
 };
 
 /**
@@ -158,7 +165,7 @@ export const userForumEditComment = async (commentId) => {
  * }
  */
 export const userForumDeleteComment = async (commentId) => {
-  const path = `/forum/comments/${commentId}`;
+  const path = `/forum/comment/${commentId}`;
 
   await http.delete(path);
 };
@@ -179,6 +186,7 @@ export const userForumAddComment = async (body) => {
   const comment = {
     id: data.id,
     body: data.comment,
+    active: data.active,
     questionId: data.questionId,
     createdAt: data.createdAt,
     likes: data.likes,
@@ -204,6 +212,7 @@ export const userForumAddReply = async (body) => {
   const reply = {
     id: data.id,
     body: data.comment,
+    active: data.active,
   };
 
   return { message, data: reply };

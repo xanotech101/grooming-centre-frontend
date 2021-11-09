@@ -27,7 +27,16 @@ const QuestionDetailsPage = () => {
           <QuestionListCard {...question.data} disabled />
 
           <Comments commentsManager={commentsManager} canAddComment>
-            {({ handleAddComment, comments, handleAddReply }) => {
+            {({
+              handleAddComment,
+              comments,
+              handleAddReply,
+              handleDeleteComment,
+              handleEditComment,
+              handleDeleteReply,
+              handleEditReply,
+              deleteStatusIsLoading,
+            }) => {
               console.log(comments);
 
               return (
@@ -39,7 +48,18 @@ const QuestionDetailsPage = () => {
                   )}
                   <CommentList
                     data={comments.data}
-                    onReplySuccess={handleAddReply}
+                    deleteStatusIsLoading={deleteStatusIsLoading}
+                    commentCardHandlers={{
+                      onCommentEditSuccess: handleEditComment,
+                      onCommentDelete: handleDeleteComment,
+                      onReplySuccess: handleAddReply,
+                      onReplyDeleteSuccess: handleDeleteReply,
+                      onReplyEditSuccess: handleEditReply,
+                    }}
+                    replyCardHandlers={{
+                      onReplyDeleteSuccess: handleDeleteReply,
+                      onReplyEditSuccess: handleEditReply,
+                    }}
                   />
                 </>
               );

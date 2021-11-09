@@ -11,15 +11,22 @@ import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
 
 const useCommentListCard = () => {
+  const [displayEditForm, setDisplayEditForm] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
 
   const handleDisplayReplyForm = () => setDisplayReplyForm(true);
-  const handleHideReplyForm = () => setDisplayReplyForm(true);
+  const handleHideReplyForm = () => setDisplayReplyForm(false);
+
+  const handleDisplayEditForm = () => setDisplayEditForm(true);
+  const handleHideEditForm = () => setDisplayEditForm(false);
 
   return {
     displayReplyForm,
+    displayEditForm,
     handleDisplayReplyForm,
     handleHideReplyForm,
+    handleDisplayEditForm,
+    handleHideEditForm,
   };
 };
 
@@ -33,13 +40,23 @@ export const CommentListCard = ({
   dislikes,
   user,
   onReplySuccess,
+  onCommentEditSuccess,
+  onCommentDelete,
+  deleteStatusIsLoading,
   onReplyToggle,
   displayReplies,
   noBorder,
   active,
   replyingToUser,
 }) => {
-  const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
+  const {
+    displayReplyForm,
+    displayEditForm,
+    handleDisplayReplyForm,
+    handleDisplayEditForm,
+    handleHideEditForm,
+    handleHideReplyForm,
+  } = useCommentListCard();
 
   const showMoreIconButton = useLoggedInUserIsTheCreator(user);
 
@@ -78,14 +95,24 @@ export const CommentListCard = ({
             </HStack>
 
             {showMoreIconButton && active && (
-              <ForumMessageCardMoreIconButton context="comment" />
+              <ForumMessageCardMoreIconButton
+                onEdit={handleDisplayEditForm}
+                onDelete={onCommentDelete.bind(null, id)}
+                deleteStatusIsLoading={deleteStatusIsLoading}
+                context="comment"
+              />
             )}
           </Flex>
         ) : (
           showMoreIconButton &&
           active && (
             <Box position="absolute" top={1} right={1}>
-              <ForumMessageCardMoreIconButton context="comment" />
+              <ForumMessageCardMoreIconButton
+                onEdit={handleDisplayEditForm}
+                onDelete={onCommentDelete.bind(null, id)}
+                deleteStatusIsLoading={deleteStatusIsLoading}
+                context="comment"
+              />
             </Box>
           )
         )}
@@ -100,7 +127,18 @@ export const CommentListCard = ({
       </Box>
 
       {active ? (
-        <Text paddingBottom={2}>{body}</Text>
+        displayEditForm ? (
+          <CommentForm
+            initValue={body}
+            onCommentSuccess={onCommentEditSuccess}
+            commentId={id}
+            onCancel={handleHideEditForm}
+            mute
+            inputMinHeight="100px"
+          />
+        ) : (
+          <Text paddingBottom={2}>{body}</Text>
+        )
       ) : (
         <DeletedMsg context="comment" />
       )}
@@ -154,8 +192,14 @@ export const CommentListCard = ({
         </HStack>
       </Flex>
 
-      {displayReplyForm && (
-        <CommentForm isReply onReplySuccess={onReplySuccess} commentId={id} />
+      {displayReplyForm && active && (
+        <CommentForm
+          onReplySuccess={onReplySuccess}
+          onCancel={handleHideReplyForm}
+          commentId={id}
+          isReply
+          mute
+        />
       )}
     </Stack>
   );
@@ -192,6 +236,8 @@ CommentListCard.propTypes = {
   onReplyToggle: PropTypes.func,
   displayReplies: PropTypes.bool,
   onReplySuccess: PropTypes.func,
+  onCommentEditSuccess: PropTypes.func,
   noBorder: PropTypes.bool,
   active: PropTypes.bool,
+  deleteStatusIsLoading: PropTypes.bool,
 };

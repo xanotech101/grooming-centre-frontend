@@ -1,11 +1,36 @@
 import { Flex, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ForumMessageCardMoreIconButton, Text } from "..";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
+import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 import { formatToUsername } from "../../utils";
 
-export const ReplyListCard = ({ id, body, user }) => {
+const useReplyListCard = () => {
+  const [displayEditForm, setDisplayEditForm] = useState(false);
+
+  const handleDisplayEditForm = () => setDisplayEditForm(true);
+  const handleHideEditForm = () => setDisplayEditForm(false);
+
+  return {
+    displayEditForm,
+    handleHideEditForm,
+    handleDisplayEditForm,
+  };
+};
+
+export const ReplyListCard = ({
+  id,
+  body,
+  user,
+  deleteStatusIsLoading,
+  onReplyDeleteSuccess,
+  onReplyEditSuccess,
+  commentId,
+}) => {
+  const { displayEditForm, handleHideEditForm, handleDisplayEditForm } =
+    useReplyListCard();
+
   const wrapperRef = useRef();
 
   useEffect(() => {
@@ -28,7 +53,19 @@ export const ReplyListCard = ({ id, body, user }) => {
       ref={wrapperRef}
       tabIndex={0}
     >
-      <Text paddingBottom={2}>{body}</Text>
+      {displayEditForm ? (
+        <CommentForm
+          initValue={body}
+          onReplySuccess={onReplyEditSuccess}
+          commentId={commentId}
+          replyId={id}
+          onCancel={handleHideEditForm}
+          mute
+          isReply
+        />
+      ) : (
+        <Text paddingBottom={2}>{body}</Text>
+      )}
 
       <Flex
         borderTop="1px"
@@ -42,7 +79,12 @@ export const ReplyListCard = ({ id, body, user }) => {
         </Text>
 
         {showMoreIconButton && (
-          <ForumMessageCardMoreIconButton context="reply" />
+          <ForumMessageCardMoreIconButton
+            onEdit={handleDisplayEditForm}
+            onDelete={onReplyDeleteSuccess.bind(null, commentId, id)}
+            deleteStatusIsLoading={deleteStatusIsLoading}
+            context="reply"
+          />
         )}
       </Flex>
     </Stack>
@@ -50,6 +92,10 @@ export const ReplyListCard = ({ id, body, user }) => {
 };
 
 ReplyListCard.propTypes = {
+  onReplyDeleteSuccess: PropTypes.func,
+  onReplyEditSuccess: PropTypes.func,
+  deleteStatusIsLoading: PropTypes.bool,
+  commentId: PropTypes.string,
   id: PropTypes.string,
   body: PropTypes.string,
   user: PropTypes.shape({

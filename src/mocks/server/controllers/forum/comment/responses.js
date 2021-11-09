@@ -16,17 +16,53 @@ export const userForumAddCommentRes = {
     comment: "I love this question",
     questionId: "questionId_1",
     createdAt: "2021-10-20T05:37:27.110Z",
+    active: true,
     likes: 0,
     dislikes: 0,
+    replies: [],
   },
 };
 
-export const userForumEditCommentRes = {
+export const userForumEditCommentRes_commentId_2 = {
   message: "comment updated successfully",
   data: {
     comment: "I still so much love this question",
+    id: "commentId_2",
+    likes: 0,
+    dislikes: 0,
+    active: true,
+    createdAt: "2021-10-24T19:25:26.180Z",
+    questionId: "questionId_1",
+    replies: [],
   },
 };
+export const userForumEditCommentRes_replyId_3 = {
+  message: "comment updated successfully",
+  data: {
+    comment: "I hate cucumbers",
+    id: "replyId_3",
+    likes: 0,
+    dislikes: 2,
+    active: true,
+    createdAt: "2021-10-24T19:25:26.180Z",
+    questionId: "questionId_1",
+    replies: [],
+  },
+};
+export const userForumEditCommentRes_commentId_4 = {
+  message: "comment updated successfully",
+  data: {
+    comment: "I love to code",
+    id: "commentId_4",
+    likes: 0,
+    dislikes: 2,
+    active: true,
+    createdAt: "2021-10-24T19:25:26.180Z",
+    questionId: "questionId_1",
+    replies: [],
+  },
+};
+
 export const userForumDeleteCommentRes = {
   message: "comment deleted successfully",
 };
@@ -48,7 +84,28 @@ export const userForumGetCommentsRes_questionId_1 = {
         firstName: "jane",
         lastName: "bar",
       },
-      replies: [],
+      replies: [
+        {
+          id: "replyId_1",
+          active: true,
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          user: {
+            id: "userId_2",
+            firstName: "jane",
+            lastName: "bar",
+          },
+        },
+        {
+          id: "replyId_2",
+          active: true,
+          body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+          user: {
+            id: "userId_2",
+            firstName: "jane",
+            lastName: "bar",
+          },
+        },
+      ],
     },
     {
       id: "commentId_2",
