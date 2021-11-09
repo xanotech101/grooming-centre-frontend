@@ -29,3 +29,10 @@ export const adminGetDepartmentListingRes = {
     ],
   },
 };
+
+export const adminCreateDepartmentRes = {
+  message: "Department created successfully",
+  data: {
+    id: "departmentId_1",
+  },
+};
