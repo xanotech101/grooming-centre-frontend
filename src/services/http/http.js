@@ -14,8 +14,8 @@ const token = localStorage.getItem("token");
 const defaultOptions = (explicitToken = token) => ({
   // timeout's the request in a minute by default
   timeout: 60 * 1000,
-  withCredentials: true,
-  credentials: "include",
+  // withCredentials: true,
+  // credentials: "include",
   headers: {
     authorization: `Bearer ${explicitToken}`,
   },
