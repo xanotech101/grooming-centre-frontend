@@ -12,7 +12,7 @@ export const adminGetDepartmentListing = async () => {
   const {
     data: { data },
   } = await http.get(path);
-  
+
   const departments = data.rows.map((department) => ({
     id: department.id,
     name: department.name,
@@ -40,4 +40,30 @@ export const adminCreateDepartment = async (body) => {
   const department = { id: data.id };
 
   return { message, department };
+};
+
+/**
+ * Endpoint to for admin to create a department
+ * @param {{ title: string, departmentId: string}}
+ *
+ * @returns {Promise<{ message: string, departments: Array<{ id: string, firstName: string, lastName: string, email: string, userRoleId: string,departmentId: string }>}>}
+ */
+export const adminGetDepartmentUsersListing = async (departmentId) => {
+  const path = `department/users/${departmentId}`;
+
+  const {
+    data: { message, data },
+  } = await http.get(path);
+
+  const users = data.rows.map((user) => ({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    userRoleId: user.userRoleId,
+    departmentId: user.departmentId,
+    userRoleName: user.userRole.name,
+  }));
+
+  return { message, users };
 };

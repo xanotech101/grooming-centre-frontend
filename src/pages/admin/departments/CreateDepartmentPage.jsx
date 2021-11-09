@@ -5,6 +5,7 @@ import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { adminCreateDepartment } from "../../../services";
 import { useToast } from "@chakra-ui/toast";
 import { appendFormData, capitalizeFirstLetter } from "../../../utils";
+import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 
 const CreateDepartmentPage = () => {
   const { id: departmentId } = useParams();
@@ -45,7 +46,7 @@ const CreateDepartmentPage = () => {
   };
 
   return (
-    <>
+    <AdminMainAreaWrapper>
       <Box paddingLeft={6}>
         <Breadcrumb
           item2={
@@ -76,7 +77,7 @@ const CreateDepartmentPage = () => {
           </Button>
         </Box>
       </Box>
-    </>
+    </AdminMainAreaWrapper>
   );
 };
 
