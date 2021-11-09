@@ -1,23 +1,47 @@
 import { useForm } from "react-hook-form";
-import { Route } from "react-router-dom";
-import {
-  Input,
-  Breadcrumb,
-  Link,
-  Button,
-} from "../../../components";
+import { Route, useParams, useHistory } from "react-router";
+import { Input, Breadcrumb, Link, Button } from "../../../components";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { adminCreateDepartment } from "../../../services";
+import { useToast } from "@chakra-ui/toast";
+import { appendFormData, capitalizeFirstLetter } from "../../../utils";
 
+const CreateDepartmentPage = () => {
+  const { id: departmentId } = useParams();
+  const toast = useToast();
 
-const CreateDepartmentPage = ({ metadata: propMetadata }) => {
+  const { push } = useHistory();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
- 
+
   const onSubmit = async (data) => {
-   console.log(data);
+    try {
+      data = {
+        ...data,
+        departmentId,
+      };
+      const body = appendFormData(data);
+
+      const { message } = await adminCreateDepartment(body);
+
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
+
+      push(`/admin/departments`);
+      
+    } catch (error) {
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
   };
 
   return (
@@ -40,18 +64,14 @@ const CreateDepartmentPage = ({ metadata: propMetadata }) => {
         <Box marginX={6} marginY={10} padding={10} backgroundColor="white">
           <Input
             label="Title"
-            id="title"
+            id="name"
             width="50%"
-            {...register("title", {
+            {...register("name", {
               required: "Title is required",
             })}
-            error={errors.title?.message}
+            error={errors.name?.message}
           />
-          <Button
-            marginTop={10}
-            isLoading={isSubmitting}
-            type="submit"
-          >
+          <Button marginTop={10} isLoading={isSubmitting} type="submit">
             Create Deparment
           </Button>
         </Box>
@@ -60,7 +80,10 @@ const CreateDepartmentPage = ({ metadata: propMetadata }) => {
   );
 };
 
-export const CreateDepartmentPageRoute = ({ component: Component, ...rest }) => {
+export const CreateDepartmentPageRoute = ({
+  component: Component,
+  ...rest
+}) => {
   return (
     <Route {...rest} render={(props) => <CreateDepartmentPage {...props} />} />
   );

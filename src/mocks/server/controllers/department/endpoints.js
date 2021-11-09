@@ -1,13 +1,20 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
-import { adminGetDepartmentListingRes } from "./responses";
+import { adminCreateDepartmentRes, adminGetDepartmentListingRes } from "./responses";
+
 
 const adminGetDepartmentListing = rest.get(
   getUrl("/department/all"),
   handleSuccessResponse(adminGetDepartmentListingRes)
 );
 
-const department = [adminGetDepartmentListing];
+const adminCreateDepartment = rest.post(
+  getUrl("/department/create"),
+  handleSuccessResponse(adminCreateDepartmentRes)
+);
+
+const department = [adminGetDepartmentListing, adminCreateDepartment];
+
 
 export default department;

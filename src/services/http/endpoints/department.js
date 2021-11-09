@@ -24,3 +24,20 @@ export const adminGetDepartmentListing = async () => {
 
   return { departments };
 };
+
+/**
+ * Endpoint for department creation
+ * @param {{ name: string, departmentId: string, }} body
+ * @returns {Promise<{ message: string, department: { id: string } }>}
+ */
+export const adminCreateDepartment = async (body) => {
+  const path = "/department/create";
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const department = { id: data.id };
+
+  return { message, department };
+};
