@@ -31,6 +31,7 @@ export const userForumGetYourAnswers = async () => {
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
+    expressions: comment.expressions,
     active: comment.active,
     replies: comment.replies.map((reply) => ({
       id: reply.id,
@@ -69,6 +70,7 @@ export const userForumGetMentions = async () => {
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
+    expressions: comment.expressions,
     user: {
       id: comment.user.id,
       profilePics: comment.user.profilePics,
@@ -111,6 +113,7 @@ export const userForumGetComments = async (questionId) => {
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
+    expressions: comment.expressions,
     active: comment.active,
     user: {
       id: comment.user.id,
@@ -157,6 +160,7 @@ export const userForumEditComment = async (commentId, body) => {
     createdAt: data.createdAt,
     likes: getExpressionCount("like", data.expressions),
     dislikes: getExpressionCount("dislike", data.expressions),
+    expressions: data.expressions,
     replyCount: data.replies.length,
     replies: data.replies.map((reply) => ({
       id: reply.id,
@@ -207,6 +211,7 @@ export const userForumAddComment = async (body) => {
     createdAt: data.createdAt,
     likes: getExpressionCount("like", data.expressions),
     dislikes: getExpressionCount("dislike", data.expressions),
+    expressions: data.expressions,
   };
 
   return { message, data: comment };

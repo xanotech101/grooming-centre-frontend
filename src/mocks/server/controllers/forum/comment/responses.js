@@ -124,7 +124,28 @@ export const userForumGetCommentsRes_questionId_1 = {
       questionId: "questionId_1",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
-      expressions: [],
+      expressions: [
+        {
+          id: "expId_1",
+          expression: "like",
+          userId: "userId_4",
+        },
+        {
+          id: "expId_2",
+          expression: "dislike",
+          userId: "userId_2",
+        },
+        {
+          id: "expId_3",
+          expression: "dislike",
+          userId: requestMyDataRes.data.id,
+        },
+        {
+          id: "expId_3",
+          expression: "dislike",
+          userId: "userId_3",
+        },
+      ],
       user: {
         id: requestMyDataRes.data.id,
         profilePics:

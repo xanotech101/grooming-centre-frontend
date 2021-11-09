@@ -1,7 +1,12 @@
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 import { FiChevronsDown, FiCornerDownRight, FiMenu } from "react-icons/fi";
 import { DeletedMsg, Image, Link, Text } from "..";
 import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
@@ -9,6 +14,7 @@ import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
+import { useApp } from "../../contexts";
 
 const useCommentListCard = () => {
   const [displayEditForm, setDisplayEditForm] = useState(false);
@@ -48,6 +54,7 @@ export const CommentListCard = ({
   noBorder,
   active,
   replyingToUser,
+  expressions,
 }) => {
   const {
     displayReplyForm,
@@ -59,6 +66,17 @@ export const CommentListCard = ({
   } = useCommentListCard();
 
   const showMoreIconButton = useLoggedInUserIsTheCreator(user);
+
+  const {
+    state: { user: loggedInUser },
+  } = useApp();
+
+  const currentExpression = expressions.find(
+    (exp) => exp.userId === loggedInUser?.id
+  );
+
+  const hasLiked = currentExpression?.expression === "like";
+  const hasDisliked = currentExpression?.expression === "dislike";
 
   return (
     <Stack
@@ -152,9 +170,27 @@ export const CommentListCard = ({
       >
         {active && (
           <HStack spacing={3}>
-            <PlainButtonWithIcon text={likes} icon={<AiOutlineLike />} />
+            <PlainButtonWithIcon
+              _active={{
+                transform: "scale(1.03)",
+              }}
+              text={likes}
+              icon={hasLiked ? <AiFillLike color="blue" /> : <AiOutlineLike />}
+            />
 
-            <PlainButtonWithIcon text={dislikes} icon={<AiOutlineDislike />} />
+            <PlainButtonWithIcon
+              _active={{
+                transform: "scale(1.03)",
+              }}
+              text={dislikes}
+              icon={
+                hasDisliked ? (
+                  <AiFillDislike color="blue" />
+                ) : (
+                  <AiOutlineDislike />
+                )
+              }
+            />
           </HStack>
         )}
 
