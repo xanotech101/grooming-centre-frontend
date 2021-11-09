@@ -15,5 +15,5 @@ export * from "./courses/EditLessonInfoPage";
 export * from "./courses/AssessmentPage/layout/AssessmentPage";
 export * from "./departments/DepartmentListingPage";
 export * from "./departments/CreateDepartmentPage";
-
+export * from "./departments/ViewDepartmentDetails";
 

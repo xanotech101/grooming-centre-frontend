@@ -24,6 +24,7 @@ const colors = {
     6: "#5298DA",
     7: "#FF8E09",
     8: "#FA09FF",
+    9: "#DFE0EB",
   },
   others: {
     1: "#FDFDFD",
