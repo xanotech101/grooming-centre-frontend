@@ -218,6 +218,18 @@ export const userForumAddComment = async (body) => {
 };
 
 /**
+ * Endpoint to add a forum comment
+ * @param {{ expression: string, commentId: string }} body
+ *
+ * @returns {Promise<{ message: string } }>}
+ */
+export const userForumCreateExpression = async (body) => {
+  const path = `/forum/comment/commentExpression`;
+
+  await http.post(path, body);
+};
+
+/**
  * Endpoint to add a forum reply
  * @param {{ comment: string, questionId: string, userId: string, commentId: string }} body
  *

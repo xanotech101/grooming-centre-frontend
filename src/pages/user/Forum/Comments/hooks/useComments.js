@@ -68,6 +68,50 @@ const useComments = (fetcher) => {
     setComments((prev) => ({ ...prev, data: newComments }));
   };
 
+  const handleCommentExpression = (commentId, expression) => {
+    const newComments = [...comments.data];
+    const comment = newComments.find((c) => c.id === commentId);
+
+    const expressionIndex = comment.expressions.findIndex(
+      (e) => e.userId === expression.userId
+    );
+
+    const expressionNotFound = expressionIndex === -1;
+
+    const isSwitchExpression =
+      !expressionNotFound &&
+      comment.expressions[expressionIndex].expression !== expression.expression;
+
+    if (expressionNotFound) {
+      if (expression.expression === "like") comment.likes += 1;
+      else comment.dislikes += 1;
+
+      comment.expressions = [expression, ...comment.expressions];
+    } else {
+      if (!isSwitchExpression) {
+        if (expression.expression === "like") comment.likes -= 1;
+        else comment.dislikes -= 1;
+      }
+
+      comment.expressions.splice(expressionIndex, 1);
+      if (isSwitchExpression) {
+        if (expression.expression === "like") {
+          comment.likes += 1;
+          comment.dislikes -= 1;
+        } else {
+          comment.dislikes += 1;
+          comment.likes -= 1;
+        }
+
+        comment.expressions = [expression, ...comment.expressions];
+      }
+    }
+
+    console.log(comment.expressions);
+
+    setComments((prev) => ({ ...prev, data: newComments }));
+  };
+
   const handleEditReply = (commentId, reply) => {
     const newComments = [...comments.data];
     const comment = newComments.find((c) => c.id === commentId);
@@ -132,6 +176,7 @@ const useComments = (fetcher) => {
     handleAddReply,
     handleDeleteReply,
     handleEditReply,
+    handleCommentExpression,
     deleteStatusIsLoading: deleteStatus.loading,
   };
 };

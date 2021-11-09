@@ -84,6 +84,10 @@ export const userForumDeleteCommentRes = {
   message: "comment deleted successfully",
 };
 
+export const userForumCreateExpressionRes = {
+  message: "comment expressed successfully",
+};
+
 export const userForumGetCommentsRes_questionId_1 = {
   data: [
     {

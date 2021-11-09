@@ -14,6 +14,7 @@ import {
   userForumEditCommentRes_commentId_2,
   userForumEditCommentRes_replyId_3,
   userForumEditCommentRes_commentId_4,
+  userForumCreateExpressionRes,
 } from "./responses";
 
 const userForumGetComments = [
@@ -61,6 +62,13 @@ const userForumDeleteComment = [
   ),
 ];
 
+const userForumCreateExpression = [
+  rest.post(
+    getUrl("/forum/comment/commentExpression"),
+    handleSuccessResponse(userForumCreateExpressionRes)
+  ),
+];
+
 const userForumAddComment = rest.post(
   // TODO: change `method`
   getUrl("/forum/comment/create"), // TODO: change `path`
@@ -85,6 +93,7 @@ const userForumGetMentions = rest.get(
 );
 
 const forumComment = [
+  ...userForumCreateExpression,
   ...userForumGetComments,
   ...userForumEditComment,
   ...userForumDeleteComment,

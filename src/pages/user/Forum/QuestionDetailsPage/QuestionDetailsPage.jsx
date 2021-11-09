@@ -35,6 +35,7 @@ const QuestionDetailsPage = () => {
               handleEditComment,
               handleDeleteReply,
               handleEditReply,
+              handleCommentExpression,
               deleteStatusIsLoading,
             }) => {
               console.log(comments);
@@ -55,6 +56,7 @@ const QuestionDetailsPage = () => {
                       onReplySuccess: handleAddReply,
                       onReplyDeleteSuccess: handleDeleteReply,
                       onReplyEditSuccess: handleEditReply,
+                      onCommentExpression: handleCommentExpression,
                     }}
                     replyCardHandlers={{
                       onReplyDeleteSuccess: handleDeleteReply,

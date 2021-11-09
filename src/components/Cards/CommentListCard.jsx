@@ -49,6 +49,7 @@ export const CommentListCard = ({
   onCommentEditSuccess,
   onCommentDelete,
   deleteStatusIsLoading,
+  onCommentExpression,
   onReplyToggle,
   displayReplies,
   noBorder,
@@ -176,6 +177,11 @@ export const CommentListCard = ({
               }}
               text={likes}
               icon={hasLiked ? <AiFillLike color="blue" /> : <AiOutlineLike />}
+              onClick={onCommentExpression.bind(null, id, {
+                id: `${Date.now()}`,
+                expression: "like",
+                userId: loggedInUser?.id,
+              })}
             />
 
             <PlainButtonWithIcon
@@ -190,6 +196,11 @@ export const CommentListCard = ({
                   <AiOutlineDislike />
                 )
               }
+              onClick={onCommentExpression.bind(null, id, {
+                id: `${Date.now()}`,
+                expression: "dislike",
+                userId: loggedInUser?.id,
+              })}
             />
           </HStack>
         )}
