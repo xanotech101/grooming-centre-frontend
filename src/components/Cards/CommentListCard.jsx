@@ -49,6 +49,7 @@ export const CommentListCard = ({
   onCommentEditSuccess,
   onCommentDelete,
   deleteStatusIsLoading,
+  expStatusIsLoading,
   onCommentExpression,
   onReplyToggle,
   displayReplies,
@@ -117,7 +118,9 @@ export const CommentListCard = ({
               <ForumMessageCardMoreIconButton
                 onEdit={handleDisplayEditForm}
                 onDelete={onCommentDelete.bind(null, id)}
-                deleteStatusIsLoading={deleteStatusIsLoading}
+                deleteStatusIsLoading={
+                  deleteStatusIsLoading === id ? true : false
+                }
                 context="comment"
               />
             )}
@@ -129,7 +132,9 @@ export const CommentListCard = ({
               <ForumMessageCardMoreIconButton
                 onEdit={handleDisplayEditForm}
                 onDelete={onCommentDelete.bind(null, id)}
-                deleteStatusIsLoading={deleteStatusIsLoading}
+                deleteStatusIsLoading={
+                  deleteStatusIsLoading === id ? true : false
+                }
                 context="comment"
               />
             </Box>
@@ -178,10 +183,13 @@ export const CommentListCard = ({
               text={likes}
               icon={hasLiked ? <AiFillLike color="blue" /> : <AiOutlineLike />}
               onClick={onCommentExpression.bind(null, id, {
-                id: `${Date.now()}`,
+                commentId: id,
                 expression: "like",
                 userId: loggedInUser?.id,
               })}
+              disabled={expStatusIsLoading === id ? true : false}
+              cursor={expStatusIsLoading === id ? "no-drop" : "pointer"}
+              opacity={expStatusIsLoading === id ? ".7" : "1"}
             />
 
             <PlainButtonWithIcon
@@ -197,10 +205,13 @@ export const CommentListCard = ({
                 )
               }
               onClick={onCommentExpression.bind(null, id, {
-                id: `${Date.now()}`,
+                commentId: id,
                 expression: "dislike",
                 userId: loggedInUser?.id,
               })}
+              disabled={expStatusIsLoading === id ? true : false}
+              cursor={expStatusIsLoading === id ? "no-drop" : "pointer"}
+              opacity={expStatusIsLoading === id ? ".7" : "1"}
             />
           </HStack>
         )}
@@ -286,5 +297,5 @@ CommentListCard.propTypes = {
   onCommentEditSuccess: PropTypes.func,
   noBorder: PropTypes.bool,
   active: PropTypes.bool,
-  deleteStatusIsLoading: PropTypes.bool,
+  deleteStatusIsLoading: PropTypes.any,
 };

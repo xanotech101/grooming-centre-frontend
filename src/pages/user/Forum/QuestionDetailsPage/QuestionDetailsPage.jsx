@@ -37,6 +37,7 @@ const QuestionDetailsPage = () => {
               handleEditReply,
               handleCommentExpression,
               deleteStatusIsLoading,
+              expStatusIsLoading,
             }) => {
               console.log(comments);
 
@@ -50,6 +51,7 @@ const QuestionDetailsPage = () => {
                   <CommentList
                     data={comments.data}
                     deleteStatusIsLoading={deleteStatusIsLoading}
+                    expStatusIsLoading={expStatusIsLoading}
                     commentCardHandlers={{
                       onCommentEditSuccess: handleEditComment,
                       onCommentDelete: handleDeleteComment,

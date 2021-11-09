@@ -7,6 +7,7 @@ const CommentList = ({
   replyCardHandlers,
   commentCardProps,
   deleteStatusIsLoading,
+  expStatusIsLoading,
 }) => {
   return data.map((comment) => (
     <CommentListItem
@@ -14,6 +15,7 @@ const CommentList = ({
       commentCardHandlers={commentCardHandlers}
       replyCardHandlers={replyCardHandlers}
       deleteStatusIsLoading={deleteStatusIsLoading}
+      expStatusIsLoading={expStatusIsLoading}
       comment={{ ...comment, ...commentCardProps }}
     />
   ));
@@ -24,6 +26,7 @@ const CommentListItem = ({
   commentCardHandlers,
   replyCardHandlers,
   deleteStatusIsLoading,
+  expStatusIsLoading,
 }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const handleDisplayRepliesToggle = () => setDisplayReplies((prev) => !prev);
@@ -49,6 +52,7 @@ const CommentListItem = ({
         onReplyToggle={handleDisplayRepliesToggle}
         displayReplies={displayReplies}
         deleteStatusIsLoading={deleteStatusIsLoading}
+        expStatusIsLoading={expStatusIsLoading}
         {...comment}
       />
       {renderReplies()}

@@ -1,7 +1,10 @@
 import { useToast } from "@chakra-ui/toast";
 import { useEffect, useState } from "react";
 import { useFetch } from "../../../../../hooks";
-import { userForumDeleteComment } from "../../../../../services";
+import {
+  userForumCreateExpression,
+  userForumDeleteComment,
+} from "../../../../../services";
 
 const useComments = (fetcher) => {
   const {
@@ -14,6 +17,10 @@ const useComments = (fetcher) => {
 
   const [deleteStatus, setDeleteStatus] = useState({
     success: false,
+    error: null,
+    loading: false,
+  });
+  const [expStatus, setExpStatus] = useState({
     error: null,
     loading: false,
   });
@@ -30,20 +37,21 @@ const useComments = (fetcher) => {
       });
       setDeleteStatus({});
     }
-    if (deleteStatus.error && isMount) {
+    if ((deleteStatus.error || expStatus.error) && isMount) {
       toast({
-        description: deleteStatus.error.message,
+        description: (deleteStatus.error || expStatus.error).message,
         position: "top",
         duration: 1000,
         status: "error",
       });
       setDeleteStatus({});
+      setExpStatus({});
     }
 
     return () => {
       isMount = false;
     };
-  }, [deleteStatus.error, deleteStatus.success, toast]);
+  }, [deleteStatus.error, deleteStatus.success, expStatus.error, toast]);
 
   const handleAddReply = (commentId, reply) => {
     const newComments = [...comments.data];
@@ -68,49 +76,69 @@ const useComments = (fetcher) => {
     setComments((prev) => ({ ...prev, data: newComments }));
   };
 
-  const handleCommentExpression = (commentId, expression) => {
-    const newComments = [...comments.data];
-    const comment = newComments.find((c) => c.id === commentId);
+  const handleCommentExpression = async (commentId, expression) => {
+    const UIHandler = () => {
+      const newComments = [...comments.data];
+      const comment = newComments.find((c) => c.id === commentId);
 
-    const expressionIndex = comment.expressions.findIndex(
-      (e) => e.userId === expression.userId
-    );
+      const expressionIndex = comment.expressions.findIndex(
+        (e) => e.userId === expression.userId
+      );
 
-    const expressionNotFound = expressionIndex === -1;
+      const expressionNotFound = expressionIndex === -1;
 
-    const isSwitchExpression =
-      !expressionNotFound &&
-      comment.expressions[expressionIndex].expression !== expression.expression;
+      const isSwitchExpression =
+        !expressionNotFound &&
+        comment.expressions[expressionIndex].expression !==
+          expression.expression;
 
-    if (expressionNotFound) {
-      if (expression.expression === "like") comment.likes += 1;
-      else comment.dislikes += 1;
-
-      comment.expressions = [expression, ...comment.expressions];
-    } else {
-      if (!isSwitchExpression) {
-        if (expression.expression === "like") comment.likes -= 1;
-        else comment.dislikes -= 1;
-      }
-
-      comment.expressions.splice(expressionIndex, 1);
-      if (isSwitchExpression) {
-        if (expression.expression === "like") {
-          comment.likes += 1;
-          comment.dislikes -= 1;
-        } else {
-          comment.dislikes += 1;
-          comment.likes -= 1;
-        }
+      if (expressionNotFound) {
+        if (expression.expression === "like") comment.likes += 1;
+        else comment.dislikes += 1;
 
         comment.expressions = [expression, ...comment.expressions];
+      } else {
+        if (!isSwitchExpression) {
+          if (expression.expression === "like") comment.likes -= 1;
+          else comment.dislikes -= 1;
+        }
+
+        comment.expressions.splice(expressionIndex, 1);
+        if (isSwitchExpression) {
+          if (expression.expression === "like") {
+            comment.likes += 1;
+            comment.dislikes -= 1;
+          } else {
+            comment.dislikes += 1;
+            comment.likes -= 1;
+          }
+
+          comment.expressions = [expression, ...comment.expressions];
+        }
       }
+
+      console.log(comment.expressions);
+
+      setComments((prev) => ({ ...prev, data: newComments }));
+    };
+
+    try {
+      setExpStatus({ loading: commentId });
+
+      await userForumCreateExpression({
+        expression: expression.expression,
+        commentId: expression.commentId,
+      });
+
+      UIHandler();
+    } catch (error) {
+      setExpStatus({ error });
+    } finally {
+      setExpStatus({ loading: false });
     }
-
-    console.log(comment.expressions);
-
-    setComments((prev) => ({ ...prev, data: newComments }));
   };
+
+  console.log(deleteStatus);
 
   const handleEditReply = (commentId, reply) => {
     const newComments = [...comments.data];
@@ -131,7 +159,7 @@ const useComments = (fetcher) => {
     };
 
     try {
-      setDeleteStatus({ loading: true });
+      setDeleteStatus({ loading: commentId });
       await userForumDeleteComment(commentId);
       UIHandler();
       setDeleteStatus({ success: true });
@@ -152,7 +180,7 @@ const useComments = (fetcher) => {
     };
 
     try {
-      setDeleteStatus({ loading: true });
+      setDeleteStatus({ loading: replyId });
       await userForumDeleteComment(replyId);
       UIHandler();
       setDeleteStatus({ success: true });
@@ -178,6 +206,7 @@ const useComments = (fetcher) => {
     handleEditReply,
     handleCommentExpression,
     deleteStatusIsLoading: deleteStatus.loading,
+    expStatusIsLoading: expStatus.loading,
   };
 };
 

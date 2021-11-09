@@ -82,7 +82,7 @@ export const ReplyListCard = ({
           <ForumMessageCardMoreIconButton
             onEdit={handleDisplayEditForm}
             onDelete={onReplyDeleteSuccess.bind(null, commentId, id)}
-            deleteStatusIsLoading={deleteStatusIsLoading}
+            deleteStatusIsLoading={deleteStatusIsLoading === id ? true : false}
             context="reply"
           />
         )}
