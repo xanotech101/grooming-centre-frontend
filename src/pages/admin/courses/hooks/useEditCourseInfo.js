@@ -27,9 +27,9 @@ const useEditCourseInfo = (courseId) => {
          position: "top",
          status: "success",
        });
-       setTimeout(() => {
+      
           history.push(`/admin/courses/details/${id}/info`);
-       }, 5000);
+      
       
      } catch (err) {
        setStatus({ err: true });

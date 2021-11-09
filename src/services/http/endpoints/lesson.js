@@ -72,13 +72,13 @@ export const adminEditLesson = async (lessonId, body) => {
 };
 
 /**
- * Endpoint to for admin to create a lesson
- * @param {{ title: string, content: string, lessonTypeId: string, startTime: Date, endTime: Date, file: File, courseId: string }} body
+ * Endpoint to for admin get all lessons
+ * @param {{ title: string, startTime: Date, courseId: string }} body
  *
  * @returns {Promise<{ message: string, lessons: Array<{ id: string, title: string, startTime: Date, active: boolean, courseId: string }>}>}
  */
-export const adminGetLessonListing = async (body) => {
-  const path = `/lesson/admin`;
+export const adminGetLessonListing = async (courseId, body) => {
+  const path = `/lesson/admin/${courseId}`;
 
   const {
     data: { message, data },

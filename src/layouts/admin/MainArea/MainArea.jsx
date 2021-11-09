@@ -13,9 +13,11 @@ import {
   ViewLessonInfoPageRoute,
   UserListingPageRoute,
   // EditCourseInfoPageRoute,
-  EditLessonInfoPageRoute,
+  // EditLessonInfoPageRoute,
   AssessmentPageRoute,
-  DepartmentListingPageRoute
+  DepartmentListingPageRoute,
+  CreateDepartmentPageRoute,
+  ViewDepartmentPageRoute,
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -33,10 +35,10 @@ const MainArea = () => {
           />
           <AssessmentPageRoute path="/admin/courses/:id/assessment/:assessmentId" />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
-          <EditLessonInfoPageRoute
+          {/* <EditLessonInfoPageRoute
             exact
             path="/admin/courses/:courseId/lesson/edit/:lessonId"
-          />
+          /> */}
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
           <ViewLessonInfoPageRoute
             exact
@@ -45,10 +47,15 @@ const MainArea = () => {
           <UserListingPageRoute exact path="/admin/users" />
           <CreateUserPageRoute exact path="/admin/users/create" />
           <UserInfoPageRoute path="/admin/users/details" />
-          
-            <DepartmentListingPageRoute exact path="/admin/departments" />
-            {/* <RolesPageRoute exact path="/admin/other" />  */}
-         
+
+          <DepartmentListingPageRoute exact path="/admin/departments" />
+          <CreateDepartmentPageRoute exact path="/admin/departments/create" />
+          <ViewDepartmentPageRoute
+            exact
+            path="/admin/departments/details/:departmentId/info"
+          />
+          {/* <RolesPageRoute exact path="/admin/other" />  */}
+
           <NotFoundPageRoute />
         </Switch>
       </Box>

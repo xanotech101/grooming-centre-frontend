@@ -1,37 +1,38 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
+import { adminEditAssessmentQuestionRes } from "../assessment/responses";
 import { handleSuccessResponse } from "../helpers";
 import {
-  adminGetExaminationListingRes_courseId_3,
   adminGetExaminationListingRes_courseId_1,
-  requestExaminationRes_examinationId_1,
-  requestExaminationRes_examinationId_2,
+  // requestExaminationRes_examinationId_1,
+  // requestExaminationRes_examinationId_2,
   submitExaminationRes,
   adminCreateExaminationQuestionRes,
   adminCreateExaminationRes,
   adminEditExaminationRes_examinationId_1,
   adminEditExaminationRes_examinationId_2,
+  adminGetExaminationListingRes_courseId_3,
 } from "./responses";
 
-const requestExamination = [
-  rest.get(
-    getUrl("/examination/examinationId_1"),
-    handleSuccessResponse(requestExaminationRes_examinationId_1)
-  ),
-  rest.get(
-    getUrl("/examination/examinationId_2"),
-    handleSuccessResponse(requestExaminationRes_examinationId_2)
-  ),
-];
 
 const adminGetExaminationListing = [
   rest.get(
-    getUrl("/examination/course/courseId_3"),
-    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+    getUrl("/examination/courseId_1"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
   ),
   rest.get(
-    getUrl("/examination/course/courseId_1"),
+    getUrl("/examination/courseId_3"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+  ),
+];
+const adminGetExaminationDetails = [
+  rest.get(
+    getUrl("/examination/examinationId_1"),
     handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/examination/examinationId_2"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
   ),
 ];
 
@@ -47,7 +48,7 @@ const submitExamination = [
 ];
 
 const adminCreateExaminationQuestion = rest.post(
-  getUrl("/examination/question/create/new"),
+  getUrl("/examination/question/create"),
   handleSuccessResponse(adminCreateExaminationQuestionRes)
 );
 
@@ -69,10 +70,17 @@ const adminEditExamination = [
   ),
 ];
 
+
+const adminEditExaminationQuestion = rest.patch(
+  getUrl("/examination/question/edit"),
+  handleSuccessResponse(adminEditAssessmentQuestionRes)
+);
+
 const examination = [
   adminCreateExamination,
   adminCreateExaminationQuestion,
-  ...requestExamination,
+  adminEditExaminationQuestion,
+  ...adminGetExaminationDetails,
   ...adminGetExaminationListing,
   ...submitExamination,
   ...adminEditExamination,
