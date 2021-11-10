@@ -1,19 +1,48 @@
-import { Box, Stack } from "@chakra-ui/layout";
+import { Flex, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
-import { Text } from "..";
+import { useEffect, useRef, useState } from "react";
+import { ForumMessageCardMoreIconButton, Text } from "..";
+import { useLoggedInUserIsTheCreator } from "../../hooks";
+import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 import { formatToUsername } from "../../utils";
 
-export const ReplyListCard = ({ id, body, user }) => {
+const useReplyListCard = () => {
+  const [displayEditForm, setDisplayEditForm] = useState(false);
+
+  const handleDisplayEditForm = () => setDisplayEditForm(true);
+  const handleHideEditForm = () => setDisplayEditForm(false);
+
+  return {
+    displayEditForm,
+    handleHideEditForm,
+    handleDisplayEditForm,
+  };
+};
+
+export const ReplyListCard = ({
+  id,
+  body,
+  user,
+  deleteStatusIsLoading,
+  onReplyDeleteSuccess,
+  onReplyEditSuccess,
+  commentId,
+}) => {
+  const { displayEditForm, handleHideEditForm, handleDisplayEditForm } =
+    useReplyListCard();
+
   const wrapperRef = useRef();
 
   useEffect(() => {
     wrapperRef.current.focus();
   }, []);
 
+  const showMoreIconButton = useLoggedInUserIsTheCreator(user);
+
   return (
     <Stack
-      paddingY={3}
+      paddingTop={3}
+      paddingBottom={showMoreIconButton ? 1 : 3}
       paddingX={6}
       spacing={3}
       shadow="2px 1px 5px rgba(0, 0, 0, 0.15)"
@@ -24,23 +53,49 @@ export const ReplyListCard = ({ id, body, user }) => {
       ref={wrapperRef}
       tabIndex={0}
     >
-      <Text paddingBottom={2}>{body}</Text>
+      {displayEditForm ? (
+        <CommentForm
+          initValue={body}
+          onReplySuccess={onReplyEditSuccess}
+          commentId={commentId}
+          replyId={id}
+          onCancel={handleHideEditForm}
+          mute
+          isReply
+        />
+      ) : (
+        <Text paddingBottom={2}>{body}</Text>
+      )}
 
-      <Box
+      <Flex
         borderTop="1px"
         borderColor="accent.1"
         color="accent.3"
         paddingTop={2}
+        justifyContent="space-between"
       >
         <Text>
           by <b>{formatToUsername(user.fullName)}</b>
         </Text>
-      </Box>
+
+        {showMoreIconButton && (
+          <ForumMessageCardMoreIconButton
+            onEdit={handleDisplayEditForm}
+            onDelete={onReplyDeleteSuccess.bind(null, commentId, id)}
+            deleteStatusIsLoading={deleteStatusIsLoading === id ? true : false}
+            context="reply"
+          />
+        )}
+      </Flex>
     </Stack>
   );
 };
 
 ReplyListCard.propTypes = {
+  onReplyDeleteSuccess: PropTypes.func,
+  onReplyEditSuccess: PropTypes.func,
+  deleteStatusIsLoading: PropTypes.bool,
+  commentId: PropTypes.string,
   id: PropTypes.string,
   body: PropTypes.string,
   user: PropTypes.shape({

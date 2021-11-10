@@ -1,25 +1,38 @@
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 import { FiChevronsDown, FiCornerDownRight, FiMenu } from "react-icons/fi";
-import { Image, Link, Text } from "..";
+import { DeletedMsg, Image, Link, Text } from "..";
 import { ForumMessageCardMoreIconButton } from "./QuestionListCard";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
 import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
+import { useApp } from "../../contexts";
 
 const useCommentListCard = () => {
+  const [displayEditForm, setDisplayEditForm] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
 
   const handleDisplayReplyForm = () => setDisplayReplyForm(true);
-  const handleHideReplyForm = () => setDisplayReplyForm(true);
+  const handleHideReplyForm = () => setDisplayReplyForm(false);
+
+  const handleDisplayEditForm = () => setDisplayEditForm(true);
+  const handleHideEditForm = () => setDisplayEditForm(false);
 
   return {
     displayReplyForm,
+    displayEditForm,
     handleDisplayReplyForm,
     handleHideReplyForm,
+    handleDisplayEditForm,
+    handleHideEditForm,
   };
 };
 
@@ -33,14 +46,39 @@ export const CommentListCard = ({
   dislikes,
   user,
   onReplySuccess,
+  onCommentEditSuccess,
+  onCommentDelete,
+  deleteStatusIsLoading,
+  expStatusIsLoading,
+  onCommentExpression,
   onReplyToggle,
   displayReplies,
   noBorder,
+  active,
   replyingToUser,
+  expressions,
 }) => {
-  const { displayReplyForm, handleDisplayReplyForm } = useCommentListCard();
+  const {
+    displayReplyForm,
+    displayEditForm,
+    handleDisplayReplyForm,
+    handleDisplayEditForm,
+    handleHideEditForm,
+    handleHideReplyForm,
+  } = useCommentListCard();
 
   const showMoreIconButton = useLoggedInUserIsTheCreator(user);
+
+  const {
+    state: { user: loggedInUser },
+  } = useApp();
+
+  const currentExpression = expressions.find(
+    (exp) => exp.userId === loggedInUser?.id
+  );
+
+  const hasLiked = currentExpression?.expression === "like";
+  const hasDisliked = currentExpression?.expression === "dislike";
 
   return (
     <Stack
@@ -76,14 +114,29 @@ export const CommentListCard = ({
               </Box>
             </HStack>
 
-            {showMoreIconButton && (
-              <ForumMessageCardMoreIconButton context="comment" />
+            {showMoreIconButton && active && (
+              <ForumMessageCardMoreIconButton
+                onEdit={handleDisplayEditForm}
+                onDelete={onCommentDelete.bind(null, id)}
+                deleteStatusIsLoading={
+                  deleteStatusIsLoading === id ? true : false
+                }
+                context="comment"
+              />
             )}
           </Flex>
         ) : (
-          showMoreIconButton && (
+          showMoreIconButton &&
+          active && (
             <Box position="absolute" top={1} right={1}>
-              <ForumMessageCardMoreIconButton context="comment" />
+              <ForumMessageCardMoreIconButton
+                onEdit={handleDisplayEditForm}
+                onDelete={onCommentDelete.bind(null, id)}
+                deleteStatusIsLoading={
+                  deleteStatusIsLoading === id ? true : false
+                }
+                context="comment"
+              />
             </Box>
           )
         )}
@@ -97,7 +150,22 @@ export const CommentListCard = ({
         )}
       </Box>
 
-      <Text paddingBottom={2}>{body}</Text>
+      {active ? (
+        displayEditForm ? (
+          <CommentForm
+            initValue={body}
+            onCommentSuccess={onCommentEditSuccess}
+            commentId={id}
+            onCancel={handleHideEditForm}
+            mute
+            inputMinHeight="100px"
+          />
+        ) : (
+          <Text paddingBottom={2}>{body}</Text>
+        )
+      ) : (
+        <DeletedMsg context="comment" />
+      )}
 
       <Flex
         justifyContent="space-between"
@@ -106,13 +174,49 @@ export const CommentListCard = ({
         borderColor="accent.1"
         paddingTop={2}
       >
-        <HStack spacing={3}>
-          <PlainButtonWithIcon text={likes} icon={<AiOutlineLike />} />
+        {active && (
+          <HStack spacing={3}>
+            <PlainButtonWithIcon
+              _active={{
+                transform: "scale(1.03)",
+              }}
+              text={likes}
+              icon={hasLiked ? <AiFillLike color="blue" /> : <AiOutlineLike />}
+              onClick={onCommentExpression.bind(null, id, {
+                commentId: id,
+                expression: "like",
+                userId: loggedInUser?.id,
+              })}
+              disabled={expStatusIsLoading === id ? true : false}
+              cursor={expStatusIsLoading === id ? "no-drop" : "pointer"}
+              opacity={expStatusIsLoading === id ? ".7" : "1"}
+            />
 
-          <PlainButtonWithIcon text={dislikes} icon={<AiOutlineDislike />} />
-        </HStack>
+            <PlainButtonWithIcon
+              _active={{
+                transform: "scale(1.03)",
+              }}
+              text={dislikes}
+              icon={
+                hasDisliked ? (
+                  <AiFillDislike color="blue" />
+                ) : (
+                  <AiOutlineDislike />
+                )
+              }
+              onClick={onCommentExpression.bind(null, id, {
+                commentId: id,
+                expression: "dislike",
+                userId: loggedInUser?.id,
+              })}
+              disabled={expStatusIsLoading === id ? true : false}
+              cursor={expStatusIsLoading === id ? "no-drop" : "pointer"}
+              opacity={expStatusIsLoading === id ? ".7" : "1"}
+            />
+          </HStack>
+        )}
 
-        <HStack spacing={3}>
+        <HStack spacing={3} flex={1} justifyContent="flex-end">
           {questionId && (
             <PlainButtonWithIcon
               color="accent.6"
@@ -138,14 +242,22 @@ export const CommentListCard = ({
               color="accent.6"
               text="Reply"
               icon={<FiCornerDownRight />}
+              disabled={!active}
+              opacity={!active ? 0.7 : 1}
               onClick={handleDisplayReplyForm}
             />
           )}
         </HStack>
       </Flex>
 
-      {displayReplyForm && (
-        <CommentForm isReply onReplySuccess={onReplySuccess} commentId={id} />
+      {displayReplyForm && active && (
+        <CommentForm
+          onReplySuccess={onReplySuccess}
+          onCancel={handleHideReplyForm}
+          commentId={id}
+          isReply
+          mute
+        />
       )}
     </Stack>
   );
@@ -182,5 +294,8 @@ CommentListCard.propTypes = {
   onReplyToggle: PropTypes.func,
   displayReplies: PropTypes.bool,
   onReplySuccess: PropTypes.func,
+  onCommentEditSuccess: PropTypes.func,
   noBorder: PropTypes.bool,
+  active: PropTypes.bool,
+  deleteStatusIsLoading: PropTypes.any,
 };

@@ -1,6 +1,12 @@
 import { getFullName } from "../../../../utils";
 import { http } from "../../http";
 
+const getExpressionCount = (expText, expressions) =>
+  expressions.reduce(
+    (prev, exp) => (exp.expression === expText ? (prev += 1) : prev),
+    0
+  );
+
 /**
  * Endpoint to get the current user forum answers
  *
@@ -23,8 +29,10 @@ export const userForumGetYourAnswers = async () => {
     createdAt: comment.createdAt,
     body: comment.body,
     replyCount: comment.replies.length,
-    likes: comment.likes,
-    dislikes: comment.dislikes,
+    likes: getExpressionCount("like", comment.expressions),
+    dislikes: getExpressionCount("dislike", comment.expressions),
+    expressions: comment.expressions,
+    active: comment.active,
     replies: comment.replies.map((reply) => ({
       id: reply.id,
       body: reply.body,
@@ -60,8 +68,9 @@ export const userForumGetMentions = async () => {
     createdAt: comment.createdAt,
     body: comment.body,
     replyCount: comment.replies.length,
-    likes: comment.likes,
-    dislikes: comment.dislikes,
+    likes: getExpressionCount("like", comment.expressions),
+    dislikes: getExpressionCount("dislike", comment.expressions),
+    expressions: comment.expressions,
     user: {
       id: comment.user.id,
       profilePics: comment.user.profilePics,
@@ -102,8 +111,10 @@ export const userForumGetComments = async (questionId) => {
     createdAt: comment.createdAt,
     body: comment.body,
     replyCount: comment.replies.length,
-    likes: comment.likes,
-    dislikes: comment.dislikes,
+    likes: getExpressionCount("like", comment.expressions),
+    dislikes: getExpressionCount("dislike", comment.expressions),
+    expressions: comment.expressions,
+    active: comment.active,
     user: {
       id: comment.user.id,
       profilePics: comment.user.profilePics,
@@ -112,6 +123,7 @@ export const userForumGetComments = async (questionId) => {
     replies: comment.replies.map((reply) => ({
       id: reply.id,
       body: reply.body,
+      active: reply.active,
       user: {
         id: reply.user.id,
         fullName: getFullName(reply.user),
@@ -125,25 +137,43 @@ export const userForumGetComments = async (questionId) => {
 /**
  * Endpoint to edit forum comment
  * @param {string} commentId
+ * @param {object} body
  *
  * @returns {
  *   Promise<{
- *     comment: { body: string }
+ *     comment: { body: object, message: string }
  *   }>
  * }
  */
-export const userForumEditComment = async (commentId) => {
-  const path = `/forum/comments/${commentId}`;
+export const userForumEditComment = async (commentId, body) => {
+  const path = `/forum/comment/${commentId}`;
 
   const {
-    data: { data },
-  } = await http.patch(path);
+    data: { message, data },
+  } = await http.patch(path, { comment: body.comment });
 
   const comment = {
+    id: data.id,
     body: data.comment,
+    active: data.active,
+    questionId: data.questionId,
+    createdAt: data.createdAt,
+    likes: getExpressionCount("like", data.expressions),
+    dislikes: getExpressionCount("dislike", data.expressions),
+    expressions: data.expressions,
+    replyCount: data.replies.length,
+    replies: data.replies.map((reply) => ({
+      id: reply.id,
+      body: reply.body,
+      active: reply.active,
+      user: {
+        id: reply.user.id,
+        fullName: getFullName(reply.user),
+      },
+    })),
   };
 
-  return { comment };
+  return { message, data: comment };
 };
 
 /**
@@ -155,7 +185,7 @@ export const userForumEditComment = async (commentId) => {
  * }
  */
 export const userForumDeleteComment = async (commentId) => {
-  const path = `/forum/comments/${commentId}`;
+  const path = `/forum/comment/${commentId}`;
 
   await http.delete(path);
 };
@@ -176,13 +206,27 @@ export const userForumAddComment = async (body) => {
   const comment = {
     id: data.id,
     body: data.comment,
+    active: data.active,
     questionId: data.questionId,
     createdAt: data.createdAt,
-    likes: data.likes,
-    dislikes: data.dislikes,
+    likes: getExpressionCount("like", data.expressions),
+    dislikes: getExpressionCount("dislike", data.expressions),
+    expressions: data.expressions,
   };
 
   return { message, data: comment };
+};
+
+/**
+ * Endpoint to add a forum comment
+ * @param {{ expression: string, commentId: string }} body
+ *
+ * @returns {Promise<{ message: string } }>}
+ */
+export const userForumCreateExpression = async (body) => {
+  const path = `/forum/comment/commentExpression`;
+
+  await http.post(path, body);
 };
 
 /**
@@ -201,6 +245,7 @@ export const userForumAddReply = async (body) => {
   const reply = {
     id: data.id,
     body: data.comment,
+    active: data.active,
   };
 
   return { message, data: reply };

@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { Heading, QuestionListCard, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
@@ -39,7 +40,9 @@ const QuestionsPage = () => {
       )}
 
       {questions.data?.map((question) => (
-        <QuestionListCard key={question.id} {...question} />
+        <Box p={1} key={question.id}>
+          <QuestionListCard {...question} />
+        </Box>
       ))}
     </>
   );
