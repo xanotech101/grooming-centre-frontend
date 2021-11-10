@@ -18,6 +18,7 @@ import {
   DepartmentListingPageRoute,
   CreateDepartmentPageRoute,
   ViewDepartmentPageRoute,
+  RolesPageRoute,
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -54,8 +55,7 @@ const MainArea = () => {
             exact
             path="/admin/departments/details/:departmentId/info"
           />
-          {/* <RolesPageRoute exact path="/admin/other" />  */}
-
+          <RolesPageRoute exact path="/admin/role" />
           <NotFoundPageRoute />
         </Switch>
       </Box>
