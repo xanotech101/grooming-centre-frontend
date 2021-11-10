@@ -62,8 +62,6 @@ export const useFetch = () => {
       try {
         const resource = await fetcher();
 
-        console.log(resource);
-
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {
         console.error(err);
