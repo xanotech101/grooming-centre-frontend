@@ -91,18 +91,17 @@ export const userForumGetQuestions = async () => {
     title: question.title,
     body: truncateText(question.question, 100),
     createdAt: question.createdAt,
-    // TODO: propose to the backend team
+    active: question.active,
     tags: question.tags.map((tag) => ({
       id: tag.id,
       label: tag.name,
     })),
-    // TODO: propose to the backend team
     user: {
       id: question.user.id,
       profilePics: question.user.profilePics,
       fullName: `${question.user.firstName} ${question.user.lastName}`,
     },
-    commentCount: question.commentCount, // TODO: propose to the backend team
+    commentCount: question.commentCount,
   }));
 
   return { questions };
@@ -136,8 +135,9 @@ export const userForumGetQuestionDetails = async (id) => {
     id: data.id,
     title: data.title,
     body: data.question,
-    commentCount: data.forumComments.length,
+    commentCount: data.commentCount,
     createdAt: data.createdAt,
+    active: data.active,
     tags: data.tags.map((tag) => ({
       id: tag.id,
       label: tag.title,

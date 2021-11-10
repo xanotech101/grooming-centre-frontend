@@ -4,50 +4,68 @@ import { handleSuccessResponse } from "../../helpers";
 import {
   userForumGetCommentsRes_questionId_1,
   userForumGetCommentsRes_questionId_2,
+  userForumGetCommentsRes_questionId_3,
   userForumAddCommentRes,
   // userForumReplyACommentRes,
   userForumGetMentionsRes,
   userForumGetYourAnswersRes,
-  userForumEditCommentRes,
+  // userForumEditCommentRes,
   userForumDeleteCommentRes,
+  userForumEditCommentRes_commentId_2,
+  userForumEditCommentRes_replyId_3,
+  userForumEditCommentRes_commentId_4,
+  userForumCreateExpressionRes,
 } from "./responses";
 
 const userForumGetComments = [
   rest.get(
-    // TODO: change `method`
-    getUrl("/forum/questions/questionId_1/comments"), // TODO: change `path`
+    getUrl("/forum/questions/questionId_1/comments"),
     handleSuccessResponse(userForumGetCommentsRes_questionId_1)
   ),
   rest.get(
-    // TODO: change `method`
-    getUrl("/forum/questions/questionId_2/comments"), // TODO: change `path`
+    getUrl("/forum/questions/questionId_2/comments"),
     handleSuccessResponse(userForumGetCommentsRes_questionId_2)
+  ),
+  rest.get(
+    getUrl("/forum/questions/questionId_3/comments"),
+    handleSuccessResponse(userForumGetCommentsRes_questionId_3)
   ),
 ];
 
 const userForumEditComment = [
   rest.patch(
-    // TODO: change `method`
-    getUrl("/forum/comments/commentId_1"), // TODO: change `path`
-    handleSuccessResponse(userForumEditCommentRes)
+    getUrl("/forum/comment/replyId_3"),
+    handleSuccessResponse(userForumEditCommentRes_replyId_3)
   ),
   rest.patch(
-    // TODO: change `method`
-    getUrl("/forum/comments/commentId_2"), // TODO: change `path`
-    handleSuccessResponse(userForumEditCommentRes)
+    getUrl("/forum/comment/commentId_2"),
+    handleSuccessResponse(userForumEditCommentRes_commentId_2)
+  ),
+  rest.patch(
+    getUrl("/forum/comment/commentId_4"),
+    handleSuccessResponse(userForumEditCommentRes_commentId_4)
   ),
 ];
 
 const userForumDeleteComment = [
   rest.delete(
-    // TODO: change `method`
-    getUrl("/forum/comments/commentId_1"), // TODO: change `path`
+    getUrl("/forum/comment/replyId_3"),
     handleSuccessResponse(userForumDeleteCommentRes)
   ),
   rest.delete(
-    // TODO: change `method`
-    getUrl("/forum/comments/commentId_2"), // TODO: change `path`
+    getUrl("/forum/comment/commentId_2"),
     handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+  rest.delete(
+    getUrl("/forum/comment/commentId_4"),
+    handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+];
+
+const userForumCreateExpression = [
+  rest.post(
+    getUrl("/forum/comment/commentExpression"),
+    handleSuccessResponse(userForumCreateExpressionRes)
   ),
 ];
 
@@ -75,6 +93,7 @@ const userForumGetMentions = rest.get(
 );
 
 const forumComment = [
+  ...userForumCreateExpression,
   ...userForumGetComments,
   ...userForumEditComment,
   ...userForumDeleteComment,

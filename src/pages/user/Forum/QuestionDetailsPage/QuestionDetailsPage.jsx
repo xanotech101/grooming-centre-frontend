@@ -4,7 +4,7 @@ import { PageLoaderLayout } from "../../../../layouts";
 import { capitalizeWords } from "../../../../utils";
 import Comments from "../Comments/Comments";
 import CommentList from "../Comments/CommentList";
-import CommentForm from "../Comments/CommentForm";
+import CommentForm, { CommentsHeader } from "../Comments/CommentForm";
 import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
@@ -27,15 +27,43 @@ const QuestionDetailsPage = () => {
           <QuestionListCard {...question.data} disabled />
 
           <Comments commentsManager={commentsManager} canAddComment>
-            {({ handleAddComment, comments, handleAddReply }) => {
+            {({
+              handleAddComment,
+              comments,
+              handleAddReply,
+              handleDeleteComment,
+              handleEditComment,
+              handleDeleteReply,
+              handleEditReply,
+              handleCommentExpression,
+              deleteStatusIsLoading,
+              expStatusIsLoading,
+            }) => {
               console.log(comments);
 
               return (
                 <>
-                  <CommentForm onCommentSuccess={handleAddComment} />
+                  {question.data?.active ? (
+                    <CommentForm onCommentSuccess={handleAddComment} />
+                  ) : (
+                    <CommentsHeader />
+                  )}
                   <CommentList
                     data={comments.data}
-                    onReplySuccess={handleAddReply}
+                    deleteStatusIsLoading={deleteStatusIsLoading}
+                    expStatusIsLoading={expStatusIsLoading}
+                    commentCardHandlers={{
+                      onCommentEditSuccess: handleEditComment,
+                      onCommentDelete: handleDeleteComment,
+                      onReplySuccess: handleAddReply,
+                      onReplyDeleteSuccess: handleDeleteReply,
+                      onReplyEditSuccess: handleEditReply,
+                      onCommentExpression: handleCommentExpression,
+                    }}
+                    replyCardHandlers={{
+                      onReplyDeleteSuccess: handleDeleteReply,
+                      onReplyEditSuccess: handleEditReply,
+                    }}
                   />
                 </>
               );
