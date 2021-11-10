@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/toast";
 import { Box, Stack } from "@chakra-ui/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import {
   Button,
@@ -18,16 +18,30 @@ import useAddQuestionPage from "./hooks/useAddQuestionPage";
 const AddQuestionPage = () => {
   const {
     selectedTags,
+    setSelectedTags,
     handleTagSelectMany,
     handleTagDeselect,
     handleClearAllSelectedTags,
   } = useSelectedTags();
 
-  const { categories, formManager, handleSubmit, disableForm } =
-    useAddQuestionPage({
-      selectedTags,
-      handleClearAllSelectedTags,
-    });
+  const {
+    categories,
+    formManager,
+    handleSubmit,
+    disableForm,
+    questionIsLoading,
+    questionData,
+    isEditMode,
+  } = useAddQuestionPage({
+    selectedTags,
+    handleClearAllSelectedTags,
+  });
+
+  useEffect(() => {
+    if (questionData) setSelectedTags(questionData.tags);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionData]);
 
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
@@ -92,7 +106,7 @@ const AddQuestionPage = () => {
           id="categoryId"
           placeholder="Choose categories"
           options={categories.data}
-          isLoading={categories.loading}
+          isLoading={categories.loading || questionIsLoading}
           isRequired
           error={formManager.formState.errors.categoryId?.message}
           {...formManager.register("categoryId", {
@@ -137,8 +151,12 @@ const AddQuestionPage = () => {
         />
 
         <Box textAlign="right" paddingTop={2}>
-          <Button type="submit" disabled={disableForm} isLoading={disableForm}>
-            Publish
+          <Button
+            type="submit"
+            disabled={disableForm || questionIsLoading}
+            isLoading={disableForm || questionIsLoading}
+          >
+            {isEditMode ? "Update" : "Publish"}
           </Button>
         </Box>
       </Stack>

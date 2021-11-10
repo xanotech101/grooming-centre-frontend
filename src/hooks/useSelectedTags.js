@@ -42,6 +42,7 @@ export const useSelectedTags = () => {
 
   return {
     selectedTags,
+    setSelectedTags,
     handleTagSelectMany,
     handleTagSelectOne,
     handleTagDeselect,

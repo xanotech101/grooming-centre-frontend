@@ -117,7 +117,7 @@ export const CommentListCard = ({
             {showMoreIconButton && active && (
               <ForumMessageCardMoreIconButton
                 onEdit={handleDisplayEditForm}
-                onDelete={onCommentDelete.bind(null, id)}
+                onDelete={onCommentDelete?.bind(null, id)}
                 deleteStatusIsLoading={
                   deleteStatusIsLoading === id ? true : false
                 }
@@ -131,7 +131,7 @@ export const CommentListCard = ({
             <Box position="absolute" top={1} right={1}>
               <ForumMessageCardMoreIconButton
                 onEdit={handleDisplayEditForm}
-                onDelete={onCommentDelete.bind(null, id)}
+                onDelete={onCommentDelete?.bind(null, id)}
                 deleteStatusIsLoading={
                   deleteStatusIsLoading === id ? true : false
                 }
@@ -182,7 +182,7 @@ export const CommentListCard = ({
               }}
               text={likes}
               icon={hasLiked ? <AiFillLike color="blue" /> : <AiOutlineLike />}
-              onClick={onCommentExpression.bind(null, id, {
+              onClick={onCommentExpression?.bind(null, id, {
                 commentId: id,
                 expression: "like",
                 userId: loggedInUser?.id,
@@ -204,7 +204,7 @@ export const CommentListCard = ({
                   <AiOutlineDislike />
                 )
               }
-              onClick={onCommentExpression.bind(null, id, {
+              onClick={onCommentExpression?.bind(null, id, {
                 commentId: id,
                 expression: "dislike",
                 userId: loggedInUser?.id,

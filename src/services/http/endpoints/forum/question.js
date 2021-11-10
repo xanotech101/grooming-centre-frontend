@@ -150,6 +150,7 @@ export const userForumGetQuestions = async (params) => {
  *     body: string,
  *     createdAt: string,
  *     commentCount: number,
+ *     categoryId: string,
  *     tags: Array<{ value: string, label: string }>,
  *     user: { id: string, profilePics: string, fullName: string }>
  *   }>
@@ -164,6 +165,7 @@ export const userForumGetQuestionDetails = async (id) => {
 
   const question = {
     id: data.id,
+    categoryId: data.categoryId,
     title: data.title,
     body: data.question,
     commentCount: data.commentCount,
@@ -215,6 +217,23 @@ export const userForumPublishQuestion = async (question) => {
   const {
     data: { message },
   } = await http.post(path, question);
+
+  return { message };
+};
+
+/**
+ * Endpoint to edit/modify a forum question
+ * @param {string} questionId
+ * @param {{ categoryId: ?string, userId: ?string, title: ?string, question: ?string, tagId: ?Array<string> }} body // TODO: signature might change
+ *
+ * @returns {Promise<{ message: string }>}
+ */
+export const userForumEditQuestion = async (questionId, body) => {
+  const path = `/forum/question/${questionId}`; // TODO: change path
+
+  const {
+    data: { message },
+  } = await http.patch(path, body);
 
   return { message };
 };

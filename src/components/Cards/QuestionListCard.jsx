@@ -1,4 +1,5 @@
 import Icon from "@chakra-ui/icon";
+import { useHistory } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import {
@@ -39,6 +40,16 @@ export const QuestionListCard = ({
   };
 
   const showMoreIconButton = useLoggedInUserIsTheCreator(user);
+
+  const { push, location } = useHistory();
+
+  const handleEdit = () => {
+    push(
+      `/forum/your-questions/add?questionId=${id}&redirectTo=${
+        location.pathname + location.search
+      }`
+    );
+  };
 
   return (
     <Stack
@@ -89,7 +100,10 @@ export const QuestionListCard = ({
           </HStack>
 
           {showMoreIconButton && active && (
-            <ForumMessageCardMoreIconButton position="relative" />
+            <ForumMessageCardMoreIconButton
+              onEdit={handleEdit}
+              position="relative"
+            />
           )}
         </Flex>
       )}
@@ -102,7 +116,10 @@ export const QuestionListCard = ({
             </Text>
 
             {showMoreIconButton && !user && (
-              <ForumMessageCardMoreIconButton position="relative" />
+              <ForumMessageCardMoreIconButton
+                position="relative"
+                onEdit={handleEdit}
+              />
             )}
           </Flex>
 
