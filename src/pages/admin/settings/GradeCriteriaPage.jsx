@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from "@chakra-ui/layout";
+import { Box, Grid } from "@chakra-ui/layout";
 import { BiCertification } from "react-icons/bi";
 import { FiCheckSquare } from "react-icons/fi";
 import { ImArrowUp } from "react-icons/im";
