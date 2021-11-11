@@ -17,3 +17,7 @@ export * from "./departments/DepartmentListingPage";
 export * from "./departments/CreateDepartmentPage";
 export * from "./departments/ViewDepartmentDetails";
 export * from "./RoleListingPage";
+export * from "./settings/SettingsPage";
+export * from "./settings/EventsPage";
+export * from "./settings/GradeCriteriaPage";
+export * from "./settings/SecurityPage";
