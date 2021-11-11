@@ -30,7 +30,13 @@ const Header = () => {
           <MdNotificationsActive />
         </Button>
 
-        <Button asIcon ghost reversePrimaryColor largeSize>
+        <Button
+          link={`/admin/settings`}
+          asIcon
+          ghost
+          reversePrimaryColor
+          largeSize
+        >
           <FiSettings />
         </Button>
       </ButtonGroup>
