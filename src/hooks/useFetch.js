@@ -72,8 +72,7 @@ export const useFetch = () => {
     [componentIsMount]
   );
 
-  const handleClearResource = () =>
-    setResource((prev) => ({ ...prev, data: null }));
+  const handleClearResource = () => setResource({ data: null });
 
   return {
     resource,

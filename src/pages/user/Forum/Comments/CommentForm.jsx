@@ -1,17 +1,20 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
-import { Button, Heading, Textarea } from "../../../../components";
+import { Button, Heading, Image, Input, Text } from "../../../../components";
 import { useApp } from "../../../../contexts";
+import { useDebounceTyping, useFetch } from "../../../../hooks";
 import {
   userForumAddComment,
   userForumAddReply,
   userForumEditComment,
+  userForumGetUsernames,
 } from "../../../../services";
 import { capitalizeFirstLetter, getFullName } from "../../../../utils";
+import thumbnailPlaceholder from "../../../../assets/images/onboarding1.png";
 
 const CommentForm = ({
   initValue,
@@ -37,6 +40,8 @@ const CommentForm = ({
     handleSubmit,
     reset,
     setValue,
+    getValues,
+    watch,
     formState: { isSubmitting },
   } = useForm();
 
@@ -55,7 +60,8 @@ const CommentForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initValue]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = (handleClearUsernameResults) => async (data) => {
+    handleClearUsernameResults();
     try {
       const body = { comment: data.text, questionId, userId: user?.id };
 
@@ -106,17 +112,177 @@ const CommentForm = ({
     }
   };
 
+  const [selectedUsernames, setSelectedUsernames] = useState([]);
+  const [currentSelectedUsername, setCurrentSelectedUsername] = useState(null);
+  const [currentTypedUserName, setCurrentTypedUserName] = useState(null);
+  const [matchedTypedUserName, setMatchedTypedUserName] = useState(null);
+
+  const {
+    resource: usernameResults,
+    handleFetchResource: handleFetchUsernameResults,
+    handleClearResource: handleClearUsernameResults,
+  } = useFetch();
+
+  const debounce = useDebounceTyping();
+  useEffect(() => {
+    const subscription = watch(({ text }) => {
+      handleClearUsernameResults();
+
+      const matched =
+        text
+          ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gi)?.[0]
+          ?.match(/(@)([\da-z_]){1,}/gi) || [];
+
+      setMatchedTypedUserName(matched);
+
+      matched.forEach((m) => {
+        const foundUserName = selectedUsernames.find(
+          (username) => username === m
+        );
+
+        if (!foundUserName) {
+          debounce.handleType(null, () => setCurrentTypedUserName(m));
+        }
+      });
+
+      // console.log(matched, text);
+    });
+
+    return () => subscription.unsubscribe();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch]);
+
+  // console.log({ currentTypedUserName });
+
+  const fetchUsernameResults = useCallback(
+    async () =>
+      await (
+        await userForumGetUsernames({
+          username: currentTypedUserName.replace("@", ""),
+        })
+      ).usernames,
+    [currentTypedUserName]
+  );
+
+  useEffect(() => {
+    if (currentTypedUserName) {
+      handleFetchUsernameResults({ fetcher: fetchUsernameResults });
+    }
+  }, [currentTypedUserName, fetchUsernameResults, handleFetchUsernameResults]);
+
+  useEffect(() => {
+    if (usernameResults.err)
+      toast({
+        description: capitalizeFirstLetter(usernameResults.err),
+        position: "top",
+        status: "error",
+      });
+  }, [toast, usernameResults.err]);
+
+  const handleUserNameSelect = (username) => {
+    const newSelectedUsernames = [...selectedUsernames];
+
+    if (!newSelectedUsernames.find((u) => u.id === username.id)) {
+      newSelectedUsernames.push(username);
+
+      setSelectedUsernames(newSelectedUsernames);
+    }
+
+    handleClearUsernameResults();
+    setCurrentSelectedUsername(username);
+  };
+
+  useEffect(() => {
+    if (currentSelectedUsername) {
+      setValue(
+        "text",
+        getValues("text").replace(
+          currentTypedUserName,
+          `@${currentSelectedUsername.name}`
+        )
+      );
+
+      setCurrentSelectedUsername(null);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentSelectedUsername]);
+
+  // console.log({ selectedUsernames });
+
   const renderContent = () => (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-      <Textarea
-        id={`${isReply ? "reply" : "comment"}--${uuid()}`}
-        placeholder="Type here your wise suggestion"
-        marginBottom={3}
-        {...register("text", {
-          required: true,
-        })}
-        minHeight={mute ? inputMinHeight || "60px" : "100px"}
-      ></Textarea>
+    <Box
+      as="form"
+      onSubmit={handleSubmit(onSubmit(handleClearUsernameResults))}
+    >
+      <Box position="relative">
+        {usernameResults.data && (
+          <Box
+            position="absolute"
+            transform="translateY(-100%)"
+            top="0"
+            left="0"
+            maxH="100px"
+            w="100%"
+            rounded="md"
+            shadow="md"
+            bg="accent.1"
+            overflowY="auto"
+            py={2}
+            // zIndex={100}
+          >
+            <Box as="ul">
+              {usernameResults.data.map((u) => (
+                <Flex
+                  key={u.id}
+                  as="li"
+                  py={1}
+                  px={2}
+                  borderTop="1px"
+                  borderColor="accent.2"
+                  _hover={{ bg: "white", cursor: "pointer" }}
+                  alignItems="center"
+                  onClick={handleUserNameSelect.bind(null, u)}
+                >
+                  <Image
+                    src={u.profilePics || thumbnailPlaceholder}
+                    boxSize="30px"
+                    rounded="full"
+                  />
+                  <Text ml={2} bold>
+                    @{u.name}
+                  </Text>
+                </Flex>
+              ))}
+            </Box>
+          </Box>
+        )}
+
+        <Input
+          id={`${isReply ? "reply" : "comment"}--${uuid()}`}
+          placeholder="Type here your wise suggestion"
+          onKeyPress={({ key }) => {
+            console.log(1 + key + 1, key === " ");
+
+            if (key === " " || key === "." || key === "," || key === "Enter") {
+              matchedTypedUserName.forEach((m) => {
+                console.log(m);
+                selectedUsernames.forEach((u) => {
+                  if (`@${u.name}` !== m) {
+                    setValue("text", getValues("text").replace(m, ""));
+                  }
+                });
+              });
+            }
+          }}
+          marginBottom={3}
+          {...register("text", {
+            required: true,
+          })}
+          minHeight={mute ? (inputMinHeight ? "50px" : "40px") : "50px"}
+        />
+      </Box>
 
       <Flex justifyContent="flex-end">
         {onCancel && (
