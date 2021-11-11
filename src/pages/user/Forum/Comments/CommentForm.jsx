@@ -112,18 +112,16 @@ const CommentForm = ({
     }
   };
 
-  const [selectedUsernames, setSelectedUsernames] = useState([]);
-  const [currentSelectedUsername, setCurrentSelectedUsername] = useState(null);
-  const [currentTypedUserName, setCurrentTypedUserName] = useState(null);
-  const [matchedTypedUserName, setMatchedTypedUserName] = useState(null);
+  // const [selectedUsernames, setSelectedUsernames] = useState([]);
+  // const [matchedTypedUserName, setMatchedTypedUserName] = useState(null);
 
   const {
     resource: usernameResults,
-    handleFetchResource: handleFetchUsernameResults,
+    // handleFetchResource: handleFetchUsernameResults,
     handleClearResource: handleClearUsernameResults,
   } = useFetch();
 
-  const debounce = useDebounceTyping();
+  // const debounce = useDebounceTyping();
   useEffect(() => {
     const subscription = watch(({ text }) => {
       handleClearUsernameResults();
@@ -133,19 +131,17 @@ const CommentForm = ({
           ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gi)?.[0]
           ?.match(/(@)([\da-z_]){1,}/gi) || [];
 
-      setMatchedTypedUserName(matched);
+      // setMatchedTypedUserName(matched);
 
-      matched.forEach((m) => {
-        const foundUserName = selectedUsernames.find(
-          (username) => username === m
-        );
+      // matched.forEach((m) => {
+      //   const foundUserName = selectedUsernames.find(
+      //     (username) => username === m
+      //   );
 
-        if (!foundUserName) {
-          debounce.handleType(null, () => setCurrentTypedUserName(m));
-        }
-      });
-
-      // console.log(matched, text);
+      //   if (!foundUserName) {
+      //     debounce.handleType(null, () => setCurrentTypedUserName(m));
+      //   }
+      // });
     });
 
     return () => subscription.unsubscribe();
@@ -153,63 +149,30 @@ const CommentForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch]);
 
-  // console.log({ currentTypedUserName });
+  // const fetchUsernameResults = useCallback(
+  //   async () =>
+  //     await (
+  //       await userForumGetUsernames({
+  //         username: currentTypedUserName.replace("@", ""),
+  //       })
+  //     ).usernames,
+  //   [currentTypedUserName]
+  // );
 
-  const fetchUsernameResults = useCallback(
-    async () =>
-      await (
-        await userForumGetUsernames({
-          username: currentTypedUserName.replace("@", ""),
-        })
-      ).usernames,
-    [currentTypedUserName]
-  );
+  // useEffect(() => {
+  //   if (currentTypedUserName) {
+  //     handleFetchUsernameResults({ fetcher: fetchUsernameResults });
+  //   }
+  // }, [currentTypedUserName, fetchUsernameResults, handleFetchUsernameResults]);
 
-  useEffect(() => {
-    if (currentTypedUserName) {
-      handleFetchUsernameResults({ fetcher: fetchUsernameResults });
-    }
-  }, [currentTypedUserName, fetchUsernameResults, handleFetchUsernameResults]);
-
-  useEffect(() => {
-    if (usernameResults.err)
-      toast({
-        description: capitalizeFirstLetter(usernameResults.err),
-        position: "top",
-        status: "error",
-      });
-  }, [toast, usernameResults.err]);
-
-  const handleUserNameSelect = (username) => {
-    const newSelectedUsernames = [...selectedUsernames];
-
-    if (!newSelectedUsernames.find((u) => u.id === username.id)) {
-      newSelectedUsernames.push(username);
-
-      setSelectedUsernames(newSelectedUsernames);
-    }
-
-    handleClearUsernameResults();
-    setCurrentSelectedUsername(username);
-  };
-
-  useEffect(() => {
-    if (currentSelectedUsername) {
-      setValue(
-        "text",
-        getValues("text").replace(
-          currentTypedUserName,
-          `@${currentSelectedUsername.name}`
-        )
-      );
-
-      setCurrentSelectedUsername(null);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSelectedUsername]);
-
-  // console.log({ selectedUsernames });
+  // useEffect(() => {
+  //   if (usernameResults.err)
+  //     toast({
+  //       description: capitalizeFirstLetter(usernameResults.err),
+  //       position: "top",
+  //       status: "error",
+  //     });
+  // }, [toast, usernameResults.err]);
 
   const renderContent = () => (
     <Box
@@ -243,7 +206,7 @@ const CommentForm = ({
                   borderColor="accent.2"
                   _hover={{ bg: "white", cursor: "pointer" }}
                   alignItems="center"
-                  onClick={handleUserNameSelect.bind(null, u)}
+                  // onClick={handleUserNameSelect.bind(null, u)}
                 >
                   <Image
                     src={u.profilePics || thumbnailPlaceholder}
@@ -262,20 +225,20 @@ const CommentForm = ({
         <Input
           id={`${isReply ? "reply" : "comment"}--${uuid()}`}
           placeholder="Type here your wise suggestion"
-          onKeyPress={({ key }) => {
-            console.log(1 + key + 1, key === " ");
+          // onKeyPress={({ key }) => {
+          //   console.log(1 + key + 1, key === " ");
 
-            if (key === " " || key === "." || key === "," || key === "Enter") {
-              matchedTypedUserName.forEach((m) => {
-                console.log(m);
-                selectedUsernames.forEach((u) => {
-                  if (`@${u.name}` !== m) {
-                    setValue("text", getValues("text").replace(m, ""));
-                  }
-                });
-              });
-            }
-          }}
+          //   if (key === " " || key === "." || key === "," || key === "Enter") {
+          //     matchedTypedUserName.forEach((m) => {
+          //       console.log(m);
+          //       selectedUsernames.forEach((u) => {
+          //         if (`@${u.name}` !== m) {
+          //           setValue("text", getValues("text").replace(m, ""));
+          //         }
+          //       });
+          //     });
+          //   }
+          // }}
           marginBottom={3}
           {...register("text", {
             required: true,
