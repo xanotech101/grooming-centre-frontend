@@ -3,8 +3,9 @@ import { GiBookshelf } from "react-icons/gi";
 import { HiUsers } from "react-icons/hi";
 import { RiDashboardLine } from "react-icons/ri";
 import { IoIosCalendar } from "react-icons/io";
+import { AiOutlineUsergroupDelete } from "react-icons/ai";
 
-const links = [
+export const links = [
   {
     href: "/admin/",
     text: "dashboard",
@@ -34,8 +35,31 @@ const links = [
   {
     href: "/admin/role",
     text: "roles",
-    icon: <IoIosCalendar />,
+    icon: <AiOutlineUsergroupDelete />,
   },
 ];
 
-export default links;
+export const settingsLinks = [
+  {
+    text: "account",
+    href: "/admin/settings/",
+    exact: true,
+    icon: <FiSettings />,
+  },
+  {
+    href: "/admin/settings/events",
+    text: "events",
+    icon: <IoIosCalendar />,
+  },
+  {
+    href: "/admin/settings/grade-criteria",
+    text: "grade criteria",
+    icon: <RiDashboardLine />,
+  },
+  {
+    href: "/admin/settings/security",
+    text: "security",
+    icon: <HiUsers />,
+  },
+];
+
