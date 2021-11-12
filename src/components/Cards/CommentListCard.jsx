@@ -226,7 +226,7 @@ export const CommentListCard = ({
             />
           )}
 
-          {replyCount ? (
+          {replyCount && !questionId ? (
             <PlainButtonWithIcon
               color="accent.6"
               text={`${
@@ -263,7 +263,7 @@ export const CommentListCard = ({
   );
 };
 
-const PlainButtonWithIcon = ({ icon, text, link, ...rest }) => {
+export const PlainButtonWithIcon = ({ icon, text, link, ...rest }) => {
   const renderContent = () => (
     <Flex {...rest} alignItems="center" as={!link && "button"}>
       {icon}

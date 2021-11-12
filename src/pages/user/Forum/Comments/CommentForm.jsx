@@ -113,6 +113,7 @@ const CommentForm = ({
       reset();
       onCancel?.();
     } catch (error) {
+      console.error(error);
       toast({
         description: capitalizeFirstLetter(error.message),
         position: "top",

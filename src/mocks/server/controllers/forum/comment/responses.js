@@ -46,6 +46,18 @@ export const userForumEditCommentRes_replyId_3 = {
     replies: [],
   },
 };
+export const userForumEditCommentRes_replyId_2 = {
+  message: "comment updated successfully",
+  data: {
+    comment: "I hate potatoes",
+    id: "replyId_2",
+    expressions: [],
+    active: true,
+    createdAt: "2021-10-24T19:25:26.180Z",
+    questionId: "questionId_1",
+    replies: [],
+  },
+};
 export const userForumEditCommentRes_commentId_4 = {
   message: "comment updated successfully",
   data: {

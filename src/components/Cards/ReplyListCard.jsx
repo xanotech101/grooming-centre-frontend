@@ -1,7 +1,8 @@
 import { Flex, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
-import { ForumMessageCardMoreIconButton, Text } from "..";
+import { FiMenu } from "react-icons/fi";
+import { ForumMessageCardMoreIconButton, PlainButtonWithIcon, Text } from "..";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
 import { formatToUsername } from "../../utils";
@@ -27,6 +28,7 @@ export const ReplyListCard = ({
   onReplyDeleteSuccess,
   onReplyEditSuccess,
   commentId,
+  viewComment,
 }) => {
   const { displayEditForm, handleHideEditForm, handleDisplayEditForm } =
     useReplyListCard();
@@ -72,16 +74,27 @@ export const ReplyListCard = ({
         borderColor="accent.1"
         color="accent.3"
         paddingTop={2}
-        justifyContent="space-between"
+        justifyContent={user ? "space-between" : "flex-end"}
       >
-        <Text>
-          by <b>{formatToUsername(user.fullName)}</b>
-        </Text>
+        {user && (
+          <Text>
+            by <b>{formatToUsername(user.fullName)}</b>
+          </Text>
+        )}
+
+        {viewComment && (
+          <PlainButtonWithIcon
+            color="accent.6"
+            text={"View comment"}
+            icon={<FiMenu />}
+            mr={2}
+          />
+        )}
 
         {showMoreIconButton && (
           <ForumMessageCardMoreIconButton
             onEdit={handleDisplayEditForm}
-            onDelete={onReplyDeleteSuccess.bind(null, commentId, id)}
+            onDelete={onReplyDeleteSuccess?.bind(null, commentId, id)}
             deleteStatusIsLoading={deleteStatusIsLoading === id ? true : false}
             context="reply"
           />
@@ -94,7 +107,7 @@ export const ReplyListCard = ({
 ReplyListCard.propTypes = {
   onReplyDeleteSuccess: PropTypes.func,
   onReplyEditSuccess: PropTypes.func,
-  deleteStatusIsLoading: PropTypes.bool,
+  deleteStatusIsLoading: PropTypes.any,
   commentId: PropTypes.string,
   id: PropTypes.string,
   body: PropTypes.string,

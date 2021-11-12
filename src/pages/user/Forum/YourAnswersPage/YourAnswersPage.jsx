@@ -8,11 +8,35 @@ const YourAnswersPage = () => {
 
   return (
     <Comments commentsManager={commentsManager}>
-      {({ comments }) => (
+      {({
+        comments,
+        handleAddReply,
+        handleDeleteComment,
+        handleEditComment,
+        handleDeleteReply,
+        handleEditReply,
+        handleCommentExpression,
+        deleteStatusIsLoading,
+        expStatusIsLoading,
+      }) => (
         <>
           <CommentList
             data={comments.data}
             commentCardProps={{ noBorder: true }}
+            deleteStatusIsLoading={deleteStatusIsLoading}
+            expStatusIsLoading={expStatusIsLoading}
+            commentCardHandlers={{
+              onCommentEditSuccess: handleEditComment,
+              onCommentDelete: handleDeleteComment,
+              onReplySuccess: handleAddReply,
+              onReplyDeleteSuccess: handleDeleteReply,
+              onReplyEditSuccess: handleEditReply,
+              onCommentExpression: handleCommentExpression,
+            }}
+            replyCardHandlers={{
+              onReplyDeleteSuccess: handleDeleteReply,
+              onReplyEditSuccess: handleEditReply,
+            }}
           />
         </>
       )}

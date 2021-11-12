@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/toast";
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFetch } from "../../../../../hooks";
 import {
   userForumCreateExpression,
@@ -12,6 +13,16 @@ const useComments = (fetcher) => {
     setResource: setComments,
     handleFetchResource,
   } = useFetch();
+
+  const handleFetch = useCallback(() => {
+    handleFetchResource({ fetcher });
+  }, [fetcher, handleFetchResource]);
+
+  const { location } = useHistory();
+
+  const handleReFetchOnYourAnsPage = () => {
+    if (/\/forum\/your-answers/.test(location.pathname)) handleFetch();
+  };
 
   const toast = useToast();
 
@@ -39,6 +50,7 @@ const useComments = (fetcher) => {
       setDeleteStatus({});
     }
     if ((deleteStatus.error || expStatus.error) && isMount) {
+      console.error(deleteStatus.error || expStatus.error);
       toast({
         description: (deleteStatus.error || expStatus.error).message,
         position: "top",
@@ -55,6 +67,8 @@ const useComments = (fetcher) => {
   }, [deleteStatus.error, deleteStatus.success, expStatus.error, toast]);
 
   const handleAddReply = (commentId, reply) => {
+    handleReFetchOnYourAnsPage();
+
     const newComments = [...comments.data];
     const comment = newComments.find(({ id }) => id === commentId);
     comment.replies = [reply, ...comment.replies];
@@ -70,6 +84,8 @@ const useComments = (fetcher) => {
   };
 
   const handleEditComment = (comment) => {
+    handleReFetchOnYourAnsPage();
+
     const newComments = [...comments.data];
     const commentIndex = newComments.findIndex((c) => c.id === comment.id);
     newComments.splice(commentIndex, 1, comment);
@@ -142,15 +158,19 @@ const useComments = (fetcher) => {
   console.log(deleteStatus);
 
   const handleEditReply = (commentId, reply) => {
+    handleReFetchOnYourAnsPage();
+
     const newComments = [...comments.data];
     const comment = newComments.find((c) => c.id === commentId);
-    const replyIndex = comment.replies.findIndex((r) => r.id === reply.id);
-    comment.replies.splice(replyIndex, 1, reply);
+    const replyIndex = comment?.replies.findIndex((r) => r.id === reply.id);
+    comment?.replies.splice(replyIndex, 1, reply);
 
     setComments((prev) => ({ ...prev, data: newComments }));
   };
 
   const handleDeleteComment = async (commentId) => {
+    handleReFetchOnYourAnsPage();
+
     const UIHandler = () => {
       const newComments = [...comments.data];
       const comment = newComments.find((c) => c.id === commentId);
@@ -172,10 +192,14 @@ const useComments = (fetcher) => {
   };
 
   const handleDeleteReply = async (commentId, replyId) => {
+    handleReFetchOnYourAnsPage();
+
     const UIHandler = () => {
       const newComments = [...comments.data];
       const comment = newComments.find((c) => c.id === commentId);
-      comment.replies = comment.replies.filter((r) => r.id !== replyId);
+
+      if (comment?.replies)
+        comment.replies = comment.replies.filter((r) => r.id !== replyId);
 
       setComments((prev) => ({ ...prev, data: newComments }));
     };
@@ -194,8 +218,8 @@ const useComments = (fetcher) => {
 
   // Handle fetch category
   useEffect(() => {
-    handleFetchResource({ fetcher });
-  }, [handleFetchResource, fetcher]);
+    handleFetch();
+  }, [handleFetch]);
 
   return {
     comments,

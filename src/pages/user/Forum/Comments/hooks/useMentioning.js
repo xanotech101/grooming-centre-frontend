@@ -64,16 +64,16 @@ export const useMentioning = ({
     );
   };
 
-  const handleInputFocus = () => {
-    // console.log(document.getElementById(`${inputName}`), inputName);
-    document.getElementById(`${inputId}`).focus();
-  };
+  // const handleInputFocus = () => {
+  //   // console.log(document.getElementById(`${inputName}`), inputName);
+  //   document.getElementById(`${inputId}`).focus();
+  // };
 
   const handleUserNameSelect = (username) => {
     handleClearUsernameResults();
     setCurrentEditingUsername();
     handleAutoComplete(username);
-    handleInputFocus();
+    // handleInputFocus();
   };
 
   const fetchUsernameResults = useCallback(

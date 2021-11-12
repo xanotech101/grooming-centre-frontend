@@ -9,16 +9,29 @@ const CommentList = ({
   deleteStatusIsLoading,
   expStatusIsLoading,
 }) => {
-  return data.map((comment) => (
-    <CommentListItem
-      key={comment.id}
-      commentCardHandlers={commentCardHandlers}
-      replyCardHandlers={replyCardHandlers}
-      deleteStatusIsLoading={deleteStatusIsLoading}
-      expStatusIsLoading={expStatusIsLoading}
-      comment={{ ...comment, ...commentCardProps }}
-    />
-  ));
+  return data.map((comment) => {
+    // console.log(comment);
+
+    return comment.commentId ? (
+      <ReplyListCard
+        key={comment.id}
+        commentId={comment.commentId}
+        viewComment
+        deleteStatusIsLoading={deleteStatusIsLoading}
+        {...replyCardHandlers}
+        {...comment}
+      />
+    ) : (
+      <CommentListItem
+        key={comment.id}
+        commentCardHandlers={commentCardHandlers}
+        replyCardHandlers={replyCardHandlers}
+        deleteStatusIsLoading={deleteStatusIsLoading}
+        expStatusIsLoading={expStatusIsLoading}
+        comment={{ ...comment, ...commentCardProps }}
+      />
+    );
+  });
 };
 
 const CommentListItem = ({
