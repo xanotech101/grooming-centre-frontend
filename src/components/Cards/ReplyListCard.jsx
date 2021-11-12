@@ -28,7 +28,8 @@ export const ReplyListCard = ({
   onReplyDeleteSuccess,
   onReplyEditSuccess,
   commentId,
-  viewComment,
+  viewQuestion,
+  questionId,
 }) => {
   const { displayEditForm, handleHideEditForm, handleDisplayEditForm } =
     useReplyListCard();
@@ -82,12 +83,13 @@ export const ReplyListCard = ({
           </Text>
         )}
 
-        {viewComment && (
+        {viewQuestion && (
           <PlainButtonWithIcon
             color="accent.6"
-            text={"View comment"}
+            text={"View question"}
             icon={<FiMenu />}
             mr={2}
+            link={`/forum/questions/details/${questionId}`}
           />
         )}
 

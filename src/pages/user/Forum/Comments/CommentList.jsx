@@ -16,7 +16,7 @@ const CommentList = ({
       <ReplyListCard
         key={comment.id}
         commentId={comment.commentId}
-        viewComment
+        viewQuestion
         deleteStatusIsLoading={deleteStatusIsLoading}
         {...replyCardHandlers}
         {...comment}
