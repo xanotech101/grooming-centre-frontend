@@ -1,20 +1,19 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
 import { Button, Heading, Image, Textarea, Text } from "../../../../components";
 import { useApp } from "../../../../contexts";
-import { useDebounceTyping, useFetch } from "../../../../hooks";
 import {
   userForumAddComment,
   userForumAddReply,
   userForumEditComment,
-  userForumGetUsernames,
 } from "../../../../services";
 import { capitalizeFirstLetter, getFullName } from "../../../../utils";
 import thumbnailPlaceholder from "../../../../assets/images/onboarding1.png";
+import { useMentioning } from "./hooks/useMentioning";
 
 const CommentForm = ({
   initValue,
@@ -45,6 +44,13 @@ const CommentForm = ({
     formState: { isSubmitting },
   } = useForm();
 
+  const {
+    handleKeyUp,
+    handleUserNameSelect,
+    handleClearUsernameResults,
+    usernameResults,
+  } = useMentioning({ setValue, getValues, watch, inputId: "text" });
+
   // Init `text` value
   useEffect(() => {
     let isMount = true;
@@ -59,50 +65,6 @@ const CommentForm = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initValue]);
-
-  const [matchedTypedUserNames, setMatchedTypedUserNames] = useState([]);
-  const [shadowTypedUserNames, setShadowTypedUserNames] = useState([]);
-  const [currentEditingUsername, setCurrentEditingUsername] = useState(null);
-
-  const {
-    resource: usernameResults,
-    handleFetchResource: handleFetchUsernameResults,
-    handleClearResource: handleClearUsernameResults,
-  } = useFetch();
-
-  const debounce = useDebounceTyping();
-  useEffect(() => {
-    const subscription = watch(({ text }) => {
-      handleClearUsernameResults();
-
-      const matched =
-        text
-          ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gim)?.[0]
-          ?.match(/(@)([\da-z_]){1,}/gim)
-          ?.map((m) => m.replace("@", "")) || [];
-
-      setMatchedTypedUserNames(matched);
-    });
-
-    return () => subscription.unsubscribe();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch]);
-
-  const handleShadowing = () => {
-    if (!matchedTypedUserNames.length) setCurrentEditingUsername(null);
-
-    matchedTypedUserNames.forEach((m, index) => {
-      if (shadowTypedUserNames[index] !== m) {
-        debounce.handleType(null, () => setCurrentEditingUsername(m));
-      }
-    });
-
-    setShadowTypedUserNames(matchedTypedUserNames);
-  };
-
-  console.log(currentEditingUsername);
-  console.log({ matchedTypedUserNames, shadowTypedUserNames });
 
   const onSubmit = (handleClearUsernameResults) => async (data) => {
     handleClearUsernameResults();
@@ -157,55 +119,13 @@ const CommentForm = ({
     }
   };
 
-  const handleUserNameSelect = (username) => {
-    handleClearUsernameResults();
-    setCurrentEditingUsername();
-
-    setValue(
-      "text",
-      getValues("text").replace(
-        new RegExp(`@${currentEditingUsername}`, "gm"),
-        `@${username.name}`
-      )
-    );
-  };
-
-  const fetchUsernameResults = useCallback(
-    async () =>
-      await (
-        await userForumGetUsernames({
-          username: currentEditingUsername,
-        })
-      ).usernames,
-    [currentEditingUsername]
-  );
-
-  useEffect(() => {
-    if (currentEditingUsername) {
-      handleFetchUsernameResults({ fetcher: fetchUsernameResults });
-    }
-  }, [
-    currentEditingUsername,
-    fetchUsernameResults,
-    handleFetchUsernameResults,
-  ]);
-
-  useEffect(() => {
-    if (usernameResults.err)
-      toast({
-        description: capitalizeFirstLetter(usernameResults.err),
-        position: "top",
-        status: "error",
-      });
-  }, [toast, usernameResults.err]);
-
   const renderContent = () => (
     <Box
       as="form"
       onSubmit={handleSubmit(onSubmit(handleClearUsernameResults))}
     >
       <Box position="relative">
-        {usernameResults.data && (
+        {usernameResults && (
           <Box
             position="absolute"
             transform="translateY(-100%)"
@@ -221,7 +141,7 @@ const CommentForm = ({
             // zIndex={100}
           >
             <Box as="ul">
-              {usernameResults.data.map((u) => (
+              {usernameResults.map((u) => (
                 <Flex
                   key={u.id}
                   as="li"
@@ -250,7 +170,7 @@ const CommentForm = ({
         <Textarea
           id={`${isReply ? "reply" : "comment"}--${uuid()}`}
           placeholder="Type here your wise suggestion"
-          onKeyUp={handleShadowing}
+          onKeyUp={handleKeyUp}
           marginBottom={3}
           {...register("text", {
             required: true,
