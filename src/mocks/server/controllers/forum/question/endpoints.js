@@ -10,6 +10,7 @@ import {
   userForumGetQuestionDetailsRes_questionId_3,
   userForumGetYourQuestionsRes,
   userForumGetQuestionsByTagRes,
+  userForumEditQuestionRes,
 } from "./responses";
 
 const userForumGetQuestions = rest.get(
@@ -29,6 +30,13 @@ const userForumPublishQuestion = rest.post(
   getUrl("/forum/question/create"), // TODO: change `path`
   handleSuccessResponse(userForumPublishQuestionRes)
 );
+
+const userForumEditQuestion = [
+  rest.patch(
+    getUrl("/forum/question/questionId_1"),
+    handleSuccessResponse(userForumEditQuestionRes)
+  ),
+];
 
 const userForumGetQuestionDetails = [
   rest.get(
@@ -74,6 +82,7 @@ const forumQuestion = [
   userForumGetYourQuestions,
   ...userForumGetQuestionsByTag,
   ...userForumGetQuestionDetails,
+  ...userForumEditQuestion,
 ];
 
 export default forumQuestion;

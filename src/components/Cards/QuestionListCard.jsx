@@ -1,4 +1,6 @@
+import { useToast } from "@chakra-ui/toast";
 import Icon from "@chakra-ui/icon";
+import { useHistory } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import {
@@ -39,6 +41,39 @@ export const QuestionListCard = ({
   };
 
   const showMoreIconButton = useLoggedInUserIsTheCreator(user);
+
+  const { push, location } = useHistory();
+  const toast = useToast();
+
+  const handleEdit = () => {
+    push(
+      `/forum/your-questions/add?questionId=${id}&redirectTo=${
+        location.pathname + location.search
+      }`
+    );
+  };
+
+  const handleDelete = async () => {
+    try {
+      toast({
+        description: "success",
+        position: "top",
+        duration: 500,
+        status: "success",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch (error) {
+      toast({
+        description: error.message,
+        position: "top",
+        duration: 1000,
+        status: "error",
+      });
+    }
+  };
 
   return (
     <Stack
@@ -89,7 +124,11 @@ export const QuestionListCard = ({
           </HStack>
 
           {showMoreIconButton && active && (
-            <ForumMessageCardMoreIconButton position="relative" />
+            <ForumMessageCardMoreIconButton
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              position="relative"
+            />
           )}
         </Flex>
       )}
@@ -102,7 +141,11 @@ export const QuestionListCard = ({
             </Text>
 
             {showMoreIconButton && !user && (
-              <ForumMessageCardMoreIconButton position="relative" />
+              <ForumMessageCardMoreIconButton
+                position="relative"
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
             )}
           </Flex>
 

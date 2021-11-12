@@ -4,6 +4,10 @@ export const userForumPublishQuestionRes = {
   message: "question published successfully",
 };
 
+export const userForumEditQuestionRes = {
+  message: "question updated successfully",
+};
+
 export const userForumGetCategoriesRes = {
   data: [
     {
@@ -88,6 +92,7 @@ export const userForumGetQuestionsRes = {
 
 export const userForumGetQuestionDetailsRes_questionId_1 = {
   data: {
+    categoryId: "forumCategoryId_1",
     id: "questionId_1",
     title: "File uploaders",
     question: "How to upload files to cloudinary",
@@ -103,10 +108,6 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
     // TODO: propose to backend team to replace this with `commentCount`
     tags: [
       {
-        id: "8a0e19a6-011d-4db6-af31-6e9c296c20fc",
-        title: "Computer Science",
-      },
-      {
         id: "1546bbaf-d4fb-4be5-9b7f-477e2c06ddd4",
         title: "Computer Engineering",
       },
@@ -117,6 +118,7 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
 
 export const userForumGetQuestionDetailsRes_questionId_2 = {
   data: {
+    categoryId: "forumCategoryId_2",
     id: "questionId_2",
     title: "File uploaders",
     question: "How to upload files to cloudinary",
@@ -147,6 +149,7 @@ export const userForumGetQuestionDetailsRes_questionId_2 = {
 
 export const userForumGetQuestionDetailsRes_questionId_3 = {
   data: {
+    categoryId: "forumCategoryId_3",
     id: "questionId_3",
     title: "CORS issues",
     question: "How to resolve ...",

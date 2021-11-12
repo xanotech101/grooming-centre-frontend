@@ -62,8 +62,6 @@ export const useFetch = () => {
       try {
         const resource = await fetcher();
 
-        console.log(resource);
-
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {
         console.error(err);
@@ -74,8 +72,7 @@ export const useFetch = () => {
     [componentIsMount]
   );
 
-  const handleClearResource = () =>
-    setResource((prev) => ({ ...prev, data: null }));
+  const handleClearResource = () => setResource({ data: null });
 
   return {
     resource,

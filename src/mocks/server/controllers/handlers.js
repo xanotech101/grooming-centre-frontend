@@ -9,6 +9,7 @@ import certificate from "./certificate/endpoints";
 import forumQuestion from "./forum/question/endpoints";
 import forumTag from "./forum/tag/endpoints";
 import forumComment from "./forum/comment/endpoints";
+import forumMentions from "./forum/mention/endpoints";
 import editCourse from "./editcourseinfo/endpoints";
 import department from "./department/endpoints";
 import metadata from "./metadata/endpoints";
@@ -26,6 +27,7 @@ const commonHandlers = [
   ...forumTag,
   ...forumQuestion,
   ...forumComment,
+  ...forumMentions,
   ...editCourse,
   ...department,
   ...metadata,
