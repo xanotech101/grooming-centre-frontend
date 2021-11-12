@@ -60,8 +60,54 @@ const CommentForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initValue]);
 
+  // const [selectedUsernames, setSelectedUsernames] = useState([]);
+  const [matchedTypedUserNames, setMatchedTypedUserNames] = useState([]);
+  const [shadowTypedUserNames, setShadowTypedUserNames] = useState([]);
+  const [currentEditingUsername, setCurrentEditingUsername] = useState(null);
+
+  const {
+    resource: usernameResults,
+    handleFetchResource: handleFetchUsernameResults,
+    handleClearResource: handleClearUsernameResults,
+  } = useFetch();
+
+  const debounce = useDebounceTyping();
+  useEffect(() => {
+    const subscription = watch(({ text }) => {
+      handleClearUsernameResults();
+
+      const matched =
+        text
+          ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gi)?.[0]
+          ?.match(/(@)([\da-z_]){1,}/gi)
+          ?.map((m) => m.replace("@", "")) || [];
+
+      setMatchedTypedUserNames(matched);
+    });
+
+    return () => subscription.unsubscribe();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch]);
+
+  const handleShadowing = () => {
+    if (!matchedTypedUserNames.length) setCurrentEditingUsername(null);
+
+    matchedTypedUserNames.forEach((m, index) => {
+      if (shadowTypedUserNames[index] !== m) {
+        debounce.handleType(null, () => setCurrentEditingUsername(m));
+      }
+    });
+
+    setShadowTypedUserNames(matchedTypedUserNames);
+  };
+
+  console.log(currentEditingUsername);
+  console.log({ matchedTypedUserNames, shadowTypedUserNames });
+
   const onSubmit = (handleClearUsernameResults) => async (data) => {
     handleClearUsernameResults();
+
     try {
       const body = { comment: data.text, questionId, userId: user?.id };
 
@@ -112,67 +158,34 @@ const CommentForm = ({
     }
   };
 
-  // const [selectedUsernames, setSelectedUsernames] = useState([]);
-  // const [matchedTypedUserName, setMatchedTypedUserName] = useState(null);
+  const fetchUsernameResults = useCallback(
+    async () =>
+      await (
+        await userForumGetUsernames({
+          username: currentEditingUsername,
+        })
+      ).usernames,
+    [currentEditingUsername]
+  );
 
-  const {
-    resource: usernameResults,
-    // handleFetchResource: handleFetchUsernameResults,
-    handleClearResource: handleClearUsernameResults,
-  } = useFetch();
-
-  // const debounce = useDebounceTyping();
   useEffect(() => {
-    const subscription = watch(({ text }) => {
-      handleClearUsernameResults();
+    if (currentEditingUsername) {
+      handleFetchUsernameResults({ fetcher: fetchUsernameResults });
+    }
+  }, [
+    currentEditingUsername,
+    fetchUsernameResults,
+    handleFetchUsernameResults,
+  ]);
 
-      const matched =
-        text
-          ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gi)?.[0]
-          ?.match(/(@)([\da-z_]){1,}/gi) || [];
-
-      // setMatchedTypedUserName(matched);
-
-      // matched.forEach((m) => {
-      //   const foundUserName = selectedUsernames.find(
-      //     (username) => username === m
-      //   );
-
-      //   if (!foundUserName) {
-      //     debounce.handleType(null, () => setCurrentTypedUserName(m));
-      //   }
-      // });
-    });
-
-    return () => subscription.unsubscribe();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch]);
-
-  // const fetchUsernameResults = useCallback(
-  //   async () =>
-  //     await (
-  //       await userForumGetUsernames({
-  //         username: currentTypedUserName.replace("@", ""),
-  //       })
-  //     ).usernames,
-  //   [currentTypedUserName]
-  // );
-
-  // useEffect(() => {
-  //   if (currentTypedUserName) {
-  //     handleFetchUsernameResults({ fetcher: fetchUsernameResults });
-  //   }
-  // }, [currentTypedUserName, fetchUsernameResults, handleFetchUsernameResults]);
-
-  // useEffect(() => {
-  //   if (usernameResults.err)
-  //     toast({
-  //       description: capitalizeFirstLetter(usernameResults.err),
-  //       position: "top",
-  //       status: "error",
-  //     });
-  // }, [toast, usernameResults.err]);
+  useEffect(() => {
+    if (usernameResults.err)
+      toast({
+        description: capitalizeFirstLetter(usernameResults.err),
+        position: "top",
+        status: "error",
+      });
+  }, [toast, usernameResults.err]);
 
   const renderContent = () => (
     <Box
@@ -225,20 +238,7 @@ const CommentForm = ({
         <Input
           id={`${isReply ? "reply" : "comment"}--${uuid()}`}
           placeholder="Type here your wise suggestion"
-          // onKeyPress={({ key }) => {
-          //   console.log(1 + key + 1, key === " ");
-
-          //   if (key === " " || key === "." || key === "," || key === "Enter") {
-          //     matchedTypedUserName.forEach((m) => {
-          //       console.log(m);
-          //       selectedUsernames.forEach((u) => {
-          //         if (`@${u.name}` !== m) {
-          //           setValue("text", getValues("text").replace(m, ""));
-          //         }
-          //       });
-          //     });
-          //   }
-          // }}
+          onKeyUp={handleShadowing}
           marginBottom={3}
           {...register("text", {
             required: true,
