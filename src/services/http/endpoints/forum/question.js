@@ -237,3 +237,19 @@ export const userForumEditQuestion = async (questionId, body) => {
 
   return { message };
 };
+
+/**
+ * Endpoint to delete a forum question
+ * @param {string} questionId
+ *
+ * @returns {Promise<{ message: string }>}
+ */
+export const userForumDeleteQuestion = async (questionId) => {
+  const path = `/forum/question/${questionId}`; // TODO: change path
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
+};

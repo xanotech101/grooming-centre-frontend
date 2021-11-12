@@ -7,7 +7,7 @@ import { capitalizeWords } from "../../../../utils";
 import useQuestionsPage from "./hooks/useQuestionsPage";
 
 const QuestionsPage = () => {
-  const { questions } = useQuestionsPage();
+  const { questions, handleFetch } = useQuestionsPage();
 
   const questionsIsEmpty =
     !questions.loading && !questions.err && !questions.data?.length
@@ -41,7 +41,7 @@ const QuestionsPage = () => {
 
       {questions.data?.map((question) => (
         <Box p={1} key={question.id}>
-          <QuestionListCard {...question} />
+          <QuestionListCard onDeleteSuccess={handleFetch} {...question} />
         </Box>
       ))}
     </>

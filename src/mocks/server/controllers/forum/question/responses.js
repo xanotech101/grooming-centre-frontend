@@ -8,6 +8,10 @@ export const userForumEditQuestionRes = {
   message: "question updated successfully",
 };
 
+export const userForumDeleteQuestionRes = {
+  message: "question deleted successfully",
+};
+
 export const userForumGetCategoriesRes = {
   data: [
     {

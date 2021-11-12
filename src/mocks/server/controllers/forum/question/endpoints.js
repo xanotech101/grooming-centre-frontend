@@ -11,6 +11,7 @@ import {
   userForumGetYourQuestionsRes,
   userForumGetQuestionsByTagRes,
   userForumEditQuestionRes,
+  userForumDeleteQuestionRes,
 } from "./responses";
 
 const userForumGetQuestions = rest.get(
@@ -35,6 +36,12 @@ const userForumEditQuestion = [
   rest.patch(
     getUrl("/forum/question/questionId_1"),
     handleSuccessResponse(userForumEditQuestionRes)
+  ),
+];
+const userForumDeleteQuestion = [
+  rest.delete(
+    getUrl("/forum/question/questionId_1"),
+    handleSuccessResponse(userForumDeleteQuestionRes)
   ),
 ];
 
@@ -83,6 +90,7 @@ const forumQuestion = [
   ...userForumGetQuestionsByTag,
   ...userForumGetQuestionDetails,
   ...userForumEditQuestion,
+  ...userForumDeleteQuestion,
 ];
 
 export default forumQuestion;

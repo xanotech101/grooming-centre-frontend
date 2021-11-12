@@ -13,13 +13,19 @@ const useQuestionsPage = () => {
     return questions;
   }, [tab]);
 
+  const handleFetch = useCallback(
+    () => handleFetchResource({ fetcher }),
+    [fetcher, handleFetchResource]
+  );
+
   // Handle fetch category
   useEffect(() => {
-    handleFetchResource({ fetcher });
-  }, [handleFetchResource, fetcher]);
+    handleFetch();
+  }, [handleFetch]);
 
   return {
     questions,
+    handleFetch,
   };
 };
 
