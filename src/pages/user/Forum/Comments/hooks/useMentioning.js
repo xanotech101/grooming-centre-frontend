@@ -48,17 +48,25 @@ export const useMentioning = ({ watch, setValue, getValues, inputId }) => {
     setShadowTypedUserNames(matchedTypedUserNames);
   };
 
-  const handleUserNameSelect = (username) => {
-    handleClearUsernameResults();
-    setCurrentEditingUsername();
-
+  const handleAutoComplete = (username) => {
     setValue(
-      "text",
-      getValues("text").replace(
+      inputId,
+      getValues(inputId).replace(
         new RegExp(`@${currentEditingUsername}`, "gm"),
         `@${username.name}`
       )
     );
+  };
+
+  const handleInputFocus = () => {
+    document.getElementById(`${inputId}`).focus();
+  };
+
+  const handleUserNameSelect = (username) => {
+    handleClearUsernameResults();
+    setCurrentEditingUsername();
+    handleAutoComplete(username);
+    handleInputFocus();
   };
 
   const fetchUsernameResults = useCallback(

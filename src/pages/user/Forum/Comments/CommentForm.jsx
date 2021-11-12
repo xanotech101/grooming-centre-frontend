@@ -124,49 +124,10 @@ const CommentForm = ({
       as="form"
       onSubmit={handleSubmit(onSubmit(handleClearUsernameResults))}
     >
-      <Box position="relative">
-        {usernameResults && (
-          <Box
-            position="absolute"
-            transform="translateY(-100%)"
-            top="0"
-            left="0"
-            maxH="100px"
-            w="100%"
-            rounded="md"
-            shadow="md"
-            bg="accent.1"
-            overflowY="auto"
-            py={2}
-            // zIndex={100}
-          >
-            <Box as="ul">
-              {usernameResults.map((u) => (
-                <Flex
-                  key={u.id}
-                  as="li"
-                  py={1}
-                  px={2}
-                  borderTop="1px"
-                  borderColor="accent.2"
-                  _hover={{ bg: "white", cursor: "pointer" }}
-                  alignItems="center"
-                  onClick={handleUserNameSelect.bind(null, u)}
-                >
-                  <Image
-                    src={u.profilePics || thumbnailPlaceholder}
-                    boxSize="30px"
-                    rounded="full"
-                  />
-                  <Text ml={2} bold>
-                    @{u.name}
-                  </Text>
-                </Flex>
-              ))}
-            </Box>
-          </Box>
-        )}
-
+      <MentioningInput
+        usernameResults={usernameResults}
+        handleUserNameSelect={handleUserNameSelect}
+      >
         <Textarea
           id={`${isReply ? "reply" : "comment"}--${uuid()}`}
           placeholder="Type here your wise suggestion"
@@ -177,7 +138,7 @@ const CommentForm = ({
           })}
           minHeight={mute ? inputMinHeight || "40px" : "60px"}
         ></Textarea>
-      </Box>
+      </MentioningInput>
 
       <Flex justifyContent="flex-end">
         {onCancel && (
@@ -218,6 +179,58 @@ const CommentForm = ({
     </>
   );
 };
+
+export const MentioningInput = ({
+  children,
+  usernameResults,
+  handleUserNameSelect,
+}) => (
+  <Box position="relative">
+    {usernameResults && (
+      <Box
+        position="absolute"
+        transform="translateY(-100%)"
+        top="0"
+        left="0"
+        maxH="100px"
+        w="100%"
+        rounded="md"
+        shadow="md"
+        bg="accent.1"
+        overflowY="auto"
+        py={2}
+        // zIndex={100}
+      >
+        <Box as="ul">
+          {usernameResults.map((u) => (
+            <Flex
+              key={u.id}
+              as="li"
+              py={1}
+              px={2}
+              borderTop="1px"
+              borderColor="accent.2"
+              _hover={{ bg: "white", cursor: "pointer" }}
+              alignItems="center"
+              onClick={handleUserNameSelect.bind(null, u)}
+            >
+              <Image
+                src={u.profilePics || thumbnailPlaceholder}
+                boxSize="30px"
+                rounded="full"
+              />
+              <Text ml={2} bold>
+                @{u.name}
+              </Text>
+            </Flex>
+          ))}
+        </Box>
+      </Box>
+    )}
+
+    {children}
+  </Box>
+);
 
 export const CommentsHeader = () => (
   <Box marginBottom={5} textAlign="center">

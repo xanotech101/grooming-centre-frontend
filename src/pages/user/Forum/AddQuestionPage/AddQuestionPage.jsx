@@ -14,6 +14,8 @@ import { useSelectedTags } from "../../../../hooks";
 import { capitalizeFirstLetter } from "../../../../utils";
 import { userForumCreateTag } from "../../../../services";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
+import { useMentioning } from "../Comments/hooks/useMentioning";
+import { MentioningInput } from "../Comments/CommentForm";
 
 const AddQuestionPage = () => {
   const {
@@ -35,6 +37,19 @@ const AddQuestionPage = () => {
   } = useAddQuestionPage({
     selectedTags,
     handleClearAllSelectedTags,
+  });
+
+  const titleMentioning = useMentioning({
+    setValue: formManager.setValue,
+    getValues: formManager.getValues,
+    watch: formManager.watch,
+    inputId: "title",
+  });
+  const questionMentioning = useMentioning({
+    setValue: formManager.setValue,
+    getValues: formManager.getValues,
+    watch: formManager.watch,
+    inputId: "question",
   });
 
   useEffect(() => {
@@ -113,31 +128,45 @@ const AddQuestionPage = () => {
             required: "Please choose a category",
           })}
         />
-        <Input
-          id="title"
-          placeholder="Type catching attention title"
-          error={formManager.formState.errors.title?.message}
-          {...formManager.register("title", {
-            required: "Title cannot be empty",
-          })}
-        />
-        <Textarea
-          id="question"
-          placeholder="Type your question"
-          minHeight="150px"
-          error={formManager.formState.errors.question?.message}
-          {...formManager.register("question", {
-            required: "You have to ask a question",
-            minLength: {
-              value: questionInputMinChars,
-              message: "Please a valid question",
-            },
-            maxLength: {
-              value: questionInputMaxChars,
-              message: `Question cannot be greater than ${questionInputMaxChars} characters`,
-            },
-          })}
-        />
+
+        <MentioningInput
+          usernameResults={titleMentioning.usernameResults}
+          handleUserNameSelect={titleMentioning.handleUserNameSelect}
+        >
+          <Input
+            id="title"
+            placeholder="Type catching attention title"
+            error={formManager.formState.errors.title?.message}
+            {...formManager.register("title", {
+              required: "Title cannot be empty",
+            })}
+            onKeyUp={titleMentioning.handleKeyUp}
+          />
+        </MentioningInput>
+
+        <MentioningInput
+          usernameResults={questionMentioning.usernameResults}
+          handleUserNameSelect={questionMentioning.handleUserNameSelect}
+        >
+          <Textarea
+            id="question"
+            placeholder="Type your question"
+            minHeight="150px"
+            error={formManager.formState.errors.question?.message}
+            {...formManager.register("question", {
+              required: "You have to ask a question",
+              minLength: {
+                value: questionInputMinChars,
+                message: "Please a valid question",
+              },
+              maxLength: {
+                value: questionInputMaxChars,
+                message: `Question cannot be greater than ${questionInputMaxChars} characters`,
+              },
+            })}
+            onKeyUp={questionMentioning.handleKeyUp}
+          />
+        </MentioningInput>
 
         <TagsInput
           id="tags"
