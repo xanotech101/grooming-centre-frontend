@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
-import { Button, Heading, Image, Input, Text } from "../../../../components";
+import { Button, Heading, Image, Textarea, Text } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { useDebounceTyping, useFetch } from "../../../../hooks";
 import {
@@ -77,8 +77,8 @@ const CommentForm = ({
 
       const matched =
         text
-          ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gi)?.[0]
-          ?.match(/(@)([\da-z_]){1,}/gi)
+          ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gim)?.[0]
+          ?.match(/(@)([\da-z_]){1,}/gim)
           ?.map((m) => m.replace("@", "")) || [];
 
       setMatchedTypedUserNames(matched);
@@ -247,7 +247,7 @@ const CommentForm = ({
           </Box>
         )}
 
-        <Input
+        <Textarea
           id={`${isReply ? "reply" : "comment"}--${uuid()}`}
           placeholder="Type here your wise suggestion"
           onKeyUp={handleShadowing}
@@ -255,8 +255,8 @@ const CommentForm = ({
           {...register("text", {
             required: true,
           })}
-          minHeight={mute ? (inputMinHeight ? "50px" : "40px") : "50px"}
-        />
+          minHeight={mute ? inputMinHeight || "40px" : "60px"}
+        ></Textarea>
       </Box>
 
       <Flex justifyContent="flex-end">
