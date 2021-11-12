@@ -44,12 +44,14 @@ const CommentForm = ({
     formState: { isSubmitting },
   } = useForm();
 
+  const inputId = `${isReply ? "reply" : "comment"}--${uuid()}`;
+
   const {
     handleKeyUp,
     handleUserNameSelect,
     handleClearUsernameResults,
     usernameResults,
-  } = useMentioning({ setValue, getValues, watch, inputId: "text" });
+  } = useMentioning({ setValue, getValues, watch, inputId, inputName: "text" });
 
   // Init `text` value
   useEffect(() => {
@@ -129,7 +131,7 @@ const CommentForm = ({
         handleUserNameSelect={handleUserNameSelect}
       >
         <Textarea
-          id={`${isReply ? "reply" : "comment"}--${uuid()}`}
+          id={inputId}
           placeholder="Type here your wise suggestion"
           onKeyUp={handleKeyUp}
           marginBottom={3}

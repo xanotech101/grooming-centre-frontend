@@ -4,7 +4,13 @@ import { useDebounceTyping, useFetch } from "../../../../../hooks";
 import { userForumGetUsernames } from "../../../../../services";
 import { capitalizeFirstLetter } from "../../../../../utils";
 
-export const useMentioning = ({ watch, setValue, getValues, inputId }) => {
+export const useMentioning = ({
+  watch,
+  setValue,
+  getValues,
+  inputName,
+  inputId,
+}) => {
   const toast = useToast();
 
   const [matchedTypedUserNames, setMatchedTypedUserNames] = useState([]);
@@ -23,7 +29,7 @@ export const useMentioning = ({ watch, setValue, getValues, inputId }) => {
       handleClearUsernameResults();
 
       const matched =
-        data[inputId]
+        data[inputName]
           ?.match(/^((.){0,}(\s))?(@)([\da-z_]){1,}/gim)?.[0]
           ?.match(/(@)([\da-z_]){1,}/gim)
           ?.map((m) => m.replace("@", "")) || [];
@@ -50,8 +56,8 @@ export const useMentioning = ({ watch, setValue, getValues, inputId }) => {
 
   const handleAutoComplete = (username) => {
     setValue(
-      inputId,
-      getValues(inputId).replace(
+      inputName,
+      getValues(inputName).replace(
         new RegExp(`@${currentEditingUsername}`, "gm"),
         `@${username.name}`
       )
@@ -59,6 +65,7 @@ export const useMentioning = ({ watch, setValue, getValues, inputId }) => {
   };
 
   const handleInputFocus = () => {
+    // console.log(document.getElementById(`${inputName}`), inputName);
     document.getElementById(`${inputId}`).focus();
   };
 
