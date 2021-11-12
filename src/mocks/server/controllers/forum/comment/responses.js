@@ -59,7 +59,8 @@ export const userForumEditCommentRes_commentId_4 = {
       {
         id: "replyId_1",
         active: true,
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+        comment:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
         user: {
           id: "userId_2",
           firstName: "jane",
@@ -69,7 +70,8 @@ export const userForumEditCommentRes_commentId_4 = {
       {
         id: "replyId_2",
         active: true,
-        body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+        comment:
+          "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
         user: {
           id: "userId_2",
           firstName: "jane",
@@ -94,7 +96,8 @@ export const userForumGetCommentsRes_questionId_1 = {
       id: "commentId_1",
       active: true,
       questionId: "questionId_1",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       user: {
         id: "userId_2",
@@ -126,7 +129,8 @@ export const userForumGetCommentsRes_questionId_1 = {
       id: "commentId_2",
       active: true,
       questionId: "questionId_1",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [
         {
@@ -161,7 +165,8 @@ export const userForumGetCommentsRes_questionId_1 = {
         {
           id: "replyId_1",
           active: true,
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -171,7 +176,8 @@ export const userForumGetCommentsRes_questionId_1 = {
         {
           id: "replyId_2",
           active: true,
-          body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+          comment:
+            "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -193,7 +199,8 @@ export const userForumGetCommentsRes_questionId_3 = {
       id: "commentId_3",
       active: true,
       questionId: "questionId_3",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [],
       user: {
@@ -209,7 +216,8 @@ export const userForumGetCommentsRes_questionId_3 = {
       id: "commentId_4",
       active: true,
       questionId: "questionId_3",
-      body: "Lorem ra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [],
       user: {
@@ -223,7 +231,8 @@ export const userForumGetCommentsRes_questionId_3 = {
         {
           id: "replyId_1",
           active: true,
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -236,7 +245,7 @@ export const userForumGetCommentsRes_questionId_3 = {
       id: "commentId_5",
       active: false,
       questionId: "questionId_3",
-      body: "Lorem ra ut integer nibh urna.",
+      comment: "Lorem ra ut integer nibh urna.",
       createdAt: new Date(),
       expressions: [],
       user: {
@@ -250,7 +259,8 @@ export const userForumGetCommentsRes_questionId_3 = {
         {
           id: "replyId_1",
           active: true,
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -260,7 +270,7 @@ export const userForumGetCommentsRes_questionId_3 = {
         {
           id: "replyId_2",
           active: false,
-          body: "Lorem ipsum dolor sit a.",
+          comment: "Lorem ipsum dolor sit a.",
           user: {
             id: requestMyDataRes.data.id,
             firstName: requestMyDataRes.data.firstName,
@@ -270,7 +280,7 @@ export const userForumGetCommentsRes_questionId_3 = {
         {
           id: "replyId_3",
           active: true,
-          body: "Pharetra ut integer nibh urna.",
+          comment: "Pharetra ut integer nibh urna.",
           user: {
             id: requestMyDataRes.data.id,
             firstName: requestMyDataRes.data.firstName,
@@ -288,7 +298,8 @@ export const userForumGetYourAnswersRes = {
       id: "commentId_1",
       active: true,
       questionId: "questionId_1",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [],
       replies: [],
@@ -297,14 +308,16 @@ export const userForumGetYourAnswersRes = {
       id: "commentId_2",
       active: true,
       questionId: "questionId_1",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [],
       replies: [
         {
           id: "replyId_1",
           active: true,
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -314,7 +327,8 @@ export const userForumGetYourAnswersRes = {
         {
           id: "replyId_2",
           active: true,
-          body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+          comment:
+            "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -332,7 +346,8 @@ export const userForumGetMentionsRes = {
       id: "commentId_1",
       active: true,
       questionId: "questionId_1",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [],
       user: {
@@ -348,7 +363,8 @@ export const userForumGetMentionsRes = {
       id: "commentId_2",
       active: true,
       questionId: "questionId_1",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      comment:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
       expressions: [],
       user: {
@@ -362,7 +378,8 @@ export const userForumGetMentionsRes = {
         {
           id: "replyId_1",
           active: true,
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
           user: {
             id: "userId_2",
             firstName: "jane",
@@ -372,7 +389,8 @@ export const userForumGetMentionsRes = {
         {
           id: "replyId_2",
           active: true,
-          body: "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+          comment:
+            "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
           user: {
             id: "userId_2",
             firstName: "jane",

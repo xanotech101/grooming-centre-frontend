@@ -27,7 +27,7 @@ export const userForumGetYourAnswers = async () => {
     id: comment.id,
     questionId: comment.questionId,
     createdAt: comment.createdAt,
-    body: comment.body,
+    body: comment.comment,
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
@@ -35,7 +35,7 @@ export const userForumGetYourAnswers = async () => {
     active: comment.active,
     replies: comment.replies.map((reply) => ({
       id: reply.id,
-      body: reply.body,
+      body: reply.comment,
       user: {
         id: reply.user.id,
         fullName: getFullName(reply.user),
@@ -66,7 +66,7 @@ export const userForumGetMentions = async () => {
     id: comment.id,
     questionId: comment.questionId,
     createdAt: comment.createdAt,
-    body: comment.body,
+    body: comment.comment,
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
@@ -78,7 +78,7 @@ export const userForumGetMentions = async () => {
     },
     replies: comment.replies.map((reply) => ({
       id: reply.id,
-      body: reply.body,
+      body: reply.comment,
       user: {
         id: reply.user.id,
         fullName: getFullName(reply.user),
@@ -109,7 +109,7 @@ export const userForumGetComments = async (questionId) => {
   const comments = data.map((comment) => ({
     id: comment.id,
     createdAt: comment.createdAt,
-    body: comment.body,
+    body: comment.comment,
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
@@ -122,7 +122,7 @@ export const userForumGetComments = async (questionId) => {
     },
     replies: comment.replies.map((reply) => ({
       id: reply.id,
-      body: reply.body,
+      body: reply.comment,
       active: reply.active,
       user: {
         id: reply.user.id,
@@ -164,7 +164,7 @@ export const userForumEditComment = async (commentId, body) => {
     replyCount: data.replies.length,
     replies: data.replies.map((reply) => ({
       id: reply.id,
-      body: reply.body,
+      body: reply.comment,
       active: reply.active,
       user: {
         id: reply.user.id,
