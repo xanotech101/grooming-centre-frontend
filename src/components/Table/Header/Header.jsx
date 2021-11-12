@@ -5,13 +5,14 @@ import { useState } from "react";
 import { AiOutlineClose, AiOutlineDown } from "react-icons/ai";
 import { Button, Checkbox, SearchBar, Text } from "../..";
 
-const Header = ({ filterControls }) => {
+const Header = ({ filterControls, SearchBarVisibility }) => {
   return (
     <Flex
       as="header"
       flexWrap="wrap"
       alignItems="center"
       justifyContent="space-between"
+      display={SearchBarVisibility}
     >
       <SearchBar
         placeholder="Name, role, email, department"

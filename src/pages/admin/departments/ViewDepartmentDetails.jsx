@@ -109,23 +109,24 @@ const ViewDepartmentPage = ({ metadata: propMetadata }) => {
           }
         />
       </Box>
-      
-        <Heading fontSize="heading.h3" paddingX={6}>
-          {department?.name}
-        </Heading>
 
-        <Box marginX={6} padding={10} marginY={10} border="1px" borderColor="accent.9">
-            <Flex justifyContent="space-between">
-              <Heading fontSize="heading.h4">Users</Heading>
-              <Button
-                link={`/admin/courses/${departmentId}/assessment/new/overview?examination=true`}
-              >
-                Add User
-              </Button>
-            </Flex>
-            <Table width="100%" {...tableProps} rows={rows} setRows={setRows} />
-        </Box>
-      
+      <Heading fontSize="heading.h3" paddingX={6}>
+        {department?.name}
+      </Heading>
+
+      <Box
+        marginX={6}
+        padding={10}
+        marginY={10}
+        border="1px"
+        borderColor="accent.9"
+      >
+        <Flex justifyContent="space-between">
+          <Heading fontSize="heading.h4">Users</Heading>
+          <Button link={`/admin/users/create`}>Add User</Button>
+        </Flex>
+        <Table width="100%" {...tableProps} rows={rows} setRows={setRows} />
+      </Box>
     </AdminMainAreaWrapper>
   );
 };

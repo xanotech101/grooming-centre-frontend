@@ -21,7 +21,7 @@ export const requestMyData = async () => {
  * @returns {Promise<{  message: string }>}
  */
 export const requestUpdateDetails = async (body) => {
-  const path = "/update-details"; //TODO: might change
+  const path = "/user/edit-details"; 
 
   const {
     data: { message },

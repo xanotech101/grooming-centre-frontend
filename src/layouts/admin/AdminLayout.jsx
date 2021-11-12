@@ -8,6 +8,7 @@ import {
   useRedirectNewUserToNewPasswordPage,
 } from "../../hooks";
 import breakpoints from "../../theme/breakpoints";
+import Footer from "../user/Footer";
 import Header from "./Header";
 import MainArea from "./MainArea/MainArea";
 import Sidebar from "./Sidebar/Sidebar";
@@ -40,21 +41,30 @@ const AdminLayout = () => {
   useRedirectNonAuthUserToSigninPage();
   useRedirectNewUserToNewPasswordPage();
 
+  const isSettingsPage = /settings/i.test(window.location.pathname);
+
   return (
     <Flex
       flexDirection="column"
       height="100vh"
-      backgroundColor="gray.100"
+      backgroundColor={isSettingsPage ? "white" : "gray.100"}
       maxWidth={breakpoints["laptop-l"]}
       marginX="auto"
       shadow="0 0 10px 3px rgba(0, 0, 0, .1)"
     >
       <Header />
 
-      <Flex height="100%" overflow="hidden">
+      <Flex
+        height="100%"
+        marginX={isSettingsPage ? "100px" : null}
+        marginY={isSettingsPage ? "40px" : null}
+        boxShadow={isSettingsPage ? "0px 2px 7px rgba(0, 0, 0, 0.1)" : null}
+        overflow="hidden"
+      >
         <Sidebar />
         <MainArea />
       </Flex>
+      {isSettingsPage ? <Footer /> : null}
     </Flex>
   );
 };

@@ -95,6 +95,7 @@ export const Table = ({
   rows,
   setRows,
   filterControls,
+  SearchBarVisibility,
   columns,
   options,
   templateColumns,
@@ -145,7 +146,7 @@ export const Table = ({
 
   return (
     <Box>
-      <Header filterControls={filterControls} />
+      <Header SearchBarVisibility={SearchBarVisibility} filterControls={filterControls} />
 
       <Box paddingTop={3} marginTop={3} borderTop="1px" borderColor="accent.2">
         {manager.selectedRows.length ? (
@@ -205,6 +206,7 @@ export const Table = ({
 
 Table.propTypes = {
   filterControls: PropTypes.array,
+  SearchBarVisibility: PropTypes.string,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.any.isRequired,

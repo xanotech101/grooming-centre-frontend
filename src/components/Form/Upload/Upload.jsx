@@ -1,6 +1,7 @@
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Skeleton } from "@chakra-ui/skeleton";
 import PropTypes from "prop-types";
 import { forwardRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
@@ -73,15 +74,32 @@ export const Upload = forwardRef(
                   {" "}
                 </object>
               ) : (
-                <Image src={imageUrl} width="300px" height="150px" alt={alt} />
+                <Image
+                  src={imageUrl}
+                  width={isMini ? "80px" : "300px"}
+                  borderRadius={isMini ? "50%" : null}
+                  height={isMini ? "80px" : "150px"}
+                  alt={alt}
+                />
               )}
               <MiniUploadContent
                 mute
                 hideImage
-                wrapperProps={{ alignItems: "flex-end", paddingLeft: "16px" }}
+                wrapperProps={
+                  isMini
+                    ? { alignItems: "center", paddingLeft: "16px" }
+                    : { alignItems: "flex-end", paddingLeft: "16px" }
+                }
                 props={props}
               />
             </>
+          ) : isMini ? (
+            <Flex alignItems="center">
+              <Skeleton boxSize="60px" rounded="full" marginRight={5} />
+              <Button width="fit-content" secondary sm>
+                Re-upload
+              </Button>
+            </Flex>
           ) : (
             <Stack alignItems="center" textAlign="center" spacing={2}>
               <Box>
@@ -113,18 +131,7 @@ export const Upload = forwardRef(
         label={label}
         isRequired={isRequired}
         error={error}
-        renderControl={(props) =>
-          isMini ? (
-            <MiniUploadContent
-              getRootProps={getRootProps}
-              getInputProps={getInputProps}
-              props={props}
-              rest={{ ...rest }}
-            />
-          ) : (
-            renderContent(props)
-          )
-        }
+        renderControl={(props) => renderContent(props)}
       />
     );
   }
