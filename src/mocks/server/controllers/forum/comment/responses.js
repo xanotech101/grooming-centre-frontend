@@ -295,23 +295,75 @@ export const userForumGetCommentsRes_questionId_3 = {
 export const userForumGetYourAnswersRes = {
   data: [
     {
-      id: "commentId_1",
+      id: "commentId_3",
       active: true,
       questionId: "questionId_1",
       comment:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
       createdAt: new Date(),
+      expressions: [
+        {
+          id: "expId_1",
+          expression: "like",
+          userId: "userId_4",
+        },
+        {
+          id: "expId_2",
+          expression: "dislike",
+          userId: "userId_2",
+        },
+        {
+          id: "expId_3",
+          expression: "dislike",
+          userId: requestMyDataRes.data.id,
+        },
+        {
+          id: "expId_3",
+          expression: "dislike",
+          userId: "userId_3",
+        },
+      ],
+      user: {
+        id: "userId_2",
+        profilePics:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+        firstName: "jane",
+        lastName: "bar",
+      },
+      replies: [],
+    },
+    {
+      id: "replyId_2",
+      active: true,
+      comment:
+        "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+      commentId: "commentId_2",
+      questionId: "questionId_1",
+      createdAt: new Date(),
+      user: {
+        id: requestMyDataRes.data.id,
+        profilePics:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+        firstName: requestMyDataRes.data.firstName,
+        lastName: requestMyDataRes.data.lastName,
+      },
       expressions: [],
       replies: [],
     },
     {
-      id: "commentId_2",
-      active: true,
-      questionId: "questionId_1",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisl nulla placerat dignissim ipsum arcu.",
+      id: "commentId_5",
+      active: false,
+      questionId: "questionId_3",
+      comment: "Lorem ra ut integer nibh urna.",
       createdAt: new Date(),
       expressions: [],
+      user: {
+        id: requestMyDataRes.data.id,
+        profilePics:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+        firstName: requestMyDataRes.data.firstName,
+        lastName: requestMyDataRes.data.lastName,
+      },
       replies: [
         {
           id: "replyId_1",
@@ -326,13 +378,22 @@ export const userForumGetYourAnswersRes = {
         },
         {
           id: "replyId_2",
-          active: true,
-          comment:
-            "Lorem ipsum dolor Ornare rutrum amet, a nunc mi lacinia in iaculis",
+          active: false,
+          comment: "Lorem ipsum dolor sit a.",
           user: {
-            id: "userId_2",
-            firstName: "jane",
-            lastName: "bar",
+            id: requestMyDataRes.data.id,
+            firstName: requestMyDataRes.data.firstName,
+            lastName: requestMyDataRes.data.lastName,
+          },
+        },
+        {
+          id: "replyId_3",
+          active: true,
+          comment: "Pharetra ut integer nibh urna.",
+          user: {
+            id: requestMyDataRes.data.id,
+            firstName: requestMyDataRes.data.firstName,
+            lastName: requestMyDataRes.data.lastName,
           },
         },
       ],

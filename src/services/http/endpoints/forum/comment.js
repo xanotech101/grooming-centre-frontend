@@ -28,6 +28,7 @@ export const userForumGetYourAnswers = async () => {
     questionId: comment.questionId,
     createdAt: comment.createdAt,
     body: comment.comment,
+    commentId: comment.commentId,
     replyCount: comment.replies.length,
     likes: getExpressionCount("like", comment.expressions),
     dislikes: getExpressionCount("dislike", comment.expressions),
