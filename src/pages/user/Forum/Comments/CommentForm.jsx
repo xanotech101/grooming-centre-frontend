@@ -60,7 +60,6 @@ const CommentForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initValue]);
 
-  // const [selectedUsernames, setSelectedUsernames] = useState([]);
   const [matchedTypedUserNames, setMatchedTypedUserNames] = useState([]);
   const [shadowTypedUserNames, setShadowTypedUserNames] = useState([]);
   const [currentEditingUsername, setCurrentEditingUsername] = useState(null);
@@ -158,6 +157,19 @@ const CommentForm = ({
     }
   };
 
+  const handleUserNameSelect = (username) => {
+    handleClearUsernameResults();
+    setCurrentEditingUsername();
+
+    setValue(
+      "text",
+      getValues("text").replace(
+        new RegExp(`@${currentEditingUsername}`, "gm"),
+        `@${username.name}`
+      )
+    );
+  };
+
   const fetchUsernameResults = useCallback(
     async () =>
       await (
@@ -219,7 +231,7 @@ const CommentForm = ({
                   borderColor="accent.2"
                   _hover={{ bg: "white", cursor: "pointer" }}
                   alignItems="center"
-                  // onClick={handleUserNameSelect.bind(null, u)}
+                  onClick={handleUserNameSelect.bind(null, u)}
                 >
                   <Image
                     src={u.profilePics || thumbnailPlaceholder}
