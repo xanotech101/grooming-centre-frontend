@@ -46,9 +46,9 @@ const QuestionsPage = () => {
         <Box position="absolute" transform="translateY(-60px)">
           <Heading as="h4">
             <Box as="span" color="primary.base">
-              {questions.data.length}
+              <q>{query}</q>
             </Box>{" "}
-            Questions Found
+            {questions.data.length} Questions Found
           </Heading>
         </Box>
       )}
