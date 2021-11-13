@@ -4,11 +4,15 @@ import VisuallyHidden from "@chakra-ui/visually-hidden";
 import { BsSearch } from "react-icons/bs";
 import { Input } from "..";
 import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 
 export const SearchBar = ({
   adminLayoutHeaderStyle,
   placeholder = "Search Courses",
   sm,
+  fontSize,
+  onSearch,
   ...rest
 }) => {
   adminLayoutHeaderStyle = adminLayoutHeaderStyle
@@ -20,7 +24,13 @@ export const SearchBar = ({
       }
     : {};
 
-  const uniqueId = `${Math.random() * 10}`;
+  const inputId = uuid();
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async ({ query }) => {
+    onSearch?.(query);
+  };
 
   return (
     <Flex
@@ -31,6 +41,7 @@ export const SearchBar = ({
       rounded="4px"
       overflow="hidden"
       height={sm ? "33px" : "auto"}
+      onSubmit={handleSubmit(onSubmit)}
       {...adminLayoutHeaderStyle}
       {...rest}
     >
@@ -43,7 +54,8 @@ export const SearchBar = ({
         placeholder={placeholder}
         paddingLeft={2}
         size={sm && "sm"}
-        id={uniqueId}
+        id={inputId}
+        fontSize={fontSize}
         // color={query ? "black" : "inherit"}
         _focus={{
           // textColor: adminLayoutHeaderStyle ? "white" : "black",
@@ -52,6 +64,7 @@ export const SearchBar = ({
             textColor: "black",
           },
         }}
+        {...register("query", { validate: true })}
       />
 
       <IconButton

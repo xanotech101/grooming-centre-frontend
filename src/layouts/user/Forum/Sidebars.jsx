@@ -1,13 +1,12 @@
-import { Box, Flex, List, ListItem, ListIcon } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import {
   AiOutlineComment,
-  AiOutlineLink,
   AiOutlineQuestionCircle,
-  AiOutlineStar,
   AiOutlineUnorderedList,
 } from "react-icons/ai";
-import { BsDot, BsTag } from "react-icons/bs";
-import { Heading, Link, SearchBar, Text } from "../../../components";
+import { BsTag } from "react-icons/bs";
+import { useHistory } from "react-router";
+import { Link, SearchBar, Text } from "../../../components";
 import { AskAQuestionButton } from "./Header/Header";
 import useDisplayHeader from "./Header/hooks/useDisplayHeader";
 
@@ -42,9 +41,22 @@ const personalNavLinks = [
 ];
 
 export const Sidebar = ({ ...rest }) => {
+  const { push } = useHistory();
+
+  const handleSearch = (query) => {
+    push(`/forum/questions?q=${query}`);
+  };
+
   return (
     <Box {...rest}>
-      <SearchBar marginBottom={5} border="none" />
+      <SearchBar
+        sm
+        marginBottom={5}
+        border="none"
+        placeholder="Question by title, description or tag"
+        fontSize="text.level5"
+        onSearch={handleSearch}
+      />
 
       <Box as="nav">
         <Flex as="ul" listStyleType="none" flexDirection="column">
