@@ -37,8 +37,11 @@ const Header = ({ ...rest }) => {
     !(tab === currentTab) ? { ordinary: true } : { blue: true };
 
   return (
-    !pageDoNotRequireHeader() && (
-      <Flex {...rest}>
+    <Flex
+      {...rest}
+      justifyContent={!pageDoNotRequireHeader ? "space-between" : "flex-end"}
+    >
+      {!pageDoNotRequireHeader() && (
         <HStack alignSelf="flex-start" spacing={1} flex={1}>
           {links.map((link) => (
             <Button
@@ -52,10 +55,10 @@ const Header = ({ ...rest }) => {
             </Button>
           ))}
         </HStack>
+      )}
 
-        <AskAQuestionButton />
-      </Flex>
-    )
+      <AskAQuestionButton />
+    </Flex>
   );
 };
 

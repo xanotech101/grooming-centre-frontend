@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { Flex, Box } from "@chakra-ui/layout";
-import { Aside, Sidebar } from "./Sidebars";
+import { Sidebar } from "./Sidebars";
 import Header from "./Header/Header";
 import MainArea from "./MainArea";
 
@@ -14,14 +14,6 @@ const ForumLayout = () => {
 
         <Flex overflowY="auto" height="calc(100vh - 90px)">
           <MainArea flex={1} maxWidth="100%" marginRight={7} />
-
-          <Aside
-            width="250px"
-            alignSelf="flex-start"
-            position="sticky"
-            top={1}
-            margin={1}
-          />
         </Flex>
       </Box>
     </Flex>
