@@ -36,10 +36,18 @@ const userForumEditQuestion = [
     getUrl("/forum/question/questionId_1"),
     handleSuccessResponse(userForumEditQuestionRes)
   ),
+  rest.patch(
+    getUrl("/forum/question/questionId_2"),
+    handleSuccessResponse(userForumEditQuestionRes)
+  ),
 ];
 const userForumDeleteQuestion = [
   rest.delete(
     getUrl("/forum/question/questionId_1"),
+    handleSuccessResponse(userForumDeleteQuestionRes)
+  ),
+  rest.delete(
+    getUrl("/forum/question/questionId_2"),
     handleSuccessResponse(userForumDeleteQuestionRes)
   ),
 ];

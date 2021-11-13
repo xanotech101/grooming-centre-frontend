@@ -16,7 +16,7 @@ import { BiComment } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
 import { Image, Link, SelectedTags, Text } from "..";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
-import { capitalizeWords } from "../../utils";
+import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
 import { Button } from "../";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -33,6 +33,7 @@ export const QuestionListCard = ({
   createdAt,
   active,
   onDeleteSuccess,
+  mentionedUser,
 }) => {
   const boxStyle = {
     boxShadow: "2px 1px 5px rgba(0, 0, 0, 0.15)",
@@ -133,6 +134,15 @@ export const QuestionListCard = ({
             />
           )}
         </Flex>
+      )}
+
+      {mentionedUser && (
+        <Text opacity={0.76}>
+          Mentioned{" "}
+          <Box as="b" color="secondary.6">
+            {formatToUsername(getFullName(mentionedUser))}
+          </Box>
+        </Text>
       )}
 
       {active ? (

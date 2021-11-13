@@ -55,7 +55,7 @@ export const CommentListCard = ({
   displayReplies,
   noBorder,
   active,
-  replyingToUser,
+  mentionedUser,
   expressions,
 }) => {
   const {
@@ -140,11 +140,11 @@ export const CommentListCard = ({
             </Box>
           )
         )}
-        {replyingToUser && (
-          <Text opacity={0.8}>
-            Replying to{" "}
+        {mentionedUser && (
+          <Text opacity={0.76}>
+            Mentioned{" "}
             <Box as="b" color="secondary.6">
-              {formatToUsername(getFullName(replyingToUser))}
+              {formatToUsername(getFullName(mentionedUser))}
             </Box>
           </Text>
         )}
@@ -290,7 +290,7 @@ CommentListCard.propTypes = {
     profilePics: PropTypes.string,
     fullName: PropTypes.string,
   }),
-  replyingToUser: PropTypes.object,
+  mentionedUser: PropTypes.object,
   onReplyToggle: PropTypes.func,
   displayReplies: PropTypes.bool,
   onReplySuccess: PropTypes.func,

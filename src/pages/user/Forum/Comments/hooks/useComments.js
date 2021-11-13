@@ -14,14 +14,23 @@ const useComments = (fetcher) => {
     handleFetchResource,
   } = useFetch();
 
+  const [questions, setQuestions] = useState(null);
+
   const handleFetch = useCallback(() => {
-    handleFetchResource({ fetcher });
+    handleFetchResource({
+      fetcher: async () => {
+        const { comments, questions } = await fetcher();
+        setQuestions(questions);
+
+        return comments;
+      },
+    });
   }, [fetcher, handleFetchResource]);
 
   const { location } = useHistory();
 
   const handleReFetchOnYourAnsPage = () => {
-    if (/\/forum\/your-answers/.test(location.pathname)) handleFetch();
+    if (!/\/forum\/questions\/details\//.test(location.pathname)) handleFetch();
   };
 
   const toast = useToast();
@@ -71,8 +80,11 @@ const useComments = (fetcher) => {
 
     const newComments = [...comments.data];
     const comment = newComments.find(({ id }) => id === commentId);
-    comment.replies = [reply, ...comment.replies];
-    comment.replyCount = comment.replies.length;
+
+    if (comment?.replies) {
+      comment.replies = [reply, ...comment.replies];
+      comment.replyCount = comment.replies.length;
+    }
 
     setComments((prev) => ({ ...prev, data: newComments }));
   };
@@ -223,6 +235,8 @@ const useComments = (fetcher) => {
 
   return {
     comments,
+    questions,
+    handleFetch,
     handleAddComment,
     handleEditComment,
     handleDeleteComment,

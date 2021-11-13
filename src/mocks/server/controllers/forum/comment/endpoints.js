@@ -7,7 +7,6 @@ import {
   userForumGetCommentsRes_questionId_3,
   userForumAddCommentRes,
   // userForumReplyACommentRes,
-  userForumGetMentionsRes,
   userForumGetYourAnswersRes,
   // userForumEditCommentRes,
   userForumDeleteCommentRes,
@@ -103,19 +102,12 @@ const userForumGetYourAnswers = rest.get(
   handleSuccessResponse(userForumGetYourAnswersRes)
 );
 
-const userForumGetMentions = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/mentions"), // TODO: change `path`
-  handleSuccessResponse(userForumGetMentionsRes)
-);
-
 const forumComment = [
   ...userForumCreateExpression,
   ...userForumGetComments,
   ...userForumEditComment,
   ...userForumDeleteComment,
   userForumGetYourAnswers,
-  userForumGetMentions,
   userForumAddComment,
   // userForumAddReply,
 ];
