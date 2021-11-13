@@ -1,11 +1,11 @@
-import { Flex, Stack } from "@chakra-ui/layout";
+import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { ForumMessageCardMoreIconButton, PlainButtonWithIcon, Text } from "..";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
-import { formatToUsername } from "../../utils";
+import { formatToUsername, getFullName } from "../../utils";
 
 const useReplyListCard = () => {
   const [displayEditForm, setDisplayEditForm] = useState(false);
@@ -30,6 +30,7 @@ export const ReplyListCard = ({
   commentId,
   viewQuestion,
   questionId,
+  mentionedUser,
 }) => {
   const { displayEditForm, handleHideEditForm, handleDisplayEditForm } =
     useReplyListCard();
@@ -56,6 +57,20 @@ export const ReplyListCard = ({
       ref={wrapperRef}
       tabIndex={0}
     >
+      {mentionedUser && (
+        <Text
+          opacity={0.76}
+          borderBottom="1px"
+          borderColor="accent.2"
+          paddingBottom={2}
+        >
+          Mentioned{" "}
+          <Box as="b" color="secondary.6">
+            {formatToUsername(getFullName(mentionedUser))}
+          </Box>
+        </Text>
+      )}
+
       {displayEditForm ? (
         <CommentForm
           initValue={body}
@@ -83,24 +98,27 @@ export const ReplyListCard = ({
           </Text>
         )}
 
-        {viewQuestion && (
-          <PlainButtonWithIcon
-            color="accent.6"
-            text={"View question"}
-            icon={<FiMenu />}
-            mr={2}
-            link={`/forum/questions/details/${questionId}`}
-          />
-        )}
+        <HStack>
+          {viewQuestion && (
+            <PlainButtonWithIcon
+              color="accent.6"
+              text={"View question"}
+              icon={<FiMenu />}
+              link={`/forum/questions/details/${questionId}`}
+            />
+          )}
 
-        {showMoreIconButton && (
-          <ForumMessageCardMoreIconButton
-            onEdit={handleDisplayEditForm}
-            onDelete={onReplyDeleteSuccess?.bind(null, commentId, id)}
-            deleteStatusIsLoading={deleteStatusIsLoading === id ? true : false}
-            context="reply"
-          />
-        )}
+          {showMoreIconButton && (
+            <ForumMessageCardMoreIconButton
+              onEdit={handleDisplayEditForm}
+              onDelete={onReplyDeleteSuccess?.bind(null, commentId, id)}
+              deleteStatusIsLoading={
+                deleteStatusIsLoading === id ? true : false
+              }
+              context="reply"
+            />
+          )}
+        </HStack>
       </Flex>
     </Stack>
   );

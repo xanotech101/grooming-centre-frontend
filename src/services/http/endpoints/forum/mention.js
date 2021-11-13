@@ -43,6 +43,7 @@ export const userForumGetMentions = async () => {
   const comments = data.comments.map((comment) => ({
     sortId: comment.sortId,
     id: comment.id,
+    commentId: comment.commentId,
     questionId: comment.questionId,
     createdAt: comment.createdAt,
     body: comment.comment,

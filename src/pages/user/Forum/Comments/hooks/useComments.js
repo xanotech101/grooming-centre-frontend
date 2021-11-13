@@ -29,8 +29,11 @@ const useComments = (fetcher) => {
 
   const { location } = useHistory();
 
-  const handleReFetchOnYourAnsPage = () => {
-    if (!/\/forum\/questions\/details\//.test(location.pathname)) handleFetch();
+  const handleUpdateUI = (cb) => {
+    if (!/\/forum\/questions\/details\//.test(location.pathname))
+      return handleFetch();
+
+    cb();
   };
 
   const toast = useToast();
@@ -76,17 +79,17 @@ const useComments = (fetcher) => {
   }, [deleteStatus.error, deleteStatus.success, expStatus.error, toast]);
 
   const handleAddReply = (commentId, reply) => {
-    handleReFetchOnYourAnsPage();
+    handleUpdateUI(() => {
+      const newComments = [...comments.data];
+      const comment = newComments.find(({ id }) => id === commentId);
 
-    const newComments = [...comments.data];
-    const comment = newComments.find(({ id }) => id === commentId);
+      if (comment?.replies) {
+        comment.replies = [reply, ...comment.replies];
+        comment.replyCount = comment.replies.length;
+      }
 
-    if (comment?.replies) {
-      comment.replies = [reply, ...comment.replies];
-      comment.replyCount = comment.replies.length;
-    }
-
-    setComments((prev) => ({ ...prev, data: newComments }));
+      setComments((prev) => ({ ...prev, data: newComments }));
+    });
   };
 
   const handleAddComment = (comment) => {
@@ -96,13 +99,13 @@ const useComments = (fetcher) => {
   };
 
   const handleEditComment = (comment) => {
-    handleReFetchOnYourAnsPage();
+    handleUpdateUI(() => {
+      const newComments = [...comments.data];
+      const commentIndex = newComments.findIndex((c) => c.id === comment.id);
+      newComments.splice(commentIndex, 1, comment);
 
-    const newComments = [...comments.data];
-    const commentIndex = newComments.findIndex((c) => c.id === comment.id);
-    newComments.splice(commentIndex, 1, comment);
-
-    setComments((prev) => ({ ...prev, data: newComments }));
+      setComments((prev) => ({ ...prev, data: newComments }));
+    });
   };
 
   const handleCommentExpression = async (commentId, expression) => {
@@ -167,22 +170,18 @@ const useComments = (fetcher) => {
     }
   };
 
-  console.log(deleteStatus);
-
   const handleEditReply = (commentId, reply) => {
-    handleReFetchOnYourAnsPage();
+    handleUpdateUI(() => {
+      const newComments = [...comments.data];
+      const comment = newComments.find((c) => c.id === commentId);
+      const replyIndex = comment?.replies.findIndex((r) => r.id === reply.id);
+      comment?.replies.splice(replyIndex, 1, reply);
 
-    const newComments = [...comments.data];
-    const comment = newComments.find((c) => c.id === commentId);
-    const replyIndex = comment?.replies.findIndex((r) => r.id === reply.id);
-    comment?.replies.splice(replyIndex, 1, reply);
-
-    setComments((prev) => ({ ...prev, data: newComments }));
+      setComments((prev) => ({ ...prev, data: newComments }));
+    });
   };
 
   const handleDeleteComment = async (commentId) => {
-    handleReFetchOnYourAnsPage();
-
     const UIHandler = () => {
       const newComments = [...comments.data];
       const comment = newComments.find((c) => c.id === commentId);
@@ -194,7 +193,8 @@ const useComments = (fetcher) => {
     try {
       setDeleteStatus({ loading: commentId });
       await userForumDeleteComment(commentId);
-      UIHandler();
+      handleUpdateUI(UIHandler);
+
       setDeleteStatus({ success: true });
     } catch (error) {
       setDeleteStatus({ error });
@@ -204,8 +204,6 @@ const useComments = (fetcher) => {
   };
 
   const handleDeleteReply = async (commentId, replyId) => {
-    handleReFetchOnYourAnsPage();
-
     const UIHandler = () => {
       const newComments = [...comments.data];
       const comment = newComments.find((c) => c.id === commentId);
@@ -219,7 +217,7 @@ const useComments = (fetcher) => {
     try {
       setDeleteStatus({ loading: replyId });
       await userForumDeleteComment(replyId);
-      UIHandler();
+      handleUpdateUI(UIHandler);
       setDeleteStatus({ success: true });
     } catch (error) {
       setDeleteStatus({ error });

@@ -51,6 +51,7 @@ const CommentList = ({
           commentId={comment.commentId}
           viewQuestion
           deleteStatusIsLoading={deleteStatusIsLoading}
+          mentionedUser={commentCardProps.mentionedUser}
           {...replyCardHandlers}
           {...comment}
         />
