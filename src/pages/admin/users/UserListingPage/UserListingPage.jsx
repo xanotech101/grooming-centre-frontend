@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table, Breadcrumb, Link } from "../../../../components";
+import { Button, Heading, Table, Breadcrumb, Link, Text } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetUserListing } from "../../../../services";
@@ -67,6 +67,13 @@ const tableProps = {
       key: "fullName",
       text: "Full name",
       minWidth: "200px",
+      renderContent: (data) => (
+        <Link
+          href={`/admin/users/details/${data.userId}/profile`}
+        >
+          <Text>{data.text}</Text>
+        </Link>
+      ),
     },
     { id: "2", key: "department", text: "Department" },
     {
@@ -123,8 +130,11 @@ const UserListingPage = () => {
   useEffect(() => {
     const mapUserToRow = (user) => ({
       ...user,
-      fullName: `${user.firstName} ${user.lastName}`,
-      certificates: user.certificates.length,
+      fullName: {
+        text: `${user.firstName} ${user.lastName}`,
+        userId: user.id,
+      },
+      certificates: user.noOfCertificate,
     });
 
     fetchUsers(mapUserToRow);

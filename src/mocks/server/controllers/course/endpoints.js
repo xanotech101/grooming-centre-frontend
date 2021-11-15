@@ -5,7 +5,9 @@ import {
   adminCourseListingRes,
   userCourseDetailsRes_courseId_1,
   userCourseDetailsRes_courseId_3,
-  userCourseListingRes,
+  userCourseListingRes_userId_1,
+  userCourseListingRes_userId_2,
+  userCourseListingRes_userId_3,
   adminCreateCourseRes,
   adminEditCourseRes_courseId_1,
   adminEditCourseRes_courseId_3,
@@ -33,10 +35,20 @@ const adminEditCourse = [
   ),
 ];
 
-const userGetCourseListing = rest.get(
-  getUrl("/course/user/courses"),
-  handleSuccessResponse(userCourseListingRes)
-);
+const adminGetUserCourseListing = [
+  rest.get(
+    getUrl("/courses/userId_1"),
+    handleSuccessResponse(userCourseListingRes_userId_1)
+  ),
+  rest.get(
+    getUrl("/courses/userId_2"),
+    handleSuccessResponse(userCourseListingRes_userId_2)
+  ),
+  rest.get(
+    getUrl("/courses/userId_3"),
+    handleSuccessResponse(userCourseListingRes_userId_3)
+  ),
+];
 
 const userGetCourseDetails = [
   rest.get(
@@ -51,7 +63,7 @@ const userGetCourseDetails = [
 
 const course = [
   adminGetCourseListing,
-  userGetCourseListing,
+  ...adminGetUserCourseListing,
   adminCreateCourse,
   ...userGetCourseDetails,
   ...adminEditCourse,

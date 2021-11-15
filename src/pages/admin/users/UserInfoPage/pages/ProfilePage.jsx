@@ -1,6 +1,6 @@
 import { Box, Flex, Grid } from "@chakra-ui/layout";
 import { ImArrowUp } from "react-icons/im";
-import { Route } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 import {
   Heading,
   Image,
@@ -8,22 +8,67 @@ import {
   SkeletonText,
   Text, Breadcrumb
 } from "../../../../../components";
-import { useApp } from "../../../../../contexts";
+import {  useCache } from "../../../../../contexts";
 import profileImagePlaceholder from "../../../../../assets/images/onboarding1.png";
 import Icon from "@chakra-ui/icon";
 import { FiCheckSquare } from "react-icons/fi";
 import { BiCertification } from "react-icons/bi";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { BreadcrumbItem } from "@chakra-ui/react";
+import { useComponentIsMount } from "../../../../../hooks";
+import { useCallback, useEffect, useState } from "react";
+import { adminGetUserDetails } from "../../../../../services";
+
+
+const useViewUserDetails = () => {
+  const { handleGetOrSetAndGet } = useCache();
+  const componentIsMount = useComponentIsMount();
+  const { id: userId } = useParams();
+
+  const [userDetails, setUserDetails] = useState({
+    data: null,
+    loading: false,
+    err: null,
+  });
+
+  const fetcher = useCallback(async () => {
+    const { user } = await adminGetUserDetails(userId);
+    return user;
+  }, [userId]);
+  const fetchUserDetails = useCallback(async () => {
+    setUserDetails({ loading: true });
+
+    try {
+      const userDetails = await handleGetOrSetAndGet(userId, fetcher);
+      if (componentIsMount) setUserDetails({ data: userDetails });
+    } catch (err) {
+      if (componentIsMount) setUserDetails({ err: err.message });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId, componentIsMount]);
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, [fetchUserDetails]);
+
+  const user = userDetails.data;
+  const isLoading = userDetails.loading;
+  const error = userDetails.err;
+
+  return {
+    user,
+    isLoading,
+    error,
+  };
+};
+
 
 const ProfilePage = () => {
-  const {
-    state: { user },
-    getOneMetadata,
-  } = useApp();
-
+  const { user } = useViewUserDetails();
+  console.log(user);
+  
   const userIsLoading = !user;
-  const role = getOneMetadata("userRoles", user?.userRoleId);
 
   return (
     <>
@@ -87,8 +132,8 @@ const ProfilePage = () => {
                   <SkeletonText numberOfLines={4} spacing={5} />
                 ) : (
                   <>
-                    <Detail name="department" value={user?.department} />
-                    <Detail name="role" value={role?.name} />
+                    <Detail name="department" value={user?.departmentName} />
+                    <Detail name="role" value={user?.userRoleName} />
                   </>
                 )}
               </Box>
@@ -103,7 +148,7 @@ const ProfilePage = () => {
             gap={3}
           >
             <OverviewBox
-              value={20}
+              value={user?.gradePoint}
               name="Grade Point"
               icon={<ImArrowUp />}
               iconBackgroundColor="accent.6"
@@ -111,7 +156,7 @@ const ProfilePage = () => {
               isLoading={userIsLoading}
             />
             <OverviewBox
-              value={20}
+              value={user?.completedCourses}
               name="Completed Courses"
               icon={<FiCheckSquare />}
               iconBackgroundColor="accent.7"
@@ -119,7 +164,7 @@ const ProfilePage = () => {
               isLoading={userIsLoading}
             />
             <OverviewBox
-              value={20}
+              value={user?.noOfCertificate}
               name="Certificates"
               icon={<BiCertification />}
               iconBackgroundColor="secondary.5"
@@ -127,7 +172,7 @@ const ProfilePage = () => {
               isLoading={userIsLoading}
             />
             <OverviewBox
-              value={20}
+              value={user?.completedAssessment}
               name="Completed Assessments"
               icon={<HiOutlineSwitchHorizontal />}
               iconBackgroundColor="accent.8"
