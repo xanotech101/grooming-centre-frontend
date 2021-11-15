@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import { useFetch } from "../../../../../hooks";
-import { userForumGetQuestionsByTag } from "../../../../../services";
+import {
+  userForumGetQuestions,
+  // userForumGetQuestionsByTag
+} from "../../../../../services";
 
 const useTagsPage = () => {
   const {
@@ -11,7 +14,7 @@ const useTagsPage = () => {
 
   const fetcher = useCallback(
     (tagId) => async () => {
-      const { questions } = await userForumGetQuestionsByTag(tagId);
+      const { questions } = await userForumGetQuestions({ tagId });
 
       return questions;
     },

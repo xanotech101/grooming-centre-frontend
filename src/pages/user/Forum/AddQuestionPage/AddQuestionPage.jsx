@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/toast";
 import { Box, Stack } from "@chakra-ui/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import {
   Button,
@@ -14,20 +14,49 @@ import { useSelectedTags } from "../../../../hooks";
 import { capitalizeFirstLetter } from "../../../../utils";
 import { userForumCreateTag } from "../../../../services";
 import useAddQuestionPage from "./hooks/useAddQuestionPage";
+import { useMentioning } from "../Comments/hooks/useMentioning";
+import { MentioningInput } from "../Comments/CommentForm";
 
 const AddQuestionPage = () => {
   const {
     selectedTags,
+    setSelectedTags,
     handleTagSelectMany,
     handleTagDeselect,
     handleClearAllSelectedTags,
   } = useSelectedTags();
 
-  const { categories, formManager, handleSubmit, disableForm } =
-    useAddQuestionPage({
-      selectedTags,
-      handleClearAllSelectedTags,
-    });
+  const {
+    categories,
+    formManager,
+    handleSubmit,
+    disableForm,
+    questionIsLoading,
+    questionData,
+    isEditMode,
+  } = useAddQuestionPage({
+    selectedTags,
+    handleClearAllSelectedTags,
+  });
+
+  const titleMentioning = useMentioning({
+    setValue: formManager.setValue,
+    getValues: formManager.getValues,
+    watch: formManager.watch,
+    inputId: "title",
+  });
+  const questionMentioning = useMentioning({
+    setValue: formManager.setValue,
+    getValues: formManager.getValues,
+    watch: formManager.watch,
+    inputId: "question",
+  });
+
+  useEffect(() => {
+    if (questionData) setSelectedTags(questionData.tags);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionData]);
 
   const questionInputMinChars = 10;
   const questionInputMaxChars = 250;
@@ -92,38 +121,52 @@ const AddQuestionPage = () => {
           id="categoryId"
           placeholder="Choose categories"
           options={categories.data}
-          isLoading={categories.loading}
+          isLoading={categories.loading || questionIsLoading}
           isRequired
           error={formManager.formState.errors.categoryId?.message}
           {...formManager.register("categoryId", {
             required: "Please choose a category",
           })}
         />
-        <Input
-          id="title"
-          placeholder="Type catching attention title"
-          error={formManager.formState.errors.title?.message}
-          {...formManager.register("title", {
-            required: "Title cannot be empty",
-          })}
-        />
-        <Textarea
-          id="question"
-          placeholder="Type your question"
-          minHeight="150px"
-          error={formManager.formState.errors.question?.message}
-          {...formManager.register("question", {
-            required: "You have to ask a question",
-            minLength: {
-              value: questionInputMinChars,
-              message: "Please a valid question",
-            },
-            maxLength: {
-              value: questionInputMaxChars,
-              message: `Question cannot be greater than ${questionInputMaxChars} characters`,
-            },
-          })}
-        />
+
+        <MentioningInput
+          usernameResults={titleMentioning.usernameResults}
+          handleUserNameSelect={titleMentioning.handleUserNameSelect}
+        >
+          <Input
+            id="title"
+            placeholder="Type catching attention title"
+            error={formManager.formState.errors.title?.message}
+            {...formManager.register("title", {
+              required: "Title cannot be empty",
+            })}
+            onKeyUp={titleMentioning.handleKeyUp}
+          />
+        </MentioningInput>
+
+        <MentioningInput
+          usernameResults={questionMentioning.usernameResults}
+          handleUserNameSelect={questionMentioning.handleUserNameSelect}
+        >
+          <Textarea
+            id="question"
+            placeholder="Type your question"
+            minHeight="150px"
+            error={formManager.formState.errors.question?.message}
+            {...formManager.register("question", {
+              required: "You have to ask a question",
+              minLength: {
+                value: questionInputMinChars,
+                message: "Please a valid question",
+              },
+              maxLength: {
+                value: questionInputMaxChars,
+                message: `Question cannot be greater than ${questionInputMaxChars} characters`,
+              },
+            })}
+            onKeyUp={questionMentioning.handleKeyUp}
+          />
+        </MentioningInput>
 
         <TagsInput
           id="tags"
@@ -137,8 +180,12 @@ const AddQuestionPage = () => {
         />
 
         <Box textAlign="right" paddingTop={2}>
-          <Button type="submit" disabled={disableForm} isLoading={disableForm}>
-            Publish
+          <Button
+            type="submit"
+            disabled={disableForm || questionIsLoading}
+            isLoading={disableForm || questionIsLoading}
+          >
+            {isEditMode ? "Update" : "Publish"}
           </Button>
         </Box>
       </Stack>

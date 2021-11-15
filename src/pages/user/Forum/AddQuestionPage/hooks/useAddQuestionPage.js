@@ -2,10 +2,17 @@ import { useToast } from "@chakra-ui/toast";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router";
 import { useApp } from "../../../../../contexts";
-import { useFetchAndCache } from "../../../../../hooks";
 import {
+  useFetch,
+  useFetchAndCache,
+  useQueryParams,
+} from "../../../../../hooks";
+import {
+  userForumEditQuestion,
   userForumGetCategories,
+  userForumGetQuestionDetails,
   userForumPublishQuestion,
 } from "../../../../../services";
 import { capitalizeFirstLetter } from "../../../../../utils/formatString";
@@ -48,6 +55,49 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
     state: { user },
   } = useApp();
 
+  const { resource: question, handleFetchResource: handleFetchQuestion } =
+    useFetch();
+  const questionId = useQueryParams().get("questionId");
+  const redirectTo = useQueryParams().get("redirectTo");
+  const { push } = useHistory();
+
+  const questionFetcher = useCallback(async () => {
+    const { question } = await userForumGetQuestionDetails(questionId);
+    return question;
+  }, [questionId]);
+
+  // Handle fetch category
+  useEffect(() => {
+    if (questionId) handleFetchQuestion({ fetcher: questionFetcher });
+  }, [handleFetchQuestion, questionFetcher, questionId]);
+
+  // Init `Category` value
+  useEffect(() => {
+    if (question.data) {
+      console.log(question.data);
+      formManager.setValue("categoryId", question.data.categoryId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question.data]);
+
+  // Init `Title` value
+  useEffect(() => {
+    if (question.data) {
+      console.log(question.data);
+      formManager.setValue("title", question.data.title);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question.data]);
+
+  // Init `Question` value
+  useEffect(() => {
+    if (question.data) {
+      console.log(question.data);
+      formManager.setValue("question", question.data.body);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question.data]);
+
   const handlePublishQuestion = async (question) => {
     try {
       if (!selectedTags.length)
@@ -55,13 +105,17 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
 
       console.log(selectedTags);
 
-      const { message } = await userForumPublishQuestion({
+      const body = {
         title: question.title,
         question: question.question,
         categoryId: question.categoryId,
         tagId: selectedTags.reduce((prev, tag) => [...prev, tag.id], []),
         userId: user?.id,
-      });
+      };
+
+      const { message } = await (questionId
+        ? userForumEditQuestion(questionId, body)
+        : userForumPublishQuestion(body));
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -71,6 +125,8 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
 
       formManager.reset();
       handleClearAllSelectedTags();
+
+      if (redirectTo) push(redirectTo);
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
@@ -89,6 +145,9 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
     formManager,
     handleSubmit,
     disableForm,
+    isEditMode: questionId ? true : false,
+    questionIsLoading: question.loading,
+    questionData: question.data,
   };
 };
 

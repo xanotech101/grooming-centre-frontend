@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
-import { Button, Heading, Textarea } from "../../../../components";
+import { Button, Heading, Image, Textarea, Text } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import {
   userForumAddComment,
@@ -12,6 +12,8 @@ import {
   userForumEditComment,
 } from "../../../../services";
 import { capitalizeFirstLetter, getFullName } from "../../../../utils";
+import thumbnailPlaceholder from "../../../../assets/images/onboarding1.png";
+import { useMentioning } from "./hooks/useMentioning";
 
 const CommentForm = ({
   initValue,
@@ -37,8 +39,17 @@ const CommentForm = ({
     handleSubmit,
     reset,
     setValue,
+    getValues,
+    watch,
     formState: { isSubmitting },
   } = useForm();
+
+  const {
+    handleKeyUp,
+    handleUserNameSelect,
+    handleClearUsernameResults,
+    usernameResults,
+  } = useMentioning({ setValue, getValues, watch, inputId: "text" });
 
   // Init `text` value
   useEffect(() => {
@@ -55,7 +66,9 @@ const CommentForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initValue]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = (handleClearUsernameResults) => async (data) => {
+    handleClearUsernameResults();
+
     try {
       const body = { comment: data.text, questionId, userId: user?.id };
 
@@ -107,16 +120,25 @@ const CommentForm = ({
   };
 
   const renderContent = () => (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-      <Textarea
-        id={`${isReply ? "reply" : "comment"}--${uuid()}`}
-        placeholder="Type here your wise suggestion"
-        marginBottom={3}
-        {...register("text", {
-          required: true,
-        })}
-        minHeight={mute ? inputMinHeight || "60px" : "100px"}
-      ></Textarea>
+    <Box
+      as="form"
+      onSubmit={handleSubmit(onSubmit(handleClearUsernameResults))}
+    >
+      <MentioningInput
+        usernameResults={usernameResults}
+        handleUserNameSelect={handleUserNameSelect}
+      >
+        <Textarea
+          id={`${isReply ? "reply" : "comment"}--${uuid()}`}
+          placeholder="Type here your wise suggestion"
+          onKeyUp={handleKeyUp}
+          marginBottom={3}
+          {...register("text", {
+            required: true,
+          })}
+          minHeight={mute ? inputMinHeight || "40px" : "60px"}
+        ></Textarea>
+      </MentioningInput>
 
       <Flex justifyContent="flex-end">
         {onCancel && (
@@ -157,6 +179,58 @@ const CommentForm = ({
     </>
   );
 };
+
+export const MentioningInput = ({
+  children,
+  usernameResults,
+  handleUserNameSelect,
+}) => (
+  <Box position="relative">
+    {usernameResults && (
+      <Box
+        position="absolute"
+        transform="translateY(-100%)"
+        top="0"
+        left="0"
+        maxH="100px"
+        w="100%"
+        rounded="md"
+        shadow="md"
+        bg="accent.1"
+        overflowY="auto"
+        py={2}
+        // zIndex={100}
+      >
+        <Box as="ul">
+          {usernameResults.map((u) => (
+            <Flex
+              key={u.id}
+              as="li"
+              py={1}
+              px={2}
+              borderTop="1px"
+              borderColor="accent.2"
+              _hover={{ bg: "white", cursor: "pointer" }}
+              alignItems="center"
+              onClick={handleUserNameSelect.bind(null, u)}
+            >
+              <Image
+                src={u.profilePics || thumbnailPlaceholder}
+                boxSize="30px"
+                rounded="full"
+              />
+              <Text ml={2} bold>
+                @{u.name}
+              </Text>
+            </Flex>
+          ))}
+        </Box>
+      </Box>
+    )}
+
+    {children}
+  </Box>
+);
 
 export const CommentsHeader = () => (
   <Box marginBottom={5} textAlign="center">
