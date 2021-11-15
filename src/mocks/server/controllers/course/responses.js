@@ -66,8 +66,8 @@ export const userCourseListingRes_userId_1 = {
       instructor: {
         profilePics:
           "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
-        firstName: "Shalom",
-        lastName: "Brain",
+        firstName: "Victoria",
+        lastName: "Vivian :)",
         title: "Senior Facility Manager",
       },
       progressPercentage: 75,
@@ -81,7 +81,7 @@ export const userCourseListingRes_userId_1 = {
       thumbnail:
         "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
       lessonCount: 24,
-      instructorId: "InstructorId_2",
+      instructorId: "InstructorId_1",
       instructor: {
         profilePics:
           "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
@@ -153,9 +153,9 @@ export const userCourseListingRes_userId_3 = {
           "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
         firstName: "Stanley",
         lastName: "Ogada",
-        title: "Junior Developer",
+        title: "Frontend Developer",
       },
-      progressPercentage: 13,
+      progressPercentage: 100,
     },
   ],
 };
