@@ -1,23 +1,5 @@
 import { http } from "../..";
 
-//----------- User Endpoints
-/**
- * Endpoint to get `user-listing`
- *
- * @returns {Promise<{ data: UserListArray }>}
- */
-export const adminGetUserListing = async () => {
-  const path = `/admin/users`;
-
-  const {
-    data: { data },
-  } = await http.get(path);
-
-  return { users: data };
-};
-//----------- END OF User Endpoints
-//
-
 //
 //----------- Department Endpoints
 /**
