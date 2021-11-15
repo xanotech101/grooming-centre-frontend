@@ -13,3 +13,4 @@ export * from "./http/endpoints/lesson";
 export * from "./http/endpoints/course";
 export * from "./http/endpoints/department";
 export * from "./http/endpoints/role";
+export * from "./http/endpoints/event";
