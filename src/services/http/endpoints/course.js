@@ -81,6 +81,7 @@ export const userGetCourseListing = async () => {
       instructor: {
         name: course.instructor.firstName + " " + course.instructor.lastName,
       },
+      status: course.progressPercentage,
       active: course.active,
     })),
   };

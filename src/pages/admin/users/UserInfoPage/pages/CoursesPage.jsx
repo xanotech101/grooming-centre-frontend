@@ -82,10 +82,10 @@ const tableProps = {
           <Tag
             borderRadius="full"
             size="sm"
-            backgroundColor={status ? "accent.4" : "accent.1"}
-            color={status ? "accent.5" : "accent.3"}
+            backgroundColor={status < 100 ? "others.7" : "accent.4"}
+            color={status < 100 ? "others.8" : "accent.5"}
           >
-            <Text bold>{status ? "Completed" : "Ongoing"}</Text>
+            <Text bold>{status < 100 ? "Ongoing" : "Completed"}</Text>
           </Tag>
         </Box>
       ),
@@ -137,7 +137,7 @@ const CoursesPage = () => {
       id: course.id,
       title: course.title,
       instructor: course.instructor.name,
-      status: course.active,
+      status: course.status,
     });
 
     fetchCourses(mapCourseToRow);
