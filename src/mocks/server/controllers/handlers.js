@@ -14,6 +14,7 @@ import editCourse from "./editcourseinfo/endpoints";
 import department from "./department/endpoints";
 import metadata from "./metadata/endpoints";
 import role from "./role/endpoints";
+import event from "./event/endpoints";
 
 const commonHandlers = [
   ...auth,
@@ -32,6 +33,7 @@ const commonHandlers = [
   ...department,
   ...metadata,
   ...role,
+  ...event,
 ];
 
 const handlers = {
