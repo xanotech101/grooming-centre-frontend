@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/layout";
+import { Box, Grid, Stack } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { Button, Heading, Image, Spinner, Text } from "../../components";
 import emptyImage from "../../assets/images/empty-events.svg";
@@ -43,11 +43,62 @@ const EventsPage = () => {
       {/* <ErrorState /> */}
 
       <Box
-        padding={5}
         minHeight="50vh"
-        maxWidth={breakpoints.laptop}
+        maxWidth={breakpoints.tablet}
         marginX="auto"
-      ></Box>
+        border="1px"
+        borderColor="accent.1"
+        rounded="md"
+      >
+        <Grid
+          columnGap={16}
+          templateColumns="70px auto"
+          borderBottom="1px"
+          borderColor="accent.1"
+          p={3}
+          opacity={0.7}
+        >
+          <Text textAlign="center" bold>
+            Date
+          </Text>
+          <Text bold>Event Type</Text>
+        </Grid>
+
+        <Box px={3}>
+          <Grid
+            columnGap={16}
+            templateColumns="70px 1fr 120px"
+            borderBottom="1px"
+            borderColor="accent.1"
+            py={5}
+            alignItems="center"
+          >
+            <Box textAlign="center">
+              <Text color="primary.hover" as="level5">
+                Wednesday
+              </Text>
+              <Text fontSize="heading.h3" bold>
+                30
+              </Text>
+              <Text bold opacity={0.7}>
+                SEPT
+              </Text>
+            </Box>
+
+            <Box>
+              <Text color="primary.hover" as="level5">
+                09:00 am to 10:30 am
+              </Text>
+              <Text as="level2" bold my={1}>
+                Video Conference
+              </Text>
+              <Text>Web Design & Development Crash Course 2021</Text>
+            </Box>
+
+            <Button secondary>Join Event</Button>
+          </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 };
