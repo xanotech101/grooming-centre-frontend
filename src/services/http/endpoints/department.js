@@ -49,7 +49,7 @@ export const adminCreateDepartment = async (body) => {
  * @returns {Promise<{ message: string, departments: Array<{ id: string, firstName: string, lastName: string, email: string, userRoleId: string,departmentId: string }>}>}
  */
 export const adminGetDepartmentUsersListing = async (departmentId) => {
-  const path = `department/users/${departmentId}`;
+  const path = `/department/users/${departmentId}`;
 
   const {
     data: { message, data },

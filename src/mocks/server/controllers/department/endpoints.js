@@ -21,15 +21,15 @@ const adminCreateDepartment = rest.post(
 
 const adminGetDepartmentUsersListing = [
   rest.get(
-    getUrl("department/users/departmentId_1"),
+    getUrl("/department/users/departmentId_1"),
     handleSuccessResponse(adminGetDepartmentUsersListingRes_departmentId_1)
   ),
   rest.get(
-    getUrl("department/users/departmentId_2"),
+    getUrl("/department/users/departmentId_2"),
     handleSuccessResponse(adminGetDepartmentUsersListingRes_departmentId_2)
   ),
   rest.get(
-    getUrl("department/users/departmentId_3"),
+    getUrl("/department/users/departmentId_3"),
     handleSuccessResponse(adminGetDepartmentUsersListingRes_departmentId_3)
   ),
 ];
