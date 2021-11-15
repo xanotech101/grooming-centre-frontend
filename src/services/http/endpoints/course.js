@@ -67,8 +67,8 @@ export const adminCreateCourse = async (body) => {
  *
  * @returns {Promise<{ courses: CourseListArray }>}
  */
-export const userGetCourseListing = async () => {
-  const path = `/course/user/courses`;
+export const userGetCourseListing = async (userId) => {
+  const path = `/courses/${userId}`;
 
   const {
     data: { data },
@@ -81,6 +81,7 @@ export const userGetCourseListing = async () => {
       instructor: {
         name: course.instructor.firstName + " " + course.instructor.lastName,
       },
+      status: course.progressPercentage,
       active: course.active,
     })),
   };

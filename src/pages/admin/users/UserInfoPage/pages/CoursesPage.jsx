@@ -2,7 +2,7 @@ import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { Box } from "@chakra-ui/layout";
 import { Tag } from "@chakra-ui/tag";
 import { useCallback, useEffect, useState } from "react";
-import { Route } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 import { Breadcrumb, Link, Table, Text } from "../../../../../components";
 import { useComponentIsMount } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
@@ -82,10 +82,10 @@ const tableProps = {
           <Tag
             borderRadius="full"
             size="sm"
-            backgroundColor={status ? "accent.4" : "accent.1"}
-            color={status ? "accent.5" : "accent.3"}
+            backgroundColor={status < 100 ? "others.7" : "accent.4"}
+            color={status < 100 ? "others.8" : "accent.5"}
           >
-            <Text bold>{status ? "Completed" : "Ongoing"}</Text>
+            <Text bold>{status < 100 ? "Ongoing" : "Completed"}</Text>
           </Tag>
         </Box>
       ),
@@ -95,6 +95,7 @@ const tableProps = {
 
 const useCourseListing = () => {
   const componentIsMount = useComponentIsMount();
+  const {id: userId} = useParams();
 
   const [rows, setRows] = useState({
     data: null,
@@ -107,7 +108,7 @@ const useCourseListing = () => {
       setRows({ loading: true });
 
       try {
-        const { courses } = await userGetCourseListing();
+        const { courses } = await userGetCourseListing(userId);
 
         const data = mapper ? courses.map(mapper) : courses;
 
@@ -119,7 +120,7 @@ const useCourseListing = () => {
         if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
       }
     },
-    [setRows, componentIsMount]
+    [setRows, componentIsMount, userId]
   );
 
   return {
@@ -137,7 +138,7 @@ const CoursesPage = () => {
       id: course.id,
       title: course.title,
       instructor: course.instructor.name,
-      status: course.active,
+      status: course.status,
     });
 
     fetchCourses(mapCourseToRow);
