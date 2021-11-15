@@ -74,7 +74,16 @@ export const userGetCourseListing = async () => {
     data: { data },
   } = await http.get(path);
 
-  return { courses: data };
+  return {
+    courses: data.map((course) => ({
+      id: course.id,
+      title: course.title,
+      instructor: {
+        name: course.instructor.firstName + " " + course.instructor.lastName,
+      },
+      active: course.active,
+    })),
+  };
 };
 
 /**
