@@ -21,7 +21,7 @@ const userForumGetQuestions = rest.get(
 
 const userForumGetCategories = rest.get(
   // TODO: change `method`
-  getUrl("/forum/categories"), // TODO: change `path`
+  getUrl("/forum/category"), // TODO: change `path`
   handleSuccessResponse(userForumGetCategoriesRes)
 );
 

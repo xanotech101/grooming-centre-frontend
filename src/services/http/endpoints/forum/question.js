@@ -191,7 +191,7 @@ export const userForumGetQuestionDetails = async (id) => {
  * @returns {Promise<{ categories: { value: string, label: string } }>}
  */
 export const userForumGetCategories = async () => {
-  const path = `/forum/categories`;
+  const path = `/forum/category`;
 
   const {
     data: { data },
