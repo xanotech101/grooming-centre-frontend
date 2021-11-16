@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
 import { Link, Text } from "../../../../../components";
-import { useApp } from "../../../../../contexts";
 import colors from "../../../../../theme/colors";
 
 const links = [
@@ -27,7 +26,10 @@ const links = [
 ];
 
 const Header = () => {
-  const { state } = useApp();
+  const id = window.location.pathname
+    .match(/\/details\/.{1,}\//)[0]
+    .replace("/details/", "")
+    .replace("/", "");
 
   return (
     <Flex
@@ -47,7 +49,7 @@ const Header = () => {
             <li key={link.text}>
               <Link
                 navLink
-                href={link.href(state.user?.id)}
+                href={link.href(id)}
                 style={{
                   color: colors.accent[2],
                   display: "block",

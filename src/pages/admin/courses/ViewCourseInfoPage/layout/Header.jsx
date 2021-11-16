@@ -1,8 +1,6 @@
 import { Flex } from "@chakra-ui/layout";
-import { useEffect } from "react";
 import { Link, Text } from "../../../../../components";
 import colors from "../../../../../theme/colors";
-import useCourseDetails from "../../../../user/Courses/CourseDetails/hooks/useCourseDetails";
 
 const links = [
   {
@@ -24,16 +22,11 @@ const links = [
 ];
 
 const Header = () => {
-  const { courseDetails, fetchCourseDetails } = useCourseDetails();
-
-  useEffect(() => {
-    fetchCourseDetails();
-  }, [fetchCourseDetails]);
-
-  const courseDetailsData = courseDetails.data;
-
-  const isLoading = courseDetails.loading;
-  const isError = courseDetails.err;
+  
+  const id = window.location.pathname
+    .match(/\/details\/.{1,}\//)[0]
+    .replace("/details/", "")
+    .replace("/", "");
 
   return (
     <Flex
@@ -41,7 +34,6 @@ const Header = () => {
       as="header"
       backgroundColor="white"
       height="50px"
-      disabled={isLoading || isError}
       paddingLeft={20}
       shadow="0 2px 2px rgba(0, 0, 0, .05)"
       position="relative"
@@ -53,8 +45,7 @@ const Header = () => {
             <li key={link.text}>
               <Link
                 navLink
-                disabled={isLoading || isError}
-                href={link.href(courseDetailsData?.id)}
+                href={link.href(id)}
                 style={{
                   color: colors.accent[2],
                   display: "block",
