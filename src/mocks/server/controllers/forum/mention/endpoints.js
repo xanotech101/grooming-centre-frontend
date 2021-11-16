@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { getUrl } from "../../../http";
 import { handleSuccessResponse } from "../../helpers";
-import { userForumGetUsernamesRes } from "./responses";
+import { userForumGetMentionsRes, userForumGetUsernamesRes } from "./responses";
 
 const userForumGetUsernames = rest.get(
   // TODO: change `method`
@@ -9,6 +9,12 @@ const userForumGetUsernames = rest.get(
   handleSuccessResponse(userForumGetUsernamesRes)
 );
 
-const forumMentions = [userForumGetUsernames];
+const userForumGetMentions = rest.get(
+  // TODO: change `method`
+  getUrl("/forum/mentions"), // TODO: change `path`
+  handleSuccessResponse(userForumGetMentionsRes)
+);
+
+const forumMentions = [userForumGetUsernames, userForumGetMentions];
 
 export default forumMentions;

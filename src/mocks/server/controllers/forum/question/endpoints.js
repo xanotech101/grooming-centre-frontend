@@ -8,9 +8,9 @@ import {
   userForumGetQuestionDetailsRes_questionId_1,
   userForumGetQuestionDetailsRes_questionId_2,
   userForumGetQuestionDetailsRes_questionId_3,
-  userForumGetYourQuestionsRes,
   userForumGetQuestionsByTagRes,
   userForumEditQuestionRes,
+  userForumDeleteQuestionRes,
 } from "./responses";
 
 const userForumGetQuestions = rest.get(
@@ -21,7 +21,7 @@ const userForumGetQuestions = rest.get(
 
 const userForumGetCategories = rest.get(
   // TODO: change `method`
-  getUrl("/forum/categories"), // TODO: change `path`
+  getUrl("/forum/category"), // TODO: change `path`
   handleSuccessResponse(userForumGetCategoriesRes)
 );
 
@@ -35,6 +35,20 @@ const userForumEditQuestion = [
   rest.patch(
     getUrl("/forum/question/questionId_1"),
     handleSuccessResponse(userForumEditQuestionRes)
+  ),
+  rest.patch(
+    getUrl("/forum/question/questionId_2"),
+    handleSuccessResponse(userForumEditQuestionRes)
+  ),
+];
+const userForumDeleteQuestion = [
+  rest.delete(
+    getUrl("/forum/question/questionId_1"),
+    handleSuccessResponse(userForumDeleteQuestionRes)
+  ),
+  rest.delete(
+    getUrl("/forum/question/questionId_2"),
+    handleSuccessResponse(userForumDeleteQuestionRes)
   ),
 ];
 
@@ -56,12 +70,6 @@ const userForumGetQuestionDetails = [
   ),
 ];
 
-const userForumGetYourQuestions = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/your-questions"), // TODO: change `path`
-  handleSuccessResponse(userForumGetYourQuestionsRes)
-);
-
 const userForumGetQuestionsByTag = [
   rest.get(
     // TODO: change `method`
@@ -79,10 +87,10 @@ const forumQuestion = [
   userForumGetCategories,
   userForumPublishQuestion,
   userForumGetQuestions,
-  userForumGetYourQuestions,
   ...userForumGetQuestionsByTag,
   ...userForumGetQuestionDetails,
   ...userForumEditQuestion,
+  ...userForumDeleteQuestion,
 ];
 
 export default forumQuestion;

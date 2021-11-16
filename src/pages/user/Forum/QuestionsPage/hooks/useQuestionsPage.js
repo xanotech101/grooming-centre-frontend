@@ -6,20 +6,27 @@ import { userForumGetQuestions } from "../../../../../services";
 const useQuestionsPage = () => {
   const { resource: questions, handleFetchResource } = useFetch();
   const tab = useQueryParams().get("tab");
+  const query = useQueryParams().get("q");
 
   const fetcher = useCallback(async () => {
-    const { questions } = await userForumGetQuestions({ tab });
+    const { questions } = await userForumGetQuestions({ tab, query });
 
     return questions;
-  }, [tab]);
+  }, [tab, query]);
+
+  const handleFetch = useCallback(
+    () => handleFetchResource({ fetcher }),
+    [fetcher, handleFetchResource]
+  );
 
   // Handle fetch category
   useEffect(() => {
-    handleFetchResource({ fetcher });
-  }, [handleFetchResource, fetcher]);
+    handleFetch();
+  }, [handleFetch]);
 
   return {
     questions,
+    handleFetch,
   };
 };
 

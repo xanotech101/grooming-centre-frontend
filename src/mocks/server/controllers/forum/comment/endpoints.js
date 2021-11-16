@@ -7,7 +7,6 @@ import {
   userForumGetCommentsRes_questionId_3,
   userForumAddCommentRes,
   // userForumReplyACommentRes,
-  userForumGetMentionsRes,
   userForumGetYourAnswersRes,
   // userForumEditCommentRes,
   userForumDeleteCommentRes,
@@ -15,6 +14,7 @@ import {
   userForumEditCommentRes_replyId_3,
   userForumEditCommentRes_commentId_4,
   userForumCreateExpressionRes,
+  userForumEditCommentRes_replyId_2,
 } from "./responses";
 
 const userForumGetComments = [
@@ -38,8 +38,16 @@ const userForumEditComment = [
     handleSuccessResponse(userForumEditCommentRes_replyId_3)
   ),
   rest.patch(
+    getUrl("/forum/comment/replyId_2"),
+    handleSuccessResponse(userForumEditCommentRes_replyId_2)
+  ),
+  rest.patch(
     getUrl("/forum/comment/commentId_2"),
     handleSuccessResponse(userForumEditCommentRes_commentId_2)
+  ),
+  rest.patch(
+    getUrl("/forum/comment/commentId_3"),
+    handleSuccessResponse(userForumEditCommentRes_commentId_4)
   ),
   rest.patch(
     getUrl("/forum/comment/commentId_4"),
@@ -53,7 +61,15 @@ const userForumDeleteComment = [
     handleSuccessResponse(userForumDeleteCommentRes)
   ),
   rest.delete(
+    getUrl("/forum/comment/replyId_2"),
+    handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+  rest.delete(
     getUrl("/forum/comment/commentId_2"),
+    handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+  rest.delete(
+    getUrl("/forum/comment/commentId_3"),
     handleSuccessResponse(userForumDeleteCommentRes)
   ),
   rest.delete(
@@ -86,19 +102,12 @@ const userForumGetYourAnswers = rest.get(
   handleSuccessResponse(userForumGetYourAnswersRes)
 );
 
-const userForumGetMentions = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/mentions"), // TODO: change `path`
-  handleSuccessResponse(userForumGetMentionsRes)
-);
-
 const forumComment = [
   ...userForumCreateExpression,
   ...userForumGetComments,
   ...userForumEditComment,
   ...userForumDeleteComment,
   userForumGetYourAnswers,
-  userForumGetMentions,
   userForumAddComment,
   // userForumAddReply,
 ];

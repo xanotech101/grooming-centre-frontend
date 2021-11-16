@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/toast";
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useFetch } from "../../../../../hooks";
 import {
   userForumCreateExpression,
@@ -12,6 +13,28 @@ const useComments = (fetcher) => {
     setResource: setComments,
     handleFetchResource,
   } = useFetch();
+
+  const [questions, setQuestions] = useState(null);
+
+  const handleFetch = useCallback(() => {
+    handleFetchResource({
+      fetcher: async () => {
+        const { comments, questions } = await fetcher();
+        setQuestions(questions);
+
+        return comments;
+      },
+    });
+  }, [fetcher, handleFetchResource]);
+
+  const { location } = useHistory();
+
+  const handleUpdateUI = (cb) => {
+    if (!/\/forum\/questions\/details\//.test(location.pathname))
+      return handleFetch();
+
+    cb();
+  };
 
   const toast = useToast();
 
@@ -39,6 +62,7 @@ const useComments = (fetcher) => {
       setDeleteStatus({});
     }
     if ((deleteStatus.error || expStatus.error) && isMount) {
+      console.error(deleteStatus.error || expStatus.error);
       toast({
         description: (deleteStatus.error || expStatus.error).message,
         position: "top",
@@ -55,12 +79,17 @@ const useComments = (fetcher) => {
   }, [deleteStatus.error, deleteStatus.success, expStatus.error, toast]);
 
   const handleAddReply = (commentId, reply) => {
-    const newComments = [...comments.data];
-    const comment = newComments.find(({ id }) => id === commentId);
-    comment.replies = [reply, ...comment.replies];
-    comment.replyCount = comment.replies.length;
+    handleUpdateUI(() => {
+      const newComments = [...comments.data];
+      const comment = newComments.find(({ id }) => id === commentId);
 
-    setComments((prev) => ({ ...prev, data: newComments }));
+      if (comment?.replies) {
+        comment.replies = [reply, ...comment.replies];
+        comment.replyCount = comment.replies.length;
+      }
+
+      setComments((prev) => ({ ...prev, data: newComments }));
+    });
   };
 
   const handleAddComment = (comment) => {
@@ -70,11 +99,13 @@ const useComments = (fetcher) => {
   };
 
   const handleEditComment = (comment) => {
-    const newComments = [...comments.data];
-    const commentIndex = newComments.findIndex((c) => c.id === comment.id);
-    newComments.splice(commentIndex, 1, comment);
+    handleUpdateUI(() => {
+      const newComments = [...comments.data];
+      const commentIndex = newComments.findIndex((c) => c.id === comment.id);
+      newComments.splice(commentIndex, 1, comment);
 
-    setComments((prev) => ({ ...prev, data: newComments }));
+      setComments((prev) => ({ ...prev, data: newComments }));
+    });
   };
 
   const handleCommentExpression = async (commentId, expression) => {
@@ -139,15 +170,15 @@ const useComments = (fetcher) => {
     }
   };
 
-  console.log(deleteStatus);
-
   const handleEditReply = (commentId, reply) => {
-    const newComments = [...comments.data];
-    const comment = newComments.find((c) => c.id === commentId);
-    const replyIndex = comment.replies.findIndex((r) => r.id === reply.id);
-    comment.replies.splice(replyIndex, 1, reply);
+    handleUpdateUI(() => {
+      const newComments = [...comments.data];
+      const comment = newComments.find((c) => c.id === commentId);
+      const replyIndex = comment?.replies.findIndex((r) => r.id === reply.id);
+      comment?.replies.splice(replyIndex, 1, reply);
 
-    setComments((prev) => ({ ...prev, data: newComments }));
+      setComments((prev) => ({ ...prev, data: newComments }));
+    });
   };
 
   const handleDeleteComment = async (commentId) => {
@@ -162,7 +193,8 @@ const useComments = (fetcher) => {
     try {
       setDeleteStatus({ loading: commentId });
       await userForumDeleteComment(commentId);
-      UIHandler();
+      handleUpdateUI(UIHandler);
+
       setDeleteStatus({ success: true });
     } catch (error) {
       setDeleteStatus({ error });
@@ -175,7 +207,9 @@ const useComments = (fetcher) => {
     const UIHandler = () => {
       const newComments = [...comments.data];
       const comment = newComments.find((c) => c.id === commentId);
-      comment.replies = comment.replies.filter((r) => r.id !== replyId);
+
+      if (comment?.replies)
+        comment.replies = comment.replies.filter((r) => r.id !== replyId);
 
       setComments((prev) => ({ ...prev, data: newComments }));
     };
@@ -183,7 +217,7 @@ const useComments = (fetcher) => {
     try {
       setDeleteStatus({ loading: replyId });
       await userForumDeleteComment(replyId);
-      UIHandler();
+      handleUpdateUI(UIHandler);
       setDeleteStatus({ success: true });
     } catch (error) {
       setDeleteStatus({ error });
@@ -194,11 +228,13 @@ const useComments = (fetcher) => {
 
   // Handle fetch category
   useEffect(() => {
-    handleFetchResource({ fetcher });
-  }, [handleFetchResource, fetcher]);
+    handleFetch();
+  }, [handleFetch]);
 
   return {
     comments,
+    questions,
+    handleFetch,
     handleAddComment,
     handleEditComment,
     handleDeleteComment,

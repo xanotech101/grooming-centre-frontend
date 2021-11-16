@@ -85,6 +85,17 @@ const QuestionsResult = ({ questions }) => {
         </PageLoaderLayout>
       )}
 
+      {questions.data && (
+        <Box position="absolute" transform="translateY(-160px)">
+          <Heading as="h4">
+            <Box as="span" color="primary.base">
+              {questions.data.length}
+            </Box>{" "}
+            Questions Found
+          </Heading>
+        </Box>
+      )}
+
       {questions.data?.map((question) => (
         <QuestionListCard key={question.id} {...question} />
       ))}

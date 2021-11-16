@@ -12,14 +12,41 @@ const MentionsPage = () => {
 
   return (
     <Comments commentsManager={commentsManager}>
-      {({ comments, handleAddReply }) => (
+      {({
+        comments,
+        questions,
+        handleFetch,
+        handleAddReply,
+        handleDeleteComment,
+        handleEditComment,
+        handleDeleteReply,
+        handleEditReply,
+        handleCommentExpression,
+        deleteStatusIsLoading,
+        expStatusIsLoading,
+      }) => (
         <>
           <CommentList
             data={comments.data}
-            onReplySuccess={handleAddReply}
+            questions={questions}
+            handleFetch={handleFetch}
+            deleteStatusIsLoading={deleteStatusIsLoading}
+            expStatusIsLoading={expStatusIsLoading}
+            commentCardHandlers={{
+              onCommentEditSuccess: handleEditComment,
+              onCommentDelete: handleDeleteComment,
+              onReplySuccess: handleAddReply,
+              onReplyDeleteSuccess: handleDeleteReply,
+              onReplyEditSuccess: handleEditReply,
+              onCommentExpression: handleCommentExpression,
+            }}
+            replyCardHandlers={{
+              onReplyDeleteSuccess: handleDeleteReply,
+              onReplyEditSuccess: handleEditReply,
+            }}
             commentCardProps={{
               noBorder: true,
-              replyingToUser: user,
+              mentionedUser: user,
             }}
           />
         </>

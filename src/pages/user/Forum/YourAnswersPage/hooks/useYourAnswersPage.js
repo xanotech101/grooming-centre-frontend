@@ -3,10 +3,7 @@ import { userForumGetYourAnswers } from "../../../../../services";
 import useComments from "../../Comments/hooks/useComments";
 
 const useMentionsPage = () => {
-  const fetcher = useCallback(async () => {
-    const { comments } = await userForumGetYourAnswers();
-    return comments;
-  }, []);
+  const fetcher = useCallback(async () => await userForumGetYourAnswers(), []);
 
   const commentsManager = useComments(fetcher);
 

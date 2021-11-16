@@ -17,10 +17,10 @@ const useQuestionDetailsPage = () => {
     return question;
   }, [id]);
 
-  const commentsFetcher = useCallback(async () => {
-    const { comments } = await userForumGetComments(id);
-    return comments;
-  }, [id]);
+  const commentsFetcher = useCallback(
+    async () => await userForumGetComments(id),
+    [id]
+  );
 
   // Handle fetch category
   useEffect(() => {

@@ -9,7 +9,6 @@ export const PageLoaderLayout = ({ children = <Spinner />, ...rest }) => {
       flexDirection="column"
       height="100vh"
       width="100vw"
-      placeItems="center"
       {...rest}
     >
       {children}
