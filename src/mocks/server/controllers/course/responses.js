@@ -1,6 +1,5 @@
 export const adminCourseListingRes = {
-  data: {
-    rows: [
+  data: [
       {
         id: "courseId_1",
         title: "The implication of financial crisis in the society",
@@ -35,22 +34,9 @@ export const adminCourseListingRes = {
         },
         isPublished: true,
         lesson: [
-          {
-            endTime: "2021-11-25T20:52:00.000Z",
-            id: "lessonId_1",
-            startTime: "2021-11-25T16:52:59.021Z",
-            title: "Introduction to Go",
-          },
-          {
-            endTime: "2021-11-25T20:52:00.000Z",
-            id: "lessonId_2",
-            startTime: "2021-11-25T20:52:59.021Z",
-            title: "Introduction to Html",
-          },
         ],
       },
     ],
-  },
 };
 
 export const adminCreateCourseRes = {

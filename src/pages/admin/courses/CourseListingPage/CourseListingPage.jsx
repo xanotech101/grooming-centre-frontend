@@ -117,6 +117,7 @@ const useCourseListing = () => {
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
+        console.error(err)
         if (componentIsMount) setRows({ err: true });
       } finally {
         if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
@@ -139,7 +140,7 @@ const CourseListingPage = () => {
     const mapCourseToRow = (course) => ({
       id: course.id,
       title: { text: course.title, courseId: course.id },
-      startDate: dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
+      startDate: course.startDate === "not set" ? course.startDate : dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
       status: course.isPublished,
       instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
     });

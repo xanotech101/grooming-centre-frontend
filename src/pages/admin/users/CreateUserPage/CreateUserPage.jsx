@@ -1,7 +1,7 @@
-import { Stack } from "@chakra-ui/layout";
+import { Grid, Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route } from "react-router-dom";
-import { Input, Select, Text, Breadcrumb, Link } from "../../../../components";
+import { Input, Select, Breadcrumb, Link } from "../../../../components";
 import { useApp } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
 import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
@@ -81,8 +81,26 @@ const CreateUserPage = ({
         submitButtonIsLoading={isSubmitting}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Stack spacing={10} marginBottom={10} maxWidth="386px">
-          {/* <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}> */}
+        <Stack spacing={10} marginBottom={10}>
+          <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+          <Input
+            label="Firstname"
+            id="firstname"
+            isRequired
+            {...register("firstname", {
+              required: "Firstname is required",
+            })}
+            error={errors.firstname?.message}
+          />
+          <Input
+            label="Lastname"
+            id="lastname"
+            isRequired
+            {...register("lastname", {
+              required: "Lastname is required",
+            })}
+            error={errors.lastname?.message}
+          />
           <Input
             label="User's email"
             id="email"
@@ -94,12 +112,8 @@ const CreateUserPage = ({
                 message: "Enter a valid e-mail address",
               },
             })}
+            error={errors.email?.message}
           />
-          {errors.email ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.email.message}
-            </Text>
-          ) : null}
           <Select
             label="Department"
             options={populateSelectOptions(metadata?.departments)}
@@ -109,12 +123,8 @@ const CreateUserPage = ({
             {...register("departmentId", {
               required: departmentIsRequired && "Please select a department",
             })}
+            error={errors.departmentId?.message}
           />
-          {errors.departmentId ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.departmentId.message}
-            </Text>
-          ) : null}
           <Select
             label="Select Role"
             options={populateSelectOptions(metadata?.userRoles, (r) => {
@@ -134,13 +144,9 @@ const CreateUserPage = ({
               required: "Please select a role",
             })}
             id="roleId"
+            error={errors.roleId?.message}
           />
-          {errors.roleId ? (
-            <Text color="secondary.5" style={{ marginTop: 0 }}>
-              {errors.roleId.message}
-            </Text>
-          ) : null}
-          {/* </Grid> */}
+          </Grid>
         </Stack>
       </CreatePageLayout>
     </>
