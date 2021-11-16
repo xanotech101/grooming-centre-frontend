@@ -8,6 +8,10 @@ export const userForumEditQuestionRes = {
   message: "question updated successfully",
 };
 
+export const userForumDeleteQuestionRes = {
+  message: "question deleted successfully",
+};
+
 export const userForumGetCategoriesRes = {
   data: [
     {
@@ -175,38 +179,6 @@ export const userForumGetQuestionDetailsRes_questionId_3 = {
       },
     ],
     commentCount: 10,
-  },
-};
-
-export const userForumGetYourQuestionsRes = {
-  data: {
-    count: 2,
-    rows: [
-      {
-        id: "questionId_1",
-        title: "File uploadrgo",
-        question: "How to upload files to cloudinary",
-        createdAt: "2021-10-19T23:37:54.484Z",
-        userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f",
-        tags: [
-          { id: "forumTagId_1", name: "javascript" },
-          { id: "forumTagId_2", name: "dart" },
-        ],
-        commentCount: 10,
-      },
-      {
-        id: "questionId_2",
-        title: "File uploaders",
-        question: "How to upload files to cloudinary",
-        createdAt: "2021-10-20T05:16:51.057Z",
-        userId: "29f4ece6-a5ba-421f-ac00-6fb9d3a70e0f",
-        tags: [
-          { id: "forumTagId_1", name: "javascript" },
-          { id: "forumTagId_2", name: "dart" },
-        ],
-        commentCount: 10,
-      },
-    ],
   },
 };
 

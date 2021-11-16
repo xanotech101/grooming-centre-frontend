@@ -1,10 +1,11 @@
-import { Flex, Stack } from "@chakra-ui/layout";
+import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
-import { ForumMessageCardMoreIconButton, Text } from "..";
+import { FiMenu } from "react-icons/fi";
+import { ForumMessageCardMoreIconButton, PlainButtonWithIcon, Text } from "..";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
 import CommentForm from "../../pages/user/Forum/Comments/CommentForm";
-import { formatToUsername } from "../../utils";
+import { formatToUsername, getFullName } from "../../utils";
 
 const useReplyListCard = () => {
   const [displayEditForm, setDisplayEditForm] = useState(false);
@@ -27,6 +28,9 @@ export const ReplyListCard = ({
   onReplyDeleteSuccess,
   onReplyEditSuccess,
   commentId,
+  viewQuestion,
+  questionId,
+  mentionedUser,
 }) => {
   const { displayEditForm, handleHideEditForm, handleDisplayEditForm } =
     useReplyListCard();
@@ -53,6 +57,20 @@ export const ReplyListCard = ({
       ref={wrapperRef}
       tabIndex={0}
     >
+      {mentionedUser && (
+        <Text
+          opacity={0.76}
+          borderBottom="1px"
+          borderColor="accent.2"
+          paddingBottom={2}
+        >
+          Mentioned{" "}
+          <Box as="b" color="secondary.6">
+            {formatToUsername(getFullName(mentionedUser))}
+          </Box>
+        </Text>
+      )}
+
       {displayEditForm ? (
         <CommentForm
           initValue={body}
@@ -72,20 +90,35 @@ export const ReplyListCard = ({
         borderColor="accent.1"
         color="accent.3"
         paddingTop={2}
-        justifyContent="space-between"
+        justifyContent={user ? "space-between" : "flex-end"}
       >
-        <Text>
-          by <b>{formatToUsername(user.fullName)}</b>
-        </Text>
-
-        {showMoreIconButton && (
-          <ForumMessageCardMoreIconButton
-            onEdit={handleDisplayEditForm}
-            onDelete={onReplyDeleteSuccess.bind(null, commentId, id)}
-            deleteStatusIsLoading={deleteStatusIsLoading === id ? true : false}
-            context="reply"
-          />
+        {user && (
+          <Text>
+            by <b>{formatToUsername(user.fullName)}</b>
+          </Text>
         )}
+
+        <HStack>
+          {viewQuestion && (
+            <PlainButtonWithIcon
+              color="accent.6"
+              text={"View question"}
+              icon={<FiMenu />}
+              link={`/forum/questions/details/${questionId}`}
+            />
+          )}
+
+          {showMoreIconButton && (
+            <ForumMessageCardMoreIconButton
+              onEdit={handleDisplayEditForm}
+              onDelete={onReplyDeleteSuccess?.bind(null, commentId, id)}
+              deleteStatusIsLoading={
+                deleteStatusIsLoading === id ? true : false
+              }
+              context="reply"
+            />
+          )}
+        </HStack>
       </Flex>
     </Stack>
   );
@@ -94,7 +127,7 @@ export const ReplyListCard = ({
 ReplyListCard.propTypes = {
   onReplyDeleteSuccess: PropTypes.func,
   onReplyEditSuccess: PropTypes.func,
-  deleteStatusIsLoading: PropTypes.bool,
+  deleteStatusIsLoading: PropTypes.any,
   commentId: PropTypes.string,
   id: PropTypes.string,
   body: PropTypes.string,

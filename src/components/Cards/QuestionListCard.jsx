@@ -16,10 +16,11 @@ import { BiComment } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
 import { Image, Link, SelectedTags, Text } from "..";
 import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
-import { capitalizeWords } from "../../utils";
+import { capitalizeWords, formatToUsername, getFullName } from "../../utils";
 import { Button } from "../";
 import { useLoggedInUserIsTheCreator } from "../../hooks";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { userForumDeleteQuestion } from "../../services";
 
 export const QuestionListCard = ({
   id,
@@ -31,6 +32,8 @@ export const QuestionListCard = ({
   disabled,
   createdAt,
   active,
+  onDeleteSuccess,
+  mentionedUser,
 }) => {
   const boxStyle = {
     boxShadow: "2px 1px 5px rgba(0, 0, 0, 0.15)",
@@ -55,19 +58,19 @@ export const QuestionListCard = ({
 
   const handleDelete = async () => {
     try {
+      await userForumDeleteQuestion(id);
+
       toast({
-        description: "success",
+        description: "Question deleted successfully",
         position: "top",
         duration: 500,
         status: "success",
       });
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+      onDeleteSuccess();
     } catch (error) {
       toast({
-        description: error.message,
+        description: capitalizeWords(error.message),
         position: "top",
         duration: 1000,
         status: "error",
@@ -131,6 +134,15 @@ export const QuestionListCard = ({
             />
           )}
         </Flex>
+      )}
+
+      {mentionedUser && (
+        <Text opacity={0.76}>
+          Mentioned{" "}
+          <Box as="b" color="secondary.6">
+            {formatToUsername(getFullName(mentionedUser))}
+          </Box>
+        </Text>
       )}
 
       {active ? (
@@ -252,6 +264,7 @@ QuestionListCard.propTypes = {
   body: PropTypes.string,
   createdAt: PropTypes.string,
   active: PropTypes.bool,
+  onDeleteSuccess: PropTypes.func,
   commentCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tags: PropTypes.arrayOf(
     PropTypes.shape({

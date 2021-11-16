@@ -191,7 +191,7 @@ export const userForumGetQuestionDetails = async (id) => {
  * @returns {Promise<{ categories: { value: string, label: string } }>}
  */
 export const userForumGetCategories = async () => {
-  const path = `/forum/categories`;
+  const path = `/forum/category`;
 
   const {
     data: { data },
@@ -234,6 +234,22 @@ export const userForumEditQuestion = async (questionId, body) => {
   const {
     data: { message },
   } = await http.patch(path, body);
+
+  return { message };
+};
+
+/**
+ * Endpoint to delete a forum question
+ * @param {string} questionId
+ *
+ * @returns {Promise<{ message: string }>}
+ */
+export const userForumDeleteQuestion = async (questionId) => {
+  const path = `/forum/question/${questionId}`; // TODO: change path
+
+  const {
+    data: { message },
+  } = await http.delete(path);
 
   return { message };
 };

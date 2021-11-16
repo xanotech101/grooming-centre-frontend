@@ -1,13 +1,12 @@
-import { Box, Flex, List, ListItem, ListIcon } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import {
   AiOutlineComment,
-  AiOutlineLink,
   AiOutlineQuestionCircle,
-  AiOutlineStar,
   AiOutlineUnorderedList,
 } from "react-icons/ai";
-import { BsDot, BsTag } from "react-icons/bs";
-import { Heading, Link, SearchBar, Text } from "../../../components";
+import { BsTag } from "react-icons/bs";
+import { useHistory } from "react-router";
+import { Link, SearchBar, Text } from "../../../components";
 import { AskAQuestionButton } from "./Header/Header";
 import useDisplayHeader from "./Header/hooks/useDisplayHeader";
 
@@ -42,9 +41,22 @@ const personalNavLinks = [
 ];
 
 export const Sidebar = ({ ...rest }) => {
+  const { push } = useHistory();
+
+  const handleSearch = (query) => {
+    push(`/forum/questions?q=${query}`);
+  };
+
   return (
     <Box {...rest}>
-      <SearchBar marginBottom={5} border="none" />
+      <SearchBar
+        sm
+        marginBottom={5}
+        border="none"
+        placeholder="Question by title, description or tag"
+        fontSize="text.level5"
+        onSearch={handleSearch}
+      />
 
       <Box as="nav">
         <Flex as="ul" listStyleType="none" flexDirection="column">
@@ -114,112 +126,6 @@ export const Aside = ({ ...rest }) => {
           <AskAQuestionButton />
         </Box>
       )}
-
-      <Box
-        shadow="0px 0px 5px rgba(0, 0, 0, 0.1)"
-        rounded={5}
-        minHeight="300px"
-        paddingX={5}
-        paddingY={7}
-      >
-        <Box marginBottom={8}>
-          <Flex
-            alignItems="center"
-            borderBottom="1px"
-            borderColor="accent.1"
-            color="accent.3"
-            paddingBottom={2}
-            marginBottom={3}
-          >
-            <AiOutlineStar />
-
-            <Heading fontSize="text.level3" marginLeft={2} color="black">
-              Must-read posts
-            </Heading>
-          </Flex>
-
-          <List color="others.4" spacing={1}>
-            <ListItem display="flex">
-              <ListIcon marginTop={1} fontSize="xl">
-                <BsDot />
-              </ListIcon>
-
-              <Link href="#">
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Please read rules before you start working on a platform
-                </Text>
-              </Link>
-            </ListItem>
-
-            <ListItem display="flex">
-              <ListIcon marginTop={1} fontSize="xl">
-                <BsDot />
-              </ListIcon>
-
-              <Link href="#">
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Vision & Strategy of Alemhelp
-                </Text>
-              </Link>
-            </ListItem>
-          </List>
-        </Box>
-
-        <Box>
-          <Flex
-            alignItems="center"
-            borderBottom="1px"
-            borderColor="accent.1"
-            color="accent.3"
-            paddingBottom={2}
-            marginBottom={3}
-          >
-            <AiOutlineLink />
-
-            <Heading fontSize="text.level3" marginLeft={2} color="black">
-              Featured links
-            </Heading>
-          </Flex>
-
-          <List color="others.4" spacing={1}>
-            <ListItem display="flex">
-              <ListIcon marginTop={1} fontSize="xl">
-                <BsDot />
-              </ListIcon>
-
-              <Link href="#">
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Alemhelp source-code on GitHub{" "}
-                </Text>
-              </Link>
-            </ListItem>
-
-            <ListItem display="flex">
-              <ListIcon marginTop={1} fontSize="xl">
-                <BsDot />
-              </ListIcon>
-
-              <Link href="#">
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Golang best-practices
-                </Text>
-              </Link>
-            </ListItem>
-
-            <ListItem display="flex">
-              <ListIcon marginTop={1} fontSize="xl">
-                <BsDot />
-              </ListIcon>
-
-              <Link href="#">
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Alem.School dashboard
-                </Text>
-              </Link>
-            </ListItem>
-          </List>
-        </Box>
-      </Box>
     </Box>
   );
 };

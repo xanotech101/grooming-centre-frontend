@@ -44,12 +44,14 @@ const AddQuestionPage = () => {
     getValues: formManager.getValues,
     watch: formManager.watch,
     inputId: "title",
+    inputName: "title",
   });
   const questionMentioning = useMentioning({
     setValue: formManager.setValue,
     getValues: formManager.getValues,
     watch: formManager.watch,
     inputId: "question",
+    inputName: "question",
   });
 
   useEffect(() => {
