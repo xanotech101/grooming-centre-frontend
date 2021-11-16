@@ -7,6 +7,9 @@ import { loggedInUserGetEventListing } from "../../services";
 import coverImagePlaceholder from "../../assets/images/events-banner.svg";
 import breakpoints, { maxWidthStyles_userPages } from "../../theme/breakpoints";
 import { EmptyState } from "../../layouts";
+import dayjs from "dayjs";
+var isoWeek = require("dayjs/plugin/isoWeek");
+dayjs.extend(isoWeek);
 
 const useEventsPage = () => {
   const { resource, handleFetchResource } = useFetchAndCache();
@@ -81,68 +84,83 @@ const EventsPage = () => {
   );
 };
 
-const Listing = ({ events }) => (
-  <Box
-    minHeight="50vh"
-    maxWidth={breakpoints.tablet}
-    marginX="auto"
-    border="1px"
-    borderColor="accent.1"
-    rounded="md"
-  >
-    <Grid
-      columnGap={16}
-      templateColumns="70px auto"
-      borderBottom="1px"
+const Listing = ({ events }) => {
+  const hasEnded = (event) => Date.now() > new Date(event.endTime).getTime();
+
+  const isUpcoming = (event) =>
+    new Date(event.startTime).getTime() > Date.now();
+
+  const isOngoing = (event) =>
+    Date.now() > new Date(event.startTime) && !hasEnded(event);
+
+  return (
+    <Box
+      minHeight="50vh"
+      maxWidth={breakpoints.tablet}
+      marginX="auto"
+      border="1px"
       borderColor="accent.1"
-      p={3}
-      opacity={0.7}
+      rounded="md"
     >
-      <Text textAlign="center" bold>
-        Date
-      </Text>
-      <Text bold>Event Type</Text>
-    </Grid>
+      <Grid
+        columnGap={16}
+        templateColumns="70px auto"
+        borderBottom="1px"
+        borderColor="accent.1"
+        p={3}
+        opacity={0.7}
+      >
+        <Text textAlign="center" bold>
+          Date
+        </Text>
+        <Text bold>Event Type</Text>
+      </Grid>
 
-    <Box px={3}>
-      {events.map((event) => (
-        <Grid
-          key={event.id}
-          columnGap={16}
-          templateColumns="70px 1fr 120px"
-          borderBottom="1px"
-          borderColor="accent.1"
-          py={5}
-          alignItems="center"
-        >
-          <Box textAlign="center">
-            <Text color="primary.hover" as="level5">
-              Wednesday
-            </Text>
-            <Text fontSize="heading.h3" bold>
-              30
-            </Text>
-            <Text bold opacity={0.7}>
-              SEPT
-            </Text>
-          </Box>
+      <Box px={3}>
+        {events.map((event) => (
+          <Grid
+            key={event.id}
+            columnGap={16}
+            templateColumns="70px 1fr 150px"
+            borderBottom="1px"
+            borderColor="accent.1"
+            py={5}
+            alignItems="center"
+          >
+            <Box textAlign="center">
+              <Text color="primary.hover" as="level5">
+                {dayjs(event.startTime).format("dddd")}
+              </Text>
+              <Text fontSize="heading.h3" bold>
+                {dayjs(event.startTime).format("D")}
+              </Text>
+              <Text bold opacity={0.7}>
+                {dayjs(event.startTime).format("MMM")}
+              </Text>
+            </Box>
 
-          <Box>
-            <Text color="primary.hover" as="level5">
-              09:00 am to 10:30 am
-            </Text>
-            <Text as="level2" bold my={1}>
-              {event.name}
-            </Text>
-            <Text>{event.description}</Text>
-          </Box>
+            <Box>
+              <Text color="primary.hover" as="level5">
+                {dayjs(event.startTime).format("h:mm A")} to{" "}
+                {dayjs(event.startTime).format("h:mm A")}
+              </Text>
+              <Text as="level2" bold my={1}>
+                {event.name}
+              </Text>
+              <Text>{event.description}</Text>
+            </Box>
 
-          <Button secondary>Join Event</Button>
-        </Grid>
-      ))}
+            <Button secondary disabled={!isOngoing(event)}>
+              {isOngoing(event) && "Join Event"}
+              {hasEnded(event) && "Event Has Ended"}
+              {isUpcoming(event) && "Event Is Upcoming"}
+            </Button>
+          </Grid>
+        ))}
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 const LoadingState = () => (
   <EmptyState height="50vh">
