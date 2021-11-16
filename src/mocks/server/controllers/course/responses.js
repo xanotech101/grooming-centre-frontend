@@ -39,6 +39,14 @@ export const adminCourseListingRes = {
     ],
 };
 
+export const adminUnpublishCourseRes = {
+  message: "unPublished",
+};
+
+export const adminPublishCourseRes = {
+  message: "Published",
+};
+
 export const adminCreateCourseRes = {
   message: "course created successfully",
   data: {
@@ -260,6 +268,7 @@ export const userCourseDetailsRes_courseId_1 = {
       },
     ],
     courseTracking: null,
+    isPublished: true,
     assessment: [
       {
         id: "assessmentId_1",
