@@ -134,6 +134,7 @@ const UserListingPage = () => {
         text: `${user.firstName} ${user.lastName}`,
         userId: user.id,
       },
+      department: user.departmentName,
       certificates: user.noOfCertificate,
     });
 

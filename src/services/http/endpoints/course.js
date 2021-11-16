@@ -19,7 +19,7 @@ export const adminGetCourseListing = async () => {
         firstName: course.user.firstName,
         lastName: course.user.lastName,
       },
-      startDate: course.startDate,
+      startDate: course.lesson.startTime,
       isPublished: course.isPublished,
     })),
   };
@@ -67,7 +67,22 @@ export const adminCreateCourse = async (body) => {
  *
  * @returns {Promise<{ courses: CourseListArray }>}
  */
-export const userGetCourseListing = async (userId) => {
+export const userGetCourseListing = async () => {
+  const path = `/course/user/courses`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { courses: data };
+};
+
+/**
+ * Endpoint to get user `course-listing`
+ *
+ * @returns {Promise<{ courses: CourseListArray }>}
+ */
+export const adminGetUserCourseListing = async (userId) => {
   const path = `/courses/${userId}`;
 
   const {
