@@ -6,7 +6,7 @@ import { Route, useParams } from "react-router-dom";
 import { Breadcrumb, Link, Table, Text } from "../../../../../components";
 import { useComponentIsMount } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
-import { userGetCourseListing } from "../../../../../services";
+import { adminGetUserCourseListing } from "../../../../../services";
 
 const tableProps = {
   filterControls: [
@@ -108,7 +108,7 @@ const useCourseListing = () => {
       setRows({ loading: true });
 
       try {
-        const { courses } = await userGetCourseListing(userId);
+        const { courses } = await adminGetUserCourseListing(userId);
 
         const data = mapper ? courses.map(mapper) : courses;
 
