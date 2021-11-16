@@ -12,14 +12,14 @@ export const adminGetCourseListing = async () => {
   } = await http.get(path);
 
   return {
-    courses: data.rows.map((course) => ({
+    courses: data.map((course) => ({
       id: course.id,
       title: course.title,
       instructor: {
         firstName: course.user.firstName,
         lastName: course.user.lastName,
       },
-      startDate: course.lesson.startTime,
+      startDate: course.lesson[0] ? course.lesson[0].startTime : "not set",
       isPublished: course.isPublished,
     })),
   };
