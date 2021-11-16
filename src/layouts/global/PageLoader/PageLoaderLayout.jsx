@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/layout";
-import { Spinner } from "../../../components";
+import { Spinner, Image, Text, Heading } from "../../../components";
+import emptyImage from "../../../assets/images/empty-events.svg";
 
 export const PageLoaderLayout = ({ children = <Spinner />, ...rest }) => {
   return (
@@ -15,3 +16,35 @@ export const PageLoaderLayout = ({ children = <Spinner />, ...rest }) => {
     </Flex>
   );
 };
+
+export const EmptyState = ({
+  children,
+  illustration = (
+    <Image
+      src={emptyImage}
+      height="200px"
+      alt="Course Header"
+      mb={5}
+      transform="translateX(-10px)"
+    />
+  ),
+  heading,
+  description,
+  cta,
+  ...rest
+}) => (
+  <PageLoaderLayout height="60vh" width="100%" {...rest}>
+    {children || (
+      <>
+        {illustration}
+
+        <Heading type="h3">{heading}</Heading>
+        <Text as="level3" bold mt={3} mb={6}>
+          {description}
+        </Text>
+
+        {cta}
+      </>
+    )}
+  </PageLoaderLayout>
+);
