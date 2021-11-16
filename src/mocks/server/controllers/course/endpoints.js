@@ -5,19 +5,49 @@ import {
   adminCourseListingRes,
   userCourseDetailsRes_courseId_1,
   userCourseDetailsRes_courseId_3,
- adminGetUserCourseListingRes_userId_1,
- adminGetUserCourseListingRes_userId_2,
- adminGetUserCourseListingRes_userId_3,
+  adminGetUserCourseListingRes_userId_1,
+  adminGetUserCourseListingRes_userId_2,
+  adminGetUserCourseListingRes_userId_3,
   adminCreateCourseRes,
   adminEditCourseRes_courseId_1,
   adminEditCourseRes_courseId_3,
   userCourseListingRes,
+  adminUnpublishCourseRes,
+  adminPublishCourseRes,
 } from "./responses";
 
 const adminGetCourseListing = rest.get(
   getUrl("/course/admin/list"),
   handleSuccessResponse(adminCourseListingRes)
 );
+const adminPublishCourse = [
+  rest.patch(
+    getUrl("/course/publish/courseId_1"),
+    handleSuccessResponse(adminPublishCourseRes)
+  ),
+  rest.patch(
+    getUrl("/course/publish/courseId_2"),
+    handleSuccessResponse(adminPublishCourseRes)
+  ),
+  rest.patch(
+    getUrl("/course/publish/courseId_3"),
+    handleSuccessResponse(adminPublishCourseRes)
+  ),
+];
+const adminUnpublishCourse = [
+  rest.patch(
+    getUrl("/course/unpublish/courseId_1"),
+    handleSuccessResponse(adminUnpublishCourseRes)
+  ),
+  rest.patch(
+    getUrl("/course/unpublish/courseId_2"),
+    handleSuccessResponse(adminUnpublishCourseRes)
+  ),
+  rest.patch(
+    getUrl("/course/unpublish/courseId_3"),
+    handleSuccessResponse(adminUnpublishCourseRes)
+  ),
+];
 
 const adminCreateCourse = rest.post(
   getUrl("/course/create"),
@@ -70,10 +100,12 @@ const userGetCourseDetails = [
 const course = [
   adminGetCourseListing,
   userGetCourseListing,
-  ...adminGetUserCourseListing,
   adminCreateCourse,
+  ...adminGetUserCourseListing,
   ...userGetCourseDetails,
   ...adminEditCourse,
+  ...adminPublishCourse,
+  ...adminUnpublishCourse,
 ];
 
 export default course;
