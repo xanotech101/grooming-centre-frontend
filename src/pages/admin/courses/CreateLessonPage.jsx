@@ -203,7 +203,7 @@ const CreateLessonPage = () => {
           item3={
             <BreadcrumbItem>
               <Link
-                href={` /admin/courses/${courseId}/lesson/${lessonId}/view`}
+                href={`/admin/courses/details/${courseId}/lessons`}
               >
                 Lessons
               </Link>

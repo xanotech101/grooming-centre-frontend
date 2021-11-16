@@ -240,7 +240,7 @@ export const userCourseDetailsRes_courseId_1 = {
     description: "This course will teach you about javascript",
     disabled: false,
     title: "PHP course for mid-level engineers",
-    departmentId: "92ab95a4-47b3-4812-a23e-20951bd4b839",
+    departmentId: "departmentId_1",
     content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit.Maxime mollitia,molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborumnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentiumoptio, eaque rerum! Provident similique accusantium nemo autem. Veritatisobcaecati tenetur iure eius earum ut molestias architecto voluptate aliquamnihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint.",
     thumbnail:

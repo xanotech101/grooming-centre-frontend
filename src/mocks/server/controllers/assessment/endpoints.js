@@ -8,8 +8,8 @@ import {
   adminGetAssessmentListingRes_courseId_3,
   adminGetQuestionDetailsRes_questionId_1,
   adminGetQuestionDetailsRes_questionId_2,
-  requestAssessmentDetailsRes_assessmentId_1,
-  requestAssessmentDetailsRes_assessmentId_2,
+  // requestAssessmentDetailsRes_assessmentId_1,
+  // requestAssessmentDetailsRes_assessmentId_2,
   submitAssessmentRes,
   adminCreateAssessmentRes,
   adminEditAssessmentRes_assessmentId_1,
@@ -27,16 +27,16 @@ const adminGetQuestionDetails = [
   ),
 ];
 
-const requestAssessmentDetails = [
-  rest.get(
-    getUrl("/assessment/assessmentId_1"),
-    handleSuccessResponse(requestAssessmentDetailsRes_assessmentId_1)
-  ),
-  rest.get(
-    getUrl("/assessment/assessmentId_2"),
-    handleSuccessResponse(requestAssessmentDetailsRes_assessmentId_2)
-  ),
-];
+// const requestAssessmentDetails = [
+//   rest.get(
+//     getUrl("/assessment/assessmentId_1"),
+//     handleSuccessResponse(requestAssessmentDetailsRes_assessmentId_1)
+//   ),
+//   rest.get(
+//     getUrl("/assessment/assessmentId_2"),
+//     handleSuccessResponse(requestAssessmentDetailsRes_assessmentId_2)
+//   ),
+// ];
 
 const submitAssessment = [
   rest.post(
@@ -92,7 +92,7 @@ const assessment = [
   adminCreateAssessmentQuestion,
   adminEditAssessmentQuestion,
   ...adminGetQuestionDetails,
-  ...requestAssessmentDetails,
+  // ...requestAssessmentDetails,
   ...submitAssessment,
   ...adminGetAssessmentListing,
   adminCreateAssessment,
