@@ -19,7 +19,7 @@ const tableProps = {
     },
     {
       id: "4",
-      key: "noOfusers",
+      key: "noOfUsers",
       text: "No users",
       fraction: "150px",
     },
@@ -74,7 +74,7 @@ const RolesPage = ({ metadata: propMetadata }) => {
     const mapCourseToRow = (role) => ({
       id: role.id,
       name: role.name,
-      noOfusers: role.noOfusers,
+      noOfUsers: role.noOfUsers,
     });
 
     fetchRoles(mapCourseToRow);
