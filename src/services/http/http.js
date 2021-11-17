@@ -13,7 +13,7 @@ const token = localStorage.getItem("token");
 
 const defaultOptions = (explicitToken = token) => ({
   // timeout's the request in 10 minute by default
-  timeout: 10 * 1000, // TODO: 10 minutes might be too long, make to about 3-4 minutes
+  timeout: 60 * 10 * 1000, // TODO: 10 minutes might be too long, make to about 3-4 minutes
   // withCredentials: true,
   // credentials: "include",
   headers: {
