@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { Box, Grid, Flex } from "@chakra-ui/layout";
 import { BreadcrumbItem } from "@chakra-ui/react";
@@ -18,20 +18,62 @@ import { BiCertification } from "react-icons/bi";
 import { ImArrowUp } from "react-icons/im";
 import useCourseDetails from "../../../../user/Courses/CourseDetails/hooks/useCourseDetails";
 import { FaEdit } from "react-icons/fa";
+import { HiBadgeCheck } from "react-icons/hi";
+import {
+  adminPublishCourse,
+  adminUnpublishCourse,
+} from "../../../../../services";
+import { AiOutlineClose } from "react-icons/ai";
+import { useToast } from "@chakra-ui/toast";
+import { capitalizeFirstLetter } from "../../../../../utils";
+import {  useCache } from "../../../../../contexts";
 
 const InfoPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
+
+
 
   useEffect(() => {
     fetchCourseDetails();
   }, [fetchCourseDetails]);
 
   const courseDetailsData = courseDetails.data;
-
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
   console.log(courseDetailsData);
+  const toast = useToast();
+  const { handleDelete } = useCache();
+  const [isPublishing, setIsPublishing] = useState(false);
+  const handlePublishCourse = async () => {
+    setIsPublishing(true);
+    try {
+      await (courseDetailsData.isPublished
+        ? adminUnpublishCourse(courseDetailsData.id)
+        : adminPublishCourse(courseDetailsData.id));
+
+      toast({
+        description: capitalizeFirstLetter(
+          courseDetailsData?.isPublished
+            ? "Unpublished successfully"
+            : "Published successfully"
+        ),
+        position: "top",
+        status: "success",
+      });
+      handleDelete(courseDetailsData.id);
+      fetchCourseDetails();
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   return isLoading || isError ? (
     <Flex
@@ -71,15 +113,35 @@ const InfoPage = () => {
           flexDirection="row"
         >
           <Heading fontSize="heading.h3">Course Info</Heading>
-          <Button
-            paddingLeft={2}
-            sizes="small"
-            rightIcon={<FaEdit />}
-            secondary
-            link={`/admin/courses/edit/${courseDetailsData?.id}`}
-          >
-            Edit
-          </Button>
+          <Flex>
+            <Button
+              paddingLeft={2}
+              sizes="small"
+              rightIcon={
+                !courseDetailsData?.isPublished ? (
+                  <HiBadgeCheck fontSize="22px" />
+                ) : (
+                  <AiOutlineClose />
+                )
+              }
+              disabled={!courseDetailsData && isPublishing}
+              isLoading={isPublishing}
+              marginRight={4}
+              onClick={handlePublishCourse}
+            >
+              {courseDetailsData?.isPublished ? "Unpublished" : "Publish"} this
+              course
+            </Button>
+            <Button
+              paddingLeft={2}
+              sizes="small"
+              rightIcon={<FaEdit />}
+              secondary
+              link={`/admin/courses/edit/${courseDetailsData?.id}`}
+            >
+              Edit
+            </Button>
+          </Flex>
         </Flex>
 
         <Box backgroundColor="white" paddingX={10} paddingY={12} shadow="md">
@@ -147,7 +209,7 @@ const InfoPage = () => {
               isLoading={isLoading}
             />
             <OverviewBox
-              value="1"
+              value={courseDetailsData?.examination ? 1 : 0}
               name="Exams"
               icon={<BiCertification />}
               iconBackgroundColor="secondary.5"

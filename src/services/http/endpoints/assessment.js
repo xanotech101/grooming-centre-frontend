@@ -22,7 +22,7 @@ export const requestAssessmentDetails = async (id) => {
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
-    questions: data.assessmentQuestions.map((q, index) => ({
+    questions: data.assessmentQuestions ? data.assessmentQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,
       // questionIndex: +q.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
@@ -32,7 +32,7 @@ export const requestAssessmentDetails = async (id) => {
         name: opt.name,
         optionIndex: +opt.optionIndex,
       })),
-    })),
+    })) : "not set"
   };
 
   return { assessment };

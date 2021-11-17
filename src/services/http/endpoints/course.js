@@ -124,3 +124,29 @@ export const userGetCourseDetails = async (id) => {
     }, // TODO: remove lazy mapping
   };
 };
+
+/**
+ * Endpoint to publish course
+ * @param {string} id - courseId
+ *
+ * @returns {Promise<{ course: Course }>}
+ */
+export const adminPublishCourse = async (id) => {
+  const path = `/course/publish/${id}`;
+
+await http.patch(path);
+ 
+};
+
+/**
+ * Endpoint to unpublish course
+ * @param {string} id - id
+ *
+ * @returns {Promise<{ course: Course }>}
+ */
+export const adminUnpublishCourse = async (id) => {
+  const path = `/course/unpublish/${id}`;
+
+await http.patch(path);
+ 
+};

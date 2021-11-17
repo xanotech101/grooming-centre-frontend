@@ -22,7 +22,7 @@ import {
   formatDateToISO,
   populateSelectOptions,
 } from "../../../utils";
-import { useApp } from "../../../contexts";
+import { useApp, useCache } from "../../../contexts";
 import { useEffect } from "react";
 import { adminCreateLesson, adminEditLesson } from "../../../services";
 import useViewLessonInfo from "./hooks/useViewLessonInfo";
@@ -34,6 +34,7 @@ const CreateLessonPage = () => {
 
   const { push } = useHistory();
   const toast = useToast();
+  const { handleDelete } = useCache();
 
   const {
     handleSubmit,
@@ -162,6 +163,8 @@ const CreateLessonPage = () => {
         ? adminEditLesson(lessonId, body)
         : adminCreateLesson(body));
 
+              if (isEditMode) handleDelete(lesson.id);
+
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -203,7 +206,7 @@ const CreateLessonPage = () => {
           item3={
             <BreadcrumbItem>
               <Link
-                href={` /admin/courses/${courseId}/lesson/${lessonId}/view`}
+                href={`/admin/courses/details/${courseId}/lessons`}
               >
                 Lessons
               </Link>

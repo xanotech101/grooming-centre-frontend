@@ -15,7 +15,7 @@ import {
 } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
-import { useApp } from "../../../contexts";
+import { useApp, useCache } from "../../../contexts";
 import {
   appendFormData,
   capitalizeFirstLetter,
@@ -46,6 +46,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   const { id: courseId } = useParams();
   const isEditMode = useMemo(() => courseId && courseId !== "new", [courseId]);
 
+  const { handleDelete } = useCache();
+
   const onSubmit = async (data) => {
     try {
       const courseThumbnail =
@@ -60,10 +62,16 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
       };
       const body = appendFormData(data);
 
+
+      
       const { course, message } = await (isEditMode
         ? adminEditCourse(courseId, body)
         : adminCreateCourse(body));
-
+        
+        
+        if (isEditMode) handleDelete(courseDetailsData.id);
+      
+      
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
