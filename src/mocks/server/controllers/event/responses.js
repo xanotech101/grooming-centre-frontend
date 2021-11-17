@@ -8,7 +8,16 @@ export const loggedInUserGetEventListingRes = {
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
-      vitae?`,
+      vitae?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?
+      `,
     },
     {
       id: "eventId_2",
@@ -25,10 +34,7 @@ export const loggedInUserGetEventListingRes = {
       startTime: new Date(Date.now() - 60 * 20 * 1000).toISOString(),
       endTime: new Date(Date.now() - 60 * 1 * 1000).toISOString(),
       name: "Mock Event",
-      description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
-      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
-      natus laudantium totam quisquam odit consectetur reprehenderit non quae
-      vitae?`,
+      description: `Lorem ipsum dolor sit amet consectetur adipisicing elit.`,
     },
   ],
 };

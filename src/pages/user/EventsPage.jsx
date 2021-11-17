@@ -125,7 +125,7 @@ const Listing = ({ events }) => {
             borderBottom="1px"
             borderColor="accent.1"
             py={5}
-            alignItems="center"
+            // alignItems="center"
           >
             <Box textAlign="center">
               <Text color="primary.hover" as="level5">
