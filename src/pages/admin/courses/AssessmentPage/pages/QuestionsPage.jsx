@@ -200,11 +200,10 @@ const CreateQuestionPage = () => {
         : { assessmentId, question: questionText, options };
 
       console.log(data.options);
-      const body = appendFormData(data);
 
-      // const { message, lesson } = await (isEditMode
-      //   ? adminEditLesson(lessonId, body)
-      //   : adminCreateLesson(body));
+      console.log(data);
+
+      const body = appendFormData(data);
 
       const { message } = await (isEditMode && !isExamination
         ? adminEditAssessmentQuestion({
