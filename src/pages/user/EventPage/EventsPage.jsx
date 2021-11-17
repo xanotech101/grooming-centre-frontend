@@ -1,7 +1,7 @@
 import { Box, Stack } from "@chakra-ui/layout";
 import { useEffect, useCallback } from "react";
 import { Route } from "react-router-dom";
-import { Button, Heading, Image, Text } from "../../../components";
+import { Heading, Image, Text } from "../../../components";
 import { useFetchAndCache } from "../../../hooks";
 import { loggedInUserGetEventListing } from "../../../services";
 import coverImagePlaceholder from "../../../assets/images/events-banner.svg";

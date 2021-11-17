@@ -12,8 +12,8 @@ export const baseURL = "https://groomingcenter.herokuapp.com/api/v1";
 const token = localStorage.getItem("token");
 
 const defaultOptions = (explicitToken = token) => ({
-  // timeout's the request in a minute by default
-  timeout: 60 * 1000,
+  // timeout's the request in 10 minute by default
+  timeout: 10 * 1000, // TODO: 10 minutes might be too long, make to about 3-4 minutes
   // withCredentials: true,
   // credentials: "include",
   headers: {
