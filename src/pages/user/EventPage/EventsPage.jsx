@@ -75,7 +75,7 @@ const EventsPage = () => {
         hasError={hasError}
         eventsIsEmpty={eventsIsEmpty}
         events={events}
-        headerButton={<Button>Create Event</Button>}
+        // headerButton={<Button>Create Event</Button>}
       />
     </Box>
   );
