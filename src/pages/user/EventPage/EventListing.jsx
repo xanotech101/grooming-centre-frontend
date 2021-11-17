@@ -9,6 +9,7 @@ export const EventListing = ({
   hasError,
   eventsIsEmpty,
   events,
+  headerButton,
 }) => (
   <>
     {isLoading && <LoadingState />}
@@ -20,11 +21,13 @@ export const EventListing = ({
         description="You have no events scheduled"
       />
     )}
-    {events && !eventsIsEmpty && <Listing events={events} />}
+    {events && !eventsIsEmpty && (
+      <Listing events={events} headerButton={headerButton} />
+    )}
   </>
 );
 
-const Listing = ({ events }) => {
+const Listing = ({ events, headerButton }) => {
   const hasEnded = (event) => Date.now() > new Date(event.endTime).getTime();
 
   const isUpcoming = (event) =>
@@ -44,16 +47,20 @@ const Listing = ({ events }) => {
     >
       <Grid
         columnGap={16}
-        templateColumns="70px auto"
+        templateColumns="70px 1fr 150px"
         borderBottom="1px"
         borderColor="accent.1"
-        p={3}
+        px={3}
         opacity={0.7}
+        height="65px"
+        alignItems="center"
       >
         <Text textAlign="center" bold>
           Date
         </Text>
         <Text bold>Event Type</Text>
+
+        {headerButton}
       </Grid>
 
       <Box px={3}>
@@ -65,7 +72,6 @@ const Listing = ({ events }) => {
             borderBottom="1px"
             borderColor="accent.1"
             py={5}
-            // alignItems="center"
           >
             <Box textAlign="center">
               <Text color="primary.hover" as="level5">
