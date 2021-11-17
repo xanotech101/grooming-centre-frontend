@@ -410,7 +410,6 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
   return (
     <Flex
       {...rest}
-      alignItems="center"
       justifyContent="space-between"
       backgroundColor="white"
       padding={6}
