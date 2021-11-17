@@ -21,7 +21,7 @@ const QuestionsPage = () => {
     <>
       {questions.loading && <PageLoaderLayout height="70%" width="100%" />}
 
-      {questionsIsEmpty && (
+      {questionsIsEmpty && !query && (
         <PageLoaderLayout height="70%" width="100%">
           <Heading as="h3" marginBottom={3}>
             No Questions Asked Yet
