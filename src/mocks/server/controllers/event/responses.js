@@ -2,24 +2,33 @@ export const loggedInUserGetEventListingRes = {
   data: [
     {
       id: "eventId_1",
-      startTime: "2021-11-30T23:00:00.000Z",
-      endTime: "2021-12-01T23:00:00.000Z",
+      startTime: new Date(Date.now() + 60 * 1 * 1000).toISOString(),
+      endTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
       name: "Video Conference",
-      description: "Upcoming",
+      description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?`,
     },
     {
       id: "eventId_2",
-      startTime: new Date().toISOString(),
-      endTime: new Date(Date.now() + 60 * 1000).toISOString(),
+      startTime: new Date(Date.now() - 60 * 6 * 1000).toISOString(),
+      endTime: new Date(Date.now() + 60 * 2 * 1000).toISOString(),
       name: "Live Stream",
-      description: "Ongoing",
+      description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?`,
     },
     {
       id: "eventId_3",
-      startTime: "2021-11-02T23:00:00.000Z",
-      endTime: "2021-11-03T23:00:00.000Z",
+      startTime: new Date(Date.now() - 60 * 20 * 1000).toISOString(),
+      endTime: new Date(Date.now() - 60 * 1 * 1000).toISOString(),
       name: "Mock Event",
-      description: "Ended",
+      description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?`,
     },
   ],
 };

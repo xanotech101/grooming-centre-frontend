@@ -131,18 +131,16 @@ const Listing = ({ events }) => {
               <Text color="primary.hover" as="level5">
                 {dayjs(event.startTime).format("dddd")}
               </Text>
-              <Text fontSize="heading.h3" bold>
+              <Text fontSize="heading.h3" bold color="primary.base">
                 {dayjs(event.startTime).format("D")}
               </Text>
-              <Text bold opacity={0.7}>
-                {dayjs(event.startTime).format("MMM")}
-              </Text>
+              <Text bold>{dayjs(event.startTime).format("MMM")}</Text>
             </Box>
 
             <Box>
               <Text color="primary.hover" as="level5">
                 {dayjs(event.startTime).format("h:mm A")} to{" "}
-                {dayjs(event.startTime).format("h:mm A")}
+                {dayjs(event.endTime).format("h:mm A")}
               </Text>
               <Text as="level2" bold my={1}>
                 {event.name}
