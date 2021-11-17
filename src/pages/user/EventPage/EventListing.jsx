@@ -11,16 +11,16 @@ export const EventListing = ({
   events,
 }) => (
   <>
-    {/* {isLoading && <LoadingState />}
-      {hasError && <ErrorState />}
-      {eventsIsEmpty && (
-        <EmptyState
-          cta={<Button link="/dashboard">Return to dashboard</Button>}
-          heading="No Upcoming Events"
-          description="You have no events scheduled"
-        />
-      )}
-      {events && !eventsIsEmpty && <Listing events={events} />} */}
+    {isLoading && <LoadingState />}
+    {hasError && <ErrorState />}
+    {eventsIsEmpty && (
+      <EmptyState
+        cta={<Button link="/dashboard">Return to dashboard</Button>}
+        heading="No Upcoming Events"
+        description="You have no events scheduled"
+      />
+    )}
+    {events && !eventsIsEmpty && <Listing events={events} />}
   </>
 );
 
