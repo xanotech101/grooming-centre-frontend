@@ -24,6 +24,7 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   const { assessment_id } = useParams();
 
   assessmentId = assessmentId || assessment_id;
+  const assessmentIsNew = assessmentId === "new";
 
   const queryParams = useQueryParams();
   const isExamination = queryParams.get("examination");
@@ -68,8 +69,8 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   }, [assessmentId, componentIsMount]);
 
   useEffect(() => {
-    fetchAssessmentDetails();
-  }, [fetchAssessmentDetails]);
+    if (!assessmentIsNew) fetchAssessmentDetails();
+  }, [assessmentIsNew, fetchAssessmentDetails]);
 
   const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
   const isLoading = assessmentDetails.loading;

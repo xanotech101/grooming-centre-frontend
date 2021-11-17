@@ -9,8 +9,8 @@ export const loggedInUserGetEventListingRes = {
     },
     {
       id: "eventId_2",
-      startTime: "2021-11-15T23:00:00.000Z",
-      endTime: "2021-11-18T23:00:00.000Z",
+      startTime: new Date().toISOString(),
+      endTime: new Date(Date.now() + 60 * 1000).toISOString(),
       name: "Live Stream",
       description: "Ongoing",
     },
