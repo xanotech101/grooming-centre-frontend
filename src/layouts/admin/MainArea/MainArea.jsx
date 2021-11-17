@@ -12,8 +12,6 @@ import {
   ViewCourseInfoPageRoute,
   ViewLessonInfoPageRoute,
   UserListingPageRoute,
-  // EditCourseInfoPageRoute,
-  // EditLessonInfoPageRoute,
   AssessmentPageRoute,
   DepartmentListingPageRoute,
   CreateDepartmentPageRoute,
@@ -33,18 +31,13 @@ const MainArea = () => {
           <DashboardPageRoute exact path="/admin" />
           <CourseListingPageRoute exact path="/admin/courses" />
           <CreateCoursePageRoute exact path="/admin/courses/edit/:id" />
-          {/* <EditCourseInfoPageRoute exact path="/admin/courses/edit/:id" /> */}
           <CreateLessonPageRoute
             exact
             path="/admin/courses/:courseId/lessons/edit/:lessonId"
           />
           <AssessmentPageRoute path="/admin/courses/:id/assessment/:assessmentId" />
           <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
-          {/* <EditLessonInfoPageRoute
-            exact
-            path="/admin/courses/:courseId/lesson/edit/:lessonId"
-          /> */}
-          <ViewCourseInfoPageRoute path="/admin/courses/details/:id" />
+
           <ViewLessonInfoPageRoute
             exact
             path="/admin/courses/:courseId/lesson/:lessonId/view"
@@ -63,7 +56,7 @@ const MainArea = () => {
 
           <SecurityPageRoute path="/admin/settings/security" />
           <GradeCriteriaPageRoute path="/admin/settings/grade-criteria" />
-          <EventsPageRoute path="/admin/settings/events" />
+          <EventsPageRoute path="/admin/events" />
           <SettingsPageRoute path="/admin/settings" />
           <NotFoundPageRoute />
         </Switch>
