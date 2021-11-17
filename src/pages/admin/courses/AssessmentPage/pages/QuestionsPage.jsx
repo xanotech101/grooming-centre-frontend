@@ -76,7 +76,7 @@ const QuestionsPage = () => {
                   isExamination
                 )}
               >
-                Questions Overview
+                List Of Questions
               </Link>
             </Heading>
           </Box>
