@@ -1,76 +1,17 @@
-import { Box, Grid, Stack } from "@chakra-ui/layout";
-import { useEffect, useCallback } from "react";
-import { Route } from "react-router-dom";
-import { Button, Heading, Image, Spinner, Text } from "../../components";
-import { useFetchAndCache } from "../../hooks";
-import { loggedInUserGetEventListing } from "../../services";
-import coverImagePlaceholder from "../../assets/images/events-banner.svg";
-import breakpoints, { maxWidthStyles_userPages } from "../../theme/breakpoints";
-import { EmptyState } from "../../layouts";
+import { Box, Grid } from "@chakra-ui/layout";
+import { Button, Heading, Spinner, Text } from "../../../components";
+import breakpoints from "../../../theme/breakpoints";
+import { EmptyState } from "../../../layouts";
 import dayjs from "dayjs";
-var isoWeek = require("dayjs/plugin/isoWeek");
-dayjs.extend(isoWeek);
 
-const useEventsPage = () => {
-  const { resource, handleFetchResource } = useFetchAndCache();
-
-  const fetcher = useCallback(async () => {
-    const { events } = await loggedInUserGetEventListing();
-
-    return events;
-  }, []);
-
-  useEffect(() => {
-    handleFetchResource({ cacheKey: "events", fetcher });
-  }, [fetcher, handleFetchResource]);
-
-  return {
-    events: resource.data,
-    eventsIsEmpty:
-      !resource.loading &&
-      !resource.err &&
-      resource.data &&
-      !resource.data?.length,
-    isLoading: resource.loading,
-    hasError: resource.err,
-  };
-};
-
-const EventsPage = () => {
-  const { events, eventsIsEmpty, isLoading, hasError } = useEventsPage();
-
-  return (
-    <Box>
-      <Box
-        as="section"
-        padding={10}
-        marginBottom={10}
-        // backgroundColor="secondary.9"
-        color="white"
-        position="relative"
-      >
-        <Image
-          src={coverImagePlaceholder}
-          width="100%"
-          height="100%"
-          top={0}
-          left={0}
-          position="absolute"
-          alt="Course Header"
-        />
-
-        <Stack
-          spacing={7}
-          position="relative"
-          // zIndex={1}
-          {...maxWidthStyles_userPages}
-        >
-          <Heading>Upcoming Events</Heading>
-          <Text as="level2">Here is your schedule for the upcoming days</Text>
-        </Stack>
-      </Box>
-
-      {isLoading && <LoadingState />}
+export const EventListing = ({
+  isLoading,
+  hasError,
+  eventsIsEmpty,
+  events,
+}) => (
+  <>
+    {/* {isLoading && <LoadingState />}
       {hasError && <ErrorState />}
       {eventsIsEmpty && (
         <EmptyState
@@ -79,10 +20,9 @@ const EventsPage = () => {
           description="You have no events scheduled"
         />
       )}
-      {events && !eventsIsEmpty && <Listing events={events} />}
-    </Box>
-  );
-};
+      {events && !eventsIsEmpty && <Listing events={events} />} */}
+  </>
+);
 
 const Listing = ({ events }) => {
   const hasEnded = (event) => Date.now() > new Date(event.endTime).getTime();
@@ -171,7 +111,3 @@ const ErrorState = () => (
     <Heading type="h3">Something went wrong</Heading>
   </EmptyState>
 );
-
-export const EventsPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <EventsPage {...props} />} />;
-};
