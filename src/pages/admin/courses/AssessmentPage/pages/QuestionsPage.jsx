@@ -410,6 +410,7 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
   return (
     <Flex
       {...rest}
+      alignItems="stretch"
       justifyContent="space-between"
       backgroundColor="white"
       padding={6}
@@ -423,7 +424,9 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
         </Text>
       </Box>
 
-      <MoreIconButton editLink={editLink} />
+      <Box>
+        <MoreIconButton editLink={editLink} />
+      </Box>
     </Flex>
   );
 };
