@@ -199,8 +199,6 @@ const CreateQuestionPage = () => {
           }
         : { assessmentId, question: questionText, options };
 
-      console.log(data.options);
-
       console.log(data);
 
       const body = appendFormData(data);

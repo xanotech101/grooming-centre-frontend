@@ -8,6 +8,7 @@ const useViewLessonInfo = () => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { lessonId } = useParams();
+  const lessonIsNew = lessonId === "new";
 
   const [lessonDetails, setLessonDetails] = useState({
     data: null,
@@ -33,8 +34,8 @@ const useViewLessonInfo = () => {
   }, [lessonId, componentIsMount]);
 
   useEffect(() => {
-    fetchLessonDetails();
-  }, [fetchLessonDetails]);
+    if (!lessonIsNew) fetchLessonDetails();
+  }, [fetchLessonDetails, lessonIsNew]);
 
   const lesson = lessonDetails.data;
   const isLoading = lessonDetails.loading;

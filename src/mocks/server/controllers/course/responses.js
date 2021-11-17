@@ -72,7 +72,64 @@ export const adminEditCourseRes_courseId_3 = {
 };
 
 export const userCourseListingRes = {
-  data: [],
+  data: [
+    {
+      id: "courseId_1",
+      duration: 120,
+      description: "Learn HTML and CSS for free today",
+      title: "Web dev 2021",
+      thumbnail:
+        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
+      lessonCount: 23,
+      instructor: {
+        id: "instructorId_2",
+        profilePics:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+        firstName: "jane",
+        lastName: "bar",
+        title: "Senior Facility Manager",
+      },
+      progressPercentage: 75,
+    },
+    {
+      id: "courseId_3",
+      duration: 100,
+      description: "React Design Patters",
+      disabled: false,
+      title: "Become A React Guru",
+      thumbnail:
+        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
+      lessonCount: 24,
+      instructor: {
+        id: "instructorId_3",
+        profilePics:
+          "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
+        firstName: "Richcode",
+        lastName: "dart",
+        title: "Junior Developer",
+      },
+      progressPercentage: 13,
+    },
+    {
+      id: "courseId_2",
+      duration: 180,
+      description: "Nodejs Advanced Concept",
+      disabled: true,
+      title: "Backend Development",
+      thumbnail:
+        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
+      lessonCount: 0,
+      instructor: {
+        id: "instructorId_1",
+        profilePics:
+          "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
+        firstName: "john",
+        lastName: "doe",
+        title: "Team Lead",
+      },
+      progressPercentage: 0,
+    },
+  ],
 };
 
 export const adminGetUserCourseListingRes_userId_1 = {

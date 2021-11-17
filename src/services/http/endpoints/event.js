@@ -15,6 +15,7 @@ export const loggedInUserGetEventListing = async () => {
   const events = data.map((event) => ({
     id: event.id,
     startTime: event.startTime,
+    endTime: event.endTime,
     name: event.name,
     description: event.description,
   }));

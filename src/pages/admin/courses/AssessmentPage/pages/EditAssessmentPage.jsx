@@ -4,21 +4,25 @@ import { useHistory, useParams } from "react-router";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Button, DateTimePicker, Input } from "../../../../../components";
-import { useDateTimePicker, useGoBack } from "../../../../../hooks";
+import {
+  useDateTimePicker,
+  useGoBack,
+  useQueryParams,
+} from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
   adminEditAssessment,
   adminEditExamination,
 } from "../../../../../services";
-import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import {
   appendFormData,
   capitalizeFirstLetter,
   formatDateToISO,
 } from "../../../../../utils";
 
-const EditAssessmentPage = () => {
+const EditAssessmentPage = ({ assessment }) => {
   const { id: courseId, assessmentId } = useParams();
+  const isExamination = useQueryParams().get("examination");
 
   const { push } = useHistory();
   const toast = useToast();
@@ -34,12 +38,7 @@ const EditAssessmentPage = () => {
 
   const startTimeManager = useDateTimePicker();
 
-  const { assessment, isExamination } = useAssessmentPreview(
-    null,
-    assessmentId
-  );
-
-  console.log(assessment)
+  console.log(assessment);
 
   // Init `Title` value
   useEffect(() => {
@@ -96,11 +95,10 @@ const EditAssessmentPage = () => {
         position: "top",
         status: "success",
       });
-     
-        isExamination
-          ? push(`/admin/courses/details/${courseId}/exam`)
-          : push(`/admin/courses/details/${courseId}/assessment`);
-    
+
+      isExamination
+        ? push(`/admin/courses/details/${courseId}/exam`)
+        : push(`/admin/courses/details/${courseId}/assessment`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),

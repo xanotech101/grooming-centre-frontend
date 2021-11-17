@@ -1,5 +1,4 @@
 import { Flex } from "@chakra-ui/layout";
-
 import { useParams } from "react-router";
 import { Link, Text } from "../../../../../components";
 import colors from "../../../../../theme/colors";
