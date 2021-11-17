@@ -144,7 +144,10 @@ const CreateLessonPage = () => {
         startTimeManager.handleGetValueAndValidate("Start Time");
       const endTime = endTimeManager.handleGetValueAndValidate("End Time");
       const content = contentManager.handleGetValueAndValidate("Content");
-      const file = fileManager.handleGetFileAndValidate("Lesson File");
+      const file = fileManager.handleGetFileAndValidate(
+        "Lesson File",
+        isEditMode
+      );
 
       data = {
         ...data,

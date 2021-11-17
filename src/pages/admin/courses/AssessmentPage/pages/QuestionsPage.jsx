@@ -14,11 +14,7 @@ import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
 import { useRichText, useQueryParams, useFetch } from "../../../../../hooks";
-import {
-  appendFormData,
-  capitalizeFirstLetter,
-  capitalizeWords,
-} from "../../../../../utils";
+import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
   adminCreateAssessmentQuestion,
@@ -201,7 +197,7 @@ const CreateQuestionPage = () => {
 
       console.log(data);
 
-      const body = appendFormData(data);
+      const body = data;
 
       const { message } = await (isEditMode && !isExamination
         ? adminEditAssessmentQuestion({

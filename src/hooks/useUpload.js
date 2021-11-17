@@ -52,8 +52,8 @@ export const useUpload = () => {
 
   const handleAcceptChange = (accept) => setAccept(accept);
 
-  const handleGetFileAndValidate = (label) => {
-    if (!image.url && !video.url && !pdf.url)
+  const handleGetFileAndValidate = (label, bypass) => {
+    if (!bypass && !image.url && !video.url && !pdf.url)
       throw new Error(`Please upload a ${label}`);
 
     return file;
