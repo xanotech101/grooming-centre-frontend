@@ -28,11 +28,6 @@ export const links = [
     icon: <IoIosCalendar />,
   },
   {
-    text: "departments",
-    href: "/admin/departments",
-    icon: <FiSettings />,
-  },
-  {
     href: "/admin/role",
     text: "roles",
     icon: <AiOutlineUsergroupDelete />,
@@ -45,11 +40,6 @@ export const settingsLinks = [
     href: "/admin/settings/",
     exact: true,
     icon: <FiSettings />,
-  },
-  {
-    href: "/admin/settings/events",
-    text: "events",
-    icon: <IoIosCalendar />,
   },
   {
     href: "/admin/settings/grade-criteria",
