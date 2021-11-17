@@ -69,6 +69,9 @@ export const useCache = () => {
     if (item) return item;
 
     item = await cb();
+
+    console.log("..............", item);
+
     handleSet(key, item);
     return item;
   };

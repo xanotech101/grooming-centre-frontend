@@ -1,18 +1,15 @@
 import { Flex } from "@chakra-ui/layout";
 import { Route, useParams } from "react-router-dom";
-import {
-  Heading,
-  Spinner,
-} from "../../../../../components";
+import { Heading, Spinner } from "../../../../../components";
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
-import EditAssessmentPage from "./EditAssessmentPage"
+import EditAssessmentPage from "./EditAssessmentPage";
 import CreateAssessmentPage from "./CreateAssessmentPage";
 
 const OverviewPage = () => {
   const { assessmentId } = useParams();
   const isEditMode = assessmentId && assessmentId !== "new";
 
-  const { isLoading, error } = useAssessmentPreview(
+  const { isLoading, error, assessment } = useAssessmentPreview(
     null,
     assessmentId
   );
@@ -31,13 +28,11 @@ const OverviewPage = () => {
       ) : null}
     </Flex>
   ) : isEditMode ? (
-    <EditAssessmentPage />
+    <EditAssessmentPage assessment={assessment} />
   ) : (
     <CreateAssessmentPage />
   );
 };
-
-
 
 const OverviewPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <OverviewPage {...props} />} />;

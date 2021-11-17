@@ -46,7 +46,6 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
 
     return isExamination ? data.examination : data.assessment;
   }, [assessmentId, isExamination]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });
@@ -56,9 +55,6 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
         assessmentId,
         fetcher
       );
-      //  const assessmentDetails = await fetcher();
-
-      console.log(assessmentDetails, assessmentId);
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
@@ -69,8 +65,11 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   }, [assessmentId, componentIsMount]);
 
   useEffect(() => {
+    console.log("effect ......");
     if (!assessmentIsNew) fetchAssessmentDetails();
-  }, [assessmentIsNew, fetchAssessmentDetails]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
   const isLoading = assessmentDetails.loading;
