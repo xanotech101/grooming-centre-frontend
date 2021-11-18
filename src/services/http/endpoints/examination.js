@@ -6,8 +6,8 @@ import { http } from "../http";
  *
  * @returns {Promise<{ examination: Examination }>}
  */
-export const requestExaminationDetails = async (id) => {
-  const path = `/examination/${id}`;
+export const requestExaminationDetails = async (courseId) => {
+  const path = `/examination/${courseId}`;
 
   const {
     data: { data },
@@ -68,13 +68,16 @@ export const adminGetExaminationListing = async (courseId) => {
     data: { data },
   } = await http.get(path);
 
-  const examinations = [{
-    id: data.id,
-    title: data.title,
-    examinationId: data.examinationId,
-    duration: data.duration,
-    startTime: data.startTime,
-  }]
+  const examinations = [
+    {
+      id: data.id,
+      title: data.title,
+      courseId: data.courseId,
+      examinationId: data.examinationId,
+      duration: data.duration,
+      startTime: data.startTime,
+    },
+  ];
 
   return { examinations };
 };
@@ -117,15 +120,15 @@ export const adminCreateExaminationQuestion = async (body) => {
  *
  * @returns {Promise<{ message: string, examination: { id: string } }>}
  */
-export const adminEditExamination = async (examinationId, body) => {
-  const path = `/examination/edit/${examinationId}`;
+export const adminEditExamination = async (courseId, body) => {
+  const path = `/examination/edit/${courseId}`;
 
   const {
     data: { message, data },
   } = await http.patch(path, body);
 
   const examination = {
-    id: data[0].id,
+    id: data[0].courseId,
   };
 
   return { message, examination };
