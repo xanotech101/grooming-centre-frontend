@@ -29,7 +29,9 @@ import { useCallback, useEffect, useState } from "react";
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
   const { id: courseId, assessmentId, questionId } = useParams();
-  const isExamination = /examination/i.test(window.location.search);
+  const isExamination = useQueryParams().get("examination");
+
+  console.log(isExamination);
 
   const assessmentManager = useAssessmentPreview(null, assessmentId, true);
 
@@ -102,7 +104,8 @@ const QuestionsPage = () => {
                     link={getEditQuestionLink(
                       courseId,
                       assessmentId,
-                      question.id
+                      question.id,
+                      isExamination
                     )}
                   />
                 )
@@ -202,7 +205,7 @@ const CreateQuestionPage = (assessmentManager) => {
   // const { push } = useHistory();
   const toast = useToast();
   const { id: courseId, assessmentId, questionId } = useParams();
-  const isExamination = /examination/i.test(window.location.search);
+  const isExamination = useQueryParams().get("examination");
 
   const isEditMode = questionId && questionId !== "new";
 
@@ -429,7 +432,7 @@ const CreateQuestionPage = (assessmentManager) => {
 const QuestionListingPage = ({ assessment, isLoading, error }) => {
   const { id: courseId, assessmentId } = useParams();
 
-  const isExamination = /examination/i.test(window.location.search);
+  const isExamination = useQueryParams().get("examination");
 
   const questions = assessment?.questions;
 
@@ -472,7 +475,7 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
       <Box paddingTop={10}>
         <Button
           link={`/admin/courses/${courseId}/assessment/${assessmentId}/questions/new${
-            isExamination ? "?examination=true" : ""
+            isExamination ? `?examination=${isExamination}` : ""
           }`}
         >
           Add Another Question
@@ -484,7 +487,13 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
 
 const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
   const { id: courseId, assessmentId } = useParams();
-  const editLink = getEditQuestionLink(courseId, assessmentId, id);
+  const isExamination = useQueryParams().get("examination");
+  const editLink = getEditQuestionLink(
+    courseId,
+    assessmentId,
+    id,
+    isExamination
+  );
 
   return (
     <Flex
@@ -541,14 +550,17 @@ export const MoreIconButton = ({ editLink }) => {
 
 const getQuestionListingLink = (courseId, assessmentId, isExamination) =>
   `/admin/courses/${courseId}/assessment/${assessmentId}/questions/list?question-listing=true${
-    isExamination ? "&examination=true" : ""
+    isExamination ? `&examination=${isExamination}` : ""
   }`;
 
-const getEditQuestionLink = (courseId, assessmentId, questionId) => {
-  const isExamination = /examination/i.test(window.location.search);
-
+const getEditQuestionLink = (
+  courseId,
+  assessmentId,
+  questionId,
+  isExamination
+) => {
   return `/admin/courses/${courseId}/assessment/${assessmentId}/questions/${questionId}${
-    isExamination ? "?examination=true" : ""
+    isExamination ? `?examination=${isExamination}` : ""
   }`;
 };
 
