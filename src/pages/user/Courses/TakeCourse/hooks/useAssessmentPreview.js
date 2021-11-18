@@ -53,8 +53,10 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
     setAssessmentDetails({ loading: true });
 
     try {
+      console.log(isExamination);
+
       const assessmentDetails = await handleGetOrSetAndGet(
-        assessmentId,
+        isExamination || assessmentId,
         fetcher
       );
       console.log(assessmentDetails);
