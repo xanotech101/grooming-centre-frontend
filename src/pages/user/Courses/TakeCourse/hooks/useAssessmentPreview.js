@@ -18,7 +18,7 @@ import {
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = (sidebarLinks, assessmentId) => {
+const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
@@ -39,22 +39,27 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   });
 
   const fetcher = useCallback(async () => {
+    console.log(isForAdmin);
     const data = await (isExamination
       ? // `assessmentId` is `examinationId` in this case
-        requestExaminationDetails()
-      : requestAssessmentDetails(assessmentId));
+
+        requestExaminationDetails(assessmentId, isForAdmin)
+      : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination]);
+  }, [assessmentId, isExamination, isForAdmin]);
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });
 
     try {
+      console.log(isExamination);
+
       const assessmentDetails = await handleGetOrSetAndGet(
-        assessmentId,
+        isExamination || assessmentId,
         fetcher
       );
+      console.log(assessmentDetails);
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
@@ -64,9 +69,12 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessmentId, componentIsMount]);
 
-  useEffect(() => {
-    console.log("effect ......");
+  const handleFetch = () => {
     if (!assessmentIsNew) fetchAssessmentDetails();
+  };
+
+  useEffect(() => {
+    handleFetch();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,6 +91,7 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
     error,
     setError,
     isExamination,
+    handleFetch,
   };
 };
 

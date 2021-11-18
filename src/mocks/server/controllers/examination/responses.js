@@ -1,9 +1,8 @@
-
 export const adminGetExaminationListingRes_courseId_1 = {
   data: {
     id: "examinationId_1",
     title: "NodeJs examination",
-    duration: 160,
+    duration: 60,
     amountOfQuestions: 20,
     startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_1",
@@ -17,6 +16,7 @@ export const adminGetExaminationListingRes_courseId_1 = {
             id: "optionId_1",
             name: "me",
             optionIndex: "1",
+            isAnswer: true,
           },
           {
             id: "optionId_2",
@@ -62,6 +62,7 @@ export const adminGetExaminationListingRes_courseId_3 = {
             id: "optionId_2",
             name: "you",
             optionIndex: "2",
+            isAnswer: true,
           },
           {
             id: "optionId_3",
@@ -72,6 +73,34 @@ export const adminGetExaminationListingRes_courseId_3 = {
             id: "optionId_4",
             name: "we",
             optionIndex: "4",
+          },
+        ],
+      },
+      {
+        id: "questionId_2",
+        question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A division","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
+
+        options: [
+          {
+            id: "optionId_1",
+            name: "me",
+            optionIndex: "1",
+          },
+          {
+            id: "optionId_2",
+            name: "you",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "them",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
+            isAnswer: true,
           },
         ],
       },
@@ -94,20 +123,20 @@ export const adminCreateExaminationRes = {
   },
 };
 
-export const adminEditExaminationRes_courseId_1 = {
+export const adminEditExaminationRes_examinationId_1 = {
   message: "Examination updated successfully",
   data: [
     {
-      courseId: "courseId_1",
+      id: "examinationId_1",
     },
   ],
 };
 
-export const adminEditExaminationRes_courseId_3 = {
+export const adminEditExaminationRes_examinationId_2 = {
   message: "Examination updated successfully",
   data: [
     {
-      courseId: "courseId_2",
+      id: "examinationId_2",
     },
   ],
 };
