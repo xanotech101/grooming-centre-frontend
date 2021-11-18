@@ -9,8 +9,8 @@ import {
   submitExaminationRes,
   adminCreateExaminationQuestionRes,
   adminCreateExaminationRes,
-  adminEditExaminationRes_examinationId_1,
-  adminEditExaminationRes_examinationId_2,
+  adminEditExaminationRes_courseId_1,
+  adminEditExaminationRes_courseId_3,
   adminGetExaminationListingRes_courseId_3,
 } from "./responses";
 
@@ -27,11 +27,11 @@ const adminGetExaminationListing = [
 ];
 const adminGetExaminationDetails = [
   rest.get(
-    getUrl("/examination/examinationId_1"),
+    getUrl("/examination/courseId_1"),
     handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
   ),
   rest.get(
-    getUrl("/examination/examinationId_2"),
+    getUrl("/examination/courseId_3"),
     handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
   ),
 ];
@@ -60,13 +60,13 @@ const adminCreateExamination = rest.post(
 const adminEditExamination = [
   rest.patch(
     // TODO: change `method`
-    getUrl("/examination/edit/examinationId_1"), // TODO: change `path`
-    handleSuccessResponse(adminEditExaminationRes_examinationId_1)
+    getUrl("/examination/edit/courseId_1"), // TODO: change `path`
+    handleSuccessResponse(adminEditExaminationRes_courseId_1)
   ),
   rest.patch(
     // TODO: change `method`
-    getUrl("/examination/edit/examinationId_2"), // TODO: change `path`
-    handleSuccessResponse(adminEditExaminationRes_examinationId_2)
+    getUrl("/examination/edit/courseId_3"), // TODO: change `path`
+    handleSuccessResponse(adminEditExaminationRes_courseId_3)
   ),
 ];
 

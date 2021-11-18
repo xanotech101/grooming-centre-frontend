@@ -3,7 +3,7 @@ export const adminGetExaminationListingRes_courseId_1 = {
   data: {
     id: "examinationId_1",
     title: "NodeJs examination",
-    duration: 60,
+    duration: 160,
     amountOfQuestions: 20,
     startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_1",
@@ -94,20 +94,20 @@ export const adminCreateExaminationRes = {
   },
 };
 
-export const adminEditExaminationRes_examinationId_1 = {
+export const adminEditExaminationRes_courseId_1 = {
   message: "Examination updated successfully",
   data: [
     {
-      id: "examinationId_1",
+      courseId: "courseId_1",
     },
   ],
 };
 
-export const adminEditExaminationRes_examinationId_2 = {
+export const adminEditExaminationRes_courseId_3 = {
   message: "Examination updated successfully",
   data: [
     {
-      id: "examinationId_2",
+      courseId: "courseId_2",
     },
   ],
 };

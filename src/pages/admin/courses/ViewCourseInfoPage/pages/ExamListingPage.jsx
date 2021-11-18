@@ -116,7 +116,7 @@ const ExamListingPage = () => {
       id: examination.id,
       title: {
         text: examination.title,
-        examinationId: examination.id,
+        examinationId: examination.courseId,
         courseId,
       },
       startDate: dayjs(examination.startTime).format("DD/MM/YYYY h:mm a"),
