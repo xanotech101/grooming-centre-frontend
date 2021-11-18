@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
 import { useRichText, useQueryParams } from "../../../../../hooks";
+import { useCache } from "../../../../../contexts";
 import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
@@ -25,11 +26,6 @@ import {
 import useAssessmentPreview from "../../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { PageLoaderLayout } from "../../../../../layouts";
 import { useCallback, useEffect, useState } from "react";
-
-const questionListingLink = (courseId, assessmentId, isExamination) =>
-  `/admin/courses/${courseId}/assessment/${assessmentId}/questions/list?question-listing=true${
-    isExamination ? "&examination=true" : ""
-  }`;
 
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
@@ -84,7 +80,7 @@ const QuestionsPage = () => {
               <Heading fontSize="heading.h5">List Of Questions</Heading>
 
               <Link
-                href={questionListingLink(
+                href={getQuestionListingLink(
                   courseId,
                   assessmentId,
                   isExamination
@@ -272,6 +268,7 @@ const CreateQuestionPage = (assessmentManager) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
 
+  const { handleDelete } = useCache();
   const onSubmit = async (data) => {
     try {
       const questionText =
@@ -323,14 +320,18 @@ const CreateQuestionPage = (assessmentManager) => {
         : isExamination
         ? adminCreateExaminationQuestion(body)
         : adminCreateAssessmentQuestion(body));
-      reset();
 
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
         status: "success",
       });
-      push(questionListingLink(courseId, assessmentId, isExamination));
+
+      // Clean UP
+      reset();
+      handleDelete(assessmentId);
+      assessmentManager.handleFetch();
+      push(getQuestionListingLink(courseId, assessmentId, isExamination));
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -534,6 +535,11 @@ export const MoreIconButton = ({ editLink }) => {
     </Menu>
   );
 };
+
+const getQuestionListingLink = (courseId, assessmentId, isExamination) =>
+  `/admin/courses/${courseId}/assessment/${assessmentId}/questions/list?question-listing=true${
+    isExamination ? "&examination=true" : ""
+  }`;
 
 const getEditQuestionLink = (courseId, assessmentId, questionId) => {
   const isExamination = /examination/i.test(window.location.search);

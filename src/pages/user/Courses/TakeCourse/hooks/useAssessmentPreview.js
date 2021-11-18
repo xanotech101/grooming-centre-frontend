@@ -55,6 +55,7 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
         assessmentId,
         fetcher
       );
+      console.log(assessmentDetails);
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
@@ -64,9 +65,12 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessmentId, componentIsMount]);
 
-  useEffect(() => {
-    console.log("effect ......");
+  const handleFetch = () => {
     if (!assessmentIsNew) fetchAssessmentDetails();
+  };
+
+  useEffect(() => {
+    handleFetch();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,6 +87,7 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
     error,
     setError,
     isExamination,
+    handleFetch,
   };
 };
 
