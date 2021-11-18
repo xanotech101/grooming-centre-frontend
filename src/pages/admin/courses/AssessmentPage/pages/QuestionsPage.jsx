@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
 import { useRichText, useQueryParams } from "../../../../../hooks";
-import { useCache } from "../../../../../contexts";
 import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
@@ -200,7 +199,7 @@ const useQuestionDetails = (assessmentManager) => {
 };
 
 const CreateQuestionPage = (assessmentManager) => {
-  const { push } = useHistory();
+  // const { push } = useHistory();
   const toast = useToast();
   const { id: courseId, assessmentId, questionId } = useParams();
   const isExamination = /examination/i.test(window.location.search);
@@ -268,7 +267,7 @@ const CreateQuestionPage = (assessmentManager) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
 
-  const { handleDelete } = useCache();
+  // const { handleDelete } = useCache();
   const onSubmit = async (data) => {
     try {
       const questionText =
@@ -329,9 +328,13 @@ const CreateQuestionPage = (assessmentManager) => {
 
       // Clean UP
       reset();
-      handleDelete(assessmentId);
-      assessmentManager.handleFetch();
-      push(getQuestionListingLink(courseId, assessmentId, isExamination));
+      // handleDelete(assessmentId);
+      // assessmentManager.handleFetch();
+      window.location.href = getQuestionListingLink(
+        courseId,
+        assessmentId,
+        isExamination
+      );
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
