@@ -6,8 +6,8 @@ import { http } from "../http";
  *
  * @returns {Promise<{ assessment: Assessment }>}
  */
-export const requestAssessmentDetails = async (id) => {
-  const path = `/assessment/${id}`;
+export const requestAssessmentDetails = async (id, forAdmin) => {
+  const path = `/assessment${forAdmin ? "/admin" : ""}/${id}`;
 
   const {
     data: { data },
@@ -22,48 +22,23 @@ export const requestAssessmentDetails = async (id) => {
     startTime: data.startTime,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
-    questions: data.assessmentQuestions ? data.assessmentQuestions.map((q, index) => ({
-      id: q.id,
-      question: q.question,
-      // questionIndex: +q.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
-      questionIndex: index, // TODO: might remove `index`
-      options: q.options.map((opt) => ({
-        id: opt.id,
-        name: opt.name,
-        optionIndex: +opt.optionIndex,
-      })),
-    })) : "not set"
+    questions: data.assessmentQuestions
+      ? data.assessmentQuestions.map((q, index) => ({
+          id: q.id,
+          question: q.question,
+          // questionIndex: +q.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
+          questionIndex: index, // TODO: might remove `index`
+          options: q.options.map((opt) => ({
+            id: opt.id,
+            isAnswer: opt.isAnswer,
+            name: opt.name,
+            optionIndex: +opt.optionIndex,
+          })),
+        }))
+      : "not set",
   };
 
   return { assessment };
-};
-
-/**
- * Endpoint for Admin to get `question-details`
- * @param {string} questionId
- *
- * @returns {Promise<{ question: Question }>}
- */
-export const adminGetQuestionDetails = async (questionId) => {
-  const path = `/admin/questions/${questionId}`;
-
-  const {
-    data: { data },
-  } = await http.get(path);
-
-  const question = {
-    id: data.id,
-    question: data.question,
-    // questionIndex: +data.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
-    options: data.options.map((opt) => ({
-      id: opt.id,
-      name: opt.name,
-      optionIndex: +opt.optionIndex,
-      isAnswer: opt.isAnswer,
-    })),
-  };
-
-  return { question };
 };
 
 /**

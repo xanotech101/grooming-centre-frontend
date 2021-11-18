@@ -11,7 +11,8 @@ const OverviewPage = () => {
 
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,
-    assessmentId
+    assessmentId,
+    true
   );
 
   return isEditMode && (isLoading || error) ? (

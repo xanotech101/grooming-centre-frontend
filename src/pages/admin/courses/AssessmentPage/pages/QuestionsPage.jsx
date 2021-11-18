@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { Flex, Box } from "@chakra-ui/layout";
+import { Flex, Box, Grid } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Route } from "react-router-dom";
 import {
@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
-import { useRichText, useQueryParams, useFetch } from "../../../../../hooks";
+import { useRichText, useQueryParams } from "../../../../../hooks";
 import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
@@ -21,7 +21,6 @@ import {
   adminCreateExaminationQuestion,
   adminEditAssessmentQuestion,
   adminEditExaminationQuestion,
-  adminGetQuestionDetails,
 } from "../../../../../services";
 import useAssessmentPreview from "../../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { PageLoaderLayout } from "../../../../../layouts";
@@ -34,8 +33,10 @@ const questionListingLink = (courseId, assessmentId, isExamination) =>
 
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
-  const { id: courseId, assessmentId } = useParams();
+  const { id: courseId, assessmentId, questionId } = useParams();
   const isExamination = /examination/i.test(window.location.search);
+
+  const assessmentManager = useAssessmentPreview(null, assessmentId, true);
 
   // // Remove Scrollbar on the body
   // useEffect(() => {
@@ -50,14 +51,19 @@ const QuestionsPage = () => {
   return (
     <>
       <Heading fontSize="heading.h3" paddingTop={3} paddingX={6}>
+        {isQuestionListingPage
+          ? null
+          : questionId === "new"
+          ? "Create "
+          : "Update "}
         {isExamination ? "Examination" : "Assessment"}
       </Heading>
 
       <Flex>
         {isQuestionListingPage ? (
-          <QuestionListingPage />
+          <QuestionListingPage {...assessmentManager} />
         ) : (
-          <CreateQuestionPage />
+          <CreateQuestionPage {...assessmentManager} />
         )}
 
         <Box padding={6} width="30%">
@@ -68,7 +74,15 @@ const QuestionsPage = () => {
             backgroundColor="white"
             height={240}
           >
-            <Heading fontSize="heading.h5">
+            <Flex
+              justifyContent="space-between"
+              borderBottom="1px"
+              borderColor="accent.1"
+              mb={5}
+              pb={3}
+            >
+              <Heading fontSize="heading.h5">List Of Questions</Heading>
+
               <Link
                 href={questionListingLink(
                   courseId,
@@ -76,9 +90,29 @@ const QuestionsPage = () => {
                   isExamination
                 )}
               >
-                List Of Questions
+                <Text bold color="primary.base">
+                  See All
+                </Text>
               </Link>
-            </Heading>
+            </Flex>
+
+            <Grid templateColumns="repeat(5, 1fr)" gap={2}>
+              {assessmentManager.assessment?.questions?.map(
+                (question, index) => (
+                  <ButtonNavItem
+                    key={index}
+                    number={index + 1}
+                    isCurrent={questionId === question.id}
+                    answered={questionId === question.id}
+                    link={getEditQuestionLink(
+                      courseId,
+                      assessmentId,
+                      question.id
+                    )}
+                  />
+                )
+              )}
+            </Grid>
           </Box>
         </Box>
       </Flex>
@@ -86,47 +120,106 @@ const QuestionsPage = () => {
   );
 };
 
-const useQuestionDetails = () => {
-  const { resource: question, handleFetchResource } = useFetch();
+const ButtonNavItem = ({ number, answered, isCurrent, link }) => {
+  const styleProps = answered
+    ? {
+        backgroundColor: "primary.base",
+        color: "white",
+        borderColor: "transparent",
+      }
+    : {
+        borderColor: "primary.base",
+      };
+
+  return (
+    <Link href={link}>
+      <Flex
+        justifyContent="center"
+        boxSize="40px"
+        rounded="4px"
+        alignItems="center"
+        as="button"
+        cursor="pointer"
+        transition=".1s"
+        border={isCurrent ? "2px" : "1px"}
+        transform={isCurrent && "scale(1.05)"}
+        {...styleProps}
+      >
+        <Text bold as="level1">
+          {number}
+        </Text>
+      </Flex>
+    </Link>
+  );
+};
+
+const useQuestionDetails = (assessmentManager) => {
+  const [question, setQuestion] = useState(null);
   const { questionId } = useParams();
-  const isEditMode = questionId && questionId !== "new";
 
-  const fetcher = useCallback(async () => {
-    if (isEditMode) {
-      const { question } = await adminGetQuestionDetails(questionId);
+  const getQuestions = useCallback(() => {
+    if (assessmentManager.assessment?.questions) {
+      let index;
 
-      console.log(question);
+      const question = assessmentManager.assessment.questions.find((q, i) => {
+        const foundQuestion = q.id === questionId;
+        if (foundQuestion) index = i;
 
-      return question;
+        return foundQuestion;
+      });
+
+      if (question) setQuestion({ ...question, index });
     }
-  }, [isEditMode, questionId]);
+  }, [assessmentManager.assessment?.questions, questionId]);
 
   // Handle fetch category
   useEffect(() => {
-    handleFetchResource({ fetcher });
-  }, [handleFetchResource, fetcher]);
+    getQuestions();
+  }, [getQuestions]);
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (assessmentManager.error) {
+      toast.closeAll();
+
+      toast({
+        description: capitalizeFirstLetter(
+          "there was an error filling the form, reload the page!"
+        ),
+        position: "top",
+        status: "error",
+        duration: 60000,
+      });
+    }
+  }, [assessmentManager.error, toast]);
+
+  console.log(question);
 
   return {
-    question: question.data,
+    question,
+    isLoading: assessmentManager.isLoading,
+    error: assessmentManager.error,
   };
 };
 
-const CreateQuestionPage = () => {
+const CreateQuestionPage = (assessmentManager) => {
   const { push } = useHistory();
   const toast = useToast();
   const { id: courseId, assessmentId, questionId } = useParams();
   const isExamination = /examination/i.test(window.location.search);
 
-  // const {
-  //   assessment,
-  //   // isLoading, error
-  // } = useAssessmentPreview(null, assessmentId);
-
   const isEditMode = questionId && questionId !== "new";
 
-  const { question } = useQuestionDetails();
+  const { question, isLoading, error } = useQuestionDetails(assessmentManager);
 
-  const { register, reset, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting },
+  } = useForm();
   const [answer, setAnswer] = useState();
   const questionRichTextManager = useRichText();
 
@@ -169,9 +262,11 @@ const CreateQuestionPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
+
   useEffect(() => {
     if (question) {
       const optionWithAns = question.options.find((opt) => opt.isAnswer);
+
       setAnswer(`${optionWithAns?.optionIndex}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -256,7 +351,11 @@ const CreateQuestionPage = () => {
         <RichText
           height="250px"
           id="question"
-          label="Question 01"
+          label={getQuestionNumber(
+            question && questionId !== "new"
+              ? question.index
+              : assessmentManager.assessment?.questions?.length || -1
+          )}
           placeholder="Enter your question here"
           onChange={questionRichTextManager.handleChange}
           defaultValue={questionRichTextManager.data.default}
@@ -270,13 +369,7 @@ const CreateQuestionPage = () => {
         <RadioGroup onChange={setAnswer} value={answer}>
           <Stack direction="column">
             <Flex flexDirection="row" paddingBottom={6}>
-              <Radio
-                paddingTop={8}
-                paddingRight={6}
-                value="1"
-                id="radio-1"
-                // {...register("answer")}
-              />
+              <Radio paddingTop={8} paddingRight={6} value="1" id="radio-1" />
               <Input
                 id="option-1"
                 label="Option 01"
@@ -286,13 +379,7 @@ const CreateQuestionPage = () => {
             </Flex>
 
             <Flex flexDirection="row" paddingBottom={6}>
-              <Radio
-                paddingTop={8}
-                paddingRight={6}
-                value="2"
-                id="radio-2"
-                // {...register("answer")}
-              />
+              <Radio paddingTop={8} paddingRight={6} value="2" id="radio-2" />
               <Input
                 id="option-2"
                 label="Option 02"
@@ -302,13 +389,7 @@ const CreateQuestionPage = () => {
             </Flex>
 
             <Flex flexDirection="row" paddingBottom={6}>
-              <Radio
-                paddingTop={8}
-                paddingRight={6}
-                value="3"
-                id="radio-3"
-                // {...register("answer")}
-              />
+              <Radio paddingTop={8} paddingRight={6} value="3" id="radio-3" />
               <Input
                 id="option-3"
                 label="Option 03"
@@ -317,13 +398,7 @@ const CreateQuestionPage = () => {
               />
             </Flex>
             <Flex flexDirection="row" paddingBottom={6}>
-              <Radio
-                paddingTop={8}
-                paddingRight={6}
-                value="4"
-                id="radio-4"
-                // {...register("answer")}
-              />
+              <Radio paddingTop={8} paddingRight={6} value="4" id="radio-4" />
               <Input
                 id="option-4"
                 label="Option 04"
@@ -335,18 +410,21 @@ const CreateQuestionPage = () => {
         </RadioGroup>
       </Box>
       <Flex justifyContent="flex-end" paddingTop={8}>
-        <Button type="submit">{isEditMode ? "Update" : "Add"} Question</Button>
+        <Button
+          type="submit"
+          disabled={isLoading || isSubmitting || error}
+          isLoading={isLoading || isSubmitting}
+        >
+          {isEditMode ? "Update" : "Add"} Question
+        </Button>
       </Flex>
     </Box>
   );
 };
 
-const QuestionListingPage = () => {
+const QuestionListingPage = ({ assessment, isLoading, error }) => {
   const { id: courseId, assessmentId } = useParams();
-  const { assessment, isLoading, error } = useAssessmentPreview(
-    null,
-    assessmentId
-  );
+
   const isExamination = /examination/i.test(window.location.search);
 
   const questions = assessment?.questions;
@@ -377,13 +455,13 @@ const QuestionListingPage = () => {
         </PageLoaderLayout>
       )}
 
-      {questions?.map((q) => (
+      {questions?.map((q, index) => (
         <QuestionCard
           key={q.id}
           id={q.id}
-          questionNumber="Question 01"
+          questionNumber={getQuestionNumber(index)}
           question={q.question}
-          marginY={2}
+          marginBottom={4}
         />
       ))}
 
@@ -402,10 +480,7 @@ const QuestionListingPage = () => {
 
 const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
   const { id: courseId, assessmentId } = useParams();
-  const isExamination = /examination/i.test(window.location.search);
-  const editLink = `/admin/courses/${courseId}/assessment/${assessmentId}/questions/${id}${
-    isExamination ? "?examination=true" : ""
-  }`;
+  const editLink = getEditQuestionLink(courseId, assessmentId, id);
 
   return (
     <Flex
@@ -416,7 +491,7 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
       padding={6}
     >
       <Box>
-        <Heading fontSize="heading.h4">
+        <Heading fontSize="text.level2">
           <Link href={editLink}>{questionNumber}</Link>
         </Heading>
         <Text paddingTop={2} color="accent.3">
@@ -424,7 +499,7 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
         </Text>
       </Box>
 
-      <Box>
+      <Box transform="translateY(-10px)">
         <MoreIconButton editLink={editLink} />
       </Box>
     </Flex>
@@ -459,6 +534,17 @@ export const MoreIconButton = ({ editLink }) => {
     </Menu>
   );
 };
+
+const getEditQuestionLink = (courseId, assessmentId, questionId) => {
+  const isExamination = /examination/i.test(window.location.search);
+
+  return `/admin/courses/${courseId}/assessment/${assessmentId}/questions/${questionId}${
+    isExamination ? "?examination=true" : ""
+  }`;
+};
+
+const getQuestionNumber = (index) =>
+  `Question ${index + 1 < 9 ? `0${index + 1}` : index + 1}`;
 
 const buildOptions = (data) => {
   const options = [];

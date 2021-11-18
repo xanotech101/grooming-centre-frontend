@@ -18,7 +18,7 @@ import {
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = (sidebarLinks, assessmentId) => {
+const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
@@ -42,10 +42,10 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
     const data = await (isExamination
       ? // `assessmentId` is `examinationId` in this case
         requestExaminationDetails(assessmentId)
-      : requestAssessmentDetails(assessmentId));
+      : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination]);
+  }, [assessmentId, isExamination, isForAdmin]);
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });
