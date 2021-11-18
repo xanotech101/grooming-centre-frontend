@@ -14,8 +14,23 @@ import {
   adminGetExaminationListingRes_courseId_3,
 } from "./responses";
 
-
 const adminGetExaminationListing = [
+  rest.get(
+    getUrl("/examination/courseId_1"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/examination/courseId_3"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+  ),
+  rest.get(
+    getUrl("/examination/admin/courseId_1"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/examination/admin/courseId_3"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+  ),
   rest.get(
     getUrl("/examination/courseId_1"),
     handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
@@ -69,7 +84,6 @@ const adminEditExamination = [
     handleSuccessResponse(adminEditExaminationRes_examinationId_2)
   ),
 ];
-
 
 const adminEditExaminationQuestion = rest.patch(
   getUrl("/examination/question/edit"),

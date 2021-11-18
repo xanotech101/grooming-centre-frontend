@@ -1,4 +1,3 @@
-
 export const adminGetExaminationListingRes_courseId_1 = {
   data: {
     id: "examinationId_1",
@@ -17,6 +16,7 @@ export const adminGetExaminationListingRes_courseId_1 = {
             id: "optionId_1",
             name: "me",
             optionIndex: "1",
+            isAnswer: true,
           },
           {
             id: "optionId_2",
@@ -62,6 +62,7 @@ export const adminGetExaminationListingRes_courseId_3 = {
             id: "optionId_2",
             name: "you",
             optionIndex: "2",
+            isAnswer: true,
           },
           {
             id: "optionId_3",
@@ -72,6 +73,34 @@ export const adminGetExaminationListingRes_courseId_3 = {
             id: "optionId_4",
             name: "we",
             optionIndex: "4",
+          },
+        ],
+      },
+      {
+        id: "questionId_2",
+        question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A division","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
+
+        options: [
+          {
+            id: "optionId_1",
+            name: "me",
+            optionIndex: "1",
+          },
+          {
+            id: "optionId_2",
+            name: "you",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "them",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
+            isAnswer: true,
           },
         ],
       },

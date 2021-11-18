@@ -39,9 +39,11 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
   });
 
   const fetcher = useCallback(async () => {
+    console.log(isForAdmin);
     const data = await (isExamination
       ? // `assessmentId` is `examinationId` in this case
-        requestExaminationDetails(assessmentId)
+
+        requestExaminationDetails(assessmentId, isForAdmin)
       : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;

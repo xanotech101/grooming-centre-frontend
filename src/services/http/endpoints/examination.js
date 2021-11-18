@@ -6,8 +6,8 @@ import { http } from "../http";
  *
  * @returns {Promise<{ examination: Examination }>}
  */
-export const requestExaminationDetails = async (id) => {
-  const path = `/examination/${id}`;
+export const requestExaminationDetails = async (id, forAdmin) => {
+  const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
 
   const {
     data: { data },
@@ -27,6 +27,7 @@ export const requestExaminationDetails = async (id) => {
       questionIndex: +q.questionIndex || index,
       options: q.options.map((opt) => ({
         id: opt.id,
+        isAnswer: opt.isAnswer,
         name: opt.name,
         optionIndex: +opt.optionIndex,
       })),
@@ -68,13 +69,15 @@ export const adminGetExaminationListing = async (courseId) => {
     data: { data },
   } = await http.get(path);
 
-  const examinations = [{
-    id: data.id,
-    title: data.title,
-    examinationId: data.examinationId,
-    duration: data.duration,
-    startTime: data.startTime,
-  }]
+  const examinations = [
+    {
+      id: data.id,
+      title: data.title,
+      examinationId: data.examinationId,
+      duration: data.duration,
+      startTime: data.startTime,
+    },
+  ];
 
   return { examinations };
 };
