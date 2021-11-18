@@ -21,7 +21,7 @@ import {
 const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { assessment_id, id:courseId } = useParams();
+  const { assessment_id } = useParams();
 
   assessmentId = assessmentId || assessment_id;
   const assessmentIsNew = assessmentId === "new";
@@ -41,11 +41,11 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   const fetcher = useCallback(async () => {
     const data = await (isExamination
       ? // `assessmentId` is `examinationId` in this case
-        requestExaminationDetails(courseId)
+        requestExaminationDetails()
       : requestAssessmentDetails(assessmentId));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination, courseId]);
+  }, [assessmentId, isExamination]);
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });

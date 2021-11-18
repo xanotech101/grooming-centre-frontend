@@ -44,7 +44,7 @@ const tableProps = {
       fraction: "2fr",
       renderContent: (data) => (
         <Link
-          href={`/admin/courses/${data.courseId}/assessment/${data.examinationId}/overview?examination=true`}
+          href={`/admin/courses/${data.courseId}/assessment/${data.courseId}/overview?examination=true`}
         >
           <Text>{data.text}</Text>
         </Link>
@@ -116,7 +116,6 @@ const ExamListingPage = () => {
       id: examination.id,
       title: {
         text: examination.title,
-        examinationId: examination.courseId,
         courseId,
       },
       startDate: dayjs(examination.startTime).format("DD/MM/YYYY h:mm a"),
