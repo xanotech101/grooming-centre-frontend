@@ -36,7 +36,7 @@ export const adminGetUserListing = async () => {
  * @returns {Promise<{ user: User }>}
  */
 export const adminGetUserDetails = async (id) => {
-  const path = `/users/${id}`;
+  const path = `/admin/users/${id}`;
 
   const {
     data: { data },
@@ -53,9 +53,9 @@ export const adminGetUserDetails = async (id) => {
     departmentName: data.department.name,
     certificates: data.certificates,
     gradePoint: data.overallGrade.averageGradeScore,
-    noOfCertificate: data.noOfCertificate,
-    completedCourses: data.completedCourses,
-    completedAssessment: data.completedAssessment,
+    noOfCertificate: data.certificate.length,
+    completedCourses: data.courseTrackingProgress.length,
+    completedAssessment: data.assessmentScoreSheets.length,
     phone: data.phone,
     profilePics: data.profilePics,
     isInviteActive: data.isInviteActive,

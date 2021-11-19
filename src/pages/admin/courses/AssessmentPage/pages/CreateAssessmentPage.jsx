@@ -61,7 +61,7 @@ const CreateAssessmentPage = () => {
 
       isExamination
         ? push(
-            `/admin/courses/${courseId}/assessment/${examination.id}/questions/new?examination=true`
+            `/admin/courses/${courseId}/assessment/${courseId}/questions/new?examination=${examination.id}`
           )
         : push(
             `/admin/courses/${courseId}/assessment/${assessment.id}/questions/new`
