@@ -1,6 +1,7 @@
-import { Flex } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
+import { IoArrowBack } from "react-icons/io5";
 import { useParams } from "react-router";
-import { Link, Text } from "../../../../../components";
+import { Button, Link, Text } from "../../../../../components";
 import { useQueryParams } from "../../../../../hooks";
 import colors from "../../../../../theme/colors";
 
@@ -30,6 +31,8 @@ const Header = () => {
 
   const examinationId = useQueryParams().get("examination");
 
+  const isExamination = examinationId;
+
   const isActiveLink = (LinkMatcher) =>
     window.location.pathname.includes(LinkMatcher);
 
@@ -38,13 +41,23 @@ const Header = () => {
       alignItems="center"
       as="header"
       backgroundColor="white"
-      height="50px"
-      justifyContent="center"
       shadow="0 2px 2px rgba(0, 0, 0, .05)"
       position="relative"
       zIndex={1}
+      paddingX={12}
+      paddingY={2}
     >
-      <nav>
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        {/** Empty box */}
+        <Box></Box>
         <Flex as="ul" listStyleType="none">
           {links.map((link) => (
             <li key={link.text}>
@@ -62,6 +75,20 @@ const Header = () => {
               </Link>
             </li>
           ))}
+        </Flex>
+        <Flex justifyContent="end" width="180px">
+          <Button
+            width="100%"
+            leftIcon={<IoArrowBack />}
+            link={
+              isExamination
+                ? `/admin/courses/details/${courseId}/exam`
+                : `/admin/courses/details/${courseId}/assessment`
+            }
+            secondary
+          >
+            {isExamination ? "Examination" : "Assessment"}
+          </Button>
         </Flex>
       </nav>
     </Flex>
