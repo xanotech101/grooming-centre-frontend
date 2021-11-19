@@ -86,15 +86,14 @@ const CourseDetailsPage = () => {
           <HStack spacing={4}>
             <Image
               src={
-                courseDetailsData?.instructor.profilePics ||
-                avatarImagePlaceholder
+                courseDetailsData?.user.profilePics || avatarImagePlaceholder
               }
               rounded="full"
               boxSize="40px"
             />
 
             <Text as="level1" bold>
-              {`${courseDetailsData?.instructor.firstName} ${courseDetailsData?.instructor.lastName}`}
+              {`${courseDetailsData?.user.firstName} ${courseDetailsData?.user.lastName}`}
             </Text>
           </HStack>
         </Stack>

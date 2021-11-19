@@ -134,8 +134,7 @@ export const userGetCourseDetails = async (id) => {
 export const adminPublishCourse = async (id) => {
   const path = `/course/publish/${id}`;
 
-await http.patch(path);
- 
+  await http.patch(path);
 };
 
 /**
@@ -147,6 +146,5 @@ await http.patch(path);
 export const adminUnpublishCourse = async (id) => {
   const path = `/course/unpublish/${id}`;
 
-await http.patch(path);
- 
+  await http.patch(path);
 };
