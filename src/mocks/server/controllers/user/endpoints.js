@@ -15,19 +15,18 @@ const adminGetUserListing = rest.get(
 
 const adminGetUserDetails = [
   rest.get(
-    getUrl("/users/userId_1"),
+    getUrl("/admin/users/userId_1"),
     handleSuccessResponse(userDetailsRes_userId_1)
   ),
   rest.get(
-    getUrl("/users/userId_2"),
+    getUrl("/admin/users/userId_2"),
     handleSuccessResponse(userDetailsRes_userId_2)
   ),
   rest.get(
-    getUrl("/users/userId_3"),
+    getUrl("/admin/users/userId_3"),
     handleSuccessResponse(userDetailsRes_userId_3)
   ),
 ];
-
 
 const user = [adminGetUserListing, ...adminGetUserDetails];
 
