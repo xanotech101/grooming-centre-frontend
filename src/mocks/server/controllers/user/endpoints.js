@@ -6,6 +6,9 @@ import {
   userDetailsRes_userId_1,
   userDetailsRes_userId_2,
   userDetailsRes_userId_3,
+  adminEditUserRes_userId_1,
+  adminEditUserRes_userId_2,
+  adminEditUserRes_userId_3,
 } from "./responses";
 
 const adminGetUserListing = rest.get(
@@ -28,6 +31,21 @@ const adminGetUserDetails = [
   ),
 ];
 
-const user = [adminGetUserListing, ...adminGetUserDetails];
+const adminEditUser = [
+  rest.patch(
+    getUrl("/admin/user/edit/userId_1"),
+    handleSuccessResponse(adminEditUserRes_userId_1)
+  ),
+  rest.patch(
+    getUrl("/admin/user/edit/userId_2"),
+    handleSuccessResponse(adminEditUserRes_userId_2)
+  ),
+  rest.patch(
+    getUrl("/admin/user/edit/userId_3"),
+    handleSuccessResponse(adminEditUserRes_userId_3)
+  ),
+];
+
+const user = [adminGetUserListing, ...adminGetUserDetails, ...adminEditUser];
 
 export default user;
