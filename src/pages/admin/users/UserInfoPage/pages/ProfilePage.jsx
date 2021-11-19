@@ -3,13 +3,12 @@ import { ImArrowUp } from "react-icons/im";
 import { Route, useParams } from "react-router-dom";
 import {
   Heading,
-  Image,
   Link,
   SkeletonText,
-  Text, Breadcrumb
+  Text,
+  Breadcrumb,
 } from "../../../../../components";
-import {  useCache } from "../../../../../contexts";
-import profileImagePlaceholder from "../../../../../assets/images/onboarding1.png";
+import { useCache } from "../../../../../contexts";
 import Icon from "@chakra-ui/icon";
 import { FiCheckSquare } from "react-icons/fi";
 import { BiCertification } from "react-icons/bi";
@@ -18,7 +17,7 @@ import { BreadcrumbItem } from "@chakra-ui/react";
 import { useComponentIsMount } from "../../../../../hooks";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetUserDetails } from "../../../../../services";
-
+import { Avatar, SkeletonCircle } from "@chakra-ui/react";
 
 const useViewUserDetails = () => {
   const { handleGetOrSetAndGet } = useCache();
@@ -42,6 +41,7 @@ const useViewUserDetails = () => {
       const userDetails = await handleGetOrSetAndGet(userId, fetcher);
       if (componentIsMount) setUserDetails({ data: userDetails });
     } catch (err) {
+      console.error(err);
       if (componentIsMount) setUserDetails({ err: err.message });
     }
 
@@ -63,12 +63,11 @@ const useViewUserDetails = () => {
   };
 };
 
-
 const ProfilePage = () => {
-  const { user } = useViewUserDetails();
+  const { user, isLoading } = useViewUserDetails();
   console.log(user);
-  
-  const userIsLoading = !user;
+
+  const userIsLoading = isLoading;
 
   return (
     <>
@@ -100,13 +99,18 @@ const ProfilePage = () => {
             </Heading>
 
             <Grid templateColumns="153px 1.5fr 1.5fr" gap={16}>
-              <Box>
-                <Image
-                  boxSize="153px"
-                  isLoading={userIsLoading}
-                  src={profileImagePlaceholder}
-                  rounded="full"
-                />
+              <Box width="200px" height="200px">
+                {userIsLoading ? (
+                  <SkeletonCircle size="200px" />
+                ) : (
+                  <Avatar
+                    name={user?.firstName + " " + user?.lastName}
+                    width="100%"
+                    height="100%"
+                    src={user?.profilePics}
+                    rounded="full"
+                  />
+                )}
               </Box>
 
               <Box>
@@ -152,7 +156,7 @@ const ProfilePage = () => {
               name="Grade Point"
               icon={<ImArrowUp />}
               iconBackgroundColor="accent.6"
-              href={`/admin/users/${user?.id}/grade-history`}
+              href={`/admin/users/details/${user?.id}/grade-history`}
               isLoading={userIsLoading}
             />
             <OverviewBox
@@ -160,7 +164,7 @@ const ProfilePage = () => {
               name="Completed Courses"
               icon={<FiCheckSquare />}
               iconBackgroundColor="accent.7"
-              href={`/admin/users/${user?.id}/courses`}
+              href={`/admin/users/details/${user?.id}/courses`}
               isLoading={userIsLoading}
             />
             <OverviewBox
@@ -168,7 +172,7 @@ const ProfilePage = () => {
               name="Certificates"
               icon={<BiCertification />}
               iconBackgroundColor="secondary.5"
-              href={`/admin/users/${user?.id}/certificates`}
+              href={`/admin/users/details/${user?.id}/certificate`}
               isLoading={userIsLoading}
             />
             <OverviewBox
@@ -176,7 +180,7 @@ const ProfilePage = () => {
               name="Completed Assessments"
               icon={<HiOutlineSwitchHorizontal />}
               iconBackgroundColor="accent.8"
-              href={`/admin/users/${user?.id}/assessment`}
+              href={`/admin/users/details/${user?.id}/courses`}
               isLoading={userIsLoading}
             />
           </Grid>
