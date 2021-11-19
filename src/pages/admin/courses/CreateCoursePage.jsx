@@ -62,16 +62,12 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
       };
       const body = appendFormData(data);
 
-
-      
       const { course, message } = await (isEditMode
         ? adminEditCourse(courseId, body)
         : adminCreateCourse(body));
-        
-        
-        if (isEditMode) handleDelete(courseDetailsData.id);
-      
-      
+
+      if (isEditMode) handleDelete(courseDetailsData.id);
+
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -199,10 +195,16 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             minHeight="150px"
             label="Course description"
             id="description"
+            isRequired
             {...register("description", {
               required: "Please add a description",
+              maxLength: 1000,
             })}
-            error={errors.description?.message}
+            error={
+              errors.description?.type === "maxLength"
+                ? "Maximum length of 1000 characters"
+                : errors.description?.message
+            }
           />
         </Grid>
         {/* Row 3 */}
