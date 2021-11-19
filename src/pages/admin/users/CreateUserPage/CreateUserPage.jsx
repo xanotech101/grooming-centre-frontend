@@ -83,69 +83,69 @@ const CreateUserPage = ({
       >
         <Stack spacing={10} marginBottom={10}>
           <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
-          <Input
-            label="Firstname"
-            id="firstname"
-            isRequired
-            {...register("firstname", {
-              required: "Firstname is required",
-            })}
-            error={errors.firstname?.message}
-          />
-          <Input
-            label="Lastname"
-            id="lastname"
-            isRequired
-            {...register("lastname", {
-              required: "Lastname is required",
-            })}
-            error={errors.lastname?.message}
-          />
-          <Input
-            label="User's email"
-            id="email"
-            isRequired
-            {...register("email", {
-              required: "Email can't be empty",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                message: "Enter a valid e-mail address",
-              },
-            })}
-            error={errors.email?.message}
-          />
-          <Select
-            label="Department"
-            options={populateSelectOptions(metadata?.departments)}
-            id="departmentId"
-            isLoading={!metadata?.departments}
-            isRequired={departmentIsRequired}
-            {...register("departmentId", {
-              required: departmentIsRequired && "Please select a department",
-            })}
-            error={errors.departmentId?.message}
-          />
-          <Select
-            label="Select Role"
-            options={populateSelectOptions(metadata?.userRoles, (r) => {
-              const role = appManager.getOneMetadata("userRoles", r.id)?.name;
+            <Input
+              label="Firstname"
+              id="firstName"
+              isRequired
+              {...register("firstName", {
+                required: "Firstname is required",
+              })}
+              error={errors.firstName?.message}
+            />
+            <Input
+              label="Lastname"
+              id="lastName"
+              isRequired
+              {...register("lastName", {
+                required: "Lastname is required",
+              })}
+              error={errors.lastName?.message}
+            />
+            <Input
+              label="User's email"
+              id="email"
+              isRequired
+              {...register("email", {
+                required: "Email can't be empty",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: "Enter a valid e-mail address",
+                },
+              })}
+              error={errors.email?.message}
+            />
+            <Select
+              label="Department"
+              options={populateSelectOptions(metadata?.departments)}
+              id="departmentId"
+              isLoading={!metadata?.departments}
+              isRequired={departmentIsRequired}
+              {...register("departmentId", {
+                required: departmentIsRequired && "Please select a department",
+              })}
+              error={errors.departmentId?.message}
+            />
+            <Select
+              label="Select Role"
+              options={populateSelectOptions(metadata?.userRoles, (r) => {
+                const role = appManager.getOneMetadata("userRoles", r.id)?.name;
 
-              if (role !== "super admin") {
-                return true;
-              }
+                if (role !== "super admin") {
+                  return true;
+                }
 
-              if (!creatorRoleIsSuperAdmin && role !== "admin") {
-                return true;
-              }
-            })}
-            isLoading={!metadata?.userRoles}
-            isRequired
-            {...register("roleId", {
-              required: "Please select a role",
-            })}
-            id="roleId"
-            error={errors.roleId?.message}
-          />
+                if (!creatorRoleIsSuperAdmin && role !== "admin") {
+                  return true;
+                }
+              })}
+              isLoading={!metadata?.userRoles}
+              isRequired
+              {...register("roleId", {
+                required: "Please select a role",
+              })}
+              id="roleId"
+              error={errors.roleId?.message}
+            />
           </Grid>
         </Stack>
       </CreatePageLayout>
