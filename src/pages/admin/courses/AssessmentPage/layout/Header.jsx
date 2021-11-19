@@ -1,24 +1,25 @@
 import { Flex } from "@chakra-ui/layout";
 import { useParams } from "react-router";
 import { Link, Text } from "../../../../../components";
+import { useQueryParams } from "../../../../../hooks";
 import colors from "../../../../../theme/colors";
 
 const links = [
   {
     matcher: (courseId, assessmentId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/overview`,
-    href: (courseId, assessmentId, isExamination) =>
+    href: (courseId, assessmentId, examinationId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/overview${
-        isExamination ? "?examination=true" : ""
+        examinationId ? `?examination=${examinationId}` : ""
       }`,
     text: "Overview",
   },
   {
     matcher: (courseId, assessmentId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/questions`,
-    href: (courseId, assessmentId, isExamination) =>
+    href: (courseId, assessmentId, examinationId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/questions/new${
-        isExamination ? "?examination=true" : ""
+        examinationId ? `?examination=${examinationId}` : ""
       }`,
     text: "Questions",
   },
@@ -26,7 +27,8 @@ const links = [
 
 const Header = () => {
   const { id: courseId, assessmentId } = useParams();
-  const isExamination = /examination/i.test(window.location.search);
+
+  const examinationId = useQueryParams().get("examination");
 
   const isActiveLink = (LinkMatcher) =>
     window.location.pathname.includes(LinkMatcher);
@@ -47,7 +49,7 @@ const Header = () => {
           {links.map((link) => (
             <li key={link.text}>
               <Link
-                href={link.href(courseId, assessmentId, isExamination)}
+                href={link.href(courseId, assessmentId, examinationId)}
                 style={{
                   color: isActiveLink(link.matcher(courseId, assessmentId))
                     ? colors.black

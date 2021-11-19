@@ -18,7 +18,7 @@ import {
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = (sidebarLinks, assessmentId) => {
+const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
@@ -38,26 +38,27 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
   });
 
   const fetcher = useCallback(async () => {
+    console.log(isForAdmin);
     const data = await (isExamination
       ? // `assessmentId` is `examinationId` in this case
-        requestExaminationDetails(assessmentId)
-      : requestAssessmentDetails(assessmentId));
+
+        requestExaminationDetails(assessmentId, isForAdmin)
+      : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assessmentId, isExamination, isForAdmin]);
 
   const fetchAssessmentDetails = useCallback(async () => {
     setAssessmentDetails({ loading: true });
 
     try {
+      console.log(isExamination);
+
       const assessmentDetails = await handleGetOrSetAndGet(
-        assessmentId,
+        isExamination || assessmentId,
         fetcher
       );
-      //  const assessmentDetails = await fetcher();
-
-      console.log(assessmentDetails, assessmentId);
+      console.log(assessmentDetails);
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
@@ -67,9 +68,15 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessmentId, componentIsMount]);
 
+  const handleFetch = () => {
+    if (!assessmentIsNew) fetchAssessmentDetails();
+  };
+
   useEffect(() => {
-    fetchAssessmentDetails();
-  }, [fetchAssessmentDetails]);
+    handleFetch();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
   const isLoading = assessmentDetails.loading;
@@ -83,6 +90,7 @@ const useAssessmentPreview = (sidebarLinks, assessmentId) => {
     error,
     setError,
     isExamination,
+    handleFetch,
   };
 };
 

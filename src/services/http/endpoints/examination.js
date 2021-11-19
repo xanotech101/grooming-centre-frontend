@@ -6,8 +6,8 @@ import { http } from "../http";
  *
  * @returns {Promise<{ examination: Examination }>}
  */
-export const requestExaminationDetails = async (courseId) => {
-  const path = `/examination/${courseId}`;
+export const requestExaminationDetails = async (id, forAdmin) => {
+  const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
 
   const {
     data: { data },
@@ -27,6 +27,7 @@ export const requestExaminationDetails = async (courseId) => {
       questionIndex: +q.questionIndex || index,
       options: q.options.map((opt) => ({
         id: opt.id,
+        isAnswer: opt.isAnswer,
         name: opt.name,
         optionIndex: +opt.optionIndex,
       })),
@@ -72,7 +73,6 @@ export const adminGetExaminationListing = async (courseId) => {
     {
       id: data.id,
       title: data.title,
-      courseId: data.courseId,
       examinationId: data.examinationId,
       duration: data.duration,
       startTime: data.startTime,
@@ -120,15 +120,15 @@ export const adminCreateExaminationQuestion = async (body) => {
  *
  * @returns {Promise<{ message: string, examination: { id: string } }>}
  */
-export const adminEditExamination = async (courseId, body) => {
-  const path = `/examination/edit/${courseId}`;
+export const adminEditExamination = async (examinationId, body) => {
+  const path = `/examination/edit/${examinationId}`;
 
   const {
     data: { message, data },
   } = await http.patch(path, body);
 
   const examination = {
-    id: data[0].courseId,
+    id: data[0].id,
   };
 
   return { message, examination };

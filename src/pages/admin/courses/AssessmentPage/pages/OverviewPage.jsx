@@ -11,8 +11,11 @@ const OverviewPage = () => {
 
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,
-    assessmentId
+    assessmentId,
+    true
   );
+
+  console.log(assessment);
 
   return isEditMode && (isLoading || error) ? (
     <Flex

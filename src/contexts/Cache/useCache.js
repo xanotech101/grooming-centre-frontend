@@ -23,6 +23,8 @@ export const useCache = () => {
     const cache = { ...state };
     Reflect.deleteProperty(cache, key);
 
+    console.log(cache);
+
     setState(cache);
   };
 
@@ -66,11 +68,13 @@ export const useCache = () => {
    */
   const handleGetOrSetAndGet = async (key, cb) => {
     let item = handleGet(key);
+
+    console.log("cached => ", item);
+
     if (item) return item;
 
     item = await cb();
-
-    console.log("..............", item);
+    console.log("fetched => ", item);
 
     handleSet(key, item);
     return item;
