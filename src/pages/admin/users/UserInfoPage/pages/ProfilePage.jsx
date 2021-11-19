@@ -7,6 +7,7 @@ import {
   SkeletonText,
   Text,
   Breadcrumb,
+  Button,
 } from "../../../../../components";
 import { useCache } from "../../../../../contexts";
 import Icon from "@chakra-ui/icon";
@@ -18,8 +19,9 @@ import { useComponentIsMount } from "../../../../../hooks";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetUserDetails } from "../../../../../services";
 import { Avatar, SkeletonCircle } from "@chakra-ui/react";
+import { FaEdit } from "react-icons/fa";
 
-const useViewUserDetails = () => {
+export const useViewUserDetails = () => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { id: userId } = useParams();
@@ -87,7 +89,20 @@ const ProfilePage = () => {
       </Box>
 
       <Box marginTop={2} padding={2}>
-        <Section heading="Profile">
+        <Section
+          heading="Profile"
+          editButton={
+            <Button
+              link={`/admin/users/edit/${user?.id}`}
+              paddingLeft={2}
+              sizes="sm"
+              rightIcon={<FaEdit />}
+              secondary
+            >
+              Edit
+            </Button>
+          }
+        >
           <Box backgroundColor="white" padding={5} paddingX={10} shadow="md">
             <Heading
               as="h3"
@@ -201,15 +216,15 @@ export const Detail = ({ name, value, valueProps }) => {
   );
 };
 
-export const Section = ({ heading, children }) => {
+export const Section = ({ heading, children, editButton }) => {
   return (
     <Box as="section" marginBottom={10}>
-      <Box as="header">
+      <Box as="header" display="flex" justifyContent="space-between">
         <Heading fontSize="heading.h3" marginLeft={6} marginBottom={5}>
           {heading}
         </Heading>
+        {editButton}
       </Box>
-
       {children}
     </Box>
   );
