@@ -47,16 +47,22 @@ export const adminGetUserDetails = async (id) => {
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.email,
-    userRoleId: data.userRole.id,
-    userRoleName: data.userRole.name,
-    departmentId: data.department.id,
-    departmentName: data.department.name,
-    certificates: data.certificates,
-    gradePoint: data.overallGrade.averageGradeScore,
-    noOfCertificate: data.certificate.length,
-    completedCourses: data.courseTrackingProgress.length,
-    completedAssessment: data.assessmentScoreSheets.length,
-    phone: data.phone,
+    userRoleId: data.userRole[0].id,
+    userRoleName: data.userRole[0].name,
+    departmentId: data.department[0].id,
+    departmentName: data.department[0].name,
+    certificates: data.certificates ? data.certificates : "notset",
+    // gradePoint: data.overallGrade.averageGradeScore
+    //   ? data.overallGrade.averageGradeScore
+    //   : 0,
+    noOfCertificate: data.certificate.length ? data.certificate.length : 0,
+    completedCourses: data.courseTrackingProgress.length
+      ? data.courseTrackingProgress.length
+      : 0,
+    completedAssessment: data.assessmentScoreSheets.length
+      ? data.lassessmentScoreSheets.length
+      : 0,
+    phone: data.phone ? data.phone : "notset",
     profilePics: data.profilePics,
     isInviteActive: data.isInviteActive,
   };
