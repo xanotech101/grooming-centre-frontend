@@ -102,7 +102,7 @@ const CreateUserPage = ({
               error={errors.lastName?.message}
             />
             <Input
-              label="User's email"
+              label="User's Email"
               id="email"
               isRequired
               {...register("email", {
@@ -113,6 +113,20 @@ const CreateUserPage = ({
                 },
               })}
               error={errors.email?.message}
+            />
+            <Select
+              id="gender"
+              label="Select Gender"
+              isRequired
+              options={[
+                { label: "Female", value: "female" },
+                { label: "Male", value: "male" },
+                { label: "Other", value: "other" },
+              ]}
+              {...register("gender", {
+                required: "Please select your gender",
+              })}
+              error={errors.gender?.message}
             />
             <Select
               label="Department"

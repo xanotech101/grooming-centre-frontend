@@ -52,9 +52,9 @@ export const adminGetUserDetails = async (id) => {
     departmentId: data.department[0].id,
     departmentName: data.department[0].name,
     certificates: data.certificates ? data.certificates : "notset",
-    // gradePoint: data.overallGrade.averageGradeScore
-    //   ? data.overallGrade.averageGradeScore
-    //   : 0,
+    // gradePoint: data.averageGradeScore
+    //   ? data.averageGradeScore
+    //   : 0, // Todo : comment out later
     noOfCertificate: data.certificate.length ? data.certificate.length : 0,
     completedCourses: data.courseTrackingProgress.length
       ? data.courseTrackingProgress.length
