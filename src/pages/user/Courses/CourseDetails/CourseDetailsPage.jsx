@@ -192,7 +192,6 @@ const CourseDetailsPage = () => {
                   width="150px"
                   secondary
                   sm
-                  disabled={!isOngoing(lesson.startTime, lesson.endTime)}
                 >
                   {isOngoing(lesson.startTime, lesson.endTime) && "Take Lesson"}
                   {hasEnded(lesson.endTime) && "Lesson Has Ended"}
