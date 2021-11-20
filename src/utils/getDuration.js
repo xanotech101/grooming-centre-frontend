@@ -34,3 +34,27 @@ export const getDurationBetweenStartTimeAndEndTime = (startTime, endTime) => {
 
   return duration / 1000 / 60;
 };
+
+/**
+ * @param {Date} endTime
+ *
+ * @returns {boolean}
+ */
+export const hasEnded = (endTime) => Date.now() > new Date(endTime).getTime();
+
+/**
+ * @param {Date} startTime
+ *
+ * @returns {boolean}
+ */
+export const isUpcoming = (startTime) =>
+  new Date(startTime).getTime() > Date.now();
+
+/**
+ * @param {Date} startTime
+ * @param {Date} endTime
+ *
+ * @returns {boolean}
+ */
+export const isOngoing = (startTime, endTime) =>
+  Date.now() > new Date(startTime) && !hasEnded(endTime);

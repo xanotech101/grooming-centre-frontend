@@ -125,6 +125,8 @@ export const userGetCourseDetails = async (id) => {
         duration: getDurationBetweenStartTimeAndEndTime(l.startTime, l.endTime),
       })), // TODO: remove lazy mapping
       assessments: data.assessment, // TODO: remove lazy mapping
+      startTime: data.lesson[0].startTime,
+      endTime: data?.lesson[data.lesson.length - 1].endTime,
     }, // TODO: remove lazy mapping
   };
 };
