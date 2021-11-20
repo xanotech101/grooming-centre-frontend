@@ -11,11 +11,16 @@ import { Button, Heading, Image, Spinner, Text } from "../../../../components";
 import breakpoints, {
   maxWidthStyles_userPages,
 } from "../../../../theme/breakpoints";
-import { useApp } from "../../../../contexts";
-import { getDuration } from "../../../../utils";
+import {
+  getDuration,
+  hasEnded,
+  isOngoing,
+  isUpcoming,
+} from "../../../../utils";
 import useAccordion from "./hooks/useAccordion";
 import useCourseDetails from "./hooks/useCourseDetails";
 import { useEffect } from "react";
+import dayjs from "dayjs";
 
 const CourseDetailsPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
@@ -24,10 +29,8 @@ const CourseDetailsPage = () => {
     fetchCourseDetails();
   }, [fetchCourseDetails]);
 
-  const { getOneMetadata } = useApp();
-
   const courseDetailsData = courseDetails.data;
-  const duration = getDuration(courseDetailsData?.duration);
+  const duration = getDuration(courseDetailsData?.duration).combinedText;
 
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
@@ -105,33 +108,43 @@ const CourseDetailsPage = () => {
         maxWidth={breakpoints.laptop}
         marginX="auto"
       >
-        <Flex justifyContent="flex-end" marginBottom={10}>
+        {/* <Flex justifyContent="flex-end" marginBottom={10}>
           <Button
             link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lessons[0].id}`}
+            disabled={
+              !isOngoing(
+                courseDetailsData?.lessons[0].startTime,
+                courseDetailsData?.lessons[0].endTime
+              )
+            }
           >
             Take Lesson
           </Button>
-        </Flex>
+        </Flex> */}
+
+        {/* {isOngoing(event.startTime, event.endTime) && "Join Event"}
+              {hasEnded(event.endTime) && "Event Has Ended"}
+              {isUpcoming(event.startTime) && "Event Is Upcoming"} */}
 
         <Accordion heading="Course Details">
           <Flex justifyContent="space-between" padding={2}>
             <InfoContent
               title="Duration"
-              date={`${duration.hours} hours ${duration.minutes} minutes`}
+              date={`${duration}`}
               icon={<BsClockFill />}
             />
             <InfoContent
               title="Start Date"
-              date={courseDetailsData?.lessons[0].startTime}
+              date={dayjs(courseDetailsData?.startTime).format(
+                "ddd, MMM D, YYYY"
+              )}
               icon={<FaCalendar />}
             />
             <InfoContent
               title="End Date"
-              date={
-                courseDetailsData?.lessons[
-                  courseDetailsData?.lessons.length - 1
-                ].endTime
-              }
+              date={dayjs(courseDetailsData?.endTime).format(
+                "ddd, MMM D, YYYY"
+              )}
               icon={<FaCalendar />}
             />
           </Flex>
@@ -139,12 +152,7 @@ const CourseDetailsPage = () => {
 
         <Accordion heading="Course Lessons">
           {courseDetailsData?.lessons.map((lesson, index) => {
-            const duration = getDuration(lesson.duration);
-
-            const lessonTypeName = getOneMetadata(
-              "lessonType",
-              lesson.lessonTypeId
-            )?.name;
+            const duration = getDuration(lesson.duration).combinedText;
 
             return (
               <Flex
@@ -156,17 +164,23 @@ const CourseDetailsPage = () => {
                 borderColor="accent.1"
               >
                 <InfoContent
-                  title={lesson.startTime}
-                  date={`${lesson.startTime} to ${lesson.endTime}`}
+                  title={dayjs(lesson.startTime).format("ddd, D MMM")}
+                  date={`${dayjs(lesson.startTime).format("h:mm A")} to ${dayjs(
+                    lesson.endTime
+                  ).format("h:mm A")}`}
                   icon={<FaCalendar />}
                   flex={0.6}
                   opacity={lesson.disabled ? 0.5 : 1}
                 />
                 <InfoContent
                   title={lesson.title}
-                  date={`${duration.hours} hours ${duration.minutes} minutes`}
+                  date={`${duration}`}
                   icon={
-                    lessonTypeName !== "video" ? <VscFiles /> : <IoVideocam />
+                    lesson.lessonType.name !== "video" ? (
+                      <VscFiles />
+                    ) : (
+                      <IoVideocam />
+                    )
                   }
                   flex={1}
                   marginLeft={16}
@@ -175,11 +189,14 @@ const CourseDetailsPage = () => {
 
                 <Button
                   link={`/courses/take/${courseDetailsData?.id}/lessons/${lesson.id}`}
+                  width="150px"
                   secondary
                   sm
-                  disabled={lesson.locked}
+                  disabled={!isOngoing(lesson.startTime, lesson.endTime)}
                 >
-                  View Lesson
+                  {isOngoing(lesson.startTime, lesson.endTime) && "Take Lesson"}
+                  {hasEnded(lesson.endTime) && "Lesson Has Ended"}
+                  {isUpcoming(lesson.startTime) && "Lesson Is Upcoming"}
                 </Button>
               </Flex>
             );

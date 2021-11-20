@@ -3,6 +3,7 @@ import { Button, Heading, Spinner, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { EmptyState } from "../../../layouts";
 import dayjs from "dayjs";
+import { hasEnded, isOngoing, isUpcoming } from "../../../utils";
 
 export const EventListing = ({
   isLoading,
@@ -28,14 +29,6 @@ export const EventListing = ({
 );
 
 const Listing = ({ events, headerButton }) => {
-  const hasEnded = (event) => Date.now() > new Date(event.endTime).getTime();
-
-  const isUpcoming = (event) =>
-    new Date(event.startTime).getTime() > Date.now();
-
-  const isOngoing = (event) =>
-    Date.now() > new Date(event.startTime) && !hasEnded(event);
-
   return (
     <Box
       minHeight="50vh"
@@ -94,10 +87,13 @@ const Listing = ({ events, headerButton }) => {
               <Text>{event.description}</Text>
             </Box>
 
-            <Button secondary disabled={!isOngoing(event)}>
-              {isOngoing(event) && "Join Event"}
-              {hasEnded(event) && "Event Has Ended"}
-              {isUpcoming(event) && "Event Is Upcoming"}
+            <Button
+              secondary
+              disabled={!isOngoing(event.startTime, event.endTime)}
+            >
+              {isOngoing(event.startTime, event.endTime) && "Join Event"}
+              {hasEnded(event.endTime) && "Event Has Ended"}
+              {isUpcoming(event.startTime) && "Event Is Upcoming"}
             </Button>
           </Grid>
         ))}
