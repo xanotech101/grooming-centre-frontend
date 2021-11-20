@@ -1,3 +1,16 @@
+const upcomingDates = {
+  startTime: new Date(Date.now() + 60 * 60 * 1000 * 24 * 2).toISOString(),
+  endTime: new Date(Date.now() + 60 * 60 * 1000 * 24 * 3).toISOString(),
+};
+const ongoingDates = {
+  startTime: new Date(Date.now() - 60 * 10 * 1000).toISOString(),
+  endTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+};
+const endedDates = {
+  startTime: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+  endTime: new Date(Date.now() - 60 * 10 * 1000).toISOString(),
+};
+
 export const adminCourseListingRes = {
   data: [
     {
@@ -302,45 +315,44 @@ export const userCourseDetailsRes_courseId_3 = {
     user: { profilePics: null, firstName: "tobby", lastName: "Joahian" },
     lesson: [
       {
-        id: "37380304-77d3-43aa-b563-4887de1144a8",
-        title: "Introduction to the Web",
+        ...upcomingDates,
+        id: "lessonId_1",
+        title: "Upcoming lesson",
         content:
           '{"blocks":[{"key":"6h3a2","text":"lorem","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        startTime: "2021-11-19T05:42:46.938Z",
-        endTime: "2021-11-19T05:42:46.965Z",
         createdAt: "2021-11-19T05:43:48.006Z",
         updatedAt: "2021-11-19T05:43:48.006Z",
         lessonType: {
-          id: "5fbad180-0a64-4f7f-bfaa-b4cc4b53a67e",
+          id: "lessonTypeId_2",
           name: "video",
         },
         lessonTracking: [],
       },
       {
-        id: "cbedb228-2505-44df-a28f-66acad4b04ee",
-        title: "Lesson one",
+        ...ongoingDates,
+        id: "lessonId_2",
+        title: "Ongoing lesson",
         content:
           '{"blocks":[{"key":"d2sqe","text":"Loreme sdsd shdskjdsd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":11,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        startTime: "2021-11-19T10:00:29.761Z",
-        endTime: "2021-11-20T10:00:00.000Z",
+
         createdAt: "2021-11-19T10:04:31.546Z",
         updatedAt: "2021-11-19T10:04:31.546Z",
         lessonType: {
-          id: "5fbad180-0a64-4f7f-bfaa-b4cc4b53a67e",
+          id: "lessonTypeId_2",
           name: "video",
         },
         lessonTracking: [],
       },
       {
-        id: "8055fd36-a2cb-46e0-a874-6b905dc7cb18",
-        title: "New Lesson",
+        ...endedDates,
+        id: "lessonId_3",
+        title: "Ended lesson",
         content:
           '{"blocks":[{"key":"cr1kt","text":"New lesssonnn","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        startTime: "2021-11-19T09:19:23.998Z",
-        endTime: "2021-11-19T10:19:24.022Z",
+
         createdAt: "2021-11-19T09:20:09.328Z",
         updatedAt: "2021-11-19T09:20:09.328Z",
-        lessonType: { id: "242219d9-7f2e-4863-bd6a-fc49957e3242", name: "pdf" },
+        lessonType: { id: "lessonTypeId_1", name: "pdf" },
         lessonTracking: [],
       },
     ],

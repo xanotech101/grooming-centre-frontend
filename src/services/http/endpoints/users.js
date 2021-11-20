@@ -57,11 +57,11 @@ export const adminGetUserDetails = async (id) => {
     // gradePoint: data.averageGradeScore
     //   ? data.averageGradeScore
     //   : 0, // Todo : comment out later
-    noOfCertificate: data.certificate.length ? data.certificate.length : 0,
-    completedusers: data.courseTrackingProgress.length
+    noOfCertificate: data.certificate ? data.certificate.length : 0,
+    completedCourses: data.courseTrackingProgress
       ? data.courseTrackingProgress.length
       : 0,
-    completedAssessment: data.assessmentScoreSheets.length
+    completedAssessment: data.assessmentScoreSheets
       ? data.assessmentScoreSheets.length
       : 0,
     phone: data.phone ? data.phone : "notset",
@@ -79,7 +79,7 @@ export const adminGetUserDetails = async (id) => {
  * @returns {Promise<{ message: string, user: { id: string }}>}
  */
 export const adminEditUser = async (userId, body) => {
-  const path = `/admin/user/edit/${userId}`;
+  const path = `/user/edit/${userId}`;
 
   const {
     data: { message, data },
