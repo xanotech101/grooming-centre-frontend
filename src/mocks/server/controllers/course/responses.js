@@ -345,7 +345,6 @@ export const userCourseDetailsRes_courseId_3 = {
         title: "Ongoing lesson",
         content:
           '{"blocks":[{"key":"d2sqe","text":"Loreme sdsd shdskjdsd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":11,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-
         createdAt: "2021-11-19T10:04:31.546Z",
         updatedAt: "2021-11-19T10:04:31.546Z",
         lessonType: {
@@ -360,12 +359,10 @@ export const userCourseDetailsRes_courseId_3 = {
         title: "Ended lesson (Due to has completed)",
         content:
           '{"blocks":[{"key":"cr1kt","text":"New lesssonnn","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-
+        lessonTracking: [{ isCompleted: true }],
         createdAt: "2021-11-19T09:20:09.328Z",
         updatedAt: "2021-11-19T09:20:09.328Z",
         lessonType: { id: "lessonTypeId_1", name: "pdf" },
-        lessonTracking: [],
-        hasCompleted: true,
       },
       {
         ...ongoingDates,
@@ -373,22 +370,20 @@ export const userCourseDetailsRes_courseId_3 = {
         title: "Ongoing lesson (But has completed)",
         content:
           '{"blocks":[{"key":"d2sqe","text":"Loreme sdsd shdskjdsd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":11,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-
+        lessonTracking: [{ isCompleted: true }],
         createdAt: "2021-11-19T10:04:31.546Z",
         updatedAt: "2021-11-19T10:04:31.546Z",
         lessonType: {
           id: "lessonTypeId_2",
           name: "video",
         },
-        lessonTracking: [],
-        hasCompleted: true,
       },
     ],
     courseTracking: null,
     assessment: [
       {
         id: "bd146712-3e21-4af3-a355-47a686839db1",
-        title: "New Assessment ",
+        title: "New Assessment (Ongoing)",
         duration: 20,
         active: true,
         amountOfQuestions: 30,
@@ -398,17 +393,18 @@ export const userCourseDetailsRes_courseId_3 = {
       },
       {
         id: "05824a8a-e8b3-4c36-bc01-9636f0935c6c",
-        title: "HTML ASSESSMENT TODAY",
+        title: "HTML ASSESSMENT TODAY (Upcoming)",
         duration: 60,
         active: true,
         amountOfQuestions: 20,
         createdAt: "2021-11-19T08:48:02.855Z",
         updatedAt: "2021-11-19T09:31:09.397Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+        hasCompleted: true,
       },
       {
         id: "b7a7d4d5-fe7a-4af6-9974-c0dfbe2b5d74",
-        title: "New Hot Assessment",
+        title: "New Hot Assessment (Ended)",
         duration: 20,
         active: true,
         amountOfQuestions: 10,
@@ -427,6 +423,7 @@ export const userCourseDetailsRes_courseId_3 = {
       createdAt: "2021-11-19T10:29:22.190Z",
       updatedAt: "2021-11-19T11:18:41.442Z",
       courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+      hasCompleted: true,
     },
   },
 };

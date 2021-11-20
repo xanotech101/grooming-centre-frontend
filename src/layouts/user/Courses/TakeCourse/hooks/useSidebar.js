@@ -1,4 +1,5 @@
 import { useApp, useTakeCourse } from "../../../../../contexts";
+import { isOngoing } from "../../../../../utils";
 
 const mapLessonsToLinks = (course) => {
   const reduceToLinks = (arrayKey, mapper) =>
@@ -12,14 +13,17 @@ const mapLessonsToLinks = (course) => {
     id: lesson.id,
     to: `/courses/take/${course.id}/lessons/${lesson.id}`,
     text: lesson.title,
-    disabled: lesson.disabled,
+    disabled:
+      !isOngoing(lesson.startTime, lesson.endTime) && !lesson.hasCompleted,
     type: lesson.lessonType.name,
   });
   const mapAssessmentToLink = (assessment, index) => ({
     id: assessment.id,
     to: `/courses/take/${course.id}/assessment/${assessment.id}`,
     text: `Assessment ${index + 1}`,
-    disabled: assessment.disabled,
+    disabled:
+      !isOngoing(assessment.startTime, assessment.endTime) ||
+      assessment.hasCompleted,
     type: "assessment",
   });
 
@@ -35,7 +39,11 @@ const mapLessonsToLinks = (course) => {
     id: course?.examination?.id,
     to: `/courses/take/${course?.id}/assessment/${course?.examination?.id}?examination=true`,
     text: "Examination",
-    disabled: course?.examination?.disabled,
+    disabled:
+      !isOngoing(
+        course?.examination?.startTime,
+        course?.examination?.endTime
+      ) || course?.examination?.hasCompleted,
     type: "examination",
   };
 
