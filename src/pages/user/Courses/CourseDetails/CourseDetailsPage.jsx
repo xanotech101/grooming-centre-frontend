@@ -35,6 +35,14 @@ const CourseDetailsPage = () => {
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
+  const getCurrentOngoingLesson = () => {
+    const lesson = courseDetailsData?.lessons.find((lesson) =>
+      isOngoing(lesson.startTime, lesson.endTime)
+    );
+
+    return lesson;
+  };
+
   return isLoading || isError ? (
     <Flex
       // Make the height 100% of the screen minus the `height` of the Header and Footer
@@ -108,19 +116,16 @@ const CourseDetailsPage = () => {
         maxWidth={breakpoints.laptop}
         marginX="auto"
       >
-        {/* <Flex justifyContent="flex-end" marginBottom={10}>
+        <Flex justifyContent="flex-end" marginBottom={10}>
           <Button
-            link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lessons[0].id}`}
-            disabled={
-              !isOngoing(
-                courseDetailsData?.lessons[0].startTime,
-                courseDetailsData?.lessons[0].endTime
-              )
-            }
+            link={`/courses/take/${courseDetailsData?.id}/lessons/${
+              getCurrentOngoingLesson()?.id
+            }`}
+            disabled={getCurrentOngoingLesson() ? false : true}
           >
             Take Lesson
           </Button>
-        </Flex> */}
+        </Flex>
 
         {/* {isOngoing(event.startTime, event.endTime) && "Join Event"}
               {hasEnded(event.endTime) && "Event Has Ended"}
@@ -194,7 +199,7 @@ const CourseDetailsPage = () => {
                   sm
                   disabled={!isOngoing(lesson.startTime, lesson.endTime)}
                 >
-                  {isOngoing(lesson.startTime, lesson.endTime) && "Take Lesson"}
+                  {isOngoing(lesson.startTime, lesson.endTime) && "View Lesson"}
                   {hasEnded(lesson.endTime) && "Lesson Has Ended"}
                   {isUpcoming(lesson.startTime) && "Lesson Is Upcoming"}
                 </Button>
