@@ -21,6 +21,7 @@ export const adminGetUserListing = async () => {
       userRoleId: user.userRole.id,
       userRoleName: user.userRole.name,
       departmentId: user.department.id,
+      gender: user.gender,
       departmentName: user.department.name,
       certificates: user.certificates,
       gradePoint: user.overallGrade.averageGradeScore,
@@ -47,19 +48,46 @@ export const adminGetUserDetails = async (id) => {
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.email,
-    userRoleId: data.userRole.id,
-    userRoleName: data.userRole.name,
-    departmentId: data.department.id,
-    departmentName: data.department.name,
-    certificates: data.certificates,
-    gradePoint: data.overallGrade.averageGradeScore,
-    noOfCertificate: data.certificate.length,
-    completedCourses: data.courseTrackingProgress.length,
-    completedAssessment: data.assessmentScoreSheets.length,
-    phone: data.phone,
+    userRoleId: data.userRole[0].id,
+    userRoleName: data.userRole[0].name,
+    departmentId: data.department[0].id,
+    gender: data.gender,
+    departmentName: data.department[0].name,
+    certificates: data.certificates ? data.certificates : "notset",
+    // gradePoint: data.averageGradeScore
+    //   ? data.averageGradeScore
+    //   : 0, // Todo : comment out later
+    noOfCertificate: data.certificate.length ? data.certificate.length : 0,
+    completedusers: data.courseTrackingProgress.length
+      ? data.courseTrackingProgress.length
+      : 0,
+    completedAssessment: data.assessmentScoreSheets.length
+      ? data.assessmentScoreSheets.length
+      : 0,
+    phone: data.phone ? data.phone : "notset",
     profilePics: data.profilePics,
     isInviteActive: data.isInviteActive,
   };
 
   return { user };
+};
+
+/**
+ * Endpoint for user editing/modification
+ * @param {string} userId
+ * @param {object} body
+ * @returns {Promise<{ message: string, user: { id: string }}>}
+ */
+export const adminEditUser = async (userId, body) => {
+  const path = `/admin/user/edit/${userId}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const user = {
+    id: data[0].id,
+  };
+
+  return { message, user };
 };

@@ -1,14 +1,20 @@
 import { Grid, Stack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { Route } from "react-router-dom";
+import { Route, useParams, useHistory } from "react-router-dom";
 import { Input, Select, Breadcrumb, Link } from "../../../../components";
-import { useApp } from "../../../../contexts";
+import { useApp, useCache } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
-import { adminInviteUser, superAdminInviteAdmin } from "../../../../services";
+import {
+  adminEditUser,
+  adminInviteUser,
+  superAdminInviteAdmin,
+} from "../../../../services";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { populateSelectOptions } from "../../../../utils";
+import { useEffect, useMemo } from "react";
+import { useViewUserDetails } from "../..";
 
 const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
@@ -27,17 +33,38 @@ const CreateUserPage = ({
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = formManager;
 
+  const { push } = useHistory();
+
+  const { id: userId } = useParams();
+  const isEditMode = useMemo(() => userId && userId !== "new", [userId]);
+
+  const { user } = useViewUserDetails();
+  console.log(user);
+
   const metadata = propMetadata || appManager.state.metadata;
+
+  const { handleDelete } = useCache();
 
   const onSubmit = async (data) => {
     try {
-      const { message } = await (creatorRoleIsSuperAdmin &&
-      appManager.getOneMetadata("userRoles", data.roleId)?.name === "admin"
+      const { message, user } = await (isEditMode
+        ? adminEditUser(userId, {
+            departmentId: data.departmentId,
+            firstName: data.firstName,
+            gender: data.gender,
+            lastName: data.lastName,
+            roleId: data.roleId,
+          })
+        : creatorRoleIsSuperAdmin &&
+          appManager.getOneMetadata("userRoles", data.roleId)?.name === "admin"
         ? superAdminInviteAdmin(data)
         : adminInviteUser(data));
+
+      if (isEditMode) handleDelete(user.id);
 
       setStatus({
         success: message,
@@ -50,6 +77,8 @@ const CreateUserPage = ({
       });
       reset();
       handleResetDepartmentIsRequired();
+
+      push(`/admin/users/details/${userId}/profile`);
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
@@ -58,6 +87,48 @@ const CreateUserPage = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setValue("firstName", user.firstName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setValue("lastName", user.lastName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setValue("email", user.email);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setValue("gender", user.gender);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (user && metadata?.departments) {
+      setValue("departmentId", user.departmentId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, metadata?.departments]);
+
+  useEffect(() => {
+    if (user && metadata?.userRoles) {
+      setValue("roleId", user.userRoleId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, metadata?.userRoles]);
 
   return (
     <>
@@ -77,7 +148,7 @@ const CreateUserPage = ({
       </Box>
       <CreatePageLayout
         title="Create User"
-        submitButtonText="Submit"
+        submitButtonText={isEditMode ? "Update Course" : "Submit"}
         submitButtonIsLoading={isSubmitting}
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -102,8 +173,9 @@ const CreateUserPage = ({
               error={errors.lastName?.message}
             />
             <Input
-              label="User's email"
+              label="User's Email"
               id="email"
+              disabled
               isRequired
               {...register("email", {
                 required: "Email can't be empty",
@@ -113,6 +185,20 @@ const CreateUserPage = ({
                 },
               })}
               error={errors.email?.message}
+            />
+            <Select
+              id="gender"
+              label="Select Gender"
+              isRequired
+              options={[
+                { label: "Female", value: "female" },
+                { label: "Male", value: "male" },
+                { label: "Other", value: "other" },
+              ]}
+              {...register("gender", {
+                required: "Please select your gender",
+              })}
+              error={errors.gender?.message}
             />
             <Select
               label="Department"

@@ -84,7 +84,7 @@ export const userGetCourseListing = async () => {
  * @returns {Promise<{ courses: CourseListArray }>}
  */
 export const adminGetUserCourseListing = async (userId) => {
-  const path = `/courses/${userId}`;
+  const path = `/admin/courses/${userId}`;
 
   const {
     data: { data },

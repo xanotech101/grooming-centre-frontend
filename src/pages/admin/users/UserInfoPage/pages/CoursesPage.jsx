@@ -85,7 +85,7 @@ const tableProps = {
             backgroundColor={status < 100 ? "others.7" : "accent.4"}
             color={status < 100 ? "others.8" : "accent.5"}
           >
-            <Text bold>{status < 100 ? "Ongoing" : "Completed"}</Text>
+            <Text bold>{status === 100 ? "Completed" : "Ongoing"}</Text>
           </Tag>
         </Box>
       ),
@@ -95,7 +95,7 @@ const tableProps = {
 
 const useCourseListing = () => {
   const componentIsMount = useComponentIsMount();
-  const {id: userId} = useParams();
+  const { id: userId } = useParams();
 
   const [rows, setRows] = useState({
     data: null,

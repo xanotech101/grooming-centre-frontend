@@ -1,12 +1,18 @@
 import { Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
-import { Button, Heading, Table, Breadcrumb, Link, Text } from "../../../../components";
+import {
+  Button,
+  Heading,
+  Table,
+  Breadcrumb,
+  Link,
+  Text,
+} from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import { adminGetUserListing } from "../../../../services";
 import { BreadcrumbItem } from "@chakra-ui/react";
-
 
 const tableProps = {
   filterControls: [
@@ -68,9 +74,7 @@ const tableProps = {
       text: "Full name",
       minWidth: "200px",
       renderContent: (data) => (
-        <Link
-          href={`/admin/users/details/${data.userId}/profile`}
-        >
+        <Link href={`/admin/users/details/${data.userId}/profile`}>
           <Text>{data.text}</Text>
         </Link>
       ),
@@ -162,7 +166,7 @@ const UserListingPage = () => {
           Manage Users
         </Heading>
 
-        <Button link="/admin/users/create">Add User</Button>
+        <Button link="/admin/users/edit/new">Add User</Button>
       </Flex>
 
       <Table {...tableProps} rows={rows} setRows={setRows} />

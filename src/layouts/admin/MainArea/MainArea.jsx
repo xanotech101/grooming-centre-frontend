@@ -43,7 +43,7 @@ const MainArea = () => {
             path="/admin/courses/:courseId/lesson/:lessonId/view"
           />
           <UserListingPageRoute exact path="/admin/users" />
-          <CreateUserPageRoute exact path="/admin/users/create" />
+          <CreateUserPageRoute exact path="/admin/users/edit/:id" />
           <UserInfoPageRoute path="/admin/users/details" />
 
           <DepartmentListingPageRoute exact path="/admin/departments" />
@@ -51,7 +51,7 @@ const MainArea = () => {
           <ViewDepartmentPageRoute
             exact
             path="/admin/departments/details/:departmentId/info"
-          />  
+          />
           <RolesPageRoute exact path="/admin/role" />
 
           <SecurityPageRoute path="/admin/settings/security" />

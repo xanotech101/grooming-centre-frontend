@@ -3,12 +3,12 @@ export const adminGetRoleListingRes = {
     userRoles: [
       {
         id: "userRoleId_1",
-        name: "Admin",
+        name: "Super Admin",
         noOfUsers: 20,
       },
       {
         id: "userRoleId_2",
-        name: "Super Admin",
+        name: "Admin",
         noOfUsers: 12,
       },
       {
@@ -16,6 +16,6 @@ export const adminGetRoleListingRes = {
         name: "User",
         noOfUsers: 183,
       },
-    ]
+    ],
   },
 };
