@@ -2,6 +2,7 @@ import Icon from "@chakra-ui/icon";
 import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { AiOutlineLeft } from "react-icons/ai";
+import { FaCheck } from "react-icons/fa";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import {
@@ -19,11 +20,19 @@ const Sidebar = ({ manager }) => {
   const renderContent = (link, props) => (
     <Tooltip label={link.text} aria-label={link.text}>
       <HStack spacing={2} padding={2} {...props}>
-        <Icon fontSize="text.level1">
+        <Icon opacity={link.disabled ? 0.5 : 1} fontSize="text.level1">
           {link.type !== "video" ? <VscFiles /> : <IoVideocam />}
         </Icon>
 
-        <Text isTruncated>{link.text}</Text>
+        <Text opacity={link.disabled ? 0.5 : 1} isTruncated flex={1}>
+          {link.text}
+        </Text>
+
+        {link.hasCompleted && (
+          <Icon fontSize="text.level1" color="accent.5">
+            <FaCheck />
+          </Icon>
+        )}
       </HStack>
     </Tooltip>
   );
@@ -76,7 +85,7 @@ const Sidebar = ({ manager }) => {
               return (
                 <li key={link.id}>
                   {link.disabled ? (
-                    renderContent(link, { opacity: 0.5, cursor: "not-allowed" })
+                    renderContent(link, { cursor: "not-allowed" })
                   ) : (
                     <Link
                       navLink

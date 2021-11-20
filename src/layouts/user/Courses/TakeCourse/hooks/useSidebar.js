@@ -16,6 +16,7 @@ const mapLessonsToLinks = (course) => {
     disabled:
       !isOngoing(lesson.startTime, lesson.endTime) && !lesson.hasCompleted,
     type: lesson.lessonType.name,
+    hasCompleted: lesson.hasCompleted,
   });
   const mapAssessmentToLink = (assessment, index) => ({
     id: assessment.id,
@@ -25,6 +26,7 @@ const mapLessonsToLinks = (course) => {
       !isOngoing(assessment.startTime, assessment.endTime) ||
       assessment.hasCompleted,
     type: "assessment",
+    hasCompleted: assessment.hasCompleted,
   });
 
   const links =
