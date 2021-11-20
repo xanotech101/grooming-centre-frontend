@@ -382,8 +382,9 @@ export const userCourseDetailsRes_courseId_3 = {
     courseTracking: null,
     assessment: [
       {
-        id: "bd146712-3e21-4af3-a355-47a686839db1",
+        id: "assessmentId_1",
         title: "New Assessment (Ongoing)",
+        startTime: ongoingDates.startTime,
         duration: 20,
         active: true,
         amountOfQuestions: 30,
@@ -393,8 +394,9 @@ export const userCourseDetailsRes_courseId_3 = {
         assessmentTracking: [],
       },
       {
-        id: "05824a8a-e8b3-4c36-bc01-9636f0935c6c",
+        id: "assessmentId_2",
         title: "HTML ASSESSMENT TODAY (Upcoming)",
+        startTime: upcomingDates.startTime,
         duration: 60,
         active: true,
         amountOfQuestions: 20,
@@ -404,16 +406,17 @@ export const userCourseDetailsRes_courseId_3 = {
         assessmentTracking: [],
       },
       {
-        id: "b7a7d4d5-fe7a-4af6-9974-c0dfbe2b5d74",
+        id: "assessmentId_3",
         title: "New Hot Assessment (Ended)",
+        startTime: endedDates.startTime,
         duration: 20,
         active: true,
         amountOfQuestions: 10,
         createdAt: "2021-11-19T10:07:01.107Z",
         updatedAt: "2021-11-19T10:07:01.107Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
-        assessmentTracking: [{ isCompleted: true }],
-        // assessmentTracking: [],
+        // assessmentTracking: [{ isCompleted: true }],
+        assessmentTracking: [],
       },
     ],
     examination: {

@@ -8,6 +8,7 @@ import {
   adminGetAssessmentListingRes_courseId_3,
   requestAssessmentDetailsRes_assessmentId_1,
   requestAssessmentDetailsRes_assessmentId_2,
+  requestAssessmentDetailsRes_assessmentId_3,
   submitAssessmentRes,
   adminCreateAssessmentRes,
   adminEditAssessmentRes_assessmentId_1,
@@ -24,6 +25,10 @@ const requestAssessmentDetails = [
   rest.get(
     getUrl("/assessment/assessmentId_2"),
     handleSuccessResponse(requestAssessmentDetailsRes_assessmentId_2)
+  ),
+  rest.get(
+    getUrl("/assessment/assessmentId_3"),
+    handleSuccessResponse(requestAssessmentDetailsRes_assessmentId_3)
   ),
   rest.get(
     getUrl("/assessment/admin/assessmentId_1"),

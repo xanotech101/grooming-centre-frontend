@@ -1,4 +1,7 @@
-import { getDurationBetweenStartTimeAndEndTime } from "../../../utils";
+import {
+  getDurationBetweenStartTimeAndEndTime,
+  getEndTime,
+} from "../../../utils";
 import { http } from "../http";
 /**
  * Endpoint to get `course-listing`
@@ -128,6 +131,7 @@ export const userGetCourseDetails = async (id) => {
       assessments: data.assessment.map((a) => ({
         ...a,
         hasCompleted: a.assessmentTracking?.[0]?.isCompleted,
+        endTime: getEndTime(a.startTime, a.duration),
       })), // TODO: remove lazy mapping
       startTime: data.lesson[0].startTime,
       endTime: data?.lesson[data.lesson.length - 1].endTime,
