@@ -13,7 +13,12 @@ export const requestLessonDetails = async (id) => {
     data: { data },
   } = await http.get(path);
 
-  return { lesson: data };
+  return {
+    lesson: {
+      ...data,
+      hasEnded: data.lessonTracking[0]?.isCompleted,
+    },
+  };
 };
 
 /**

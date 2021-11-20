@@ -11,6 +11,8 @@ import {
   requestLessonDetailsRes_lessonId_1,
   requestLessonDetailsRes_lessonId_2,
   requestLessonDetailsRes_lessonId_3,
+  requestLessonDetailsRes_lessonId_4,
+  requestLessonDetailsRes_lessonId_5,
 } from "./responses";
 
 const requestLessonDetailsForLessonId = [
@@ -25,6 +27,14 @@ const requestLessonDetailsForLessonId = [
   rest.get(
     getUrl("/lesson/lessonId_3"),
     handleSuccessResponse(requestLessonDetailsRes_lessonId_3)
+  ),
+  rest.get(
+    getUrl("/lesson/lessonId_4"),
+    handleSuccessResponse(requestLessonDetailsRes_lessonId_4)
+  ),
+  rest.get(
+    getUrl("/lesson/lessonId_5"),
+    handleSuccessResponse(requestLessonDetailsRes_lessonId_5)
   ),
 ];
 
@@ -70,7 +80,6 @@ const adminGetLessonListing = [
     handleSuccessResponse(adminGetLessonListingRes_courseId_3)
   ),
 ];
-
 
 const lesson = [
   ...requestLessonDetailsForLessonId,

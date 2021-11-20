@@ -1,12 +1,12 @@
-const upcomingDates = {
+export const upcomingDates = {
   startTime: new Date(Date.now() + 60 * 60 * 1000 * 24 * 2).toISOString(),
   endTime: new Date(Date.now() + 60 * 60 * 1000 * 24 * 3).toISOString(),
 };
-const ongoingDates = {
+export const ongoingDates = {
   startTime: new Date(Date.now() - 60 * 10 * 1000).toISOString(),
   endTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
 };
-const endedDates = {
+export const endedDates = {
   startTime: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
   endTime: new Date(Date.now() - 60 * 10 * 1000).toISOString(),
 };
