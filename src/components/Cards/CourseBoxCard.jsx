@@ -28,7 +28,8 @@ export const CourseBoxCard = ({
       href={`/courses/details/${id}`}
       disabled={isLoading}
     >
-      {progressPercentage !== 0 && !isLoading ? (
+      {console.log(progressPercentage)}
+      {progressPercentage ? (
         <Box
           backgroundColor="accent.5"
           position="absolute"

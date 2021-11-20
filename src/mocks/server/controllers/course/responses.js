@@ -121,7 +121,7 @@ export const userCourseListingRes = {
         lastName: "dart",
         title: "Junior Developer",
       },
-      progressPercentage: 13,
+      progressPercentage: 1,
     },
     {
       id: "courseId_2",
@@ -140,7 +140,6 @@ export const userCourseListingRes = {
         lastName: "doe",
         title: "Team Lead",
       },
-      progressPercentage: 0,
     },
   ],
 };
