@@ -122,10 +122,13 @@ export const userGetCourseDetails = async (id) => {
       ...data, // TODO: remove lazy mapping
       lessons: data.lesson.map((l) => ({
         ...l,
-        hasCompleted: l.lessonTracking[0]?.isCompleted,
+        hasCompleted: l.lessonTracking?.[0]?.isCompleted,
         duration: getDurationBetweenStartTimeAndEndTime(l.startTime, l.endTime),
       })), // TODO: remove lazy mapping
-      assessments: data.assessment, // TODO: remove lazy mapping
+      assessments: data.assessment.map((a) => ({
+        ...a,
+        hasCompleted: a.assessmentTracking?.[0]?.isCompleted,
+      })), // TODO: remove lazy mapping
       startTime: data.lesson[0].startTime,
       endTime: data?.lesson[data.lesson.length - 1].endTime,
     }, // TODO: remove lazy mapping

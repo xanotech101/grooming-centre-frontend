@@ -390,6 +390,7 @@ export const userCourseDetailsRes_courseId_3 = {
         createdAt: "2021-11-19T09:20:42.717Z",
         updatedAt: "2021-11-19T09:20:42.717Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+        assessmentTracking: [],
       },
       {
         id: "05824a8a-e8b3-4c36-bc01-9636f0935c6c",
@@ -400,7 +401,7 @@ export const userCourseDetailsRes_courseId_3 = {
         createdAt: "2021-11-19T08:48:02.855Z",
         updatedAt: "2021-11-19T09:31:09.397Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
-        hasCompleted: true,
+        assessmentTracking: [],
       },
       {
         id: "b7a7d4d5-fe7a-4af6-9974-c0dfbe2b5d74",
@@ -411,6 +412,8 @@ export const userCourseDetailsRes_courseId_3 = {
         createdAt: "2021-11-19T10:07:01.107Z",
         updatedAt: "2021-11-19T10:07:01.107Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+        assessmentTracking: [{ isCompleted: true }],
+        // assessmentTracking: [],
       },
     ],
     examination: {
@@ -423,7 +426,7 @@ export const userCourseDetailsRes_courseId_3 = {
       createdAt: "2021-11-19T10:29:22.190Z",
       updatedAt: "2021-11-19T11:18:41.442Z",
       courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
-      hasCompleted: true,
+      examinationTracking: [{ isCompleted: true }],
     },
   },
 };

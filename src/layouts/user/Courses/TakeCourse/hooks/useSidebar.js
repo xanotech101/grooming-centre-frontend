@@ -22,7 +22,7 @@ const mapLessonsToLinks = (course) => {
     to: `/courses/take/${course.id}/assessment/${assessment.id}`,
     text: `Assessment ${index + 1}`,
     disabled:
-      !isOngoing(assessment.startTime, assessment.endTime) ||
+      // !isOngoing(assessment.startTime, assessment.endTime) ||
       assessment.hasCompleted,
     type: "assessment",
   });

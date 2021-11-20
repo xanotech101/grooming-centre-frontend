@@ -72,6 +72,7 @@ const Sidebar = ({ manager }) => {
             <SkeletonText numberOfLines={10} height="37px" spacing={1} />
           ) : (
             links?.map((link) => {
+              console.log(link);
               return (
                 <li key={link.id}>
                   {link.disabled ? (
