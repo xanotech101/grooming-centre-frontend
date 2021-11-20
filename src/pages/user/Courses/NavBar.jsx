@@ -6,18 +6,18 @@ const links = [
     href: "/courses",
     text: "All courses",
   },
-  {
-    href: "/courses/new",
-    text: "New Courses",
-  },
-  {
-    href: "/courses/completed",
-    text: "Completed",
-  },
-  {
-    href: "/courses/in-progress",
-    text: "In Progress",
-  },
+  // {
+  //   href: "/courses/new",
+  //   text: "New Courses",
+  // },
+  // {
+  //   href: "/courses/completed",
+  //   text: "Completed",
+  // },
+  // {
+  //   href: "/courses/in-progress",
+  //   text: "In Progress",
+  // },
 ];
 
 const NavBar = ({ ...rest }) => {
