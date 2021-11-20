@@ -328,6 +328,18 @@ export const userCourseDetailsRes_courseId_3 = {
         lessonTracking: [],
       },
       {
+        ...endedDates,
+        id: "lessonId_3",
+        title: "Ended lesson",
+        content:
+          '{"blocks":[{"key":"cr1kt","text":"New lesssonnn","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+
+        createdAt: "2021-11-19T09:20:09.328Z",
+        updatedAt: "2021-11-19T09:20:09.328Z",
+        lessonType: { id: "lessonTypeId_1", name: "pdf" },
+        lessonTracking: [],
+      },
+      {
         ...ongoingDates,
         id: "lessonId_2",
         title: "Ongoing lesson",
@@ -344,8 +356,8 @@ export const userCourseDetailsRes_courseId_3 = {
       },
       {
         ...endedDates,
-        id: "lessonId_3",
-        title: "Ended lesson",
+        id: "lessonId_4",
+        title: "Ended lesson (Due to has completed)",
         content:
           '{"blocks":[{"key":"cr1kt","text":"New lesssonnn","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
 
@@ -353,6 +365,23 @@ export const userCourseDetailsRes_courseId_3 = {
         updatedAt: "2021-11-19T09:20:09.328Z",
         lessonType: { id: "lessonTypeId_1", name: "pdf" },
         lessonTracking: [],
+        hasCompleted: true,
+      },
+      {
+        ...ongoingDates,
+        id: "lessonId_5",
+        title: "Ongoing lesson (But has completed)",
+        content:
+          '{"blocks":[{"key":"d2sqe","text":"Loreme sdsd shdskjdsd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":11,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
+
+        createdAt: "2021-11-19T10:04:31.546Z",
+        updatedAt: "2021-11-19T10:04:31.546Z",
+        lessonType: {
+          id: "lessonTypeId_2",
+          name: "video",
+        },
+        lessonTracking: [],
+        hasCompleted: true,
       },
     ],
     courseTracking: null,

@@ -1,7 +1,7 @@
 import Icon from "@chakra-ui/icon";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { BsClockFill, BsFillCaretUpFill } from "react-icons/bs";
-import { FaCalendar } from "react-icons/fa";
+import { FaCalendar, FaCheck } from "react-icons/fa";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import { Route } from "react-router-dom";
@@ -197,11 +197,15 @@ const CourseDetailsPage = () => {
                   width="150px"
                   secondary
                   sm
-                  disabled={!isOngoing(lesson.startTime, lesson.endTime)}
+                  disabled={
+                    !isOngoing(lesson.startTime, lesson.endTime) &&
+                    !lesson.hasCompleted
+                  }
+                  leftIcon={lesson.hasCompleted && <FaCheck />}
                 >
                   {isOngoing(lesson.startTime, lesson.endTime) && "View Lesson"}
-                  {hasEnded(lesson.endTime) && "Lesson Has Ended"}
-                  {isUpcoming(lesson.startTime) && "Lesson Is Upcoming"}
+                  {hasEnded(lesson.endTime) && "Lesson Ended"}
+                  {isUpcoming(lesson.startTime) && "Lesson Upcoming"}
                 </Button>
               </Flex>
             );
