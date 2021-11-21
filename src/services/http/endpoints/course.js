@@ -133,6 +133,14 @@ export const userGetCourseDetails = async (id) => {
         hasCompleted: a.assessmentTracking?.[0]?.isCompleted,
         endTime: getEndTime(a.startTime, a.duration),
       })), // TODO: remove lazy mapping
+      examination: {
+        ...data.examination,
+        hasCompleted: data.examination.examinationTracking?.[0]?.isCompleted,
+        endTime: getEndTime(
+          data.examination.startTime,
+          data.examination.duration
+        ),
+      },
       startTime: data.lesson[0].startTime,
       endTime: data?.lesson[data.lesson.length - 1].endTime,
     }, // TODO: remove lazy mapping

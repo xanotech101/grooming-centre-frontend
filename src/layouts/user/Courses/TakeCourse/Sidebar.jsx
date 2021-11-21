@@ -3,6 +3,7 @@ import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { AiOutlineLeft } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
+import { GoIssueClosed } from "react-icons/go";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import {
@@ -17,8 +18,19 @@ import colors from "../../../../theme/colors";
 const Sidebar = ({ manager }) => {
   const { course, links, isLoading } = manager;
 
+  const getStatusText = (link) => {
+    if (link.hasCompleted) return "Completed";
+    if (link.hasElapsed) return "Time Elapsed";
+    if (link.isUpcoming) return "Upcoming";
+
+    return "Ongoing";
+  };
+
   const renderContent = (link, props) => (
-    <Tooltip label={link.text} aria-label={link.text}>
+    <Tooltip
+      label={`${link.text} (${getStatusText(link)})`}
+      aria-label={link.text}
+    >
       <HStack spacing={2} padding={2} {...props}>
         <Icon opacity={link.disabled ? 0.5 : 1} fontSize="text.level1">
           {link.type !== "video" ? <VscFiles /> : <IoVideocam />}
@@ -29,10 +41,22 @@ const Sidebar = ({ manager }) => {
         </Text>
 
         {link.hasCompleted && (
-          <Icon fontSize="text.level1" color="accent.5">
+          <Icon fontSize="text.level2" color="accent.5">
             <FaCheck />
           </Icon>
         )}
+
+        {link.hasElapsed && (
+          <Icon fontSize="text.level1" color="secondary.6">
+            <GoIssueClosed />
+          </Icon>
+        )}
+
+        {/* {link.isUpcoming && (
+          <Icon fontSize="heading.h3" color="secondary.6">
+            <MdOutlinePending />
+          </Icon>
+        )} */}
       </HStack>
     </Tooltip>
   );

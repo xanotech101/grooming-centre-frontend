@@ -1,5 +1,5 @@
 import { useApp, useTakeCourse } from "../../../../../contexts";
-import { isOngoing } from "../../../../../utils";
+import { hasEnded, isOngoing, isUpcoming } from "../../../../../utils";
 
 const mapLessonsToLinks = (course) => {
   const reduceToLinks = (arrayKey, mapper) =>
@@ -17,6 +17,8 @@ const mapLessonsToLinks = (course) => {
       !isOngoing(lesson.startTime, lesson.endTime) && !lesson.hasCompleted,
     type: lesson.lessonType.name,
     hasCompleted: lesson.hasCompleted,
+    hasElapsed: hasEnded(lesson.endTime) && !lesson.hasCompleted,
+    isUpcoming: isUpcoming(lesson.startTime),
   });
   const mapAssessmentToLink = (assessment, index) => ({
     id: assessment.id,
@@ -27,6 +29,8 @@ const mapLessonsToLinks = (course) => {
       assessment.hasCompleted,
     type: "assessment",
     hasCompleted: assessment.hasCompleted,
+    hasElapsed: hasEnded(assessment.endTime) && !assessment.hasCompleted,
+    isUpcoming: isUpcoming(assessment.startTime),
   });
 
   const links =
@@ -47,6 +51,11 @@ const mapLessonsToLinks = (course) => {
         course?.examination?.endTime
       ) || course?.examination?.hasCompleted,
     type: "examination",
+    hasCompleted: course?.examination?.hasCompleted,
+    hasElapsed:
+      hasEnded(course?.examination?.endTime) &&
+      !course?.examination?.hasCompleted,
+    isUpcoming: isUpcoming(course?.examination?.startTime),
   };
 
   if (course?.examination) links.push(examination);
