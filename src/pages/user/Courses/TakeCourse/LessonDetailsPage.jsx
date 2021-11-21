@@ -46,14 +46,14 @@ const Player = ({
             transition="1s"
             className="icon"
             placeItems="center"
-            width="50px"
-            height="50px"
+            width="80px"
+            height="80px"
             rounded="full"
             backgroundColor={"white"}
           >
             <Icon
               color="black"
-              fontSize="heading.h3"
+              fontSize="25px"
               transform={!playing && "translateX(2px)"}
             >
               {playing ? <FaPause /> : <FaPlay />}

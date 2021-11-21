@@ -40,32 +40,39 @@ const requestLessonDetailsForLessonId = [
 
 const requestEndLesson = [
   rest.post(
-    // TODO: change `method`
-    getUrl("/lesson/lessonId_1/end"), // TODO: change `path`
+    getUrl("/lesson/end-lesson/lessonId_1"),
     handleSuccessResponse(requestEndLessonRes)
   ),
   rest.post(
-    // TODO: change `method`
-    getUrl("/lesson/lessonId_2/end"), // TODO: change `path`
+    getUrl("/lesson/end-lesson/lessonId_2"),
+    handleSuccessResponse(requestEndLessonRes)
+  ),
+  rest.post(
+    getUrl("/lesson/end-lesson/lessonId_3"),
+    handleSuccessResponse(requestEndLessonRes)
+  ),
+  rest.post(
+    getUrl("/lesson/end-lesson/lessonId_4"),
+    handleSuccessResponse(requestEndLessonRes)
+  ),
+  rest.post(
+    getUrl("/lesson/end-lesson/lessonId_5"),
     handleSuccessResponse(requestEndLessonRes)
   ),
 ];
 
 const adminCreateLesson = rest.post(
-  // TODO: change `method`
-  getUrl("/lesson/create"), // TODO: change `path`
+  getUrl("/lesson/create"),
   handleSuccessResponse(adminCreateLessonRes)
 );
 
 const adminEditLesson = [
   rest.patch(
-    // TODO: change `method`
-    getUrl("/lesson/edit/lessonId_1"), // TODO: change `path`
+    getUrl("/lesson/edit/lessonId_1"),
     handleSuccessResponse(adminEditLessonRes_lessonId_1)
   ),
   rest.patch(
-    // TODO: change `method`
-    getUrl("/lesson/edit/lessonId_2"), // TODO: change `path`
+    getUrl("/lesson/edit/lessonId_2"),
     handleSuccessResponse(adminEditLessonRes_lessonId_2)
   ),
 ];

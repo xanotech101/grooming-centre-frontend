@@ -28,7 +28,7 @@ export const requestLessonDetails = async (id) => {
  * @returns {Promise<{ message: string }>}
  */
 export const requestEndLesson = async (id) => {
-  const path = `/lesson/${id}/end`; // TODO: change path
+  const path = `/lesson/end-lesson/${id}`; // TODO: change path
 
   const {
     data: { message },
