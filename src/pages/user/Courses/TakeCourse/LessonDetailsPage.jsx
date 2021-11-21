@@ -28,51 +28,18 @@ const Player = ({
   ...rest
 }) => {
   return (
-    <Box width={width} height={height} position="relative" {...rest}>
-      {!controls && (
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          position="absolute"
-          zIndex={1}
-          top={0}
-          left={0}
-          width="100%"
-          height="100%"
-          cursor="pointer"
-          // sx={{
-          //   [!playing && "&:hover .icon"]: {
-          //     opacity: 1,
-          //   },
-          // }}
-          onClick={onPlayToggle}
-        >
-          <Grid
-            opacity={playing ? 0 : 1}
-            transition="1s"
-            className="icon"
-            placeItems="center"
-            width="80px"
-            height="80px"
-            rounded="full"
-            backgroundColor={"white"}
-          >
-            <Icon
-              color="black"
-              fontSize="25px"
-              transform={!playing && "translateX(2px)"}
-            >
-              {playing ? <FaPause /> : <FaPlay />}
-            </Icon>
-          </Grid>
-        </Flex>
-      )}
-
+    <Box
+      width={width}
+      height={height}
+      position="relative"
+      className={!controls && "take-lesson-video-wrapper"}
+      {...rest}
+    >
       <ReactPlayer
         url={url}
         onEnded={onEnded}
         playing={playing}
-        controls={controls}
+        controls
         width="100%"
         height="100%"
       />
