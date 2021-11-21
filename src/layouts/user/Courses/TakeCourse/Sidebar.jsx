@@ -16,7 +16,10 @@ import {
 import colors from "../../../../theme/colors";
 
 const Sidebar = ({ manager }) => {
-  const { course, links, isLoading } = manager;
+  const { course, links, isLoading, sidebarLinkClickedState } = manager;
+
+  const [, setSidebarLinkClicked] = sidebarLinkClickedState;
+  const handleSidebarLinkClicked = () => setSidebarLinkClicked(true);
 
   const getStatusText = (link) => {
     if (link.hasCompleted) return "Completed";
@@ -114,6 +117,7 @@ const Sidebar = ({ manager }) => {
                     <Link
                       navLink
                       href={link.to}
+                      onClick={handleSidebarLinkClicked}
                       exact={true}
                       style={{
                         display: "block",

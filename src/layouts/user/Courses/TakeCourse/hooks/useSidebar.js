@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useApp, useTakeCourse } from "../../../../../contexts";
 import { hasEnded, isOngoing, isUpcoming } from "../../../../../utils";
 
@@ -75,6 +76,8 @@ const useSidebar = () => {
     state: { data: course, isLoading },
   } = useTakeCourse();
 
+  const sidebarLinkClickedState = useState(false);
+
   const links = mapLessonsToLinks(course);
 
   const loading = isLoading || !appManager.state.metadata; // TODO:replace with `!appManager.metadataIsLoading`
@@ -83,6 +86,7 @@ const useSidebar = () => {
     course,
     links,
     isLoading: loading,
+    sidebarLinkClickedState,
   };
 };
 

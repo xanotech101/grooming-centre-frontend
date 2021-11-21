@@ -1,31 +1,39 @@
-import {
-  Box,
-  Grid,
-  UnorderedList,
-  ListItem,
-  List,
-  ListIcon,
-} from "@chakra-ui/react";
+import { Box, UnorderedList, ListItem, List, ListIcon } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText, Text } from "../../../../components";
 import { useTakeCourse } from "../../../../contexts";
 import { getDuration } from "../../../../utils";
 import useQueryParams from "../../../../hooks/useQueryParams";
-import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useAssessmentPreview from "./hooks/useAssessmentPreview";
+import { EmptyState } from "../../../../layouts";
+import { useGoBack } from "../../../../hooks";
 
-const AssessmentPreviewPage = ({ sidebarLinks }) => {
-  const { assessment, isLoading, error } = useAssessmentPreview(sidebarLinks);
+const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
+  const { assessment, isLoading, error, handleTryAgain, assessmentIsDisabled } =
+    useAssessmentPreview(sidebarLinks, null, null, sidebarLinkClickedState);
   useTakeCourse();
 
   const isExamination = useQueryParams().get("examination");
   const duration = getDuration(assessment.duration);
+  const handleGoBack = useGoBack();
 
   return error ? (
-    <Grid placeItems="center" height="100vh" width="100%">
-      <Heading as="h3">{capitalizeFirstLetter(error)}</Heading>
-    </Grid>
+    <EmptyState
+      height="80vh"
+      cta={<Button onClick={handleTryAgain}>Try Again</Button>}
+      heading="Oops An Error Occurred"
+      description="An unexpected error occurred, please try again later"
+    />
+  ) : assessmentIsDisabled ? (
+    <EmptyState
+      height="80vh"
+      cta={<Button onClick={handleGoBack}>Go Back</Button>}
+      heading="Oops An Error Occurred"
+      description={`You are are not allowed to view this ${
+        isExamination ? "examination" : "assessment"
+      }`}
+    />
   ) : (
     <Box paddingTop={10} as="main" paddingX={6}>
       <Heading as="h1" fontSize="heading.h3" marginBottom={5}>
@@ -97,8 +105,6 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
         </ListItem>
       </UnorderedList>
 
-      {console.log(isExamination ? "?examination=true" : null)}
-
       {isExamination ? (
         <Button
           link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}?examination=true`}
@@ -118,12 +124,20 @@ const AssessmentPreviewPage = ({ sidebarLinks }) => {
   );
 };
 
-export const AssessmentPreviewPageRoute = ({ sidebarLinks, ...rest }) => {
+export const AssessmentPreviewPageRoute = ({
+  sidebarLinks,
+  sidebarLinkClickedState,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
       render={(props) => (
-        <AssessmentPreviewPage sidebarLinks={sidebarLinks} {...props} />
+        <AssessmentPreviewPage
+          sidebarLinks={sidebarLinks}
+          sidebarLinkClickedState={sidebarLinkClickedState}
+          {...props}
+        />
       )}
     />
   );
