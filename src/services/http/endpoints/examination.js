@@ -20,7 +20,8 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     duration: data.duration,
     questionCount: data.amountOfQuestions,
     startTime: data.startTime,
-    minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
+    minimumPercentageScoreToEarnABadge:
+      data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
     questions: data.examinationQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,

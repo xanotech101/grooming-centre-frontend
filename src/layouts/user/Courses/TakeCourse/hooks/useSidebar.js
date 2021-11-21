@@ -61,8 +61,6 @@ const mapLessonsToLinks = (course) => {
 
   if (course?.examination) links.push(examination);
 
-  console.log(links);
-
   return links;
 };
 

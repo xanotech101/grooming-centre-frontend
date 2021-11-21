@@ -88,14 +88,16 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
       <UnorderedList spacing={2} paddingBottom={10}>
         <ListItem>
           <Text>
-            You must complete this assessment in one session — make sure your
-            internet is reliable.
+            You must complete this{" "}
+            {isExamination ? "examination" : "assessment"} in one session — make
+            sure your internet is reliable.
           </Text>
         </ListItem>
         <ListItem>
           <Text>
-            You can only take this assessment once, so do well to put in your
-            best.
+            You can only take this{" "}
+            {isExamination ? "examination" : "assessment"} once, so do well to
+            put in your best.
           </Text>
         </ListItem>
         <ListItem>

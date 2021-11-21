@@ -64,7 +64,7 @@ const usePlayer = ({ lessonHasBeenCompleted }) => {
 const useLessonDetails = (sidebarLinks) => {
   const { handleGetOrSetAndGet, handleDelete } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { lesson_id: lessonId, course_id: courseId } = useParams();
+  const { lesson_id: lessonId } = useParams();
   const { push } = useHistory();
 
   // To make sure the `Sidebar` links renders correctly
@@ -84,7 +84,10 @@ const useLessonDetails = (sidebarLinks) => {
 
   const handlePrevious = () => {
     const previousLink = sidebarLinks[currentLessonLink.index - 1];
-    push(`/courses/take/${courseId}/lessons/${previousLink.id}`);
+
+    if (!previousLink.disabled) {
+      push(previousLink.to);
+    }
   };
 
   const [endLesson, setEndLesson] = useState({
@@ -117,12 +120,10 @@ const useLessonDetails = (sidebarLinks) => {
   const handleContinueToNextLesson = useCallback(() => {
     const nextLink = sidebarLinks[currentLessonLink.index + 1];
 
-    if (nextLink.type !== "assessment") {
-      push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
-    } else {
-      push(`/courses/take/${courseId}/assessment`);
+    if (!nextLink.disabled) {
+      push(nextLink.to);
     }
-  }, [currentLessonLink?.index, courseId, sidebarLinks, push]);
+  }, [currentLessonLink.index, push, sidebarLinks]);
 
   const endLessonIsSuccessful = endLesson.success;
   const endLessonIsLoading = endLesson.loading;

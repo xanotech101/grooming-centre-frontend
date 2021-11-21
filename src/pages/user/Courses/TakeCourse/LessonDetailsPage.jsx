@@ -75,7 +75,6 @@ const Player = ({
 };
 
 const LessonDetailsPage = ({ sidebarLinks }) => {
-  const manager = useLessonDetails(sidebarLinks);
   const {
     lesson,
     lessonIsDisabled,
@@ -92,7 +91,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     handleVideoHasEnded,
     handleTryAgain,
     handleVideoPlayToggle,
-  } = manager;
+  } = useLessonDetails(sidebarLinks);
 
   const toast = useToast();
 
