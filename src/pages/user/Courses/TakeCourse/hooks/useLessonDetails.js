@@ -163,6 +163,11 @@ const useLessonDetails = (sidebarLinks) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessonId, componentIsMount]);
 
+  const handleTryAgain = async () => {
+    await handleDelete(lessonId);
+    fetchLessonDetails();
+  };
+
   useEffect(() => {
     fetchLessonDetails();
   }, [fetchLessonDetails]);
@@ -182,16 +187,22 @@ const useLessonDetails = (sidebarLinks) => {
 
   const completeAndContinueIsDisabled = getCompleteAndContinueIsDisabled();
 
+  const lessonIsDisabled =
+    !isLoading &&
+    !error &&
+    sidebarLinks?.find((link) => link?.id === lesson?.id)?.disabled;
+
   // lesson?.hasEnded
   // ? false
   // : isLoading || !videoPlayerManager.videoHasBeenCompleted;
 
   console.log({
-    completeAndContinueIsDisabled,
-    nextLessonIsDisabled,
-    endLessonIsSuccessful,
-    isLoading,
-    videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
+    // lessonIsDisabled,
+    // completeAndContinueIsDisabled,
+    // nextLessonIsDisabled,
+    // endLessonIsSuccessful,
+    // isLoading,
+    // videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
   });
 
   return {
@@ -202,9 +213,11 @@ const useLessonDetails = (sidebarLinks) => {
     completeAndContinueIsDisabled,
     handlePrevious,
     handleCompleteAndContinue,
+    handleTryAgain,
     endLessonIsSuccessful,
     endLessonIsLoading,
     endLessonHasError,
+    lessonIsDisabled,
     ...videoPlayerManager,
   };
 };

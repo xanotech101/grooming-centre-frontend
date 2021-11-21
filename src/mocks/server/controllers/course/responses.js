@@ -392,7 +392,6 @@ export const userCourseDetailsRes_courseId_3 = {
         updatedAt: "2021-11-19T09:20:42.717Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
         // assessmentTracking: [],
-        assessmentTracking: [{ isCompleted: true }],
       },
       {
         id: "assessmentId_2",
@@ -404,7 +403,8 @@ export const userCourseDetailsRes_courseId_3 = {
         createdAt: "2021-11-19T08:48:02.855Z",
         updatedAt: "2021-11-19T09:31:09.397Z",
         courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
-        assessmentTracking: [],
+        assessmentTracking: [{ isCompleted: true }],
+        // assessmentTracking: [],
       },
       {
         id: "assessmentId_3",

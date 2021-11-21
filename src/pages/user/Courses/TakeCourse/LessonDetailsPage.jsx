@@ -8,6 +8,8 @@ import { Route } from "react-router-dom";
 import { Button, Heading, SkeletonText, Text } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
+import { EmptyState } from "../../../../layouts";
+import { useGoBack } from "../../../../hooks";
 
 const Player = ({
   width = "100%",
@@ -76,6 +78,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
   const manager = useLessonDetails(sidebarLinks);
   const {
     lesson,
+    lessonIsDisabled,
     isLoading,
     error,
     completeAndContinueIsDisabled,
@@ -87,6 +90,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     handlePrevious,
     handleCompleteAndContinue,
     handleVideoHasEnded,
+    handleTryAgain,
     handleVideoPlayToggle,
   } = manager;
 
@@ -100,6 +104,8 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
         status: "error",
       });
   }, [toast, endLessonHasError]);
+
+  const handleGoBack = useGoBack();
 
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
@@ -141,9 +147,17 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
         overflowY="auto"
       >
         {error ? (
-          <Grid placeItems="center" height="100%" width="100%">
-            <Heading as="h3">{capitalizeFirstLetter(error)}</Heading>
-          </Grid>
+          <EmptyState
+            cta={<Button onClick={handleTryAgain}>Try Again</Button>}
+            heading="Oops An Error Occurred"
+            description="An unexpected error occurred, please try again later"
+          />
+        ) : lessonIsDisabled ? (
+          <EmptyState
+            cta={<Button onClick={handleGoBack}>Go Back</Button>}
+            heading="Oops An Error Occurred"
+            description="You are are not allowed to view this lesson"
+          />
         ) : (
           <>
             <Box marginBottom={10}>
