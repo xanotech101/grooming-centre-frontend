@@ -5,7 +5,13 @@ import { useEffect } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
-import { Button, Heading, SkeletonText, Text } from "../../../../components";
+import {
+  Button,
+  Heading,
+  NavigationBlocker,
+  SkeletonText,
+  Text,
+} from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import { EmptyState } from "../../../../layouts";
@@ -77,6 +83,7 @@ const Player = ({
 const LessonDetailsPage = ({ sidebarLinks }) => {
   const {
     lesson,
+    shouldBlockAllNavigation,
     lessonIsDisabled,
     isLoading,
     error,
@@ -108,6 +115,9 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
 
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
+      {/* // Block Page Navigation when Lesson has not ended (been completed) */}
+      <NavigationBlocker navigationBlocked={shouldBlockAllNavigation} />
+
       <Box as="header">
         <Flex
           justifyContent="space-between"

@@ -193,6 +193,18 @@ const useLessonDetails = (sidebarLinks) => {
     !error &&
     sidebarLinks?.find((link) => link?.id === lesson?.id)?.disabled;
 
+  const shouldBlockAllNavigation =
+    !lesson?.hasEnded &&
+    // completeAndContinueIsDisabled &&
+    !endLessonIsSuccessful;
+
+  console.log(
+    shouldBlockAllNavigation,
+    lesson?.hasEnded,
+    // completeAndContinueIsDisabled,
+    endLessonIsSuccessful
+  );
+
   // lesson?.hasEnded
   // ? false
   // : isLoading || !videoPlayerManager.videoHasBeenCompleted;
@@ -219,6 +231,7 @@ const useLessonDetails = (sidebarLinks) => {
     endLessonIsLoading,
     endLessonHasError,
     lessonIsDisabled,
+    shouldBlockAllNavigation,
     ...videoPlayerManager,
   };
 };
