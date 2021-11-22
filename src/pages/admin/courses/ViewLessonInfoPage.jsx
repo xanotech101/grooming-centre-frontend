@@ -163,6 +163,7 @@ const ViewLessonInfoPage = () => {
               </>
             ) : (
               <>
+                {console.log(lesson?.file)}
                 <Heading fontSize="heading.6">Lesson File</Heading>
                 <Box paddingTop={6}>
                   {fileIsAVideo ? (
