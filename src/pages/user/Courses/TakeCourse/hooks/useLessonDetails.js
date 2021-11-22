@@ -159,6 +159,7 @@ const useLessonDetails = (sidebarLinks) => {
       const lessonDetails = await handleGetOrSetAndGet(lessonId, fetcher);
       if (componentIsMount) setLessonDetails({ data: lessonDetails });
     } catch (err) {
+      console.error(err);
       if (componentIsMount) setLessonDetails({ err: err.message });
     }
 
