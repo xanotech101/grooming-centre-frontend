@@ -39,198 +39,210 @@ const AssessmentLayout = () => {
     </Box>
   );
 
-  const renderContent = () =>
-    isLoading ? (
-      <PageLoaderLayout />
-    ) : error ? (
-      <PageLoaderLayout>
-        <Heading as="h1" fontSize="heading.h3">
-          {error}
-        </Heading>
+  console.log(
+    submitStatus.success,
+    error,
+    isLoading,
+    !submitStatus.success && !error && !isLoading
+  );
 
-        <Button link={`/courses/details/${course_id}`} marginTop={10}>
-          Back to course
-        </Button>
-      </PageLoaderLayout>
-    ) : (
-      <>
-        <NavigationBlocker when={!submitStatus.success} />
+  const renderContent = () => (
+    <>
+      <NavigationBlocker when={!submitStatus.success && !error && !isLoading} />
 
-        <CustomModal
-          onClose={modalManager.onClose}
-          canClose={modalManager.canClose}
-          isOpen={modalManager.isOpen}
-          prompt={modalManager.prompt}
-        >
-          {modalManager.content}
-        </CustomModal>
+      {isLoading ? (
+        <PageLoaderLayout />
+      ) : error ? (
+        <PageLoaderLayout>
+          <Heading as="h1" fontSize="heading.h3">
+            {error}
+          </Heading>
 
-        <Flex
-          justifyContent="center"
-          alignItems="flex-start"
-          backgroundColor="accent.1"
-          height="100vh"
-          width="100vw"
-        >
-          <Box
-            width="100%"
-            maxWidth={breakpoints.laptop}
-            backgroundColor="white"
-            marginTop={20}
-            shadow="0px 2px 7px rgba(0, 0, 0, 0.1)"
+          <Button link={`/courses/details/${course_id}`} marginTop={10}>
+            Back to course
+          </Button>
+        </PageLoaderLayout>
+      ) : (
+        <>
+          <CustomModal
+            onClose={modalManager.onClose}
+            canClose={modalManager.canClose}
+            isOpen={modalManager.isOpen}
+            prompt={modalManager.prompt}
+          >
+            {modalManager.content}
+          </CustomModal>
+
+          <Flex
+            justifyContent="center"
+            alignItems="flex-start"
+            backgroundColor="accent.1"
+            height="100vh"
+            width="100vw"
           >
             <Box
-              as="header"
-              color="white"
-              backgroundColor="primary.base"
-              padding={5}
-              paddingX={10}
+              width="100%"
+              maxWidth={breakpoints.laptop}
+              backgroundColor="white"
+              marginTop={20}
+              shadow="0px 2px 7px rgba(0, 0, 0, 0.1)"
             >
-              <Heading as="h1" fontSize="heading.h4">
-                {assessment.topic}
-              </Heading>
-            </Box>
-
-            <Flex paddingX={10} paddingY={5} height="100%">
-              <Flex
-                flexDirection="column"
-                as="main"
-                flex={1}
-                borderRight="1px"
-                borderColor="accent.2"
-                paddingRight={5}
-                marginRight={5}
+              <Box
+                as="header"
+                color="white"
+                backgroundColor="primary.base"
+                padding={5}
+                paddingX={10}
               >
-                {renderSubHeading(
-                  `Question ${currentQuestion?.questionIndex + 1} of ${
-                    assessment.questionCount
-                  }`
-                )}
+                <Heading as="h1" fontSize="heading.h4">
+                  {assessment.topic}
+                </Heading>
+              </Box>
+
+              <Flex paddingX={10} paddingY={5} height="100%">
                 <Flex
                   flexDirection="column"
-                  justifyContent="space-between"
-                  as="form"
+                  as="main"
                   flex={1}
-                  // minHeight="500px"
-                  onSubmit={
-                    shouldSubmit ? handleSubmitConfirmation : handleNextQuestion
-                  }
+                  borderRight="1px"
+                  borderColor="accent.2"
+                  paddingRight={5}
+                  marginRight={5}
                 >
-                  <Text marginBottom={6} flex={0.2}>
-                    {currentQuestion?.question}
-                  </Text>
-
-                  <RadioGroup
-                    defaultValue="1"
-                    marginBottom={8}
+                  {renderSubHeading(
+                    `Question ${currentQuestion?.questionIndex + 1} of ${
+                      assessment.questionCount
+                    }`
+                  )}
+                  <Flex
+                    flexDirection="column"
+                    justifyContent="space-between"
+                    as="form"
                     flex={1}
-                    onChange={handleOptionSelect}
-                    value={selectedAnswers[currentQuestion?.id]}
+                    // minHeight="500px"
+                    onSubmit={
+                      shouldSubmit
+                        ? handleSubmitConfirmation
+                        : handleNextQuestion
+                    }
                   >
-                    <Stack spacing={4}>
-                      {currentQuestion?.options?.map((option) => (
-                        <Radio key={option.id} value={option.id}>
-                          <Text>{option.name}</Text>
-                        </Radio>
-                      ))}
-                    </Stack>
-                  </RadioGroup>
+                    <Text marginBottom={6} flex={0.2}>
+                      {currentQuestion?.question}
+                    </Text>
 
-                  <Flex justifyContent="space-between">
-                    <Button
-                      secondary
-                      onClick={handlePreviousQuestion}
-                      disabled={disablePreviousQuestion}
+                    <RadioGroup
+                      defaultValue="1"
+                      marginBottom={8}
+                      flex={1}
+                      onChange={handleOptionSelect}
+                      value={selectedAnswers[currentQuestion?.id]}
                     >
-                      Previous
-                    </Button>
+                      <Stack spacing={4}>
+                        {currentQuestion?.options?.map((option) => (
+                          <Radio key={option.id} value={option.id}>
+                            <Text>{option.name}</Text>
+                          </Radio>
+                        ))}
+                      </Stack>
+                    </RadioGroup>
 
-                    <Button type="submit">
-                      {shouldSubmit ? "Submit" : "Next"}
-                    </Button>
+                    <Flex justifyContent="space-between">
+                      <Button
+                        secondary
+                        onClick={handlePreviousQuestion}
+                        disabled={disablePreviousQuestion}
+                      >
+                        Previous
+                      </Button>
+
+                      <Button type="submit">
+                        {shouldSubmit ? "Submit" : "Next"}
+                      </Button>
+                    </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
 
-              <Box as="aside" flex="0 0 232px">
-                {renderSubHeading("Time Left")}
+                <Box as="aside" flex="0 0 232px">
+                  {renderSubHeading("Time Left")}
 
-                <Flex justifyContent="space-between" marginBottom={6}>
-                  <Box textAlign="center">
-                    <Text bold as="level1">
-                      {timerCountdownManger.timeLeft.hours || "00"}
-                    </Text>
-                    <Text color="accent.2">hours</Text>
-                  </Box>
-
-                  <Box textAlign="center">
-                    <Text bold as="level1">
-                      {timerCountdownManger.timeLeft.minutes}
-                    </Text>
-                    <Text color="accent.2">minutes</Text>
-                  </Box>
-
-                  <Box textAlign="center">
-                    <Text bold as="level1">
-                      {timerCountdownManger.timeLeft.seconds}
-                    </Text>
-                    <Text color="accent.2">seconds</Text>
-                  </Box>
-                </Flex>
-
-                <Box>
-                  <Heading as="h3" fontSize="text.level3" marginBottom={2}>
-                    Questions
-                  </Heading>
-
-                  <Flex justifyContent="space-between" marginY={5}>
-                    <HStack spacing={2}>
-                      <Box
-                        width="20px"
-                        height="6px"
-                        backgroundColor="primary.base"
-                        border="1px"
-                        borderColor="transparent"
-                      ></Box>
-                      <Text as="level5" bold>
-                        Answered
+                  <Flex justifyContent="space-between" marginBottom={6}>
+                    <Box textAlign="center">
+                      <Text bold as="level1">
+                        {timerCountdownManger.timeLeft.hours || "00"}
                       </Text>
-                    </HStack>
+                      <Text color="accent.2">hours</Text>
+                    </Box>
 
-                    <HStack spacing={2}>
-                      <Box
-                        width="20px"
-                        height="6px"
-                        border="1px"
-                        borderColor="primary.base"
-                      ></Box>
-                      <Text as="level5" bold>
-                        Unanswered
+                    <Box textAlign="center">
+                      <Text bold as="level1">
+                        {timerCountdownManger.timeLeft.minutes}
                       </Text>
-                    </HStack>
+                      <Text color="accent.2">minutes</Text>
+                    </Box>
+
+                    <Box textAlign="center">
+                      <Text bold as="level1">
+                        {timerCountdownManger.timeLeft.seconds}
+                      </Text>
+                      <Text color="accent.2">seconds</Text>
+                    </Box>
                   </Flex>
 
-                  <Grid templateColumns="repeat(5, 1fr)" gap={2}>
-                    {assessment?.questions?.map((question, index) => (
-                      <ButtonNavItem
-                        key={index}
-                        number={index + 1}
-                        isCurrent={
-                          currentQuestion?.questionIndex ===
-                          question.questionIndex
-                        }
-                        answered={selectedAnswers[question?.id]}
-                        onClick={handleQuestionChange.bind(null, question)}
-                      />
-                    ))}
-                  </Grid>
+                  <Box>
+                    <Heading as="h3" fontSize="text.level3" marginBottom={2}>
+                      Questions
+                    </Heading>
+
+                    <Flex justifyContent="space-between" marginY={5}>
+                      <HStack spacing={2}>
+                        <Box
+                          width="20px"
+                          height="6px"
+                          backgroundColor="primary.base"
+                          border="1px"
+                          borderColor="transparent"
+                        ></Box>
+                        <Text as="level5" bold>
+                          Answered
+                        </Text>
+                      </HStack>
+
+                      <HStack spacing={2}>
+                        <Box
+                          width="20px"
+                          height="6px"
+                          border="1px"
+                          borderColor="primary.base"
+                        ></Box>
+                        <Text as="level5" bold>
+                          Unanswered
+                        </Text>
+                      </HStack>
+                    </Flex>
+
+                    <Grid templateColumns="repeat(5, 1fr)" gap={2}>
+                      {assessment?.questions?.map((question, index) => (
+                        <ButtonNavItem
+                          key={index}
+                          number={index + 1}
+                          isCurrent={
+                            currentQuestion?.questionIndex ===
+                            question.questionIndex
+                          }
+                          answered={selectedAnswers[question?.id]}
+                          onClick={handleQuestionChange.bind(null, question)}
+                        />
+                      ))}
+                    </Grid>
+                  </Box>
                 </Box>
-              </Box>
-            </Flex>
-          </Box>
-        </Flex>
-      </>
-    );
+              </Flex>
+            </Box>
+          </Flex>
+        </>
+      )}
+    </>
+  );
 
   return renderContent();
 };

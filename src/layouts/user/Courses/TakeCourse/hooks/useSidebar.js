@@ -44,7 +44,7 @@ const mapLessonsToLinks = (course) => {
 
   const examination = {
     id: course?.examination?.id,
-    to: `/courses/take/${course?.id}/assessment/${course?.examination?.id}?examination=true`,
+    to: `/courses/take/${course?.id}/assessment/${course?.id}?examination=true`,
     text: "Examination",
     disabled:
       !isOngoing(

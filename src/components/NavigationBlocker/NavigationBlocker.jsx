@@ -15,5 +15,5 @@ export const NavigationBlocker = (props) => {
 };
 
 NavigationBlocker.propTypes = {
-  when: PropTypes.bool.isRequired,
+  when: PropTypes.bool,
 };

@@ -109,7 +109,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
 
       {isExamination ? (
         <Button
-          link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}?examination=true`}
+          link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.courseId}?examination=true`}
           disabled={isLoading && error}
         >
           Take Examination
