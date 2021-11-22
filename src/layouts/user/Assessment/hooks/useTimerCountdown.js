@@ -45,12 +45,14 @@ const useTimerCountdown = ({
 
   // Triggers countdown
   useEffect(() => {
+    if (endDate === undefined) return setStartCountDown(false);
+
     if (startDate && !hasEnded.timeout) {
       setStartCountDown(true);
     } else {
       setStartCountDown(false);
     }
-  }, [hasEnded.timeout, startDate]);
+  }, [hasEnded.timeout, startDate, endDate]);
 
   const [timeLeft, setTimeLeft] = useState({});
 

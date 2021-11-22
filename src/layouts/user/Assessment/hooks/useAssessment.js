@@ -6,18 +6,14 @@ import useQueryParams from "../../../../hooks/useQueryParams";
 import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { submitAssessment } from "../../../../services";
 import { submitExamination } from "../../../../services/http/endpoints/examination";
-import { sortByIndexField } from "../../../../utils";
+import { hasEnded, isUpcoming, sortByIndexField } from "../../../../utils";
 import { CongratsModalContent } from "../Modal";
 import useTimerCountdown from "./useTimerCountdown";
 
 const useAssessment = () => {
-  const {
-    assessment,
-    isLoading,
-    error,
-    // setError
-  } = useAssessmentPreview();
+  const { assessment, isLoading, error, setError } = useAssessmentPreview();
   const { course_id } = useParams();
+  const isExamination = useQueryParams().get("examination");
 
   assessment.questions = sortByIndexField(
     assessment.questions,
@@ -46,22 +42,28 @@ const useAssessment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment.questions?.[0]]);
 
-  // Handle Late/TooEarly comer :)
+  // Handle Late/Too Early comer :) and deals with completed assessment
   useEffect(() => {
-    // if (timerCountdownManger.hasEnded.notYetTime)
-    //   setError("This assessment is not yet time to be taken");
-    // if (timerCountdownManger.hasEnded.elapsed)
-    //   setError("This assessment has already ended");
+    if (assessment.hasCompleted)
+      setError(
+        `You have already taken this ${
+          isExamination ? "examination" : "assessment"
+        }`
+      );
+
+    if (isUpcoming(assessment.startTime))
+      setError(
+        `This ${
+          isExamination ? "examination" : "assessment"
+        } is not yet time to be taken`
+      );
+    if (hasEnded(assessment.endTime))
+      setError(
+        `This ${isExamination ? "examination" : "assessment"} has already ended`
+      );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timerCountdownManger.hasEnded.elapsed]);
-
-  // Handle taken assessment :)
-  // useEffect(() => { //TODO: uncomment
-  //   if (assessment.hasBeenTaken)//TODO: uncomment
-  //     setError("You have already taken this assessment");//TODO: uncomment
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [assessment.hasBeenTaken]);//TODO: uncomment
+  }, [assessment.endTime, assessment.startTime]);
 
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submitStatus, setSubmitStatus] = useState({
@@ -69,8 +71,6 @@ const useAssessment = () => {
     error: false,
     loading: false,
   });
-
-  const isExamination = useQueryParams().get("examination");
 
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
@@ -86,7 +86,6 @@ const useAssessment = () => {
             selectedAnswers[assessmentQuestionId];
 
           const answer = { assessmentQuestionId, selectedAssessmentOptionId };
-
           accumulator.push(answer);
 
           return accumulator;
@@ -149,7 +148,9 @@ const useAssessment = () => {
     modalManager.onOpen();
     setModalContent(null);
     setModalPrompt({
-      heading: "Are you sure you want to submit your assessment?",
+      heading: `Are you sure you want to submit your ${
+        isExamination ? "examination" : "assessment"
+      }?`,
       body: (
         <>
           <Text marginBottom={5}>
