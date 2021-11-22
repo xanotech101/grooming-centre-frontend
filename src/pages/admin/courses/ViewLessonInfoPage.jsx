@@ -159,7 +159,7 @@ const ViewLessonInfoPage = () => {
                   paddingBottom={4}
                   width="300px"
                 />
-                <Skeleton height="300px" width="400px" />
+                <Skeleton height="500px" />
               </>
             ) : (
               <>
@@ -169,8 +169,8 @@ const ViewLessonInfoPage = () => {
                     <iframe
                       title="Lesson Video"
                       src={lesson?.file}
-                      width="320px"
-                      height="240px"
+                      width="100%"
+                      height="500px"
                     />
                   ) : (
                     <iframe
