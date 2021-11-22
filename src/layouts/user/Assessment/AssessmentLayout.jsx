@@ -1,13 +1,11 @@
-import { useEffect } from "react";
 import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
-import { Button, Heading, Text, Clock } from "../../../components";
+import { Button, Heading, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
-import { PageLoaderLayout } from "../../global";
+import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 import useAssessment from "./hooks/useAssessment";
 import { CustomModal } from "./Modal";
-import parseMs from "../../../utils/parseMs";
 
 const AssessmentLayout = () => {
   const {
@@ -15,51 +13,18 @@ const AssessmentLayout = () => {
     course_id,
     currentQuestion,
     disablePreviousQuestion,
-    // error,
+    error,
     isLoading,
     modalManager,
     shouldSubmit,
     selectedAnswers,
-    // timerCountdownManger,
-    startDate,
-    duration,
+    timerCountdownManger,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
     handlePreviousQuestion,
     handleOptionSelect,
-    handleSubmit,
-    handleAfterSubmit,
-    submitStatus,
   } = useAssessment();
-
-  // console.log(assessment);
-
-  // Handle Late/TooEarly comer :)
-
-  const isElapsed =
-    Date.now() > new Date(startDate).getTime() + duration * 60 * 1000;
-  const stillTooSoon = Date.now() < new Date(startDate).getTime();
-
-  const error = stillTooSoon
-    ? "This assessment is not yet time to be taken"
-    : isElapsed
-    ? "This assessment has already ended"
-    : null;
-
-  useEffect(() => {
-    if (isElapsed) {
-      handleSubmit();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isElapsed]);
-
-  useEffect(() => {
-    if (submitStatus.success) {
-      handleAfterSubmit();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [submitStatus.success]);
 
   const renderSubHeading = (heading) => (
     <Box
@@ -88,6 +53,15 @@ const AssessmentLayout = () => {
       </PageLoaderLayout>
     ) : (
       <>
+        <CustomModal
+          onClose={modalManager.onClose}
+          canClose={modalManager.canClose}
+          isOpen={modalManager.isOpen}
+          prompt={modalManager.prompt}
+        >
+          {modalManager.content}
+        </CustomModal>
+
         <Flex
           justifyContent="center"
           alignItems="flex-start"
@@ -178,18 +152,28 @@ const AssessmentLayout = () => {
               <Box as="aside" flex="0 0 232px">
                 {renderSubHeading("Time Left")}
 
-                {duration ? (
-                  <Clock
-                    duration={duration * 60}
-                    startAt={
-                      (duration -
-                        parseMs(Date.now() - new Date(startDate).getTime())
-                          .minutes) *
-                      60 *
-                      1000
-                    }
-                  />
-                ) : null}
+                <Flex justifyContent="space-between" marginBottom={6}>
+                  <Box textAlign="center">
+                    <Text bold as="level1">
+                      {timerCountdownManger.timeLeft.hours || "00"}
+                    </Text>
+                    <Text color="accent.2">hours</Text>
+                  </Box>
+
+                  <Box textAlign="center">
+                    <Text bold as="level1">
+                      {timerCountdownManger.timeLeft.minutes}
+                    </Text>
+                    <Text color="accent.2">minutes</Text>
+                  </Box>
+
+                  <Box textAlign="center">
+                    <Text bold as="level1">
+                      {timerCountdownManger.timeLeft.seconds}
+                    </Text>
+                    <Text color="accent.2">seconds</Text>
+                  </Box>
+                </Flex>
 
                 <Box>
                   <Heading as="h3" fontSize="text.level3" marginBottom={2}>
@@ -242,14 +226,6 @@ const AssessmentLayout = () => {
             </Flex>
           </Box>
         </Flex>
-        <CustomModal
-          onClose={modalManager.onClose}
-          canClose={modalManager.canClose}
-          isOpen={modalManager.isOpen}
-          prompt={modalManager.prompt}
-        >
-          {modalManager.content}
-        </CustomModal>
       </>
     );
 
@@ -273,12 +249,12 @@ const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
       boxSize="40px"
       rounded="4px"
       alignItems="center"
+      border="1px"
       as="button"
       cursor="pointer"
       onClick={onClick}
-      transition=".1s"
-      border={isCurrent ? "2px" : "1px"}
-      transform={isCurrent && "scale(1.05)"}
+      transition=".5s"
+      transform={isCurrent && "scale(1.1)"}
       {...styleProps}
     >
       <Text bold as="level1">
