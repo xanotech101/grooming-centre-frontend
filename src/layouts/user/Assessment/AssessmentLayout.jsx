@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
-import { Button, Heading, Text } from "../../../components";
+import { Button, Heading, NavigationBlocker, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 import useAssessment from "./hooks/useAssessment";
@@ -19,6 +19,7 @@ const AssessmentLayout = () => {
     shouldSubmit,
     selectedAnswers,
     timerCountdownManger,
+    submitStatus,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
@@ -53,6 +54,8 @@ const AssessmentLayout = () => {
       </PageLoaderLayout>
     ) : (
       <>
+        <NavigationBlocker when={!submitStatus.success} />
+
         <CustomModal
           onClose={modalManager.onClose}
           canClose={modalManager.canClose}

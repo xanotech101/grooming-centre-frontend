@@ -82,7 +82,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
       {/* // Block Page Navigation when Lesson has not ended (been completed) */}
-      <NavigationBlocker navigationBlocked={shouldBlockAllNavigation} />
+      <NavigationBlocker when={shouldBlockAllNavigation} />
 
       <Box as="header">
         <Flex

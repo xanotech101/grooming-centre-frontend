@@ -4,21 +4,16 @@ import { Prompt } from "react-router-dom";
 
 export const NavigationBlocker = (props) => {
   useEffect(() => {
-    if (props.navigationBlocked) {
+    if (props.when) {
       window.onbeforeunload = () => true;
     } else {
       window.onbeforeunload = null;
     }
-  }, [props.navigationBlocked]);
+  }, [props.when]);
 
-  return (
-    <Prompt
-      when={props.navigationBlocked}
-      message="Are you sure you want to leave?"
-    />
-  );
+  return <Prompt when={props.when} message="Are you sure you want to leave?" />;
 };
 
 NavigationBlocker.propTypes = {
-  navigationBlocked: PropTypes.bool.isRequired,
+  when: PropTypes.bool.isRequired,
 };

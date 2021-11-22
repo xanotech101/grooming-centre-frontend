@@ -1,8 +1,8 @@
 import {
   ongoingDates,
   //
-  endedDates,
-  upcomingDates,
+  // endedDates,
+  // upcomingDates,
 } from "../course/responses";
 
 export const requestAssessmentDetailsRes_assessmentId_1 = {
@@ -10,7 +10,7 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     startTime: ongoingDates.startTime,
     id: "assessmentId_1",
     title: "Html assessment (Ongoing)",
-    duration: 10,
+    duration: 10.5,
     amountOfQuestions: 1,
     courseId: "courseId_3",
     // assessmentTracking: [{ isCompleted: true }],
