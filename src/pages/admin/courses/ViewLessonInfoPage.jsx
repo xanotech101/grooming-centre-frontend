@@ -20,6 +20,8 @@ const ViewLessonInfoPage = () => {
 
   const { lesson, isLoading } = manager;
 
+  console.log(lesson);
+
   const fileIsAVideo = /((\.)(mp4|mkv))$/i.test(lesson?.file);
 
   return (
