@@ -16,7 +16,8 @@ export const requestLessonDetails = async (id) => {
   return {
     lesson: {
       ...data,
-      hasEnded: data.lessonTracking[0]?.isCompleted,
+      hasEnded: data.lessonTracking?.[0]?.isCompleted,
+      file: data.file.replace("http://", "https://"),
     },
   };
 };

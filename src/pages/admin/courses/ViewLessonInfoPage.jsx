@@ -20,6 +20,8 @@ const ViewLessonInfoPage = () => {
 
   const { lesson, isLoading } = manager;
 
+  console.log(lesson, isLoading);
+
   const fileIsAVideo = /((\.)(mp4|mkv))$/i.test(lesson?.file);
 
   return (
@@ -157,18 +159,19 @@ const ViewLessonInfoPage = () => {
                   paddingBottom={4}
                   width="300px"
                 />
-                <Skeleton height="300px" width="400px" />
+                <Skeleton height="500px" />
               </>
             ) : (
               <>
+                {console.log(lesson?.file)}
                 <Heading fontSize="heading.6">Lesson File</Heading>
                 <Box paddingTop={6}>
                   {fileIsAVideo ? (
                     <iframe
                       title="Lesson Video"
                       src={lesson?.file}
-                      width="320px"
-                      height="240px"
+                      width="100%"
+                      height="500px"
                     />
                   ) : (
                     <iframe

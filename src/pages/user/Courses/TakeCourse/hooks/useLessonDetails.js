@@ -107,6 +107,7 @@ const useLessonDetails = (sidebarLinks) => {
         handleDelete(lessonId);
         setEndLesson({ success: true });
       } catch (err) {
+        console.error(err);
         setEndLesson({ error: err.message });
       }
     } else {
@@ -158,6 +159,7 @@ const useLessonDetails = (sidebarLinks) => {
       const lessonDetails = await handleGetOrSetAndGet(lessonId, fetcher);
       if (componentIsMount) setLessonDetails({ data: lessonDetails });
     } catch (err) {
+      console.error(err);
       if (componentIsMount) setLessonDetails({ err: err.message });
     }
 
@@ -194,6 +196,8 @@ const useLessonDetails = (sidebarLinks) => {
     sidebarLinks?.find((link) => link?.id === lesson?.id)?.disabled;
 
   const shouldBlockAllNavigation =
+    !error &&
+    !isLoading &&
     !lesson?.hasEnded &&
     // completeAndContinueIsDisabled &&
     !endLessonIsSuccessful;
