@@ -1,8 +1,7 @@
 import { useToast } from "@chakra-ui/toast";
-import { Box, Flex, Icon, Grid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { useEffect } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
 import {

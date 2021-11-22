@@ -24,7 +24,6 @@ const useAssessmentPreview = (
   isForAdmin,
   sidebarLinkClickedState
 ) => {
-  const [sidebarLinkClicked, setSidebarLinkClicked] = sidebarLinkClickedState;
   const { handleGetOrSetAndGet, handleDelete } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
@@ -84,10 +83,10 @@ const useAssessmentPreview = (
   };
 
   useEffect(() => {
-    setSidebarLinkClicked(false);
+    sidebarLinkClickedState?.[1]?.(false);
     handleFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sidebarLinkClicked]);
+  }, [sidebarLinkClickedState?.[0]]);
 
   const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
   const isLoading = assessmentDetails.loading;

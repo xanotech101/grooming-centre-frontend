@@ -15,11 +15,9 @@ const useAssessment = () => {
   const { course_id } = useParams();
 
   assessment.questions = sortByIndexField(
-    // TODO: propose this field to be implemented by the BACKEND team
-    assessment.questions, // TODO: propose this field to be implemented by the BACKEND team
-    "questionIndex" // TODO: propose this field to be implemented by the BACKEND team
-  ); // TODO: propose this field to be implemented by the BACKEND team
-
+    assessment.questions,
+    "questionIndex"
+  );
   assessment.questions?.forEach((question) => {
     question.options = sortByIndexField(question.options, "optionIndex");
   });
@@ -28,7 +26,7 @@ const useAssessment = () => {
 
   const timerCountdownManger = useTimerCountdown({
     startDate: assessment.startTime,
-    duration: assessment.duration,
+    endDate: assessment.endTime,
   });
 
   // Initialize the first question
@@ -198,8 +196,6 @@ const useAssessment = () => {
 
   return {
     assessment,
-    startDate: assessment.startTime,
-    duration: assessment.duration,
     course_id,
     isLoading,
     error,
@@ -208,8 +204,6 @@ const useAssessment = () => {
     shouldSubmit,
     disablePreviousQuestion,
     selectedAnswers,
-    handleAfterSubmit,
-    handleSubmit,
     handleSubmitConfirmation,
     handleQuestionChange,
     handleNextQuestion,
