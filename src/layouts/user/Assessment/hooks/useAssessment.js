@@ -11,7 +11,12 @@ import { CongratsModalContent } from "../Modal";
 import useTimerCountdown from "./useTimerCountdown";
 
 const useAssessment = () => {
-  const { assessment, isLoading, error, setError } = useAssessmentPreview();
+  const {
+    assessment,
+    isLoading,
+    error,
+    // setError
+  } = useAssessmentPreview();
   const { course_id } = useParams();
 
   assessment.questions = sortByIndexField(
@@ -29,6 +34,9 @@ const useAssessment = () => {
     endDate: assessment.endTime,
   });
 
+  console.log(new Date(assessment.startTime));
+  console.log(new Date(assessment.endTime));
+
   // Initialize the first question
   useEffect(() => {
     if (assessment) {
@@ -40,11 +48,10 @@ const useAssessment = () => {
 
   // Handle Late/TooEarly comer :)
   useEffect(() => {
-    if (timerCountdownManger.hasEnded.notYetTime)
-      setError("This assessment is not yet time to be taken");
-    if (timerCountdownManger.hasEnded.elapsed)
-      setError("This assessment has already ended");
-
+    // if (timerCountdownManger.hasEnded.notYetTime)
+    //   setError("This assessment is not yet time to be taken");
+    // if (timerCountdownManger.hasEnded.elapsed)
+    //   setError("This assessment has already ended");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerCountdownManger.hasEnded.elapsed]);
 
