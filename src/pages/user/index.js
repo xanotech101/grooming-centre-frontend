@@ -1,6 +1,6 @@
 export * from "./Courses/CourseDetails/CourseDetailsPage";
 export * from "./Courses/CoursesPagesRouter";
-export * from "./Courses/CoursesOverview/CoursesOverviewPage";
+export * from "./Courses/Grades/GradesPage";
 export * from "./Courses/TakeCourse/LessonDetailsPage";
 export * from "./Courses/TakeCourse/AssessmentPreviewPage";
 export * from "./DashboardPage";
