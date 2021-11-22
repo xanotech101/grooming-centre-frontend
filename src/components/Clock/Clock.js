@@ -22,21 +22,21 @@ export const Clock = ({ duration, startAt }) => {
     <Flex justifyContent="space-between" marginBottom={6}>
       <Box textAlign="center">
         <Text bold as="level1">
-          {elapsed.hours || "00"}
+          {elapsed.hours || "0"}
         </Text>
         <Text color="accent.2">hours</Text>
       </Box>
 
       <Box textAlign="center">
         <Text bold as="level1">
-          {elapsed.minutes}
+          {elapsed.minutes || "0"}
         </Text>
         <Text color="accent.2">minutes</Text>
       </Box>
 
       <Box textAlign="center">
         <Text bold as="level1">
-          {elapsed.seconds}
+          {elapsed.seconds || "0"}
         </Text>
         <Text color="accent.2">seconds</Text>
       </Box>

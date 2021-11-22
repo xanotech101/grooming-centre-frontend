@@ -54,9 +54,9 @@ export const adminGetUserDetails = async (id) => {
     gender: data.gender,
     departmentName: data.department[0].name,
     certificates: data.certificates ? data.certificates : "notset",
-    // gradePoint: data.averageGradeScore
-    //   ? data.averageGradeScore
-    //   : 0, // Todo : comment out later
+    gradePoint: data.averageGradeScore
+      ? data.averageGradeScore
+      : 0,
     noOfCertificate: data.certificate ? data.certificate.length : 0,
     completedCourses: data.courseTrackingProgress
       ? data.courseTrackingProgress.length
@@ -79,7 +79,7 @@ export const adminGetUserDetails = async (id) => {
  * @returns {Promise<{ message: string, user: { id: string }}>}
  */
 export const adminEditUser = async (userId, body) => {
-  const path = `/user/edit/${userId}`;
+  const path = `/admin/user/edit/${userId}`;
 
   const {
     data: { message, data },

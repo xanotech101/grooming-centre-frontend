@@ -13,7 +13,12 @@ export const requestLessonDetails = async (id) => {
     data: { data },
   } = await http.get(path);
 
-  return { lesson: data };
+  return {
+    lesson: {
+      ...data,
+      hasEnded: data.lessonTracking[0]?.isCompleted,
+    },
+  };
 };
 
 /**
@@ -23,7 +28,7 @@ export const requestLessonDetails = async (id) => {
  * @returns {Promise<{ message: string }>}
  */
 export const requestEndLesson = async (id) => {
-  const path = `/lesson/${id}/end`; // TODO: change path
+  const path = `/lesson/end-lesson/${id}`; // TODO: change path
 
   const {
     data: { message },

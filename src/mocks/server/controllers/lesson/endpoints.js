@@ -11,6 +11,8 @@ import {
   requestLessonDetailsRes_lessonId_1,
   requestLessonDetailsRes_lessonId_2,
   requestLessonDetailsRes_lessonId_3,
+  requestLessonDetailsRes_lessonId_4,
+  requestLessonDetailsRes_lessonId_5,
 } from "./responses";
 
 const requestLessonDetailsForLessonId = [
@@ -26,36 +28,51 @@ const requestLessonDetailsForLessonId = [
     getUrl("/lesson/lessonId_3"),
     handleSuccessResponse(requestLessonDetailsRes_lessonId_3)
   ),
+  rest.get(
+    getUrl("/lesson/lessonId_4"),
+    handleSuccessResponse(requestLessonDetailsRes_lessonId_4)
+  ),
+  rest.get(
+    getUrl("/lesson/lessonId_5"),
+    handleSuccessResponse(requestLessonDetailsRes_lessonId_5)
+  ),
 ];
 
 const requestEndLesson = [
   rest.post(
-    // TODO: change `method`
-    getUrl("/lesson/lessonId_1/end"), // TODO: change `path`
+    getUrl("/lesson/end-lesson/lessonId_1"),
     handleSuccessResponse(requestEndLessonRes)
   ),
   rest.post(
-    // TODO: change `method`
-    getUrl("/lesson/lessonId_2/end"), // TODO: change `path`
+    getUrl("/lesson/end-lesson/lessonId_2"),
+    handleSuccessResponse(requestEndLessonRes)
+  ),
+  rest.post(
+    getUrl("/lesson/end-lesson/lessonId_3"),
+    handleSuccessResponse(requestEndLessonRes)
+  ),
+  rest.post(
+    getUrl("/lesson/end-lesson/lessonId_4"),
+    handleSuccessResponse(requestEndLessonRes)
+  ),
+  rest.post(
+    getUrl("/lesson/end-lesson/lessonId_5"),
     handleSuccessResponse(requestEndLessonRes)
   ),
 ];
 
 const adminCreateLesson = rest.post(
-  // TODO: change `method`
-  getUrl("/lesson/create"), // TODO: change `path`
+  getUrl("/lesson/create"),
   handleSuccessResponse(adminCreateLessonRes)
 );
 
 const adminEditLesson = [
   rest.patch(
-    // TODO: change `method`
-    getUrl("/lesson/edit/lessonId_1"), // TODO: change `path`
+    getUrl("/lesson/edit/lessonId_1"),
     handleSuccessResponse(adminEditLessonRes_lessonId_1)
   ),
   rest.patch(
-    // TODO: change `method`
-    getUrl("/lesson/edit/lessonId_2"), // TODO: change `path`
+    getUrl("/lesson/edit/lessonId_2"),
     handleSuccessResponse(adminEditLessonRes_lessonId_2)
   ),
 ];
@@ -70,7 +87,6 @@ const adminGetLessonListing = [
     handleSuccessResponse(adminGetLessonListingRes_courseId_3)
   ),
 ];
-
 
 const lesson = [
   ...requestLessonDetailsForLessonId,

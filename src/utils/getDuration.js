@@ -21,6 +21,17 @@ export function getDuration(number) {
 }
 
 /**
+ * Get endTime given the `startTime` and `duration` (in Minutes)
+ *
+ * @param {Date} startTime
+ * @param {number} duration
+ *
+ * @returns {Date}
+ */
+export const getEndTime = (startTime, duration) =>
+  new Date(new Date(startTime).getTime() + duration * 60000).toISOString();
+
+/**
  * Get `duration` (in Minutes) given the `startTime` and `endTime`
  *
  * @param {Date} startTime

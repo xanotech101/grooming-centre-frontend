@@ -1,3 +1,5 @@
+import { ongoingDates } from "../course/responses";
+
 export const adminGetExaminationListingRes_courseId_1 = {
   data: {
     id: "examinationId_1",
@@ -43,9 +45,10 @@ export const adminGetExaminationListingRes_courseId_3 = {
   data: {
     id: "examinationId_2",
     title: "ReactJs examination",
-    duration: 60,
+    startTime: ongoingDates.startTime,
+    duration: 10.5,
+    // examinationTracking: [{ isCompleted: true }],
     amountOfQuestions: 4,
-    startTime: "2021-10-18T09:50:00.319Z",
     courseId: "courseId_3",
     examinationQuestions: [
       {

@@ -1,7 +1,7 @@
 import Icon from "@chakra-ui/icon";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { BsClockFill, BsFillCaretUpFill } from "react-icons/bs";
-import { FaCalendar } from "react-icons/fa";
+import { FaCalendar, FaCheck } from "react-icons/fa";
 import { IoVideocam } from "react-icons/io5";
 import { VscFiles } from "react-icons/vsc";
 import { Route } from "react-router-dom";
@@ -34,6 +34,14 @@ const CourseDetailsPage = () => {
 
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
+
+  const getCurrentOngoingLesson = () => {
+    const lesson = courseDetailsData?.lessons.find((lesson) =>
+      isOngoing(lesson.startTime, lesson.endTime)
+    );
+
+    return lesson;
+  };
 
   return isLoading || isError ? (
     <Flex
@@ -108,19 +116,16 @@ const CourseDetailsPage = () => {
         maxWidth={breakpoints.laptop}
         marginX="auto"
       >
-        {/* <Flex justifyContent="flex-end" marginBottom={10}>
+        <Flex justifyContent="flex-end" marginBottom={10}>
           <Button
-            link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lessons[0].id}`}
-            disabled={
-              !isOngoing(
-                courseDetailsData?.lessons[0].startTime,
-                courseDetailsData?.lessons[0].endTime
-              )
-            }
+            link={`/courses/take/${courseDetailsData?.id}/lessons/${
+              getCurrentOngoingLesson()?.id
+            }`}
+            disabled={getCurrentOngoingLesson() ? false : true}
           >
             Take Lesson
           </Button>
-        </Flex> */}
+        </Flex>
 
         {/* {isOngoing(event.startTime, event.endTime) && "Join Event"}
               {hasEnded(event.endTime) && "Event Has Ended"}
@@ -192,11 +197,15 @@ const CourseDetailsPage = () => {
                   width="150px"
                   secondary
                   sm
-                  disabled={!isOngoing(lesson.startTime, lesson.endTime)}
+                  disabled={
+                    !isOngoing(lesson.startTime, lesson.endTime) &&
+                    !lesson.hasCompleted
+                  }
+                  leftIcon={lesson.hasCompleted && <FaCheck />}
                 >
-                  {isOngoing(lesson.startTime, lesson.endTime) && "Take Lesson"}
-                  {hasEnded(lesson.endTime) && "Lesson Has Ended"}
-                  {isUpcoming(lesson.startTime) && "Lesson Is Upcoming"}
+                  {isOngoing(lesson.startTime, lesson.endTime) && "View Lesson"}
+                  {hasEnded(lesson.endTime) && "Lesson Ended"}
+                  {isUpcoming(lesson.startTime) && "Lesson Upcoming"}
                 </Button>
               </Flex>
             );
