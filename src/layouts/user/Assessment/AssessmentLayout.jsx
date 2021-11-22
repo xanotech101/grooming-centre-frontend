@@ -48,7 +48,7 @@ const AssessmentLayout = () => {
 
   const renderContent = () => (
     <>
-      <NavigationBlocker when={!submitStatus.success && !error && !isLoading} />
+      <NavigationBlocker when={!submitStatus.success && !error && isLoading} />
 
       {isLoading ? (
         <PageLoaderLayout />
