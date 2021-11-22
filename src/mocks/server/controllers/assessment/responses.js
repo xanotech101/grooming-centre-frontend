@@ -2,10 +2,10 @@
 
 export const requestAssessmentDetailsRes_assessmentId_1 = {
   data: {
-    startTime: new Date(Date.now()).toISOString(),
+    startTime: new Date(Date.now() - 60 * 1000 * 9.9).toISOString(),
     id: "assessmentId_1",
     title: "Html assessment (Ongoing)",
-    duration: 0.5,
+    duration: 10,
     amountOfQuestions: 1,
     courseId: "courseId_3",
     assessmentQuestions: [
