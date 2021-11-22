@@ -3,7 +3,11 @@ import { useToast } from "@chakra-ui/toast";
 import { useForm } from "react-hook-form";
 import { useParams, useHistory } from "react-router-dom";
 import { Button, DateTimePicker, Input } from "../../../../../components";
-import { useDateTimePicker, useGoBack } from "../../../../../hooks";
+import {
+  useDateTimePicker,
+  useGoBack,
+  useQueryParams,
+} from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
   adminCreateAssessment,
@@ -14,10 +18,10 @@ import {
   capitalizeFirstLetter,
   formatDateToISO,
 } from "../../../../../utils";
-import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 
 const CreateAssessmentPage = () => {
-  const { id: courseId, assessmentId } = useParams();
+  const { id: courseId } = useParams();
+  const isExamination = useQueryParams().get("examination");
 
   const { push } = useHistory();
   const toast = useToast();
@@ -31,9 +35,6 @@ const CreateAssessmentPage = () => {
   const handleCancel = useGoBack();
 
   const startTimeManager = useDateTimePicker();
-
-  const { isExamination } = useAssessmentPreview(null, assessmentId);
-
   // Handle form submission
   const onSubmit = async (data) => {
     try {
@@ -57,15 +58,14 @@ const CreateAssessmentPage = () => {
         position: "top",
         status: "success",
       });
-      
-        isExamination
-          ? push(
-              `/admin/courses/${courseId}/assessment/${examination.id}/questions/new?examination=true`
-            )
-          : push(
-              `/admin/courses/${courseId}/assessment/${assessment.id}/questions/new`
-            );
-      
+
+      isExamination
+        ? push(
+            `/admin/courses/${courseId}/assessment/${courseId}/questions/new?examination=${examination.id}`
+          )
+        : push(
+            `/admin/courses/${courseId}/assessment/${assessment.id}/questions/new`
+          );
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),

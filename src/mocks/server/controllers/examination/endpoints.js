@@ -14,8 +14,23 @@ import {
   adminGetExaminationListingRes_courseId_3,
 } from "./responses";
 
-
 const adminGetExaminationListing = [
+  rest.get(
+    getUrl("/examination/courseId_1"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/examination/courseId_3"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+  ),
+  rest.get(
+    getUrl("/examination/admin/courseId_1"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
+  ),
+  rest.get(
+    getUrl("/examination/admin/courseId_3"),
+    handleSuccessResponse(adminGetExaminationListingRes_courseId_3)
+  ),
   rest.get(
     getUrl("/examination/courseId_1"),
     handleSuccessResponse(adminGetExaminationListingRes_courseId_1)
@@ -59,17 +74,14 @@ const adminCreateExamination = rest.post(
 
 const adminEditExamination = [
   rest.patch(
-    // TODO: change `method`
-    getUrl("/examination/edit/examinationId_1"), // TODO: change `path`
+    getUrl("/examination/edit/courseId_1"),
     handleSuccessResponse(adminEditExaminationRes_examinationId_1)
   ),
   rest.patch(
-    // TODO: change `method`
-    getUrl("/examination/edit/examinationId_2"), // TODO: change `path`
+    getUrl("/examination/edit/courseId_3"),
     handleSuccessResponse(adminEditExaminationRes_examinationId_2)
   ),
 ];
-
 
 const adminEditExaminationQuestion = rest.patch(
   getUrl("/examination/question/edit"),

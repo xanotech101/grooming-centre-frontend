@@ -26,12 +26,10 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import { useToast } from "@chakra-ui/toast";
 import { capitalizeFirstLetter } from "../../../../../utils";
-import {  useCache } from "../../../../../contexts";
+import { useCache } from "../../../../../contexts";
 
 const InfoPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
-
-
 
   useEffect(() => {
     fetchCourseDetails();
@@ -193,7 +191,7 @@ const InfoPage = () => {
             gap={3}
           >
             <OverviewBox
-              value={courseDetailsData?.lessons.length}
+              value={courseDetailsData?.lessons?.length}
               name="Lessons"
               icon={<ImArrowUp />}
               iconBackgroundColor="accent.6"
@@ -201,7 +199,7 @@ const InfoPage = () => {
               isLoading={isLoading}
             />
             <OverviewBox
-              value={courseDetailsData?.assessment.length}
+              value={courseDetailsData?.assessment?.length}
               name="Assessment"
               icon={<FiCheckSquare />}
               iconBackgroundColor="accent.7"

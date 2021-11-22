@@ -32,6 +32,7 @@ const TakeCourseLayout = () => {
           exact
           path="/courses/take/:course_id/assessment/:assessment_id" // TODO: replace `/take` to `/preview`
           sidebarLinks={sidebarManager.links}
+          sidebarLinkClickedState={sidebarManager.sidebarLinkClickedState}
         />
 
         <Redirect to="/not-found" />

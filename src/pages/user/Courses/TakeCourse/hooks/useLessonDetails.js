@@ -64,7 +64,7 @@ const usePlayer = ({ lessonHasBeenCompleted }) => {
 const useLessonDetails = (sidebarLinks) => {
   const { handleGetOrSetAndGet, handleDelete } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { lesson_id: lessonId, course_id: courseId } = useParams();
+  const { lesson_id: lessonId } = useParams();
   const { push } = useHistory();
 
   // To make sure the `Sidebar` links renders correctly
@@ -84,7 +84,10 @@ const useLessonDetails = (sidebarLinks) => {
 
   const handlePrevious = () => {
     const previousLink = sidebarLinks[currentLessonLink.index - 1];
-    push(`/courses/take/${courseId}/lessons/${previousLink.id}`);
+
+    if (!previousLink.disabled) {
+      push(previousLink.to);
+    }
   };
 
   const [endLesson, setEndLesson] = useState({
@@ -104,6 +107,7 @@ const useLessonDetails = (sidebarLinks) => {
         handleDelete(lessonId);
         setEndLesson({ success: true });
       } catch (err) {
+        console.error(err);
         setEndLesson({ error: err.message });
       }
     } else {
@@ -117,12 +121,10 @@ const useLessonDetails = (sidebarLinks) => {
   const handleContinueToNextLesson = useCallback(() => {
     const nextLink = sidebarLinks[currentLessonLink.index + 1];
 
-    if (nextLink.type !== "assessment") {
-      push(`/courses/take/${courseId}/lessons/${nextLink.id}`);
-    } else {
-      push(`/courses/take/${courseId}/assessment`);
+    if (!nextLink.disabled) {
+      push(nextLink.to);
     }
-  }, [currentLessonLink?.index, courseId, sidebarLinks, push]);
+  }, [currentLessonLink.index, push, sidebarLinks]);
 
   const endLessonIsSuccessful = endLesson.success;
   const endLessonIsLoading = endLesson.loading;
@@ -157,11 +159,17 @@ const useLessonDetails = (sidebarLinks) => {
       const lessonDetails = await handleGetOrSetAndGet(lessonId, fetcher);
       if (componentIsMount) setLessonDetails({ data: lessonDetails });
     } catch (err) {
+      console.error(err);
       if (componentIsMount) setLessonDetails({ err: err.message });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessonId, componentIsMount]);
+
+  const handleTryAgain = async () => {
+    await handleDelete(lessonId);
+    fetchLessonDetails();
+  };
 
   useEffect(() => {
     fetchLessonDetails();
@@ -182,16 +190,36 @@ const useLessonDetails = (sidebarLinks) => {
 
   const completeAndContinueIsDisabled = getCompleteAndContinueIsDisabled();
 
+  const lessonIsDisabled =
+    !isLoading &&
+    !error &&
+    sidebarLinks?.find((link) => link?.id === lesson?.id)?.disabled;
+
+  const shouldBlockAllNavigation =
+    !error &&
+    !isLoading &&
+    !lesson?.hasEnded &&
+    // completeAndContinueIsDisabled &&
+    !endLessonIsSuccessful;
+
+  console.log(
+    shouldBlockAllNavigation,
+    lesson?.hasEnded,
+    // completeAndContinueIsDisabled,
+    endLessonIsSuccessful
+  );
+
   // lesson?.hasEnded
   // ? false
   // : isLoading || !videoPlayerManager.videoHasBeenCompleted;
 
   console.log({
-    completeAndContinueIsDisabled,
-    nextLessonIsDisabled,
-    endLessonIsSuccessful,
-    isLoading,
-    videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
+    // lessonIsDisabled,
+    // completeAndContinueIsDisabled,
+    // nextLessonIsDisabled,
+    // endLessonIsSuccessful,
+    // isLoading,
+    // videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
   });
 
   return {
@@ -202,9 +230,12 @@ const useLessonDetails = (sidebarLinks) => {
     completeAndContinueIsDisabled,
     handlePrevious,
     handleCompleteAndContinue,
+    handleTryAgain,
     endLessonIsSuccessful,
     endLessonIsLoading,
     endLessonHasError,
+    lessonIsDisabled,
+    shouldBlockAllNavigation,
     ...videoPlayerManager,
   };
 };

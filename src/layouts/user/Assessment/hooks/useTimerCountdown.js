@@ -1,4 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { getEndTime } from "../../../../utils";
+
+const getLateEndDate = (startTime, endTime) => {
+  const now = new Date(Date.now());
+  const duration = (new Date(endTime).getTime() - now.getTime()) / 1000 / 60;
+  const newEndDate = new Date(getEndTime(startTime, duration));
+
+  return newEndDate;
+};
 
 const useTimerCountdown = ({
   startDate: _startDate,
@@ -6,35 +15,28 @@ const useTimerCountdown = ({
   // duration
 }) => {
   const [startDate, setStartDate] = useState();
-  const endDate = useMemo(() => new Date(_endDate), [_endDate]);
-  // const endDate = new Date(startDate.getTime() + duration * 60000); //TODO: remove
+
+  // Reduce EndDate due to late coming (The Lower the EndDate the Lower the `Timer`)
+  const endDate = useMemo(
+    () => _endDate && startDate && getLateEndDate(startDate, _endDate),
+    [_endDate, startDate]
+  );
+
+  console.log(endDate);
+
   const [startCountDown, setStartCountDown] = useState(false);
   const [hasTimeout, setHasTimeout] = useState(false);
 
-  const nowTime = useMemo(() => new Date().getTime(), []);
-  const endTime = useMemo(() => endDate?.getTime(), [endDate]);
-  const startTime = useMemo(() => startDate?.getTime(), [startDate]);
   const [hasEnded, setHasEnded] = useState({
-    elapsed: false,
     timeout: false,
-    notYetTime: false,
   });
 
   // Checks if the assessment can be taken
   useEffect(() => {
-    if (nowTime) {
-      if (endTime && nowTime > endTime) {
-        setHasEnded({ elapsed: true });
-      }
-      if (endTime && startTime > nowTime) {
-        setHasEnded({ notYetTime: true });
-      }
-    }
-
     if (hasTimeout) {
       setHasEnded({ timeout: true });
     }
-  }, [endTime, nowTime, hasTimeout, startTime]);
+  }, [hasTimeout]);
 
   // Initialize startDate
   useEffect(() => {
@@ -43,12 +45,14 @@ const useTimerCountdown = ({
 
   // Triggers countdown
   useEffect(() => {
-    if (startDate && !hasEnded.elapsed && !hasEnded.timeout) {
+    if (endDate === undefined) return setStartCountDown(false);
+
+    if (startDate && !hasEnded.timeout) {
       setStartCountDown(true);
     } else {
       setStartCountDown(false);
     }
-  }, [hasEnded.elapsed, hasEnded.timeout, startDate]);
+  }, [hasEnded.timeout, startDate, endDate]);
 
   const [timeLeft, setTimeLeft] = useState({});
 
@@ -110,7 +114,6 @@ const useTimerCountdown = ({
     timeLeftHMS.minutes,
     timeLeftHMS.seconds,
   ]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return {
     timeLeft,

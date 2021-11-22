@@ -1,3 +1,7 @@
+import {
+  getDurationBetweenStartTimeAndEndTime,
+  getEndTime,
+} from "../../../utils";
 import { http } from "../http";
 /**
  * Endpoint to get `course-listing`
@@ -83,7 +87,7 @@ export const userGetCourseListing = async () => {
  * @returns {Promise<{ courses: CourseListArray }>}
  */
 export const adminGetUserCourseListing = async (userId) => {
-  const path = `/courses/${userId}`;
+  const path = `/admin/courses/${userId}`;
 
   const {
     data: { data },
@@ -119,8 +123,26 @@ export const userGetCourseDetails = async (id) => {
     course: {
       // TODO: remove lazy mapping
       ...data, // TODO: remove lazy mapping
-      lessons: data.lesson, // TODO: remove lazy mapping
-      assessments: data.assessment, // TODO: remove lazy mapping
+      lessons: data.lesson.map((l) => ({
+        ...l,
+        hasCompleted: l.lessonTracking?.[0]?.isCompleted,
+        duration: getDurationBetweenStartTimeAndEndTime(l.startTime, l.endTime),
+      })), // TODO: remove lazy mapping
+      assessments: data.assessment.map((a) => ({
+        ...a,
+        hasCompleted: a.assessmentTracking?.[0]?.isCompleted,
+        endTime: getEndTime(a.startTime, a.duration),
+      })), // TODO: remove lazy mapping
+      examination: {
+        ...data.examination,
+        hasCompleted: data.examination.examinationTracking?.[0]?.isCompleted,
+        endTime: getEndTime(
+          data.examination.startTime,
+          data.examination.duration
+        ),
+      },
+      startTime: data.lesson[0].startTime,
+      endTime: data?.lesson[data.lesson.length - 1].endTime,
     }, // TODO: remove lazy mapping
   };
 };
@@ -134,8 +156,7 @@ export const userGetCourseDetails = async (id) => {
 export const adminPublishCourse = async (id) => {
   const path = `/course/publish/${id}`;
 
-await http.patch(path);
- 
+  await http.patch(path);
 };
 
 /**
@@ -147,6 +168,5 @@ await http.patch(path);
 export const adminUnpublishCourse = async (id) => {
   const path = `/course/unpublish/${id}`;
 
-await http.patch(path);
- 
+  await http.patch(path);
 };

@@ -73,15 +73,15 @@ const adminEditCourse = [
 
 const adminGetUserCourseListing = [
   rest.get(
-    getUrl("/courses/userId_1"),
+    getUrl("/admin/courses/userId_1"),
     handleSuccessResponse(adminGetUserCourseListingRes_userId_1)
   ),
   rest.get(
-    getUrl("/courses/userId_2"),
+    getUrl("/admin/courses/userId_2"),
     handleSuccessResponse(adminGetUserCourseListingRes_userId_2)
   ),
   rest.get(
-    getUrl("/courses/userId_3"),
+    getUrl("/admin/courses/userId_3"),
     handleSuccessResponse(adminGetUserCourseListingRes_userId_3)
   ),
 ];

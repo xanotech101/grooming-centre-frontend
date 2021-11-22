@@ -57,8 +57,6 @@ const CreateLessonPage = () => {
 
   const { lesson, isLoading, isError } = useViewLessonInfo();
 
-
-
   // Init `Title` value
   useEffect(() => {
     if (lesson) {
@@ -146,7 +144,10 @@ const CreateLessonPage = () => {
         startTimeManager.handleGetValueAndValidate("Start Time");
       const endTime = endTimeManager.handleGetValueAndValidate("End Time");
       const content = contentManager.handleGetValueAndValidate("Content");
-      const file = fileManager.handleGetFileAndValidate("Lesson File");
+      const file = fileManager.handleGetFileAndValidate(
+        "Lesson File",
+        isEditMode
+      );
 
       data = {
         ...data,
@@ -163,7 +164,7 @@ const CreateLessonPage = () => {
         ? adminEditLesson(lessonId, body)
         : adminCreateLesson(body));
 
-              if (isEditMode) handleDelete(lesson.id);
+      if (isEditMode) handleDelete(lesson.id);
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -205,9 +206,7 @@ const CreateLessonPage = () => {
           }
           item3={
             <BreadcrumbItem>
-              <Link
-                href={`/admin/courses/details/${courseId}/lessons`}
-              >
+              <Link href={`/admin/courses/details/${courseId}/lessons`}>
                 Lessons
               </Link>
             </BreadcrumbItem>
@@ -222,7 +221,13 @@ const CreateLessonPage = () => {
 
       <CreatePageLayout
         title={isEditMode ? "Edit Lesson details" : "Create Lesson"}
-        submitButtonText={isEditMode ? "Update Lesson" : "Add Lesson"}
+        submitButtonText={
+          isSubmitting
+            ? "Please wait this might take a while"
+            : isEditMode
+            ? "Update Lesson"
+            : "Add Lesson"
+        }
         onSubmit={handleSubmit(onSubmit)}
         submitButtonIsDisabled={!metadata}
         submitButtonIsLoading={isSubmitting}

@@ -6,7 +6,7 @@ import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import AllCoursesPageRoute from "./AllCoursesPage";
 import CompletedCoursesPageRoute from "./CompletedCoursesPage";
 import InProgressCoursesPageRoute from "./InProgressCoursesPage";
-import NavBar from "./NavBar";
+// import NavBar from "./NavBar";
 import NewCoursesPageRoute from "./NewCoursesPage";
 
 const CoursesPagesRouter = () => {
@@ -27,7 +27,7 @@ const CoursesPagesRouter = () => {
           Courses for you
         </Heading>
 
-        <NavBar display={{ base: "none", tablet: "flex" }} />
+        {/* <NavBar display={{ base: "none", tablet: "flex" }} /> */}
       </Flex>
 
       <Box>

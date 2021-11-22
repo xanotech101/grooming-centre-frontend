@@ -11,13 +11,18 @@ import {
 } from "../../../components";
 import { FaEdit } from "react-icons/fa";
 import useViewLessonInfo from "./hooks/useViewLessonInfo";
+import { Skeleton } from "@chakra-ui/skeleton";
+import dayjs from "dayjs";
 
 const ViewLessonInfoPage = () => {
   const manager = useViewLessonInfo();
+  const { courseId } = useParams();
 
   const { lesson, isLoading } = manager;
 
-const {courseId} = useParams();
+  console.log(lesson, isLoading);
+
+  const fileIsAVideo = /((\.)(mp4|mkv))$/i.test(lesson?.file);
 
   return (
     <Box paddingX={4}>
@@ -85,7 +90,9 @@ const {courseId} = useParams();
                   <Heading lineHeight={8} fontSize="heading.h6">
                     Start Date
                   </Heading>
-                  <Text>{lesson?.startTime}</Text>
+                  <Text>
+                    {dayjs(lesson?.startTime).format("DD/MM/YYYY h:mm a")}
+                  </Text>
                 </>
               )}
             </GridItem>
@@ -120,7 +127,19 @@ const {courseId} = useParams();
               )}
             </GridItem>
           </Grid>
-          <Box>
+          <Box marginBottom={10}>
+            {isLoading ? (
+              <SkeletonText numberOfLines={2} width="100px" />
+            ) : (
+              <>
+                <Heading lineHeight={8} fontSize="heading.h6">
+                  End Date
+                </Heading>
+                <Text>{dayjs(lesson?.endTime).format("DD/MM/YY h:mm a")}</Text>
+              </>
+            )}
+          </Box>
+          <Box marginBottom={10}>
             {isLoading ? (
               <SkeletonText numberOfLines={14} />
             ) : (
@@ -129,6 +148,40 @@ const {courseId} = useParams();
                 <Text paddingTop={4} color="accent.3">
                   {lesson?.content}
                 </Text>
+              </>
+            )}
+          </Box>
+          <Box>
+            {isLoading ? (
+              <>
+                <SkeletonText
+                  numberOfLines={1}
+                  paddingBottom={4}
+                  width="300px"
+                />
+                <Skeleton height="500px" />
+              </>
+            ) : (
+              <>
+                {console.log(lesson?.file)}
+                <Heading fontSize="heading.6">Lesson File</Heading>
+                <Box paddingTop={6}>
+                  {fileIsAVideo ? (
+                    <iframe
+                      title="Lesson Video"
+                      src={lesson?.file}
+                      width="100%"
+                      height="500px"
+                    />
+                  ) : (
+                    <iframe
+                      title="Lesson Pdf"
+                      src={lesson?.file}
+                      width="320px"
+                      height="400px"
+                    />
+                  )}
+                </Box>
               </>
             )}
           </Box>
