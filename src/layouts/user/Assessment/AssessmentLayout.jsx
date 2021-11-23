@@ -39,12 +39,13 @@ const AssessmentLayout = () => {
     </Box>
   );
 
-  console.log(
-    submitStatus.success,
-    error,
-    isLoading,
-    !submitStatus.success && !error && !isLoading
-  );
+  // console.log(
+  //   submitStatus.success,
+  //   error,
+  //   isLoading,
+  //   !submitStatus.success && !error && !isLoading
+  // );
+  // console.log(selectedAnswers[currentQuestion?.id]);
 
   const renderContent = () => (
     <>

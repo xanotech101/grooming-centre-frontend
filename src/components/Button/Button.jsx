@@ -159,11 +159,11 @@ Button.propTypes = {
   ordinary: PropTypes.bool,
   iconAriaLabel: PropTypes.string,
   link: PropTypes.string,
-  leftIcon: PropTypes.element,
+  leftIcon: PropTypes.any,
   secondary: PropTypes.bool,
   sm: PropTypes.bool,
   xs: PropTypes.bool,
   largeSize: PropTypes.bool,
   reversePrimaryColor: PropTypes.bool,
-  rightIcon: PropTypes.element,
+  rightIcon: PropTypes.any,
 };

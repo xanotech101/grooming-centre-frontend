@@ -1,6 +1,8 @@
 import { useDisclosure } from "@chakra-ui/hooks";
+import { useToast } from "@chakra-ui/toast";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { useApp } from "../../../../contexts";
 import { Text } from "../../../../components";
 import useQueryParams from "../../../../hooks/useQueryParams";
 import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
@@ -29,9 +31,6 @@ const useAssessment = () => {
     startDate: assessment.startTime,
     endDate: assessment.endTime,
   });
-
-  console.log(new Date(assessment.startTime));
-  console.log(new Date(assessment.endTime));
 
   // Initialize the first question
   useEffect(() => {
@@ -72,40 +71,69 @@ const useAssessment = () => {
     loading: false,
   });
 
+  const toast = useToast();
+  const {
+    state: { user },
+  } = useApp();
+
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
       loading: true,
     });
 
     try {
-      const answers = {};
+      const questionIdArr = assessment?.questions?.reduce((acc, question) => {
+        acc.push(question.id);
+        return acc;
+      }, []);
+      const optionIdArr = [];
 
-      answers[assessment.id] = Reflect.ownKeys(selectedAnswers).reduce(
-        (accumulator, assessmentQuestionId) => {
-          const selectedAssessmentOptionId =
-            selectedAnswers[assessmentQuestionId];
+      questionIdArr.forEach((questionId, index) => {
+        optionIdArr[index] = selectedAnswers[questionId] || null;
+      });
 
-          const answer = { assessmentQuestionId, selectedAssessmentOptionId };
-          accumulator.push(answer);
+      const context = isExamination ? "examination" : "assessment";
 
-          return accumulator;
-        },
-        []
-      );
+      const body = {
+        [`${context}Id`]: assessment.id,
+        [`${context}QuestionsId`]: questionIdArr,
+        [`${context}OptionsId`]: optionIdArr,
+        userId: user.id,
+        courseId: assessment.courseId,
+      };
+
+      //   {
+      //     "assessmentId": "2a69af3f-3073-41b2-994d-bc31f69e37cb",
+      //     "courseId": "c3b2a0a5-59eb-454f-9c2f-5a6b1c4ff1e2",
+      // }
+
+      console.log(questionIdArr, optionIdArr);
 
       await (isExamination
-        ? submitExamination(assessment.id, answers)
-        : submitAssessment(assessment.id, answers));
+        ? submitExamination(assessment.id, body)
+        : submitAssessment(assessment.id, body));
 
       setSubmitStatus({
         success: true,
       });
     } catch (error) {
+      toast({
+        description: error.message,
+        position: "top",
+        status: "error",
+      });
+
       setSubmitStatus({
         error: error.message,
       });
     }
-  }, [assessment.id, selectedAnswers, isExamination]);
+  }, [
+    assessment.id,
+    assessment?.questions,
+    isExamination,
+    selectedAnswers,
+    toast,
+  ]);
 
   // Automatically submit when timeout
   useEffect(() => {

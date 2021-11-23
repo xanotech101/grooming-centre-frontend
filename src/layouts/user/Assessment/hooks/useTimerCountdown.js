@@ -22,8 +22,6 @@ const useTimerCountdown = ({
     [_endDate, startDate]
   );
 
-  console.log(endDate);
-
   const [startCountDown, setStartCountDown] = useState(false);
   const [hasTimeout, setHasTimeout] = useState(false);
 

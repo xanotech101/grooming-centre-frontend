@@ -44,7 +44,6 @@ const useAssessmentPreview = (
   });
 
   const fetcher = useCallback(async () => {
-    console.log(isForAdmin);
     const data = await (isExamination
       ? // `assessmentId` is `examinationId` in this case
 
@@ -58,13 +57,10 @@ const useAssessmentPreview = (
     setAssessmentDetails({ loading: true });
 
     try {
-      console.log(isExamination);
-
       const assessmentDetails = await handleGetOrSetAndGet(
         isExamination || assessmentId,
         fetcher
       );
-      console.log(assessmentDetails);
 
       if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
     } catch (err) {
@@ -98,12 +94,6 @@ const useAssessmentPreview = (
     !isLoading &&
     !error &&
     sidebarLinks?.find((link) => link?.id === assessment?.id)?.disabled;
-
-  console.log(
-    sidebarLinks?.find((link) => link?.id === assessment?.id),
-    sidebarLinks,
-    assessment
-  );
 
   return {
     assessment,

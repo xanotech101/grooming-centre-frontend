@@ -10,13 +10,39 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     startTime: ongoingDates.startTime,
     id: "assessmentId_1",
     title: "Html assessment (Ongoing)",
-    duration: 10.5,
-    amountOfQuestions: 1,
+    duration: 12,
+    amountOfQuestions: 3,
     courseId: "courseId_3",
     // assessmentScoreSheets: [{}],
     assessmentQuestions: [
       {
         id: "questionId_1",
+        question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A div","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
+        options: [
+          {
+            id: "optionId_1",
+            name: "93",
+            optionIndex: "1",
+          },
+          {
+            id: "optionId_2",
+            name: "33643 / 2",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "zero",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "null",
+            optionIndex: "4",
+          },
+        ],
+      },
+      {
+        id: "questionId_2",
         question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A div","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
         options: [
           {
@@ -37,6 +63,32 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
           {
             id: "optionId_4",
             name: "we",
+            optionIndex: "4",
+          },
+        ],
+      },
+      {
+        id: "questionId_3",
+        question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A div","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
+        options: [
+          {
+            id: "optionId_1",
+            name: "asdfghjksdsd",
+            optionIndex: "1",
+          },
+          {
+            id: "optionId_2",
+            name: "qwerty",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "213456",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "zzz",
             optionIndex: "4",
           },
         ],
