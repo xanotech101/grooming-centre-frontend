@@ -21,11 +21,11 @@ const useCourseDetails = (courseId) => {
     return course;
   }, [id]);
 
-  const fetchCourseDetails = useCallback(async () => {
+  const fetchCourseDetails = useCallback(async (bypassCache) => {
     setCourseDetails({ loading: true });
 
     try {
-      let courseDetails = await handleGetOrSetAndGet(id, fetcher);
+      let courseDetails = await handleGetOrSetAndGet(id, fetcher, bypassCache);
 
       if (componentIsMount) setCourseDetails({ data: courseDetails });
     } catch (err) {
