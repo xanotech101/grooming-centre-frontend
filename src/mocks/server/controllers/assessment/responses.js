@@ -13,8 +13,7 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     duration: 10.5,
     amountOfQuestions: 1,
     courseId: "courseId_3",
-    // assessmentTracking: [{ isCompleted: true }],
-    assessmentTracking: [],
+    // assessmentScoreSheets: [{}],
     assessmentQuestions: [
       {
         id: "questionId_1",

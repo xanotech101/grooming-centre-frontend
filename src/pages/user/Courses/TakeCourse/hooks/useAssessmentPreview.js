@@ -99,6 +99,12 @@ const useAssessmentPreview = (
     !error &&
     sidebarLinks?.find((link) => link?.id === assessment?.id)?.disabled;
 
+  console.log(
+    sidebarLinks?.find((link) => link?.id === assessment?.id),
+    sidebarLinks,
+    assessment
+  );
+
   return {
     assessment,
     isLoading,
