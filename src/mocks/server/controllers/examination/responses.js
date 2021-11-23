@@ -46,9 +46,9 @@ export const adminGetExaminationListingRes_courseId_3 = {
     id: "examinationId_2",
     title: "ReactJs examination",
     startTime: ongoingDates.startTime,
-    duration: 10.5,
-    examinationScoreSheets: [{}],
-    amountOfQuestions: 4,
+    duration: 10.2,
+    // examinationScoreSheets: [{}],
+    amountOfQuestions: 2,
     courseId: "courseId_3",
     examinationQuestions: [
       {

@@ -53,11 +53,7 @@ const adminGetExaminationDetails = [
 
 const submitExamination = [
   rest.post(
-    getUrl("/examination/examinationId_1/submit"),
-    handleSuccessResponse(submitExaminationRes)
-  ),
-  rest.post(
-    getUrl("/examination/examinationId_2/submit"),
+    getUrl("/examination/scoresheet/create"),
     handleSuccessResponse(submitExaminationRes)
   ),
 ];

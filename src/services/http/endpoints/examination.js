@@ -88,13 +88,12 @@ export const adminGetExaminationListing = async (courseId) => {
 
 /**
  * Endpoint to submit an `examination`
- * @param {string} id - examinationId
- * @param {{}} body - answers
+ * @param {object} body - answers
  *
  * @returns {Promise<{ message: string }>}
  */
-export const submitExamination = async (id, body) => {
-  const path = `/examination/${id}/submit`;
+export const submitExamination = async (body) => {
+  const path = `/examination/scoresheet/create`;
 
   const {
     data: { message },

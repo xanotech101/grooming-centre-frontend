@@ -109,9 +109,7 @@ const useAssessment = () => {
 
       console.log(questionIdArr, optionIdArr);
 
-      await (isExamination
-        ? submitExamination(assessment.id, body)
-        : submitAssessment(assessment.id, body));
+      await (isExamination ? submitExamination(body) : submitAssessment(body));
 
       setSubmitStatus({
         success: true,
@@ -127,12 +125,14 @@ const useAssessment = () => {
         error: error.message,
       });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    assessment.courseId,
     assessment.id,
-    assessment?.questions,
     isExamination,
     selectedAnswers,
-    toast,
+    user?.id,
   ]);
 
   // Automatically submit when timeout
