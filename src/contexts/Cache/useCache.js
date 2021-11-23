@@ -66,18 +66,23 @@ export const useCache = () => {
    *
    * @returns {Promise<Item<any>>}
    */
-  const handleGetOrSetAndGet = async (key, cb) => {
-    let item = handleGet(key);
+  const handleGetOrSetAndGet = async (key, cb, bypassCache) => {
+    const fetchItem = async () => {
+      const item = await cb();
+      console.log("fetched => ", item);
 
-    console.log("cached => ", item);
+      handleSet(key, item);
+      return item;
+    };
 
+    if (bypassCache) {
+      return fetchItem();
+    }
+
+    const item = handleGet(key);
     if (item) return item;
 
-    item = await cb();
-    console.log("fetched => ", item);
-
-    handleSet(key, item);
-    return item;
+    return fetchItem();
   };
 
   return {
