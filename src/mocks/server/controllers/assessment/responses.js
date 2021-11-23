@@ -10,7 +10,7 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     startTime: ongoingDates.startTime,
     id: "assessmentId_1",
     title: "Html assessment (Ongoing)",
-    duration: 12,
+    duration: 20,
     amountOfQuestions: 3,
     courseId: "courseId_3",
     // assessmentScoreSheets: [{}],

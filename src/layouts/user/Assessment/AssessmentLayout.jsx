@@ -136,7 +136,7 @@ const AssessmentLayout = () => {
                       marginBottom={8}
                       flex={1}
                       onChange={handleOptionSelect}
-                      value={selectedAnswers[currentQuestion?.id]}
+                      value={selectedAnswers[currentQuestion?.id] || "default"}
                     >
                       <Stack spacing={4}>
                         {currentQuestion?.options?.map((option) => (
@@ -144,6 +144,10 @@ const AssessmentLayout = () => {
                             <Text>{option.name}</Text>
                           </Radio>
                         ))}
+
+                        <Radio value={"default"} display="none">
+                          <Text>default</Text>
+                        </Radio>
                       </Stack>
                     </RadioGroup>
 
