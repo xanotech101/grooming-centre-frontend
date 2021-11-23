@@ -1,12 +1,12 @@
-const upcomingDates = {
+export const upcomingDates = {
   startTime: new Date(Date.now() + 60 * 60 * 1000 * 24 * 2).toISOString(),
   endTime: new Date(Date.now() + 60 * 60 * 1000 * 24 * 3).toISOString(),
 };
-const ongoingDates = {
+export const ongoingDates = {
   startTime: new Date(Date.now() - 60 * 10 * 1000).toISOString(),
   endTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
 };
-const endedDates = {
+export const endedDates = {
   startTime: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
   endTime: new Date(Date.now() - 60 * 10 * 1000).toISOString(),
 };
@@ -345,7 +345,6 @@ export const userCourseDetailsRes_courseId_3 = {
         title: "Ongoing lesson",
         content:
           '{"blocks":[{"key":"d2sqe","text":"Loreme sdsd shdskjdsd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":11,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-
         createdAt: "2021-11-19T10:04:31.546Z",
         updatedAt: "2021-11-19T10:04:31.546Z",
         lessonType: {
@@ -360,12 +359,10 @@ export const userCourseDetailsRes_courseId_3 = {
         title: "Ended lesson (Due to has completed)",
         content:
           '{"blocks":[{"key":"cr1kt","text":"New lesssonnn","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-
+        lessonTracking: [{ isCompleted: true }],
         createdAt: "2021-11-19T09:20:09.328Z",
         updatedAt: "2021-11-19T09:20:09.328Z",
         lessonType: { id: "lessonTypeId_1", name: "pdf" },
-        lessonTracking: [],
-        hasCompleted: true,
       },
       {
         ...ongoingDates,
@@ -373,60 +370,63 @@ export const userCourseDetailsRes_courseId_3 = {
         title: "Ongoing lesson (But has completed)",
         content:
           '{"blocks":[{"key":"d2sqe","text":"Loreme sdsd shdskjdsd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":11,"length":10,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-
+        lessonTracking: [{ isCompleted: true }],
         createdAt: "2021-11-19T10:04:31.546Z",
         updatedAt: "2021-11-19T10:04:31.546Z",
         lessonType: {
           id: "lessonTypeId_2",
           name: "video",
         },
-        lessonTracking: [],
-        hasCompleted: true,
       },
     ],
     courseTracking: null,
     assessment: [
       {
-        id: "bd146712-3e21-4af3-a355-47a686839db1",
-        title: "New Assessment ",
+        id: "assessmentId_1",
+        title: "New Assessment (Ongoing)",
+        startTime: ongoingDates.startTime,
         duration: 20,
         active: true,
         amountOfQuestions: 30,
         createdAt: "2021-11-19T09:20:42.717Z",
         updatedAt: "2021-11-19T09:20:42.717Z",
-        courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+        courseId: "courseId_3",
+        // assessmentTracking: [],
       },
       {
-        id: "05824a8a-e8b3-4c36-bc01-9636f0935c6c",
-        title: "HTML ASSESSMENT TODAY",
+        id: "assessmentId_2",
+        title: "HTML ASSESSMENT TODAY (Upcoming)",
+        startTime: upcomingDates.startTime,
         duration: 60,
         active: true,
         amountOfQuestions: 20,
         createdAt: "2021-11-19T08:48:02.855Z",
         updatedAt: "2021-11-19T09:31:09.397Z",
-        courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+        courseId: "courseId_3",
+        assessmentTracking: [{ isCompleted: true }],
+        // assessmentTracking: [],
       },
       {
-        id: "b7a7d4d5-fe7a-4af6-9974-c0dfbe2b5d74",
-        title: "New Hot Assessment",
+        id: "assessmentId_3",
+        title: "New Hot Assessment (Ended)",
+        startTime: endedDates.startTime,
         duration: 20,
         active: true,
         amountOfQuestions: 10,
         createdAt: "2021-11-19T10:07:01.107Z",
         updatedAt: "2021-11-19T10:07:01.107Z",
-        courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+        courseId: "courseId_3",
+        // assessmentTracking: [],
       },
     ],
     examination: {
-      id: "b57d3ce3-d0a8-4756-bdec-d2caa2f60686",
+      id: "examinationId_1",
       title: "Hot Exam",
       duration: 20,
       amountOfQuestions: 5,
-      active: true,
-      startTime: "2021-11-29T23:00:00.000Z",
-      createdAt: "2021-11-19T10:29:22.190Z",
-      updatedAt: "2021-11-19T11:18:41.442Z",
-      courseId: "fada709b-3397-4394-aca2-a75740a3f8d7",
+      startTime: ongoingDates.startTime,
+      courseId: "courseId_3",
+      // examinationTracking: [{ isCompleted: true }],
     },
   },
 };

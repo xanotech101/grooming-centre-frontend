@@ -1,3 +1,4 @@
+import { getEndTime } from "../../../utils";
 import { http } from "../http";
 
 /**
@@ -20,7 +21,10 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     duration: data.duration,
     questionCount: data.amountOfQuestions,
     startTime: data.startTime,
-    minimumPercentageScoreToEarnABadge: data.minimumPercentageScoreToEarnABadge,
+    endTime: getEndTime(data.startTime, data.duration),
+    hasCompleted: data.examinationTracking?.[0]?.isCompleted,
+    minimumPercentageScoreToEarnABadge:
+      data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
     questions: data.examinationQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,

@@ -1,11 +1,20 @@
+import {
+  ongoingDates,
+  //
+  // endedDates,
+  // upcomingDates,
+} from "../course/responses";
+
 export const requestAssessmentDetailsRes_assessmentId_1 = {
   data: {
+    startTime: ongoingDates.startTime,
     id: "assessmentId_1",
-    title: "Html assessment",
-    duration: 60,
-    amountOfQuestions: 57,
-    startTime: "2021-10-18T09:50:00.319Z",
+    title: "Html assessment (Ongoing)",
+    duration: 10.5,
+    amountOfQuestions: 1,
     courseId: "courseId_3",
+    // assessmentTracking: [{ isCompleted: true }],
+    assessmentTracking: [],
     assessmentQuestions: [
       {
         id: "questionId_1",
@@ -36,10 +45,73 @@ export const requestAssessmentDetailsRes_assessmentId_1 = {
     ],
   },
 };
-
 export const requestAssessmentDetailsRes_assessmentId_2 = {
   data: {
     id: "assessmentId_2",
+    title: "CSS assessment",
+    duration: 60,
+    amountOfQuestions: 70,
+    startTime: "2021-10-18T09:50:00.319Z",
+    courseId: "courseId_3",
+    assessmentQuestions: [
+      {
+        id: "questionId_1",
+        question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A div","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
+        options: [
+          {
+            id: "optionId_1",
+            name: "me",
+            optionIndex: "1",
+          },
+          {
+            id: "optionId_2",
+            name: "you",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "them",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
+          },
+        ],
+      },
+      {
+        id: "questionId_2",
+        question: `{"blocks":[{"key":"bd4p2","text":"How to Create Me","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":7,"length":9,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
+        options: [
+          {
+            id: "optionId_1",
+            name: "me",
+            optionIndex: "1",
+          },
+          {
+            id: "optionId_2",
+            name: "you",
+            optionIndex: "2",
+          },
+          {
+            id: "optionId_3",
+            name: "them",
+            optionIndex: "3",
+          },
+          {
+            id: "optionId_4",
+            name: "we",
+            optionIndex: "4",
+          },
+        ],
+      },
+    ],
+  },
+};
+export const requestAssessmentDetailsRes_assessmentId_3 = {
+  data: {
+    id: "assessmentId_3",
     title: "CSS assessment",
     duration: 60,
     amountOfQuestions: 70,

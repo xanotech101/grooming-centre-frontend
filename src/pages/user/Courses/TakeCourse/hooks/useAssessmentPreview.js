@@ -18,8 +18,13 @@ import {
  *  error: string | null,
  * }}
  */
-const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
-  const { handleGetOrSetAndGet } = useCache();
+const useAssessmentPreview = (
+  sidebarLinks,
+  assessmentId,
+  isForAdmin,
+  sidebarLinkClickedState
+) => {
+  const { handleGetOrSetAndGet, handleDelete } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
 
@@ -72,18 +77,27 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
   const handleFetch = () => {
     if (!assessmentIsNew) fetchAssessmentDetails();
   };
+  const handleTryAgain = async () => {
+    await handleDelete(assessmentId);
+    fetchAssessmentDetails();
+  };
 
   useEffect(() => {
+    sidebarLinkClickedState?.[1]?.(false);
     handleFetch();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sidebarLinkClickedState?.[0]]);
 
   const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
   const isLoading = assessmentDetails.loading;
   const error = assessmentDetails.err;
 
   const setError = (msg) => setAssessmentDetails({ err: msg });
+
+  const assessmentIsDisabled =
+    !isLoading &&
+    !error &&
+    sidebarLinks?.find((link) => link?.id === assessment?.id)?.disabled;
 
   return {
     assessment,
@@ -92,6 +106,8 @@ const useAssessmentPreview = (sidebarLinks, assessmentId, isForAdmin) => {
     setError,
     isExamination,
     handleFetch,
+    handleTryAgain,
+    assessmentIsDisabled,
   };
 };
 

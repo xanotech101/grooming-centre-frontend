@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useApp, useTakeCourse } from "../../../../../contexts";
+import { hasEnded, isOngoing, isUpcoming } from "../../../../../utils";
 
 const mapLessonsToLinks = (course) => {
   const reduceToLinks = (arrayKey, mapper) =>
@@ -12,15 +14,24 @@ const mapLessonsToLinks = (course) => {
     id: lesson.id,
     to: `/courses/take/${course.id}/lessons/${lesson.id}`,
     text: lesson.title,
-    disabled: lesson.disabled,
+    disabled:
+      !isOngoing(lesson.startTime, lesson.endTime) && !lesson.hasCompleted,
     type: lesson.lessonType.name,
+    hasCompleted: lesson.hasCompleted,
+    hasElapsed: hasEnded(lesson.endTime) && !lesson.hasCompleted,
+    isUpcoming: isUpcoming(lesson.startTime),
   });
   const mapAssessmentToLink = (assessment, index) => ({
     id: assessment.id,
     to: `/courses/take/${course.id}/assessment/${assessment.id}`,
     text: `Assessment ${index + 1}`,
-    disabled: assessment.disabled,
+    disabled:
+      !isOngoing(assessment.startTime, assessment.endTime) ||
+      assessment.hasCompleted,
     type: "assessment",
+    hasCompleted: assessment.hasCompleted,
+    hasElapsed: hasEnded(assessment.endTime) && !assessment.hasCompleted,
+    isUpcoming: isUpcoming(assessment.startTime),
   });
 
   const links =
@@ -33,15 +44,22 @@ const mapLessonsToLinks = (course) => {
 
   const examination = {
     id: course?.examination?.id,
-    to: `/courses/take/${course?.id}/assessment/${course?.examination?.id}?examination=true`,
+    to: `/courses/take/${course?.id}/assessment/${course?.id}?examination=true`,
     text: "Examination",
-    disabled: course?.examination?.disabled,
+    disabled:
+      !isOngoing(
+        course?.examination?.startTime,
+        course?.examination?.endTime
+      ) || course?.examination?.hasCompleted,
     type: "examination",
+    hasCompleted: course?.examination?.hasCompleted,
+    hasElapsed:
+      hasEnded(course?.examination?.endTime) &&
+      !course?.examination?.hasCompleted,
+    isUpcoming: isUpcoming(course?.examination?.startTime),
   };
 
   if (course?.examination) links.push(examination);
-
-  console.log(links);
 
   return links;
 };
@@ -56,6 +74,8 @@ const useSidebar = () => {
     state: { data: course, isLoading },
   } = useTakeCourse();
 
+  const sidebarLinkClickedState = useState(false);
+
   const links = mapLessonsToLinks(course);
 
   const loading = isLoading || !appManager.state.metadata; // TODO:replace with `!appManager.metadataIsLoading`
@@ -64,6 +84,7 @@ const useSidebar = () => {
     course,
     links,
     isLoading: loading,
+    sidebarLinkClickedState,
   };
 };
 

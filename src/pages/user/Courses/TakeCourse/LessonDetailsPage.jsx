@@ -1,13 +1,20 @@
 import { useToast } from "@chakra-ui/toast";
-import { Box, Flex, Icon, Grid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { useEffect } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
-import { Button, Heading, SkeletonText, Text } from "../../../../components";
+import {
+  Button,
+  Heading,
+  NavigationBlocker,
+  SkeletonText,
+  Text,
+} from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
+import { EmptyState } from "../../../../layouts";
+import { useGoBack } from "../../../../hooks";
 
 const Player = ({
   width = "100%",
@@ -20,51 +27,18 @@ const Player = ({
   ...rest
 }) => {
   return (
-    <Box width={width} height={height} position="relative" {...rest}>
-      {!controls && (
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          position="absolute"
-          zIndex={1}
-          top={0}
-          left={0}
-          width="100%"
-          height="100%"
-          cursor="pointer"
-          // sx={{
-          //   [!playing && "&:hover .icon"]: {
-          //     opacity: 1,
-          //   },
-          // }}
-          onClick={onPlayToggle}
-        >
-          <Grid
-            opacity={playing ? 0 : 1}
-            transition="1s"
-            className="icon"
-            placeItems="center"
-            width="50px"
-            height="50px"
-            rounded="full"
-            backgroundColor={"white"}
-          >
-            <Icon
-              color="black"
-              fontSize="heading.h3"
-              transform={!playing && "translateX(2px)"}
-            >
-              {playing ? <FaPause /> : <FaPlay />}
-            </Icon>
-          </Grid>
-        </Flex>
-      )}
-
+    <Box
+      width={width}
+      height={height}
+      position="relative"
+      className={!controls && "take-lesson-video-wrapper"}
+      {...rest}
+    >
       <ReactPlayer
         url={url}
         onEnded={onEnded}
         playing={playing}
-        controls={controls}
+        controls
         width="100%"
         height="100%"
       />
@@ -73,9 +47,10 @@ const Player = ({
 };
 
 const LessonDetailsPage = ({ sidebarLinks }) => {
-  const manager = useLessonDetails(sidebarLinks);
   const {
     lesson,
+    shouldBlockAllNavigation,
+    lessonIsDisabled,
     isLoading,
     error,
     completeAndContinueIsDisabled,
@@ -87,8 +62,9 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     handlePrevious,
     handleCompleteAndContinue,
     handleVideoHasEnded,
+    handleTryAgain,
     handleVideoPlayToggle,
-  } = manager;
+  } = useLessonDetails(sidebarLinks);
 
   const toast = useToast();
 
@@ -101,8 +77,13 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
       });
   }, [toast, endLessonHasError]);
 
+  const handleGoBack = useGoBack();
+
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
+      {/* // Block Page Navigation when Lesson has not ended (been completed) */}
+      <NavigationBlocker when={shouldBlockAllNavigation} />
+
       <Box as="header">
         <Flex
           justifyContent="space-between"
@@ -141,9 +122,17 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
         overflowY="auto"
       >
         {error ? (
-          <Grid placeItems="center" height="100%" width="100%">
-            <Heading as="h3">{capitalizeFirstLetter(error)}</Heading>
-          </Grid>
+          <EmptyState
+            cta={<Button onClick={handleTryAgain}>Try Again</Button>}
+            heading="Oops An Error Occurred"
+            description="An unexpected error occurred, please try again later"
+          />
+        ) : lessonIsDisabled ? (
+          <EmptyState
+            cta={<Button onClick={handleGoBack}>Go Back</Button>}
+            heading="Oops An Error Occurred"
+            description="You are are not allowed to view this lesson"
+          />
         ) : (
           <>
             <Box marginBottom={10}>
