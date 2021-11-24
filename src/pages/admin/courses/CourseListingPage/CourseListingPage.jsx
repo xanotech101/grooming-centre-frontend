@@ -11,7 +11,7 @@ import {
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetCourseListing } from "../../../../services";
+import { adminDeleteCourse, adminGetCourseListing } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 import { BreadcrumbItem } from "@chakra-ui/react";
@@ -92,7 +92,22 @@ const tableProps = {
   ],
 
   options: {
-    action: true,
+    action: [
+      {
+        text: "View",
+        link: (course) => `/admin/courses/details/${course.id}/info`,
+      },
+      {
+        text: "Edit",
+        link: (course) => `/admin/courses/edit/${course.id}`,
+      },
+      {
+        isDelete: true,
+        deleteFetcher: async (course) => {
+          await adminDeleteCourse(course.id);
+        },
+      },
+    ],
     selection: true,
   },
 };
@@ -117,7 +132,7 @@ const useCourseListing = () => {
 
         if (componentIsMount) setRows({ data });
       } catch (err) {
-        console.error(err)
+        console.error(err);
         if (componentIsMount) setRows({ err: true });
       } finally {
         if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
@@ -140,7 +155,10 @@ const CourseListingPage = () => {
     const mapCourseToRow = (course) => ({
       id: course.id,
       title: { text: course.title, courseId: course.id },
-      startDate: course.startDate === "not set" ? course.startDate : dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
+      startDate:
+        course.startDate === "not set"
+          ? course.startDate
+          : dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
       status: course.isPublished,
       instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
     });

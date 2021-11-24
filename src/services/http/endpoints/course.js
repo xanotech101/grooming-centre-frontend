@@ -162,6 +162,18 @@ export const adminPublishCourse = async (id) => {
 };
 
 /**
+ * Endpoint to delete course
+ * @param {string} id - courseId
+ *
+ * @returns {Promise<{ course: Course }>}
+ */
+export const adminDeleteCourse = async (id) => {
+  const path = `/course/delete/${id}`;
+
+  await http.delete(path);
+};
+
+/**
  * Endpoint to unpublish course
  * @param {string} id - id
  *

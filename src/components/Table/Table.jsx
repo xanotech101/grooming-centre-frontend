@@ -219,7 +219,16 @@ Table.propTypes = {
     })
   ).isRequired,
   options: PropTypes.shape({
-    action: PropTypes.bool,
+    action: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.any,
+        isDelete: PropTypes.bool,
+        deleteFetcher: PropTypes.func,
+        link: PropTypes.func,
+        props: PropTypes.object,
+        onClick: PropTypes.func,
+      })
+    ),
     selection: PropTypes.bool,
   }),
   rows: PropTypes.shape({

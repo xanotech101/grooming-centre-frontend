@@ -51,6 +51,10 @@ export const adminCourseListingRes = {
   ],
 };
 
+export const adminDeleteCourseRes = {
+  message: "deleted successfully",
+};
+
 export const adminUnpublishCourseRes = {
   message: "unPublished",
 };

@@ -14,6 +14,7 @@ import {
   userCourseListingRes,
   adminUnpublishCourseRes,
   adminPublishCourseRes,
+  adminDeleteCourseRes,
 } from "./responses";
 
 const adminGetCourseListing = rest.get(
@@ -34,6 +35,22 @@ const adminPublishCourse = [
     handleSuccessResponse(adminPublishCourseRes)
   ),
 ];
+
+const adminDeleteCourse = [
+  rest.delete(
+    getUrl("/course/delete/courseId_1"),
+    handleSuccessResponse(adminDeleteCourseRes)
+  ),
+  rest.delete(
+    getUrl("/course/delete/courseId_2"),
+    handleSuccessResponse(adminDeleteCourseRes)
+  ),
+  rest.delete(
+    getUrl("/course/delete/courseId_3"),
+    handleSuccessResponse(adminDeleteCourseRes)
+  ),
+];
+
 const adminUnpublishCourse = [
   rest.patch(
     getUrl("/course/unpublish/courseId_1"),
@@ -106,6 +123,7 @@ const course = [
   ...adminEditCourse,
   ...adminPublishCourse,
   ...adminUnpublishCourse,
+  ...adminDeleteCourse,
 ];
 
 export default course;
