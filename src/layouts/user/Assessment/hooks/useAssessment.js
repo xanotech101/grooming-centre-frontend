@@ -11,6 +11,7 @@ import { submitExamination } from "../../../../services/http/endpoints/examinati
 import { hasEnded, isUpcoming, sortByIndexField } from "../../../../utils";
 import { CongratsModalContent } from "../Modal";
 import useTimerCountdown from "./useTimerCountdown";
+import { Box } from "@chakra-ui/layout";
 
 const useAssessment = () => {
   const { assessment, isLoading, error, setError } = useAssessmentPreview();
@@ -190,8 +191,14 @@ const useAssessment = () => {
           </Text>
 
           <Text marginBottom={5}>
-            Answered <b>{Reflect.ownKeys(selectedAnswers).length}</b> of{" "}
-            <b>{assessment.questionCount}</b>
+            Answered{" "}
+            <Box as="b" color="secondary.6" fontSize="text.level3">
+              {Reflect.ownKeys(selectedAnswers).length}
+            </Box>{" "}
+            of{" "}
+            <Box as="b" fontSize="text.level3">
+              {assessment.questionCount}
+            </Box>
           </Text>
         </>
       ),
