@@ -104,7 +104,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
             color="white"
             _hover={{ opacity: 0.8 }}
             flex={1}
-            // disabled={completeAndContinueIsDisabled}
+            disabled={completeAndContinueIsDisabled}
             onClick={handleCompleteAndContinue}
             isLoading={endLessonIsLoading}
           >

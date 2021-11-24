@@ -106,12 +106,15 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
         await requestEndLesson(lessonId);
         handleDelete(lessonId);
         setCourseState((prev) => {
-          console.log(prev);
+          const data = { ...prev.data };
 
-          return prev;
+          const lesson = data.lessons.find((l) => l.id === lessonId);
+          lesson.hasCompleted = true;
+
+          return { data };
         });
 
-        // setEndLesson({ success: true });
+        setEndLesson({ success: true });
       } catch (err) {
         console.error(err);
         setEndLesson({ error: err.message });

@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { useToast } from "@chakra-ui/toast";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useApp } from "../../../../contexts";
+import { useApp, useCache } from "../../../../contexts";
 import { Text } from "../../../../components";
 import useQueryParams from "../../../../hooks/useQueryParams";
 import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
@@ -147,10 +147,13 @@ const useAssessment = () => {
   const [modalPrompt, setModalPrompt] = useState(null);
   const [modalCanClose, setModalCanClose] = useState(true);
 
+  const { handleDelete } = useCache();
+
   const handleAfterSubmit = () => {
     modalManager.onOpen();
     setModalCanClose(false);
     setModalPrompt(null);
+    handleDelete(course_id);
     setModalContent(
       <CongratsModalContent
         redirectLink={`/courses/details/${course_id}`}
