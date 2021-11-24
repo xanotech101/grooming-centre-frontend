@@ -51,8 +51,8 @@ export const useViewUserDetails = () => {
   }, [userId, componentIsMount]);
 
   useEffect(() => {
-    fetchUserDetails();
-  }, [fetchUserDetails]);
+    if (userId !== "new") fetchUserDetails();
+  }, [fetchUserDetails, userId]);
 
   const user = userDetails.data;
   const isLoading = userDetails.loading;

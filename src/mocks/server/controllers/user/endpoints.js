@@ -33,15 +33,15 @@ const adminGetUserDetails = [
 
 const adminEditUser = [
   rest.patch(
-    getUrl("/admin/user/edit/userId_1"),
+    getUrl("/admin/edit/user/userId_1"),
     handleSuccessResponse(adminEditUserRes_userId_1)
   ),
   rest.patch(
-    getUrl("/admin/user/edit/userId_2"),
+    getUrl("/admin/edit/user/userId_2"),
     handleSuccessResponse(adminEditUserRes_userId_2)
   ),
   rest.patch(
-    getUrl("/admin/user/edit/userId_3"),
+    getUrl("/admin/edit/user/userId_3"),
     handleSuccessResponse(adminEditUserRes_userId_3)
   ),
 ];
