@@ -61,12 +61,12 @@ export const useFetch = () => {
 
       try {
         const resource = await fetcher();
-        onSuccess(resource);
+        onSuccess?.(resource);
 
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {
         console.error(err);
-        onError(err);
+        onError?.(err);
         if (componentIsMount) setResource({ err: err.message });
       }
     },

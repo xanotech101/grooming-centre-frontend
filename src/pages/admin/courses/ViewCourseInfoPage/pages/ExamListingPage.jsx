@@ -12,7 +12,11 @@ import {
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetExaminationListing } from "../../../../../services";
+import {
+  adminDeleteCourse,
+  adminDeleteMultipleCourses,
+  adminGetExaminationListing,
+} from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
 import dayjs from "dayjs";
@@ -65,8 +69,24 @@ const tableProps = {
   ],
 
   options: {
-    action: true,
+    action: [
+      {
+        text: "Edit",
+        link: (examination) =>
+          `/admin/courses/${examination.courseId}/assessment/${examination.courseId}/overview?examination=${examination.id}`,
+      },
+      {
+        isDelete: true,
+        deleteFetcher: async (examination) => {
+          await adminDeleteCourse(examination.id);
+        },
+      },
+    ],
     selection: true,
+    multipleDeleteFetcher: async (selectedExaminations) => {
+      console.log(selectedExaminations);
+      await adminDeleteMultipleCourses();
+    },
   },
 };
 
@@ -114,6 +134,7 @@ const ExamListingPage = () => {
   useEffect(() => {
     const mapCourseToRow = (examination) => ({
       id: examination.id,
+      courseId,
       title: {
         text: examination.title,
         examinationId: examination.id,

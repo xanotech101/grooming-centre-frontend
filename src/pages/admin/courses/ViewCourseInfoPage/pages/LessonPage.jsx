@@ -12,7 +12,11 @@ import {
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetLessonListing } from "../../../../../services";
+import {
+  adminDeleteCourse,
+  adminDeleteMultipleCourses,
+  adminGetLessonListing,
+} from "../../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import dayjs from "dayjs";
@@ -88,13 +92,34 @@ const tableProps = {
   ],
 
   options: {
-    action: true,
+    action: [
+      {
+        text: "View",
+        link: (lesson) =>
+          `/admin/courses/${lesson.courseId}/lesson/${lesson.id}/view`,
+      },
+      {
+        text: "Edit",
+        link: (lesson) =>
+          `/admin/courses/${lesson.courseId}/lessons/edit/${lesson.id}`,
+      },
+      {
+        isDelete: true,
+        deleteFetcher: async (lesson) => {
+          await adminDeleteCourse(lesson.id);
+        },
+      },
+    ],
     selection: true,
+    multipleDeleteFetcher: async (selectedLessons) => {
+      console.log(selectedLessons);
+      await adminDeleteMultipleCourses();
+    },
   },
 };
 
 const useLessonListing = () => {
-   const { id: courseId } = useParams();
+  const { id: courseId } = useParams();
   const componentIsMount = useComponentIsMount();
 
   const [rows, setRows] = useState({
@@ -137,6 +162,7 @@ const LessonPage = () => {
   useEffect(() => {
     const mapCourseToRow = (lesson) => ({
       id: lesson.id,
+      courseId: lesson.courseId,
       title: {
         text: lesson.title,
         lessonId: lesson.id,

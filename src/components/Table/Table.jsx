@@ -137,7 +137,7 @@ export const Table = ({
   const manager = useTable({
     rowsData: rows.data,
     setRows,
-    multipleDeleteFetcher: options.multipleDeleteFetcher,
+    multipleDeleteFetcher: options?.multipleDeleteFetcher,
   });
 
   const getTemplateColumns = () =>

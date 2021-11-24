@@ -12,7 +12,11 @@ import {
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetAssessmentListing } from "../../../../../services";
+import {
+  adminDeleteCourse,
+  adminDeleteMultipleCourses,
+  adminGetAssessmentListing,
+} from "../../../../../services";
 import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
 import dayjs from "dayjs";
@@ -65,8 +69,24 @@ const tableProps = {
   ],
 
   options: {
-    action: true,
+    action: [
+      {
+        text: "Edit",
+        link: (assessment) =>
+          `/admin/courses/${assessment.courseId}/assessment/${assessment.id}/overview`,
+      },
+      {
+        isDelete: true,
+        deleteFetcher: async (assessment) => {
+          await adminDeleteCourse(assessment.id);
+        },
+      },
+    ],
     selection: true,
+    multipleDeleteFetcher: async (selectedAssessments) => {
+      console.log(selectedAssessments);
+      await adminDeleteMultipleCourses();
+    },
   },
 };
 
@@ -114,6 +134,7 @@ const AssessmentListingPage = () => {
   useEffect(() => {
     const mapCourseToRow = (assessment) => ({
       id: assessment.id,
+      courseId,
       title: { text: assessment.title, assessmentId: assessment.id, courseId },
       startDate: dayjs(assessment.startTime).format("DD/MM/YYYY h:mm a"),
       duration: getDuration(assessment.duration).combinedText,
