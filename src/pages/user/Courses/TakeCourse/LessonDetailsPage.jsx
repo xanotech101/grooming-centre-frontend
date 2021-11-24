@@ -46,7 +46,7 @@ const Player = ({
   );
 };
 
-const LessonDetailsPage = ({ sidebarLinks }) => {
+const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
   const {
     lesson,
     shouldBlockAllNavigation,
@@ -64,7 +64,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     handleVideoHasEnded,
     handleTryAgain,
     handleVideoPlayToggle,
-  } = useLessonDetails(sidebarLinks);
+  } = useLessonDetails(sidebarLinks, setCourseState);
 
   const toast = useToast();
 
@@ -104,7 +104,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
             color="white"
             _hover={{ opacity: 0.8 }}
             flex={1}
-            disabled={completeAndContinueIsDisabled}
+            // disabled={completeAndContinueIsDisabled}
             onClick={handleCompleteAndContinue}
             isLoading={endLessonIsLoading}
           >
@@ -203,12 +203,20 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
   );
 };
 
-export const LessonDetailsPageRoute = ({ sidebarLinks, ...rest }) => {
+export const LessonDetailsPageRoute = ({
+  sidebarLinks,
+  setCourseState,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
       render={(props) => (
-        <LessonDetailsPage sidebarLinks={sidebarLinks} {...props} />
+        <LessonDetailsPage
+          sidebarLinks={sidebarLinks}
+          setCourseState={setCourseState}
+          {...props}
+        />
       )}
     />
   );

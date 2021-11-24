@@ -74,6 +74,7 @@ const useSidebar = () => {
   const appManager = useApp();
   const {
     state: { data: course, isLoading },
+    setState: setCourseState,
   } = useTakeCourse();
 
   const sidebarLinkClickedState = useState(false);
@@ -86,6 +87,7 @@ const useSidebar = () => {
 
   return {
     course,
+    setCourseState,
     links,
     isLoading: loading,
     sidebarLinkClickedState,

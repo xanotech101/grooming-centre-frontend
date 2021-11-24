@@ -21,24 +21,32 @@ const useCourseDetails = (courseId) => {
     return course;
   }, [id]);
 
-  const fetchCourseDetails = useCallback(async (bypassCache) => {
-    setCourseDetails({ loading: true });
+  const fetchCourseDetails = useCallback(
+    async (bypassCache) => {
+      setCourseDetails({ loading: true });
 
-    try {
-      let courseDetails = await handleGetOrSetAndGet(id, fetcher, bypassCache);
+      try {
+        let courseDetails = await handleGetOrSetAndGet(
+          id,
+          fetcher,
+          bypassCache
+        );
 
-      if (componentIsMount) setCourseDetails({ data: courseDetails });
-    } catch (err) {
-      console.log(err);
-      if (componentIsMount) setCourseDetails({ err: err.message });
-    }
+        if (componentIsMount) setCourseDetails({ data: courseDetails });
+      } catch (err) {
+        console.log(err);
+        if (componentIsMount) setCourseDetails({ err: err.message });
+      }
+    },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, componentIsMount]);
+    [id, componentIsMount]
+  );
 
   return {
     courseDetails,
     fetchCourseDetails,
+    setCourseDetails,
   };
 };
 

@@ -71,5 +71,6 @@ export const useTakeCourse = () => {
 
   return {
     state,
+    setState,
   };
 };
