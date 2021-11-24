@@ -75,7 +75,11 @@ const TableBody = ({
           {options?.action && (
             <Cell
               renderText={() => (
-                <ActionIconButton options={options.action} row={row} />
+                <ActionIconButton
+                  options={options.action}
+                  row={row}
+                  onRowSelect={onRowSelect}
+                />
               )}
               minWidth="fit-content"
               {...generalCellStyles}
@@ -99,13 +103,20 @@ const TableBody = ({
   );
 };
 
-const ActionIconButton = ({ options, row }) => {
+const ActionIconButton = ({ options, row, onRowSelect }) => {
   const { resource: deleteStatus, handleFetchResource } = useFetch();
 
   const handleDelete = async (fetcher, onClose) => {
     const onSuccess = () => {
       onClose();
+
       // delete row
+      onRowSelect({ id: row.id });
+      // Hack
+      setTimeout(
+        () => document.querySelector('[data-testid="delete"]').click(),
+        500
+      );
     };
 
     await handleFetchResource({

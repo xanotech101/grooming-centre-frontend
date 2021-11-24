@@ -59,26 +59,24 @@ const useTable = ({ rowsData, setRows }) => {
 
   /**
    * deletes many rows
-   * @param {Array<{ id: string }>} rows
+   * @param {Array<{ id: string }>} selectedRows
    *
    * @return void
    */
-  const handleDeleteRows = (rows) => {
-    const newRowsData = [...rowsData];
+  const handleDeleteRows = (selectedRows) => {
+    const allRows = [...rowsData];
 
-    rows.forEach((row) => {
-      const rowIndexInRowsData = newRowsData.findIndex(
-        ({ id }) => id === row.id
-      );
+    selectedRows.forEach((row) => {
+      const rowIndexInRowsData = allRows.findIndex(({ id }) => id === row.id);
       const rowIsInRowsData = rowIndexInRowsData !== -1;
 
       // deletes it from `rowsData`
       if (rowIsInRowsData) {
-        newRowsData.splice(rowIndexInRowsData, 1);
+        allRows.splice(rowIndexInRowsData, 1);
       }
     });
 
-    setRows({ data: newRowsData });
+    setRows({ data: allRows });
     handleDeselectAllRows();
   };
 
