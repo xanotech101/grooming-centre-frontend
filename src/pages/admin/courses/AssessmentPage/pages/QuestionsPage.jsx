@@ -361,7 +361,7 @@ const CreateQuestionPage = (assessmentManager) => {
           label={getQuestionNumber(
             question && questionId !== "new"
               ? question.index
-              : assessmentManager.assessment?.questions?.length || -1
+              : assessmentManager.assessment?.questions?.length
           )}
           placeholder="Enter your question here"
           onChange={questionRichTextManager.handleChange}
@@ -565,7 +565,9 @@ const getEditQuestionLink = (
 };
 
 const getQuestionNumber = (index) =>
-  `Question ${index + 1 < 9 ? `0${index + 1}` : index + 1}`;
+  `Question ${
+    index + 1 < 9 ? `0${index + 1}` : index === undefined ? "01" : index + 1
+  }`;
 
 const buildOptions = (data) => {
   const options = [];

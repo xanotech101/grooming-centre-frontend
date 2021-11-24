@@ -11,7 +11,11 @@ import {
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminGetUserListing } from "../../../../services";
+import {
+  adminDeleteCourse,
+  adminDeleteMultipleCourses,
+  adminGetUserListing,
+} from "../../../../services";
 import { BreadcrumbItem } from "@chakra-ui/react";
 
 const tableProps = {
@@ -72,7 +76,6 @@ const tableProps = {
       id: "1",
       key: "fullName",
       text: "Full name",
-      minWidth: "200px",
       renderContent: (data) => (
         <Link href={`/admin/users/details/${data.userId}/profile`}>
           <Text>{data.text}</Text>
@@ -84,15 +87,33 @@ const tableProps = {
       id: "3",
       key: "email",
       text: "Email Address",
-      minWidth: "200px",
     },
     { id: "4", key: "gradePoint", text: "% Grade point" },
     { id: "5", key: "certificates", text: "Certificates" },
   ],
 
   options: {
-    action: true,
+    action: [
+      {
+        text: "View",
+        link: (user) => `/admin/users/details/${user.id}/profile`,
+      },
+      {
+        text: "Edit",
+        link: (user) => `/admin/users/edit/${user.id}`,
+      },
+      {
+        isDelete: true,
+        deleteFetcher: async (user) => {
+          await adminDeleteCourse(user.id);
+        },
+      },
+    ],
     selection: true,
+    multipleDeleteFetcher: async (selectedUsers) => {
+      console.log(selectedUsers);
+      await adminDeleteMultipleCourses();
+    },
   },
 };
 

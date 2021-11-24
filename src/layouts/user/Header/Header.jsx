@@ -64,7 +64,8 @@ const Avatar = () => {
           <MenuItem>Certificates</MenuItem>
           <MenuItem>Examination</MenuItem>
           <MenuItem>
-            <Link href="/admin">Admin Dashboard</Link>
+            <Link href="/admin">Admin Dashboard</Link>{" "}
+            {/* // TODO: Switch Link to OnClick */}
           </MenuItem>
         </MenuGroup>
         <MenuDivider />

@@ -26,7 +26,6 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import { useToast } from "@chakra-ui/toast";
 import { capitalizeFirstLetter } from "../../../../../utils";
-import { useCache } from "../../../../../contexts";
 
 const InfoPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
@@ -41,7 +40,6 @@ const InfoPage = () => {
 
   console.log(courseDetailsData);
   const toast = useToast();
-  const { handleDelete } = useCache();
   const [isPublishing, setIsPublishing] = useState(false);
   const handlePublishCourse = async () => {
     setIsPublishing(true);
@@ -59,8 +57,7 @@ const InfoPage = () => {
         position: "top",
         status: "success",
       });
-      handleDelete(courseDetailsData.id);
-      fetchCourseDetails();
+      fetchCourseDetails(true);
     } catch (error) {
       console.error(error);
       toast({

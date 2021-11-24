@@ -56,15 +56,17 @@ export const useFetch = () => {
   });
 
   const handleFetchResource = useCallback(
-    async ({ fetcher }) => {
+    async ({ fetcher, onSuccess, onError }) => {
       setResource({ loading: true });
 
       try {
         const resource = await fetcher();
+        onSuccess?.(resource);
 
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {
         console.error(err);
+        onError?.(err);
         if (componentIsMount) setResource({ err: err.message });
       }
     },

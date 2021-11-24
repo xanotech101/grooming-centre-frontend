@@ -22,7 +22,7 @@ export const requestAssessmentDetails = async (id, forAdmin) => {
     questionCount: data.amountOfQuestions,
     startTime: data.startTime,
     endTime: getEndTime(data.startTime, data.duration),
-    hasCompleted: data.assessmentTracking?.[0]?.isCompleted,
+    hasCompleted: data.assessmentScoreSheets?.[0] ? true : false,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
     questions: data.assessmentQuestions
@@ -46,13 +46,12 @@ export const requestAssessmentDetails = async (id, forAdmin) => {
 
 /**
  * Endpoint to submit an `assessment`
- * @param {string} id - assessmentId
- * @param {{}} body - answers
+ * @param {object} body - answers
  *
  * @returns {Promise<{ message: string }>}
  */
-export const submitAssessment = async (id, body) => {
-  const path = `/assessment/${id}/submit`;
+export const submitAssessment = async (body) => {
+  const path = `/assessment/scoresheet/create`;
 
   const {
     data: { message },

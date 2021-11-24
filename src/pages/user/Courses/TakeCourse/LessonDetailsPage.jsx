@@ -46,7 +46,7 @@ const Player = ({
   );
 };
 
-const LessonDetailsPage = ({ sidebarLinks }) => {
+const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
   const {
     lesson,
     shouldBlockAllNavigation,
@@ -64,7 +64,7 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
     handleVideoHasEnded,
     handleTryAgain,
     handleVideoPlayToggle,
-  } = useLessonDetails(sidebarLinks);
+  } = useLessonDetails(sidebarLinks, setCourseState);
 
   const toast = useToast();
 
@@ -203,12 +203,20 @@ const LessonDetailsPage = ({ sidebarLinks }) => {
   );
 };
 
-export const LessonDetailsPageRoute = ({ sidebarLinks, ...rest }) => {
+export const LessonDetailsPageRoute = ({
+  sidebarLinks,
+  setCourseState,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
       render={(props) => (
-        <LessonDetailsPage sidebarLinks={sidebarLinks} {...props} />
+        <LessonDetailsPage
+          sidebarLinks={sidebarLinks}
+          setCourseState={setCourseState}
+          {...props}
+        />
       )}
     />
   );

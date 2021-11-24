@@ -61,7 +61,7 @@ const usePlayer = ({ lessonHasBeenCompleted }) => {
  *  handleVideoHasEnded: () => void,
  * }}
  */
-const useLessonDetails = (sidebarLinks) => {
+const useLessonDetails = (sidebarLinks, setCourseState) => {
   const { handleGetOrSetAndGet, handleDelete } = useCache();
   const componentIsMount = useComponentIsMount();
   const { lesson_id: lessonId } = useParams();
@@ -105,6 +105,15 @@ const useLessonDetails = (sidebarLinks) => {
       try {
         await requestEndLesson(lessonId);
         handleDelete(lessonId);
+        setCourseState((prev) => {
+          const data = { ...prev.data };
+
+          const lesson = data.lessons.find((l) => l.id === lessonId);
+          lesson.hasCompleted = true;
+
+          return { data };
+        });
+
         setEndLesson({ success: true });
       } catch (err) {
         console.error(err);

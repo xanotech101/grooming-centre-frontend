@@ -115,8 +115,8 @@ export const userDetailsRes_userId_2 = {
     firstName: "Victoria",
     lastName: "Vivian :)",
     email: "admin@admin.io",
-    userRole: [{ id: "userRoleId_2", name: "admin" }],
-    department: [{ id: "departmentId_2", name: "Software development" }],
+    userRole: { id: "userRoleId_2", name: "admin" },
+    department: { id: "departmentId_2", name: "Software development" },
     gender: "female",
     certificate: [
       {
@@ -164,18 +164,16 @@ export const userDetailsRes_userId_3 = {
     firstName: "Micheal",
     lastName: "Scofield",
     email: "michealscofield@gmail.com",
-    userRole: [
-      {
-        id: "userRoleId_3",
-        name: "user",
-      },
-    ],
-    department: [
-      {
-        id: "departmentId_3",
-        name: "computer science",
-      },
-    ],
+    userRole: {
+      id: "userRoleId_3",
+      name: "user",
+    },
+
+    department: {
+      id: "departmentId_3",
+      name: "computer science",
+    },
+
     gender: "male",
     certificate: [
       {

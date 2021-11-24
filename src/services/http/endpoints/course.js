@@ -125,17 +125,19 @@ export const userGetCourseDetails = async (id) => {
       ...data, // TODO: remove lazy mapping
       lessons: data.lesson.map((l) => ({
         ...l,
-        hasCompleted: l.lessonTracking?.[0]?.isCompleted,
+        hasCompleted: l.lessonTracking?.[0]?.isCompleted ? true : false,
         duration: getDurationBetweenStartTimeAndEndTime(l.startTime, l.endTime),
       })), // TODO: remove lazy mapping
       assessments: data.assessment.map((a) => ({
         ...a,
-        hasCompleted: a.assessmentTracking?.[0]?.isCompleted,
+        hasCompleted: a.assessmentScoreSheets?.[0] ? true : false,
         endTime: getEndTime(a.startTime, a.duration),
       })), // TODO: remove lazy mapping
       examination: {
         ...data.examination,
-        hasCompleted: data.examination.examinationTracking?.[0]?.isCompleted,
+        hasCompleted: data.examination.examinationScoreSheets?.[0]
+          ? true
+          : false,
         endTime: getEndTime(
           data.examination.startTime,
           data.examination.duration
@@ -157,6 +159,28 @@ export const adminPublishCourse = async (id) => {
   const path = `/course/publish/${id}`;
 
   await http.patch(path);
+};
+
+/**
+ * Endpoint to delete course
+ * @param {string} id - courseId
+ *
+ * @returns {Promise<{ course: Course }>}
+ */
+export const adminDeleteCourse = async (id) => {
+  const path = `/course/delete/${id}`;
+
+  await http.delete(path);
+};
+/**
+ * Endpoint to delete multiple course
+ *
+ * @returns {Promise<{ course: Course }>}
+ */
+export const adminDeleteMultipleCourses = async () => {
+  const path = `/course/delete-multiple`;
+
+  await http.delete(path);
 };
 
 /**

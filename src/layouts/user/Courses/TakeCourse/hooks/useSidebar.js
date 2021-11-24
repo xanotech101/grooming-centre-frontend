@@ -59,6 +59,8 @@ const mapLessonsToLinks = (course) => {
     isUpcoming: isUpcoming(course?.examination?.startTime),
   };
 
+  console.log(examination.hasCompleted, course?.examination?.hasCompleted);
+
   if (course?.examination) links.push(examination);
 
   return links;
@@ -72,16 +74,20 @@ const useSidebar = () => {
   const appManager = useApp();
   const {
     state: { data: course, isLoading },
+    setState: setCourseState,
   } = useTakeCourse();
 
   const sidebarLinkClickedState = useState(false);
 
   const links = mapLessonsToLinks(course);
 
+  console.log(links);
+
   const loading = isLoading || !appManager.state.metadata; // TODO:replace with `!appManager.metadataIsLoading`
 
   return {
     course,
+    setCourseState,
     links,
     isLoading: loading,
     sidebarLinkClickedState,

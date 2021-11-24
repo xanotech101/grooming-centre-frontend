@@ -78,7 +78,7 @@ const CreateUserPage = ({
       reset();
       handleResetDepartmentIsRequired();
 
-      push(`/admin/users/details/${userId}/profile`);
+      isEditMode && push(`/admin/users/details/${userId}/profile`);
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
@@ -175,7 +175,7 @@ const CreateUserPage = ({
             <Input
               label="User's Email"
               id="email"
-              disabled
+              disabled={isEditMode}
               isRequired
               {...register("email", {
                 required: "Email can't be empty",
@@ -193,7 +193,6 @@ const CreateUserPage = ({
               options={[
                 { label: "Female", value: "female" },
                 { label: "Male", value: "male" },
-                { label: "Other", value: "other" },
               ]}
               {...register("gender", {
                 required: "Please select your gender",

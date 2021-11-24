@@ -22,7 +22,7 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     questionCount: data.amountOfQuestions,
     startTime: data.startTime,
     endTime: getEndTime(data.startTime, data.duration),
-    hasCompleted: data.examinationTracking?.[0]?.isCompleted,
+    hasCompleted: data.examinationScoreSheets?.[0] ? true : false,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
     questions: data.examinationQuestions.map((q, index) => ({
@@ -88,13 +88,12 @@ export const adminGetExaminationListing = async (courseId) => {
 
 /**
  * Endpoint to submit an `examination`
- * @param {string} id - examinationId
- * @param {{}} body - answers
+ * @param {object} body - answers
  *
  * @returns {Promise<{ message: string }>}
  */
-export const submitExamination = async (id, body) => {
-  const path = `/examination/${id}/submit`;
+export const submitExamination = async (body) => {
+  const path = `/examination/scoresheet/create`;
 
   const {
     data: { message },

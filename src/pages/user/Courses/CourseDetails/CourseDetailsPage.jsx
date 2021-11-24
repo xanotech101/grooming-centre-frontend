@@ -36,9 +36,10 @@ const CourseDetailsPage = () => {
   const isError = courseDetails.err;
 
   const getCurrentOngoingLesson = () => {
-    const lesson = courseDetailsData?.lessons.find((lesson) =>
-      isOngoing(lesson.startTime, lesson.endTime)
-    );
+    const lesson =
+      courseDetailsData?.lessons.find((lesson) =>
+        isOngoing(lesson.startTime, lesson.endTime)
+      ) || courseDetailsData?.lessons.find((lesson) => lesson.hasCompleted);
 
     return lesson;
   };

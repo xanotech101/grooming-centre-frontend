@@ -213,13 +213,22 @@ export const ForumMessageCardMoreIconButton = ({
   );
 };
 
-function DeleteMenuItemButton({ context, onDelete, deleteStatusIsLoading }) {
+export function DeleteMenuItemButton({
+  context,
+  onDelete,
+  deleteStatusIsLoading,
+  renderTrigger,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <MenuItem color="secondary.6" onClick={onOpen}>
-        Delete {context}
-      </MenuItem>
+      {renderTrigger ? (
+        renderTrigger({ isOpen, onOpen, onClose })
+      ) : (
+        <MenuItem color="secondary.6" onClick={onOpen}>
+          Delete {context}
+        </MenuItem>
+      )}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -234,7 +243,7 @@ function DeleteMenuItemButton({ context, onDelete, deleteStatusIsLoading }) {
             </Button>
             <Button
               sm
-              onClick={onDelete}
+              onClick={() => onDelete({ onClose })}
               isLoading={deleteStatusIsLoading}
               disabled={deleteStatusIsLoading}
             >

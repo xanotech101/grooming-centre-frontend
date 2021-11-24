@@ -42,11 +42,7 @@ const requestAssessmentDetails = [
 
 const submitAssessment = [
   rest.post(
-    getUrl("/assessment/assessmentId_1/submit"),
-    handleSuccessResponse(submitAssessmentRes)
-  ),
-  rest.post(
-    getUrl("/assessment/assessmentId_2/submit"),
+    getUrl("/assessment/scoresheet/create"),
     handleSuccessResponse(submitAssessmentRes)
   ),
 ];

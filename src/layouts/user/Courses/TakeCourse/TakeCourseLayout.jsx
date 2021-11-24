@@ -27,6 +27,7 @@ const TakeCourseLayout = () => {
         <LessonDetailsPageRoute
           path="/courses/take/:course_id/lessons/:lesson_id"
           sidebarLinks={sidebarManager.links}
+          setCourseState={sidebarManager.setCourseState}
         />
         <AssessmentPreviewPageRoute
           exact

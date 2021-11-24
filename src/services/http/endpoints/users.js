@@ -24,7 +24,7 @@ export const adminGetUserListing = async () => {
       gender: user.gender,
       departmentName: user.department.name,
       certificates: user.certificates,
-      gradePoint: user.overallGrade.averageGradeScore,
+      gradePoint: user.averageGradeScore,
       noOfCertificate: user.noOfCertificate,
     })),
   };
@@ -48,15 +48,13 @@ export const adminGetUserDetails = async (id) => {
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.email,
-    userRoleId: data.userRole[0].id,
-    userRoleName: data.userRole[0].name,
-    departmentId: data.department[0].id,
+    userRoleId: data.userRole.id,
+    userRoleName: data.userRole.name,
+    departmentId: data.department.id,
     gender: data.gender,
-    departmentName: data.department[0].name,
+    departmentName: data.department.name,
     certificates: data.certificates ? data.certificates : "notset",
-    gradePoint: data.averageGradeScore
-      ? data.averageGradeScore
-      : 0,
+    gradePoint: data.averageGradeScore ? data.averageGradeScore : 0,
     noOfCertificate: data.certificate ? data.certificate.length : 0,
     completedCourses: data.courseTrackingProgress
       ? data.courseTrackingProgress.length
@@ -79,7 +77,7 @@ export const adminGetUserDetails = async (id) => {
  * @returns {Promise<{ message: string, user: { id: string }}>}
  */
 export const adminEditUser = async (userId, body) => {
-  const path = `/admin/user/edit/${userId}`;
+  const path = `/admin/edit/user/${userId}`;
 
   const {
     data: { message, data },
