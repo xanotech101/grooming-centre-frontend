@@ -11,7 +11,11 @@ import {
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
-import { adminDeleteCourse, adminGetCourseListing } from "../../../../services";
+import {
+  adminDeleteCourse,
+  adminDeleteMultipleCourses,
+  adminGetCourseListing,
+} from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
 import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 import { BreadcrumbItem } from "@chakra-ui/react";
@@ -109,6 +113,10 @@ const tableProps = {
       },
     ],
     selection: true,
+    multipleDeleteFetcher: async (selectedCourses) => {
+      console.log(selectedCourses);
+      await adminDeleteMultipleCourses();
+    },
   },
 };
 

@@ -50,6 +50,10 @@ const adminDeleteCourse = [
     handleSuccessResponse(adminDeleteCourseRes)
   ),
 ];
+const adminDeleteMultipleCourses = rest.delete(
+  getUrl("/course/delete-multiple"),
+  handleSuccessResponse(adminDeleteCourseRes)
+);
 
 const adminUnpublishCourse = [
   rest.patch(
@@ -118,6 +122,7 @@ const course = [
   adminGetCourseListing,
   userGetCourseListing,
   adminCreateCourse,
+  adminDeleteMultipleCourses,
   ...adminGetUserCourseListing,
   ...userGetCourseDetails,
   ...adminEditCourse,

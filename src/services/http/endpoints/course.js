@@ -172,6 +172,16 @@ export const adminDeleteCourse = async (id) => {
 
   await http.delete(path);
 };
+/**
+ * Endpoint to delete multiple course
+ *
+ * @returns {Promise<{ course: Course }>}
+ */
+export const adminDeleteMultipleCourses = async () => {
+  const path = `/course/delete-multiple`;
+
+  await http.delete(path);
+};
 
 /**
  * Endpoint to unpublish course

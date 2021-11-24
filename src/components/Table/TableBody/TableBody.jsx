@@ -114,7 +114,7 @@ const ActionIconButton = ({ options, row, onRowSelect }) => {
       onRowSelect({ id: row.id });
       // Hack
       setTimeout(
-        () => document.querySelector('[data-testid="delete"]').click(),
+        () => document.querySelector('[data-testid="delete"]')?.click(),
         500
       );
     };
