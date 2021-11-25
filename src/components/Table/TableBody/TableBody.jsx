@@ -102,7 +102,7 @@ const TableBody = ({
           )}
         </Grid>
       ) : (
-        !rows.length && (
+        !rows.data?.length && (
           <EmptyState
             height="200px"
             illustration={
