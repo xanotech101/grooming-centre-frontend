@@ -123,7 +123,7 @@ const ViewDepartmentPage = ({ metadata: propMetadata }) => {
       >
         <Flex justifyContent="space-between">
           <Heading fontSize="heading.h4">Users</Heading>
-          <Button link={`/admin/users/create`}>Add User</Button>
+          <Button link={`/admin/users/edit/new`}>Add User</Button>
         </Flex>
         <Table width="100%" {...tableProps} rows={rows} setRows={setRows} />
       </Box>
