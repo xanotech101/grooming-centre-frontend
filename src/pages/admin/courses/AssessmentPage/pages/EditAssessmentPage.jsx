@@ -19,6 +19,7 @@ import {
   capitalizeFirstLetter,
   formatDateToISO,
 } from "../../../../../utils";
+import { useCache } from "../../../../../contexts";
 
 const EditAssessmentPage = ({ assessment }) => {
   const { id: courseId, assessmentId } = useParams();
@@ -72,6 +73,8 @@ const EditAssessmentPage = ({ assessment }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment]);
 
+  const { handleDelete } = useCache();
+
   // Handle form submission
   const onSubmit = async (data) => {
     try {
@@ -95,6 +98,8 @@ const EditAssessmentPage = ({ assessment }) => {
         position: "top",
         status: "success",
       });
+
+      handleDelete(isExamination || assessmentId);
 
       isExamination
         ? push(`/admin/courses/details/${courseId}/exam`)
