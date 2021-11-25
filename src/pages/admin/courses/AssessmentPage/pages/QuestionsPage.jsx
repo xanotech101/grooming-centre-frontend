@@ -202,13 +202,9 @@ const useQuestionDetails = (assessmentManager) => {
 };
 
 const CreateQuestionPage = (assessmentManager) => {
-  // const { push } = useHistory();
+  const { push } = useHistory();
   const toast = useToast();
-  const {
-    // id: courseId,
-    assessmentId,
-    questionId,
-  } = useParams();
+  const { id: courseId, assessmentId, questionId } = useParams();
   const isExamination = useQueryParams().get("examination");
 
   const isEditMode = questionId && questionId !== "new";
@@ -339,13 +335,9 @@ const CreateQuestionPage = (assessmentManager) => {
 
       // Clean UP
       reset();
-      // handleDelete(assessmentId);
-      // assessmentManager.handleFetch();
-      // window.location.href = getQuestionListingLink(
-      //   courseId,
-      //   assessmentId,
-      //   isExamination
-      // );
+
+      assessmentManager.handleFetch(true);
+      push(getQuestionListingLink(courseId, assessmentId, isExamination));
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),

@@ -24,7 +24,7 @@ const useAssessmentPreview = (
   isForAdmin,
   sidebarLinkClickedState
 ) => {
-  const { handleGetOrSetAndGet, handleDelete } = useCache();
+  const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { assessment_id } = useParams();
 
@@ -53,29 +53,33 @@ const useAssessmentPreview = (
     return isExamination ? data.examination : data.assessment;
   }, [assessmentId, isExamination, isForAdmin]);
 
-  const fetchAssessmentDetails = useCallback(async () => {
-    setAssessmentDetails({ loading: true });
+  const fetchAssessmentDetails = useCallback(
+    async (bypassCache) => {
+      setAssessmentDetails({ loading: true });
 
-    try {
-      const assessmentDetails = await handleGetOrSetAndGet(
-        isExamination || assessmentId,
-        fetcher
-      );
+      try {
+        const assessmentDetails = await handleGetOrSetAndGet(
+          isExamination || assessmentId,
+          fetcher,
+          bypassCache
+        );
 
-      if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
-    } catch (err) {
-      console.error(err);
-      if (componentIsMount) setAssessmentDetails({ err: err.message });
-    }
+        if (componentIsMount) setAssessmentDetails({ data: assessmentDetails });
+      } catch (err) {
+        console.error(err);
+        if (componentIsMount) setAssessmentDetails({ err: err.message });
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessmentId, componentIsMount]);
+    [assessmentId, componentIsMount]
+  );
 
-  const handleFetch = () => {
-    if (!assessmentIsNew) fetchAssessmentDetails();
+  const handleFetch = (bypassCache) => {
+    if (!assessmentIsNew) fetchAssessmentDetails(bypassCache);
   };
-  const handleTryAgain = async () => {
-    await handleDelete(assessmentId);
-    fetchAssessmentDetails();
+
+  const handleTryAgain = () => {
+    fetchAssessmentDetails(true);
   };
 
   useEffect(() => {
