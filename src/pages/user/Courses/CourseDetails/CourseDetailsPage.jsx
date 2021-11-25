@@ -21,6 +21,7 @@ import useAccordion from "./hooks/useAccordion";
 import useCourseDetails from "./hooks/useCourseDetails";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import { AiOutlineRight } from "react-icons/ai";
 
 const CourseDetailsPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
@@ -212,6 +213,17 @@ const CourseDetailsPage = () => {
             );
           })}
         </Accordion>
+        {courseDetailsData?.lessons[0] && (
+          <Box textAlign="right" pr={2}>
+            <Button
+              rightIcon={<AiOutlineRight />}
+              width="150px"
+              link={`/courses/take/${courseDetailsData?.id}/lessons/${courseDetailsData?.lessons[0].id}`}
+            >
+              See all
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );
