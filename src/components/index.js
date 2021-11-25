@@ -28,3 +28,4 @@ export * from "./Typography/Text";
 export * from "./Breadcrumb/Breadcrumb";
 export * from "./Clock/Clock";
 export * from "./NavigationBlocker/NavigationBlocker";
+export * from "./RichTextToView/RichTextToView";

@@ -1,7 +1,13 @@
 import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Route } from "react-router-dom";
-import { Button, Heading, NavigationBlocker, Text } from "../../../components";
+import {
+  Button,
+  Heading,
+  NavigationBlocker,
+  RichTextToView,
+  Text,
+} from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 import useAssessment from "./hooks/useAssessment";
@@ -129,9 +135,13 @@ const AssessmentLayout = () => {
                         : handleNextQuestion
                     }
                   >
-                    <Text marginBottom={6} flex={0.2}>
-                      {currentQuestion?.question}
-                    </Text>
+                    <RichTextToView
+                      marginBottom={6}
+                      padding={2}
+                      backgroundColor="accent.1"
+                      flex={0.2}
+                      text={currentQuestion?.question}
+                    />
 
                     <RadioGroup
                       defaultValue="1"
