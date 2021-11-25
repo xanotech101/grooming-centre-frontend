@@ -151,7 +151,6 @@ const CreateLessonPage = () => {
 
       data = {
         ...data,
-        courseId,
         file,
         content,
         startTime: formatDateToISO(startTime),
@@ -162,7 +161,10 @@ const CreateLessonPage = () => {
 
       const { message, lesson } = await (isEditMode
         ? adminEditLesson(lessonId, body)
-        : adminCreateLesson(body));
+        : adminCreateLesson({
+            ...body,
+            courseId,
+          }));
 
       if (isEditMode) handleDelete(lesson.id);
 
