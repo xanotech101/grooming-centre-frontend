@@ -186,7 +186,7 @@ const DashboardPage = () => {
         <Section title="Overview" flex={1} marginRight={10}>
           <Grid templateColumns=".6fr .6fr 1fr 1fr" columnGap={4} rowGap={10}>
             {/* First Row */}
-            <Link href={`/courses/overview`}>
+            <Link href={`/courses/grade-overview`}>
               <MiniBox padding={3}>
                 <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
                   <GiUpgrade />

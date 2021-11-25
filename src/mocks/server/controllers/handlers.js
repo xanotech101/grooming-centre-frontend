@@ -4,7 +4,7 @@ import course from "./course/endpoints";
 import examination from "./examination/endpoints";
 import lesson from "./lesson/endpoints";
 import user from "./user/endpoints";
-import coursesOverview from "./coursesoverview/endpoints";
+import grades from "./grades/endpoints";
 import certificate from "./certificate/endpoints";
 import forumQuestion from "./forum/question/endpoints";
 import forumTag from "./forum/tag/endpoints";
@@ -21,7 +21,7 @@ const commonHandlers = [
   ...course,
   ...lesson,
   ...user,
-  ...coursesOverview,
+  ...grades,
   ...certificate,
   ...examination,
   ...assessment,

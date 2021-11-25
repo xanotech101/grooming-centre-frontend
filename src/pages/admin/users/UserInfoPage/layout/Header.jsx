@@ -7,18 +7,18 @@ const links = [
     href: (userId) => `/admin/users/details/${userId}/profile`,
     text: "Profile",
   },
-  {
-    href: (userId) => `/admin/users/details/${userId}/certificate`,
-    text: "Certificate",
-  },
+  // {
+  //   href: (userId) => `/admin/users/details/${userId}/certificate`,
+  //   text: "Certificate",
+  // },
   {
     href: (userId) => `/admin/users/details/${userId}/courses`,
     text: "Courses",
   },
-  {
-    href: (userId) => `/admin/users/details/${userId}/badges`,
-    text: "Badges",
-  },
+  // {
+  //   href: (userId) => `/admin/users/details/${userId}/badges`,
+  //   text: "Badges",
+  // },
   {
     href: (userId) => `/admin/users/details/${userId}/grade-history`,
     text: "Grade History",

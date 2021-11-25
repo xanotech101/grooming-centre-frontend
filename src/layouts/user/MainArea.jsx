@@ -8,7 +8,7 @@ import {
   DashboardPageRoute,
   EventsPageRoute,
   LibraryPageRoute,
-  CoursesOverviewPageRoute,
+  GradesPageRoute,
   CertificatePageRoute,
 } from "../../pages/user";
 
@@ -21,7 +21,7 @@ const MainArea = () => {
         <ForumLayoutRoute path="/forum" />
         <EventsPageRoute exact path="/events" />
         <CourseDetailsPageRoute path="/courses/details/:id" />
-        <CoursesOverviewPageRoute path="/courses/overview" />
+        <GradesPageRoute path="/courses/grade-overview" />
         <CertificatePageRoute path="/courses/:course_id/certificate" />
         <CoursesPagesRoute path="/courses" />
         <Redirect exact from="/" to="/courses" />
