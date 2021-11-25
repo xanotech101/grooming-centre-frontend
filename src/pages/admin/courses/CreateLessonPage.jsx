@@ -158,6 +158,8 @@ const CreateLessonPage = () => {
         endTime: formatDateToISO(endTime),
       };
 
+      if (isEditMode) Reflect.deleteProperty(data, "courseId");
+
       const body = appendFormData(data);
 
       const { message, lesson } = await (isEditMode
