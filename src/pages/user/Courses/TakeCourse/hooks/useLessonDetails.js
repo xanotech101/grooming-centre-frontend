@@ -209,13 +209,22 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
     !isLoading &&
     !lesson?.hasEnded &&
     // completeAndContinueIsDisabled &&
-    !endLessonIsSuccessful;
+    !endLessonIsSuccessful &&
+    !lessonIsDisabled;
 
   console.log(
-    shouldBlockAllNavigation,
+    // shouldBlockAllNavigation,
+    !error &&
+      !isLoading &&
+      !lesson?.hasEnded &&
+      // completeAndContinueIsDisabled &&
+      !endLessonIsSuccessful,
+    error,
+    isLoading,
     lesson?.hasEnded,
     // completeAndContinueIsDisabled,
-    endLessonIsSuccessful
+    endLessonIsSuccessful,
+    lessonIsDisabled
   );
 
   // lesson?.hasEnded
