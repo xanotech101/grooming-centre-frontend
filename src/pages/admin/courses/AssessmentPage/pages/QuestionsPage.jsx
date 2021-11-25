@@ -204,7 +204,11 @@ const useQuestionDetails = (assessmentManager) => {
 const CreateQuestionPage = (assessmentManager) => {
   // const { push } = useHistory();
   const toast = useToast();
-  const { id: courseId, assessmentId, questionId } = useParams();
+  const {
+    // id: courseId,
+    assessmentId,
+    questionId,
+  } = useParams();
   const isExamination = useQueryParams().get("examination");
 
   const isEditMode = questionId && questionId !== "new";
@@ -283,7 +287,7 @@ const CreateQuestionPage = (assessmentManager) => {
 
       data = isExamination
         ? {
-            examinationId: assessmentId,
+            examinationId: isExamination,
             question: questionText,
             options,
           }
@@ -299,11 +303,13 @@ const CreateQuestionPage = (assessmentManager) => {
               id: questionId,
               question: questionText,
               assessmentId,
+              active: true,
             },
             options: options.map((opt) => ({
               ...opt,
               id: question?.options.find(({ name }) => opt.name === name)?.id,
               assessmentQuestionId: questionId,
+              active: true,
             })),
           })
         : isEditMode && isExamination
@@ -311,12 +317,14 @@ const CreateQuestionPage = (assessmentManager) => {
             question: {
               id: questionId,
               question: questionText,
-              examinationId: assessmentId,
+              examinationId: isExamination,
+              active: true,
             },
             options: options.map((opt) => ({
               ...opt,
               id: question?.options.find(({ name }) => opt.name === name)?.id,
               examinationQuestionId: questionId,
+              active: true,
             })),
           })
         : isExamination
@@ -333,11 +341,11 @@ const CreateQuestionPage = (assessmentManager) => {
       reset();
       // handleDelete(assessmentId);
       // assessmentManager.handleFetch();
-      window.location.href = getQuestionListingLink(
-        courseId,
-        assessmentId,
-        isExamination
-      );
+      // window.location.href = getQuestionListingLink(
+      //   courseId,
+      //   assessmentId,
+      //   isExamination
+      // );
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
