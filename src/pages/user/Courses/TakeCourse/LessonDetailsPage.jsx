@@ -8,8 +8,9 @@ import {
   Button,
   Heading,
   NavigationBlocker,
+  RichTextToView,
   SkeletonText,
-  Text,
+  // Text,
 } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
@@ -191,7 +192,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
                     height="100%"
                     overflowY="auto"
                   >
-                    <Text>{lesson?.content}</Text>
+                    <RichTextToView text={lesson?.content} />
                   </Box>
                 )}
               </Box>

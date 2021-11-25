@@ -109,7 +109,7 @@ const adminGetUserCourseListing = [
 
 const userGetCourseDetails = [
   rest.get(
-    getUrl("/course/courseId_1"),
+    getUrl("/course/courseId_1s"),
     handleSuccessResponse(userCourseDetailsRes_courseId_1)
   ),
   rest.get(

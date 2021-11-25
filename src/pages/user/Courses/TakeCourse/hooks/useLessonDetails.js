@@ -208,28 +208,8 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
     !error &&
     !isLoading &&
     !lesson?.hasEnded &&
-    // completeAndContinueIsDisabled &&
-    !endLessonIsSuccessful;
-
-  console.log(
-    shouldBlockAllNavigation,
-    lesson?.hasEnded,
-    // completeAndContinueIsDisabled,
-    endLessonIsSuccessful
-  );
-
-  // lesson?.hasEnded
-  // ? false
-  // : isLoading || !videoPlayerManager.videoHasBeenCompleted;
-
-  console.log({
-    // lessonIsDisabled,
-    // completeAndContinueIsDisabled,
-    // nextLessonIsDisabled,
-    // endLessonIsSuccessful,
-    // isLoading,
-    // videoPlayerManager: videoPlayerManager.videoHasBeenCompleted,
-  });
+    !endLessonIsSuccessful &&
+    !lessonIsDisabled;
 
   return {
     lesson,
