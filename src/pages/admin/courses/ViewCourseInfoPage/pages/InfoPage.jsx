@@ -26,6 +26,7 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import { useToast } from "@chakra-ui/toast";
 import { capitalizeFirstLetter } from "../../../../../utils";
+import { EmptyState } from "../../../../../layouts";
 
 const InfoPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
@@ -80,7 +81,13 @@ const InfoPage = () => {
       {isLoading ? (
         <Spinner />
       ) : isError ? (
-        <Heading color="red.500">{isError}</Heading>
+        <EmptyState
+          cta={
+            <Button onClick={() => window.location.reload()}>Try Again</Button>
+          }
+          heading="Oops an error occurred"
+          description="An unexpected error occurred, please try again later"
+        />
       ) : null}
     </Flex>
   ) : (
