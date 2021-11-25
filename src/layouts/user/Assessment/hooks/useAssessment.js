@@ -45,18 +45,19 @@ const useAssessment = () => {
   // Handle Late/Too Early comer :) and deals with completed assessment
   useEffect(() => {
     if (assessment.hasCompleted)
-      setError(
+      return setError(
         `You have already taken this ${
           isExamination ? "examination" : "assessment"
         }`
       );
 
     if (isUpcoming(assessment.startTime))
-      setError(
+      return setError(
         `This ${
           isExamination ? "examination" : "assessment"
         } is not yet time to be taken`
       );
+
     if (hasEnded(assessment.endTime))
       setError(
         `This ${isExamination ? "examination" : "assessment"} has already ended`

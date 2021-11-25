@@ -1,4 +1,5 @@
 import {
+  endedDates,
   ongoingDates,
   //
   // endedDates,
@@ -7,13 +8,13 @@ import {
 
 export const requestAssessmentDetailsRes_assessmentId_1 = {
   data: {
-    startTime: ongoingDates.startTime,
+    startTime: endedDates.startTime,
     id: "assessmentId_1",
     title: "Html assessment (Ongoing)",
     duration: 20,
     amountOfQuestions: 3,
     courseId: "courseId_3",
-    // assessmentScoreSheets: [{}],
+    assessmentScoreSheets: [{}],
     assessmentQuestions: [
       {
         id: "questionId_1",
