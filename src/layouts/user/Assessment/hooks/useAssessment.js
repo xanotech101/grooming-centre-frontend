@@ -99,7 +99,7 @@ const useAssessment = () => {
         [`${context}Id`]: assessment.id,
         [`${context}QuestionsId`]: questionIdArr,
         [`${context}OptionsId`]: optionIdArr,
-        userId: user.id,
+        // userId: user.id,
         courseId: assessment.courseId,
       };
 
