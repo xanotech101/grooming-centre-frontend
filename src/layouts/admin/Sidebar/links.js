@@ -1,6 +1,6 @@
 import { FiSettings } from "react-icons/fi";
 import { GiBookshelf } from "react-icons/gi";
-import { HiUsers } from "react-icons/hi";
+import { HiOutlineOfficeBuilding, HiUsers } from "react-icons/hi";
 import { RiDashboardLine } from "react-icons/ri";
 import { IoIosCalendar } from "react-icons/io";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
@@ -28,6 +28,11 @@ export const links = [
     icon: <IoIosCalendar />,
   },
   {
+    href: "/admin/departments",
+    text: "departments",
+    icon: <HiOutlineOfficeBuilding />,
+  },
+  {
     href: "/admin/role",
     text: "roles",
     icon: <AiOutlineUsergroupDelete />,
@@ -52,4 +57,3 @@ export const settingsLinks = [
     icon: <HiUsers />,
   },
 ];
-
