@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { useToast } from "@chakra-ui/toast";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useApp, useCache } from "../../../../contexts";
+import { useCache } from "../../../../contexts";
 import { Text } from "../../../../components";
 import useQueryParams from "../../../../hooks/useQueryParams";
 import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
@@ -45,18 +45,19 @@ const useAssessment = () => {
   // Handle Late/Too Early comer :) and deals with completed assessment
   useEffect(() => {
     if (assessment.hasCompleted)
-      setError(
+      return setError(
         `You have already taken this ${
           isExamination ? "examination" : "assessment"
         }`
       );
 
     if (isUpcoming(assessment.startTime))
-      setError(
+      return setError(
         `This ${
           isExamination ? "examination" : "assessment"
         } is not yet time to be taken`
       );
+
     if (hasEnded(assessment.endTime))
       setError(
         `This ${isExamination ? "examination" : "assessment"} has already ended`
@@ -73,9 +74,9 @@ const useAssessment = () => {
   });
 
   const toast = useToast();
-  const {
-    state: { user },
-  } = useApp();
+  // const {
+  //   state: { user },
+  // } = useApp();
 
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
@@ -99,7 +100,7 @@ const useAssessment = () => {
         [`${context}Id`]: assessment.id,
         [`${context}QuestionsId`]: questionIdArr,
         [`${context}OptionsId`]: optionIdArr,
-        userId: user.id,
+        // userId: user.id,
         courseId: assessment.courseId,
       };
 
@@ -133,7 +134,7 @@ const useAssessment = () => {
     assessment.id,
     isExamination,
     selectedAnswers,
-    user?.id,
+    // user?.id,
   ]);
 
   // Automatically submit when timeout

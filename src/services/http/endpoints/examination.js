@@ -73,15 +73,16 @@ export const adminGetExaminationListing = async (courseId) => {
     data: { data },
   } = await http.get(path);
 
-  const examinations = [
-    {
-      id: data.id,
-      title: data.title,
-      examinationId: data.examinationId,
-      duration: data.duration,
-      startTime: data.startTime,
-    },
-  ];
+  const examinations = [];
+  const exam = {
+    id: data.id,
+    title: data.title,
+    examinationId: data.examinationId,
+    duration: data.duration,
+    startTime: data.startTime,
+  };
+
+  if (!Array.isArray(data)) examinations.push(exam);
 
   return { examinations };
 };

@@ -6,6 +6,7 @@ import breakpoints from "../../../theme/breakpoints";
 import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
 import useAssessment from "./hooks/useAssessment";
 import { CustomModal } from "./Modal";
+import { EmptyState } from "../..";
 
 const AssessmentLayout = () => {
   const {
@@ -54,15 +55,16 @@ const AssessmentLayout = () => {
       {isLoading ? (
         <PageLoaderLayout />
       ) : error ? (
-        <PageLoaderLayout>
-          <Heading as="h1" fontSize="heading.h3">
-            {error}
-          </Heading>
-
-          <Button link={`/courses/details/${course_id}`} marginTop={10}>
-            Back to course
-          </Button>
-        </PageLoaderLayout>
+        <EmptyState
+          height="100vh"
+          cta={
+            <Button link={`/courses/details/${course_id}`} marginTop={10}>
+              Back to course
+            </Button>
+          }
+          heading={error}
+          description="Something went wrong, please try again later"
+        />
       ) : (
         <>
           <CustomModal

@@ -258,41 +258,28 @@ export const adminGetUserCourseListingRes_userId_3 = {
 
 export const userCourseDetailsRes_courseId_1 = {
   data: {
-    id: "courseId_1",
-    description: "This course will teach you about javascript",
+    id: "courseId_3",
+    description: "Hi, this is a test course",
     disabled: false,
-    title: "PHP course for mid-level engineers",
-    departmentId: "departmentId_1",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit.Maxime mollitia,molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborumnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentiumoptio, eaque rerum! Provident similique accusantium nemo autem. Veritatisobcaecati tenetur iure eius earum ut molestias architecto voluptate aliquamnihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint.",
+    title: "Test Course",
+    active: false,
     thumbnail:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
+      "http://res.cloudinary.com/xanotech/image/upload/v1637836170/grooming-centre/Test-Course/course-thumbnail-1.jpg",
+    thumbnailPublicId: "grooming-centre/Test-Course/course-thumbnail-1",
     certificate:
-      "https://images.unsplash.com/photo-1570610159825-ec5d3823660c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1033&q=80",
-    lesson: [
-      {
-        id: "lessonId_1",
-        title: "JavaScripts",
-        startTime: "2021-09-23T11:03:03.833Z",
-        endTime: "2021-09-25T11:03:03.833Z",
-        lessonType: {
-          id: "4adf4cda-d69b-4d95-ad44-d1118529e246",
-          name: "pdf",
-        },
-      },
-    ],
+      "http://res.cloudinary.com/xanotech/image/upload/v1637836171/grooming-centre/Test-Course/course-certificate-termplate.png",
+    certificatePublicId:
+      "grooming-centre/Test-Course/course-certificate-termplate",
+    instructorId: "d941d1e7-bd76-44a1-a128-8d0bf89ab18b",
+    isPublished: false,
+    createdAt: "2021-11-25T10:29:32.268Z",
+    updatedAt: "2021-11-25T10:29:32.268Z",
+    departmentId: "2daceae4-3896-44fd-b309-e5e7fe445cea",
+    user: { profilePics: null, firstName: "tobby", lastName: "Joahian" },
+    lesson: [],
     courseTracking: null,
-    isPublished: true,
-    assessment: [
-      {
-        id: "assessmentId_1",
-        title: "Html assessment",
-        duration: 60,
-        amountOfQuestions: null,
-      },
-    ],
-    user: { profilePics: null, firstName: "shalom", lastName: "brain" },
-    duration: 2880,
+    assessment: [],
+    examination: null,
   },
 };
 
