@@ -1,10 +1,4 @@
-import {
-  endedDates,
-  ongoingDates,
-  //
-  // endedDates,
-  // upcomingDates,
-} from "../course/responses";
+import { endedDates } from "../course/responses";
 
 export const requestAssessmentDetailsRes_assessmentId_1 = {
   data: {
