@@ -133,18 +133,20 @@ export const userGetCourseDetails = async (id) => {
         hasCompleted: a.assessmentScoreSheets?.[0] ? true : false,
         endTime: getEndTime(a.startTime, a.duration),
       })), // TODO: remove lazy mapping
-      examination: {
-        ...data.examination,
-        hasCompleted: data.examination.examinationScoreSheets?.[0]
-          ? true
-          : false,
-        endTime: getEndTime(
-          data.examination.startTime,
-          data.examination.duration
-        ),
-      },
-      startTime: data.lesson[0].startTime,
-      endTime: data?.lesson[data.lesson.length - 1].endTime,
+      examination: data.examination
+        ? {
+            ...data.examination,
+            hasCompleted: data.examination.examinationScoreSheets?.[0]
+              ? true
+              : false,
+            endTime: getEndTime(
+              data.examination.startTime,
+              data.examination.duration
+            ),
+          }
+        : null,
+      startTime: data.lesson[0]?.startTime,
+      endTime: data?.lesson[data.lesson.length - 1]?.endTime,
     }, // TODO: remove lazy mapping
   };
 };
