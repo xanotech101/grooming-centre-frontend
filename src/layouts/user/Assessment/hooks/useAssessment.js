@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { useToast } from "@chakra-ui/toast";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useApp, useCache } from "../../../../contexts";
+import { useCache } from "../../../../contexts";
 import { Text } from "../../../../components";
 import useQueryParams from "../../../../hooks/useQueryParams";
 import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
@@ -73,9 +73,9 @@ const useAssessment = () => {
   });
 
   const toast = useToast();
-  const {
-    state: { user },
-  } = useApp();
+  // const {
+  //   state: { user },
+  // } = useApp();
 
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
@@ -133,7 +133,7 @@ const useAssessment = () => {
     assessment.id,
     isExamination,
     selectedAnswers,
-    user?.id,
+    // user?.id,
   ]);
 
   // Automatically submit when timeout
