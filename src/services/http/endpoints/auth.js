@@ -21,11 +21,11 @@ export const requestMyData = async () => {
  * @returns {Promise<{  message: string }>}
  */
 export const requestUpdateDetails = async (body) => {
-  const path = "/user/edit-details"; 
+  const path = "/user/edit-details";
 
   const {
     data: { message },
-  } = await http.post(path, body);
+  } = await http.patch(path, body);
 
   return { message };
 };
