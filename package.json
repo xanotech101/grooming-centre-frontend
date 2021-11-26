@@ -17,6 +17,7 @@
     "chart.js": "^3.5.1",
     "date-fns": "^2.23.0",
     "dayjs": "^1.10.7",
+    "draft-js-export-html": "^1.4.1",
     "framer-motion": "^4.1.17",
     "msw": "^0.35.0",
     "mui-rte": "^1.29.0",

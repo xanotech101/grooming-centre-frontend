@@ -8,6 +8,7 @@ import {
   Text,
   Link,
   SkeletonText,
+  RichTextToView,
 } from "../../../components";
 import { FaEdit } from "react-icons/fa";
 import useViewLessonInfo from "./hooks/useViewLessonInfo";
@@ -145,9 +146,13 @@ const ViewLessonInfoPage = () => {
             ) : (
               <>
                 <Heading fontSize="heading.h6">Content</Heading>
-                <Text paddingTop={4} color="accent.3">
-                  {lesson?.content}
-                </Text>
+                <RichTextToView
+                  marginTop={4}
+                  padding={5}
+                  rounded="md"
+                  shadow="md"
+                  text={lesson?.content}
+                />
               </>
             )}
           </Box>
@@ -177,8 +182,10 @@ const ViewLessonInfoPage = () => {
                     <iframe
                       title="Lesson Pdf"
                       src={lesson?.file}
-                      width="320px"
-                      height="400px"
+                      width="100%"
+                      height="500px"
+                      // width="320px"
+                      // height="400px"
                     />
                   )}
                 </Box>

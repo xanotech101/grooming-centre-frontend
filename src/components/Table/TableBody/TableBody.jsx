@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
+import { Icon } from "@chakra-ui/icon";
 import { Box, Grid } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -8,6 +9,8 @@ import { DeleteMenuItemButton } from "../../Cards/QuestionListCard";
 import { useFetch } from "../../../hooks";
 import { useEffect } from "react";
 import { capitalizeFirstLetter } from "../../../utils";
+import { EmptyState } from "../../../layouts";
+import { ImDatabase } from "react-icons/im";
 
 const TableBody = ({
   rows,
@@ -88,7 +91,7 @@ const TableBody = ({
         </Grid>
       ))}
 
-      {(rows.loading || rows.err) && (
+      {rows.loading || rows.err ? (
         <Grid height="200px" placeItems="center">
           {rows.loading && <Spinner size="md" />}
 
@@ -98,6 +101,18 @@ const TableBody = ({
             </Text>
           )}
         </Grid>
+      ) : (
+        !rows.data?.length && (
+          <EmptyState
+            height="200px"
+            illustration={
+              <Icon fontSize="20px" boxSize="35px">
+                <ImDatabase />
+              </Icon>
+            }
+            description="No Data Available"
+          />
+        )
       )}
     </Box>
   );
