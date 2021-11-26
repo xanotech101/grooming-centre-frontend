@@ -1,10 +1,17 @@
 import { ButtonGroup, IconButton } from "@chakra-ui/button";
 import { Center, Flex } from "@chakra-ui/layout";
-import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/menu";
+import {
+  Menu,
+  MenuButton,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/menu";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
 import { MdNotificationsActive } from "react-icons/md";
-import { Brand, Button, Link, SearchBar } from "../../components";
+import { Link } from "react-router-dom";
+import { Brand, Button, SearchBar } from "../../components";
 
 const Header = () => {
   return (
@@ -24,7 +31,7 @@ const Header = () => {
 
       <ButtonGroup>
         <QuickAccess />
-        
+
         <Button asIcon ghost reversePrimaryColor largeSize>
           <MdNotificationsActive />
         </Button>
@@ -43,7 +50,6 @@ const Header = () => {
   );
 };
 
-
 const QuickAccess = () => {
   return (
     <Menu>
@@ -61,15 +67,15 @@ const QuickAccess = () => {
 
       <MenuList position="relative" zIndex={2}>
         <MenuGroup>
-          <MenuItem>
-            <Link href={`/admin/departments/create`}>Add Department</Link>
+          <MenuItem as={Link} to="/admin/departments/create">
+            Add Department
           </MenuItem>
+
           <MenuItem>Add Course</MenuItem>
         </MenuGroup>
       </MenuList>
     </Menu>
   );
 };
-
 
 export default Header;
