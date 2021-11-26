@@ -51,9 +51,4 @@ export const settingsLinks = [
     text: "grade criteria",
     icon: <RiDashboardLine />,
   },
-  {
-    href: "/admin/settings/security",
-    text: "security",
-    icon: <HiUsers />,
-  },
 ];

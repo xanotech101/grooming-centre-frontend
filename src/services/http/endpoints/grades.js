@@ -112,3 +112,34 @@ export const adminGetUserGrades = async (userId) => {
     grades,
   };
 };
+
+/**
+ * Endpoint to get grade criteria
+ *
+ * @returns {Promise<{ gradaeCriteria: gradeCriteria }>}
+ */
+export const adminGetGradeCriteria = async () => {
+  const path = `/admin/grade-criteria`; //TODO: might change `
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return { gradeCriteria: data };
+};
+
+/**
+ * Endpoint for updating grade criteria
+ *
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminEditGradeCriteria = async (body) => {
+  const path = `/admin/edit/grade-criteria`; //TODO: might change `
+
+  const {
+    data: { message },
+  } = await http.patch(path, body);
+
+  return { message };
+};

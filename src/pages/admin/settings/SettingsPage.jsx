@@ -7,7 +7,9 @@ import {
   Button,
   Heading,
   Input,
+  PasswordInput,
   PhoneNumberInput,
+  Select,
   Text,
   Upload,
 } from "../../../components";
@@ -30,9 +32,12 @@ const AccountPage = () => {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors, isSubmitting },
     reset,
   } = useForm();
+
+  const values = getValues();
 
   const onSubmit = async (data) => {
     try {
@@ -50,7 +55,7 @@ const AccountPage = () => {
         description: capitalizeFirstLetter(message),
         position: "top",
         status: "success",
-      }); 
+      });
       reset();
 
       replace("/admin");
@@ -73,6 +78,13 @@ const AccountPage = () => {
   useEffect(() => {
     if (user) {
       setValue("lastName", user.lastName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setValue("gender", user.gender);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -135,7 +147,23 @@ const AccountPage = () => {
               required: "Lastname is required",
             })}
           />
+          <Select
+            id="gender"
+            label="Gender"
+            isRequired
+            width="100%"
+            options={[
+              { label: "Female", value: "female" },
+              { label: "Male", value: "male" },
+            ]}
+            {...register("gender", {
+              required: "Please select your gender",
+            })}
+            error={errors.gender?.message}
+          />
+        </Grid>
 
+        <Box marginBottom={6}>
           <Upload
             isMini
             isRequired
@@ -145,11 +173,7 @@ const AccountPage = () => {
             imageUrl={thumbnailUpload.image.url}
             accept={thumbnailUpload.accept}
           />
-
-          {/* empty column */}
-          <Box></Box>
-        </Grid>
-
+        </Box>
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
@@ -160,7 +184,6 @@ const AccountPage = () => {
               your account
             </Text>
           </GridItem>
-
           <Input
             data-testid="input"
             id="email"
@@ -169,7 +192,11 @@ const AccountPage = () => {
             type="email"
             isRequired
             {...register("email", {
-              required: "Email is required",
+              required: "Email can't be empty",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Enter a valid e-mail address",
+              },
             })}
           />
           <PhoneNumberInput
@@ -181,6 +208,26 @@ const AccountPage = () => {
             type="tel"
             {...register("phone", {
               required: "Phone number is required",
+            })}
+          />
+          <PasswordInput
+            id="new-password"
+            label="New password"
+            error={errors.password?.message}
+            {...register("password", {
+              minLength: {
+                value: 3,
+                message: "Password should not be less than 3 characters",
+              },
+            })}
+          />
+          <PasswordInput
+            id="confirmPassword"
+            label="Confirm password"
+            error={errors.confirmPassword?.message}
+            {...register("confirmPassword", {
+              validate: (value) =>
+                value === values.password || "Password must match",
             })}
           />
         </Grid>
