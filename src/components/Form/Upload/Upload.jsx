@@ -51,13 +51,18 @@ export const Upload = forwardRef(
             flexDirection: "column",
             justifyContent: "center",
             width,
-            padding: 5,
+            padding: 20,
             border: "1px dashed",
+            borderColor: "#C1C9D2",
           }
         : {};
 
       return (
-        <Flex {...style} {...props} {...getRootProps()}>
+        <Flex
+          style={isMini ? { border: "none" } : { ...style }}
+          {...props}
+          {...getRootProps()}
+        >
           <Input ref={ref} {...getInputProps()} {...rest} />
 
           {hasUploaded ? (

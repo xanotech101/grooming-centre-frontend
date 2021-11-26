@@ -38,3 +38,26 @@ export const loggedInUserGetEventListingRes = {
     },
   ],
 };
+
+export const adminGetEventDetailRes_eventId_1 = {
+  data: {
+    id: "eventId_1",
+    startTime: new Date(Date.now() + 60 * 1 * 1000).toISOString(),
+    endTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    name: "Video Conference",
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
+      velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
+      natus laudantium totam quisquam odit consectetur reprehenderit non quae
+      vitae?
+      `,
+    speaker: "",
+  },
+};
