@@ -10,10 +10,11 @@ import {
 } from "@chakra-ui/menu";
 import { MdNotificationsActive } from "react-icons/md";
 import avatarImagePlaceholder from "../../../assets/images/Avatar.svg";
-import { BrandLogo, Button, Image, Link } from "../../../components";
+import { BrandLogo, Button, Image } from "../../../components";
 import { useApp } from "../../../contexts";
 import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import NavBar from "./NavBar";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -63,9 +64,8 @@ const Avatar = () => {
           <MenuItem>My Account</MenuItem>
           <MenuItem>Certificates</MenuItem>
           <MenuItem>Examination</MenuItem>
-          <MenuItem>
-            <Link href="/admin">Admin Dashboard</Link>{" "}
-            {/* // TODO: Switch Link to OnClick */}
+          <MenuItem as={Link} to="/admin">
+            Admin Dashboard
           </MenuItem>
         </MenuGroup>
         <MenuDivider />
