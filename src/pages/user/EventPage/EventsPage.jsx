@@ -19,10 +19,10 @@ export const useEventsPage = (props) => {
 
   useEffect(() => {
     handleFetchResource({
-      cacheKey: "events",
-      fetcher: props?.propFetcher || fetcher,
+      cacheKey: props?.cacheKey || "events",
+      fetcher: props?.fetcher || fetcher,
     });
-  }, [fetcher, handleFetchResource, props?.propFetcher]);
+  }, [fetcher, handleFetchResource, props?.fetcher, props?.cacheKey]);
 
   return {
     events: resource.data,
