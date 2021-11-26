@@ -3,8 +3,19 @@ import { Button, Heading, Spinner, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { EmptyState } from "../../../layouts";
 import dayjs from "dayjs";
-import { hasEnded, isOngoing, isUpcoming } from "../../../utils";
+import { hasEnded, isOngoing, isUpcoming, truncateText } from "../../../utils";
 import { Tag } from "@chakra-ui/tag";
+import { useDisclosure } from "@chakra-ui/hooks";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/modal";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 export const EventListing = ({
   isLoading,
@@ -99,23 +110,74 @@ const Listing = ({ events, headerButton }) => {
               <Text as="level2" bold my={1}>
                 {event.name}
               </Text>
-              <Text>{event.description}</Text>
+              <Text>{truncateText(event.description, 122)}</Text>
             </Box>
 
             {event.renderAction ? (
               event.renderAction()
             ) : (
-              <Button
-                secondary
-                disabled={!isOngoing(event.startTime, event.endTime)}
-              >
-                Join Event
-              </Button>
+              <ViewEventButton event={event} />
             )}
           </Grid>
         ))}
       </Box>
     </Box>
+  );
+};
+
+const JoinEventButton = ({ event }) => (
+  <Button
+    secondary
+    disabled={!isOngoing(event.startTime, event.endTime)}
+    rightIcon={<BiRightArrowAlt />}
+  >
+    Join Event
+  </Button>
+);
+
+const ViewEventButton = ({ event }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Button secondary onClick={onOpen}>
+        View Event
+      </Button>
+
+      <Modal
+        blockScrollOnMount={false}
+        isOpen={isOpen}
+        onClose={onClose}
+        size="xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{event.name}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text mb={8}>{event.description}</Text>
+
+            <Text bold my={2}>
+              DATES (No UI yet!)
+            </Text>
+            <Text bold my={2}>
+              PARTICIPANTS (No UI yet!)
+            </Text>
+            <Text bold my={2}>
+              SPEAKERS (No UI yet!)
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+
+            <JoinEventButton event={event} />
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
