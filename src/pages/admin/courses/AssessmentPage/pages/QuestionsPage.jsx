@@ -9,6 +9,7 @@ import {
   Text,
   Button,
   Link,
+  RichTextToView,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
@@ -507,9 +508,8 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
         <Heading fontSize="text.level2">
           <Link href={editLink}>{questionNumber}</Link>
         </Heading>
-        <Text paddingTop={2} color="accent.3">
-          {question}
-        </Text>
+
+        <RichTextToView paddingTop={2} text={question} />
       </Box>
 
       <Box transform="translateY(-10px)">

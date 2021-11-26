@@ -39,7 +39,7 @@ export const EmptyState = ({
         {illustration}
 
         <Heading type="h3">{heading}</Heading>
-        <Text as="level3" bold mt={3} mb={6}>
+        <Text as="level3" bold mt={3} mb={cta && 6}>
           {description}
         </Text>
 
