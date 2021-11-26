@@ -1,6 +1,7 @@
 import {
   getDurationBetweenStartTimeAndEndTime,
   getEndTime,
+  sortByMostRelevantDate,
 } from "../../../utils";
 import { http } from "../http";
 /**
@@ -119,20 +120,27 @@ export const userGetCourseDetails = async (id) => {
     data: { data },
   } = await http.get(path);
 
+  let lessons = data.lesson.map((l) => ({
+    ...l,
+    hasCompleted: l.lessonTracking?.[0]?.isCompleted ? true : false,
+    duration: getDurationBetweenStartTimeAndEndTime(l.startTime, l.endTime),
+  }));
+
+  let assessments = data.assessment.map((a) => ({
+    ...a,
+    hasCompleted: a.assessmentScoreSheets?.[0] ? true : false,
+    endTime: getEndTime(a.startTime, a.duration),
+  }));
+
+  lessons = sortByMostRelevantDate(lessons);
+  // assessments = sortByMostRelevantDate(assessments);
+
   return {
     course: {
       // TODO: remove lazy mapping
       ...data, // TODO: remove lazy mapping
-      lessons: data.lesson.map((l) => ({
-        ...l,
-        hasCompleted: l.lessonTracking?.[0]?.isCompleted ? true : false,
-        duration: getDurationBetweenStartTimeAndEndTime(l.startTime, l.endTime),
-      })), // TODO: remove lazy mapping
-      assessments: data.assessment.map((a) => ({
-        ...a,
-        hasCompleted: a.assessmentScoreSheets?.[0] ? true : false,
-        endTime: getEndTime(a.startTime, a.duration),
-      })), // TODO: remove lazy mapping
+      lessons, // TODO: remove lazy mapping
+      assessments, // TODO: remove lazy mapping
       examination: data.examination
         ? {
             ...data.examination,
