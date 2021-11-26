@@ -300,13 +300,13 @@ const CreateQuestionPage = (assessmentManager) => {
               id: questionId,
               question: questionText,
               assessmentId,
-              active: true,
+              // active: true,
             },
             options: options.map((opt) => ({
               ...opt,
               id: question?.options.find(({ name }) => opt.name === name)?.id,
               assessmentQuestionId: questionId,
-              active: true,
+              // active: true,
             })),
           })
         : isEditMode && isExamination
