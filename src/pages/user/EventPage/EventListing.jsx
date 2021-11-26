@@ -3,7 +3,13 @@ import { Button, Heading, Spinner, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { EmptyState } from "../../../layouts";
 import dayjs from "dayjs";
-import { hasEnded, isOngoing, isUpcoming, truncateText } from "../../../utils";
+import {
+  hasEnded,
+  isOngoing,
+  isUpcoming,
+  sortByMostRelevantDate,
+  truncateText,
+} from "../../../utils";
 import { Tag } from "@chakra-ui/tag";
 import { useDisclosure } from "@chakra-ui/hooks";
 import {
@@ -41,6 +47,8 @@ export const EventListing = ({
 );
 
 const Listing = ({ events, headerButton }) => {
+  events = sortByMostRelevantDate(events);
+
   return (
     <Box
       minHeight="50vh"
