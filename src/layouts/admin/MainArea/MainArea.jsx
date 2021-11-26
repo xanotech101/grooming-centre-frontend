@@ -21,6 +21,7 @@ import {
   EventsPageRoute,
   GradeCriteriaPageRoute,
   SecurityPageRoute,
+  CreateEventPageRoute,
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -53,10 +54,12 @@ const MainArea = () => {
             path="/admin/departments/details/:departmentId/info"
           />
           <RolesPageRoute exact path="/admin/role" />
+          
+          <CreateEventPageRoute path="/admin/events/create" />
+          <EventsPageRoute path="/admin/events" />
 
           <SecurityPageRoute path="/admin/settings/security" />
           <GradeCriteriaPageRoute path="/admin/settings/grade-criteria" />
-          <EventsPageRoute path="/admin/events" />
           <SettingsPageRoute path="/admin/settings" />
           <NotFoundPageRoute />
         </Switch>

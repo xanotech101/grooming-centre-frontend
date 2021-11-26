@@ -168,12 +168,10 @@ export const userDetailsRes_userId_3 = {
       id: "userRoleId_3",
       name: "user",
     },
-
     department: {
       id: "departmentId_3",
       name: "computer science",
     },
-
     gender: "male",
     certificate: [
       {

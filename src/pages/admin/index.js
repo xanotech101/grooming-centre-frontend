@@ -19,3 +19,4 @@ export * from "./settings/SettingsPage";
 export * from "./settings/GradeCriteriaPage";
 export * from "./settings/SecurityPage";
 export * from "./events/EventsPage";
+export * from "./events/CreateEventPage";
