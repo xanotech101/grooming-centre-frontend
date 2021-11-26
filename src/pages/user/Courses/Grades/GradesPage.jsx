@@ -142,6 +142,7 @@ export const Grades = ({ isLoading, grades, duration }) => {
           <Box
             paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
             backgroundColor="white"
+            paddingBottom={isAdmin ? "40px" : null}
           >
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses Completed
