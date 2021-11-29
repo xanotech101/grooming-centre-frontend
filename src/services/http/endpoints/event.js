@@ -18,6 +18,10 @@ export const loggedInUserGetEventListing = async () => {
     endTime: event.endTime,
     name: event.name,
     description: event.description,
+    speakers: event.speakers.map((speaker) => ({
+      name: speaker.name,
+      id: speaker.id,
+    })),
   }));
 
   return { events };
