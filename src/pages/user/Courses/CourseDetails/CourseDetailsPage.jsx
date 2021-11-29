@@ -118,16 +118,16 @@ const CourseDetailsPage = () => {
         maxWidth={breakpoints.laptop}
         marginX="auto"
       >
-        <Flex justifyContent="flex-end" marginBottom={10}>
+        {/* <Flex justifyContent="flex-end" marginBottom={10}>
           <Button
             link={`/courses/take/${courseDetailsData?.id}/lessons/${
               getCurrentOngoingLesson()?.id
             }`}
             disabled={getCurrentOngoingLesson() ? false : true}
           >
-            Take Lesson
+            Start Course
           </Button>
-        </Flex>
+        </Flex> */}
 
         {/* {isOngoing(event.startTime, event.endTime) && "Join Event"}
               {hasEnded(event.endTime) && "Event Has Ended"}
