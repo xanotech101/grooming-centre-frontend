@@ -21,7 +21,6 @@ import useAccordion from "./hooks/useAccordion";
 import useCourseDetails from "./hooks/useCourseDetails";
 import { useEffect } from "react";
 import dayjs from "dayjs";
-import { AiOutlineRight } from "react-icons/ai";
 
 const CourseDetailsPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
@@ -31,18 +30,98 @@ const CourseDetailsPage = () => {
   }, [fetchCourseDetails]);
 
   const courseDetailsData = courseDetails.data;
-  const duration = getDuration(courseDetailsData?.duration).combinedText;
+  const courseDuration = getDuration(courseDetailsData?.duration).combinedText;
 
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
-  const getCurrentOngoingLesson = () => {
-    const lesson =
-      courseDetailsData?.lessons.find((lesson) =>
-        isOngoing(lesson.startTime, lesson.endTime)
-      ) || courseDetailsData?.lessons.find((lesson) => lesson.hasCompleted);
+  // const getCurrentOngoingLesson = () => {
+  //   const lesson =
+  //     courseDetailsData?.lessons.find((lesson) =>
+  //       isOngoing(lesson.startTime, lesson.endTime)
+  //     ) || courseDetailsData?.lessons.find((lesson) => lesson.hasCompleted);
 
-    return lesson;
+  //   return lesson;
+  // };
+
+  const getDisability = (item, isAssessment, isExamination) => {
+    if (
+      ((isAssessment || isExamination) &&
+        !isOngoing(item?.startTime, item?.endTime)) ||
+      item?.hasCompleted
+    ) {
+      return true;
+    }
+
+    if (!isOngoing(item?.startTime, item?.endTime) && !item?.hasCompleted) {
+      return true;
+    }
+  };
+
+  const renderItem = (item, { isAssessment, isExamination }) => {
+    const getContextText = () =>
+      isAssessment ? "Assessment" : isExamination ? "Examination" : "Lesson";
+
+    return (
+      <Flex
+        key={item?.id}
+        justifyContent="space-between"
+        paddingY={3}
+        paddingX={2}
+        borderBottom="1px"
+        borderColor="accent.1"
+      >
+        <InfoContent
+          title={dayjs(item?.startTime).format("ddd, D MMM")}
+          date={`${dayjs(item?.startTime).format("h:mm A")} to ${dayjs(
+            item?.endTime
+          ).format("h:mm A")}`}
+          icon={<FaCalendar />}
+          flex={0.6}
+          opacity={item?.disabled ? 0.5 : 1}
+        />
+        <InfoContent
+          title={item?.title}
+          date={`${getDuration(item?.duration).combinedText}`}
+          icon={
+            item?.lessonType?.name !== "video" ? <VscFiles /> : <IoVideocam />
+          }
+          flex={1}
+          marginLeft={16}
+          opacity={item?.disabled ? 0.5 : 1}
+        />
+
+        <Button
+          link={`/courses/take/${courseDetailsData?.id}/${
+            isAssessment || isExamination ? "assessment" : "lessons"
+          }/${isExamination ? courseDetailsData?.id : item?.id}${
+            isExamination ? "?examination=true" : ""
+          }`}
+          width="165px"
+          secondary
+          sm
+          disabled={getDisability(item)}
+          leftIcon={item?.hasCompleted && <FaCheck />}
+        >
+          {isOngoing(item?.startTime, item?.endTime) &&
+            !item?.hasCompleted &&
+            `Take ${getContextText()}`}
+          {isOngoing(item?.startTime, item?.endTime) &&
+            item?.hasCompleted &&
+            `View ${getContextText()}`}
+          {hasEnded(item?.endTime) && `View ${getContextText()}`}
+          {isUpcoming(item?.startTime) && `${getContextText()} Upcoming`}
+        </Button>
+      </Flex>
+    );
+  };
+
+  const renderCurriculumList = (key) => {
+    const isAssessment = key === "assessments";
+
+    return courseDetailsData?.[key].map((lesson) => {
+      return renderItem(lesson, { isAssessment });
+    });
   };
 
   return isLoading || isError ? (
@@ -137,7 +216,7 @@ const CourseDetailsPage = () => {
           <Flex justifyContent="space-between" padding={2}>
             <InfoContent
               title="Duration"
-              date={`${duration}`}
+              date={`${courseDuration}`}
               icon={<BsClockFill />}
             />
             <InfoContent
@@ -157,63 +236,12 @@ const CourseDetailsPage = () => {
           </Flex>
         </Accordion>
 
-        <Accordion heading="Course Lessons">
-          {courseDetailsData?.lessons.map((lesson, index) => {
-            const duration = getDuration(lesson.duration).combinedText;
-
-            return (
-              <Flex
-                key={index}
-                justifyContent="space-between"
-                paddingY={3}
-                paddingX={2}
-                borderBottom="1px"
-                borderColor="accent.1"
-              >
-                <InfoContent
-                  title={dayjs(lesson.startTime).format("ddd, D MMM")}
-                  date={`${dayjs(lesson.startTime).format("h:mm A")} to ${dayjs(
-                    lesson.endTime
-                  ).format("h:mm A")}`}
-                  icon={<FaCalendar />}
-                  flex={0.6}
-                  opacity={lesson.disabled ? 0.5 : 1}
-                />
-                <InfoContent
-                  title={lesson.title}
-                  date={`${duration}`}
-                  icon={
-                    lesson.lessonType.name !== "video" ? (
-                      <VscFiles />
-                    ) : (
-                      <IoVideocam />
-                    )
-                  }
-                  flex={1}
-                  marginLeft={16}
-                  opacity={lesson.disabled ? 0.5 : 1}
-                />
-
-                <Button
-                  link={`/courses/take/${courseDetailsData?.id}/lessons/${lesson.id}`}
-                  width="150px"
-                  secondary
-                  sm
-                  disabled={
-                    !isOngoing(lesson.startTime, lesson.endTime) &&
-                    !lesson.hasCompleted
-                  }
-                  leftIcon={lesson.hasCompleted && <FaCheck />}
-                >
-                  {isOngoing(lesson.startTime, lesson.endTime) && "View Lesson"}
-                  {hasEnded(lesson.endTime) && "Lesson Ended"}
-                  {isUpcoming(lesson.startTime) && "Lesson Upcoming"}
-                </Button>
-              </Flex>
-            );
-          })}
+        <Accordion heading="Course Curriculum">
+          {renderCurriculumList("lessons")}
+          {renderCurriculumList("assessments")}
+          {renderItem(courseDetailsData?.examination, { isExamination: true })}
         </Accordion>
-        {courseDetailsData?.lessons[0] && (
+        {/* {courseDetailsData?.lessons[0] && (
           <Box textAlign="right" pr={2}>
             <Button
               rightIcon={<AiOutlineRight />}
@@ -223,7 +251,7 @@ const CourseDetailsPage = () => {
               See all
             </Button>
           </Box>
-        )}
+        )} */}
       </Box>
     </Box>
   );
