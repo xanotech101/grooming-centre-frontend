@@ -19,6 +19,10 @@ export const loggedInUserGetEventListingRes = {
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
       vitae?
       `,
+      speakers: [
+        { name: "Daniel UI/UX", id: "speakerId_1" },
+        { name: "Stanley Chinedu", id: "speakerId_2" },
+      ],
     },
     {
       ...ongoingDates,
@@ -28,12 +32,14 @@ export const loggedInUserGetEventListingRes = {
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
       vitae?`,
+      speakers: [],
     },
     {
       ...upcomingDates,
       id: "eventId_3",
       name: "Mock Event",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit.`,
+      speakers: [],
     },
   ],
 };

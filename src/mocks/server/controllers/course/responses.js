@@ -394,7 +394,7 @@ export const userCourseDetailsRes_courseId_3 = {
         createdAt: "2021-11-19T08:48:02.855Z",
         updatedAt: "2021-11-19T09:31:09.397Z",
         courseId: "courseId_3",
-        assessmentScoreSheets: [{}],
+        // assessmentScoreSheets: [{}],
         // assessmentScoreSheets: [],
       },
       {
@@ -407,6 +407,7 @@ export const userCourseDetailsRes_courseId_3 = {
         createdAt: "2021-11-19T10:07:01.107Z",
         updatedAt: "2021-11-19T10:07:01.107Z",
         courseId: "courseId_3",
+        assessmentScoreSheets: [{}],
         // assessmentScoreSheets: [],
       },
     ],
@@ -417,7 +418,7 @@ export const userCourseDetailsRes_courseId_3 = {
       amountOfQuestions: 5,
       startTime: ongoingDates.startTime,
       courseId: "courseId_3",
-      // examinationScoreSheets: [{}],
+      examinationScoreSheets: [{}],
     },
   },
 };
