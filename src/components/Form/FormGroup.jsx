@@ -1,7 +1,9 @@
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import Icon from "@chakra-ui/icon";
 import { Flex } from "@chakra-ui/layout";
+import { Tooltip } from "@chakra-ui/tooltip";
 import PropTypes from "prop-types";
+import { AiFillQuestionCircle } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
 import { Spinner, Text } from "..";
 
@@ -12,6 +14,7 @@ const FormGroup = ({
   label,
   renderControl,
   error,
+  tooltip,
 }) => {
   return (
     <FormControl
@@ -27,6 +30,18 @@ const FormGroup = ({
             <Icon color="red.300" fontSize="heading.h3">
               <BsDot />
             </Icon>
+          )}
+
+          {tooltip && (
+            <Tooltip label={tooltip}>
+              <Icon
+                fontSize="heading.h3"
+                color="accent.7"
+                transform="translateY(3px)"
+              >
+                <AiFillQuestionCircle />
+              </Icon>
+            </Tooltip>
           )}
         </FormLabel>
       )}
@@ -59,6 +74,7 @@ export const FormGroupPropTypes = {
   id: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   label: PropTypes.string,
+  tooltip: PropTypes.string,
   isLoading: PropTypes.bool,
   error: PropTypes.string,
 };
