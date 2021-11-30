@@ -24,13 +24,16 @@ const tableProps = {
       triggerText: "%Grade point",
       width: "125%",
       body: {
-        selectOne: true,
-        checks: [
+        // selectOne: true,
+        radios: [
           { label: "1 to 30" },
           { label: "31 to 50" },
           { label: "51 to 70" },
           { label: "71 to 100" },
         ],
+        filterFetcher: async (user) => {
+          await adminDeleteCourse(user.id);
+        },
       },
     },
     {
@@ -191,7 +194,12 @@ const UserListingPage = () => {
         <Button link="/admin/users/edit/new">Add User</Button>
       </Flex>
 
-      <Table {...tableProps} rows={rows} setRows={setRows} />
+      <Table
+        {...tableProps}
+        rows={rows}
+        setRows={setRows}
+        handleFetch={fetchUsers}
+      />
     </AdminMainAreaWrapper>
   );
 };

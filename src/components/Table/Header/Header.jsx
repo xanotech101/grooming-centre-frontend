@@ -1,11 +1,12 @@
 import { ButtonGroup } from "@chakra-ui/button";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/tag";
+import { useEffect } from "react";
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineDown } from "react-icons/ai";
 import { Button, Checkbox, SearchBar, Text } from "../..";
 
-const Header = ({ filterControls, SearchBarVisibility }) => {
+const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
   return (
     <Flex
       as="header"
@@ -21,15 +22,21 @@ const Header = ({ filterControls, SearchBarVisibility }) => {
         sm
       />
 
-      {filterControls && <FilterButtonsGroup data={filterControls} />}
+      {filterControls && (
+        <FilterButtonsGroup data={filterControls} handleFetch={handleFetch} />
+      )}
     </Flex>
   );
 };
 
-const FilterButtonsGroup = ({ data }) => {
+const FilterButtonsGroup = ({ data, handleFetch }) => {
   const [tags, setTags] = useState({
     // "%Grade point": [{ text: "1 to 30" }],
   });
+
+  useEffect(() => {
+    console.log(tags);
+  }, [tags]);
 
   const handleApplyFilter = (filterKey, filters) => {
     setTags((prev) => ({
@@ -127,6 +134,16 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
     </Box>
   );
 
+  const getButtonText = () => {
+    if (!data.noFilterTags) {
+      return data.triggerText;
+    }
+
+    const text = tags[data.triggerText]?.[0]?.text;
+
+    return text ? `${data.triggerText}: ${text}` : data.triggerText;
+  };
+
   return (
     <Box position="relative">
       <Button
@@ -139,7 +156,7 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
         rightIcon={data.triggerIcon || <AiOutlineDown />}
         {...rest}
       >
-        {data.triggerText}
+        {getButtonText()}
       </Button>
 
       {isOpen && renderContent()}
@@ -176,8 +193,9 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
     onApplyFilter(data.triggerText, selectedChecks);
   };
 
-  const handleRadioApply = () => {
+  const handleRadioApply = (text) => {
     onClose();
+    onApplyFilter(data.triggerText, [{ text }]);
   };
 
   const handleClearAll = () => {
@@ -256,7 +274,7 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
                     _hover={{ backgroundColor: "accent.1" }}
                     paddingY={1}
                     paddingX={2}
-                    onClick={handleRadioApply}
+                    onClick={handleRadioApply.bind(null, radio.label)}
                   >
                     <Text>{radio.label}</Text>
                   </Box>

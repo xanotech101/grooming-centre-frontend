@@ -130,6 +130,7 @@ export const Table = ({
   templateColumns,
   columnGap = 2,
   generalRowStyles,
+  handleFetch,
   // Calc from the width of the aside and margins
   width = "calc(100vw - 270px - 40px)",
   maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
@@ -206,6 +207,7 @@ export const Table = ({
           <Header
             SearchBarVisibility={SearchBarVisibility}
             filterControls={filterControls}
+            handleFetch={handleFetch}
           />
 
           <Box
@@ -307,4 +309,5 @@ Table.propTypes = {
   columnGap: PropTypes.any,
   generalRowStyles: PropTypes.object,
   width: PropTypes.string,
+  handleFetch: PropTypes.func,
 };
