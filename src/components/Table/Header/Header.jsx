@@ -38,7 +38,7 @@ const FilterButtonsGroup = ({ data }) => {
     }));
   };
 
-  const handleTagClick = (tagSection, tagText) => {
+  const handleTagDelete = (tagSection, tagText) => {
     const newTags = {
       ...tags,
       [tagSection]: tags[tagSection].filter((tag) => tag.text !== tagText),
@@ -77,7 +77,7 @@ const FilterButtonsGroup = ({ data }) => {
             >
               <TagLabel>{tag.text}</TagLabel>
               <TagCloseButton
-                onClick={handleTagClick.bind(null, tagSection.name, tag.text)}
+                onClick={handleTagDelete.bind(null, tagSection.name, tag.text)}
               />
             </Tag>
           ))}
@@ -151,7 +151,12 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
   const [selectedChecks, setSelectedChecks] = useState(tags);
 
   const handleCheckboxChange = ({ target: { name, checked } }) => {
-    const allSelected = [...selectedChecks];
+    let allSelected = [...selectedChecks];
+
+    if (data.body.selectOne) {
+      allSelected = [{ text: name }];
+      return setSelectedChecks(allSelected);
+    }
 
     if (checked) {
       allSelected.push({ text: name });
@@ -169,6 +174,10 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
   const handleApply = () => {
     onClose();
     onApplyFilter(data.triggerText, selectedChecks);
+  };
+
+  const handleRadioApply = () => {
+    onClose();
   };
 
   const handleClearAll = () => {
@@ -247,7 +256,7 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
                     _hover={{ backgroundColor: "accent.1" }}
                     paddingY={1}
                     paddingX={2}
-                    onClick={onClose}
+                    onClick={handleRadioApply}
                   >
                     <Text>{radio.label}</Text>
                   </Box>

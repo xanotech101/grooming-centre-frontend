@@ -123,7 +123,7 @@ const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
 export const Table = ({
   rows,
   setRows,
-  // filterControls,  // TODO: uncomment out later
+  filterControls,
   SearchBarVisibility,
   columns,
   options,
@@ -205,7 +205,7 @@ export const Table = ({
         <>
           <Header
             SearchBarVisibility={SearchBarVisibility}
-            // filterControls={filterControls}   //TODO: uncomment out later
+            filterControls={filterControls}
           />
 
           <Box
@@ -272,7 +272,7 @@ export const Table = ({
 };
 
 Table.propTypes = {
-  // filterControls: PropTypes.array,   //TODO: uncomment out later
+  filterControls: PropTypes.array,
   SearchBarVisibility: PropTypes.string,
   columns: PropTypes.arrayOf(
     PropTypes.shape({

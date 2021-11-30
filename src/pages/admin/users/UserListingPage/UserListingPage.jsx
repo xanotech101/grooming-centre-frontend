@@ -24,6 +24,7 @@ const tableProps = {
       triggerText: "%Grade point",
       width: "125%",
       body: {
+        selectOne: true,
         checks: [
           { label: "1 to 30" },
           { label: "31 to 50" },
