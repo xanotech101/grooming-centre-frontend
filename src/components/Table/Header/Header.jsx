@@ -30,13 +30,43 @@ const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
 };
 
 const FilterButtonsGroup = ({ data, handleFetch }) => {
-  const [tags, setTags] = useState({
-    // "%Grade point": [{ text: "1 to 30" }],
-  });
+  const [tags, setTags] = useState({});
 
   useEffect(() => {
-    console.log(tags);
-  }, [tags]);
+    const tagsKeys = Reflect.ownKeys(tags);
+
+    if (tagsKeys.length) {
+      let params = {};
+
+      tagsKeys.forEach((key) => {
+        if (tags[key].length) {
+          const p = tags[key].reduce(
+            (acc, tag, index) => ({
+              [key]: `${acc[key]}${index ? "," : ""}${tag.queryValue}`,
+            }),
+            { [key]: "" }
+          );
+
+          const additionalParams = tags[key].reduce((acc, tag) => {
+            console.log(tag);
+
+            return {
+              ...acc,
+              ...(tag.additionalParams ? tag.additionalParams : {}),
+            };
+          }, {});
+
+          console.log(additionalParams);
+
+          params = { ...params, ...p, ...additionalParams };
+        }
+      });
+
+      console.log(params);
+
+      handleFetch({ params });
+    }
+  }, [data, handleFetch, tags]);
 
   const handleApplyFilter = (filterKey, filters) => {
     setTags((prev) => ({
@@ -57,7 +87,7 @@ const FilterButtonsGroup = ({ data, handleFetch }) => {
     const tagSections = data
       .filter((item) => !item.noFilterTags)
       .reduce((prev, curr) => {
-        const tagSection = { name: curr.triggerText };
+        const tagSection = { name: curr.queryKey };
         prev.push(tagSection);
 
         return prev;
@@ -96,7 +126,7 @@ const FilterButtonsGroup = ({ data, handleFetch }) => {
   const renderButtons = () =>
     data.map((filterControl) => (
       <FilterButton
-        key={filterControl.triggerText}
+        key={filterControl.queryKey}
         data={filterControl}
         onApplyFilter={handleApplyFilter}
         tags={tags}
@@ -128,7 +158,7 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
           data={data}
           onClose={handleClose}
           onApplyFilter={onApplyFilter}
-          tags={tags[data.triggerText]}
+          tags={tags[data.queryKey]}
         />
       )}
     </Box>
@@ -139,7 +169,9 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
       return data.triggerText;
     }
 
-    const text = tags[data.triggerText]?.[0]?.text;
+    const text = tags[data.queryKey]?.[0]?.text;
+
+    console.log(text);
 
     return text ? `${data.triggerText}: ${text}` : data.triggerText;
   };
@@ -147,7 +179,7 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
   return (
     <Box position="relative">
       <Button
-        data-testid={`filter-control, ${data.triggerText}`}
+        data-testid={`filter-control, ${data.queryKey}`}
         onClick={handleOpen}
         secondary
         sm
@@ -167,16 +199,11 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
 export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
   const [selectedChecks, setSelectedChecks] = useState(tags);
 
-  const handleCheckboxChange = ({ target: { name, checked } }) => {
+  const handleCheckboxChange = ({ target: { name, id, checked } }) => {
     let allSelected = [...selectedChecks];
 
-    if (data.body.selectOne) {
-      allSelected = [{ text: name }];
-      return setSelectedChecks(allSelected);
-    }
-
     if (checked) {
-      allSelected.push({ text: name });
+      allSelected.push({ text: name, queryValue: id });
     } else {
       const index = allSelected.findIndex((selected) => selected.text === name);
 
@@ -190,19 +217,19 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
 
   const handleApply = () => {
     onClose();
-    onApplyFilter(data.triggerText, selectedChecks);
+    onApplyFilter(data.queryKey, selectedChecks);
   };
 
-  const handleRadioApply = (text) => {
+  const handleRadioApply = (text, queryValue, additionalParams) => {
     onClose();
-    onApplyFilter(data.triggerText, [{ text }]);
+    onApplyFilter(data.queryKey, [{ text, queryValue, additionalParams }]);
   };
 
   const handleClearAll = () => {
     const selectedChecks = [];
     setSelectedChecks(selectedChecks);
 
-    onApplyFilter(data.triggerText, selectedChecks);
+    onApplyFilter(data.queryKey, selectedChecks);
     onClose();
   };
 
@@ -240,6 +267,7 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
                   key={index}
                   label={check.label}
                   name={check.label}
+                  id={check.queryValue}
                   defaultChecked={selectedChecks.find(
                     (selected) => check.label === selected.text
                   )}
@@ -274,7 +302,12 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
                     _hover={{ backgroundColor: "accent.1" }}
                     paddingY={1}
                     paddingX={2}
-                    onClick={handleRadioApply.bind(null, radio.label)}
+                    onClick={handleRadioApply.bind(
+                      null,
+                      radio.label,
+                      radio.queryValue,
+                      radio.additionalParams
+                    )}
                   >
                     <Text>{radio.label}</Text>
                   </Box>

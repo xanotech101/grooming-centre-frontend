@@ -22,54 +22,71 @@ const tableProps = {
   filterControls: [
     {
       triggerText: "%Grade point",
+      queryKey: "grade",
       width: "125%",
       body: {
-        // selectOne: true,
         radios: [
-          { label: "1 to 30" },
-          { label: "31 to 50" },
-          { label: "51 to 70" },
-          { label: "71 to 100" },
+          { label: "1 to 30", queryValue: "1-30" },
+          { label: "31 to 50", queryValue: "31-50" },
+          { label: "51 to 70", queryValue: "51-70" },
+          {
+            label: "71 to 100",
+            queryValue: "71-100",
+          },
         ],
-        filterFetcher: async (user) => {
-          await adminDeleteCourse(user.id);
-        },
       },
     },
     {
       triggerText: "Department",
+      queryKey: "department",
       width: "125%",
       body: {
         checks: [
-          { label: "Finance" },
-          { label: "Engineering" },
-          { label: "Accounting" },
+          { label: "Finance", queryValue: "finance" },
+          { label: "Engineering", queryValue: "engineering" },
+          {
+            label: "Accounting",
+            queryValue: "accounting",
+          },
         ],
       },
     },
     {
       triggerText: "Role",
+      queryKey: "role",
       width: "170%",
       body: {
         checks: [
-          { label: "super admin" },
-          { label: "admin" },
-          { label: "user" },
+          { label: "Super Admin", queryValue: "super admin" },
+          { label: "Admin", queryValue: "admin" },
+          { label: "User", queryValue: "user" },
         ],
       },
     },
     {
       triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
       noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+          },
+          { label: "Alphabetically: descending", queryValue: "desc" },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
@@ -129,15 +146,26 @@ const useUserListing = () => {
   });
 
   const fetchUsers = useCallback(
-    async (mapper) => {
+    async (props) => {
       setRows({ loading: true });
 
       try {
-        const { users } = await adminGetUserListing();
+        const { users } = await adminGetUserListing(props?.params);
 
-        const data = mapper ? users.map(mapper) : users;
+        const mapUserToRow = (user) => ({
+          ...user,
+          fullName: {
+            text: `${user.firstName} ${user.lastName}`,
+            userId: user.id,
+          },
+          department: user.departmentName,
+          certificates: user.noOfCertificate,
+        });
+
+        const data = users.map(mapUserToRow);
         setRows({ data });
       } catch (err) {
+        console.error(err);
         setRows({ err: true });
       } finally {
         setRows((prev) => ({ ...prev, loading: false }));
@@ -157,17 +185,7 @@ const UserListingPage = () => {
   const { rows, setRows, fetchUsers } = useUserListing();
 
   useEffect(() => {
-    const mapUserToRow = (user) => ({
-      ...user,
-      fullName: {
-        text: `${user.firstName} ${user.lastName}`,
-        userId: user.id,
-      },
-      department: user.departmentName,
-      certificates: user.noOfCertificate,
-    });
-
-    fetchUsers(mapUserToRow);
+    fetchUsers();
   }, [fetchUsers]);
 
   return (

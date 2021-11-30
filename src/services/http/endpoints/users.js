@@ -2,15 +2,16 @@ import { http } from "../..";
 
 /**
  * Endpoint to get `user-listing`
+ * @param {object} params
  *
  * @returns {Promise<{ data: UserListArray }>}
  */
-export const adminGetUserListing = async () => {
+export const adminGetUserListing = async (params) => {
   const path = `/admin/users`;
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
   return {
     users: data.rows.map((user) => ({
