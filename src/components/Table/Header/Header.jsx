@@ -7,36 +7,16 @@ import { AiOutlineClose, AiOutlineDown } from "react-icons/ai";
 import { Button, Checkbox, SearchBar, Text } from "../..";
 
 const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
-  return (
-    <Flex
-      as="header"
-      flexWrap="wrap"
-      alignItems="center"
-      justifyContent="space-between"
-      display={SearchBarVisibility}
-    >
-      <SearchBar
-        placeholder="Name, role, email, department"
-        // width="475px"
-        width="375px"
-        sm
-      />
-
-      {filterControls && (
-        <FilterButtonsGroup data={filterControls} handleFetch={handleFetch} />
-      )}
-    </Flex>
-  );
-};
-
-const FilterButtonsGroup = ({ data, handleFetch }) => {
   const [tags, setTags] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const tagsKeys = Reflect.ownKeys(tags);
 
-    if (tagsKeys.length) {
-      let params = {};
+    if (tagsKeys.length || searchQuery) {
+      let params = {
+        ...(searchQuery ? { search: searchQuery } : {}),
+      };
 
       tagsKeys.forEach((key) => {
         if (tags[key].length) {
@@ -55,14 +35,49 @@ const FilterButtonsGroup = ({ data, handleFetch }) => {
             {}
           );
 
-          params = { ...params, ...p, ...additionalParams };
+          params = {
+            ...params,
+            ...p,
+            ...additionalParams,
+          };
         }
       });
 
       handleFetch({ params });
     }
-  }, [data, handleFetch, tags]);
+  }, [handleFetch, tags, searchQuery]);
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  return (
+    <Flex
+      as="header"
+      flexWrap="wrap"
+      alignItems="center"
+      justifyContent="space-between"
+      display={SearchBarVisibility}
+    >
+      <SearchBar
+        placeholder="Name, role, email, department"
+        width="375px"
+        sm
+        onSearch={handleSearch}
+      />
+
+      {filterControls && (
+        <FilterButtonsGroup
+          data={filterControls}
+          tags={tags}
+          setTags={setTags}
+        />
+      )}
+    </Flex>
+  );
+};
+
+const FilterButtonsGroup = ({ data, tags, setTags }) => {
   const handleApplyFilter = (filterKey, filters) => {
     setTags((prev) => ({
       ...prev,
