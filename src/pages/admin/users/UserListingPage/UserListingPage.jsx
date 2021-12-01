@@ -69,7 +69,7 @@ const tableProps = {
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      noFilterTags: true,
+      // noFilterTags: true,
       body: {
         radios: [
           {
