@@ -10,13 +10,13 @@ import {
   Text,
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
-import { useCallback, useState } from "react";
 import {
   adminDeleteCourse,
   adminDeleteMultipleCourses,
   adminGetUserListing,
 } from "../../../../services";
 import { BreadcrumbItem } from "@chakra-ui/react";
+import { useTableRows } from "../../../../hooks";
 
 const tableProps = {
   filterControls: [
@@ -139,52 +139,27 @@ const tableProps = {
   },
 };
 
-const useUserListing = () => {
-  const [rows, setRows] = useState({
-    data: null,
-    loading: false,
-    err: false,
+const UserListingPage = () => {
+  const mapUserToRow = (user) => ({
+    ...user,
+    fullName: {
+      text: `${user.firstName} ${user.lastName}`,
+      userId: user.id,
+    },
+    department: user.departmentName,
+    certificates: user.noOfCertificate,
   });
 
-  const fetchUsers = useCallback(
-    async (props) => {
-      setRows({ loading: true });
+  const fetcher = (props) => async () => {
+    const { users, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetUserListing(props?.params);
 
-      try {
-        const { users, showingDocumentsCount, totalDocumentsCount } =
-          await adminGetUserListing(props?.params);
+    const rows = users.map(mapUserToRow);
 
-        const mapUserToRow = (user) => ({
-          ...user,
-          fullName: {
-            text: `${user.firstName} ${user.lastName}`,
-            userId: user.id,
-          },
-          department: user.departmentName,
-          certificates: user.noOfCertificate,
-        });
-
-        const rows = users.map(mapUserToRow);
-        setRows({ data: { rows, showingDocumentsCount, totalDocumentsCount } });
-      } catch (err) {
-        console.error(err);
-        setRows({ err: true });
-      } finally {
-        setRows((prev) => ({ ...prev, loading: false }));
-      }
-    },
-    [setRows]
-  );
-
-  return {
-    rows,
-    setRows,
-    fetchUsers,
+    return { rows, showingDocumentsCount, totalDocumentsCount };
   };
-};
 
-const UserListingPage = () => {
-  const { rows, setRows, fetchUsers } = useUserListing();
+  const { rows, setRows, fetchUsers } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
