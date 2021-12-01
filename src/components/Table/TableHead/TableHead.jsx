@@ -13,7 +13,7 @@ const TableHead = ({
   onSelect,
   selectedRows,
 }) => {
-  const rowsData = rows?.data?.map((row) => ({ id: row.id }));
+  const rowsData = rows?.data?.rows?.map((row) => ({ id: row.id }));
 
   const handleCheckboxChange = () => {
     onSelect(rowsData);

@@ -6,8 +6,15 @@ import { useState } from "react";
 import { AiOutlineClose, AiOutlineDown } from "react-icons/ai";
 import { Button, Checkbox, SearchBar, Text } from "../..";
 
-const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
+const Header = ({
+  filterControls,
+  SearchBarVisibility,
+  handleFetch,
+  setParams,
+  setCanFilter,
+}) => {
   const [tags, setTags] = useState({});
+
   const [searchQuery, setSearchQuery] = useState(null);
 
   useEffect(() => {
@@ -43,8 +50,11 @@ const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
         }
       });
 
-      handleFetch({ params });
+      setParams((prev) => ({ ...prev, ...params }));
+      setCanFilter(true);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleFetch, tags, searchQuery]);
 
   const handleSearch = (query) => {

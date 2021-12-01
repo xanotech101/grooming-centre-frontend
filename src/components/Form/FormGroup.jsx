@@ -15,6 +15,7 @@ const FormGroup = ({
   renderControl,
   error,
   tooltip,
+  rest = {},
 }) => {
   return (
     <FormControl
@@ -22,6 +23,7 @@ const FormGroup = ({
       display="flex"
       flexDirection="column"
       position="relative"
+      {...rest}
     >
       {label && (
         <FormLabel fontSize="text.level2" display="flex">

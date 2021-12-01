@@ -28,6 +28,8 @@ export const adminGetUserListing = async (params) => {
       gradePoint: user.averageGradeScore,
       noOfCertificate: user.noOfCertificate,
     })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.count,
   };
 };
 

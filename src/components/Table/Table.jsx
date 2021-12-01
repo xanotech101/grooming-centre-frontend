@@ -11,6 +11,7 @@ import breakpoints from "../../theme/breakpoints";
 import { useFetch } from "../../hooks";
 import { capitalizeFirstLetter } from "../../utils";
 import { useToast } from "@chakra-ui/toast";
+import { useEffect } from "react";
 
 const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -135,6 +136,10 @@ export const Table = ({
   width = "calc(100vw - 270px - 40px)",
   maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
 }) => {
+  useEffect(() => {
+    if (!options.pagination) handleFetch();
+  }, [handleFetch, options.pagination]);
+
   const manager = useTable({
     rowsData: rows.data,
     setRows,
@@ -177,6 +182,16 @@ export const Table = ({
     selectedRows: manager.selectedRows,
   };
 
+  const [params, setParams] = useState({});
+  const [canFilter, setCanFilter] = useState(false);
+
+  useEffect(() => {
+    if (canFilter) {
+      handleFetch({ params });
+      setCanFilter(false);
+    }
+  }, [canFilter, handleFetch, params]);
+
   return (
     <Box>
       {manager.deletionInProgress ? (
@@ -208,6 +223,8 @@ export const Table = ({
             SearchBarVisibility={SearchBarVisibility}
             filterControls={filterControls}
             handleFetch={handleFetch}
+            setParams={setParams}
+            setCanFilter={setCanFilter}
           />
 
           <Box
@@ -264,6 +281,8 @@ export const Table = ({
               <TableBody
                 {...commonProps}
                 onRowSelect={manager.handleSelectRowToggle}
+                setParams={setParams}
+                setCanFilter={setCanFilter}
               />
             </Box>
           </Box>
@@ -299,12 +318,15 @@ Table.propTypes = {
     multipleDeleteFetcher: PropTypes.func,
   }),
   rows: PropTypes.shape({
-    data: PropTypes.array,
+    data: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.object),
+      totalCount: PropTypes.number,
+      showingCount: PropTypes.number,
+    }),
     loading: PropTypes.bool,
     err: PropTypes.bool,
   }),
   setRows: PropTypes.func.isRequired,
-
   templateColumns: PropTypes.string,
   columnGap: PropTypes.any,
   generalRowStyles: PropTypes.object,

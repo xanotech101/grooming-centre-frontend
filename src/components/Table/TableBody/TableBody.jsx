@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { capitalizeFirstLetter } from "../../../utils";
 import { EmptyState } from "../../../layouts";
 import { ImDatabase } from "react-icons/im";
+import Pagination from "../Pagination/Pagination";
 
 const TableBody = ({
   rows,
@@ -23,6 +24,8 @@ const TableBody = ({
   checkboxStyles,
   selectedRows,
   onRowSelect,
+  setParams,
+  setCanFilter,
 }) => {
   const getTemplateColumns = () =>
     `${options?.selection ? "20px " : ""}${templateColumns}${
@@ -38,7 +41,7 @@ const TableBody = ({
 
   return (
     <Box role="thead">
-      {rows.data?.map((row) => (
+      {rows.data?.rows?.map((row) => (
         <Grid
           key={row.id}
           role="row"
@@ -102,7 +105,7 @@ const TableBody = ({
           )}
         </Grid>
       ) : (
-        !rows.data?.length && (
+        !rows.data?.rows?.length && (
           <EmptyState
             height="200px"
             illustration={
@@ -113,6 +116,15 @@ const TableBody = ({
             description="No Data Available"
           />
         )
+      )}
+
+      {options?.pagination && (
+        <Pagination
+          setParams={setParams}
+          setCanFilter={setCanFilter}
+          showingDocumentsCount={rows.data?.showingDocumentsCount}
+          totalDocumentsCount={rows.data?.totalDocumentsCount}
+        />
       )}
     </Box>
   );

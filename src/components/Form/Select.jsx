@@ -15,6 +15,8 @@ export const Select = forwardRef(
       value,
       placeholder,
       onChange = () => {},
+      group,
+      noEmptyOption,
       ...rest
     },
     ref
@@ -34,9 +36,11 @@ export const Select = forwardRef(
             {...props}
             {...rest}
           >
-            <option color="accent.3" value="">
-              {placeholder}
-            </option>
+            {!noEmptyOption && (
+              <option color="accent.3" value="">
+                {placeholder}
+              </option>
+            )}
 
             {options?.map((option) => (
               <option key={option.value} value={option.value}>
@@ -45,6 +49,7 @@ export const Select = forwardRef(
             ))}
           </SelectChakraui>
         )}
+        rest={group}
       />
     );
   }
@@ -57,4 +62,6 @@ Select.propTypes = {
     PropTypes.shape({ label: PropTypes.string, value: PropTypes.string })
   ),
   onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  noEmptyOption: PropTypes.bool,
 };

@@ -10,7 +10,7 @@ import {
   Text,
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   adminDeleteCourse,
   adminDeleteMultipleCourses,
@@ -135,6 +135,7 @@ const tableProps = {
       console.log(selectedUsers);
       await adminDeleteMultipleCourses();
     },
+    pagination: true,
   },
 };
 
@@ -150,7 +151,8 @@ const useUserListing = () => {
       setRows({ loading: true });
 
       try {
-        const { users } = await adminGetUserListing(props?.params);
+        const { users, showingDocumentsCount, totalDocumentsCount } =
+          await adminGetUserListing(props?.params);
 
         const mapUserToRow = (user) => ({
           ...user,
@@ -162,8 +164,8 @@ const useUserListing = () => {
           certificates: user.noOfCertificate,
         });
 
-        const data = users.map(mapUserToRow);
-        setRows({ data });
+        const rows = users.map(mapUserToRow);
+        setRows({ data: { rows, showingDocumentsCount, totalDocumentsCount } });
       } catch (err) {
         console.error(err);
         setRows({ err: true });
@@ -183,10 +185,6 @@ const useUserListing = () => {
 
 const UserListingPage = () => {
   const { rows, setRows, fetchUsers } = useUserListing();
-
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
 
   return (
     <AdminMainAreaWrapper>
