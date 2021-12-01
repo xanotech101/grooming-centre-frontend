@@ -8,12 +8,12 @@ import { Button, Checkbox, SearchBar, Text } from "../..";
 
 const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
   const [tags, setTags] = useState({});
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(null);
 
   useEffect(() => {
     const tagsKeys = Reflect.ownKeys(tags);
 
-    if (tagsKeys.length || searchQuery) {
+    if (tagsKeys.length || searchQuery !== null) {
       let params = {
         ...(searchQuery ? { search: searchQuery } : {}),
       };
@@ -50,6 +50,9 @@ const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
+  const handleClearSearch = () => {
+    setSearchQuery("");
+  };
 
   return (
     <Flex
@@ -64,6 +67,7 @@ const Header = ({ filterControls, SearchBarVisibility, handleFetch }) => {
         width="375px"
         sm
         onSearch={handleSearch}
+        onClear={handleClearSearch}
       />
 
       {filterControls && (
