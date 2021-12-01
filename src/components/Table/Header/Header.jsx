@@ -47,22 +47,17 @@ const FilterButtonsGroup = ({ data, handleFetch }) => {
             { [key]: "" }
           );
 
-          const additionalParams = tags[key].reduce((acc, tag) => {
-            console.log(tag);
-
-            return {
+          const additionalParams = tags[key].reduce(
+            (acc, tag) => ({
               ...acc,
               ...(tag.additionalParams ? tag.additionalParams : {}),
-            };
-          }, {});
-
-          console.log(additionalParams);
+            }),
+            {}
+          );
 
           params = { ...params, ...p, ...additionalParams };
         }
       });
-
-      console.log(params);
 
       handleFetch({ params });
     }
