@@ -9,7 +9,7 @@ import {
   Textarea,
   Upload,
 } from "../../../components";
-import { useApp } from "../../../contexts";
+import { useApp, useCache } from "../../../contexts";
 import { useDateTimePicker, useUpload } from "../../../hooks";
 import { CreatePageLayout } from "../../../layouts";
 import { adminCreateEvent } from "../../../services";
@@ -32,6 +32,7 @@ const CreateEventPage = () => {
 
   const { push } = useHistory();
   const toast = useToast();
+  const cache = useCache();
   const {
     state: { metadata },
   } = useApp();
@@ -61,7 +62,8 @@ const CreateEventPage = () => {
       //   :
       adminCreateEvent(body);
 
-      // if (isEditMode) handleDelete(lesson.id);
+      // Clear cache on both admin side
+      cache.handleDelete("admin-events");
 
       toast({
         description: capitalizeFirstLetter(message),
