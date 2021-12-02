@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Icon } from "@chakra-ui/icon";
 import { Box, Grid } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
@@ -6,6 +7,7 @@ import { Checkbox, Spinner, Text } from "../..";
 import { Link } from "react-router-dom";
 import { DeleteMenuItemButton } from "../../Cards/QuestionListCard";
 import { EmptyState } from "../../../layouts";
+import { fireDoubleClick } from "../../../utils";
 import { ImDatabase } from "react-icons/im";
 import Pagination from "../Pagination/Pagination";
 
@@ -23,6 +25,7 @@ const TableBody = ({
   onRowSelect,
   setParams,
   setCanFilter,
+  handleDeselectAllRows,
 }) => {
   const getTemplateColumns = () =>
     `${options?.selection ? "20px " : ""}${templateColumns}${
@@ -83,6 +86,7 @@ const TableBody = ({
                     options={options.action}
                     row={row}
                     onRowSelect={onRowSelect}
+                    handleDeselectAllRows={handleDeselectAllRows}
                   />
                 )}
                 minWidth="fit-content"
@@ -137,17 +141,34 @@ const TableBody = ({
   );
 };
 
-const ActionIconButton = ({ options, row, onRowSelect }) => {
-  const handleDelete = async () => {
-    // select row
-    onRowSelect({ id: row.id });
-    // Delete the Row
-    // Hack
-    setTimeout(
-      () => document.querySelector('[data-testid="delete"]')?.click(),
-      500
-    );
+const ActionIconButton = ({
+  options,
+  row,
+  onRowSelect,
+  handleDeselectAllRows,
+}) => {
+  const [readyToDelete, setReadyToDelete] = useState(false);
+
+  const handleDeleteClick = async () => {
+    handleDeselectAllRows();
+    setReadyToDelete(true);
   };
+
+  // Handle Delete
+  useEffect(() => {
+    if (readyToDelete) {
+      onRowSelect({ id: row.id });
+
+      // Delete the Row
+      // WARNING Hack
+      setTimeout(
+        () => fireDoubleClick(document.querySelector('[data-testid="delete"]')),
+        250
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readyToDelete]);
 
   return (
     <Menu placement="bottom-end">
@@ -169,7 +190,7 @@ const ActionIconButton = ({ options, row, onRowSelect }) => {
             opt.isDelete ? (
               <DeleteMenuItemButton
                 key={index}
-                onDelete={() => handleDelete()}
+                onDelete={() => handleDeleteClick()}
               />
             ) : (
               <MenuItem

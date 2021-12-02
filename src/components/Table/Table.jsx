@@ -245,19 +245,19 @@ export const Table = ({
               <AiFillMinusSquare />
             </Button>
 
-            <Text as="level3" bold>
+            <Text as="level3" bold marginX={5}>
               {manager.selectedRows.length} selected
             </Text>
 
             <Button
               asIcon
               sm
-              marginLeft={10}
               data-testid="delete"
-              onClick={manager.handleDeleteRows.bind(
+              onDoubleClick={manager.handleDeleteRows.bind(
                 null,
                 manager.selectedRows
               )}
+              color="secondary.7"
             >
               <BiTrash />
             </Button>
@@ -284,6 +284,7 @@ export const Table = ({
             deletionInProgress={manager.deletionInProgress}
             setParams={manager.setParams}
             setCanFilter={manager.setCanFilter}
+            handleDeselectAllRows={manager.handleDeselectAllRows}
           />
         </Box>
       </Box>

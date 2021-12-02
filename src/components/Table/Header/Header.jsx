@@ -24,8 +24,6 @@ const Header = ({
         ...(searchQuery ? { search: searchQuery } : {}),
       };
 
-      console.log(params, searchQuery);
-
       tagsKeys.forEach((key) => {
         if (tags[key].length) {
           const p = tags[key].reduce(
