@@ -208,12 +208,6 @@ export const ViewEventButton = ({
               {dayjs(event.startTime).format("h:mm A")} -{" "}
               {dayjs(event.endTime).format("h:mm A.")}
             </Text>
-            <Text my={2} as="level3">
-              <Box as="b" mr={5}>
-                SPEAKERS:
-              </Box>
-              {getSpeakers() ? `${getSpeakers()}.` : <Tag>No Speakers</Tag>}
-            </Text>
           </ModalBody>
 
           <ModalFooter>
