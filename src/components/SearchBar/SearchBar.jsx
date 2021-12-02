@@ -14,6 +14,7 @@ export const SearchBar = ({
   fontSize,
   onSearch,
   onClear,
+  onClick,
   ...rest
 }) => {
   adminLayoutHeaderStyle = adminLayoutHeaderStyle
@@ -53,6 +54,7 @@ export const SearchBar = ({
         border="none"
         type="search"
         onInput={(e) => e.target.value === "" && onClear?.()}
+        onClick={onClick}
         placeholder={placeholder}
         paddingLeft={2}
         size={sm && "sm"}
@@ -98,4 +100,5 @@ SearchBar.propTypes = {
   fontSize: PropTypes.string,
   onSearch: PropTypes.func,
   onClear: PropTypes.func,
+  onClick: PropTypes.func,
 };

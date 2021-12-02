@@ -4,7 +4,7 @@ import Header from "./Header/Header";
 import TableHead from "./TableHead/TableHead";
 import TableBody from "./TableBody/TableBody";
 import { useState } from "react";
-import { Button, Text, Spinner } from "..";
+import { Button, Text } from "..";
 import { AiFillMinusSquare } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import breakpoints from "../../theme/breakpoints";
@@ -13,13 +13,44 @@ import { capitalizeFirstLetter } from "../../utils";
 import { useToast } from "@chakra-ui/toast";
 import { useEffect } from "react";
 
-const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
+const useTable = ({
+  rowsData,
+  setRows,
+  multipleDeleteFetcher,
+  options,
+  handleFetch,
+}) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const {
     resource: { loading: deletionInProgress },
     handleFetchResource,
   } = useFetch();
   const toastBread = useToast();
+
+  const [params, setParams] = useState({});
+  const [canFilter, setCanFilter] = useState(false);
+
+  // Fetch Table initial's data for non-paginated option
+  useEffect(() => {
+    if (!options.pagination) {
+      console.log("pagination init"); // TODO: remove
+      handleFetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.pagination]);
+
+  // Fetch Table data every time permitted to
+  useEffect(() => {
+    console.log(canFilter);
+
+    if (canFilter) {
+      console.log("canFilter"); // TODO: remove
+      handleFetch({ params });
+      setCanFilter(false);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canFilter]);
 
   /**
    * toggles all rows selection
@@ -134,6 +165,8 @@ const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
     handleSelectRowsToggle,
     handleSelectRowToggle,
     handleDeleteRows,
+    setParams,
+    setCanFilter,
   };
 };
 
@@ -156,6 +189,8 @@ export const Table = ({
     rowsData: rows.data?.rows,
     setRows,
     multipleDeleteFetcher: options?.multipleDeleteFetcher,
+    options,
+    handleFetch,
   });
 
   const getTemplateColumns = () =>
@@ -194,125 +229,70 @@ export const Table = ({
     selectedRows: manager.selectedRows,
   };
 
-  const [params, setParams] = useState({});
-  const [canFilter, setCanFilter] = useState(false);
-
-  useEffect(() => {
-    if (!options.pagination) {
-      console.log("pagination init");
-
-      handleFetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.pagination]);
-
-  useEffect(() => {
-    console.log(canFilter);
-
-    if (canFilter) {
-      console.log("canFilter");
-      handleFetch({ params });
-      setCanFilter(false);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canFilter]);
-
   return (
     <Box>
       <Header
         SearchBarVisibility={SearchBarVisibility}
         filterControls={filterControls}
-        setParams={setParams}
-        setCanFilter={setCanFilter}
+        setParams={manager.setParams}
+        setCanFilter={manager.setCanFilter}
       />
 
-      {manager.deletionInProgress ? (
-        <Flex
-          width="100%"
-          height="100%"
-          justifyContent="center"
-          alignItems="center"
-          backgroundColor="rgba(0,0,0,0.3)"
-          position="fixed"
-          zIndex="1000"
-          top="0"
-          left="0"
-        >
-          <Box
-            backgroundColor="white"
-            textAlign="center"
-            padding={10}
-            rounded="md"
-            shadow="md"
-          >
-            <Spinner marginBottom={5} />
-            <Text as="level2">Please wait, as this might take a while</Text>
-          </Box>
-        </Flex>
-      ) : (
-        <>
-          <Box
-            paddingTop={3}
-            marginTop={3}
-            borderTop="1px"
-            borderColor="accent.2"
-          >
-            {manager.selectedRows.length ? (
-              <Flex alignItems="center" marginBottom={3}>
-                <Button
-                  asIcon
-                  sm
-                  marginRight={2}
-                  data-testid="deselect"
-                  onClick={manager.handleDeselectAllRows}
-                >
-                  <AiFillMinusSquare />
-                </Button>
-
-                <Text as="level3" bold>
-                  {manager.selectedRows.length} selected
-                </Text>
-
-                <Button
-                  asIcon
-                  sm
-                  marginLeft={10}
-                  data-testid="delete"
-                  onClick={manager.handleDeleteRows.bind(
-                    null,
-                    manager.selectedRows
-                  )}
-                >
-                  <BiTrash />
-                </Button>
-              </Flex>
-            ) : null}
-
-            <Box
-              divider={<StackDivider borderColor="gray.200" marginY={0} />}
-              role="table"
-              paddingBottom={5}
-              width={width}
-              maxWidth={maxWidth}
-              overflowX="auto"
-              backgroundColor="white"
+      <Box paddingTop={3} marginTop={3} borderTop="1px" borderColor="accent.2">
+        {manager.selectedRows.length ? (
+          <Flex alignItems="center" marginBottom={3}>
+            <Button
+              asIcon
+              sm
+              marginRight={2}
+              data-testid="deselect"
+              onClick={manager.handleDeselectAllRows}
             >
-              <TableHead
-                {...commonProps}
-                onSelect={manager.handleSelectRowsToggle}
-              />
+              <AiFillMinusSquare />
+            </Button>
 
-              <TableBody
-                {...commonProps}
-                onRowSelect={manager.handleSelectRowToggle}
-                setParams={setParams}
-                setCanFilter={setCanFilter}
-              />
-            </Box>
-          </Box>
-        </>
-      )}
+            <Text as="level3" bold>
+              {manager.selectedRows.length} selected
+            </Text>
+
+            <Button
+              asIcon
+              sm
+              marginLeft={10}
+              data-testid="delete"
+              onClick={manager.handleDeleteRows.bind(
+                null,
+                manager.selectedRows
+              )}
+            >
+              <BiTrash />
+            </Button>
+          </Flex>
+        ) : null}
+
+        <Box
+          divider={<StackDivider borderColor="gray.200" marginY={0} />}
+          role="table"
+          paddingBottom={5}
+          width={width}
+          maxWidth={maxWidth}
+          overflowX="auto"
+          backgroundColor="white"
+        >
+          <TableHead
+            {...commonProps}
+            onSelect={manager.handleSelectRowsToggle}
+          />
+
+          <TableBody
+            {...commonProps}
+            onRowSelect={manager.handleSelectRowToggle}
+            deletionInProgress={manager.deletionInProgress}
+            setParams={manager.setParams}
+            setCanFilter={manager.setCanFilter}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 };

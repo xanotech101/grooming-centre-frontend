@@ -11,6 +11,7 @@ import Pagination from "../Pagination/Pagination";
 
 const TableBody = ({
   rows,
+  deletionInProgress,
   columns,
   options,
   templateColumns,
@@ -36,63 +37,73 @@ const TableBody = ({
   };
 
   return (
-    <Box role="thead">
-      {rows.data?.rows?.map((row) => (
-        <Grid
-          key={row.id}
-          role="row"
-          alignItems="center"
-          templateColumns={getTemplateColumns}
-          columnGap={columnGap}
-          height="40px"
-          {...generalRowStyles}
-        >
-          {options?.selection && (
-            <Box
-              //
-              {...checkboxStyles}
-            >
-              <Checkbox
-                isChecked={handleIsChecked(row.id)}
-                onChange={handleCheckboxChange.bind(null, row.id)}
-              />
-            </Box>
-          )}
-
-          {columns.map((col) =>
-            col.renderContent ? (
-              <Box key={col.id} {...generalCellStyles}>
-                {col.renderContent(row[col.key])}
+    <Box role="tbody">
+      {!deletionInProgress &&
+        rows.data?.rows?.map((row) => (
+          <Grid
+            key={row.id}
+            role="row"
+            alignItems="center"
+            templateColumns={getTemplateColumns}
+            columnGap={columnGap}
+            height="40px"
+            {...generalRowStyles}
+          >
+            {options?.selection && (
+              <Box
+                //
+                {...checkboxStyles}
+              >
+                <Checkbox
+                  isChecked={handleIsChecked(row.id)}
+                  onChange={handleCheckboxChange.bind(null, row.id)}
+                />
               </Box>
-            ) : (
+            )}
+
+            {columns.map((col) =>
+              col.renderContent ? (
+                <Box key={col.id} {...generalCellStyles}>
+                  {col.renderContent(row[col.key])}
+                </Box>
+              ) : (
+                <Cell
+                  key={col.id}
+                  cell={col}
+                  text={row[col.key]}
+                  {...generalCellStyles}
+                />
+              )
+            )}
+
+            {options?.action && (
               <Cell
-                key={col.id}
-                cell={col}
-                text={row[col.key]}
+                renderText={() => (
+                  <ActionIconButton
+                    options={options.action}
+                    row={row}
+                    onRowSelect={onRowSelect}
+                  />
+                )}
+                minWidth="fit-content"
                 {...generalCellStyles}
               />
-            )
-          )}
+            )}
+          </Grid>
+        ))}
 
-          {options?.action && (
-            <Cell
-              renderText={() => (
-                <ActionIconButton
-                  options={options.action}
-                  row={row}
-                  onRowSelect={onRowSelect}
-                />
-              )}
-              minWidth="fit-content"
-              {...generalCellStyles}
-            />
-          )}
-        </Grid>
-      ))}
-
-      {rows.loading || rows.err ? (
-        <Grid height="200px" placeItems="center">
+      {rows.loading || rows.err || deletionInProgress ? (
+        <Grid height="200px" placeItems="center" textAlign="center">
           {rows.loading && <Spinner size="md" />}
+
+          {deletionInProgress && (
+            <Grid placeItems="center" textAlign="center">
+              <Spinner marginBottom={5} />
+              <Text as="level2" bold>
+                Please wait, as this operation might take a while
+              </Text>
+            </Grid>
+          )}
 
           {rows.err && (
             <Text color="red.500" as="level1" bold>
@@ -158,7 +169,7 @@ const ActionIconButton = ({ options, row, onRowSelect }) => {
             opt.isDelete ? (
               <DeleteMenuItemButton
                 key={index}
-                onDelete={({ onClose }) => handleDelete()}
+                onDelete={() => handleDelete()}
               />
             ) : (
               <MenuItem

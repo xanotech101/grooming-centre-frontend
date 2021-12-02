@@ -44,6 +44,10 @@ const Pagination = ({
   }, [currentPage, limit, history]);
 
   useEffect(() => {
+    console.log("Pag....");
+  }, []);
+
+  useEffect(() => {
     console.log(currentPage, limit);
     setParams((prev) => ({ ...prev, page: currentPage, length: limit }));
     setCanFilter(true);

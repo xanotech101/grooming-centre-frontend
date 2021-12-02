@@ -131,7 +131,7 @@ const tableProps = {
       console.log(selectedUsers);
       await adminDeleteMultipleCourses();
     },
-    // pagination: true,
+    pagination: true,
   },
 };
 
