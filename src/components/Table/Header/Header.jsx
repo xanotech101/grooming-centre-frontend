@@ -24,6 +24,8 @@ const Header = ({
         ...(searchQuery ? { search: searchQuery } : {}),
       };
 
+      console.log(params, searchQuery);
+
       tagsKeys.forEach((key) => {
         if (tags[key].length) {
           const p = tags[key].reduce(
@@ -55,6 +57,18 @@ const Header = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tags, searchQuery]);
+
+  // Manually clear Search from QueryParams sent to the server
+  useEffect(() => {
+    if (searchQuery === "") {
+      setParams((params) => {
+        Reflect.deleteProperty(params, "search");
+        return params;
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
