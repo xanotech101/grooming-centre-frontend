@@ -5,7 +5,7 @@ import { http } from "../http";
  *
  * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
  */
-export const loggedInUserGetEventListing = async () => {
+export const userGetEventListing = async () => {
   const path = `/events`;
 
   const {
@@ -25,7 +25,31 @@ export const loggedInUserGetEventListing = async () => {
 };
 
 /**
- * Endpoint to for admin to create a lesson
+ * Endpoint for admin to get event listing
+ *
+ * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
+ */
+export const adminGetEventListing = async () => {
+  const path = `/admin/events`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const events = data.map((event) => ({
+    id: event.id,
+    startTime: event.startTime,
+    endTime: event.endTime,
+    name: event.name,
+    description: event.description,
+    departmentId: event.departmentId,
+  }));
+
+  return { events };
+};
+
+/**
+ * Endpoint for admin to create a lesson
  * @param {object} body
  *
  * @returns {Promise<{ message: string }>}

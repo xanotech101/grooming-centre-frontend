@@ -5,7 +5,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
 import { Route } from "react-router-dom";
 import { Button } from "../../../components";
-import { loggedInUserGetEventListing } from "../../../services";
+import { adminGetEventListing } from "../../../services";
 import {
   EventListing,
   EventNameLink,
@@ -15,7 +15,7 @@ import {
 
 const EventsPage = () => {
   const fetcher = useCallback(async () => {
-    const { events } = await loggedInUserGetEventListing();
+    const { events } = await adminGetEventListing();
 
     return events.map((event) => ({
       ...event,
@@ -37,7 +37,6 @@ const EventsPage = () => {
     fetcher,
     cacheKey: "admin-events",
   });
-  console.log(events);
 
   return (
     <Flex marginTop="16" justifyContent="center">

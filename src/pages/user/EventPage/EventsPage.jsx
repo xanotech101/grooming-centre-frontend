@@ -3,7 +3,7 @@ import { useEffect, useCallback } from "react";
 import { Route } from "react-router-dom";
 import { Heading, Image, Text } from "../../../components";
 import { useFetchAndCache } from "../../../hooks";
-import { loggedInUserGetEventListing } from "../../../services";
+import { userGetEventListing } from "../../../services";
 import coverImagePlaceholder from "../../../assets/images/events-banner.svg";
 import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import { EventListing } from "./EventListing";
@@ -12,7 +12,7 @@ export const useEventsPage = (props) => {
   const { resource, handleFetchResource } = useFetchAndCache();
 
   const fetcher = useCallback(async () => {
-    const { events } = await loggedInUserGetEventListing();
+    const { events } = await userGetEventListing();
 
     return events;
   }, []);

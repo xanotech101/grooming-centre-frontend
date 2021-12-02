@@ -2,13 +2,18 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
-  loggedInUserGetEventListingRes,
+  userGetEventListingRes,
   adminCreateEventRes,
+  adminGetEventListingRes,
 } from "./responses";
 
-const loggedInUserGetEventListing = rest.get(
+const userGetEventListing = rest.get(
   getUrl("/events"),
-  handleSuccessResponse(loggedInUserGetEventListingRes)
+  handleSuccessResponse(userGetEventListingRes)
+);
+const adminGetEventListing = rest.get(
+  getUrl("/admin/events"),
+  handleSuccessResponse(adminGetEventListingRes)
 );
 
 const adminCreateEvent = rest.post(
@@ -16,6 +21,6 @@ const adminCreateEvent = rest.post(
   handleSuccessResponse(adminCreateEventRes)
 );
 
-const event = [loggedInUserGetEventListing, adminCreateEvent];
+const event = [userGetEventListing, adminCreateEvent, adminGetEventListing];
 
 export default event;
