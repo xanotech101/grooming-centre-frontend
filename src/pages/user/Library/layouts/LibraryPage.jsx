@@ -37,9 +37,10 @@ const LibraryPage = () => {
           <Text as="level2">Find resources available for you</Text>
         </Stack>
       </Box>
-
-      <Links />
-      <MainArea />
+      <Box {...maxWidthStyles_userPages}>
+        <Links />
+        <MainArea />
+      </Box>
     </Box>
   );
 };
