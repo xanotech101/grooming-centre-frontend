@@ -9,7 +9,6 @@ import { Button, Checkbox, SearchBar, Text } from "../..";
 const Header = ({
   filterControls,
   SearchBarVisibility,
-  handleFetch,
   setParams,
   setCanFilter,
 }) => {
@@ -55,7 +54,7 @@ const Header = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleFetch, tags, searchQuery]);
+  }, [tags, searchQuery]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-export const useUpload = ({ previewElementId }) => {
+export const useUpload = (props) => {
+  const previewElementId = props?.previewElementId;
+
   const initAccept = "image/jpeg, image/png";
 
   const [accept, setAccept] = useState(initAccept);
@@ -42,7 +44,7 @@ export const useUpload = ({ previewElementId }) => {
   };
 
   useEffect(() => {
-    if (video.url) {
+    if (video.url && previewElementId) {
       const videoElement = document.getElementById(previewElementId);
 
       videoElement.ondurationchange = function () {

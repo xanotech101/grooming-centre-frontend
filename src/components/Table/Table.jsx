@@ -223,7 +223,6 @@ export const Table = ({
           <Header
             SearchBarVisibility={SearchBarVisibility}
             filterControls={filterControls}
-            handleFetch={handleFetch}
             setParams={setParams}
             setCanFilter={setCanFilter}
           />
