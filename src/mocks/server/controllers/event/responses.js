@@ -66,3 +66,7 @@ export const adminGetEventDetailRes_eventId_1 = {
     speaker: "",
   },
 };
+
+export const adminCreateEventRes = {
+  message: "event created successfully",
+};

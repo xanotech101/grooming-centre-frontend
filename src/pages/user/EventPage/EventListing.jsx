@@ -118,7 +118,7 @@ const Listing = ({ events, headerButton }) => {
               <Text as="level2" bold my={1}>
                 {event.name}
               </Text>
-              <Text>{truncateText(event.description, 122)}</Text>
+              <Text>{truncateText(event.description, 60)}</Text>
             </Box>
 
             {event.renderAction ? (
@@ -142,7 +142,11 @@ const JoinEventButton = ({ event }) => (
   </Button>
 );
 
-const ViewEventButton = ({ event }) => {
+export const ViewEventButton = ({
+  event,
+  renderTrigger,
+  renderCallToAction,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getSpeakers = () =>
@@ -153,9 +157,13 @@ const ViewEventButton = ({ event }) => {
 
   return (
     <>
-      <Button secondary onClick={onOpen}>
-        View Event
-      </Button>
+      {renderTrigger ? (
+        renderTrigger({ onOpen })
+      ) : (
+        <Button secondary onClick={onOpen}>
+          View Event
+        </Button>
+      )}
 
       <Modal
         blockScrollOnMount={false}
@@ -213,7 +221,11 @@ const ViewEventButton = ({ event }) => {
               Close
             </Button>
 
-            <JoinEventButton event={event} />
+            {renderCallToAction ? (
+              renderCallToAction({ event })
+            ) : (
+              <JoinEventButton event={event} />
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

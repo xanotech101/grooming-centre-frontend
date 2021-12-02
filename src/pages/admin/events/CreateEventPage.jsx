@@ -1,10 +1,24 @@
-import { Box, Flex } from "@chakra-ui/layout";
+import { Box, Grid } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/toast";
 import { useForm } from "react-hook-form";
-import { BsPlusCircleFill } from "react-icons/bs";
-import { Route } from "react-router-dom";
-import { Button, Input, Textarea, Upload } from "../../../components";
-import { useUpload } from "../../../hooks";
+import { Route, useHistory } from "react-router-dom";
+import {
+  DateTimePicker,
+  Input,
+  Select,
+  Textarea,
+  Upload,
+} from "../../../components";
+import { useApp } from "../../../contexts";
+import { useDateTimePicker, useUpload } from "../../../hooks";
 import { CreatePageLayout } from "../../../layouts";
+import { adminCreateEvent } from "../../../services";
+import {
+  appendFormData,
+  capitalizeFirstLetter,
+  formatDateToISO,
+  populateSelectOptions,
+} from "../../../utils";
 
 const CreateEventPage = () => {
   const {
@@ -12,11 +26,60 @@ const CreateEventPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  const thumbnailUpload = useUpload();
+  const coverImageManager = useUpload();
+  const startTimeManager = useDateTimePicker();
+  const endTimeManager = useDateTimePicker();
 
+  const { push } = useHistory();
+  const toast = useToast();
+  const {
+    state: { metadata },
+  } = useApp();
+
+  // Handle form submission
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const startTime =
+        startTimeManager.handleGetValueAndValidate("Start Time");
+      const endTime = endTimeManager.handleGetValueAndValidate("End Time");
+      const file = coverImageManager.handleGetFileAndValidate(
+        "Event Cover",
+        true
+      );
+
+      data = {
+        ...data,
+        file,
+        startTime: formatDateToISO(startTime),
+        endTime: formatDateToISO(endTime),
+      };
+
+      const body = appendFormData(data);
+
+      const { message } = await // isEditMode
+      // ? adminEditLesson(lessonId, body)
+      //   :
+      adminCreateEvent(body);
+
+      // if (isEditMode) handleDelete(lesson.id);
+
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
+
+      push(`/admin/events`);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
   };
+
   return (
     <CreatePageLayout
       title="Create Event"
@@ -24,16 +87,30 @@ const CreateEventPage = () => {
       onSubmit={handleSubmit(onSubmit)}
       submitButtonIsLoading={isSubmitting}
     >
-      <Box marginBottom={8}>
+      <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
         <Input
           label="Title"
+          isRequired
           id="title"
           {...register("title", {
             required: "Title is required",
           })}
           error={errors.title?.message}
         />
-      </Box>
+
+        <Select
+          label="Select department"
+          options={populateSelectOptions(metadata?.departments)}
+          isRequired
+          id="departmentId"
+          isLoading={!metadata?.departments}
+          {...register("departmentId", {
+            required: "Please select a department",
+          })}
+          error={errors.departmentId?.message}
+        />
+      </Grid>
+
       <Box marginBottom={8}>
         <Textarea
           minHeight="150px"
@@ -51,25 +128,31 @@ const CreateEventPage = () => {
           }
         />
       </Box>
-      <Flex width="30%" marginBottom={8}>
-        <Input
-          label="Event Speaker"
-          width="90%"
-          id="speaker"
-          {...register("speaker", {
-            required: "Event speaker is required",
-          })}
-          error={errors.speaker?.message}
+
+      <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+        <DateTimePicker
+          id="startTime"
+          isRequired
+          label="Start date & time"
+          value={startTimeManager.value}
+          onChange={startTimeManager.handleChange}
         />
-        <Box marginTop={9}>
-          <Button asIcon>
-            <BsPlusCircleFill size="24px" color="#800020" />
-          </Button>
-        </Box>
-      </Flex>
+
+        <DateTimePicker
+          id="endTime"
+          isRequired
+          label="End date & time"
+          value={endTimeManager.value}
+          onChange={endTimeManager.handleChange}
+        />
+      </Grid>
+
       <Box width="50%" marginBottom={8}>
-        <Input
+        <Select
           label="Event Location"
+          isRequired
+          defaultValue="virtual"
+          options={[{ value: "virtual", label: "Virtual" }]}
           id="location"
           {...register("location", {
             required: "Event location is required",
@@ -77,14 +160,14 @@ const CreateEventPage = () => {
           error={errors.location?.message}
         />
       </Box>
+
       <Box marginBottom={8}>
         <Upload
           id="thumbnail"
-          isRequired
           label="Event Cover"
-          onFileSelect={thumbnailUpload.handleFileSelect}
-          imageUrl={thumbnailUpload.image.url}
-          accept={thumbnailUpload.accept}
+          onFileSelect={coverImageManager.handleFileSelect}
+          imageUrl={coverImageManager.image.url}
+          accept={coverImageManager.accept}
         />
       </Box>
     </CreatePageLayout>

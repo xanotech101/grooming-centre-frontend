@@ -169,6 +169,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
           <GridItem>
             <Input
               label="Course title"
+              isRequired
               id="title"
               {...register("title", {
                 required: "Title is required",
@@ -178,6 +179,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
           </GridItem>
           <GridItem>
             <Select
+              isRequired
               label="Select department"
               options={populateSelectOptions(metadata?.departments)}
               id="departmentId"

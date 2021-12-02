@@ -1,9 +1,12 @@
 import { Box, Flex } from "@chakra-ui/layout";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { useCallback } from "react";
+import { BiRightArrowAlt } from "react-icons/bi";
+import { HiDotsVertical } from "react-icons/hi";
 import { Route } from "react-router-dom";
 import { Button } from "../../../components";
 import { loggedInUserGetEventListing } from "../../../services";
-import { EventListing, useEventsPage } from "../../user";
+import { EventListing, useEventsPage, ViewEventButton } from "../../user";
 
 const EventsPage = () => {
   const fetcher = useCallback(async () => {
@@ -13,9 +16,7 @@ const EventsPage = () => {
       ...event,
       renderAction: () => (
         <Box marginLeft="auto">
-          <Button secondary sm>
-            Edit Event
-          </Button>
+          <MoreIcon event={event} />
         </Box>
       ),
     }));
@@ -28,23 +29,49 @@ const EventsPage = () => {
   console.log(events);
 
   return (
-    <Flex height="100%" alignItems="center" justifyContent="center">
+    <Flex marginTop="16" justifyContent="center">
       <EventListing
         isLoading={isLoading}
         hasError={hasError}
         eventsIsEmpty={eventsIsEmpty}
         events={events}
         headerButton={
-          <Button
-            link={`/admin/events/create`}
-            // paddingX={6}
-            // fontSize="text.level4"
-          >
-            Create Event
-          </Button>
+          <Button link={`/admin/events/create`}>Create Event</Button>
         }
       />
     </Flex>
+  );
+};
+
+const MoreIcon = ({ event }) => {
+  return (
+    <Menu placement="bottom-end">
+      <MenuButton
+        padding={4}
+        rounded="full"
+        _hover={{ backgroundColor: "secondary.05" }}
+      >
+        <HiDotsVertical />
+      </MenuButton>
+
+      <MenuList position="relative" zIndex={2}>
+        <ViewEventButton
+          event={event}
+          renderTrigger={({ onOpen }) => (
+            <MenuItem onClick={onOpen}>View</MenuItem>
+          )}
+          renderCallToAction={({ event }) => (
+            <Button
+              // disabled={!isOngoing(event.startTime, event.endTime)}
+              rightIcon={<BiRightArrowAlt />}
+            >
+              Edit Event
+            </Button>
+          )}
+        />
+        <MenuItem>Edit</MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

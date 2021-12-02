@@ -1,13 +1,21 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
-import { loggedInUserGetEventListingRes } from "./responses";
+import {
+  loggedInUserGetEventListingRes,
+  adminCreateEventRes,
+} from "./responses";
 
 const loggedInUserGetEventListing = rest.get(
   getUrl("/events"),
   handleSuccessResponse(loggedInUserGetEventListingRes)
 );
 
-const event = [loggedInUserGetEventListing];
+const adminCreateEvent = rest.post(
+  getUrl("/events/create"),
+  handleSuccessResponse(adminCreateEventRes)
+);
+
+const event = [loggedInUserGetEventListing, adminCreateEvent];
 
 export default event;
