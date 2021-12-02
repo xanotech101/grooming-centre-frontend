@@ -86,7 +86,23 @@ const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
         }
       });
 
-      setRows({ data: allRows });
+      // setRows((prev) => ({
+      //   data: {
+      //     rows: [],
+      //   },
+      // }));
+      setRows((prev) => ({
+        data: {
+          ...prev.data,
+          rows: allRows,
+          showingDocumentsCount: prev.data.showingDocumentsCount
+            ? prev.data.showingDocumentsCount - selectedRows.length
+            : 0,
+        },
+      }));
+
+      console.log(allRows);
+
       handleDeselectAllRows();
 
       toastBread({
@@ -136,13 +152,8 @@ export const Table = ({
   width = "calc(100vw - 270px - 40px)",
   maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
 }) => {
-  useEffect(() => {
-    if (!options.pagination) handleFetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.pagination]);
-
   const manager = useTable({
-    rowsData: rows.data,
+    rowsData: rows.data?.rows,
     setRows,
     multipleDeleteFetcher: options?.multipleDeleteFetcher,
   });
@@ -187,14 +198,35 @@ export const Table = ({
   const [canFilter, setCanFilter] = useState(false);
 
   useEffect(() => {
+    if (!options.pagination) {
+      console.log("pagination init");
+
+      handleFetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.pagination]);
+
+  useEffect(() => {
+    console.log(canFilter);
+
     if (canFilter) {
+      console.log("canFilter");
       handleFetch({ params });
       setCanFilter(false);
     }
-  }, [canFilter, handleFetch, params]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canFilter]);
 
   return (
     <Box>
+      <Header
+        SearchBarVisibility={SearchBarVisibility}
+        filterControls={filterControls}
+        setParams={setParams}
+        setCanFilter={setCanFilter}
+      />
+
       {manager.deletionInProgress ? (
         <Flex
           width="100%"
@@ -220,13 +252,6 @@ export const Table = ({
         </Flex>
       ) : (
         <>
-          <Header
-            SearchBarVisibility={SearchBarVisibility}
-            filterControls={filterControls}
-            setParams={setParams}
-            setCanFilter={setCanFilter}
-          />
-
           <Box
             paddingTop={3}
             marginTop={3}
@@ -308,7 +333,6 @@ Table.propTypes = {
       PropTypes.shape({
         text: PropTypes.any,
         isDelete: PropTypes.bool,
-        deleteFetcher: PropTypes.func,
         link: PropTypes.func,
         props: PropTypes.object,
         onClick: PropTypes.func,

@@ -241,3 +241,7 @@ export const adminEditUserRes_userId_3 = {
     },
   ],
 };
+
+export const adminDeleteUserRes = {
+  message: "user deleted successfully",
+};

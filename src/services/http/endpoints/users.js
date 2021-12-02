@@ -1,6 +1,18 @@
 import { http } from "../..";
 
 /**
+ * Endpoint to delete user
+ * @param {string} id
+ *
+ * @returns {Promise<void>}
+ */
+export const adminDeleteUser = async (id) => {
+  const path = `/user/delete/${id}`;
+
+  await http.delete(path);
+};
+
+/**
  * Endpoint to get `user-listing`
  * @param {object} params
  *

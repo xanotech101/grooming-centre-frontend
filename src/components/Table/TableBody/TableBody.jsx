@@ -1,4 +1,3 @@
-import { useToast } from "@chakra-ui/toast";
 import { Icon } from "@chakra-ui/icon";
 import { Box, Grid } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
@@ -6,9 +5,6 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { Checkbox, Spinner, Text } from "../..";
 import { Link } from "react-router-dom";
 import { DeleteMenuItemButton } from "../../Cards/QuestionListCard";
-import { useFetch } from "../../../hooks";
-import { useEffect } from "react";
-import { capitalizeFirstLetter } from "../../../utils";
 import { EmptyState } from "../../../layouts";
 import { ImDatabase } from "react-icons/im";
 import Pagination from "../Pagination/Pagination";
@@ -131,38 +127,16 @@ const TableBody = ({
 };
 
 const ActionIconButton = ({ options, row, onRowSelect }) => {
-  const { resource: deleteStatus, handleFetchResource } = useFetch();
-
-  const handleDelete = async (fetcher, onClose) => {
-    const onSuccess = () => {
-      onClose();
-
-      // delete row
-      onRowSelect({ id: row.id });
-      // Hack
-      setTimeout(
-        () => document.querySelector('[data-testid="delete"]')?.click(),
-        500
-      );
-    };
-
-    await handleFetchResource({
-      fetcher: () => fetcher(row),
-      onSuccess,
-    });
+  const handleDelete = async () => {
+    // select row
+    onRowSelect({ id: row.id });
+    // Delete the Row
+    // Hack
+    setTimeout(
+      () => document.querySelector('[data-testid="delete"]')?.click(),
+      500
+    );
   };
-
-  const toastBread = useToast();
-
-  useEffect(() => {
-    if (deleteStatus.err) {
-      toastBread({
-        description: capitalizeFirstLetter(deleteStatus.err),
-        position: "top",
-        status: "error",
-      });
-    }
-  }, [deleteStatus.err, toastBread]);
 
   return (
     <Menu placement="bottom-end">
@@ -184,10 +158,7 @@ const ActionIconButton = ({ options, row, onRowSelect }) => {
             opt.isDelete ? (
               <DeleteMenuItemButton
                 key={index}
-                onDelete={({ onClose }) =>
-                  handleDelete(opt.deleteFetcher, onClose)
-                }
-                deleteStatusIsLoading={deleteStatus.loading}
+                onDelete={({ onClose }) => handleDelete()}
               />
             ) : (
               <MenuItem
