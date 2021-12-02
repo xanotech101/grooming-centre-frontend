@@ -22,6 +22,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { BiRightArrowAlt } from "react-icons/bi";
+import { useApp } from "../../../contexts";
 
 export const EventListing = ({
   isLoading,
@@ -115,9 +116,13 @@ const Listing = ({ events, headerButton }) => {
                   {isUpcoming(event.startTime) && "Event Is Upcoming"}
                 </Tag>
               </Text>
-              <Text as="level2" bold my={1}>
-                {event.name}
-              </Text>
+
+              {event.renderEventName ? (
+                event.renderEventName()
+              ) : (
+                <EventNameLink event={event} />
+              )}
+
               <Text>{truncateText(event.description, 60)}</Text>
             </Box>
 
@@ -142,6 +147,24 @@ const JoinEventButton = ({ event }) => (
   </Button>
 );
 
+export const EventNameLink = ({ event, renderCallToAction }) => (
+  <ViewEventButton
+    event={event}
+    renderCallToAction={renderCallToAction}
+    renderTrigger={({ onOpen }) => (
+      <Text
+        as="level2"
+        bold
+        my={1}
+        onClick={onOpen}
+        _hover={{ textDecoration: "underline", cursor: "pointer" }}
+      >
+        {event.name}
+      </Text>
+    )}
+  />
+);
+
 export const ViewEventButton = ({
   event,
   renderTrigger,
@@ -149,11 +172,7 @@ export const ViewEventButton = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const getSpeakers = () =>
-    event.speakers.reduce(
-      (acc, speaker, index) => `${acc}${index ? ", " : ""}${speaker.name}`,
-      ""
-    );
+  const { getOneMetadata } = useApp();
 
   return (
     <>
@@ -195,6 +214,7 @@ export const ViewEventButton = ({
           <ModalCloseButton />
           <ModalBody>
             <Text mb={8}>{event.description}</Text>
+
             <Text my={2} as="level3">
               <Box as="b" mr={5}>
                 DATE:
@@ -208,6 +228,17 @@ export const ViewEventButton = ({
               {dayjs(event.startTime).format("h:mm A")} -{" "}
               {dayjs(event.endTime).format("h:mm A.")}
             </Text>
+
+            {renderCallToAction ? (
+              <Text my={2} as="level3">
+                <Box as="b" mr={5}>
+                  DEPARTMENT:
+                </Box>
+                {event.departmentId
+                  ? getOneMetadata("departments", event.departmentId)?.name
+                  : "N/A"}
+              </Text>
+            ) : null}
           </ModalBody>
 
           <ModalFooter>

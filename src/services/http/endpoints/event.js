@@ -3,7 +3,7 @@ import { http } from "../http";
 /**
  * Endpoint to get user event listing
  *
- * @returns {Promise<{ events: Array<{ id: string, description: string, name: string,  startTime: Date }> }>}
+ * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
  */
 export const loggedInUserGetEventListing = async () => {
   const path = `/events`;
@@ -18,10 +18,7 @@ export const loggedInUserGetEventListing = async () => {
     endTime: event.endTime,
     name: event.name,
     description: event.description,
-    speakers: event.speakers.map((speaker) => ({
-      name: speaker.name,
-      id: speaker.id,
-    })),
+    departmentId: event.departmentId,
   }));
 
   return { events };

@@ -6,7 +6,12 @@ import { HiDotsVertical } from "react-icons/hi";
 import { Route } from "react-router-dom";
 import { Button } from "../../../components";
 import { loggedInUserGetEventListing } from "../../../services";
-import { EventListing, useEventsPage, ViewEventButton } from "../../user";
+import {
+  EventListing,
+  EventNameLink,
+  useEventsPage,
+  ViewEventButton,
+} from "../../user";
 
 const EventsPage = () => {
   const fetcher = useCallback(async () => {
@@ -18,6 +23,12 @@ const EventsPage = () => {
         <Box marginLeft="auto">
           <MoreIcon event={event} />
         </Box>
+      ),
+      renderEventName: () => (
+        <EventNameLink
+          event={event}
+          renderCallToAction={({ event }) => <EditButton event={event} />}
+        />
       ),
     }));
   }, []);
@@ -60,20 +71,22 @@ const MoreIcon = ({ event }) => {
           renderTrigger={({ onOpen }) => (
             <MenuItem onClick={onOpen}>View</MenuItem>
           )}
-          renderCallToAction={({ event }) => (
-            <Button
-              // disabled={!isOngoing(event.startTime, event.endTime)}
-              rightIcon={<BiRightArrowAlt />}
-            >
-              Edit Event
-            </Button>
-          )}
+          renderCallToAction={({ event }) => <EditButton event={event} />}
         />
         <MenuItem>Edit</MenuItem>
       </MenuList>
     </Menu>
   );
 };
+
+const EditButton = ({ event }) => (
+  <Button
+    // disabled={!isOngoing(event.startTime, event.endTime)}
+    rightIcon={<BiRightArrowAlt />}
+  >
+    Edit Event
+  </Button>
+);
 
 export const EventsPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <EventsPage {...props} />} />;
