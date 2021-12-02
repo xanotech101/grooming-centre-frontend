@@ -32,19 +32,13 @@ const useTable = ({
 
   // Fetch Table initial's data for non-paginated option
   useEffect(() => {
-    if (!options.pagination) {
-      console.log("pagination init"); // TODO: remove
-      handleFetch();
-    }
+    if (!options.pagination) handleFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options.pagination]);
 
   // Fetch Table data every time permitted to
   useEffect(() => {
-    console.log(canFilter);
-
     if (canFilter) {
-      console.log("canFilter"); // TODO: remove
       handleFetch({ params });
       setCanFilter(false);
     }

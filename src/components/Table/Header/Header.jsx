@@ -51,7 +51,14 @@ const Header = ({
         }
       });
 
-      setParams((prev) => ({ ...prev, ...params }));
+      setParams((prevParams) => {
+        // Clean up delete params
+        for (let key in prevParams) {
+          if (!params[key]) Reflect.deleteProperty(prevParams, key);
+        }
+
+        return { ...prevParams, ...params };
+      });
       setCanFilter(true);
     }
 

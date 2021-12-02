@@ -74,8 +74,13 @@ const tableProps = {
           {
             label: "Alphabetically: ascending",
             queryValue: "asc",
+            additionalParams: { date: false },
           },
-          { label: "Alphabetically: descending", queryValue: "desc" },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
           {
             label: "Date: ascending",
             queryValue: "asc",
