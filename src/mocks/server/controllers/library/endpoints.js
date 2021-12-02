@@ -2,6 +2,7 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
+  adminLibraryListingRes,
   userAudioListingRes,
   userBookListingRes,
   userVideoListingRes,
@@ -22,6 +23,16 @@ const userGetVideoListing = rest.get(
   handleSuccessResponse(userVideoListingRes)
 );
 
-const library = [userGetBookListing, userGetAudioListing, userGetVideoListing];
+const adminLibraryListing = rest.get(
+  getUrl("/admin/library"),
+  handleSuccessResponse(adminLibraryListingRes)
+);
+
+const library = [
+  userGetBookListing,
+  userGetAudioListing,
+  userGetVideoListing,
+  adminLibraryListing,
+];
 
 export default library;
