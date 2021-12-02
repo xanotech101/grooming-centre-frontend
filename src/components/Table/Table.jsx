@@ -5,6 +5,7 @@ import TableHead from "./TableHead/TableHead";
 import TableBody from "./TableBody/TableBody";
 import { useState } from "react";
 import { Button, Text } from "..";
+import { DeleteMenuItemButton } from "../Cards/QuestionListCard";
 import { AiFillMinusSquare } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import breakpoints from "../../theme/breakpoints";
@@ -249,18 +250,27 @@ export const Table = ({
               {manager.selectedRows.length} selected
             </Text>
 
-            <Button
-              asIcon
-              sm
-              data-testid="delete"
-              onDoubleClick={manager.handleDeleteRows.bind(
+            <DeleteMenuItemButton
+              onDelete={manager.handleDeleteRows.bind(
                 null,
                 manager.selectedRows
               )}
-              color="secondary.7"
-            >
-              <BiTrash />
-            </Button>
+              renderTrigger={({ onOpen }) => (
+                <Button
+                  asIcon
+                  sm
+                  data-testid="delete"
+                  onClick={onOpen}
+                  onDoubleClick={manager.handleDeleteRows.bind(
+                    null,
+                    manager.selectedRows
+                  )}
+                  color="secondary.7"
+                >
+                  <BiTrash />
+                </Button>
+              )}
+            />
           </Flex>
         ) : null}
 
