@@ -132,7 +132,7 @@ export const userGetCourseDetails = async (id) => {
     endTime: getEndTime(a.startTime, a.duration),
   }));
 
-  lessons = sortByMostRelevantDate(lessons);
+  // lessons = sortByMostRelevantDate(lessons);
   // assessments = sortByMostRelevantDate(assessments);
 
   return {
