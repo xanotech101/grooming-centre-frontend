@@ -19,6 +19,7 @@ export const Upload = forwardRef(
       isMini,
       imageUrl,
       videoUrl,
+      audioUrl,
       pdfUrl,
       alt,
       label,
@@ -43,7 +44,7 @@ export const Upload = forwardRef(
       accept,
     });
 
-    const hasUploaded = imageUrl || videoUrl || pdfUrl;
+    const hasUploaded = imageUrl || videoUrl || pdfUrl || audioUrl;
 
     const renderContent = (props) => {
       const style = !hasUploaded
@@ -69,6 +70,8 @@ export const Upload = forwardRef(
             <>
               {videoUrl ? (
                 <video src={videoUrl} controls width="300px" height="150px" />
+              ) : audioUrl ? (
+                <audio src={audioUrl} controls />
               ) : pdfUrl ? (
                 <object
                   width="100%"

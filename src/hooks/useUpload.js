@@ -8,11 +8,13 @@ export const useUpload = () => {
   const [image, setImage] = useState({ url: null });
   const [video, setVideo] = useState({ url: null });
   const [pdf, setPdf] = useState({ url: null });
+  const [audio, setAudio] = useState({ url: null });
 
   const handleFileSelect = (file) => {
     const fileIsAnImage = /(image)/i.test(accept);
     const fileIsAVideo = /(video)/i.test(accept);
     const fileIsPDF = /(pdf)/i.test(accept);
+    const fileIsAudio = /(audio)/i.test(accept);
 
     if (file) {
       if (fileIsAnImage) {
@@ -29,13 +31,24 @@ export const useUpload = () => {
         const url = URL.createObjectURL(file);
         setPdf({ url });
       }
+
+      if (fileIsAudio) {
+        const url = URL.createObjectURL(file);
+        setAudio({ url });
+      }
     } else {
       setVideo({ url: null });
       setImage({ url: null });
       setPdf({ url: null });
+      setAudio({ url: null });
     }
 
-    console.log(file, fileIsPDF);
+    console.log({
+      file,
+      pdf: fileIsPDF,
+      audio: fileIsAudio,
+      video: fileIsAVideo,
+    });
 
     setFile(file);
   };
@@ -49,11 +62,14 @@ export const useUpload = () => {
   const handleInitialPdfSelect = (url) => {
     setPdf({ url });
   };
+  const handleInitialAudioSelect = (url) => {
+    setAudio({ url });
+  };
 
   const handleAcceptChange = (accept) => setAccept(accept);
 
   const handleGetFileAndValidate = (label, bypass) => {
-    if (!bypass && !image.url && !video.url && !pdf.url)
+    if (!bypass && !image.url && !video.url && !pdf.url && !audio.url)
       throw new Error(`Please upload a ${label}`);
 
     return file;
@@ -64,6 +80,7 @@ export const useUpload = () => {
     image,
     video,
     pdf,
+    audio,
     file,
     handleFileSelect,
     handleAcceptChange,
@@ -71,5 +88,6 @@ export const useUpload = () => {
     handleInitialImageSelect,
     handleInitialVideoSelect,
     handleInitialPdfSelect,
+    handleInitialAudioSelect,
   };
 };
