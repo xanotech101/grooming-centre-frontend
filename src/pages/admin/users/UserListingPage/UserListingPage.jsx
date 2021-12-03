@@ -160,7 +160,7 @@ const UserListingPage = () => {
     return { rows, showingDocumentsCount, totalDocumentsCount };
   };
 
-  const { rows, setRows, fetchUsers } = useTableRows(fetcher);
+  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
@@ -190,7 +190,7 @@ const UserListingPage = () => {
         {...tableProps}
         rows={rows}
         setRows={setRows}
-        handleFetch={fetchUsers}
+        handleFetch={fetchRowItems}
       />
     </AdminMainAreaWrapper>
   );

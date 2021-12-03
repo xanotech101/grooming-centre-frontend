@@ -1,6 +1,5 @@
 import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { Flex } from "@chakra-ui/layout";
-import { useCallback, useEffect, useState } from "react";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { Route } from "react-router-dom";
 import {
@@ -11,9 +10,9 @@ import {
   Table,
   Text,
 } from "../../../components";
+import { useTableRows } from "../../../hooks";
 import { AdminMainAreaWrapper } from "../../../layouts";
 import {
-  adminDeleteCourse,
   adminDeleteMultipleCourses,
   adminLibraryListing,
 } from "../../../services";
@@ -21,36 +20,17 @@ import {
 const tableProps = {
   filterControls: [
     {
-      triggerText: "%Grade point",
-      width: "125%",
-      body: {
-        checks: [
-          { label: "1 to 30" },
-          { label: "31 to 50" },
-          { label: "51 to 70" },
-          { label: "71 to 100" },
-        ],
-      },
-    },
-    {
       triggerText: "Department",
+      queryKey: "department",
       width: "125%",
       body: {
         checks: [
-          { label: "Finance" },
-          { label: "Engineering" },
-          { label: "Accounting" },
-        ],
-      },
-    },
-    {
-      triggerText: "Role",
-      width: "170%",
-      body: {
-        checks: [
-          { label: "super admin" },
-          { label: "admin" },
-          { label: "user" },
+          { label: "Finance", queryValue: "finance" },
+          { label: "Engineering", queryValue: "engineering" },
+          {
+            label: "Accounting",
+            queryValue: "accounting",
+          },
         ],
       },
     },
@@ -59,13 +39,29 @@ const tableProps = {
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      noFilterTags: true,
+      // noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
@@ -108,9 +104,6 @@ const tableProps = {
       },
       {
         isDelete: true,
-        deleteFetcher: async (library) => {
-          await adminDeleteCourse(library.id);
-        },
       },
     ],
     selection: true,
@@ -118,59 +111,33 @@ const tableProps = {
       console.log(selectedLibrary);
       await adminDeleteMultipleCourses();
     },
+    pagination: true,
   },
 };
 
-const useLibraryListing = () => {
-  const [rows, setRows] = useState({
-    data: null,
-    loading: false,
-    err: false,
+const LibraryListingPage = () => {
+  const mapLibraryToRow = (library) => ({
+    id: library.id,
+
+    title: {
+      text: library.title,
+      libraryId: library.id,
+    },
+    department: library.department.name,
+    type: library.libraryType.name,
+    instructor: `${library.instructor.firstName} ${library.instructor.lastName}`,
   });
 
-  const fetchLibrary = useCallback(
-    async (mapper) => {
-      setRows({ loading: true });
+  const fetcher = (props) => async () => {
+    const { library, showingDocumentsCount, totalDocumentsCount } =
+      await adminLibraryListing(props?.params);
 
-      try {
-        const { library } = await adminLibraryListing();
+    const rows = library.map(mapLibraryToRow);
 
-        const data = mapper ? library.map(mapper) : library;
-        setRows({ data });
-      } catch (err) {
-        setRows({ err: true });
-      } finally {
-        setRows((prev) => ({ ...prev, loading: false }));
-      }
-    },
-    [setRows]
-  );
-
-  return {
-    rows,
-    setRows,
-    fetchLibrary,
+    return { rows, showingDocumentsCount, totalDocumentsCount };
   };
-};
 
-const LibraryListingPage = () => {
-  const { rows, setRows, fetchLibrary } = useLibraryListing();
-
-  useEffect(() => {
-    const mapLibraryToRow = (library) => ({
-      id: library.id,
-
-      title: {
-        text: library.title,
-        libraryId: library.id,
-      },
-      department: library.department.name,
-      type: library.libraryType.name,
-      instructor: `${library.instructor.firstName} ${library.instructor.lastName}`,
-    });
-
-    fetchLibrary(mapLibraryToRow);
-  }, [fetchLibrary]);
+  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
@@ -195,7 +162,12 @@ const LibraryListingPage = () => {
 
         <Button link="/admin/library/edit/new">Add File</Button>
       </Flex>
-      <Table {...tableProps} rows={rows} setRows={setRows} />
+      <Table
+        {...tableProps}
+        rows={rows}
+        setRows={setRows}
+        handleFetch={fetchRowItems}
+      />
     </AdminMainAreaWrapper>
   );
 };

@@ -11,40 +11,60 @@ import {
 } from "../../../../../components";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
-import { useCallback, useEffect, useState } from "react";
 import {
   adminDeleteMultipleCourses,
   adminGetLessonListing,
 } from "../../../../../services";
 import { Tag } from "@chakra-ui/tag";
-import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import dayjs from "dayjs";
+import { useTableRows } from "../../../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "Department",
+      queryKey: "department",
       width: "125%",
       body: {
         checks: [
-          { label: "Finance" },
-          { label: "Engineering" },
-          { label: "Accounting" },
+          { label: "Finance", queryValue: "finance" },
+          { label: "Engineering", queryValue: "engineering" },
+          {
+            label: "Accounting",
+            queryValue: "accounting",
+          },
         ],
       },
     },
     {
       triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      noFilterTags: true,
+      // noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
@@ -111,65 +131,35 @@ const tableProps = {
       console.log(selectedLessons);
       await adminDeleteMultipleCourses();
     },
+    pagination: true,
   },
-};
-
-const useLessonListing = () => {
-  const { id: courseId } = useParams();
-  const componentIsMount = useComponentIsMount();
-
-  const [rows, setRows] = useState({
-    data: null,
-    loading: false,
-    err: false,
-  });
-
-  const fetchLessons = useCallback(
-    async (mapper) => {
-      setRows({ loading: true });
-
-      try {
-        const { lessons } = await adminGetLessonListing(courseId);
-
-        const data = mapper ? lessons.map(mapper) : lessons;
-
-        if (componentIsMount) setRows({ data });
-      } catch (err) {
-        console.error(err);
-        if (componentIsMount) setRows({ err: true });
-      } finally {
-        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
-      }
-    },
-    [setRows, componentIsMount, courseId]
-  );
-
-  return {
-    rows,
-    setRows,
-    fetchLessons,
-  };
 };
 
 const LessonPage = () => {
   const { id: courseId } = useParams();
-  const { rows, setRows, fetchLessons } = useLessonListing();
 
-  useEffect(() => {
-    const mapCourseToRow = (lesson) => ({
-      id: lesson.id,
+  const mapLessonToRow = (lesson) => ({
+    id: lesson.id,
+    courseId: lesson.courseId,
+    title: {
+      text: lesson.title,
+      lessonId: lesson.id,
       courseId: lesson.courseId,
-      title: {
-        text: lesson.title,
-        lessonId: lesson.id,
-        courseId: lesson.courseId,
-      },
-      startDate: dayjs(lesson.startTime).format("DD/MM/YYYY h:mm a"),
-      status: lesson.active,
-    });
+    },
+    startDate: dayjs(lesson.startTime).format("DD/MM/YYYY h:mm a"),
+    status: lesson.active,
+  });
 
-    fetchLessons(mapCourseToRow);
-  }, [fetchLessons]);
+  const fetcher = (props) => async () => {
+    const { lessons, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetLessonListing(courseId, props?.params);
+
+    const rows = lessons.map(mapLessonToRow);
+
+    return { rows, showingDocumentsCount, totalDocumentsCount };
+  };
+
+  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
@@ -203,7 +193,12 @@ const LessonPage = () => {
         </Button>
       </Flex>
 
-      <Table {...tableProps} rows={rows} setRows={setRows} />
+      <Table
+        {...tableProps}
+        rows={rows}
+        setRows={setRows}
+        handleFetch={fetchRowItems}
+      />
     </AdminMainAreaWrapper>
   );
 };

@@ -93,14 +93,16 @@ export const userGetVideoListing = async () => {
 /**
  * Endpoint to get `library-listing`
  *
+ * @param {object} params
+ *
  * @returns {Promise<{ data: LibraryListArray }>}
  */
-export const adminLibraryListing = async () => {
+export const adminLibraryListing = async (params) => {
   const path = `/admin/library`;
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
   return {
     library: data.rows.map((lib) => ({
@@ -125,6 +127,8 @@ export const adminLibraryListing = async () => {
         title: lib.uploader.title,
       },
     })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.rows.length,
   };
 };
 

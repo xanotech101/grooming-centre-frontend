@@ -2,9 +2,11 @@ import { Breadcrumb, Button, Heading, Link, Table } from "../../../components";
 import { BreadcrumbItem, Box, Flex } from "@chakra-ui/react";
 import { Route, useParams } from "react-router";
 import { useApp } from "../../../contexts";
-import { useCallback, useEffect, useState } from "react";
-import { useComponentIsMount } from "../../../hooks";
-import { adminGetDepartmentUsersListing } from "../../../services";
+import { useTableRows } from "../../../hooks";
+import {
+  adminDeleteMultipleCourses,
+  adminGetDepartmentUsersListing,
+} from "../../../services";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 
 const tableProps = {
@@ -32,66 +34,43 @@ const tableProps = {
   ],
 
   options: {
-    action: true,
+    action: [
+      {
+        isDelete: true,
+      },
+    ],
     selection: true,
+    multipleDeleteFetcher: async (selectedDepartments) => {
+      console.log(selectedDepartments);
+      await adminDeleteMultipleCourses();
+    },
+    pagination: true,
   },
 };
 
-const useDepartmentUsersListing = () => {
-  const componentIsMount = useComponentIsMount();
-  const { departmentId } = useParams();
-
-  const [rows, setRows] = useState({
-    data: null,
-    loading: false,
-    err: false,
-  });
-
-  const fetchCourses = useCallback(
-    async (mapper) => {
-      setRows({ loading: true });
-
-      try {
-        const { users } = await adminGetDepartmentUsersListing(departmentId);
-
-        const data = mapper ? users.map(mapper) : users;
-
-        if (componentIsMount) setRows({ data });
-      } catch (err) {
-        console.error(err);
-        if (componentIsMount) setRows({ err: true });
-      } finally {
-        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
-      }
-    },
-    [setRows, componentIsMount, departmentId]
-  );
-
-  return {
-    rows,
-    setRows,
-    fetchCourses,
-  };
-};
-
-const ViewDepartmentPage = ({ metadata: propMetadata }) => {
+const ViewDepartmentPage = () => {
   const { departmentId } = useParams();
   const { getOneMetadata } = useApp();
 
   const department = getOneMetadata("departments", departmentId);
 
-  const { rows, setRows, fetchCourses } = useDepartmentUsersListing();
+  const mapDepartmentUserToRow = (user) => ({
+    id: user.id,
+    name: user.firstName + " " + user.lastName,
+    email: user.email,
+    roles: user.userRoleName,
+  });
 
-  useEffect(() => {
-    const mapCourseToRow = (user) => ({
-      id: user.id,
-      name: user.firstName + " " + user.lastName,
-      email: user.email,
-      roles: user.userRoleName,
-    });
+  const fetcher = (props) => async () => {
+    const { users, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetDepartmentUsersListing(departmentId, props?.params);
 
-    fetchCourses(mapCourseToRow);
-  }, [fetchCourses, departmentId]);
+    const rows = users.map(mapDepartmentUserToRow);
+
+    return { rows, showingDocumentsCount, totalDocumentsCount };
+  };
+
+  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
@@ -125,7 +104,13 @@ const ViewDepartmentPage = ({ metadata: propMetadata }) => {
           <Heading fontSize="heading.h4">Users</Heading>
           <Button link={`/admin/users/edit/new`}>Add User</Button>
         </Flex>
-        <Table width="100%" {...tableProps} rows={rows} setRows={setRows} />
+        <Table
+          width="100%"
+          {...tableProps}
+          rows={rows}
+          setRows={setRows}
+          handleFetch={fetchRowItems}
+        />
       </Box>
     </AdminMainAreaWrapper>
   );

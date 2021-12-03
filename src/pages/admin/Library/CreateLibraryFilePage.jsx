@@ -173,7 +173,7 @@ const CreateLibraryFilePage = () => {
         status: "success",
       });
 
-      push(`/admin/library/details/${fileId}`);
+      if (isEditMode) push(`/admin/library/details/${fileId}`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),

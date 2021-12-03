@@ -7,13 +7,13 @@ export const useTableRows = (fetcher) => {
     handleFetchResource,
   } = useFetch();
 
-  const fetchUsers = (props) => {
+  const fetchRowItems = (props) => {
     handleFetchResource({ fetcher: fetcher(props) });
   };
 
   return {
     rows,
     setRows,
-    fetchUsers,
+    fetchRowItems,
   };
 };
