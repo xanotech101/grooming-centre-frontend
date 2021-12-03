@@ -2,12 +2,10 @@ export const userBookListingRes = {
   data: [
     {
       id: "bookId_1",
-      duration: 120,
       description: "Learn HTML and CSS for free today",
       title: "Web dev 2021 (Pdf)",
       file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
       fileExtension: "pdf",
-      lessonCount: 23,
       uploader: {
         id: "uploaderId_2",
         profilePics:
@@ -35,7 +33,6 @@ export const userBookListingRes = {
     {
       id: "bookId_2",
       description: "Nodejs Advanced Concept",
-
       title: "Backend Development (Pdf)",
       file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
       fileExtension: "pdf",
@@ -55,12 +52,10 @@ export const userAudioListingRes = {
   data: [
     {
       id: "audioId_1",
-      duration: 120,
       description: "Learn HTML and CSS for free today",
       title: "Web dev 2021 (Audio)",
-      file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AnAF-Nl6codK3FbaezgRHMjTLlXdgBGmlmgC1wn7TEem&v=1&x=3&a=CAog3wHDrovGZgptUELhdzn-6c2qXN_5cMKzLD_CX1stqPkSbxDo67DW1y8YiOPn1tcvIgEAUgQj0KngWgQ4pbWbaiexjytaIUN5LiWCS-ZqD40hEznw3_SLE58qlFalwYR1nsjkeaaQziJyJ3OOvO5OFLXrtRKosgF4ySqBRvk6oUSH6ezFxmvJcWBkv2y71rfWkg&e=1638443643&fl=&r=8c08dadc-8638-4566-b547-945c35caa945-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=-pdtAqL_KqF_Sx2phURnu-9uxCY&cd=i",
+      file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
       fileExtension: "mp3",
-      lessonCount: 23,
       uploader: {
         id: "uploaderId_2",
         profilePics:
@@ -73,9 +68,8 @@ export const userAudioListingRes = {
     {
       id: "audioId_3",
       description: "React Design Patters",
-
       title: "Become A React Guru (Audio)",
-      file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AnAF-Nl6codK3FbaezgRHMjTLlXdgBGmlmgC1wn7TEem&v=1&x=3&a=CAog3wHDrovGZgptUELhdzn-6c2qXN_5cMKzLD_CX1stqPkSbxDo67DW1y8YiOPn1tcvIgEAUgQj0KngWgQ4pbWbaiexjytaIUN5LiWCS-ZqD40hEznw3_SLE58qlFalwYR1nsjkeaaQziJyJ3OOvO5OFLXrtRKosgF4ySqBRvk6oUSH6ezFxmvJcWBkv2y71rfWkg&e=1638443643&fl=&r=8c08dadc-8638-4566-b547-945c35caa945-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=-pdtAqL_KqF_Sx2phURnu-9uxCY&cd=i",
+      file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
       fileExtension: "mp3",
       uploader: {
         id: "uploaderId_3",
@@ -89,9 +83,8 @@ export const userAudioListingRes = {
     {
       id: "audioId_2",
       description: "Nodejs Advanced Concept",
-
       title: "Backend Development (Audio)",
-      file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AnAF-Nl6codK3FbaezgRHMjTLlXdgBGmlmgC1wn7TEem&v=1&x=3&a=CAog3wHDrovGZgptUELhdzn-6c2qXN_5cMKzLD_CX1stqPkSbxDo67DW1y8YiOPn1tcvIgEAUgQj0KngWgQ4pbWbaiexjytaIUN5LiWCS-ZqD40hEznw3_SLE58qlFalwYR1nsjkeaaQziJyJ3OOvO5OFLXrtRKosgF4ySqBRvk6oUSH6ezFxmvJcWBkv2y71rfWkg&e=1638443643&fl=&r=8c08dadc-8638-4566-b547-945c35caa945-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=-pdtAqL_KqF_Sx2phURnu-9uxCY&cd=i",
+      file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
       fileExtension: "mp3",
       uploader: {
         id: "uploaderId_1",
@@ -109,12 +102,10 @@ export const userVideoListingRes = {
   data: [
     {
       id: "videoId_1",
-      duration: 120,
       description: "Learn HTML and CSS for free today",
       title: "Web dev 2021 (Video)",
       file: "http://res.cloudinary.com/xanotech/video/upload/v1637447807/grooming-centre/HTML-clash-clans/0001.%20TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp4",
       fileExtension: "mp4",
-      lessonCount: 23,
       uploader: {
         id: "uploaderId_2",
         profilePics:
@@ -127,7 +118,6 @@ export const userVideoListingRes = {
     {
       id: "videoId_3",
       description: "React Design Patters",
-
       title: "Become A React Guru (Video)",
       file: "http://res.cloudinary.com/xanotech/video/upload/v1637447807/grooming-centre/HTML-clash-clans/0001.%20TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp4 ",
       fileExtension: "mp4",
@@ -143,7 +133,6 @@ export const userVideoListingRes = {
     {
       id: "videoId_2",
       description: "Nodejs Advanced Concept",
-
       title: "Backend Development (Video)",
       file: "http://res.cloudinary.com/xanotech/video/upload/v1637447807/grooming-centre/HTML-clash-clans/0001.%20TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp4 ",
       fileExtension: "mp4",
@@ -186,35 +175,12 @@ export const adminLibraryListingRes = {
         },
       },
       {
-        id: "audioId_1",
-        title: "Web dev 2021(Audio)",
-        description: "Learn Web dev for free today",
-        department: {
-          id: "departmentId_2",
-          name: "Software development",
-        },
-        libraryType: {
-          id: "libraryTypeId_2",
-          name: "audio",
-        },
-        file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AnAF-Nl6codK3FbaezgRHMjTLlXdgBGmlmgC1wn7TEem&v=1&x=3&a=CAog3wHDrovGZgptUELhdzn-6c2qXN_5cMKzLD_CX1stqPkSbxDo67DW1y8YiOPn1tcvIgEAUgQj0KngWgQ4pbWbaiexjytaIUN5LiWCS-ZqD40hEznw3_SLE58qlFalwYR1nsjkeaaQziJyJ3OOvO5OFLXrtRKosgF4ySqBRvk6oUSH6ezFxmvJcWBkv2y71rfWkg&e=1638443643&fl=&r=8c08dadc-8638-4566-b547-945c35caa945-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=-pdtAqL_KqF_Sx2phURnu-9uxCY&cd=i",
-        fileExtension: "mp3",
-        uploader: {
-          id: "uploaderId_2",
-          profilePics:
-            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
-          firstName: "stanley",
-          lastName: "ogada",
-          title: "Senior Frontend Engineer",
-        },
-      },
-      {
         id: "videoId_1",
         title: "Web dev 2021(Video)",
         description: "Learn Web dev for free today",
         department: {
-          id: "departmentId_3",
-          name: "computer science",
+          id: "departmentId_2",
+          name: "Software development",
         },
         libraryType: {
           id: "libraryTypeId_2",
@@ -231,6 +197,142 @@ export const adminLibraryListingRes = {
           title: "Senior Facility Manager",
         },
       },
+      {
+        id: "audioId_1",
+        title: "Web dev 2021(Audio)",
+        description: "Learn Web dev for free today",
+        department: {
+          id: "departmentId_3",
+          name: "computer science",
+        },
+
+        libraryType: {
+          id: "libraryTypeId_3",
+          name: "audio",
+        },
+        file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
+        fileExtension: "mp3",
+        uploader: {
+          id: "uploaderId_2",
+          profilePics:
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+          firstName: "stanley",
+          lastName: "ogada",
+          title: "Senior Frontend Engineer",
+        },
+      },
     ],
   },
+};
+
+export const requestLibraryFileDetailsRes_bookId_1 = {
+  data: {
+    id: "bookId_1",
+    description: "Learn HTML and CSS for free today",
+    title: "Web dev 2021 (Pdf)",
+    department: {
+      id: "departmentId_1",
+      name: "Accounting",
+    },
+    libraryTypeId: "libraryTypeId_1",
+    libraryType: {
+      id: "libraryTypeId_1",
+      name: "pdf",
+    },
+    file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
+    fileExtension: "pdf",
+    uploader: {
+      id: "uploaderId_1",
+      profilePics:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      firstName: "jane",
+      lastName: "bar",
+      title: "Senior Facility Manager",
+    },
+  },
+};
+
+export const requestLibraryFileDetailsRes_videoId_1 = {
+  data: {
+    id: "videoId_1",
+    description: "Learn HTML and CSS for free today",
+    title: "Web dev 2021 (Video)",
+    department: {
+      id: "departmentId_3",
+      name: "computer science",
+    },
+    libraryTypeId: "libraryTypeId_2",
+    libraryType: {
+      id: "libraryTypeId_2",
+      name: "video",
+    },
+    file: "http://res.cloudinary.com/xanotech/video/upload/v1637447807/grooming-centre/HTML-clash-clans/0001.%20TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp4",
+    fileExtension: "mp4",
+    uploader: {
+      id: "uploaderId_2",
+      profilePics:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      firstName: "shalom",
+      lastName: "brain",
+      title: "Senior Facility Manager",
+    },
+  },
+};
+
+export const requestLibraryFileDetailsRes_audioId_1 = {
+  data: {
+    id: "audioId_1",
+    description: "Learn HTML and CSS for free today",
+    title: "Web dev 2021 (Audio)",
+    department: {
+      id: "departmentId_2",
+      name: "Software development",
+    },
+    libraryTypeId: "libraryTypeId_3",
+    libraryType: {
+      id: "libraryTypeId_3",
+      name: "audio",
+    },
+    file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
+    fileExtension: "mp3",
+    uploader: {
+      id: "uploaderId_2",
+      profilePics:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      firstName: "stanley",
+      lastName: "ogada",
+      title: "Senior Frontend Engineer",
+    },
+  },
+};
+
+export const adminUploadLibraryFileRes = {
+  message: "File uploaded successfully",
+  data: {
+    id: "bookId_1",
+  },
+};
+export const adminEditLibraryFileRes_videoId_1 = {
+  message: "File updated successfully",
+  data: [
+    {
+      id: "videoId_1",
+    },
+  ],
+};
+export const adminEditLibraryFileRes_audioId_1 = {
+  message: "File updated successfully",
+  data: [
+    {
+      id: "audioId_1",
+    },
+  ],
+};
+export const adminEditLibraryFileRes_bookId_1 = {
+  message: "File updated successfully",
+  data: [
+    {
+      id: "bookId_1",
+    },
+  ],
 };

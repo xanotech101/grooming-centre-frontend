@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useParams } from "react-router";
 import { useFetchAndCache } from "../../../../hooks";
-import { requestLibraryFileDetailsForLibraryFileId } from "../../../../services";
+import { requestLibraryFileDetails } from "../../../../services";
 
 const useViewLibraryFile = () => {
   const { id: fileId } = useParams();
@@ -9,7 +9,7 @@ const useViewLibraryFile = () => {
   const { resource: library, handleFetchResource } = useFetchAndCache();
 
   const fetcher = useCallback(async () => {
-    const { library } = await requestLibraryFileDetailsForLibraryFileId(fileId);
+    const { library } = await requestLibraryFileDetails(fileId);
     return library;
   }, [fileId]);
 

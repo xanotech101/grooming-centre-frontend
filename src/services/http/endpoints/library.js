@@ -127,3 +127,63 @@ export const adminLibraryListing = async () => {
     })),
   };
 };
+
+/**
+ * Endpoint to get `library-file-details`
+ * @param {string} id - fileId
+ *
+ * @returns {Promise<{ library: Library }>}
+ */
+export const requestLibraryFileDetails = async (id) => {
+  const path = `/library/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return {
+    library: {
+      ...data,
+    },
+  };
+};
+
+/**
+ * Endpoint to for admin to upload library file
+ * @param {{ title: string, departmentId: string, description: string, libraryTypeId: string, file: File }} body
+ *
+ * @returns {Promise<{ message: string, library: { id: string } }>}
+ */
+export const adminUploadLibraryFile = async (body) => {
+  const path = `/library/create`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const library = {
+    id: data.id,
+  };
+
+  return { message, library };
+};
+
+/**
+ * Endpoint to for admin to edit a library file
+ * @param {{ title: string, departmentId: string, description: string, libraryTypeId: string, file: File }} body
+ *
+ * @returns {Promise<{ message: string, library: { id: string } }>}
+ */
+export const adminEditLibraryFile = async (id, body) => {
+  const path = `/library/edit/${id}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const library = {
+    id: data[0].id,
+  };
+
+  return { message, library };
+};

@@ -2,7 +2,14 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
+  adminEditLibraryFileRes_audioId_1,
+  adminEditLibraryFileRes_bookId_1,
+  adminEditLibraryFileRes_videoId_1,
   adminLibraryListingRes,
+  adminUploadLibraryFileRes,
+  requestLibraryFileDetailsRes_audioId_1,
+  requestLibraryFileDetailsRes_bookId_1,
+  requestLibraryFileDetailsRes_videoId_1,
   userAudioListingRes,
   userBookListingRes,
   userVideoListingRes,
@@ -28,11 +35,49 @@ const adminLibraryListing = rest.get(
   handleSuccessResponse(adminLibraryListingRes)
 );
 
+const requestLibraryFileDetails = [
+  rest.get(
+    getUrl("/library/videoId_1"),
+    handleSuccessResponse(requestLibraryFileDetailsRes_videoId_1)
+  ),
+  rest.get(
+    getUrl("/library/audioId_1"),
+    handleSuccessResponse(requestLibraryFileDetailsRes_audioId_1)
+  ),
+  rest.get(
+    getUrl("/library/bookId_1"),
+    handleSuccessResponse(requestLibraryFileDetailsRes_bookId_1)
+  ),
+];
+
+const adminUploadLibraryFile = rest.post(
+  getUrl("/library/create"),
+  handleSuccessResponse(adminUploadLibraryFileRes)
+);
+
+const adminEditLibraryFile = [
+  rest.patch(
+    getUrl("/library/edit/videoId_1"),
+    handleSuccessResponse(adminEditLibraryFileRes_videoId_1)
+  ),
+  rest.patch(
+    getUrl("/library/edit/audioId_1"),
+    handleSuccessResponse(adminEditLibraryFileRes_audioId_1)
+  ),
+  rest.patch(
+    getUrl("/library/edit/bookId_1"),
+    handleSuccessResponse(adminEditLibraryFileRes_bookId_1)
+  ),
+];
+
 const library = [
   userGetBookListing,
   userGetAudioListing,
   userGetVideoListing,
   adminLibraryListing,
+  adminUploadLibraryFile,
+  ...adminEditLibraryFile,
+  ...requestLibraryFileDetails,
 ];
 
 export default library;
