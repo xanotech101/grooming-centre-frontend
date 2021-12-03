@@ -35,7 +35,7 @@ const userForgetPassword = rest.post(
   handleSuccessResponse(userForgetPasswordRes)
 );
 
-const requestUpdateDetails = rest.post(
+const requestUpdateDetails = rest.patch(
   getUrl("/user/edit-details"),
   handleSuccessResponse(requestUpdateDetailsRes)
 );

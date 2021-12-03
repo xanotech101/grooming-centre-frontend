@@ -46,3 +46,15 @@ export const userGetGradesRes = {
     ],
   },
 };
+
+export const adminGetGradeCriteriaRes = {
+  data: {
+    examination: 60,
+    assessment: 20,
+    attendance: 20,
+  },
+};
+
+export const adminEditGradeCriteriaRes = {
+  message: "grade criteria updated successfully",
+};
