@@ -125,8 +125,9 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
   };
 
   const handleCompleteAndContinue = async () => {
-    await handleEndLesson();
+    handleContinueToNextLesson();
   };
+
   const handleContinueToNextLesson = useCallback(() => {
     const nextLink = sidebarLinks[currentLessonLink.index + 1];
 
@@ -138,24 +139,6 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
   const endLessonIsSuccessful = endLesson.success;
   const endLessonIsLoading = endLesson.loading;
   const endLessonHasError = endLesson.error;
-
-  // const isLastEnabledLesson =
-  //   currentLink?.index ===
-  //   // sidebarLinks?.filter((link) => !link.disabled).length - 1; // TODO: `- 1` redo or remove
-  //   sidebarLinks?.filter((link) => !link.disabled).length - 2; // TODO: `- 2` redo or remove
-
-  const nextLessonIsDisabled =
-    sidebarLinks?.[currentLessonLink?.index + 1]?.disabled;
-
-  useEffect(() => {
-    // if (endLessonIsSuccessful && !nextLessonIsDisabled) {
-    if (endLessonIsSuccessful) {
-      if (!nextLessonIsDisabled) {
-        handleContinueToNextLesson();
-      }
-      setEndLesson({ success: false });
-    }
-  }, [nextLessonIsDisabled, endLessonIsSuccessful, handleContinueToNextLesson]);
 
   const fetcher = useCallback(async () => {
     const { lesson } = await requestLessonDetails(lessonId);
@@ -196,6 +179,12 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
 
     return true;
   };
+
+  useEffect(() => {
+    if (videoPlayerManager.videoHasBeenCompleted) handleEndLesson();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoPlayerManager.videoHasBeenCompleted]);
 
   const completeAndContinueIsDisabled = getCompleteAndContinueIsDisabled();
 
