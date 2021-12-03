@@ -50,7 +50,7 @@ const Header = ({
       });
 
       setParams((prevParams) => {
-        // Clean up delete params
+        // Clean up deleted params
         for (let key in prevParams) {
           if (!params[key] && key !== "length" && key !== "page")
             Reflect.deleteProperty(prevParams, key);
