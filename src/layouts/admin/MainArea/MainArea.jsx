@@ -23,6 +23,7 @@ import {
   SecurityPageRoute,
   CreateEventPageRoute,
   LibraryListingPageRoute,
+  CreateLibraryFilePageRoute,
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -59,7 +60,8 @@ const MainArea = () => {
           <CreateEventPageRoute path="/admin/events/create" />
           <EventsPageRoute path="/admin/events" />
 
-          <LibraryListingPageRoute path="/admin/library" />
+          <LibraryListingPageRoute exact path="/admin/library" />
+          <CreateLibraryFilePageRoute exact path="/admin/library/edit/:id" />
 
           <SecurityPageRoute path="/admin/settings/security" />
           <GradeCriteriaPageRoute path="/admin/settings/grade-criteria" />

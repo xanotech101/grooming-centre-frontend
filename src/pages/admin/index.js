@@ -21,3 +21,5 @@ export * from "./Settings/SecurityPage";
 export * from "./Events/EventsPage";
 export * from "./Events/CreateEventPage";
 export * from "./Library/LibraryListingPage";
+export * from "./Library/CreateLibraryFilePage";
+export * from "./Library/ViewFileDetailsPage";
