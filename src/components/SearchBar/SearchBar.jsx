@@ -13,6 +13,8 @@ export const SearchBar = ({
   sm,
   fontSize,
   onSearch,
+  onClear,
+  onClick,
   ...rest
 }) => {
   adminLayoutHeaderStyle = adminLayoutHeaderStyle
@@ -51,14 +53,14 @@ export const SearchBar = ({
       <Input
         border="none"
         type="search"
+        onInput={(e) => e.target.value === "" && onClear?.()}
+        onClick={onClick}
         placeholder={placeholder}
         paddingLeft={2}
         size={sm && "sm"}
         id={inputId}
         fontSize={fontSize}
-        // color={query ? "black" : "inherit"}
         _focus={{
-          // textColor: adminLayoutHeaderStyle ? "white" : "black",
           transform: "scale(1.01)",
           "&::placeholder": {
             textColor: "black",
@@ -95,4 +97,8 @@ SearchBar.propTypes = {
   adminLayoutHeaderStyle: PropTypes.bool,
   placeholder: PropTypes.string,
   sm: PropTypes.bool,
+  fontSize: PropTypes.string,
+  onSearch: PropTypes.func,
+  onClear: PropTypes.func,
+  onClick: PropTypes.func,
 };

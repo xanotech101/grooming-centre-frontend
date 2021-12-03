@@ -76,7 +76,7 @@ export const useApp = () => {
   }, [setState]);
 
   const getOneMetadata = (arrayKey, id) =>
-    state.metadata?.[arrayKey].find((item) => item.id === id);
+    state.metadata?.[arrayKey]?.find((item) => item.id === id);
 
   const isAuthenticated = handleGetTokenFromClientStorage() ? true : false;
 

@@ -57,6 +57,7 @@ export const adminCreateLesson = async (body) => {
 
   return { message, lesson };
 };
+
 /**
  * Endpoint to for admin to edit a lesson
  * @param {{ title: ?string, content: ?string, lessonTypeId: ?string, startTime: ?Date, endTime: ?Date, file: ?File, courseId: string }} body

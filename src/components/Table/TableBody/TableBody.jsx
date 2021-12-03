@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/toast";
+import { useState, useEffect } from "react";
 import { Icon } from "@chakra-ui/icon";
 import { Box, Grid } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
@@ -6,14 +6,14 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { Checkbox, Spinner, Text } from "../..";
 import { Link } from "react-router-dom";
 import { DeleteMenuItemButton } from "../../Cards/QuestionListCard";
-import { useFetch } from "../../../hooks";
-import { useEffect } from "react";
-import { capitalizeFirstLetter } from "../../../utils";
 import { EmptyState } from "../../../layouts";
+import { fireDoubleClick } from "../../../utils";
 import { ImDatabase } from "react-icons/im";
+import Pagination from "../Pagination/Pagination";
 
 const TableBody = ({
   rows,
+  deletionInProgress,
   columns,
   options,
   templateColumns,
@@ -23,6 +23,9 @@ const TableBody = ({
   checkboxStyles,
   selectedRows,
   onRowSelect,
+  setParams,
+  setCanFilter,
+  handleDeselectAllRows,
 }) => {
   const getTemplateColumns = () =>
     `${options?.selection ? "20px " : ""}${templateColumns}${
@@ -37,63 +40,74 @@ const TableBody = ({
   };
 
   return (
-    <Box role="thead">
-      {rows.data?.map((row) => (
-        <Grid
-          key={row.id}
-          role="row"
-          alignItems="center"
-          templateColumns={getTemplateColumns}
-          columnGap={columnGap}
-          height="40px"
-          {...generalRowStyles}
-        >
-          {options?.selection && (
-            <Box
-              //
-              {...checkboxStyles}
-            >
-              <Checkbox
-                isChecked={handleIsChecked(row.id)}
-                onChange={handleCheckboxChange.bind(null, row.id)}
-              />
-            </Box>
-          )}
-
-          {columns.map((col) =>
-            col.renderContent ? (
-              <Box key={col.id} {...generalCellStyles}>
-                {col.renderContent(row[col.key])}
+    <Box role="tbody">
+      {!deletionInProgress &&
+        rows.data?.rows?.map((row) => (
+          <Grid
+            key={row.id}
+            role="row"
+            alignItems="center"
+            templateColumns={getTemplateColumns}
+            columnGap={columnGap}
+            height="40px"
+            {...generalRowStyles}
+          >
+            {options?.selection && (
+              <Box
+                //
+                {...checkboxStyles}
+              >
+                <Checkbox
+                  isChecked={handleIsChecked(row.id)}
+                  onChange={handleCheckboxChange.bind(null, row.id)}
+                />
               </Box>
-            ) : (
+            )}
+
+            {columns.map((col) =>
+              col.renderContent ? (
+                <Box key={col.id} {...generalCellStyles}>
+                  {col.renderContent(row[col.key])}
+                </Box>
+              ) : (
+                <Cell
+                  key={col.id}
+                  cell={col}
+                  text={row[col.key]}
+                  {...generalCellStyles}
+                />
+              )
+            )}
+
+            {options?.action && (
               <Cell
-                key={col.id}
-                cell={col}
-                text={row[col.key]}
+                renderText={() => (
+                  <ActionIconButton
+                    options={options.action}
+                    row={row}
+                    onRowSelect={onRowSelect}
+                    handleDeselectAllRows={handleDeselectAllRows}
+                  />
+                )}
+                minWidth="fit-content"
                 {...generalCellStyles}
               />
-            )
-          )}
+            )}
+          </Grid>
+        ))}
 
-          {options?.action && (
-            <Cell
-              renderText={() => (
-                <ActionIconButton
-                  options={options.action}
-                  row={row}
-                  onRowSelect={onRowSelect}
-                />
-              )}
-              minWidth="fit-content"
-              {...generalCellStyles}
-            />
-          )}
-        </Grid>
-      ))}
-
-      {rows.loading || rows.err ? (
-        <Grid height="200px" placeItems="center">
+      {rows.loading || rows.err || deletionInProgress ? (
+        <Grid height="200px" placeItems="center" textAlign="center">
           {rows.loading && <Spinner size="md" />}
+
+          {deletionInProgress && (
+            <Grid placeItems="center" textAlign="center">
+              <Spinner marginBottom={5} />
+              <Text as="level2" bold>
+                Please wait, as this operation might take a while
+              </Text>
+            </Grid>
+          )}
 
           {rows.err && (
             <Text color="red.500" as="level1" bold>
@@ -102,7 +116,7 @@ const TableBody = ({
           )}
         </Grid>
       ) : (
-        !rows.data?.length && (
+        !rows.data?.rows?.length && (
           <EmptyState
             height="200px"
             illustration={
@@ -114,43 +128,47 @@ const TableBody = ({
           />
         )
       )}
+
+      {options?.pagination && (
+        <Pagination
+          setParams={setParams}
+          setCanFilter={setCanFilter}
+          showingDocumentsCount={rows.data?.showingDocumentsCount}
+          totalDocumentsCount={rows.data?.totalDocumentsCount}
+        />
+      )}
     </Box>
   );
 };
 
-const ActionIconButton = ({ options, row, onRowSelect }) => {
-  const { resource: deleteStatus, handleFetchResource } = useFetch();
+const ActionIconButton = ({
+  options,
+  row,
+  onRowSelect,
+  handleDeselectAllRows,
+}) => {
+  const [readyToDelete, setReadyToDelete] = useState(false);
 
-  const handleDelete = async (fetcher, onClose) => {
-    const onSuccess = () => {
-      onClose();
-
-      // delete row
-      onRowSelect({ id: row.id });
-      // Hack
-      setTimeout(
-        () => document.querySelector('[data-testid="delete"]')?.click(),
-        500
-      );
-    };
-
-    await handleFetchResource({
-      fetcher: () => fetcher(row),
-      onSuccess,
-    });
+  const handleDeleteClick = async () => {
+    handleDeselectAllRows();
+    setReadyToDelete(true);
   };
 
-  const toastBread = useToast();
-
+  // Handle Delete
   useEffect(() => {
-    if (deleteStatus.err) {
-      toastBread({
-        description: capitalizeFirstLetter(deleteStatus.err),
-        position: "top",
-        status: "error",
-      });
+    if (readyToDelete) {
+      onRowSelect({ id: row.id });
+
+      // Delete the Row
+      // WARNING Hack
+      setTimeout(
+        () => fireDoubleClick(document.querySelector('[data-testid="delete"]')),
+        250
+      );
     }
-  }, [deleteStatus.err, toastBread]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readyToDelete]);
 
   return (
     <Menu placement="bottom-end">
@@ -172,10 +190,7 @@ const ActionIconButton = ({ options, row, onRowSelect }) => {
             opt.isDelete ? (
               <DeleteMenuItemButton
                 key={index}
-                onDelete={({ onClose }) =>
-                  handleDelete(opt.deleteFetcher, onClose)
-                }
-                deleteStatusIsLoading={deleteStatus.loading}
+                onDelete={() => handleDeleteClick()}
               />
             ) : (
               <MenuItem

@@ -10,62 +10,87 @@ import {
   Text,
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
-import { useCallback, useEffect, useState } from "react";
 import {
-  adminDeleteCourse,
   adminDeleteMultipleCourses,
   adminGetUserListing,
 } from "../../../../services";
 import { BreadcrumbItem } from "@chakra-ui/react";
+import { useTableRows } from "../../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "%Grade point",
+      queryKey: "grade",
       width: "125%",
       body: {
-        checks: [
-          { label: "1 to 30" },
-          { label: "31 to 50" },
-          { label: "51 to 70" },
-          { label: "71 to 100" },
+        radios: [
+          { label: "1 to 30", queryValue: "1-30" },
+          { label: "31 to 50", queryValue: "31-50" },
+          { label: "51 to 70", queryValue: "51-70" },
+          {
+            label: "71 to 100",
+            queryValue: "71-100",
+          },
         ],
       },
     },
     {
       triggerText: "Department",
+      queryKey: "department",
       width: "125%",
       body: {
         checks: [
-          { label: "Finance" },
-          { label: "Engineering" },
-          { label: "Accounting" },
+          { label: "Finance", queryValue: "finance" },
+          { label: "Engineering", queryValue: "engineering" },
+          {
+            label: "Accounting",
+            queryValue: "accounting",
+          },
         ],
       },
     },
     {
       triggerText: "Role",
+      queryKey: "role",
       width: "170%",
       body: {
         checks: [
-          { label: "super admin" },
-          { label: "admin" },
-          { label: "user" },
+          { label: "Super Admin", queryValue: "super admin" },
+          { label: "Admin", queryValue: "admin" },
+          { label: "User", queryValue: "user" },
         ],
       },
     },
     {
       triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      noFilterTags: true,
+      // noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
@@ -104,9 +129,6 @@ const tableProps = {
       },
       {
         isDelete: true,
-        deleteFetcher: async (user) => {
-          await adminDeleteCourse(user.id);
-        },
       },
     ],
     selection: true,
@@ -114,57 +136,31 @@ const tableProps = {
       console.log(selectedUsers);
       await adminDeleteMultipleCourses();
     },
+    pagination: true,
   },
 };
 
-const useUserListing = () => {
-  const [rows, setRows] = useState({
-    data: null,
-    loading: false,
-    err: false,
+const UserListingPage = () => {
+  const mapUserToRow = (user) => ({
+    ...user,
+    fullName: {
+      text: `${user.firstName} ${user.lastName}`,
+      userId: user.id,
+    },
+    department: user.departmentName,
+    certificates: user.noOfCertificate,
   });
 
-  const fetchUsers = useCallback(
-    async (mapper) => {
-      setRows({ loading: true });
+  const fetcher = (props) => async () => {
+    const { users, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetUserListing(props?.params);
 
-      try {
-        const { users } = await adminGetUserListing();
+    const rows = users.map(mapUserToRow);
 
-        const data = mapper ? users.map(mapper) : users;
-        setRows({ data });
-      } catch (err) {
-        setRows({ err: true });
-      } finally {
-        setRows((prev) => ({ ...prev, loading: false }));
-      }
-    },
-    [setRows]
-  );
-
-  return {
-    rows,
-    setRows,
-    fetchUsers,
+    return { rows, showingDocumentsCount, totalDocumentsCount };
   };
-};
 
-const UserListingPage = () => {
-  const { rows, setRows, fetchUsers } = useUserListing();
-
-  useEffect(() => {
-    const mapUserToRow = (user) => ({
-      ...user,
-      fullName: {
-        text: `${user.firstName} ${user.lastName}`,
-        userId: user.id,
-      },
-      department: user.departmentName,
-      certificates: user.noOfCertificate,
-    });
-
-    fetchUsers(mapUserToRow);
-  }, [fetchUsers]);
+  const { rows, setRows, fetchUsers } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
@@ -190,7 +186,12 @@ const UserListingPage = () => {
         <Button link="/admin/users/edit/new">Add User</Button>
       </Flex>
 
-      <Table {...tableProps} rows={rows} setRows={setRows} />
+      <Table
+        {...tableProps}
+        rows={rows}
+        setRows={setRows}
+        handleFetch={fetchUsers}
+      />
     </AdminMainAreaWrapper>
   );
 };

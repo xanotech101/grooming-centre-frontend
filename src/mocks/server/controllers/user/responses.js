@@ -19,6 +19,7 @@ export const user = {
 
 export const userListingRes = {
   data: {
+    count: 120,
     rows: [
       {
         ...user.data,
@@ -239,4 +240,8 @@ export const adminEditUserRes_userId_3 = {
       id: "userId_3",
     },
   ],
+};
+
+export const adminDeleteUserRes = {
+  message: "user deleted successfully",
 };

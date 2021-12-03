@@ -15,6 +15,7 @@ export const Upload = forwardRef(
     {
       error,
       id,
+      previewElementId,
       isRequired,
       isMini,
       imageUrl,
@@ -68,9 +69,16 @@ export const Upload = forwardRef(
           {hasUploaded ? (
             <>
               {videoUrl ? (
-                <video src={videoUrl} controls width="300px" height="150px" />
+                <video
+                  id={previewElementId}
+                  src={videoUrl}
+                  controls
+                  width="300px"
+                  height="150px"
+                />
               ) : pdfUrl ? (
                 <object
+                  id={previewElementId}
                   width="100%"
                   height="400"
                   data={pdfUrl}
@@ -80,6 +88,7 @@ export const Upload = forwardRef(
                 </object>
               ) : (
                 <Image
+                  id={previewElementId}
                   src={imageUrl}
                   width={isMini ? "80px" : "300px"}
                   borderRadius={isMini ? "50%" : null}

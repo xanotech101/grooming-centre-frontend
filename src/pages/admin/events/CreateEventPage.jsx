@@ -1,39 +1,209 @@
-import { Box, Flex } from "@chakra-ui/layout";
+import { Box, Grid } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/toast";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsPlusCircleFill } from "react-icons/bs";
-import { Route } from "react-router-dom";
-import { Button, Input, Textarea, Upload } from "../../../components";
-import { useUpload } from "../../../hooks";
+import { Route, useHistory, useParams } from "react-router-dom";
+import { useAdminEventsPage } from "..";
+import {
+  DateTimePicker,
+  Input,
+  Select,
+  Textarea,
+  Upload,
+} from "../../../components";
+import { useApp, useCache } from "../../../contexts";
+import { useDateTimePicker, useUpload } from "../../../hooks";
 import { CreatePageLayout } from "../../../layouts";
+import { adminCreateEvent, adminEditEvent } from "../../../services";
+import {
+  appendFormData,
+  capitalizeFirstLetter,
+  formatDateToISO,
+  isUpcoming,
+  populateSelectOptions,
+} from "../../../utils";
 
 const CreateEventPage = () => {
+  const toast = useToast();
+  const cache = useCache();
+  const {
+    state: { metadata },
+  } = useApp();
+  const { push, replace } = useHistory();
+  const { eventId } = useParams();
+  const isEditMode = eventId && eventId !== "new";
+
+  const { events, isLoading, hasError } = useAdminEventsPage();
+  const event = isEditMode
+    ? events?.find((event) => event.id === eventId)
+    : null;
+
+  // Block from editing non upcoming events
+  useEffect(() => {
+    if (isEditMode && event && !isUpcoming(event.startTime, event.endTime)) {
+      replace("/admin/events");
+
+      toast({
+        description: "Page not found! This event is not upcoming",
+        position: "top",
+        status: "error",
+        duration: 3500,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditMode, event]);
+
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  useEffect(() => {
+    if (
+      (isEditMode && !isLoading && !hasError && events && !event) ||
+      hasError
+    ) {
+      setDisableSubmit(true);
+      toast({
+        description:
+          "Something went wrong! Please Refresh the page or try again later",
+        position: "top",
+        status: "error",
+        duration: 1000 * 60 * 60,
+      });
+
+      return () => {
+        toast.closeAll();
+      };
+    }
+  }, [isEditMode, event, isLoading, hasError, events, toast]);
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
-  const thumbnailUpload = useUpload();
+  const coverImageManager = useUpload();
+  const startTimeManager = useDateTimePicker();
+  const endTimeManager = useDateTimePicker();
 
+  // Init `Title` value
+  useEffect(() => {
+    if (event) {
+      setValue("title", event.name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  // Init `Description` value
+  useEffect(() => {
+    if (event) {
+      setValue("description", event.description);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  // Init `DepartmentId` value
+  useEffect(() => {
+    if (event) {
+      setValue("departmentId", event.departmentId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event, metadata]);
+
+  // Init `Dates` value
+  useEffect(() => {
+    if (event) {
+      startTimeManager.handleChange(event.startTime);
+      endTimeManager.handleChange(event.endTime);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  useEffect(() => {
+    if (event) {
+      coverImageManager.handleInitialImageSelect(event.file);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  // Handle form submission
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const startTime =
+        startTimeManager.handleGetValueAndValidate("Start Time");
+      const endTime = endTimeManager.handleGetValueAndValidate("End Time");
+      const file = coverImageManager.handleGetFileAndValidate(
+        "Event Cover",
+        true
+      );
+
+      data = {
+        ...data,
+        file,
+        startTime: formatDateToISO(startTime),
+        endTime: formatDateToISO(endTime),
+      };
+
+      const body = appendFormData(data);
+
+      const { message } = await (isEditMode
+        ? adminEditEvent(eventId, body)
+        : adminCreateEvent(body));
+
+      // Clear cache on both admin side
+      cache.handleDelete("admin-events");
+
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
+
+      push(`/admin/events`);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
   };
+
   return (
     <CreatePageLayout
-      title="Create Event"
-      submitButtonText={"Submit"}
+      title={`${isEditMode ? "Edit" : "Create"} Event`}
+      submitButtonText={isEditMode ? "Update" : "Submit"}
       onSubmit={handleSubmit(onSubmit)}
-      submitButtonIsLoading={isSubmitting}
+      submitButtonIsLoading={isSubmitting || isLoading}
+      submitButtonIsDisabled={
+        isSubmitting || isLoading || hasError || disableSubmit
+      }
     >
-      <Box marginBottom={8}>
+      <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
         <Input
           label="Title"
+          isRequired
           id="title"
           {...register("title", {
             required: "Title is required",
           })}
           error={errors.title?.message}
         />
-      </Box>
+
+        <Select
+          label="Select department"
+          options={populateSelectOptions(metadata?.departments)}
+          isRequired
+          id="departmentId"
+          isLoading={!metadata?.departments}
+          {...register("departmentId", {
+            required: "Please select a department",
+          })}
+          error={errors.departmentId?.message}
+        />
+      </Grid>
+
       <Box marginBottom={8}>
         <Textarea
           minHeight="150px"
@@ -51,25 +221,31 @@ const CreateEventPage = () => {
           }
         />
       </Box>
-      <Flex width="30%" marginBottom={8}>
-        <Input
-          label="Event Speaker"
-          width="90%"
-          id="speaker"
-          {...register("speaker", {
-            required: "Event speaker is required",
-          })}
-          error={errors.speaker?.message}
+
+      <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+        <DateTimePicker
+          id="startTime"
+          isRequired
+          label="Start date & time"
+          value={startTimeManager.value}
+          onChange={startTimeManager.handleChange}
         />
-        <Box marginTop={9}>
-          <Button asIcon>
-            <BsPlusCircleFill size="24px" color="#800020" />
-          </Button>
-        </Box>
-      </Flex>
+
+        <DateTimePicker
+          id="endTime"
+          isRequired
+          label="End date & time"
+          value={endTimeManager.value}
+          onChange={endTimeManager.handleChange}
+        />
+      </Grid>
+
       <Box width="50%" marginBottom={8}>
-        <Input
+        <Select
           label="Event Location"
+          isRequired
+          defaultValue="virtual"
+          options={[{ value: "virtual", label: "Virtual" }]}
           id="location"
           {...register("location", {
             required: "Event location is required",
@@ -77,14 +253,14 @@ const CreateEventPage = () => {
           error={errors.location?.message}
         />
       </Box>
+
       <Box marginBottom={8}>
         <Upload
           id="thumbnail"
-          isRequired
           label="Event Cover"
-          onFileSelect={thumbnailUpload.handleFileSelect}
-          imageUrl={thumbnailUpload.image.url}
-          accept={thumbnailUpload.accept}
+          onFileSelect={coverImageManager.handleFileSelect}
+          imageUrl={coverImageManager.image.url}
+          accept={coverImageManager.accept}
         />
       </Box>
     </CreatePageLayout>

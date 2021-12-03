@@ -1,11 +1,88 @@
 import { ButtonGroup } from "@chakra-ui/button";
 import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/tag";
+import { useEffect } from "react";
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineDown } from "react-icons/ai";
 import { Button, Checkbox, SearchBar, Text } from "../..";
 
-const Header = ({ filterControls, SearchBarVisibility }) => {
+const Header = ({
+  filterControls,
+  SearchBarVisibility,
+  setParams,
+  setCanFilter,
+}) => {
+  const [tags, setTags] = useState({});
+
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  useEffect(() => {
+    const tagsKeys = Reflect.ownKeys(tags);
+
+    if (tagsKeys.length || searchQuery !== null) {
+      let params = {
+        ...(searchQuery ? { search: searchQuery } : {}),
+      };
+
+      tagsKeys.forEach((key) => {
+        if (tags[key].length) {
+          const p = tags[key].reduce(
+            (acc, tag, index) => ({
+              [key]: `${acc[key]}${index ? "," : ""}${tag.queryValue}`,
+            }),
+            { [key]: "" }
+          );
+
+          const additionalParams = tags[key].reduce(
+            (acc, tag) => ({
+              ...acc,
+              ...(tag.additionalParams ? tag.additionalParams : {}),
+            }),
+            {}
+          );
+
+          params = {
+            ...params,
+            ...p,
+            ...additionalParams,
+          };
+        }
+      });
+
+      setParams((prevParams) => {
+        // Clean up deleted params
+        for (let key in prevParams) {
+          if (!params[key] && key !== "length" && key !== "page")
+            Reflect.deleteProperty(prevParams, key);
+        }
+
+        return { ...prevParams, ...params };
+      });
+      setCanFilter(true);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tags, searchQuery]);
+
+  // Manually clear Search from QueryParams sent to the server
+  useEffect(() => {
+    if (searchQuery === "") {
+      setParams((params) => {
+        Reflect.deleteProperty(params, "search");
+        return params;
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+  const handleClearSearch = () => {
+    setSearchQuery("");
+  };
+
   return (
     <Flex
       as="header"
@@ -16,21 +93,24 @@ const Header = ({ filterControls, SearchBarVisibility }) => {
     >
       <SearchBar
         placeholder="Name, role, email, department"
-        // width="475px"
         width="375px"
         sm
+        onSearch={handleSearch}
+        onClear={handleClearSearch}
       />
 
-      {filterControls && <FilterButtonsGroup data={filterControls} />}
+      {filterControls && (
+        <FilterButtonsGroup
+          data={filterControls}
+          tags={tags}
+          setTags={setTags}
+        />
+      )}
     </Flex>
   );
 };
 
-const FilterButtonsGroup = ({ data }) => {
-  const [tags, setTags] = useState({
-    // "%Grade point": [{ text: "1 to 30" }],
-  });
-
+const FilterButtonsGroup = ({ data, tags, setTags }) => {
   const handleApplyFilter = (filterKey, filters) => {
     setTags((prev) => ({
       ...prev,
@@ -38,7 +118,7 @@ const FilterButtonsGroup = ({ data }) => {
     }));
   };
 
-  const handleTagClick = (tagSection, tagText) => {
+  const handleTagDelete = (tagSection, tagText) => {
     const newTags = {
       ...tags,
       [tagSection]: tags[tagSection].filter((tag) => tag.text !== tagText),
@@ -50,7 +130,7 @@ const FilterButtonsGroup = ({ data }) => {
     const tagSections = data
       .filter((item) => !item.noFilterTags)
       .reduce((prev, curr) => {
-        const tagSection = { name: curr.triggerText };
+        const tagSection = { name: curr.queryKey };
         prev.push(tagSection);
 
         return prev;
@@ -77,7 +157,7 @@ const FilterButtonsGroup = ({ data }) => {
             >
               <TagLabel>{tag.text}</TagLabel>
               <TagCloseButton
-                onClick={handleTagClick.bind(null, tagSection.name, tag.text)}
+                onClick={handleTagDelete.bind(null, tagSection.name, tag.text)}
               />
             </Tag>
           ))}
@@ -89,7 +169,7 @@ const FilterButtonsGroup = ({ data }) => {
   const renderButtons = () =>
     data.map((filterControl) => (
       <FilterButton
-        key={filterControl.triggerText}
+        key={filterControl.queryKey}
         data={filterControl}
         onApplyFilter={handleApplyFilter}
         tags={tags}
@@ -121,16 +201,28 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
           data={data}
           onClose={handleClose}
           onApplyFilter={onApplyFilter}
-          tags={tags[data.triggerText]}
+          tags={tags[data.queryKey]}
         />
       )}
     </Box>
   );
 
+  const getButtonText = () => {
+    if (!data.noFilterTags) {
+      return data.triggerText;
+    }
+
+    const text = tags[data.queryKey]?.[0]?.text;
+
+    console.log(text);
+
+    return text ? `${data.triggerText}: ${text}` : data.triggerText;
+  };
+
   return (
     <Box position="relative">
       <Button
-        data-testid={`filter-control, ${data.triggerText}`}
+        data-testid={`filter-control, ${data.queryKey}`}
         onClick={handleOpen}
         secondary
         sm
@@ -139,7 +231,7 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
         rightIcon={data.triggerIcon || <AiOutlineDown />}
         {...rest}
       >
-        {data.triggerText}
+        {getButtonText()}
       </Button>
 
       {isOpen && renderContent()}
@@ -150,11 +242,11 @@ const FilterButton = ({ children, data, tags, onApplyFilter, ...rest }) => {
 export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
   const [selectedChecks, setSelectedChecks] = useState(tags);
 
-  const handleCheckboxChange = ({ target: { name, checked } }) => {
-    const allSelected = [...selectedChecks];
+  const handleCheckboxChange = ({ target: { name, id, checked } }) => {
+    let allSelected = [...selectedChecks];
 
     if (checked) {
-      allSelected.push({ text: name });
+      allSelected.push({ text: name, queryValue: id });
     } else {
       const index = allSelected.findIndex((selected) => selected.text === name);
 
@@ -168,14 +260,19 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
 
   const handleApply = () => {
     onClose();
-    onApplyFilter(data.triggerText, selectedChecks);
+    onApplyFilter(data.queryKey, selectedChecks);
+  };
+
+  const handleRadioApply = (text, queryValue, additionalParams) => {
+    onClose();
+    onApplyFilter(data.queryKey, [{ text, queryValue, additionalParams }]);
   };
 
   const handleClearAll = () => {
     const selectedChecks = [];
     setSelectedChecks(selectedChecks);
 
-    onApplyFilter(data.triggerText, selectedChecks);
+    onApplyFilter(data.queryKey, selectedChecks);
     onClose();
   };
 
@@ -213,6 +310,7 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
                   key={index}
                   label={check.label}
                   name={check.label}
+                  id={check.queryValue}
                   defaultChecked={selectedChecks.find(
                     (selected) => check.label === selected.text
                   )}
@@ -247,7 +345,12 @@ export const FilterBody = ({ data, tags = [], onClose, onApplyFilter }) => {
                     _hover={{ backgroundColor: "accent.1" }}
                     paddingY={1}
                     paddingX={2}
-                    onClick={onClose}
+                    onClick={handleRadioApply.bind(
+                      null,
+                      radio.label,
+                      radio.queryValue,
+                      radio.additionalParams
+                    )}
                   >
                     <Text>{radio.label}</Text>
                   </Box>

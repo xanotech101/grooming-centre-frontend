@@ -1,16 +1,29 @@
 import { http } from "../..";
 
 /**
+ * Endpoint to delete user
+ * @param {string} id
+ *
+ * @returns {Promise<void>}
+ */
+export const adminDeleteUser = async (id) => {
+  const path = `/user/delete/${id}`;
+
+  await http.delete(path);
+};
+
+/**
  * Endpoint to get `user-listing`
+ * @param {object} params
  *
  * @returns {Promise<{ data: UserListArray }>}
  */
-export const adminGetUserListing = async () => {
+export const adminGetUserListing = async (params) => {
   const path = `/admin/users`;
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
   return {
     users: data.rows.map((user) => ({
@@ -27,6 +40,8 @@ export const adminGetUserListing = async () => {
       gradePoint: user.averageGradeScore,
       noOfCertificate: user.noOfCertificate,
     })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.count,
   };
 };
 

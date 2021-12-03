@@ -1,13 +1,37 @@
 import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
-import { loggedInUserGetEventListingRes } from "./responses";
+import {
+  userGetEventListingRes,
+  adminCreateEventRes,
+  adminGetEventListingRes,
+  adminEditEventRes,
+} from "./responses";
 
-const loggedInUserGetEventListing = rest.get(
+const userGetEventListing = rest.get(
   getUrl("/events"),
-  handleSuccessResponse(loggedInUserGetEventListingRes)
+  handleSuccessResponse(userGetEventListingRes)
+);
+const adminGetEventListing = rest.get(
+  getUrl("/admin/events"),
+  handleSuccessResponse(adminGetEventListingRes)
 );
 
-const event = [loggedInUserGetEventListing];
+const adminCreateEvent = rest.post(
+  getUrl("/events/create"),
+  handleSuccessResponse(adminCreateEventRes)
+);
+
+const adminEditEvent = rest.patch(
+  getUrl("/events/edit/eventId_3"),
+  handleSuccessResponse(adminEditEventRes)
+);
+
+const event = [
+  userGetEventListing,
+  adminCreateEvent,
+  adminGetEventListing,
+  adminEditEvent,
+];
 
 export default event;
