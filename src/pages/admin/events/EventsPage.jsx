@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { useCallback } from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
-import { Route } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import { Button } from "../../../components";
 import { adminGetEventListing } from "../../../services";
 import { isUpcoming } from "../../../utils";
@@ -79,21 +79,36 @@ const MoreIcon = ({ event }) => {
           )}
           renderCallToAction={({ event }) => <EditButton event={event} />}
         />
-        <MenuItem>Edit</MenuItem>
+
+        <EditButton event={event} isMenuItem />
       </MenuList>
     </Menu>
   );
 };
 
-const EditButton = ({ event }) => (
-  <Button
-    link={`/admin/events/edit/${event.id}`}
-    disabled={!isUpcoming(event.startTime, event.endTime)}
-    rightIcon={<BiRightArrowAlt />}
-  >
-    Edit Event
-  </Button>
-);
+const EditButton = ({ event, isMenuItem }) => {
+  const { push } = useHistory();
+
+  return isMenuItem ? (
+    <MenuItem
+      onClick={() =>
+        isUpcoming(event.startTime, event.endTime) &&
+        push(`/admin/events/edit/${event.id}`)
+      }
+      cursor={!isUpcoming(event.startTime, event.endTime) && "no-drop"}
+    >
+      Edit
+    </MenuItem>
+  ) : (
+    <Button
+      link={`/admin/events/edit/${event.id}`}
+      disabled={!isUpcoming(event.startTime, event.endTime)}
+      rightIcon={<BiRightArrowAlt />}
+    >
+      Edit Event
+    </Button>
+  );
+};
 
 export const EventsPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <EventsPage {...props} />} />;
