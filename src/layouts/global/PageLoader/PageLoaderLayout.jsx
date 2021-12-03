@@ -7,6 +7,7 @@ export const PageLoaderLayout = ({ children = <Spinner />, ...rest }) => {
     <Flex
       justifyContent="center"
       alignItems="center"
+      textAlign="center"
       flexDirection="column"
       height="100vh"
       width="100vw"

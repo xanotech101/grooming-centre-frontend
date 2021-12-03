@@ -58,7 +58,7 @@ const MainArea = () => {
           />
           <RolesPageRoute exact path="/admin/role" />
 
-          <CreateEventPageRoute path="/admin/events/create" />
+          <CreateEventPageRoute path="/admin/events/edit/:eventId" />
           <EventsPageRoute path="/admin/events" />
 
           <LibraryListingPageRoute exact path="/admin/library" />

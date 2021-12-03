@@ -12,7 +12,6 @@ import {
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import {
-  adminDeleteCourse,
   adminDeleteMultipleCourses,
   adminGetCourseListing,
 } from "../../../../services";
@@ -107,9 +106,6 @@ const tableProps = {
       },
       {
         isDelete: true,
-        deleteFetcher: async (course) => {
-          await adminDeleteCourse(course.id);
-        },
       },
     ],
     selection: true,

@@ -13,7 +13,6 @@ import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import { useCallback, useEffect, useState } from "react";
 import {
-  adminDeleteCourse,
   adminDeleteMultipleCourses,
   adminGetAssessmentListing,
 } from "../../../../../services";
@@ -77,9 +76,6 @@ const tableProps = {
       },
       {
         isDelete: true,
-        deleteFetcher: async (assessment) => {
-          await adminDeleteCourse(assessment.id);
-        },
       },
     ],
     selection: true,

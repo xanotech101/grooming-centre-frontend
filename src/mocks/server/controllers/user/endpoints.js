@@ -9,6 +9,7 @@ import {
   adminEditUserRes_userId_1,
   adminEditUserRes_userId_2,
   adminEditUserRes_userId_3,
+  adminDeleteUserRes,
 } from "./responses";
 
 const adminGetUserListing = rest.get(
@@ -46,6 +47,26 @@ const adminEditUser = [
   ),
 ];
 
-const user = [adminGetUserListing, ...adminGetUserDetails, ...adminEditUser];
+const adminDeleteUser = [
+  rest.delete(
+    getUrl("/user/delete/userId_1"),
+    handleSuccessResponse(adminDeleteUserRes)
+  ),
+  rest.delete(
+    getUrl("/user/delete/userId_2"),
+    handleSuccessResponse(adminDeleteUserRes)
+  ),
+  rest.delete(
+    getUrl("/user/delete/userId_3"),
+    handleSuccessResponse(adminDeleteUserRes)
+  ),
+];
+
+const user = [
+  adminGetUserListing,
+  ...adminGetUserDetails,
+  ...adminEditUser,
+  ...adminDeleteUser,
+];
 
 export default user;

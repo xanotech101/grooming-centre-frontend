@@ -10,11 +10,14 @@ export const DateTimePicker = ({
   value,
   helperText,
   onChange,
+  disabled,
+  tooltip,
 }) => {
   return (
     <FormGroup
       id={id}
       label={label}
+      tooltip={tooltip}
       isRequired={isRequired}
       error={error}
       renderControl={() => (
@@ -24,6 +27,7 @@ export const DateTimePicker = ({
           format="dd/MM/yyyy hh:mm a"
           onChange={onChange}
           helperText={helperText}
+          disabled={disabled}
         />
       )}
     />

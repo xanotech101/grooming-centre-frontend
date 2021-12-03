@@ -14,12 +14,12 @@ export const links = [
     icon: <RiDashboardLine />,
   },
   {
-    href: "/admin/users",
+    href: "/admin/users?page=1&limit=10",
     text: "users",
     icon: <HiUsers />,
   },
   {
-    href: "/admin/courses",
+    href: "/admin/courses?page=1&limit=10",
     text: "courses",
     icon: <GiBookshelf />,
   },
@@ -29,7 +29,7 @@ export const links = [
     icon: <IoIosCalendar />,
   },
   {
-    href: "/admin/departments",
+    href: "/admin/departments?page=1&limit=10",
     text: "departments",
     icon: <HiOutlineOfficeBuilding />,
   },

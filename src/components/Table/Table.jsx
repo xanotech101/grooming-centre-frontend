@@ -4,21 +4,48 @@ import Header from "./Header/Header";
 import TableHead from "./TableHead/TableHead";
 import TableBody from "./TableBody/TableBody";
 import { useState } from "react";
-import { Button, Text, Spinner } from "..";
+import { Button, Text } from "..";
+import { DeleteMenuItemButton } from "../Cards/QuestionListCard";
 import { AiFillMinusSquare } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import breakpoints from "../../theme/breakpoints";
 import { useFetch } from "../../hooks";
 import { capitalizeFirstLetter } from "../../utils";
 import { useToast } from "@chakra-ui/toast";
+import { useEffect } from "react";
 
-const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
+const useTable = ({
+  rowsData,
+  setRows,
+  multipleDeleteFetcher,
+  options,
+  handleFetch,
+}) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const {
     resource: { loading: deletionInProgress },
     handleFetchResource,
   } = useFetch();
   const toastBread = useToast();
+
+  const [params, setParams] = useState({});
+  const [canFilter, setCanFilter] = useState(false);
+
+  // Fetch Table initial's data for non-paginated option
+  useEffect(() => {
+    if (!options.pagination) handleFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.pagination]);
+
+  // Fetch Table data every time permitted to
+  useEffect(() => {
+    if (canFilter) {
+      handleFetch({ params });
+      setCanFilter(false);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canFilter]);
 
   /**
    * toggles all rows selection
@@ -85,7 +112,23 @@ const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
         }
       });
 
-      setRows({ data: allRows });
+      // setRows((prev) => ({
+      //   data: {
+      //     rows: [],
+      //   },
+      // }));
+      setRows((prev) => ({
+        data: {
+          ...prev.data,
+          rows: allRows,
+          showingDocumentsCount: prev.data.showingDocumentsCount
+            ? prev.data.showingDocumentsCount - selectedRows.length
+            : 0,
+        },
+      }));
+
+      console.log(allRows);
+
       handleDeselectAllRows();
 
       toastBread({
@@ -117,27 +160,32 @@ const useTable = ({ rowsData, setRows, multipleDeleteFetcher }) => {
     handleSelectRowsToggle,
     handleSelectRowToggle,
     handleDeleteRows,
+    setParams,
+    setCanFilter,
   };
 };
 
 export const Table = ({
   rows,
   setRows,
-  // filterControls,  // TODO: uncomment out later
+  filterControls,
   SearchBarVisibility,
   columns,
   options,
   templateColumns,
   columnGap = 2,
   generalRowStyles,
+  handleFetch,
   // Calc from the width of the aside and margins
   width = "calc(100vw - 270px - 40px)",
   maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
 }) => {
   const manager = useTable({
-    rowsData: rows.data,
+    rowsData: rows.data?.rows,
     setRows,
     multipleDeleteFetcher: options?.multipleDeleteFetcher,
+    options,
+    handleFetch,
   });
 
   const getTemplateColumns = () =>
@@ -178,101 +226,84 @@ export const Table = ({
 
   return (
     <Box>
-      {manager.deletionInProgress ? (
-        <Flex
-          width="100%"
-          height="100%"
-          justifyContent="center"
-          alignItems="center"
-          backgroundColor="rgba(0,0,0,0.3)"
-          position="fixed"
-          zIndex="1000"
-          top="0"
-          left="0"
-        >
-          <Box
-            backgroundColor="white"
-            textAlign="center"
-            padding={10}
-            rounded="md"
-            shadow="md"
-          >
-            <Spinner marginBottom={5} />
-            <Text as="level2">Please wait, as this might take a while</Text>
-          </Box>
-        </Flex>
-      ) : (
-        <>
-          <Header
-            SearchBarVisibility={SearchBarVisibility}
-            // filterControls={filterControls}   //TODO: uncomment out later
-          />
+      <Header
+        SearchBarVisibility={SearchBarVisibility}
+        filterControls={filterControls}
+        setParams={manager.setParams}
+        setCanFilter={manager.setCanFilter}
+      />
 
-          <Box
-            paddingTop={3}
-            marginTop={3}
-            borderTop="1px"
-            borderColor="accent.2"
-          >
-            {manager.selectedRows.length ? (
-              <Flex alignItems="center" marginBottom={3}>
+      <Box paddingTop={3} marginTop={3} borderTop="1px" borderColor="accent.2">
+        {manager.selectedRows.length ? (
+          <Flex alignItems="center" marginBottom={3}>
+            <Button
+              asIcon
+              sm
+              marginRight={2}
+              data-testid="deselect"
+              onClick={manager.handleDeselectAllRows}
+            >
+              <AiFillMinusSquare />
+            </Button>
+
+            <Text as="level3" bold marginX={5}>
+              {manager.selectedRows.length} selected
+            </Text>
+
+            <DeleteMenuItemButton
+              onDelete={manager.handleDeleteRows.bind(
+                null,
+                manager.selectedRows
+              )}
+              renderTrigger={({ onOpen }) => (
                 <Button
                   asIcon
                   sm
-                  marginRight={2}
-                  data-testid="deselect"
-                  onClick={manager.handleDeselectAllRows}
-                >
-                  <AiFillMinusSquare />
-                </Button>
-
-                <Text as="level3" bold>
-                  {manager.selectedRows.length} selected
-                </Text>
-
-                <Button
-                  asIcon
-                  sm
-                  marginLeft={10}
                   data-testid="delete"
-                  onClick={manager.handleDeleteRows.bind(
+                  onClick={onOpen}
+                  onDoubleClick={manager.handleDeleteRows.bind(
                     null,
                     manager.selectedRows
                   )}
+                  color="secondary.7"
                 >
                   <BiTrash />
                 </Button>
-              </Flex>
-            ) : null}
+              )}
+            />
+          </Flex>
+        ) : null}
 
-            <Box
-              divider={<StackDivider borderColor="gray.200" marginY={0} />}
-              role="table"
-              paddingBottom={5}
-              width={width}
-              maxWidth={maxWidth}
-              overflowX="auto"
-              backgroundColor="white"
-            >
-              <TableHead
-                {...commonProps}
-                onSelect={manager.handleSelectRowsToggle}
-              />
+        <Box
+          divider={<StackDivider borderColor="gray.200" marginY={0} />}
+          role="table"
+          paddingBottom={5}
+          width={width}
+          maxWidth={maxWidth}
+          overflowX="auto"
+          backgroundColor="white"
+        >
+          <TableHead
+            {...commonProps}
+            onSelect={manager.handleSelectRowsToggle}
+          />
 
-              <TableBody
-                {...commonProps}
-                onRowSelect={manager.handleSelectRowToggle}
-              />
-            </Box>
-          </Box>
-        </>
-      )}
+          <TableBody
+            {...commonProps}
+            onRowSelect={manager.handleSelectRowToggle}
+            deletionInProgress={manager.deletionInProgress}
+            setParams={manager.setParams}
+            setCanFilter={manager.setCanFilter}
+            handleDeselectAllRows={manager.handleDeselectAllRows}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 };
 
 Table.propTypes = {
-  // filterControls: PropTypes.array,   //TODO: uncomment out later
+  filterControls: PropTypes.array,
   SearchBarVisibility: PropTypes.string,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
@@ -287,7 +318,6 @@ Table.propTypes = {
       PropTypes.shape({
         text: PropTypes.any,
         isDelete: PropTypes.bool,
-        deleteFetcher: PropTypes.func,
         link: PropTypes.func,
         props: PropTypes.object,
         onClick: PropTypes.func,
@@ -297,14 +327,18 @@ Table.propTypes = {
     multipleDeleteFetcher: PropTypes.func,
   }),
   rows: PropTypes.shape({
-    data: PropTypes.array,
+    data: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.object),
+      totalCount: PropTypes.number,
+      showingCount: PropTypes.number,
+    }),
     loading: PropTypes.bool,
     err: PropTypes.bool,
   }),
   setRows: PropTypes.func.isRequired,
-
   templateColumns: PropTypes.string,
   columnGap: PropTypes.any,
   generalRowStyles: PropTypes.object,
   width: PropTypes.string,
+  handleFetch: PropTypes.func,
 };

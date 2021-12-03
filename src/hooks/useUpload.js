@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useUpload = () => {
+export const useUpload = (props) => {
+  const previewElementId = props?.previewElementId;
+
   const initAccept = "image/jpeg, image/png";
 
   const [accept, setAccept] = useState(initAccept);
   const [file, setFile] = useState(null);
   const [image, setImage] = useState({ url: null });
-  const [video, setVideo] = useState({ url: null });
+  const [video, setVideo] = useState({ url: null, duration: null });
   const [pdf, setPdf] = useState({ url: null });
   const [audio, setAudio] = useState({ url: null });
 
@@ -24,6 +26,7 @@ export const useUpload = () => {
 
       if (fileIsAVideo) {
         const url = URL.createObjectURL(file);
+
         setVideo({ url });
       }
 
@@ -52,6 +55,16 @@ export const useUpload = () => {
 
     setFile(file);
   };
+
+  useEffect(() => {
+    if (video.url && previewElementId) {
+      const videoElement = document.getElementById(previewElementId);
+
+      videoElement.ondurationchange = function () {
+        setVideo((prev) => ({ ...prev, duration: this.duration }));
+      };
+    }
+  }, [previewElementId, video.url]);
 
   const handleInitialImageSelect = (url) => {
     setImage({ url });

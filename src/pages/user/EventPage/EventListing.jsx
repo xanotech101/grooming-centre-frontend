@@ -22,6 +22,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { BiRightArrowAlt } from "react-icons/bi";
+import { useApp } from "../../../contexts";
 
 export const EventListing = ({
   isLoading,
@@ -115,10 +116,14 @@ const Listing = ({ events, headerButton }) => {
                   {isUpcoming(event.startTime) && "Event Is Upcoming"}
                 </Tag>
               </Text>
-              <Text as="level2" bold my={1}>
-                {event.name}
-              </Text>
-              <Text>{truncateText(event.description, 122)}</Text>
+
+              {event.renderEventName ? (
+                event.renderEventName()
+              ) : (
+                <EventNameLink event={event} />
+              )}
+
+              <Text>{truncateText(event.description, 60)}</Text>
             </Box>
 
             {event.renderAction ? (
@@ -142,20 +147,42 @@ const JoinEventButton = ({ event }) => (
   </Button>
 );
 
-const ViewEventButton = ({ event }) => {
+export const EventNameLink = ({ event, renderCallToAction }) => (
+  <ViewEventButton
+    event={event}
+    renderCallToAction={renderCallToAction}
+    renderTrigger={({ onOpen }) => (
+      <Text
+        as="level2"
+        bold
+        my={1}
+        onClick={onOpen}
+        _hover={{ textDecoration: "underline", cursor: "pointer" }}
+      >
+        {event.name}
+      </Text>
+    )}
+  />
+);
+
+export const ViewEventButton = ({
+  event,
+  renderTrigger,
+  renderCallToAction,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const getSpeakers = () =>
-    event.speakers.reduce(
-      (acc, speaker, index) => `${acc}${index ? ", " : ""}${speaker.name}`,
-      ""
-    );
+  const { getOneMetadata } = useApp();
 
   return (
     <>
-      <Button secondary onClick={onOpen}>
-        View Event
-      </Button>
+      {renderTrigger ? (
+        renderTrigger({ onOpen })
+      ) : (
+        <Button secondary onClick={onOpen}>
+          View Event
+        </Button>
+      )}
 
       <Modal
         blockScrollOnMount={false}
@@ -187,6 +214,7 @@ const ViewEventButton = ({ event }) => {
           <ModalCloseButton />
           <ModalBody>
             <Text mb={8}>{event.description}</Text>
+
             <Text my={2} as="level3">
               <Box as="b" mr={5}>
                 DATE:
@@ -200,12 +228,17 @@ const ViewEventButton = ({ event }) => {
               {dayjs(event.startTime).format("h:mm A")} -{" "}
               {dayjs(event.endTime).format("h:mm A.")}
             </Text>
-            <Text my={2} as="level3">
-              <Box as="b" mr={5}>
-                SPEAKERS:
-              </Box>
-              {getSpeakers() ? `${getSpeakers()}.` : <Tag>No Speakers</Tag>}
-            </Text>
+
+            {renderCallToAction ? (
+              <Text my={2} as="level3">
+                <Box as="b" mr={5}>
+                  DEPARTMENT:
+                </Box>
+                {event.departmentId
+                  ? getOneMetadata("departments", event.departmentId)?.name
+                  : "N/A"}
+              </Text>
+            ) : null}
           </ModalBody>
 
           <ModalFooter>
@@ -213,7 +246,11 @@ const ViewEventButton = ({ event }) => {
               Close
             </Button>
 
-            <JoinEventButton event={event} />
+            {renderCallToAction ? (
+              renderCallToAction({ event })
+            ) : (
+              <JoinEventButton event={event} />
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

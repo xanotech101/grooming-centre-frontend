@@ -52,7 +52,7 @@ const CreateLessonPage = () => {
 
   const startTimeManager = useDateTimePicker();
   const endTimeManager = useDateTimePicker();
-  const fileManager = useUpload();
+  const fileManager = useUpload({ previewElementId: "file-video" });
   const contentManager = useRichText();
 
   const { lesson, isLoading, isError } = useViewLessonInfo();
@@ -73,6 +73,25 @@ const CreateLessonPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson]);
+
+  const disableEndTime =
+    getOneMetadata("lessonType", getValues("lessonTypeId"))?.name === "video"
+      ? true
+      : false;
+  // Get EndTime from Video Duration
+  useEffect(() => {
+    if (fileManager.video.duration && startTimeManager.value) {
+      const extraTimeMinutes = 10; // TODO: change this according to business rules
+
+      const endTime =
+        new Date(startTimeManager.value).getTime() +
+        extraTimeMinutes * fileManager.video.duration * 1000;
+
+      endTimeManager.handleChange(endTime);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileManager.video.duration, startTimeManager.value]);
 
   // Init `Content` data
   useEffect(() => {
@@ -142,12 +161,12 @@ const CreateLessonPage = () => {
     try {
       const startTime =
         startTimeManager.handleGetValueAndValidate("Start Time");
-      const endTime = endTimeManager.handleGetValueAndValidate("End Time");
       const content = contentManager.handleGetValueAndValidate("Content");
       const file = fileManager.handleGetFileAndValidate(
         "Lesson File",
         isEditMode
       );
+      const endTime = endTimeManager.handleGetValueAndValidate("End Time");
 
       data = {
         ...data,
@@ -281,6 +300,11 @@ const CreateLessonPage = () => {
               label="End date & time"
               value={endTimeManager.value}
               onChange={endTimeManager.handleChange}
+              disabled={disableEndTime}
+              tooltip={
+                disableEndTime &&
+                "Controlled by Video Length (+10 minutes extra time) and Start date & time"
+              }
             />
           </GridItem>
 
@@ -311,6 +335,7 @@ const CreateLessonPage = () => {
           <GridItem colSpan={2}>
             <Upload
               id="file"
+              previewElementId="file-video"
               label="Lesson file"
               isRequired
               videoUrl={fileManager.video.url}
