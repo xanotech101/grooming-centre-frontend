@@ -43,13 +43,14 @@ export const adminGetEventListing = async () => {
     name: event.name,
     description: event.description,
     departmentId: event.departmentId,
+    file: event.thumbnail,
   }));
 
   return { events };
 };
 
 /**
- * Endpoint for admin to create a lesson
+ * Endpoint for admin to create a event
  * @param {object} body
  *
  * @returns {Promise<{ message: string }>}
@@ -60,6 +61,23 @@ export const adminCreateEvent = async (body) => {
   const {
     data: { message },
   } = await http.post(path, body);
+
+  return { message };
+};
+
+/**
+ * Endpoint for admin to modify a event
+ * @param {string} eventId
+ * @param {object} body
+ *
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminEditEvent = async (eventId, body) => {
+  const path = `/events/edit/${eventId}`;
+
+  const {
+    data: { message },
+  } = await http.patch(path, body);
 
   return { message };
 };

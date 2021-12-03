@@ -6,6 +6,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { Route } from "react-router-dom";
 import { Button } from "../../../components";
 import { adminGetEventListing } from "../../../services";
+import { isUpcoming } from "../../../utils";
 import {
   EventListing,
   EventNameLink,
@@ -13,7 +14,7 @@ import {
   ViewEventButton,
 } from "../../user";
 
-const EventsPage = () => {
+export const useAdminEventsPage = () => {
   const fetcher = useCallback(async () => {
     const { events } = await adminGetEventListing();
 
@@ -38,6 +39,12 @@ const EventsPage = () => {
     cacheKey: "admin-events",
   });
 
+  return { events, eventsIsEmpty, isLoading, hasError };
+};
+
+const EventsPage = () => {
+  const { events, eventsIsEmpty, isLoading, hasError } = useAdminEventsPage();
+
   return (
     <Flex marginTop="16" justifyContent="center">
       <EventListing
@@ -46,7 +53,7 @@ const EventsPage = () => {
         eventsIsEmpty={eventsIsEmpty}
         events={events}
         headerButton={
-          <Button link={`/admin/events/create`}>Create Event</Button>
+          <Button link={`/admin/events/edit/new`}>Create Event</Button>
         }
       />
     </Flex>
@@ -80,7 +87,8 @@ const MoreIcon = ({ event }) => {
 
 const EditButton = ({ event }) => (
   <Button
-    // disabled={!isOngoing(event.startTime, event.endTime)}
+    link={`/admin/events/edit/${event.id}`}
+    disabled={!isUpcoming(event.startTime, event.endTime)}
     rightIcon={<BiRightArrowAlt />}
   >
     Edit Event

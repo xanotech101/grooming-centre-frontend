@@ -5,6 +5,7 @@ import {
   userGetEventListingRes,
   adminCreateEventRes,
   adminGetEventListingRes,
+  adminEditEventRes,
 } from "./responses";
 
 const userGetEventListing = rest.get(
@@ -21,6 +22,16 @@ const adminCreateEvent = rest.post(
   handleSuccessResponse(adminCreateEventRes)
 );
 
-const event = [userGetEventListing, adminCreateEvent, adminGetEventListing];
+const adminEditEvent = rest.patch(
+  getUrl("/events/edit/eventId_3"),
+  handleSuccessResponse(adminEditEventRes)
+);
+
+const event = [
+  userGetEventListing,
+  adminCreateEvent,
+  adminGetEventListing,
+  adminEditEvent,
+];
 
 export default event;

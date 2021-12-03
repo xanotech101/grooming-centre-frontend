@@ -1,7 +1,9 @@
 import { Box, Grid } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Route, useHistory } from "react-router-dom";
+import { Route, useHistory, useParams } from "react-router-dom";
+import { useAdminEventsPage } from "..";
 import {
   DateTimePicker,
   Input,
@@ -12,30 +14,117 @@ import {
 import { useApp, useCache } from "../../../contexts";
 import { useDateTimePicker, useUpload } from "../../../hooks";
 import { CreatePageLayout } from "../../../layouts";
-import { adminCreateEvent } from "../../../services";
+import { adminCreateEvent, adminEditEvent } from "../../../services";
 import {
   appendFormData,
   capitalizeFirstLetter,
   formatDateToISO,
+  isUpcoming,
   populateSelectOptions,
 } from "../../../utils";
 
 const CreateEventPage = () => {
+  const toast = useToast();
+  const cache = useCache();
+  const {
+    state: { metadata },
+  } = useApp();
+  const { push, replace } = useHistory();
+  const { eventId } = useParams();
+  const isEditMode = eventId && eventId !== "new";
+
+  const { events, isLoading, hasError } = useAdminEventsPage();
+  const event = isEditMode
+    ? events?.find((event) => event.id === eventId)
+    : null;
+
+  // Block from editing non upcoming events
+  useEffect(() => {
+    if (isEditMode && event && !isUpcoming(event.startTime, event.endTime)) {
+      replace("/admin/events");
+
+      toast({
+        description: "Page not found! This event is not upcoming",
+        position: "top",
+        status: "error",
+        duration: 3500,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditMode, event]);
+
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  useEffect(() => {
+    if (
+      (isEditMode && !isLoading && !hasError && events && !event) ||
+      hasError
+    ) {
+      setDisableSubmit(true);
+      toast({
+        description:
+          "Something went wrong! Please Refresh the page or try again later",
+        position: "top",
+        status: "error",
+        duration: 1000 * 60 * 60,
+      });
+
+      return () => {
+        toast.closeAll();
+      };
+    }
+  }, [isEditMode, event, isLoading, hasError, events, toast]);
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
   const coverImageManager = useUpload();
   const startTimeManager = useDateTimePicker();
   const endTimeManager = useDateTimePicker();
 
-  const { push } = useHistory();
-  const toast = useToast();
-  const cache = useCache();
-  const {
-    state: { metadata },
-  } = useApp();
+  // Init `Title` value
+  useEffect(() => {
+    if (event) {
+      setValue("title", event.name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  // Init `Description` value
+  useEffect(() => {
+    if (event) {
+      setValue("description", event.description);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  // Init `DepartmentId` value
+  useEffect(() => {
+    if (event) {
+      setValue("departmentId", event.departmentId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event, metadata]);
+
+  // Init `Dates` value
+  useEffect(() => {
+    if (event) {
+      startTimeManager.handleChange(event.startTime);
+      endTimeManager.handleChange(event.endTime);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  useEffect(() => {
+    if (event) {
+      coverImageManager.handleInitialImageSelect(event.file);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -57,10 +146,9 @@ const CreateEventPage = () => {
 
       const body = appendFormData(data);
 
-      const { message } = await // isEditMode
-      // ? adminEditLesson(lessonId, body)
-      //   :
-      adminCreateEvent(body);
+      const { message } = await (isEditMode
+        ? adminEditEvent(eventId, body)
+        : adminCreateEvent(body));
 
       // Clear cache on both admin side
       cache.handleDelete("admin-events");
@@ -84,10 +172,13 @@ const CreateEventPage = () => {
 
   return (
     <CreatePageLayout
-      title="Create Event"
-      submitButtonText={"Submit"}
+      title={`${isEditMode ? "Edit" : "Create"} Event`}
+      submitButtonText={isEditMode ? "Update" : "Submit"}
       onSubmit={handleSubmit(onSubmit)}
-      submitButtonIsLoading={isSubmitting}
+      submitButtonIsLoading={isSubmitting || isLoading}
+      submitButtonIsDisabled={
+        isSubmitting || isLoading || hasError || disableSubmit
+      }
     >
       <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
         <Input
