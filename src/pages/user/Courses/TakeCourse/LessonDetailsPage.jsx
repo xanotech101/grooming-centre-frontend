@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/toast";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Grid } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
 import { Route } from "react-router-dom";
 import {
@@ -10,6 +10,7 @@ import {
   NavigationBlocker,
   RichTextToView,
   SkeletonText,
+  Spinner,
   // Text,
 } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
@@ -18,6 +19,7 @@ import { EmptyState } from "../../../../layouts";
 import { useGoBack } from "../../../../hooks";
 
 const Player = ({
+  lessonId,
   width = "100%",
   height = "100%",
   url,
@@ -27,6 +29,33 @@ const Player = ({
   playing = false,
   ...rest
 }) => {
+  const [isReady, setIsReady] = useState(false);
+
+  const playerRef = useRef();
+
+  useEffect(() => {
+    const player = playerRef.current;
+    if (player && lessonId) {
+      const initialProgress =
+        localStorage.getItem(`${lessonId}-video-progress`) || 0;
+
+      setTimeout(() => {
+        player.seekTo(+initialProgress);
+      }, 1200);
+    }
+  }, [isReady, lessonId]);
+
+  const onReady = () => {
+    setIsReady(true);
+  };
+
+  const onProgress = () => {
+    localStorage.setItem(
+      `${lessonId}-video-progress`,
+      `${playerRef.current.getCurrentTime()}`
+    );
+  };
+
   return (
     <Box
       width={width}
@@ -39,7 +68,12 @@ const Player = ({
         url={url}
         onEnded={onEnded}
         playing={playing}
+        onReady={onReady}
+        onProgress={onProgress}
+        ref={playerRef}
+        id="take-lesson-video"
         controls
+        autoPlay
         width="100%"
         height="100%"
       />
@@ -157,6 +191,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
                   <Player
                     minHeight={"300px"}
                     url={lesson?.file}
+                    lessonId={lesson?.id}
                     onEnded={handleVideoHasEnded}
                     onPlayToggle={handleVideoPlayToggle}
                     controls={videoHasBeenCompleted}
