@@ -91,3 +91,10 @@ export const adminCreateEventRes = {
 export const adminEditEventRes = {
   message: "event updated successfully",
 };
+
+export const userJoinEventRes = {
+  data: {
+    id: "eventId_2",
+    link: "http://localhost:3000/courses",
+  },
+};
