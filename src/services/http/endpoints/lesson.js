@@ -80,24 +80,29 @@ export const adminEditLesson = async (lessonId, body) => {
 
 /**
  * Endpoint to for admin get all lessons
+ * @param {object} params
+ *
  * @param {{ title: string, startTime: Date, courseId: string }} body
  *
  * @returns {Promise<{ message: string, lessons: Array<{ id: string, title: string, startTime: Date, active: boolean, courseId: string }>}>}
  */
-export const adminGetLessonListing = async (courseId, body) => {
+export const adminGetLessonListing = async (courseId, params, body) => {
   const path = `/lesson/admin/${courseId}`;
 
   const {
     data: { message, data },
-  } = await http.get(path, body);
+  } = await http.get(path, { params }, body);
 
-  const lessons = data.rows.map((lesson) => ({
-    id: lesson.id,
-    title: lesson.title,
-    startTime: lesson.startTime,
-    active: lesson.active,
-    courseId: lesson.courseId,
-  }));
-
-  return { message, lessons };
+  return {
+    message,
+    lessons: data.rows.map((lesson) => ({
+      id: lesson.id,
+      title: lesson.title,
+      startTime: lesson.startTime,
+      active: lesson.active,
+      courseId: lesson.courseId,
+    })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.rows.length,
+  };
 };

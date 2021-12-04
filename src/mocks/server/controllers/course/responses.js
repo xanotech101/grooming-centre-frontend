@@ -187,6 +187,25 @@ export const adminGetUserCourseListingRes_userId_1 = {
       },
       progressPercentage: 13,
     },
+    {
+      id: "courseId_3",
+      duration: 100,
+      description: "React Design Patters",
+      disabled: false,
+      title: "Become A React Guru",
+      thumbnail:
+        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
+      lessonCount: 24,
+      instructor: {
+        id: "instructorId_3",
+        profilePics:
+          "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
+        firstName: "Richcode",
+        lastName: "dart",
+        title: "Junior Developer",
+      },
+      progressPercentage: 1,
+    },
   ],
 };
 
@@ -228,6 +247,25 @@ export const adminGetUserCourseListingRes_userId_2 = {
         title: "Junior Developer",
       },
       progressPercentage: 13,
+    },
+    {
+      id: "courseId_3",
+      duration: 100,
+      description: "React Design Patters",
+      disabled: false,
+      title: "Become A React Guru",
+      thumbnail:
+        "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=872&q=80",
+      lessonCount: 24,
+      instructor: {
+        id: "instructorId_3",
+        profilePics:
+          "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80",
+        firstName: "Richcode",
+        lastName: "dart",
+        title: "Junior Developer",
+      },
+      progressPercentage: 1,
     },
   ],
 };

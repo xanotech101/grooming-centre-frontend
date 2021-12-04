@@ -2,27 +2,29 @@ import { http } from "../http";
 
 /**
  * Endpoint for assessment listing
- *
+ * @param {object} params
  *
  * @returns {Promise<{ assessments: Array<{ id: string, name: string, createdAt: Date, noOfUsers: number }> }>}
  */
-export const adminGetDepartmentListing = async () => {
+export const adminGetDepartmentListing = async (params) => {
   const path = `/department/all`;
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
-  const departments = data.rows.map((department) => ({
-    id: department.id,
-    name: department.name,
-    active: department.active,
-    createdAt: department.createdAt,
-    updatedAt: department.updatedAt,
-    noOfusers: department.noOfusers,
-  }));
-
-  return { departments };
+  return {
+    departments: data.rows.map((department) => ({
+      id: department.id,
+      name: department.name,
+      active: department.active,
+      createdAt: department.createdAt,
+      updatedAt: department.updatedAt,
+      noOfusers: department.noOfusers,
+    })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.rows.length,
+  };
 };
 
 /**
@@ -44,26 +46,31 @@ export const adminCreateDepartment = async (body) => {
 
 /**
  * Endpoint to for admin to create a department
+ * @param {object} params
+ *
  * @param {{ title: string, departmentId: string}}
  *
  * @returns {Promise<{ message: string, departments: Array<{ id: string, firstName: string, lastName: string, email: string, userRoleId: string,departmentId: string }>}>}
  */
-export const adminGetDepartmentUsersListing = async (departmentId) => {
+export const adminGetDepartmentUsersListing = async (departmentId, params) => {
   const path = `/department/users/${departmentId}`;
 
   const {
     data: { message, data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
-  const users = data.rows.map((user) => ({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    userRoleId: user.userRoleId,
-    departmentId: user.departmentId,
-    userRoleName: user.userRole.name,
-  }));
-
-  return { message, users };
+  return {
+    message,
+    users: data.rows.map((user) => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      userRoleId: user.userRoleId,
+      departmentId: user.departmentId,
+      userRoleName: user.userRole.name,
+    })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.rows.length,
+  };
 };
