@@ -6,11 +6,16 @@ import {
   adminCreateEventRes,
   adminGetEventListingRes,
   adminEditEventRes,
+  userJoinEventRes,
 } from "./responses";
 
 const userGetEventListing = rest.get(
   getUrl("/events"),
   handleSuccessResponse(userGetEventListingRes)
+);
+const userJoinEvent = rest.get(
+  getUrl("/events/join/eventId_2"),
+  handleSuccessResponse(userJoinEventRes)
 );
 const adminGetEventListing = rest.get(
   getUrl("/admin/events"),
@@ -32,6 +37,7 @@ const event = [
   adminCreateEvent,
   adminGetEventListing,
   adminEditEvent,
+  userJoinEvent,
 ];
 
 export default event;

@@ -25,6 +25,27 @@ export const userGetEventListing = async () => {
 };
 
 /**
+ * Endpoint to user to join an event
+ * @param {string} eventId
+ *
+ * @returns {Promise<{ event: { id: string, link: string } }> }>}
+ */
+export const userJoinEvent = async (eventId) => {
+  const path = `/events/join/${eventId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const event = {
+    id: data.id,
+    link: data.link,
+  };
+
+  return { event };
+};
+
+/**
  * Endpoint for admin to get event listing
  *
  * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
