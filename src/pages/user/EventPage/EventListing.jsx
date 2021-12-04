@@ -23,6 +23,9 @@ import {
 } from "@chakra-ui/modal";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { useApp } from "../../../contexts";
+import { useFetch } from "../../../hooks";
+import { userJoinEvent } from "../../../services";
+import { useToast } from "@chakra-ui/toast";
 
 export const EventListing = ({
   isLoading,
@@ -49,6 +52,29 @@ export const EventListing = ({
 
 const Listing = ({ events, headerButton }) => {
   events = sortByMostRelevantDate(events);
+
+  const { resource: joinEventResource, handleFetchResource } = useFetch();
+  const toast = useToast();
+
+  const handleJoinEvent = (eventId) =>
+    handleFetchResource({
+      fetcher: async () => {
+        const { event } = await userJoinEvent(eventId);
+
+        return event;
+      },
+      onError: (err) => {
+        console.error(err);
+        toast({
+          description: "Something went wrong! please try again later",
+          status: "error",
+          position: "top",
+        });
+      },
+      onSuccess: (event) => {
+        window.location.href = event.link;
+      },
+    });
 
   return (
     <Box
@@ -129,7 +155,11 @@ const Listing = ({ events, headerButton }) => {
             {event.renderAction ? (
               event.renderAction()
             ) : (
-              <ViewEventButton event={event} />
+              <ViewEventButton
+                event={event}
+                joinEventResource={joinEventResource}
+                handleJoinEvent={handleJoinEvent}
+              />
             )}
           </Grid>
         ))}
@@ -138,14 +168,22 @@ const Listing = ({ events, headerButton }) => {
   );
 };
 
-const JoinEventButton = ({ event }) => (
-  <Button
-    disabled={!isOngoing(event.startTime, event.endTime)}
-    rightIcon={<BiRightArrowAlt />}
-  >
-    Join Event
-  </Button>
-);
+const JoinEventButton = ({ event, onJoinEvent, resource }) => {
+  return (
+    <Button
+      isLoading={resource.loading || resource.data}
+      disabled={
+        !isOngoing(event.startTime, event.endTime) ||
+        resource.loading ||
+        resource.data
+      }
+      rightIcon={<BiRightArrowAlt />}
+      onClick={onJoinEvent.bind(null, event.id)}
+    >
+      Join Event
+    </Button>
+  );
+};
 
 export const EventNameLink = ({ event, renderCallToAction }) => (
   <ViewEventButton
@@ -169,6 +207,8 @@ export const ViewEventButton = ({
   event,
   renderTrigger,
   renderCallToAction,
+  joinEventResource,
+  handleJoinEvent,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -249,7 +289,11 @@ export const ViewEventButton = ({
             {renderCallToAction ? (
               renderCallToAction({ event })
             ) : (
-              <JoinEventButton event={event} />
+              <JoinEventButton
+                event={event}
+                resource={joinEventResource}
+                onJoinEvent={handleJoinEvent}
+              />
             )}
           </ModalFooter>
         </ModalContent>

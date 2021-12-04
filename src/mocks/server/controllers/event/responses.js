@@ -95,6 +95,6 @@ export const adminEditEventRes = {
 export const userJoinEventRes = {
   data: {
     id: "eventId_2",
-    link: "http://localhost:3000/courses",
+    link: "http://localhost:4000/courses",
   },
 };
