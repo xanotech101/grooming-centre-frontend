@@ -98,16 +98,18 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
 
   const handleEndLesson = async () => {
     if (!lessonDetails.data?.hasEnded) {
-      console.log("end the lesson");
-
       setEndLesson({ loading: true });
 
       try {
         await requestEndLesson(lessonId);
         handleDelete(lessonId);
+        setTimeout(
+          () => localStorage.removeItem(`${lessonId}-video-progress`),
+          1000
+        );
+
         setCourseState((prev) => {
           const data = { ...prev.data };
-
           const lesson = data.lessons.find((l) => l.id === lessonId);
           lesson.hasCompleted = true;
 
@@ -197,7 +199,7 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
     !error &&
     !isLoading &&
     !lesson?.hasEnded &&
-    !endLessonIsSuccessful &&
+    !currentLessonLink?.hasCompleted &&
     !lessonIsDisabled;
 
   return {

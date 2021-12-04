@@ -19,6 +19,7 @@ import { useGoBack } from "../../../../hooks";
 
 const Player = ({
   lessonId,
+  lessonCompleted,
   width = "100%",
   height = "100%",
   url,
@@ -29,30 +30,28 @@ const Player = ({
   ...rest
 }) => {
   const [isReady, setIsReady] = useState(false);
-
   const playerRef = useRef();
 
   useEffect(() => {
     const player = playerRef.current;
-    if (player && lessonId) {
+    if (isReady && player && lessonId && !lessonCompleted) {
       const initialProgress =
         localStorage.getItem(`${lessonId}-video-progress`) || 0;
 
-      setTimeout(() => {
-        player.seekTo(+initialProgress);
-      }, 1200);
+      player.seekTo(+initialProgress);
     }
-  }, [isReady, lessonId]);
+  }, [isReady, lessonId, lessonCompleted]);
 
   const onReady = () => {
     setIsReady(true);
   };
 
   const onProgress = () => {
-    localStorage.setItem(
-      `${lessonId}-video-progress`,
-      `${playerRef.current.getCurrentTime()}`
-    );
+    if (lessonId && !lessonCompleted)
+      localStorage.setItem(
+        `${lessonId}-video-progress`,
+        `${playerRef.current.getCurrentTime()}`
+      );
   };
 
   return (
@@ -191,6 +190,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
                     minHeight={"300px"}
                     url={lesson?.file}
                     lessonId={lesson?.id}
+                    lessonCompleted={lesson?.hasEnded}
                     onEnded={handleVideoHasEnded}
                     onPlayToggle={handleVideoPlayToggle}
                     controls={videoHasBeenCompleted}
