@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { Box, Flex, Grid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
@@ -10,7 +10,6 @@ import {
   NavigationBlocker,
   RichTextToView,
   SkeletonText,
-  Spinner,
   // Text,
 } from "../../../../components";
 import useLessonDetails from "./hooks/useLessonDetails";
