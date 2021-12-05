@@ -1,53 +1,107 @@
 import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { Box } from "@chakra-ui/layout";
 import { Tag } from "@chakra-ui/tag";
-import { useCallback, useEffect, useState } from "react";
 import { Route, useParams } from "react-router-dom";
 import { Breadcrumb, Link, Table, Text } from "../../../../../components";
-import { useComponentIsMount } from "../../../../../hooks";
+import { useTableRows } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
-import { adminGetUserCourseListing } from "../../../../../services";
+import {
+  adminDeleteMultipleCourses,
+  adminGetUserCourseListing,
+} from "../../../../../services";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "All Courses",
+      queryKey: "all-courses",
       width: "200px",
       position: "right-bottom",
+      // noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
     {
       triggerText: "Completed",
+      queryKey: "completed",
       width: "200px",
       position: "right-bottom",
-      noFilterTags: true,
+      // noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
     {
       triggerText: "Ongoing",
+      queryKey: "ongoing",
       width: "200px",
       position: "right-bottom",
-      noFilterTags: true,
+      // noFilterTags: true,
       body: {
         radios: [
-          { label: "Alphabetically: ascending" },
-          { label: "Alphabetically: descending" },
-          { label: "Date: ascending" },
-          { label: "Date: descending" },
+          {
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Alphabetically: descending",
+            queryValue: "desc",
+            additionalParams: { date: false },
+          },
+          {
+            label: "Date: ascending",
+            queryValue: "asc",
+            additionalParams: { date: true },
+          },
+          {
+            label: "Date: descending",
+            queryValue: "desc",
+            additionalParams: { date: true },
+          },
         ],
       },
     },
@@ -91,58 +145,50 @@ const tableProps = {
       ),
     },
   ],
-};
 
-const useCourseListing = () => {
-  const componentIsMount = useComponentIsMount();
-  const { id: userId } = useParams();
-
-  const [rows, setRows] = useState({
-    data: null,
-    loading: false,
-    err: false,
-  });
-
-  const fetchCourses = useCallback(
-    async (mapper) => {
-      setRows({ loading: true });
-
-      try {
-        const { courses } = await adminGetUserCourseListing(userId);
-
-        const data = mapper ? courses.map(mapper) : courses;
-
-        if (componentIsMount) setRows({ data });
-      } catch (err) {
-        console.error(err);
-        if (componentIsMount) setRows({ err: true });
-      } finally {
-        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
-      }
+  options: {
+    action: [
+      {
+        text: "View",
+        link: (course) => `/admin/courses/details/${course.id}/info`,
+      },
+      {
+        text: "Edit",
+        link: (course) => `/admin/courses/edit/${course.id}`,
+      },
+      {
+        isDelete: true,
+      },
+    ],
+    selection: true,
+    multipleDeleteFetcher: async (selectedCourses) => {
+      console.log(selectedCourses);
+      await adminDeleteMultipleCourses();
     },
-    [setRows, componentIsMount, userId]
-  );
-
-  return {
-    rows,
-    setRows,
-    fetchCourses,
-  };
+    pagination: true,
+  },
 };
 
 const CoursesPage = () => {
-  const { rows, setRows, fetchCourses } = useCourseListing();
+  const { id: userId } = useParams();
 
-  useEffect(() => {
-    const mapCourseToRow = (course) => ({
-      id: course.id,
-      title: course.title,
-      instructor: course.instructor.name,
-      status: course.status,
-    });
+  const mapCourseToRow = (course) => ({
+    id: course.id,
+    title: course.title,
+    instructor: course.instructor.name,
+    status: course.status,
+  });
 
-    fetchCourses(mapCourseToRow);
-  }, [fetchCourses]);
+  const fetcher = (props) => async () => {
+    const { courses, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetUserCourseListing(userId, props?.params);
+
+    const rows = courses.map(mapCourseToRow);
+
+    return { rows, showingDocumentsCount, totalDocumentsCount };
+  };
+
+  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
   return (
     <AdminMainAreaWrapper>
@@ -158,7 +204,12 @@ const CoursesPage = () => {
           </BreadcrumbItem>
         }
       />
-      <Table {...tableProps} rows={rows} setRows={setRows} />
+      <Table
+        {...tableProps}
+        rows={rows}
+        setRows={setRows}
+        handleFetch={fetchRowItems}
+      />
     </AdminMainAreaWrapper>
   );
 };

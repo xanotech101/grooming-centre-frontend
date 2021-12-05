@@ -15,7 +15,7 @@ import {
   adminGetGradeCriteria,
 } from "../../../services";
 import { appendFormData, capitalizeFirstLetter } from "../../../utils";
-import { OverviewBox } from "../users/UserInfoPage/pages/ProfilePage";
+import { OverviewBox } from "../Users/UserInfoPage/pages/ProfilePage";
 
 const useGradeCriteriaDetails = () => {
   const { resource: gradeCriteria, handleFetchResource } = useFetch();

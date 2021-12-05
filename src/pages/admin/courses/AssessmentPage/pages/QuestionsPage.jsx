@@ -23,7 +23,7 @@ import {
   adminEditAssessmentQuestion,
   adminEditExaminationQuestion,
 } from "../../../../../services";
-import useAssessmentPreview from "../../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
+import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { PageLoaderLayout } from "../../../../../layouts";
 import { useCallback, useEffect, useState } from "react";
 

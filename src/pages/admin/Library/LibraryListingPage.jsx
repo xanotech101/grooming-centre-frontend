@@ -1,40 +1,24 @@
+import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { Flex } from "@chakra-ui/layout";
-import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
+import { Route } from "react-router-dom";
 import {
+  Breadcrumb,
   Button,
   Heading,
-  Table,
-  Breadcrumb,
   Link,
+  Table,
   Text,
-} from "../../../../components";
-import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
+} from "../../../components";
+import { useTableRows } from "../../../hooks";
+import { AdminMainAreaWrapper } from "../../../layouts";
 import {
   adminDeleteMultipleCourses,
-  adminGetUserListing,
-} from "../../../../services";
-import { BreadcrumbItem } from "@chakra-ui/react";
-import { useTableRows } from "../../../../hooks";
+  adminLibraryListing,
+} from "../../../services";
 
 const tableProps = {
   filterControls: [
-    {
-      triggerText: "%Grade point",
-      queryKey: "grade",
-      width: "125%",
-      body: {
-        radios: [
-          { label: "1 to 30", queryValue: "1-30" },
-          { label: "31 to 50", queryValue: "31-50" },
-          { label: "51 to 70", queryValue: "51-70" },
-          {
-            label: "71 to 100",
-            queryValue: "71-100",
-          },
-        ],
-      },
-    },
     {
       triggerText: "Department",
       queryKey: "department",
@@ -51,20 +35,7 @@ const tableProps = {
       },
     },
     {
-      triggerText: "Role",
-      queryKey: "role",
-      width: "170%",
-      body: {
-        checks: [
-          { label: "Super Admin", queryValue: "super admin" },
-          { label: "Admin", queryValue: "admin" },
-          { label: "User", queryValue: "user" },
-        ],
-      },
-    },
-    {
       triggerText: "Sort",
-      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
@@ -99,10 +70,10 @@ const tableProps = {
   columns: [
     {
       id: "1",
-      key: "fullName",
-      text: "Full name",
+      key: "title",
+      text: "Title",
       renderContent: (data) => (
-        <Link href={`/admin/users/details/${data.userId}/profile`}>
+        <Link href={`/admin/library/details/${data.libraryId}`}>
           <Text>{data.text}</Text>
         </Link>
       ),
@@ -110,52 +81,58 @@ const tableProps = {
     { id: "2", key: "department", text: "Department" },
     {
       id: "3",
-      key: "email",
-      text: "Email Address",
+      key: "type",
+      text: "Type",
     },
-    { id: "4", key: "gradePoint", text: "% Grade point" },
-    { id: "5", key: "certificates", text: "Certificates" },
+    {
+      id: "4",
+      key: "instructor",
+      text: "Uploaded By",
+      fraction: "200px",
+    },
   ],
 
   options: {
     action: [
       {
         text: "View",
-        link: (user) => `/admin/users/details/${user.id}/profile`,
+        link: (library) => `/admin/library/details/${library.id}`,
       },
       {
         text: "Edit",
-        link: (user) => `/admin/users/edit/${user.id}`,
+        link: (library) => `/admin/library/edit/${library.id}`,
       },
       {
         isDelete: true,
       },
     ],
     selection: true,
-    multipleDeleteFetcher: async (selectedUsers) => {
-      console.log(selectedUsers);
+    multipleDeleteFetcher: async (selectedLibrary) => {
+      console.log(selectedLibrary);
       await adminDeleteMultipleCourses();
     },
     pagination: true,
   },
 };
 
-const UserListingPage = () => {
-  const mapUserToRow = (user) => ({
-    ...user,
-    fullName: {
-      text: `${user.firstName} ${user.lastName}`,
-      userId: user.id,
+const LibraryListingPage = () => {
+  const mapLibraryToRow = (library) => ({
+    id: library.id,
+
+    title: {
+      text: library.title,
+      libraryId: library.id,
     },
-    department: user.departmentName,
-    certificates: user.noOfCertificate,
+    department: library.department.name,
+    type: library.libraryType.name,
+    instructor: `${library.instructor.firstName} ${library.instructor.lastName}`,
   });
 
   const fetcher = (props) => async () => {
-    const { users, showingDocumentsCount, totalDocumentsCount } =
-      await adminGetUserListing(props?.params);
+    const { library, showingDocumentsCount, totalDocumentsCount } =
+      await adminLibraryListing(props?.params);
 
-    const rows = users.map(mapUserToRow);
+    const rows = library.map(mapLibraryToRow);
 
     return { rows, showingDocumentsCount, totalDocumentsCount };
   };
@@ -167,7 +144,7 @@ const UserListingPage = () => {
       <Breadcrumb
         item2={
           <BreadcrumbItem isCurrentPage>
-            <Link href="#">Users</Link>
+            <Link href="#">Library</Link>
           </BreadcrumbItem>
         }
       />
@@ -180,12 +157,11 @@ const UserListingPage = () => {
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
-          Manage Users
+          Library
         </Heading>
 
-        <Button link="/admin/users/edit/new">Add User</Button>
+        <Button link="/admin/library/edit/new">Add File</Button>
       </Flex>
-
       <Table
         {...tableProps}
         rows={rows}
@@ -196,8 +172,8 @@ const UserListingPage = () => {
   );
 };
 
-export const UserListingPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <UserListingPage {...props} />} />;
+export const LibraryListingPageRoute = ({ ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => <LibraryListingPage {...props} />} />
+  );
 };
-
-export default UserListingPage;

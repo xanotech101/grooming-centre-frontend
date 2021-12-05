@@ -12,4 +12,5 @@ export * from "./useUpload";
 export * from "./useDateTimePicker";
 export * from "./useRichText";
 export * from "./useDragAndDrop";
+export * from "./useDownload";
 export * from "./useTableRows";
