@@ -17,7 +17,7 @@ const MainArea = () => {
     <Box as="main" marginBottom={16}>
       <Switch>
         <DashboardPageRoute exact path="/dashboard" />
-        <LibraryPageRoute path="/library" />
+        <LibraryPageRoute exact path="/library" />
         <ForumLayoutRoute path="/forum" />
         <EventsPageRoute exact path="/events" />
         <CourseDetailsPageRoute path="/courses/details/:id" />

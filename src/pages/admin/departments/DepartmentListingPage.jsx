@@ -10,45 +10,26 @@ import {
   Link,
 } from "../../../components";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
-import {
-  adminDeleteMultipleCourses,
-  adminGetDepartmentListing,
-} from "../../../services";
+import { useCallback, useEffect, useState } from "react";
+import { adminGetDepartmentListing } from "../../../services";
+import useComponentIsMount from "../../../hooks/useComponentIsMount";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { useTableRows } from "../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "Sort",
-      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
+      noFilterTags: true,
       body: {
         radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
         ],
       },
     },
@@ -81,43 +62,60 @@ const tableProps = {
   ],
 
   options: {
-    action: [
-      {
-        text: "View",
-        link: (department) =>
-          `/admin/departments/details/${department.id}/info`,
-      },
-      {
-        isDelete: true,
-      },
-    ],
+    action: true,
     selection: true,
-    multipleDeleteFetcher: async (selectedDepartments) => {
-      console.log(selectedDepartments);
-      await adminDeleteMultipleCourses();
-    },
-    pagination: true,
   },
 };
 
-const DepartmentListingPage = () => {
-  const mapDepartmentToRow = (department) => ({
-    id: department.id,
-    title: { text: department.name, departmentId: department.id },
-    createdAt: dayjs(department.createdAt).format("DD/MM/YYYY h:mm a"),
-    noOfusers: department.noOfusers,
+const useDepartmentListing = () => {
+  const componentIsMount = useComponentIsMount();
+
+  const [rows, setRows] = useState({
+    data: null,
+    loading: false,
+    err: false,
   });
 
-  const fetcher = (props) => async () => {
-    const { departments, showingDocumentsCount, totalDocumentsCount } =
-      await adminGetDepartmentListing(props?.params);
+  const fetchDepartments = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
 
-    const rows = departments.map(mapDepartmentToRow);
+      try {
+        const { departments } = await adminGetDepartmentListing();
 
-    return { rows, showingDocumentsCount, totalDocumentsCount };
+        const data = mapper ? departments.map(mapper) : departments;
+
+        if (componentIsMount) setRows({ data });
+      } catch (err) {
+        console.error(err);
+        if (componentIsMount) setRows({ err: true });
+      } finally {
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [setRows, componentIsMount]
+  );
+
+  return {
+    rows,
+    setRows,
+    fetchDepartments,
   };
+};
 
-  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
+const DepartmentListingPage = () => {
+  const { rows, setRows, fetchDepartments } = useDepartmentListing();
+
+  useEffect(() => {
+    const mapDepartmentToRow = (department) => ({
+      id: department.id,
+      title: { text: department.name, departmentId: department.id },
+      createdAt: dayjs(department.createdAt).format("DD/MM/YYYY h:mm a"),
+      noOfusers: department.noOfusers,
+    });
+
+    fetchDepartments(mapDepartmentToRow);
+  }, [fetchDepartments]);
 
   return (
     <AdminMainAreaWrapper>
@@ -143,12 +141,7 @@ const DepartmentListingPage = () => {
         <Button link={`/admin/departments/create`}>Add Department</Button>
       </Flex>
 
-      <Table
-        {...tableProps}
-        rows={rows}
-        setRows={setRows}
-        handleFetch={fetchRowItems}
-      />
+      <Table {...tableProps} rows={rows} setRows={setRows} />
     </AdminMainAreaWrapper>
   );
 };

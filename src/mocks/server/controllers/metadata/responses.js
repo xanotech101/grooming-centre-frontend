@@ -57,25 +57,5 @@ export const requestMetadataRes = {
         updatedAt: "2021-09-17T12:48:01.373Z",
       },
     ],
-    libraryType: [
-      {
-        id: "libraryTypeId_1",
-        name: "pdf",
-        createdAt: "2021-09-17T12:48:01.373Z",
-        updatedAt: "2021-09-17T12:48:01.373Z",
-      },
-      {
-        id: "libraryTypeId_2",
-        name: "video",
-        createdAt: "2021-09-17T12:48:01.373Z",
-        updatedAt: "2021-09-17T12:48:01.373Z",
-      },
-      {
-        id: "libraryTypeId_3",
-        name: "audio",
-        createdAt: "2021-09-17T12:48:01.373Z",
-        updatedAt: "2021-09-17T12:48:01.373Z",
-      },
-    ],
   },
 };

@@ -3,19 +3,17 @@ import {
   getEndTime,
 } from "../../../utils";
 import { http } from "../http";
-
 /**
  * Endpoint to get `course-listing`
- *  @param {object} params
  *
  * @returns {Promise<{ courses: CourseListArray }>}
  */
-export const adminGetCourseListing = async (params) => {
+export const adminGetCourseListing = async () => {
   const path = `/course/admin/list`;
 
   const {
     data: { data },
-  } = await http.get(path, { params });
+  } = await http.get(path);
 
   return {
     courses: data.map((course) => ({
@@ -28,8 +26,6 @@ export const adminGetCourseListing = async (params) => {
       startDate: course.lesson[0] ? course.lesson[0].startTime : "not set",
       isPublished: course.isPublished,
     })),
-    showingDocumentsCount: data.length,
-    totalDocumentsCount: data.length,
   };
 };
 
@@ -88,16 +84,14 @@ export const userGetCourseListing = async () => {
 /**
  * Endpoint to get user `course-listing`
  *
- *  @param {object} params
- *
  * @returns {Promise<{ courses: CourseListArray }>}
  */
-export const adminGetUserCourseListing = async (userId, params) => {
+export const adminGetUserCourseListing = async (userId) => {
   const path = `/admin/courses/${userId}`;
 
   const {
     data: { data },
-  } = await http.get(path, { params });
+  } = await http.get(path);
 
   return {
     courses: data.map((course) => ({
@@ -109,8 +103,6 @@ export const adminGetUserCourseListing = async (userId, params) => {
       status: course.progressPercentage,
       active: course.active,
     })),
-    showingDocumentsCount: data.length,
-    totalDocumentsCount: data.length,
   };
 };
 

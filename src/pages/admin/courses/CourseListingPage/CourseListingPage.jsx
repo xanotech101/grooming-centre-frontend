@@ -10,61 +10,41 @@ import {
   Link,
 } from "../../../../components";
 import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
+import { useCallback, useEffect, useState } from "react";
 import {
   adminDeleteMultipleCourses,
   adminGetCourseListing,
 } from "../../../../services";
 import { Tag } from "@chakra-ui/tag";
+import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { useTableRows } from "../../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "Department",
-      queryKey: "department",
       width: "125%",
       body: {
         checks: [
-          { label: "Finance", queryValue: "finance" },
-          { label: "Engineering", queryValue: "engineering" },
-          {
-            label: "Accounting",
-            queryValue: "accounting",
-          },
+          { label: "Finance" },
+          { label: "Engineering" },
+          { label: "Accounting" },
         ],
       },
     },
     {
       triggerText: "Sort",
-      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
+      noFilterTags: true,
       body: {
         radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
         ],
       },
     },
@@ -133,32 +113,62 @@ const tableProps = {
       console.log(selectedCourses);
       await adminDeleteMultipleCourses();
     },
-    pagination: true,
   },
 };
 
-const CourseListingPage = () => {
-  const mapCourseToRow = (course) => ({
-    id: course.id,
-    title: { text: course.title, courseId: course.id },
-    startDate:
-      course.startDate === "not set"
-        ? course.startDate
-        : dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
-    status: course.isPublished,
-    instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
+const useCourseListing = () => {
+  const componentIsMount = useComponentIsMount();
+
+  const [rows, setRows] = useState({
+    data: null,
+    loading: false,
+    err: false,
   });
 
-  const fetcher = (props) => async () => {
-    const { courses, showingDocumentsCount, totalDocumentsCount } =
-      await adminGetCourseListing(props?.params);
+  const fetchCourses = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
 
-    const rows = courses.map(mapCourseToRow);
+      try {
+        const { courses } = await adminGetCourseListing();
 
-    return { rows, showingDocumentsCount, totalDocumentsCount };
+        const data = mapper ? courses.map(mapper) : courses;
+
+        if (componentIsMount) setRows({ data });
+      } catch (err) {
+        console.error(err);
+        if (componentIsMount) setRows({ err: true });
+      } finally {
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [setRows, componentIsMount]
+  );
+
+  return {
+    rows,
+    setRows,
+    fetchCourses,
   };
+};
 
-  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
+const CourseListingPage = () => {
+  const { rows, setRows, fetchCourses } = useCourseListing();
+
+  useEffect(() => {
+    const mapCourseToRow = (course) => ({
+      id: course.id,
+      title: { text: course.title, courseId: course.id },
+      startDate:
+        course.startDate === "not set"
+          ? course.startDate
+          : dayjs(course.startDate).format("DD/MM/YYYY h:mm a"),
+      status: course.isPublished,
+      instructor: `${course.instructor.firstName} ${course.instructor.lastName}`,
+    });
+
+    fetchCourses(mapCourseToRow);
+  }, [fetchCourses]);
 
   return (
     <AdminMainAreaWrapper>
@@ -184,12 +194,7 @@ const CourseListingPage = () => {
         <Button link="/admin/courses/edit/new">Add Course</Button>
       </Flex>
 
-      <Table
-        {...tableProps}
-        rows={rows}
-        setRows={setRows}
-        handleFetch={fetchRowItems}
-      />
+      <Table {...tableProps} rows={rows} setRows={setRows} />
     </AdminMainAreaWrapper>
   );
 };

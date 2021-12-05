@@ -1,8 +1,9 @@
 import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { Box } from "@chakra-ui/layout";
+import { useCallback, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { Breadcrumb, Heading, Link, Table } from "../../components";
-import { useTableRows } from "../../hooks";
+import { useComponentIsMount } from "../../hooks";
 import { AdminMainAreaWrapper } from "../../layouts/admin/MainArea/Wrapper";
 import { adminGetRoleListing } from "../../services";
 
@@ -25,29 +26,59 @@ const tableProps = {
   ],
 
   options: {
-    action: false,
+    action: true,
     selection: true,
   },
-  pagination: true,
 };
 
-const RolesPage = () => {
-  const mapRoleToRow = (role) => ({
-    id: role.id,
-    name: role.name,
-    noOfUsers: role.noOfUsers,
+const useRoleListing = () => {
+  const componentIsMount = useComponentIsMount();
+
+  const [rows, setRows] = useState({
+    data: null,
+    loading: false,
+    err: false,
   });
 
-  const fetcher = () => async () => {
-    const { roles } = await adminGetRoleListing();
+  const fetchRoles = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
 
-    const rows = roles.map(mapRoleToRow);
+      try {
+        const { roles } = await adminGetRoleListing();
 
-    return { rows };
+        const data = mapper ? roles.map(mapper) : roles;
+
+        if (componentIsMount) setRows({ data });
+      } catch (err) {
+        console.error(err);
+        if (componentIsMount) setRows({ err: true });
+      } finally {
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [setRows, componentIsMount]
+  );
+
+  return {
+    rows,
+    setRows,
+    fetchRoles,
   };
+};
 
-  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
+const RolesPage = ({ metadata: propMetadata }) => {
+  const { rows, setRows, fetchRoles } = useRoleListing();
 
+  useEffect(() => {
+    const mapCourseToRow = (role) => ({
+      id: role.id,
+      name: role.name,
+      noOfUsers: role.noOfUsers,
+    });
+
+    fetchRoles(mapCourseToRow);
+  }, [fetchRoles]);
   return (
     <AdminMainAreaWrapper>
       <Breadcrumb
@@ -64,18 +95,9 @@ const RolesPage = () => {
         border="1px"
         borderColor="accent.9"
       >
-        <Heading fontSize="heading.h4" paddingBottom={4}>
-          Roles
-        </Heading>
+        <Heading fontSize="heading.h4" paddingBottom={4}>Roles</Heading>
 
-        <Table
-          width="100%"
-          SearchBarVisibility="none"
-          {...tableProps}
-          rows={rows}
-          setRows={setRows}
-          handleFetch={fetchRowItems}
-        />
+        <Table width="100%" SearchBarVisibility="none" {...tableProps} rows={rows} setRows={setRows} />
       </Box>
     </AdminMainAreaWrapper>
   );

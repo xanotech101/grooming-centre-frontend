@@ -13,7 +13,7 @@ export * from "./Forum/QuestionDetailsPage/QuestionDetailsPage";
 export * from "./Forum/TagsPage/TagsPage";
 export * from "./Forum/YourAnswersPage/YourAnswersPage";
 export * from "./Forum/YourQuestionsPage/YourQuestionsPage";
-export * from "./Library/layouts/LibraryPage";
+export * from "./LibraryPage";
 export * from "./OnBoarding/SigninPage";
 export * from "./OnBoarding/ForgotPasswordPage/ForgotPasswordPage";
 export * from "./OnBoarding/UpdateDetailsPage/UpdateDetailsPage";

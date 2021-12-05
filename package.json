@@ -19,7 +19,6 @@
     "dayjs": "^1.10.7",
     "draft-js-export-html": "^1.4.1",
     "framer-motion": "^4.1.17",
-    "js-file-download": "^0.4.12",
     "msw": "^0.35.0",
     "mui-rte": "^1.29.0",
     "node-sass": "^6.0.1",

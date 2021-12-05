@@ -1,107 +1,53 @@
 import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { Box } from "@chakra-ui/layout";
 import { Tag } from "@chakra-ui/tag";
+import { useCallback, useEffect, useState } from "react";
 import { Route, useParams } from "react-router-dom";
 import { Breadcrumb, Link, Table, Text } from "../../../../../components";
-import { useTableRows } from "../../../../../hooks";
+import { useComponentIsMount } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
-import {
-  adminDeleteMultipleCourses,
-  adminGetUserCourseListing,
-} from "../../../../../services";
+import { adminGetUserCourseListing } from "../../../../../services";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "All Courses",
-      queryKey: "all-courses",
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
       body: {
         radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
         ],
       },
     },
     {
       triggerText: "Completed",
-      queryKey: "completed",
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
+      noFilterTags: true,
       body: {
         radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
         ],
       },
     },
     {
       triggerText: "Ongoing",
-      queryKey: "ongoing",
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
+      noFilterTags: true,
       body: {
         radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
         ],
       },
     },
@@ -145,50 +91,58 @@ const tableProps = {
       ),
     },
   ],
+};
 
-  options: {
-    action: [
-      {
-        text: "View",
-        link: (course) => `/admin/courses/details/${course.id}/info`,
-      },
-      {
-        text: "Edit",
-        link: (course) => `/admin/courses/edit/${course.id}`,
-      },
-      {
-        isDelete: true,
-      },
-    ],
-    selection: true,
-    multipleDeleteFetcher: async (selectedCourses) => {
-      console.log(selectedCourses);
-      await adminDeleteMultipleCourses();
+const useCourseListing = () => {
+  const componentIsMount = useComponentIsMount();
+  const { id: userId } = useParams();
+
+  const [rows, setRows] = useState({
+    data: null,
+    loading: false,
+    err: false,
+  });
+
+  const fetchCourses = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
+
+      try {
+        const { courses } = await adminGetUserCourseListing(userId);
+
+        const data = mapper ? courses.map(mapper) : courses;
+
+        if (componentIsMount) setRows({ data });
+      } catch (err) {
+        console.error(err);
+        if (componentIsMount) setRows({ err: true });
+      } finally {
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
+      }
     },
-    pagination: true,
-  },
+    [setRows, componentIsMount, userId]
+  );
+
+  return {
+    rows,
+    setRows,
+    fetchCourses,
+  };
 };
 
 const CoursesPage = () => {
-  const { id: userId } = useParams();
+  const { rows, setRows, fetchCourses } = useCourseListing();
 
-  const mapCourseToRow = (course) => ({
-    id: course.id,
-    title: course.title,
-    instructor: course.instructor.name,
-    status: course.status,
-  });
+  useEffect(() => {
+    const mapCourseToRow = (course) => ({
+      id: course.id,
+      title: course.title,
+      instructor: course.instructor.name,
+      status: course.status,
+    });
 
-  const fetcher = (props) => async () => {
-    const { courses, showingDocumentsCount, totalDocumentsCount } =
-      await adminGetUserCourseListing(userId, props?.params);
-
-    const rows = courses.map(mapCourseToRow);
-
-    return { rows, showingDocumentsCount, totalDocumentsCount };
-  };
-
-  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
+    fetchCourses(mapCourseToRow);
+  }, [fetchCourses]);
 
   return (
     <AdminMainAreaWrapper>
@@ -204,12 +158,7 @@ const CoursesPage = () => {
           </BreadcrumbItem>
         }
       />
-      <Table
-        {...tableProps}
-        rows={rows}
-        setRows={setRows}
-        handleFetch={fetchRowItems}
-      />
+      <Table {...tableProps} rows={rows} setRows={setRows} />
     </AdminMainAreaWrapper>
   );
 };

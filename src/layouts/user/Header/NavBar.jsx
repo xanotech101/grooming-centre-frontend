@@ -11,7 +11,7 @@ const links = [
     text: "Courses",
   },
   {
-    href: "/library/books",
+    href: "/library",
     text: "Library",
   },
   {

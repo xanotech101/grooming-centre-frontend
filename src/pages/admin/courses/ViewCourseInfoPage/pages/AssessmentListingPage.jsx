@@ -11,45 +11,29 @@ import {
 } from "../../../../../components";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
+import { useCallback, useEffect, useState } from "react";
 import {
   adminDeleteMultipleCourses,
   adminGetAssessmentListing,
 } from "../../../../../services";
+import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
 import { getDuration } from "../../../../../utils";
 import dayjs from "dayjs";
-import { useTableRows } from "../../../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
       triggerText: "Sort",
-      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
+      noFilterTags: true,
       body: {
         radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
+          { label: "Alphabetically: ascending" },
+          { label: "Alphabetically: descending" },
+          { label: "Date: ascending" },
+          { label: "Date: descending" },
         ],
       },
     },
@@ -99,30 +83,61 @@ const tableProps = {
       console.log(selectedAssessments);
       await adminDeleteMultipleCourses();
     },
-    pagination: false,
   },
 };
 
-const AssessmentListingPage = () => {
+const useAssessmentListing = () => {
+  const componentIsMount = useComponentIsMount();
   const { id: courseId } = useParams();
 
-  const mapAssessmentToRow = (assessment) => ({
-    id: assessment.id,
-    courseId,
-    title: { text: assessment.title, assessmentId: assessment.id, courseId },
-    startDate: dayjs(assessment.startTime).format("DD/MM/YYYY h:mm a"),
-    duration: getDuration(assessment.duration).combinedText,
+  const [rows, setRows] = useState({
+    data: null,
+    loading: false,
+    err: false,
   });
 
-  const fetcher = () => async () => {
-    const { assessments } = await adminGetAssessmentListing(courseId);
+  const fetchCourses = useCallback(
+    async (mapper) => {
+      setRows({ loading: true });
 
-    const rows = assessments.map(mapAssessmentToRow);
+      try {
+        const { assessments } = await adminGetAssessmentListing(courseId);
 
-    return { rows };
+        const data = mapper ? assessments.map(mapper) : assessments;
+
+        if (componentIsMount) setRows({ data });
+      } catch (err) {
+        console.error(err);
+        if (componentIsMount) setRows({ err: true });
+      } finally {
+        if (componentIsMount) setRows((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [setRows, componentIsMount, courseId]
+  );
+
+  return {
+    rows,
+    setRows,
+    fetchCourses,
   };
+};
 
-  const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
+const AssessmentListingPage = () => {
+  const { rows, setRows, fetchCourses } = useAssessmentListing();
+  const { id: courseId } = useParams();
+
+  useEffect(() => {
+    const mapCourseToRow = (assessment) => ({
+      id: assessment.id,
+      courseId,
+      title: { text: assessment.title, assessmentId: assessment.id, courseId },
+      startDate: dayjs(assessment.startTime).format("DD/MM/YYYY h:mm a"),
+      duration: getDuration(assessment.duration).combinedText,
+    });
+
+    fetchCourses(mapCourseToRow);
+  }, [fetchCourses, courseId]);
 
   return (
     <AdminMainAreaWrapper>
@@ -156,12 +171,7 @@ const AssessmentListingPage = () => {
         </Button>
       </Flex>
 
-      <Table
-        {...tableProps}
-        rows={rows}
-        setRows={setRows}
-        handleFetch={fetchRowItems}
-      />
+      <Table {...tableProps} rows={rows} setRows={setRows} />
     </AdminMainAreaWrapper>
   );
 };

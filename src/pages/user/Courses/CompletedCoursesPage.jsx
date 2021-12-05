@@ -1,11 +1,11 @@
 import { Route } from "react-router-dom";
-import { CardGridLayout } from "../../../layouts";
+import { CoursesGridLayout } from "../../../layouts";
 import useCourses from "./hooks/useCourses";
 
 const CompletedCoursesPage = () => {
   const { courses } = useCourses();
 
-  return <CardGridLayout cardContents={courses} />;
+  return <CoursesGridLayout courses={courses} />;
 };
 
 const CompletedCoursesPageRoute = ({ ...rest }) => {

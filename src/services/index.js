@@ -15,4 +15,3 @@ export * from "./http/endpoints/department";
 export * from "./http/endpoints/role";
 export * from "./http/endpoints/event";
 export * from "./http/endpoints/users";
-export * from "./http/endpoints/library";
