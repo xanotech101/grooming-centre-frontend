@@ -18,12 +18,12 @@ const adminGetUserGrades = rest.get(
 );
 
 const adminGetGradeCriteria = rest.get(
-  getUrl("/admin/grade-criteria"), // TODO: might change `path`
+  getUrl("/marking-guide/"), // TODO: might change `path`
   handleSuccessResponse(adminGetGradeCriteriaRes)
 );
 
 const adminEditGradeCriteria = rest.patch(
-  getUrl("/admin/edit/grade-criteria"), // TODO: might change `path`
+  getUrl("/marking-guide/edit"), // TODO: might change `path`
   handleSuccessResponse(adminEditGradeCriteriaRes)
 );
 
