@@ -5,7 +5,7 @@ export const userGetEventListingRes = {
     {
       ...endedDates,
       id: "eventId_1",
-      name: "Video Conference",
+      title: "Video Conference",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
@@ -17,24 +17,24 @@ export const userGetEventListingRes = {
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
-      vitae?
-      `,
+      vitae?`,
       departmentId: "departmentId_1",
     },
     {
       ...ongoingDates,
       id: "eventId_2",
-      name: "Live Stream",
+      title: "Live Stream",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
       vitae?`,
       departmentId: "departmentId_2",
+      eventLink: "http://localhost:4000/courses",
     },
     {
       ...upcomingDates,
       id: "eventId_3",
-      name: "Mock Event",
+      title: "Mock Event",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit.`,
       departmentId: "departmentId_2",
     },
@@ -46,7 +46,7 @@ export const adminGetEventListingRes = {
     {
       ...endedDates,
       id: "eventId_1",
-      name: "Admin Video Conference",
+      title: "Admin Video Conference",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
@@ -65,7 +65,7 @@ export const adminGetEventListingRes = {
     {
       ...ongoingDates,
       id: "eventId_2",
-      name: "Live Stream",
+      title: "Live Stream",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum
       velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
@@ -75,10 +75,10 @@ export const adminGetEventListingRes = {
     {
       ...upcomingDates,
       id: "eventId_3",
-      name: "Mock Event (Admin)",
+      title: "Mock Event (Admin)",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit.`,
       departmentId: "departmentId_2",
-      thumbnail:
+      coverImage:
         "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
     },
   ],
@@ -92,9 +92,4 @@ export const adminEditEventRes = {
   message: "event updated successfully",
 };
 
-export const userJoinEventRes = {
-  data: {
-    id: "eventId_2",
-    link: "http://localhost:4000/courses",
-  },
-};
+export const userJoinEventRes = {};

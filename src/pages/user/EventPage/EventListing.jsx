@@ -56,12 +56,12 @@ const Listing = ({ events, headerButton }) => {
   const { resource: joinEventResource, handleFetchResource } = useFetch();
   const toast = useToast();
 
-  const handleJoinEvent = (eventId) =>
+  const handleJoinEvent = (id, link) =>
     handleFetchResource({
       fetcher: async () => {
-        const { event } = await userJoinEvent(eventId);
+        await userJoinEvent(id);
 
-        return event;
+        return { link };
       },
       onError: (err) => {
         console.error(err);
@@ -178,7 +178,7 @@ const JoinEventButton = ({ event, onJoinEvent, resource }) => {
         resource.data
       }
       rightIcon={<BiRightArrowAlt />}
-      onClick={onJoinEvent.bind(null, event.id)}
+      onClick={onJoinEvent.bind(null, event.id, event.link)}
     >
       Join Event
     </Button>
