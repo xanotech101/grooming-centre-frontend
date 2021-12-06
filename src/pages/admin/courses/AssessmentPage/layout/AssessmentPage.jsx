@@ -12,8 +12,8 @@ const AssessmentPage = () => {
   );
 };
 
+// testing
+
 export const AssessmentPageRoute = ({ ...rest }) => {
-  return (
-    <Route {...rest} render={(props) => <AssessmentPage {...props} />} />
-  );
+  return <Route {...rest} render={(props) => <AssessmentPage {...props} />} />;
 };
