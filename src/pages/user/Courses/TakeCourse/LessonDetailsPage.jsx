@@ -112,6 +112,8 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
 
   const handleGoBack = useGoBack();
 
+  const fileIsPDF = /(\.pdf)$/i.test(lesson?.file);
+
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
       {/* // Block Page Navigation when Lesson has not ended (been completed) */}
@@ -185,6 +187,13 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
               <Box width={{ base: "100%", laptop: "60%" }} bg="accent.2">
                 {isLoading ? (
                   <Skeleton width="100%" height="100%" />
+                ) : fileIsPDF ? (
+                  <iframe
+                    src={lesson?.file}
+                    title={lesson?.title}
+                    height="100%"
+                    width="100%"
+                  />
                 ) : (
                   <Player
                     minHeight={"300px"}
