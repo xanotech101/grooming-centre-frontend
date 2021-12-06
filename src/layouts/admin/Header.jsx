@@ -1,0 +1,81 @@
+import { ButtonGroup, IconButton } from "@chakra-ui/button";
+import { Center, Flex } from "@chakra-ui/layout";
+import {
+  Menu,
+  MenuButton,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/menu";
+import { AiFillPlusCircle } from "react-icons/ai";
+import { FiSettings } from "react-icons/fi";
+import { MdNotificationsActive } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { Brand, Button, SearchBar } from "../../components";
+
+const Header = () => {
+  return (
+    <Flex
+      as="header"
+      height="60px"
+      paddingX={8}
+      backgroundColor="primary.base"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <Flex alignItems="center" flex={0.8} maxWidth="1000px">
+        <Brand sm textColor="white" />
+
+        <SearchBar marginLeft={10} adminLayoutHeaderStyle flex={1} />
+      </Flex>
+
+      <ButtonGroup>
+        <QuickAccess />
+
+        <Button asIcon ghost reversePrimaryColor largeSize>
+          <MdNotificationsActive />
+        </Button>
+
+        <Button
+          link={`/admin/settings`}
+          asIcon
+          ghost
+          reversePrimaryColor
+          largeSize
+        >
+          <FiSettings />
+        </Button>
+      </ButtonGroup>
+    </Flex>
+  );
+};
+
+const QuickAccess = () => {
+  return (
+    <Menu>
+      <MenuButton
+        as={IconButton}
+        isRound
+        backgroundColor="primary.base"
+        _hover={{ backgroundColor: "primary.hover" }}
+        _active={{ backgroundColor: "primary.hover" }}
+      >
+        <Center>
+          <AiFillPlusCircle color="white" size="24px" />
+        </Center>
+      </MenuButton>
+
+      <MenuList position="relative" zIndex={2}>
+        <MenuGroup>
+          <MenuItem as={Link} to="/admin/departments/create">
+            Add Department
+          </MenuItem>
+
+          <MenuItem>Add Course</MenuItem>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
+  );
+};
+
+export default Header;

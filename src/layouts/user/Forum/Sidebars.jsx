@@ -1,0 +1,131 @@
+import { Box, Flex } from "@chakra-ui/react";
+import {
+  AiOutlineComment,
+  AiOutlineQuestionCircle,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
+import { BsTag } from "react-icons/bs";
+import { useHistory } from "react-router";
+import { Link, SearchBar, Text } from "../../../components";
+import { AskAQuestionButton } from "./Header/Header";
+import useDisplayHeader from "./Header/hooks/useDisplayHeader";
+
+const menuLinks = [
+  {
+    href: "/forum/questions?tab=new",
+    text: "Questions",
+    icon: <AiOutlineUnorderedList />,
+  },
+  {
+    href: "/forum/tags",
+    text: "Tags",
+    icon: <BsTag />,
+  },
+  {
+    href: "/forum/mentions",
+    text: "Mentions",
+    icon: <BsTag />,
+  },
+];
+const personalNavLinks = [
+  {
+    href: "/forum/your-questions",
+    text: "Your questions",
+    icon: <AiOutlineQuestionCircle />,
+  },
+  {
+    href: "/forum/your-answers",
+    text: "Your answers",
+    icon: <AiOutlineComment />,
+  },
+];
+
+export const Sidebar = ({ ...rest }) => {
+  const { push } = useHistory();
+
+  const handleSearch = (query) => {
+    push(`/forum/questions?q=${query}`);
+  };
+
+  return (
+    <Box {...rest}>
+      <SearchBar
+        sm
+        marginBottom={5}
+        border="none"
+        placeholder="Question by title, description or tag"
+        fontSize="text.level5"
+        onSearch={handleSearch}
+      />
+
+      <Box as="nav">
+        <Flex as="ul" listStyleType="none" flexDirection="column">
+          <Text
+            textTransform="uppercase"
+            marginLeft={6}
+            paddingY={2}
+            color="accent.3"
+          >
+            Menu
+          </Text>
+          {menuLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                className="user-forum-sidebar-link"
+                activeClassName="user-forum-sidebar-link--active"
+                navLink
+                exact={link.exact}
+                href={link.href}
+              >
+                {link.icon}
+                <Text marginLeft={2} fontWeight="bold">
+                  {link.text}
+                </Text>
+              </Link>
+            </li>
+          ))}
+
+          <Text
+            textTransform="uppercase"
+            marginLeft={6}
+            marginTop={3}
+            paddingY={2}
+            color="accent.3"
+          >
+            Personal Navigator
+          </Text>
+          {personalNavLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                className="user-forum-sidebar-link"
+                activeClassName="user-forum-sidebar-link--active"
+                navLink
+                exact={link.exact}
+                href={link.href}
+              >
+                {link.icon}
+                <Text marginLeft={2} fontWeight="bold">
+                  {link.text}
+                </Text>
+              </Link>
+            </li>
+          ))}
+        </Flex>
+      </Box>
+    </Box>
+  );
+};
+
+export const Aside = ({ ...rest }) => {
+  const { pageDoNotRequireHeader, isAddQuestionPage } = useDisplayHeader();
+
+  return (
+    <Box as="aside" {...rest}>
+      {pageDoNotRequireHeader() && !isAddQuestionPage && (
+        <Box marginBottom={8} textAlign="right">
+          <AskAQuestionButton />
+        </Box>
+      )}
+    </Box>
+  );
+};
