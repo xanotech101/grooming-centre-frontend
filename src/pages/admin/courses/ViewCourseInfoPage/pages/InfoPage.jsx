@@ -12,7 +12,7 @@ import {
   Image,
   Spinner,
 } from "../../../../../components";
-import { OverviewBox } from "../../../Users/UserInfoPage/pages/ProfilePage";
+import { OverviewBox } from "../../../users/UserInfoPage/pages/ProfilePage";
 import { FiCheckSquare } from "react-icons/fi";
 import { BiCertification } from "react-icons/bi";
 import { ImArrowUp } from "react-icons/im";
