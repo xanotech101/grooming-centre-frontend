@@ -10,7 +10,7 @@ import {
 } from "./responses";
 
 const userGetEventListing = rest.get(
-  getUrl("/events"),
+  getUrl("/events/upcoming"),
   handleSuccessResponse(userGetEventListingRes)
 );
 const userJoinEvent = rest.get(
@@ -18,7 +18,7 @@ const userJoinEvent = rest.get(
   handleSuccessResponse(userJoinEventRes)
 );
 const adminGetEventListing = rest.get(
-  getUrl("/admin/events"),
+  getUrl("/events/all"),
   handleSuccessResponse(adminGetEventListingRes)
 );
 

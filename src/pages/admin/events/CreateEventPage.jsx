@@ -132,14 +132,14 @@ const CreateEventPage = () => {
       const startTime =
         startTimeManager.handleGetValueAndValidate("Start Time");
       const endTime = endTimeManager.handleGetValueAndValidate("End Time");
-      const file = coverImageManager.handleGetFileAndValidate(
+      const coverImage = coverImageManager.handleGetFileAndValidate(
         "Event Cover",
         true
       );
 
       data = {
         ...data,
-        file,
+        coverImage,
         startTime: formatDateToISO(startTime),
         endTime: formatDateToISO(endTime),
       };
@@ -244,8 +244,8 @@ const CreateEventPage = () => {
         <Select
           label="Event Location"
           isRequired
-          defaultValue="virtual"
-          options={[{ value: "virtual", label: "Virtual" }]}
+          defaultValue="Virtual Meeting"
+          options={[{ value: "Virtual Meeting", label: "Virtual" }]}
           id="location"
           {...register("location", {
             required: "Event location is required",
@@ -256,7 +256,7 @@ const CreateEventPage = () => {
 
       <Box marginBottom={8}>
         <Upload
-          id="thumbnail"
+          id="coverImage"
           label="Event Cover"
           onFileSelect={coverImageManager.handleFileSelect}
           imageUrl={coverImageManager.image.url}

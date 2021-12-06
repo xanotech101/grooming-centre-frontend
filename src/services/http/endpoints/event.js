@@ -6,7 +6,7 @@ import { http } from "../http";
  * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
  */
 export const userGetEventListing = async () => {
-  const path = `/events`;
+  const path = `/events/upcoming`;
 
   const {
     data: { data },
@@ -16,9 +16,10 @@ export const userGetEventListing = async () => {
     id: event.id,
     startTime: event.startTime,
     endTime: event.endTime,
-    name: event.name,
+    name: event.title,
     description: event.description,
     departmentId: event.departmentId,
+    link: event.eventLink,
   }));
 
   return { events };
@@ -28,21 +29,12 @@ export const userGetEventListing = async () => {
  * Endpoint to user to join an event
  * @param {string} eventId
  *
- * @returns {Promise<{ event: { id: string, link: string } }> }>}
+ * @returns {Promise<void>}
  */
 export const userJoinEvent = async (eventId) => {
   const path = `/events/join/${eventId}`;
 
-  const {
-    data: { data },
-  } = await http.get(path);
-
-  const event = {
-    id: data.id,
-    link: data.link,
-  };
-
-  return { event };
+  await http.get(path);
 };
 
 /**
@@ -51,7 +43,7 @@ export const userJoinEvent = async (eventId) => {
  * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
  */
 export const adminGetEventListing = async () => {
-  const path = `/admin/events`;
+  const path = `/events/all`;
 
   const {
     data: { data },
@@ -61,10 +53,10 @@ export const adminGetEventListing = async () => {
     id: event.id,
     startTime: event.startTime,
     endTime: event.endTime,
-    name: event.name,
+    name: event.title,
     description: event.description,
     departmentId: event.departmentId,
-    file: event.thumbnail,
+    coverImage: event.coverImage,
   }));
 
   return { events };
