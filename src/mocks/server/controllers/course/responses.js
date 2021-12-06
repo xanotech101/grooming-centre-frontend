@@ -343,18 +343,18 @@ export const userCourseDetailsRes_courseId_3 = {
     user: { profilePics: null, firstName: "tobby", lastName: "Joahian" },
     lesson: [
       {
-        ...upcomingDates,
+        ...ongoingDates,
         id: "lessonId_1",
-        title: "Upcoming lesson",
+        title: "Ongoing lesson",
         content:
           '{"blocks":[{"key":"6h3a2","text":"lorem","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
         createdAt: "2021-11-19T05:43:48.006Z",
         updatedAt: "2021-11-19T05:43:48.006Z",
         lessonType: {
-          id: "lessonTypeId_2",
-          name: "video",
+          id: "lessonTypeId_1",
+          name: "pdf",
         },
-        lessonTracking: [],
+        lessonTracking: [{ isCompleted: true }],
       },
       {
         ...endedDates,

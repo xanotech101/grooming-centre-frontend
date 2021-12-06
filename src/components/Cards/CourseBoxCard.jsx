@@ -10,6 +10,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import {
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -82,14 +83,15 @@ export const CourseBoxCard = ({
         blockScrollOnMount={false}
         isOpen={isOpen}
         onClose={onClose}
-        size="xl"
+        size={IsPdf ? "full" : "xl"}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
             <Flex>{title}</Flex>
           </ModalHeader>
-          <ModalBody>{modalBody}</ModalBody>
+          <ModalCloseButton />
+          <ModalBody height={IsPdf ? "600px" : null}>{modalBody}</ModalBody>
 
           <ModalFooter>
             <Button secondary mr={3} onClick={onClose}>
@@ -250,7 +252,14 @@ export const CourseBoxCard = ({
                       </Button>
                       <LibraryModal
                         title={title}
-                        modalBody={<iframe src={file} title={title} />}
+                        modalBody={
+                          <iframe
+                            src={file}
+                            title={title}
+                            height="100%"
+                            width="100%"
+                          />
+                        }
                         downloadButton={
                           <DownloadButton
                             title={title}
