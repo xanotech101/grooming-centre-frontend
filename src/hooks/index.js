@@ -14,3 +14,4 @@ export * from "./useRichText";
 export * from "./useDragAndDrop";
 export * from "./useDownload";
 export * from "./useTableRows";
+export * from "./useTab";

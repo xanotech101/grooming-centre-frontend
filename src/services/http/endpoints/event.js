@@ -39,15 +39,16 @@ export const userJoinEvent = async (eventId) => {
 
 /**
  * Endpoint for admin to get event listing
+ * @param {object} params
  *
  * @returns {Promise<{ events: Array<{ id: string, description: string, name: string, startTime: Date, endTime: Date, departmentId: string }> }>}
  */
-export const adminGetEventListing = async () => {
+export const adminGetEventListing = async (params) => {
   const path = `/events/all`;
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
   const events = data.map((event) => ({
     id: event.id,

@@ -2,14 +2,14 @@ import { Box, Stack } from "@chakra-ui/layout";
 import { useEffect, useCallback } from "react";
 import { Route } from "react-router-dom";
 import { Heading, Image, Text } from "../../../components";
-import { useFetchAndCache } from "../../../hooks";
+import { useFetch } from "../../../hooks";
 import { userGetEventListing } from "../../../services";
 import coverImagePlaceholder from "../../../assets/images/events-banner.svg";
 import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import { EventListing } from "./EventListing";
 
 export const useEventsPage = (props) => {
-  const { resource, handleFetchResource } = useFetchAndCache();
+  const { resource, handleFetchResource } = useFetch();
 
   const fetcher = useCallback(async () => {
     const { events } = await userGetEventListing();
