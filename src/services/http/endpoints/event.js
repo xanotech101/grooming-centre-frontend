@@ -58,7 +58,7 @@ export const adminGetEventListing = async (params) => {
     description: event.description,
     departmentId: event.departmentId,
     coverImage: event.coverImage,
-    attendeesCount: event.attendeesCount || 0,
+    attendeesCount: event.eventAttendeesCount || 0,
   }));
 
   return { events };
