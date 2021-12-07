@@ -11,5 +11,6 @@ export const requestMyDataRes = {
     userRoleId: "userRoleId_2",
     departmentId: null,
     isInviteActive: false,
+    serverCurrentTime: Date.now(),
   },
 };

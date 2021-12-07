@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getEndTime } from "../../../../utils";
+import { getServerDateNow } from "../../../../utils/DateNow";
 
 const getLateEndDate = (startTime, endTime) => {
-  const now = new Date(Date.now());
+  const now = new Date(getServerDateNow());
   const duration = (new Date(endTime).getTime() - now.getTime()) / 1000 / 60;
   const newEndDate = new Date(getEndTime(startTime, duration));
 

@@ -36,6 +36,9 @@ export const useApp = () => {
   const fetchCurrentUser = useCallback(async () => {
     try {
       const { data } = await requestMyData();
+
+      localStorage.setItem("DateNow", data.serverCurrentTime);
+
       setState((prev) => ({
         ...prev,
         user: {
