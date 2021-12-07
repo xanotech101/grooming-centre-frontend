@@ -270,14 +270,23 @@ export const ViewEventButton = ({
             </Text>
 
             {renderCallToAction ? (
-              <Text my={2} as="level3">
-                <Box as="b" mr={5}>
-                  DEPARTMENT:
-                </Box>
-                {event.departmentId
-                  ? getOneMetadata("departments", event.departmentId)?.name
-                  : "N/A"}
-              </Text>
+              <>
+                <Text my={2} as="level3">
+                  <Box as="b" mr={5}>
+                    DEPARTMENT:
+                  </Box>
+                  {event.departmentId
+                    ? getOneMetadata("departments", event.departmentId)?.name
+                    : "N/A"}
+                </Text>
+
+                <Text my={2} as="level3">
+                  <Box as="b" mr={5}>
+                    ATTENDEES:
+                  </Box>
+                  {event.attendeesCount}
+                </Text>
+              </>
             ) : null}
           </ModalBody>
 

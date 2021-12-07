@@ -61,6 +61,7 @@ export const adminGetEventListingRes = {
       vitae?
       `,
       departmentId: "departmentId_1",
+      attendeesCount: 10,
     },
     {
       ...ongoingDates,
@@ -71,6 +72,7 @@ export const adminGetEventListingRes = {
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
       vitae?`,
       departmentId: "departmentId_2",
+      attendeesCount: 340,
     },
     {
       ...upcomingDates,
@@ -78,6 +80,7 @@ export const adminGetEventListingRes = {
       title: "Mock Event (Admin)",
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit.`,
       departmentId: "departmentId_2",
+      attendeesCount: 2323,
       coverImage:
         "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80",
     },
