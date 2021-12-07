@@ -45,12 +45,12 @@ const CourseDetailsPage = () => {
   // };
 
   const getDisability = (item, isAssessment, isExamination) => {
-    if (
-      ((isAssessment || isExamination) &&
-        !isOngoing(item?.startTime, item?.endTime)) ||
-      item?.hasCompleted
-    ) {
-      return true;
+    console.log(isAssessment, isExamination);
+    if (isAssessment || isExamination) {
+      if (!isOngoing(item?.startTime, item?.endTime) || item?.hasCompleted) {
+        console.log("disabled", "ass", "exam", item?.title);
+        return true;
+      }
     }
 
     if (!isOngoing(item?.startTime, item?.endTime) && !item?.hasCompleted) {
@@ -100,7 +100,7 @@ const CourseDetailsPage = () => {
           width="165px"
           secondary
           sm
-          disabled={getDisability(item)}
+          disabled={getDisability(item, isAssessment, isExamination)}
           leftIcon={item?.hasCompleted && <FaCheck />}
         >
           {isOngoing(item?.startTime, item?.endTime) &&

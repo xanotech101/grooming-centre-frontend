@@ -4,7 +4,7 @@ export const userBookListingRes = {
       id: "bookId_1",
       description: "Learn HTML and CSS for free today",
       title: "Web dev 2021 (Pdf)",
-      file: "http://africau.edu/images/default/sample.pdf",
+      file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
       fileExtension: "pdf",
       uploader: {
         id: "uploaderId_2",
@@ -19,7 +19,7 @@ export const userBookListingRes = {
       id: "bookId_3",
       description: "React Design Patters",
       title: "Become A React Guru (Pdf)",
-      file: "http://africau.edu/images/default/sample.pdf",
+      file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
       fileExtension: "pdf",
       uploader: {
         id: "uploaderId_3",
@@ -34,7 +34,7 @@ export const userBookListingRes = {
       id: "bookId_2",
       description: "Nodejs Advanced Concept",
       title: "Backend Development (Pdf)",
-      file: "http://africau.edu/images/default/sample.pdf",
+      file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
       fileExtension: "pdf",
       uploader: {
         id: "uploaderId_1",
@@ -163,7 +163,7 @@ export const adminLibraryListingRes = {
           id: "libraryTypeId_1",
           name: "pdf",
         },
-        file: "http://africau.edu/images/default/sample.pdf",
+        file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
         fileExtension: "pdf",
         uploader: {
           id: "uploaderId_1",
@@ -239,7 +239,7 @@ export const requestLibraryFileDetailsRes_bookId_1 = {
       id: "libraryTypeId_1",
       name: "pdf",
     },
-    file: "http://africau.edu/images/default/sample.pdf",
+    file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
     fileExtension: "pdf",
     uploader: {
       id: "uploaderId_1",
