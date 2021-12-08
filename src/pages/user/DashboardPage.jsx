@@ -9,22 +9,23 @@ import {
 } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { Bar, Doughnut } from "react-chartjs-2";
-import { BiCertification } from "react-icons/bi";
-import { GiUpgrade } from "react-icons/gi";
-import { RiBarChartFill } from "react-icons/ri";
 import { Route } from "react-router-dom";
-import { Button, Heading, Link, Text } from "../../components";
-import { CoursesRowLayout } from "../../layouts";
+import { Button, Heading, SkeletonText, Text } from "../../components";
 import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 import colors from "../../theme/colors";
+import { useApp } from "../../contexts";
+import useGradeDetails from "./Courses/Grades/hooks/useGradeDetails";
+import { IoCalendarOutline } from "react-icons/io5";
+import { BiNotepad } from "react-icons/bi";
+import { ImFileText } from "react-icons/im";
 
 const scheduledCards = [
   {
-    title: "Assessments due",
+    title: "Upcoming Assesments",
     value: 3,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
-        <RiBarChartFill />
+        <BiNotepad />
       </Icon>
     ),
   },
@@ -33,7 +34,7 @@ const scheduledCards = [
     value: 2,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
-        <RiBarChartFill />
+        <ImFileText />
       </Icon>
     ),
   },
@@ -42,36 +43,11 @@ const scheduledCards = [
     value: 4,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
-        <RiBarChartFill />
+        <IoCalendarOutline />
       </Icon>
     ),
   },
 ];
-
-const totalCourseChartConfig = {
-  data: {
-    labels: ["In Progress", "Completed", "Yet to start"],
-    datasets: [
-      {
-        data: [12, 19, 3],
-        backgroundColor: [
-          colors.secondary[3],
-          colors.primary.base,
-          colors.accent[1],
-        ],
-        borderWidth: 0,
-      },
-    ],
-  },
-
-  options: {
-    plugins: {
-      legend: {
-        position: "right",
-      },
-    },
-  },
-};
 
 const hoursSpentChartConfig = {
   data: {
@@ -107,6 +83,71 @@ const hoursSpentChartConfig = {
 };
 
 const DashboardPage = () => {
+  const appManager = useApp();
+  const manager = useGradeDetails();
+
+  const { grades, isLoading } = manager;
+  console.log(grades);
+
+  const notStarted =
+    grades?.overview.totalCoursesCount -
+    (grades?.ongoingCourses.length + grades?.completedCourses.length);
+
+  const totalCourseChartConfig = {
+    data: {
+      labels: ["In Progress", "Completed", "Yet to start"],
+      datasets: [
+        {
+          data: [
+            grades?.ongoingCourses.length,
+            grades?.completedCourses.length,
+            notStarted,
+          ],
+          backgroundColor: [
+            colors.secondary[3],
+            colors.primary.base,
+            colors.accent[1],
+          ],
+          borderWidth: 0,
+        },
+      ],
+    },
+
+    options: {
+      plugins: {
+        legend: {
+          position: "right",
+        },
+      },
+    },
+  };
+
+  const totalGrade = Math.round(
+    (grades?.overview.averageAttendanceScore +
+      grades?.overview.averageAssessmentScore +
+      grades?.overview.averageExaminationScore) /
+      3
+  );
+
+  const totalGradeChartConfig = {
+    data: {
+      labels: ["Total grade", ""],
+      datasets: [
+        {
+          data: [totalGrade, Math.round(100 - totalGrade)],
+          backgroundColor: [colors.others[2], colors.accent[1]],
+          borderWidth: 0,
+        },
+      ],
+    },
+
+    options: {
+      plugins: {
+        legend: { display: false },
+      },
+    },
+  };
+
   return (
     <Stack
       spacing={16}
@@ -124,7 +165,7 @@ const DashboardPage = () => {
           paddingY={{ base: 10, laptop: 0 }}
         >
           <Heading as="h1" fontSize="heading.h2" color="primary.base">
-            Hi John!
+            {`Hi ${appManager.state.user?.firstName}!`}
           </Heading>
           <Text bold as="level1" color="accent.3">
             Welcome back, nice to see you again!
@@ -166,15 +207,16 @@ const DashboardPage = () => {
                   justifyContent="space-between"
                   boxSize="80px"
                 >
-                  <Flex justifyContent="space-between" alignItems="center">
-                    <Text bold as="level1">
+                  <Flex alignItems="center">
+                    <Text bold fontSize="heading.h3" paddingRight={4}>
                       {value}
                     </Text>
-
                     {icon}
                   </Flex>
 
-                  <Text>{title}</Text>
+                  <Text color="accent.3" bold>
+                    {title}
+                  </Text>
                 </Flex>
               </Flex>
             ))}
@@ -184,90 +226,91 @@ const DashboardPage = () => {
 
       <Flex>
         <Section title="Overview" flex={1} marginRight={10}>
-          <Grid templateColumns=".6fr .6fr 1fr 1fr" columnGap={4} rowGap={10}>
+          <Grid columnGap={4} rowGap={10}>
             {/* First Row */}
-            <Link href={`/courses/grade-overview`}>
-              <MiniBox padding={3}>
-                <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
-                  <GiUpgrade />
-                </Icon>
-                <Text bold as="level1">
-                  75%
-                </Text>
-                <Text color="accent.3">Total Grade</Text>
-              </MiniBox>
-            </Link>
-            <MiniBox padding={3}>
-              <Icon color="accent.3" fontSize="heading.h3" marginBottom={5}>
-                <BiCertification />
-              </Icon>
-
-              <Text bold as="level1">
-                400
-              </Text>
-              <Text color="accent.3">Certifications</Text>
-            </MiniBox>
-            <MiniBox padding={3} as={GridItem} colSpan={2}>
-              <Text color="accent.3">Time Spent</Text>
-            </MiniBox>
-
-            {/* Second Row */}
             <MiniBox
-              padding={3}
+              padding={8}
               as={GridItem}
               colSpan={2}
               display="flex"
               flexDirection="column"
-              justifyContent="space-between"
+              height="300px"
             >
-              <Flex justifyContent="space-between" marginBottom={10}>
-                <Text color="accent.3">Badges</Text>
-
-                <Text bold as="level1">
-                  20
-                </Text>
-              </Flex>
-
               <Box>
-                <Grid
-                  templateColumns="repeat(4, 1fr)"
-                  autoRows="70px"
-                  gap={2}
-                  marginBottom={2}
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((color, index) => (
-                    <Box
-                      key={index}
-                      backgroundColor={`hsl(${Math.floor(
-                        Math.random() * 360
-                      )}, 100%, 70%)`}
-                    />
-                  ))}
-                </Grid>
+                <Text color="accent.3" bold>
+                  Average Grade
+                </Text>
 
-                <Flex justifyContent="flex-end">
-                  <Link href="#">
-                    <Text bold color="primary.base">
-                      View all badges
+                <Flex alignItems="center">
+                  {isLoading ? (
+                    <SkeletonText numberOfLines={1} />
+                  ) : (
+                    <Text bold as="level1" marginRight={2}>
+                      {`${totalGrade}%`}
                     </Text>
-                  </Link>
+                  )}
                 </Flex>
               </Box>
+
+              <Flex width="170px" height="170px" position="absolute" top="98px">
+                <Doughnut {...totalGradeChartConfig} />
+                <Flex flexDirection="column" position="absolute" left="300px">
+                  <Box paddingBottom={4}>
+                    {isLoading ? (
+                      <SkeletonText numberOfLines={2} />
+                    ) : (
+                      <>
+                        <Text color="accent.3">Assessments</Text>
+                        <Text
+                          bold
+                        >{`${grades?.overview.averageAssessmentScore}%`}</Text>
+                      </>
+                    )}
+                  </Box>
+                  <Box paddingBottom={4}>
+                    {isLoading ? (
+                      <SkeletonText numberOfLines={2} />
+                    ) : (
+                      <>
+                        <Text color="accent.3">Attendance</Text>
+                        <Text
+                          bold
+                        >{`${grades?.overview.averageAttendanceScore}%`}</Text>
+                      </>
+                    )}
+                  </Box>
+                  <Box>
+                    {isLoading ? (
+                      <SkeletonText numberOfLines={2} width={100} />
+                    ) : (
+                      <>
+                        <Text color="accent.3">Examination</Text>
+                        <Text
+                          bold
+                        >{`${grades?.overview.averageExaminationScore}%`}</Text>
+                      </>
+                    )}
+                  </Box>
+                </Flex>
+              </Flex>
             </MiniBox>
 
             <MiniBox
-              padding={3}
+              padding={8}
               as={GridItem}
               colSpan={2}
               display="flex"
               flexDirection="column"
+              height="300px"
             >
               <Box>
-                <Text color="accent.3">Total Courses</Text>
+                <Text color="accent.3" bold>
+                  Total Courses
+                </Text>
 
                 <Flex alignItems="center">
                   <Text bold as="level1" marginRight={2}>
-                    22
+                    {grades?.overview.totalCoursesCount}
                   </Text>
 
                   <Text as="level5" color="accent.5" m>
@@ -282,15 +325,16 @@ const DashboardPage = () => {
                 height="300px"
                 position="absolute"
                 left="50%"
-                transform="translateX(-50%)"
+                transform="translate(-50%)"
               >
                 <Doughnut {...totalCourseChartConfig} />
               </Box>
               {/* </Grid> */}
             </MiniBox>
 
+            {/* Second Row */}
             <MiniBox
-              padding={3}
+              padding={8}
               as={GridItem}
               colSpan={4}
               display="flex"
@@ -298,7 +342,9 @@ const DashboardPage = () => {
               minHeight="300px"
             >
               <Box marginBottom={5}>
-                <Text color="accent.3">Hours Spent</Text>
+                <Text color="accent.3" bold>
+                  Hours Spent
+                </Text>
 
                 <Flex alignItems="center">
                   <Text bold as="level1" marginRight={2}>
@@ -340,9 +386,9 @@ const DashboardPage = () => {
         <CoursesRowLayout />
       </Section> */}
 
-      <Section title="Completed Courses" titleSeeAllHref="#">
+      {/* <Section title="Completed Courses" titleSeeAllHref="#">
         <CoursesRowLayout />
-      </Section>
+      </Section> */}
     </Stack>
   );
 };
