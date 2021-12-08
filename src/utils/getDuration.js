@@ -53,11 +53,8 @@ export const getDurationBetweenStartTimeAndEndTime = (startTime, endTime) => {
  *
  * @returns {boolean}
  */
-export const hasEnded = (endTime) => {
-  console.log(getServerDateNow());
-
-  return getServerDateNow() > new Date(endTime).getTime();
-};
+export const hasEnded = (endTime) =>
+  getServerDateNow() > new Date(endTime).getTime();
 
 /**
  * @param {Date} startTime

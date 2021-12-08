@@ -59,8 +59,6 @@ export const useAppConfig = () => {
         setInterval(() => {
           DateNow = +localStorage.getItem("DateNow") + 1000;
           localStorage.setItem("DateNow", DateNow);
-
-          console.log("Tick =>", new Date(DateNow));
         }, 1000);
     }
   }, [appManager.state.user]);
