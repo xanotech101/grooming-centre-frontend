@@ -22,6 +22,10 @@ const links = [
     href: "/events",
     text: "Events",
   },
+  {
+    href: "/courses/grade-overview",
+    text: "Grades",
+  },
 ];
 
 const NavBar = ({ ...rest }) => {

@@ -64,6 +64,9 @@ const Avatar = () => {
           <MenuItem>My Account</MenuItem>
           <MenuItem>Certificates</MenuItem>
           <MenuItem>Examination</MenuItem>
+          <MenuItem as={Link} to="/courses/grade-overview">
+            Grades
+          </MenuItem>
           <MenuItem as={Link} to="/admin">
             Admin Dashboard
           </MenuItem>
