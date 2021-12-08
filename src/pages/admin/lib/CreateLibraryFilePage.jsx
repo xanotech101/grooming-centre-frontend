@@ -153,7 +153,7 @@ const CreateLibraryFilePage = () => {
 
       data = {
         ...data,
-        fileId,
+        libraryTypeId: null,
         file,
       };
 
