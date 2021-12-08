@@ -16,17 +16,17 @@ import {
 } from "./responses";
 
 const userGetBookListing = rest.get(
-  getUrl("/library/user/books"),
+  getUrl("/library/pdf"),
   handleSuccessResponse(userBookListingRes)
 );
 
 const userGetAudioListing = rest.get(
-  getUrl("/library/user/audio"),
+  getUrl("/library/audio"),
   handleSuccessResponse(userAudioListingRes)
 );
 
 const userGetVideoListing = rest.get(
-  getUrl("/library/user/videos"),
+  getUrl("/library/video"),
   handleSuccessResponse(userVideoListingRes)
 );
 

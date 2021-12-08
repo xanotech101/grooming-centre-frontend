@@ -6,7 +6,7 @@ import { http } from "../http";
  * @returns {Promise<{ books: BookListArray }>}
  */
 export const userGetBookListing = async () => {
-  const path = `/library/user/books`;
+  const path = `/library/pdf`;
 
   const {
     data: { data },
@@ -20,11 +20,11 @@ export const userGetBookListing = async () => {
       file: book.file,
       fileExtension: book.fileExtension,
       instructor: {
-        id: book.uploader.id,
-        profilePics: book.uploader.profilePics,
-        firstName: book.uploader.firstName,
-        lastName: book.uploader.lastName,
-        title: book.uploader.title,
+        id: book.user.id,
+        profilePics: book.user.profilePics,
+        firstName: book.user.firstName,
+        lastName: book.user.lastName,
+        title: book.user.title,
       },
     })),
   };
@@ -36,7 +36,7 @@ export const userGetBookListing = async () => {
  * @returns {Promise<{ audio: AudioListArray }>}
  */
 export const userGetAudioListing = async () => {
-  const path = `/library/user/audio`;
+  const path = `/library/audio`;
 
   const {
     data: { data },
@@ -50,11 +50,11 @@ export const userGetAudioListing = async () => {
       file: aud.file,
       fileExtension: aud.fileExtension,
       instructor: {
-        id: aud.uploader.id,
-        profilePics: aud.uploader.profilePics,
-        firstName: aud.uploader.firstName,
-        lastName: aud.uploader.lastName,
-        title: aud.uploader.title,
+        id: aud.user.id,
+        profilePics: aud.user.profilePics,
+        firstName: aud.user.firstName,
+        lastName: aud.user.lastName,
+        title: aud.user.title,
       },
     })),
   };
@@ -66,7 +66,7 @@ export const userGetAudioListing = async () => {
  * @returns {Promise<{ videos: VideoListArray }>}
  */
 export const userGetVideoListing = async () => {
-  const path = `/library/user/videos`;
+  const path = `/library/video`;
 
   const {
     data: { data },
@@ -80,11 +80,11 @@ export const userGetVideoListing = async () => {
       file: video.file,
       fileExtension: video.fileExtension,
       instructor: {
-        id: video.uploader.id,
-        profilePics: video.uploader.profilePics,
-        firstName: video.uploader.firstName,
-        lastName: video.uploader.lastName,
-        title: video.uploader.title,
+        id: video.user.id,
+        profilePics: video.user.profilePics,
+        firstName: video.user.firstName,
+        lastName: video.user.lastName,
+        title: video.user.title,
       },
     })),
   };
@@ -120,11 +120,11 @@ export const adminLibraryListing = async (params) => {
       file: lib.file,
       fileExtension: lib.fileExtension,
       instructor: {
-        id: lib.uploader.id,
-        profilePics: lib.uploader.profilePics,
-        firstName: lib.uploader.firstName,
-        lastName: lib.uploader.lastName,
-        title: lib.uploader.title,
+        id: lib.user.id,
+        profilePics: lib.user.profilePics,
+        firstName: lib.user.firstName,
+        lastName: lib.user.lastName,
+        title: lib.user.title,
       },
     })),
     showingDocumentsCount: data.rows.length,
