@@ -20,6 +20,18 @@ import {
 const tableProps = {
   filterControls: [
     {
+      triggerText: "Type",
+      queryKey: "type",
+      width: "170%",
+      body: {
+        checks: [
+          { label: "Video", queryValue: "video" },
+          { label: "Audio", queryValue: "audio" },
+          { label: "Pdf", queryValue: "pdf" },
+        ],
+      },
+    },
+    {
       triggerText: "Department",
       queryKey: "department",
       width: "125%",
@@ -164,6 +176,7 @@ const LibraryListingPage = () => {
       </Flex>
       <Table
         {...tableProps}
+        placeholder="Title, department, type"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}
