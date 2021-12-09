@@ -317,17 +317,15 @@ Table.propTypes = {
     })
   ).isRequired,
   options: PropTypes.shape({
-    action:
-      PropTypes.bool ||
-      PropTypes.arrayOf(
-        PropTypes.shape({
-          text: PropTypes.any,
-          isDelete: PropTypes.bool,
-          link: PropTypes.func,
-          props: PropTypes.object,
-          onClick: PropTypes.func,
-        })
-      ),
+    action: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.any,
+        isDelete: PropTypes.bool,
+        link: PropTypes.func,
+        props: PropTypes.object,
+        onClick: PropTypes.func,
+      })
+    ),
     selection: PropTypes.bool,
     multipleDeleteFetcher: PropTypes.func,
   }),
