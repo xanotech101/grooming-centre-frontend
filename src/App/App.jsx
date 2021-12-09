@@ -40,7 +40,6 @@ export const useAppConfig = () => {
     const token = handleGetTokenFromClientStorage();
     handleSetToken(token);
 
-    // TODO: remove this check
     if (token) {
       fetchCurrentUser();
     }
