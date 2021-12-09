@@ -145,6 +145,7 @@ const DepartmentListingPage = () => {
 
       <Table
         {...tableProps}
+        placeholder="Title"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

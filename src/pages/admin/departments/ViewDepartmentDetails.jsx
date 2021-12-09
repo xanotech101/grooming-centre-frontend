@@ -107,6 +107,7 @@ const ViewDepartmentPage = () => {
         <Table
           width="100%"
           {...tableProps}
+          placeholder="Name, email, role"
           rows={rows}
           setRows={setRows}
           handleFetch={fetchRowItems}

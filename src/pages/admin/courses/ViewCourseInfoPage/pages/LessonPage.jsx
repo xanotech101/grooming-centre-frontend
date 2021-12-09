@@ -195,6 +195,7 @@ const LessonPage = () => {
 
       <Table
         {...tableProps}
+        placeholder="Title, department"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

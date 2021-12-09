@@ -119,7 +119,7 @@ export const adminGetUserGrades = async (userId) => {
  * @returns {Promise<{ gradaeCriteria: gradeCriteria }>}
  */
 export const adminGetGradeCriteria = async () => {
-  const path = `/marking-guide/`; //TODO: might change `
+  const path = `/marking-guide`; //TODO: might change `
 
   const {
     data: { data },

@@ -12,13 +12,23 @@ const userGetGrades = rest.get(
   handleSuccessResponse(userGetGradesRes)
 );
 
-const adminGetUserGrades = rest.get(
-  getUrl("/admin/grades/userId_1"),
-  handleSuccessResponse(userGetGradesRes)
-);
+const adminGetUserGrades = [
+  rest.get(
+    getUrl("/admin/grades/userId_1"),
+    handleSuccessResponse(userGetGradesRes)
+  ),
+  rest.get(
+    getUrl("/admin/grades/userId_2"),
+    handleSuccessResponse(userGetGradesRes)
+  ),
+  rest.get(
+    getUrl("/admin/grades/userId_3"),
+    handleSuccessResponse(userGetGradesRes)
+  ),
+];
 
 const adminGetGradeCriteria = rest.get(
-  getUrl("/marking-guide/"), // TODO: might change `path`
+  getUrl("/marking-guide"), // TODO: might change `path`
   handleSuccessResponse(adminGetGradeCriteriaRes)
 );
 
@@ -29,7 +39,7 @@ const adminEditGradeCriteria = rest.patch(
 
 const grades = [
   userGetGrades,
-  adminGetUserGrades,
+  ...adminGetUserGrades,
   adminEditGradeCriteria,
   adminGetGradeCriteria,
 ];

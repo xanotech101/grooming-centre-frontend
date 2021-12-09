@@ -9,6 +9,7 @@ import { Button, Checkbox, SearchBar, Text } from "../..";
 const Header = ({
   filterControls,
   SearchBarVisibility,
+  placeholder,
   setParams,
   setCanFilter,
 }) => {
@@ -92,7 +93,7 @@ const Header = ({
       display={SearchBarVisibility}
     >
       <SearchBar
-        placeholder="Name, role, email, department"
+        placeholder={placeholder}
         width="375px"
         sm
         onSearch={handleSearch}

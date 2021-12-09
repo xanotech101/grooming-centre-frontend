@@ -206,6 +206,7 @@ const CoursesPage = () => {
       />
       <Table
         {...tableProps}
+        placeholder="Title, completed, ongoing courses"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

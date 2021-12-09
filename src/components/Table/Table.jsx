@@ -170,6 +170,7 @@ export const Table = ({
   setRows,
   filterControls,
   SearchBarVisibility,
+  placeholder,
   columns,
   options,
   templateColumns,
@@ -228,6 +229,7 @@ export const Table = ({
     <Box>
       <Header
         SearchBarVisibility={SearchBarVisibility}
+        placeholder={placeholder}
         filterControls={filterControls}
         setParams={manager.setParams}
         setCanFilter={manager.setCanFilter}
@@ -305,6 +307,7 @@ export const Table = ({
 Table.propTypes = {
   filterControls: PropTypes.array,
   SearchBarVisibility: PropTypes.string,
+  placeholder: PropTypes.string,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.any.isRequired,
