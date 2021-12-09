@@ -24,7 +24,7 @@ function App() {
     </GlobalProviders>
   );
 }
-
+//
 export const useAppConfig = () => {
   const appManager = useApp();
 
