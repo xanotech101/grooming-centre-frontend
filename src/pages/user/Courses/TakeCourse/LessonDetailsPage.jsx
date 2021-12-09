@@ -17,68 +17,6 @@ import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import { EmptyState } from "../../../../layouts";
 import { useGoBack } from "../../../../hooks";
 
-const Player = ({
-  lessonId,
-  lessonCompleted,
-  width = "100%",
-  height = "100%",
-  url,
-  onEnded,
-  onPlayToggle,
-  controls,
-  playing = false,
-  ...rest
-}) => {
-  const [isReady, setIsReady] = useState(false);
-  const playerRef = useRef();
-
-  useEffect(() => {
-    const player = playerRef.current;
-    if (isReady && player && lessonId && !lessonCompleted) {
-      const initialProgress =
-        localStorage.getItem(`${lessonId}-video-progress`) || 0;
-
-      player.seekTo(+initialProgress);
-    }
-  }, [isReady, lessonId, lessonCompleted]);
-
-  const onReady = () => {
-    setIsReady(true);
-  };
-
-  const onProgress = () => {
-    if (lessonId && !lessonCompleted)
-      localStorage.setItem(
-        `${lessonId}-video-progress`,
-        `${playerRef.current.getCurrentTime()}`
-      );
-  };
-
-  return (
-    <Box
-      width={width}
-      height={height}
-      position="relative"
-      className={!controls && "take-lesson-video-wrapper"}
-      {...rest}
-    >
-      <ReactPlayer
-        url={url}
-        onEnded={onEnded}
-        playing={playing}
-        onReady={onReady}
-        onProgress={onProgress}
-        ref={playerRef}
-        id="take-lesson-video"
-        controls
-        autoPlay
-        width="100%"
-        height="100%"
-      />
-    </Box>
-  );
-};
-
 const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
   const {
     lesson,
@@ -95,6 +33,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
     handlePrevious,
     handleCompleteAndContinue,
     handleVideoHasEnded,
+    handleEndLesson,
     handleTryAgain,
     handleVideoPlayToggle,
   } = useLessonDetails(sidebarLinks, setCourseState);
@@ -188,11 +127,9 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
                 {isLoading ? (
                   <Skeleton width="100%" height="100%" />
                 ) : fileIsPDF ? (
-                  <iframe
-                    src={lesson?.file}
-                    title={lesson?.title}
-                    height="100%"
-                    width="100%"
+                  <PDFReader
+                    lesson={lesson}
+                    handleEndLesson={handleEndLesson}
                   />
                 ) : (
                   <Player
@@ -244,6 +181,85 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
         )}
       </Box>
     </Flex>
+  );
+};
+
+const Player = ({
+  lessonId,
+  lessonCompleted,
+  width = "100%",
+  height = "100%",
+  url,
+  onEnded,
+  onPlayToggle,
+  controls,
+  playing = false,
+  ...rest
+}) => {
+  const [isReady, setIsReady] = useState(false);
+  const playerRef = useRef();
+
+  useEffect(() => {
+    const player = playerRef.current;
+    if (isReady && player && lessonId && !lessonCompleted) {
+      const initialProgress =
+        localStorage.getItem(`${lessonId}-video-progress`) || 0;
+
+      player.seekTo(+initialProgress);
+    }
+  }, [isReady, lessonId, lessonCompleted]);
+
+  const onReady = () => {
+    setIsReady(true);
+  };
+
+  const onProgress = () => {
+    if (lessonId && !lessonCompleted)
+      localStorage.setItem(
+        `${lessonId}-video-progress`,
+        `${playerRef.current.getCurrentTime()}`
+      );
+  };
+
+  return (
+    <Box
+      width={width}
+      height={height}
+      position="relative"
+      className={!controls && "take-lesson-video-wrapper"}
+      {...rest}
+    >
+      <ReactPlayer
+        url={url}
+        onEnded={onEnded}
+        playing={playing}
+        onReady={onReady}
+        onProgress={onProgress}
+        ref={playerRef}
+        id="take-lesson-video"
+        controls
+        autoPlay
+        width="100%"
+        height="100%"
+      />
+    </Box>
+  );
+};
+
+const PDFReader = ({ lesson, handleEndLesson }) => {
+  useEffect(() => {
+    handleEndLesson();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <iframe
+      src={lesson?.file}
+      title={lesson?.title}
+      height="100%"
+      width="100%"
+    />
   );
 };
 

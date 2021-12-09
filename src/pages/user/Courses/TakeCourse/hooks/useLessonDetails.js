@@ -211,6 +211,7 @@ const useLessonDetails = (sidebarLinks, setCourseState) => {
     handlePrevious,
     handleCompleteAndContinue,
     handleTryAgain,
+    handleEndLesson,
     endLessonIsSuccessful,
     endLessonIsLoading,
     endLessonHasError,

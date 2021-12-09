@@ -345,7 +345,7 @@ export const userCourseDetailsRes_courseId_3 = {
       {
         ...ongoingDates,
         id: "lessonId_1",
-        title: "Ongoing lesson",
+        title: "Ongoing lesson PDF",
         content:
           '{"blocks":[{"key":"6h3a2","text":"lorem","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
         createdAt: "2021-11-19T05:43:48.006Z",
@@ -354,7 +354,7 @@ export const userCourseDetailsRes_courseId_3 = {
           id: "lessonTypeId_1",
           name: "pdf",
         },
-        lessonTracking: [{ isCompleted: true }],
+        // lessonTracking: [{ isCompleted: true }],
       },
       {
         ...endedDates,
