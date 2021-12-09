@@ -4,11 +4,7 @@ export const userBookListingRes = {
       id: "bookId_1",
       description: "Learn HTML and CSS for free today",
       title: "Web dev 2021 (Pdf)",
-<<<<<<< HEAD
-      file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
-=======
       file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
->>>>>>> 4d79ed3d59b089bfac3d16966e6971fca58e1eca
       fileExtension: "pdf",
       user: {
         id: "userId_2",
@@ -23,11 +19,7 @@ export const userBookListingRes = {
       id: "bookId_3",
       description: "React Design Patters",
       title: "Become A React Guru (Pdf)",
-<<<<<<< HEAD
-      file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
-=======
       file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
->>>>>>> 4d79ed3d59b089bfac3d16966e6971fca58e1eca
       fileExtension: "pdf",
       user: {
         id: "userId_3",
@@ -42,11 +34,7 @@ export const userBookListingRes = {
       id: "bookId_2",
       description: "Nodejs Advanced Concept",
       title: "Backend Development (Pdf)",
-<<<<<<< HEAD
-      file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
-=======
       file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
->>>>>>> 4d79ed3d59b089bfac3d16966e6971fca58e1eca
       fileExtension: "pdf",
       user: {
         id: "userId_1",
@@ -175,11 +163,7 @@ export const adminLibraryListingRes = {
           id: "libraryTypeId_1",
           name: "pdf",
         },
-<<<<<<< HEAD
-        file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
-=======
         file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
->>>>>>> 4d79ed3d59b089bfac3d16966e6971fca58e1eca
         fileExtension: "pdf",
         user: {
           id: "userId_1",
@@ -255,11 +239,7 @@ export const requestLibraryFileDetailsRes_bookId_1 = {
       id: "libraryTypeId_1",
       name: "pdf",
     },
-<<<<<<< HEAD
-    file: "https://docs.google.com/document/d/10Y4enLGe5IUupdWWR80NCcsQ6IgjqytMm78wZ_IVuqE/edit?usp=sharing",
-=======
     file: "http://res.cloudinary.com/horlar995/image/upload/v1638801369/grooming-centre/Event-Cover-Image/Here%20are%20some%20app%20ideas%20you%20can%20build%20to%20level%20up%20your%20coding%20skills.pdf",
->>>>>>> 4d79ed3d59b089bfac3d16966e6971fca58e1eca
     fileExtension: "pdf",
     user: {
       id: "userId_1",
