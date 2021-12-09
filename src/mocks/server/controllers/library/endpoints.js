@@ -37,15 +37,15 @@ const adminLibraryListing = rest.get(
 
 const requestLibraryFileDetails = [
   rest.get(
-    getUrl("/library/videoId_1"),
+    getUrl("/library/details/videoId_1"),
     handleSuccessResponse(requestLibraryFileDetailsRes_videoId_1)
   ),
   rest.get(
-    getUrl("/library/audioId_1"),
+    getUrl("/library/details/audioId_1"),
     handleSuccessResponse(requestLibraryFileDetailsRes_audioId_1)
   ),
   rest.get(
-    getUrl("/library/bookId_1"),
+    getUrl("/library/details/bookId_1"),
     handleSuccessResponse(requestLibraryFileDetailsRes_bookId_1)
   ),
 ];
