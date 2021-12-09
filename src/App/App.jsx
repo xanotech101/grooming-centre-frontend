@@ -24,7 +24,7 @@ function App() {
     </GlobalProviders>
   );
 }
-//
+
 export const useAppConfig = () => {
   const appManager = useApp();
 
@@ -53,7 +53,6 @@ export const useAppConfig = () => {
   useEffect(() => {
     if (appManager.state.user) {
       let DateNow = localStorage.getItem("DateNow");
-      // console.log(appManager.state.user);
       if (DateNow)
         setInterval(() => {
           DateNow = +localStorage.getItem("DateNow") + 1000;
@@ -63,7 +62,7 @@ export const useAppConfig = () => {
   }, [appManager.state.user]);
 };
 
-const AppConfig = () => {
+function AppConfig() {
   useAppConfig();
 
   return (
@@ -77,6 +76,6 @@ const AppConfig = () => {
       <UserLayoutRoute path="/" />
     </Switch>
   );
-};
+}
 
 export default App;
