@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useQueryParams } from "../../../../../hooks";
+import { useQueryParams } from ".";
 
-const useTab = () => {
+export const useTab = () => {
   const [currentTab, setCurrentTab] = useState("");
-
   const tabQuery = useQueryParams().get("tab");
 
   // Initial currentTab
@@ -13,7 +12,6 @@ const useTab = () => {
 
   return {
     currentTab,
+    setCurrentTab,
   };
 };
-
-export default useTab;

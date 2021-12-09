@@ -4,8 +4,7 @@ import { AiOutlineFire } from "react-icons/ai";
 import { BsArrowUpLeft, BsClockHistory } from "react-icons/bs";
 import { GoIssueClosed } from "react-icons/go";
 import useDisplayHeader from "./hooks/useDisplayHeader";
-import useTab from "./hooks/useTab";
-import { useQueryParams } from "../../../../hooks";
+import { useQueryParams, useTab } from "../../../../hooks";
 
 const links = [
   {

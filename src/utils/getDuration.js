@@ -5,6 +5,8 @@
  * @returns {{hours: number, minutes: number, combinedText: string}}
  */
 
+import { getServerDateNow } from "./DateNow";
+
 export function getDuration(number) {
   const tempHours = number / 60;
   const hours = Math.floor(tempHours);
@@ -51,7 +53,8 @@ export const getDurationBetweenStartTimeAndEndTime = (startTime, endTime) => {
  *
  * @returns {boolean}
  */
-export const hasEnded = (endTime) => Date.now() > new Date(endTime).getTime();
+export const hasEnded = (endTime) =>
+  getServerDateNow() > new Date(endTime).getTime();
 
 /**
  * @param {Date} startTime
@@ -59,7 +62,7 @@ export const hasEnded = (endTime) => Date.now() > new Date(endTime).getTime();
  * @returns {boolean}
  */
 export const isUpcoming = (startTime) =>
-  new Date(startTime).getTime() > Date.now();
+  new Date(startTime).getTime() > getServerDateNow();
 
 /**
  * @param {Date} startTime
@@ -68,4 +71,4 @@ export const isUpcoming = (startTime) =>
  * @returns {boolean}
  */
 export const isOngoing = (startTime, endTime) =>
-  Date.now() > new Date(startTime) && !hasEnded(endTime);
+  getServerDateNow() > new Date(startTime) && !hasEnded(endTime);

@@ -50,6 +50,18 @@ export const useAppConfig = () => {
     handleGetTokenFromClientStorage,
     handleSetToken,
   ]);
+
+  useEffect(() => {
+    if (appManager.state.user) {
+      let DateNow = localStorage.getItem("DateNow");
+      // console.log(appManager.state.user);
+      if (DateNow)
+        setInterval(() => {
+          DateNow = +localStorage.getItem("DateNow") + 1000;
+          localStorage.setItem("DateNow", DateNow);
+        }, 1000);
+    }
+  }, [appManager.state.user]);
 };
 
 const AppConfig = () => {
