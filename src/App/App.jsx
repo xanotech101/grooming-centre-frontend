@@ -16,6 +16,8 @@ import { useApp } from "../contexts";
 import { useEffect } from "react";
 
 function App() {
+  console.log("remove this log");
+
   return (
     <GlobalProviders>
       <Router>
