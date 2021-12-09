@@ -25,7 +25,7 @@ const tableProps = {
   ],
 
   options: {
-    action: false,
+    // action: false,
     selection: true,
   },
   pagination: true,

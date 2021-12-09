@@ -48,6 +48,7 @@ const tableProps = {
     },
     {
       triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
       width: "200px",
       position: "right-bottom",

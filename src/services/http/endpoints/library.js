@@ -139,7 +139,7 @@ export const adminLibraryListing = async (params) => {
  * @returns {Promise<{ library: Library }>}
  */
 export const requestLibraryFileDetails = async (id) => {
-  const path = `/library/${id}`;
+  const path = `/library/details/${id}`;
 
   const {
     data: { data },
