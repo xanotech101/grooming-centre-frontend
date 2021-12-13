@@ -284,7 +284,9 @@ export const ViewEventButton = ({
                     DEPARTMENT:
                   </Box>
                   {event.departmentId
-                    ? getOneMetadata("departments", event.departmentId)?.name
+                    ? getOneMetadata("departments", event.departmentId, {
+                        allMetadata: true,
+                      })?.name
                     : "N/A"}
                 </Text>
 
