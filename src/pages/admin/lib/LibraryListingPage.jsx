@@ -27,18 +27,18 @@ const LibraryListingPage = () => {
 
   const tableProps = {
     filterControls: [
-      {
-        triggerText: "Type",
-        queryKey: "type",
-        width: "170%",
-        body: {
-          radios: [
-            { label: "Video", queryValue: "video" },
-            { label: "Audio", queryValue: "audio" },
-            { label: "Pdf", queryValue: "pdf" },
-          ],
-        },
-      },
+      // {
+      //   triggerText: "Type",
+      //   queryKey: "type",
+      //   width: "170%",
+      //   body: {
+      //     radios: [
+      //       { label: "Video", queryValue: "video" },
+      //       { label: "Audio", queryValue: "audio" },
+      //       { label: "Pdf", queryValue: "pdf" },
+      //     ],
+      //   },
+      // },
       {
         triggerText: "Department",
         queryKey: "department",
