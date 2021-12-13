@@ -45,7 +45,7 @@ export const useApp = () => {
   const fetchCurrentUser = useCallback(async () => {
     try {
       const { data } = await requestMyData();
-      localStorage.setItem("DateNow", data.serverCurrentTime);
+      localStorage.setItem("DateNow", new Date(data.currentDateTime).getTime());
 
       setState((prev) => ({
         ...prev,
@@ -86,8 +86,10 @@ export const useApp = () => {
     setState((prev) => ({ ...prev, user: null, token: null }));
   }, [setState]);
 
-  const getOneMetadata = (arrayKey, id) =>
-    state.metadata?.[arrayKey]?.find((item) => item.id === id);
+  const getOneMetadata = (arrayKey, id, options) =>
+    state[options?.allMetadata ? "allMetadata" : "metadata"]?.[arrayKey]?.find(
+      (item) => item.id === id
+    );
 
   const isAuthenticated = handleGetTokenFromClientStorage() ? true : false;
 
