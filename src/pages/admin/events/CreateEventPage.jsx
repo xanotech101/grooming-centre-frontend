@@ -27,7 +27,7 @@ const CreateEventPage = () => {
   const toast = useToast();
   const cache = useCache();
   const {
-    state: { allMetadata },
+    state: { allMetadata: metadata },
   } = useApp();
   const { push, replace } = useHistory();
   const { eventId } = useParams();
@@ -108,7 +108,7 @@ const CreateEventPage = () => {
       setValue("departmentId", event.departmentId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [event, allMetadata]);
+  }, [event, metadata]);
 
   // Init `Dates` value
   useEffect(() => {
@@ -193,10 +193,10 @@ const CreateEventPage = () => {
 
         <Select
           label="Select department"
-          options={populateSelectOptions(allMetadata?.departments)}
+          options={populateSelectOptions(metadata?.departments)}
           isRequired
           id="departmentId"
-          isLoading={!allMetadata?.departments}
+          isLoading={!metadata?.departments}
           {...register("departmentId", {
             required: "Please select a department",
           })}

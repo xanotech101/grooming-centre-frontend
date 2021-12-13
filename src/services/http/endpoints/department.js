@@ -13,6 +13,7 @@ export const adminGetDepartmentListing = async (params) => {
     data: { data },
   } = await http.get(path, { params });
 
+  data.rows = data.rows.filter((row) => row.name !== "General");
   return {
     departments: data.rows.map((department) => ({
       id: department.id,
