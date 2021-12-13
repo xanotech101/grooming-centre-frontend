@@ -8,7 +8,7 @@ export const RichText = ({
   id,
   isRequired,
   label,
-  placeholder,
+  placeholder = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni natus laudantium totam quisquam odit consectetur reprehenderit non quae vitae?",
   defaultValue,
   onChange,
 }) => {
