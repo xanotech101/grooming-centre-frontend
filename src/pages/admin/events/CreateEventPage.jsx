@@ -121,7 +121,7 @@ const CreateEventPage = () => {
 
   useEffect(() => {
     if (event) {
-      coverImageManager.handleInitialImageSelect(event.file);
+      coverImageManager.handleInitialImageSelect(event.coverImage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event]);
@@ -133,8 +133,8 @@ const CreateEventPage = () => {
         startTimeManager.handleGetValueAndValidate("Start Time");
       const endTime = endTimeManager.handleGetValueAndValidate("End Time");
       const coverImage = coverImageManager.handleGetFileAndValidate(
-        "Event Cover",
-        true
+        "Event Cover"
+        // true // TODO: remove comment
       );
 
       data = {
@@ -256,6 +256,7 @@ const CreateEventPage = () => {
 
       <Box marginBottom={8}>
         <Upload
+          isRequired // TODO: remove
           id="coverImage"
           label="Event Cover"
           onFileSelect={coverImageManager.handleFileSelect}

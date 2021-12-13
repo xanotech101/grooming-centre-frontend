@@ -51,7 +51,15 @@ const Header = () => {
 };
 
 const Avatar = () => {
-  const { handleLogout } = useApp();
+  const { handleLogout, state, getOneMetadata } = useApp();
+
+  const isAdmin = () => {
+    const role = getOneMetadata("userRoles", state.user.userRoleId);
+
+    console.log(role, /admin/i.test(role?.name));
+
+    if (/admin/i.test(role?.name)) return true;
+  };
 
   return (
     <Menu>
@@ -67,9 +75,11 @@ const Avatar = () => {
           <MenuItem as={Link} to="/courses/grade-overview">
             Grades
           </MenuItem>
-          <MenuItem as={Link} to="/admin">
-            Admin Dashboard
-          </MenuItem>
+          {state.user && isAdmin() && (
+            <MenuItem as={Link} to="/admin">
+              Admin Dashboard
+            </MenuItem>
+          )}
         </MenuGroup>
         <MenuDivider />
         <MenuItem onClick={handleLogout} color="secondary.6">

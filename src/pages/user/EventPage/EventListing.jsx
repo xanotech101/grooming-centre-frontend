@@ -87,7 +87,7 @@ const Listing = ({ events, headerButton }) => {
   return (
     <Box
       minHeight="50vh"
-      maxWidth={breakpoints.tablet}
+      maxWidth={breakpoints.laptop}
       marginX="auto"
       border="1px"
       backgroundColor="white"
