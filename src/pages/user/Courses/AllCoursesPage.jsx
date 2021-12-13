@@ -4,6 +4,12 @@ import useCourses from "./hooks/useCourses";
 
 const AllCoursesPage = () => {
   const { courses } = useCourses();
+  console.log(courses);
+
+  // const handleTryAgain = async () => {
+  //   await handleDelete(lessonId);
+  //   fetchLessonDetails();
+  // };
 
   return <CardGridLayout cardContents={courses} />;
 };

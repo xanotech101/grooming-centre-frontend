@@ -109,14 +109,16 @@ export const adminLibraryListing = async (params) => {
       id: lib.id,
       title: lib.title,
       description: lib.description,
-      department: {
-        id: lib.department.id,
-        name: lib.department.name,
-      },
-      libraryType: {
-        id: lib.libraryType.id,
-        name: lib.libraryType.name,
-      },
+      departmentId: lib.departmentId,
+      // department: {
+      //   id: lib.department.id,
+      //   name: lib.department.name,
+      // },
+      fileType: lib.fileType,
+      // libraryType: {
+      //   id: lib.libraryType.id,
+      //   name: lib.libraryType.name,
+      // },
       file: lib.file,
       fileExtension: lib.fileExtension,
       instructor: {

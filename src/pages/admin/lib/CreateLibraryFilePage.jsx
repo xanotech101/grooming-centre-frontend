@@ -48,7 +48,6 @@ const CreateLibraryFilePage = () => {
 
   const {
     state: { allMetadata },
-    getOneMetadata,
   } = useApp();
 
   const fileManager = useUpload();
@@ -68,7 +67,7 @@ const CreateLibraryFilePage = () => {
 
   useEffect(() => {
     if (libraryFile && allMetadata?.departments) {
-      setValue("departmentId", libraryFile.department.id);
+      setValue("departmentId", libraryFile?.departmentId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libraryFile, allMetadata?.departments]);
@@ -81,37 +80,35 @@ const CreateLibraryFilePage = () => {
   }, [libraryFile]);
 
   const setLibraryAccept = (libraryTypeId) => {
-    const libraryType = getOneMetadata("libraryType", libraryTypeId)?.name;
-
-    if (libraryType === "pdf") {
+    if (libraryTypeId === "pdf") {
       fileManager.handleAcceptChange("application/pdf");
     }
 
-    if (libraryType === "video") {
+    if (libraryTypeId === "video") {
       fileManager.handleAcceptChange("video/mp4, video/mkv");
     }
 
-    if (libraryType === "audio") {
+    if (libraryTypeId === "audio") {
       fileManager.handleAcceptChange("audio/mpeg, audio/ogg, audio/wav");
     }
   };
 
   // Init `libraryTypeId` value and set `accept` for file upload input
   useEffect(() => {
-    if (libraryFile && allMetadata) {
-      setValue("libraryTypeId", libraryFile.libraryTypeId);
-      setLibraryAccept(libraryFile.libraryTypeId);
+    if (libraryFile) {
+      setValue("libraryTypeId", libraryFile.fileType);
+      setLibraryAccept(libraryFile.fileType);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [libraryFile, allMetadata]);
+  }, [libraryFile]);
 
   // Init `library File` file url
   useEffect(() => {
     if (libraryFile) {
       const fileIsAVideo = libraryFile.fileExtension === "mp4";
       const fileIsPDF = libraryFile.fileExtension === "pdf";
-      const fileIsAudio = libraryFile.fileExtension === "mp3";
+      const fileIsAudio = libraryFile.fileExtension === "mpeg";
 
       if (fileIsAVideo) {
         fileManager.handleInitialVideoSelect(libraryFile.file);
@@ -141,7 +138,7 @@ const CreateLibraryFilePage = () => {
     return () => subscription.unsubscribe();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch, allMetadata]);
+  }, [watch]);
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -275,8 +272,13 @@ const CreateLibraryFilePage = () => {
             <Select
               id="libraryTypeId"
               label="File type"
-              options={populateSelectOptions(allMetadata?.libraryType)}
-              isLoading={!allMetadata?.libraryType}
+              options={[
+                { value: "pdf", label: "Pdf" },
+                { value: "video", label: "Video" },
+                { value: "audio", label: "Audio" },
+              ]}
+              // options={populateSelectOptions(metadata?.libraryType)}
+              // isLoading={!metadata?.libraryType}
               isRequired
               error={errors.libraryTypeId?.message}
               {...register("libraryTypeId", {

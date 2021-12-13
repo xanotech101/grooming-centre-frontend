@@ -1,4 +1,4 @@
-import { Grid } from "@chakra-ui/layout";
+import { Grid, GridItem } from "@chakra-ui/layout";
 import { CourseBoxCard, Button } from "../../../components";
 import { EmptyState } from "../../../layouts";
 
@@ -57,7 +57,22 @@ export const CardGridLayout = ({ cardContents }) => {
         rowGap={{ base: "40px", laptop: "50px" }}
         padding={1}
       >
-        {cardContents.err}
+        {cardContents.err && (
+          <GridItem
+            colSpan={6}
+            width="100%"
+            height="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <EmptyState
+              // cta={<Button onClick={handleTryAgain}>Try Again</Button>}
+              heading="Oops An Error Occurred"
+              description="An unexpected error occurred, please try again later"
+            />
+          </GridItem>
+        )}
 
         {cardContents.loading &&
           Array(8)
