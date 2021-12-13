@@ -181,9 +181,10 @@ const JoinEventButton = ({ event, onJoinEvent, resource }) => {
     <Button
       isLoading={resource.loading || resource.data}
       disabled={
-        !isOngoing(event.startTime, event.endTime) ||
-        resource.loading ||
-        resource.data
+        true
+        // !isOngoing(event.startTime, event.endTime) ||          //Uncomment out
+        // resource.loading ||
+        // resource.data
       }
       rightIcon={<BiRightArrowAlt />}
       onClick={onJoinEvent.bind(null, event.id, event.link)}

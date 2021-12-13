@@ -241,6 +241,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             <Checkbox
               label="Use default certificate"
               borderColor="primary.base"
+              isChecked
+              disabled
             />
           </GridItem>
         </Grid>
