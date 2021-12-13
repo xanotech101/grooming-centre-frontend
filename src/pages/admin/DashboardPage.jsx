@@ -1,13 +1,18 @@
-import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
+import { Box, Center, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useCallback, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { FiUsers } from "react-icons/fi";
 import { GiBookshelf } from "react-icons/gi";
-import { IoMdMore } from "react-icons/io";
+// import { IoMdMore } from "react-icons/io";
 import { IoCalendarOutline } from "react-icons/io5";
 import { Route } from "react-router-dom";
 import { useAdminEventsPage } from ".";
-import { Button, SkeletonText, Spinner, Text } from "../../components";
+import {
+  // Button,
+  SkeletonText,
+  Spinner,
+  Text,
+} from "../../components";
 import { useFetchAndCache } from "../../hooks";
 import { AdminMainAreaWrapper } from "../../layouts";
 import { adminGetDepartmentListing, adminGetUserListing } from "../../services";
@@ -98,7 +103,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <AdminMainAreaWrapper>
+    <AdminMainAreaWrapper marginBottom={4}>
       <Grid marginY={4} templateColumns="repeat(3, 1fr)" gap={6}>
         <GridItem>
           <MiniBox
@@ -159,22 +164,27 @@ const DashboardPage = () => {
         boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
         backgroundColor="white"
         width="50%"
-        height="400px"
+        height="500px"
       >
         <Flex justifyContent="space-between" padding={4}>
           <Text fontSize="heading.h3" bold>
             Statistics
           </Text>
-          <Button asIcon>
+          {/* <Button asIcon>
             <IoMdMore />
-          </Button>
+          </Button> */}
         </Flex>
         <Flex justifyContent="center">
-          <Box width="250px" height="250px">
+          <Box width="350px" height="350px">
+            <Center paddingY={4}>
+              <Text fontSize="heading.h4">Users by departments</Text>
+            </Center>
             {departmentName ? (
               <Doughnut {...totalDepartmentChartConfig} />
             ) : (
-              <Spinner />
+              <Flex height="100%" justifyContent="center" align="center">
+                <Spinner />
+              </Flex>
             )}
           </Box>
         </Flex>

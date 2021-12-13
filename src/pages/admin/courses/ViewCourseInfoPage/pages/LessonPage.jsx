@@ -18,124 +18,129 @@ import {
 import { Tag } from "@chakra-ui/tag";
 import dayjs from "dayjs";
 import { useTableRows } from "../../../../../hooks";
-
-const tableProps = {
-  filterControls: [
-    {
-      triggerText: "Department",
-      queryKey: "department",
-      width: "125%",
-      body: {
-        checks: [
-          { label: "Finance", queryValue: "finance" },
-          { label: "Engineering", queryValue: "engineering" },
-          {
-            label: "Accounting",
-            queryValue: "accounting",
-          },
-        ],
-      },
-    },
-    {
-      triggerText: "Sort",
-      queryKey: "sort",
-      triggerIcon: <FaSortAmountUpAlt />,
-      width: "200px",
-      position: "right-bottom",
-      // noFilterTags: true,
-      body: {
-        radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
-        ],
-      },
-    },
-  ],
-
-  columns: [
-    {
-      id: "title",
-      key: "title",
-      text: "Lesson Title",
-      fraction: "5fr",
-      renderContent: (data) => (
-        <Link
-          href={`/admin/courses/${data.courseId}/lesson/${data.lessonId}/view`}
-        >
-          <Text>{data.text}</Text>
-        </Link>
-      ),
-    },
-    {
-      id: "4",
-      key: "startDate",
-      text: "Start Date",
-      fraction: "200px",
-    },
-    {
-      id: "5",
-      key: "status",
-      text: "Status",
-      fraction: "100px",
-      renderContent: (status) => (
-        <Box>
-          <Tag
-            borderRadius="full"
-            size="sm"
-            backgroundColor={status ? "accent.4" : "accent.1"}
-            color={status ? "accent.5" : "accent.3"}
-          >
-            <Text bold>{status ? "Active" : "Inactive"}</Text>
-          </Tag>
-        </Box>
-      ),
-    },
-  ],
-
-  options: {
-    action: [
-      {
-        text: "View",
-        link: (lesson) =>
-          `/admin/courses/${lesson.courseId}/lesson/${lesson.id}/view`,
-      },
-      {
-        text: "Edit",
-        link: (lesson) =>
-          `/admin/courses/${lesson.courseId}/lessons/edit/${lesson.id}`,
-      },
-      {
-        isDelete: true,
-      },
-    ],
-    selection: true,
-    multipleDeleteFetcher: async (selectedLessons) => {
-      console.log(selectedLessons);
-      await adminDeleteMultipleCourses();
-    },
-    pagination: true,
-  },
-};
+import { useApp } from "../../../../../contexts";
 
 const LessonPage = () => {
+  const appManager = useApp();
+
+  const departmentName = appManager.state.metadata?.departments.map(
+    (department) => department.name
+  );
+
+  const tableProps = {
+    filterControls: [
+      {
+        triggerText: "Department",
+        queryKey: "department",
+        width: "125%",
+        body: {
+          checks: [
+            ...(departmentName?.map((name) => ({
+              label: name,
+              queryValue: name,
+            })) || []),
+          ],
+        },
+      },
+      {
+        triggerText: "Sort",
+        queryKey: "sort",
+        triggerIcon: <FaSortAmountUpAlt />,
+        width: "200px",
+        position: "right-bottom",
+        // noFilterTags: true,
+        body: {
+          radios: [
+            {
+              label: "Alphabetically: ascending",
+              queryValue: "asc",
+              additionalParams: { date: false },
+            },
+            {
+              label: "Alphabetically: descending",
+              queryValue: "desc",
+              additionalParams: { date: false },
+            },
+            {
+              label: "Date: ascending",
+              queryValue: "asc",
+              additionalParams: { date: true },
+            },
+            {
+              label: "Date: descending",
+              queryValue: "desc",
+              additionalParams: { date: true },
+            },
+          ],
+        },
+      },
+    ],
+
+    columns: [
+      {
+        id: "title",
+        key: "title",
+        text: "Lesson Title",
+        fraction: "5fr",
+        renderContent: (data) => (
+          <Link
+            href={`/admin/courses/${data.courseId}/lesson/${data.lessonId}/view`}
+          >
+            <Text>{data.text}</Text>
+          </Link>
+        ),
+      },
+      {
+        id: "4",
+        key: "startDate",
+        text: "Start Date",
+        fraction: "200px",
+      },
+      {
+        id: "5",
+        key: "status",
+        text: "Status",
+        fraction: "100px",
+        renderContent: (status) => (
+          <Box>
+            <Tag
+              borderRadius="full"
+              size="sm"
+              backgroundColor={status ? "accent.4" : "accent.1"}
+              color={status ? "accent.5" : "accent.3"}
+            >
+              <Text bold>{status ? "Active" : "Inactive"}</Text>
+            </Tag>
+          </Box>
+        ),
+      },
+    ],
+
+    options: {
+      action: [
+        {
+          text: "View",
+          link: (lesson) =>
+            `/admin/courses/${lesson.courseId}/lesson/${lesson.id}/view`,
+        },
+        {
+          text: "Edit",
+          link: (lesson) =>
+            `/admin/courses/${lesson.courseId}/lessons/edit/${lesson.id}`,
+        },
+        {
+          isDelete: true,
+        },
+      ],
+      selection: true,
+      multipleDeleteFetcher: async (selectedLessons) => {
+        console.log(selectedLessons);
+        await adminDeleteMultipleCourses();
+      },
+      pagination: true,
+    },
+  };
+
   const { id: courseId } = useParams();
 
   const mapLessonToRow = (lesson) => ({
