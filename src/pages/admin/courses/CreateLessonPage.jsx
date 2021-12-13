@@ -83,9 +83,11 @@ const CreateLessonPage = () => {
     if (fileManager.video.duration && startTimeManager.value) {
       const extraTimeMinutes = 10; // TODO: change this according to business rules
 
-      const endTime =
+      const endTime = new Date(
         new Date(startTimeManager.value).getTime() +
-        extraTimeMinutes * fileManager.video.duration * 1000;
+          (fileManager.video.duration + extraTimeMinutes * 60) * 1000
+      );
+      console.log();
 
       endTimeManager.handleChange(endTime);
     }
