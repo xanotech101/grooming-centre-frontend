@@ -55,7 +55,7 @@ export const userAudioListingRes = {
       description: "Learn HTML and CSS for free today",
       title: "Web dev 2021 (Audio)",
       file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
-      fileExtension: "mp3",
+      fileExtension: "mpeg",
       user: {
         id: "userId_2",
         profilePics:
@@ -70,7 +70,7 @@ export const userAudioListingRes = {
       description: "React Design Patters",
       title: "Become A React Guru (Audio)",
       file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
-      fileExtension: "mp3",
+      fileExtension: "mpeg",
       user: {
         id: "userId_3",
         profilePics:
@@ -85,7 +85,7 @@ export const userAudioListingRes = {
       description: "Nodejs Advanced Concept",
       title: "Backend Development (Audio)",
       file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
-      fileExtension: "mp3",
+      fileExtension: "mpeg",
       user: {
         id: "userId_1",
         profilePics:
@@ -211,7 +211,7 @@ export const adminLibraryListingRes = {
           name: "audio",
         },
         file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
-        fileExtension: "mp3",
+        fileExtension: "mpeg",
         user: {
           id: "userId_2",
           profilePics:
@@ -294,7 +294,7 @@ export const requestLibraryFileDetailsRes_audioId_1 = {
       name: "audio",
     },
     file: "https://cvws.icloud-content.com/B/AfDRbOnwgfE7s-XV6vIyqZsj0KngAQRXi-XuXItDO49nw1XlT0o4pbWb/0001.+TutFlix.io--1-1-intro-to-fundamentals-of-testing-in-javascript-00-00-33.mp3?o=AmNB-9OTpxmSQiI5PICdLVyaflxVBPOKbYA3xZgOye2H&v=1&x=3&a=CAog_M8mUiVuHsUQNYE2Wpd1sgpNKed5qvRlPgw1t3uqkZESbxDrifv91y8Yi4Gy_tcvIgEAUgQj0KngWgQ4pbWbaif6mwafoSiss8GYs7yAE48Us6r3JOinq7plAX67crW1nZzaxxhUp_RyJ9Z9QGVewy0F7_ZdSFmBUvED86mN9rei_FV4xQR0gdGbVBTB8GtIrg&e=1638526648&fl=&r=262bf809-9f5d-4265-a4fa-1549ffeafebb-1&k=W4-oikIi-qd6uNW1zF3Tkw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=51&s=B58ZZE_mZBYVSrCqy3je73lyWj4&cd=i",
-    fileExtension: "mp3",
+    fileExtension: "mpeg",
     user: {
       id: "userId_2",
       profilePics:
