@@ -30,6 +30,7 @@ import { useToast } from "@chakra-ui/toast";
 export const EventListing = ({
   isLoading,
   hasError,
+  forAdmin,
   eventsIsEmpty,
   events,
   headerButton,
@@ -37,13 +38,20 @@ export const EventListing = ({
   <>
     {isLoading && <LoadingState />}
     {hasError && <ErrorState />}
-    {eventsIsEmpty && (
-      <EmptyState
-        cta={<Button link="/dashboard">Return to dashboard</Button>}
-        heading="No Upcoming Events"
-        description="You have no events scheduled"
-      />
-    )}
+    {eventsIsEmpty &&
+      (forAdmin ? (
+        <EmptyState
+          cta={<Button link="/admin/events/edit/new">Create one</Button>}
+          heading="No Events yet!"
+          description="There isn't any event yet. Create one to get started!"
+        />
+      ) : (
+        <EmptyState
+          cta={<Button link="/dashboard">Return to dashboard</Button>}
+          heading="No Upcoming Events"
+          description="You have no events scheduled"
+        />
+      ))}
     {events && !eventsIsEmpty && (
       <Listing events={events} headerButton={headerButton} />
     )}
