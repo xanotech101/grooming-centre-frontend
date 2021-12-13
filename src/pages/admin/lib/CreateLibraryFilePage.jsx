@@ -271,10 +271,9 @@ const CreateLibraryFilePage = () => {
         </Grid>
 
         <Grid marginBottom={10}>
-          <GridItem>
+          <GridItem width="50%">
             <Select
               id="libraryTypeId"
-              width="50%"
               label="File type"
               options={populateSelectOptions(metadata?.libraryType)}
               isLoading={!metadata?.libraryType}

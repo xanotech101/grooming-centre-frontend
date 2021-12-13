@@ -98,7 +98,7 @@ export const userGetVideoListing = async () => {
  * @returns {Promise<{ data: LibraryListArray }>}
  */
 export const adminLibraryListing = async (params) => {
-  const path = `/admin/library`;
+  const path = `/library/admin`;
 
   const {
     data: { data },
