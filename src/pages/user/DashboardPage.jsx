@@ -6,11 +6,12 @@ import {
   HStack,
   Icon,
   Stack,
+  Center,
 } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { Route } from "react-router-dom";
-import { Button, Heading, SkeletonText, Text } from "../../components";
+import { Button, Heading, Spinner, Text } from "../../components";
 import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 import colors from "../../theme/colors";
 import { useApp } from "../../contexts";
@@ -18,6 +19,7 @@ import useGradeDetails from "./Courses/Grades/hooks/useGradeDetails";
 import { IoCalendarOutline } from "react-icons/io5";
 import { BiNotepad } from "react-icons/bi";
 import { ImFileText } from "react-icons/im";
+import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
 
 const scheduledCards = [
   {
@@ -236,63 +238,67 @@ const DashboardPage = () => {
               flexDirection="column"
               height="300px"
             >
-              <Box>
-                <Text color="accent.3" bold>
-                  Average Grade
-                </Text>
-
-                <Flex alignItems="center">
-                  {isLoading ? (
-                    <SkeletonText numberOfLines={1} />
-                  ) : (
+              {isLoading ? (
+                <Center height="100%">
+                  <Spinner />
+                </Center>
+              ) : totalGrade === 0 ? (
+                <Flex
+                  justifyContent="center"
+                  flexDirection="column"
+                  alignItems="center"
+                  height="100%"
+                >
+                  <NoData width="100px" height="100px" />
+                  <Text color="secondary.5" fontSize="heading.h4">
+                    No Data
+                  </Text>
+                </Flex>
+              ) : (
+                <>
+                  <Box>
+                    <Text color="accent.3" bold>
+                      Average Grade
+                    </Text>
                     <Text bold as="level1" marginRight={2}>
                       {`${totalGrade}%`}
                     </Text>
-                  )}
-                </Flex>
-              </Box>
+                  </Box>
 
-              <Flex width="170px" height="170px" position="absolute" top="98px">
-                <Doughnut {...totalGradeChartConfig} />
-                <Flex flexDirection="column" position="absolute" left="300px">
-                  <Box paddingBottom={4}>
-                    {isLoading ? (
-                      <SkeletonText numberOfLines={2} />
-                    ) : (
-                      <>
+                  <Flex
+                    width="170px"
+                    height="170px"
+                    position="absolute"
+                    top="98px"
+                  >
+                    <Doughnut {...totalGradeChartConfig} />
+                    <Flex
+                      flexDirection="column"
+                      position="absolute"
+                      left="300px"
+                    >
+                      <Box paddingBottom={4}>
                         <Text color="accent.3">Assessments</Text>
                         <Text
                           bold
                         >{`${grades?.overview.averageAssessmentScore}%`}</Text>
-                      </>
-                    )}
-                  </Box>
-                  <Box paddingBottom={4}>
-                    {isLoading ? (
-                      <SkeletonText numberOfLines={2} />
-                    ) : (
-                      <>
+                      </Box>
+                      <Box paddingBottom={4}>
                         <Text color="accent.3">Attendance</Text>
                         <Text
                           bold
                         >{`${grades?.overview.averageAttendanceScore}%`}</Text>
-                      </>
-                    )}
-                  </Box>
-                  <Box>
-                    {isLoading ? (
-                      <SkeletonText numberOfLines={2} width={100} />
-                    ) : (
-                      <>
+                      </Box>
+                      <Box>
                         <Text color="accent.3">Examination</Text>
                         <Text
                           bold
                         >{`${grades?.overview.averageExaminationScore}%`}</Text>
-                      </>
-                    )}
-                  </Box>
-                </Flex>
-              </Flex>
+                      </Box>
+                    </Flex>
+                  </Flex>
+                </>
+              )}
             </MiniBox>
 
             <MiniBox
@@ -303,33 +309,52 @@ const DashboardPage = () => {
               flexDirection="column"
               height="300px"
             >
-              <Box>
-                <Text color="accent.3" bold>
-                  Total Courses
-                </Text>
-
-                <Flex alignItems="center">
-                  <Text bold as="level1" marginRight={2}>
-                    {grades?.overview.totalCoursesCount}
-                  </Text>
-
-                  <Text as="level5" color="accent.5" m>
-                    +1 New
+              {isLoading ? (
+                <Center height="100%">
+                  <Spinner />
+                </Center>
+              ) : grades?.overview.totalCoursesCount === 0 ? (
+                <Flex
+                  justifyContent="center"
+                  flexDirection="column"
+                  alignItems="center"
+                  height="100%"
+                >
+                  <NoData width="100px" height="100px" />
+                  <Text color="secondary.5" fontSize="heading.h4">
+                    No Data
                   </Text>
                 </Flex>
-              </Box>
+              ) : (
+                <>
+                  <Box>
+                    <Text color="accent.3" bold>
+                      Total Courses
+                    </Text>
 
-              {/* <Grid placeItems="center"> */}
-              <Box
-                width="300px"
-                height="300px"
-                position="absolute"
-                left="50%"
-                transform="translate(-50%)"
-              >
-                <Doughnut {...totalCourseChartConfig} />
-              </Box>
-              {/* </Grid> */}
+                    <Flex alignItems="center">
+                      <Text bold as="level1" marginRight={2}>
+                        {grades?.overview.totalCoursesCount}
+                      </Text>
+                      <Text as="level5" color="accent.5" m>
+                        +1 New
+                      </Text>
+                    </Flex>
+                  </Box>
+
+                  {/* <Grid placeItems="center"> */}
+                  <Box
+                    width="300px"
+                    height="300px"
+                    position="absolute"
+                    left="50%"
+                    transform="translate(-50%)"
+                  >
+                    <Doughnut {...totalCourseChartConfig} />
+                  </Box>
+                  {/* </Grid> */}
+                </>
+              )}
             </MiniBox>
 
             {/* Second Row */}

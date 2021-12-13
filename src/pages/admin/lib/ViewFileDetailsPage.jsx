@@ -20,7 +20,7 @@ const ViewFileDetailsPage = () => {
 
   const fileIsAVideo = libraryFile?.fileExtension === "mp4";
   const fileIsPDF = libraryFile?.fileExtension === "pdf";
-  const fileIsAudio = libraryFile?.fileExtension === "mp3";
+  const fileIsAudio = libraryFile?.fileExtension === "mpeg";
 
   return (
     <Box paddingX={4}>
@@ -91,7 +91,7 @@ const ViewFileDetailsPage = () => {
                   <Heading lineHeight={8} fontSize="heading.h6">
                     Department
                   </Heading>
-                  <Text>{libraryFile?.department.name}</Text>
+                  <Text>{libraryFile?.department?.name}</Text>
                 </>
               )}
             </GridItem>
