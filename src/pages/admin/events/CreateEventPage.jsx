@@ -27,7 +27,7 @@ const CreateEventPage = () => {
   const toast = useToast();
   const cache = useCache();
   const {
-    state: { metadata },
+    state: { allMetadata: metadata },
   } = useApp();
   const { push, replace } = useHistory();
   const { eventId } = useParams();

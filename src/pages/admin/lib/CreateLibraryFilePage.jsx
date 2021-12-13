@@ -47,7 +47,7 @@ const CreateLibraryFilePage = () => {
   } = useForm();
 
   const {
-    state: { metadata },
+    state: { allMetadata },
   } = useApp();
 
   const fileManager = useUpload();
@@ -66,11 +66,11 @@ const CreateLibraryFilePage = () => {
   }, [libraryFile]);
 
   useEffect(() => {
-    if (libraryFile && metadata?.departments) {
-      setValue("departmentId", libraryFile?.department?.id);
+    if (libraryFile && allMetadata?.departments) {
+      setValue("departmentId", libraryFile?.departmentId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [libraryFile, metadata?.departments]);
+  }, [libraryFile, allMetadata?.departments]);
 
   useEffect(() => {
     if (libraryFile) {
@@ -220,7 +220,7 @@ const CreateLibraryFilePage = () => {
             : "Add File"
         }
         onSubmit={handleSubmit(onSubmit)}
-        submitButtonIsDisabled={!metadata}
+        submitButtonIsDisabled={!allMetadata}
         submitButtonIsLoading={isSubmitting}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
@@ -238,9 +238,9 @@ const CreateLibraryFilePage = () => {
           <GridItem>
             <Select
               label="Select department"
-              options={populateSelectOptions(metadata?.departments)}
+              options={populateSelectOptions(allMetadata?.departments)}
               id="departmentId"
-              isLoading={!metadata?.departments}
+              isLoading={!allMetadata?.departments}
               {...register("departmentId", {
                 required: "Please select a department",
               })}

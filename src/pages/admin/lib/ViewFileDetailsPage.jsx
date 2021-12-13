@@ -11,9 +11,11 @@ import {
   SkeletonText,
   Text,
 } from "../../../components";
+import { useApp } from "../../../contexts";
 import useViewLibraryFile from "./hook/useViewLibraryFile";
 
 const ViewFileDetailsPage = () => {
+  const { getOneMetadata } = useApp();
   const { library } = useViewLibraryFile();
   const libraryFile = library.data;
   const isLoading = library.loading;
@@ -91,7 +93,13 @@ const ViewFileDetailsPage = () => {
                   <Heading lineHeight={8} fontSize="heading.h6">
                     Department
                   </Heading>
-                  <Text>{libraryFile?.department?.name}</Text>
+                  <Text>
+                    {
+                      getOneMetadata("departments", libraryFile?.departmentId, {
+                        allMetadata: true,
+                      })?.name
+                    }
+                  </Text>
                 </>
               )}
             </GridItem>

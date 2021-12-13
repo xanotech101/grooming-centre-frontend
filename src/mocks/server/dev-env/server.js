@@ -4,7 +4,7 @@
 // const worker = setupWorker(...handlers.dev);
 
 export const setupDevelopmentServer = () => {
-  // if (process.env.NODE_ENV === "development") {
-  //   worker.start();
-  // }
+  if (process.env.NODE_ENV === "development") {
+    // worker.start();
+  }
 };

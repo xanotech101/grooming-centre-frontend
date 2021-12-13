@@ -119,6 +119,7 @@ const Content = ({ currentTab }) => {
         hasError={hasError}
         eventsIsEmpty={eventsIsEmpty}
         events={events}
+        forAdmin
         headerButton={
           <Button link={`/admin/events/edit/new`}>Create Event</Button>
         }
