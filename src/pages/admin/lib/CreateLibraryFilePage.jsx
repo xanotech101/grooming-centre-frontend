@@ -47,7 +47,7 @@ const CreateLibraryFilePage = () => {
   } = useForm();
 
   const {
-    state: { metadata },
+    state: { allMetadata },
     getOneMetadata,
   } = useApp();
 
@@ -67,11 +67,11 @@ const CreateLibraryFilePage = () => {
   }, [libraryFile]);
 
   useEffect(() => {
-    if (libraryFile && metadata?.departments) {
+    if (libraryFile && allMetadata?.departments) {
       setValue("departmentId", libraryFile.department.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [libraryFile, metadata?.departments]);
+  }, [libraryFile, allMetadata?.departments]);
 
   useEffect(() => {
     if (libraryFile) {
@@ -98,13 +98,13 @@ const CreateLibraryFilePage = () => {
 
   // Init `libraryTypeId` value and set `accept` for file upload input
   useEffect(() => {
-    if (libraryFile && metadata) {
+    if (libraryFile && allMetadata) {
       setValue("libraryTypeId", libraryFile.libraryTypeId);
       setLibraryAccept(libraryFile.libraryTypeId);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [libraryFile, metadata]);
+  }, [libraryFile, allMetadata]);
 
   // Init `library File` file url
   useEffect(() => {
@@ -141,7 +141,7 @@ const CreateLibraryFilePage = () => {
     return () => subscription.unsubscribe();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch, metadata]);
+  }, [watch, allMetadata]);
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -223,7 +223,7 @@ const CreateLibraryFilePage = () => {
             : "Add File"
         }
         onSubmit={handleSubmit(onSubmit)}
-        submitButtonIsDisabled={!metadata}
+        submitButtonIsDisabled={!allMetadata}
         submitButtonIsLoading={isSubmitting}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
@@ -241,9 +241,9 @@ const CreateLibraryFilePage = () => {
           <GridItem>
             <Select
               label="Select department"
-              options={populateSelectOptions(metadata?.departments)}
+              options={populateSelectOptions(allMetadata?.departments)}
               id="departmentId"
-              isLoading={!metadata?.departments}
+              isLoading={!allMetadata?.departments}
               {...register("departmentId", {
                 required: "Please select a department",
               })}
@@ -276,8 +276,8 @@ const CreateLibraryFilePage = () => {
               id="libraryTypeId"
               width="50%"
               label="File type"
-              options={populateSelectOptions(metadata?.libraryType)}
-              isLoading={!metadata?.libraryType}
+              options={populateSelectOptions(allMetadata?.libraryType)}
+              isLoading={!allMetadata?.libraryType}
               isRequired
               error={errors.libraryTypeId?.message}
               {...register("libraryTypeId", {

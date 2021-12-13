@@ -27,7 +27,16 @@ export const useApp = () => {
   const fetchMetadata = useCallback(async () => {
     try {
       const { data } = await requestMetadata();
-      setState((prev) => ({ ...prev, metadata: data }));
+      setState((prev) => ({
+        ...prev,
+        metadata: {
+          ...data,
+          departments: data.departments.filter(
+            (department) => department.name !== "General"
+          ),
+        },
+        allMetadata: data,
+      }));
     } catch (err) {
       console.error(err);
     }
@@ -36,7 +45,6 @@ export const useApp = () => {
   const fetchCurrentUser = useCallback(async () => {
     try {
       const { data } = await requestMyData();
-
       localStorage.setItem("DateNow", data.serverCurrentTime);
 
       setState((prev) => ({
