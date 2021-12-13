@@ -7,7 +7,7 @@ import { BiCertification } from "react-icons/bi";
 import { FiCheckSquare } from "react-icons/fi";
 import { ImArrowUp } from "react-icons/im";
 import { Route } from "react-router-dom";
-import { Button, Heading, Input } from "../../../components";
+import { Button, Heading, Input, SkeletonText } from "../../../components";
 import { useFetch } from "../../../hooks";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
@@ -44,6 +44,7 @@ const GradeCriteriaPage = () => {
   const toast = useToast();
 
   const { gradeCriteria } = useGradeCriteriaDetails();
+  console.log(gradeCriteria);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -79,22 +80,58 @@ const GradeCriteriaPage = () => {
       >
         <OverviewBox
           href="#"
-          value={gradeCriteria?.data?.examination}
-          name="Exams"
+          value={
+            gradeCriteria.loading ? (
+              <SkeletonText numberOfLines={1} width="60px" />
+            ) : (
+              gradeCriteria?.data?.[0].totalExaminationScore
+            )
+          }
+          name={
+            gradeCriteria.loading ? (
+              <SkeletonText paddingTop={2} numberOfLines={1} />
+            ) : (
+              "Exams"
+            )
+          }
           icon={<ImArrowUp />}
           iconBackgroundColor="accent.6"
         />
         <OverviewBox
           href="#"
-          value={gradeCriteria?.data?.assessment}
-          name="Assessments"
+          value={
+            gradeCriteria.loading ? (
+              <SkeletonText numberOfLines={1} width="60px" />
+            ) : (
+              gradeCriteria?.data?.[0].totalAssessmentScore
+            )
+          }
+          name={
+            gradeCriteria.loading ? (
+              <SkeletonText paddingTop={2} numberOfLines={1} />
+            ) : (
+              "Assessments"
+            )
+          }
           icon={<FiCheckSquare />}
           iconBackgroundColor="accent.7"
         />
         <OverviewBox
           href="#"
-          value={gradeCriteria?.data?.attendance}
-          name="Attendance"
+          value={
+            gradeCriteria.loading ? (
+              <SkeletonText numberOfLines={1} width={10} />
+            ) : (
+              gradeCriteria?.data?.[0].totalAttendanceScore
+            )
+          }
+          name={
+            gradeCriteria.loading ? (
+              <SkeletonText paddingTop={2} numberOfLines={1} />
+            ) : (
+              "Attendance"
+            )
+          }
           icon={<BiCertification />}
           iconBackgroundColor="secondary.5"
         />
