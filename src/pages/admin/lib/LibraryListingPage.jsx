@@ -21,8 +21,8 @@ import {
 const LibraryListingPage = () => {
   const appManager = useApp();
 
-  const departmentName = appManager.state.metadata?.departments.map(
-    (department) => department.name
+  const department = appManager.state.metadata?.departments.map(
+    (department) => department
   );
 
   const tableProps = {
@@ -32,7 +32,7 @@ const LibraryListingPage = () => {
         queryKey: "type",
         width: "170%",
         body: {
-          checks: [
+          radios: [
             { label: "Video", queryValue: "video" },
             { label: "Audio", queryValue: "audio" },
             { label: "Pdf", queryValue: "pdf" },
@@ -45,9 +45,9 @@ const LibraryListingPage = () => {
         width: "125%",
         body: {
           checks: [
-            ...(departmentName?.map((name) => ({
+            ...(department?.map(({ name, id }) => ({
               label: name,
-              queryValue: name,
+              queryValue: id,
             })) || []),
           ],
         },
@@ -97,7 +97,15 @@ const LibraryListingPage = () => {
           </Link>
         ),
       },
-      { id: "2", key: "department", text: "Department" },
+      {
+        id: "2",
+        key: "department",
+        text: "Department",
+        renderContent: (departmentId) =>
+          appManager.getOneMetadata("departments", departmentId, {
+            allMetadata: true,
+          })?.name,
+      },
       {
         id: "3",
         key: "type",
@@ -141,8 +149,8 @@ const LibraryListingPage = () => {
       text: library.title,
       libraryId: library.id,
     },
-    department: library.department.name,
-    type: library.libraryType.name,
+    department: library.departmentId,
+    type: library.fileType,
     instructor: `${library.instructor.firstName} ${library.instructor.lastName}`,
   });
 
