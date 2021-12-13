@@ -44,6 +44,7 @@ const GradeCriteriaPage = () => {
   const toast = useToast();
 
   const { gradeCriteria } = useGradeCriteriaDetails();
+  console.log(gradeCriteria);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -79,21 +80,21 @@ const GradeCriteriaPage = () => {
       >
         <OverviewBox
           href="#"
-          value={gradeCriteria?.data?.examination}
+          value={gradeCriteria?.data?.[0].totalExaminationScore}
           name="Exams"
           icon={<ImArrowUp />}
           iconBackgroundColor="accent.6"
         />
         <OverviewBox
           href="#"
-          value={gradeCriteria?.data?.assessment}
+          value={gradeCriteria?.data?.[0].totalAssessmentScore}
           name="Assessments"
           icon={<FiCheckSquare />}
           iconBackgroundColor="accent.7"
         />
         <OverviewBox
           href="#"
-          value={gradeCriteria?.data?.attendance}
+          value={gradeCriteria?.data?.[0].totalAttendanceScore}
           name="Attendance"
           icon={<BiCertification />}
           iconBackgroundColor="secondary.5"
