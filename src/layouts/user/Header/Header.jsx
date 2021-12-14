@@ -64,7 +64,11 @@ const Avatar = () => {
   return (
     <Menu>
       <MenuButton as={IconButton} isRound>
-        <Image rounded="full" boxSize="40px" src={avatarImagePlaceholder} />
+        <Image
+          rounded="full"
+          boxSize="40px"
+          src={state.user?.profilePics || avatarImagePlaceholder}
+        />
       </MenuButton>
 
       <MenuList position="relative" zIndex={2}>
