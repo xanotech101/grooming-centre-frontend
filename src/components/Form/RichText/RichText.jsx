@@ -50,6 +50,15 @@ export const RichText = ({
   if (imp) imp.style = "";
   // END-OF enforce custom style to the RichText component
 
+  // Remove some toolbar options
+  const toolbar = document.querySelector(".rich-text #mui-rte-toolbar");
+  if (toolbar) {
+    toolbar.children[0].style.display = "none";
+    toolbar.children[9].style.display = "none";
+    toolbar.children[toolbar.children.length - 1].style.display = "none";
+    toolbar.children[toolbar.children.length - 2].style.display = "none";
+  }
+
   return (
     <FormGroup
       id={id}
