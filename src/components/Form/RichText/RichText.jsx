@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import FormGroup, { FormGroupPropTypes } from "../FormGroup";
 import MUIRichTextEditor from "mui-rte";
 import { Box } from "@chakra-ui/layout";
-import { useEffect } from "react";
 
 export const RichText = ({
   error,
