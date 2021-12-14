@@ -46,6 +46,7 @@ const AccountPage = () => {
 
       data = {
         ...data,
+        confirmPassword: undefined,
         profilePicture,
       };
       const body = appendFormData(data);
