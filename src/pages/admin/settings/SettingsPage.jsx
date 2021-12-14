@@ -46,9 +46,9 @@ const AccountPage = () => {
 
       data = {
         ...data,
-        confirmPassword: undefined,
         profilePicture,
       };
+      Reflect.deleteProperty(data, "confirmPassword");
       const body = appendFormData(data);
 
       const { message } = await requestUpdateDetails(body);
