@@ -1,7 +1,7 @@
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { AiOutlinePoweroff } from "react-icons/ai";
-import { Button, Heading, Link, Text } from "../../../components";
+import { Button, Heading, Image, Link, Text } from "../../../components";
 import { useApp } from "../../../contexts";
 import { links, settingsLinks } from "./links";
 import SidebarLink from "./SidebarLink";
@@ -45,7 +45,15 @@ const Sidebar = () => {
               marginBottom={5}
               paddingBottom={5}
             >
-              <Skeleton rounded="full" boxSize="100px" />
+              {!state.user ? (
+                <Skeleton rounded="full" boxSize="100px" />
+              ) : (
+                <Image
+                  rounded="full"
+                  boxSize="100px"
+                  src={state.user.profilePics}
+                />
+              )}
 
               {state.user && (
                 <>
