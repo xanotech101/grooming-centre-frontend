@@ -8,7 +8,7 @@ export const RichText = ({
   id,
   isRequired,
   label,
-  placeholder = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima voluptatum velit mollitia dolorem facilis suscipit cumque, molestias ut ex magni natus laudantium totam quisquam odit consectetur reprehenderit non quae vitae?",
+  placeholder = "Start typing from here...",
   defaultValue,
   onChange,
 }) => {
@@ -34,24 +34,49 @@ export const RichText = ({
     },
   ];
 
+  // enforce custom style to the RichText component
+  const input = document.querySelector(".rich-text #mui-rte-container")
+    ?.children[1];
+  const imp = document.querySelector(".rich-text #mui-rte-container")
+    ?.children[2];
+  if (input)
+    input.style = `
+        position: unset;
+        padding: 0 5px !important;
+        min-height: 200px !important;
+        border: 1px solid var(--accent-1) !important;
+        border-radius: 2px !important;
+      `;
+  if (imp) imp.style = "";
+  // END-OF enforce custom style to the RichText component
+
+  // Remove some toolbar options
+  const toolbar = document.querySelector(".rich-text #mui-rte-toolbar");
+  if (toolbar) {
+    toolbar.children[0].style.display = "none";
+    toolbar.children[9].style.display = "none";
+    toolbar.children[toolbar.children.length - 1].style.display = "none";
+    toolbar.children[toolbar.children.length - 2].style.display = "none";
+  }
+
   return (
     <FormGroup
       id={id}
       label={label}
       isRequired={isRequired}
       error={error}
-      renderControl={() => (
+      renderControl={(props) => (
         <Box
           border="1px"
-          borderColor="accent.2"
-          rounded="sm"
+          {...props}
+          minHeight="280px"
           paddingX={2}
           paddingBottom={2}
           className="rich-text"
         >
           <MUIRichTextEditor
-            label={placeholder}
             onSave={save}
+            label={placeholder}
             autocomplete={{
               strategies: [
                 {

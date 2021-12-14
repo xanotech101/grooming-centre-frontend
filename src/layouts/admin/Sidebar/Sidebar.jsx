@@ -1,5 +1,6 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
+import { Skeleton } from "@chakra-ui/skeleton";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { Button, Heading, Link, Text } from "../../../components";
 import { useApp } from "../../../contexts";
@@ -45,13 +46,17 @@ const Sidebar = () => {
               marginBottom={5}
               paddingBottom={5}
             >
-              <Avatar
-                name={state.user?.firstName + " " + state.user?.lastName}
-                borderRadius="100%"
-                width="100px"
-                height="100px"
-                src={state.user?.profilePics}
-              />
+              {!state.user ? (
+                <Skeleton rounded="full" boxSize="100px" />
+              ) : (
+                <Avatar
+                  name={state.user?.firstName + " " + state.user?.lastName}
+                  borderRadius="100%"
+                  width="100px"
+                  height="100px"
+                  src={state.user?.profilePics}
+                />
+              )}
 
               {state.user && (
                 <>
