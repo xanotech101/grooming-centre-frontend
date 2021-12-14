@@ -151,31 +151,31 @@ const GradeCriteriaPage = () => {
             width="50%"
             type="number"
             label="Examination"
-            id="examination"
-            {...register("examination", {
-              required: "Examination is required",
+            id="totalExaminationScore"
+            {...register("totalExaminationScore", {
+              required: "Examination score is required",
             })}
-            error={errors.examination?.message}
+            error={errors.totalExaminationScore?.message}
           />
           <Input
             width="50%"
             type="number"
             label="Assessment"
-            id="assessment"
-            {...register("assessment", {
-              required: "Assessment is required",
+            id="totalAssessmentScore"
+            {...register("totalAssessmentScore", {
+              required: "Assessment score is required",
             })}
-            error={errors.assessment?.message}
+            error={errors.totalAssessmentScore?.message}
           />
           <Input
             width="50%"
             type="number"
             label="Attendance"
-            id="attendance"
-            {...register("attendance", {
-              required: "Attendance is required",
+            id="totalAttendanceScore"
+            {...register("totalAttendanceScore", {
+              required: "Attendance score is required",
             })}
-            error={errors.attendance?.message}
+            error={errors.totalAttendanceScore?.message}
           />
         </Stack>
         <Flex paddingTop={8} justifyContent="flex-end">
