@@ -5,7 +5,7 @@ import "../styles/courses-row-layout.scss";
 import "../styles/globalStyles.scss";
 import "../styles/user-header-nav-link.scss";
 import "../styles/user-forum-sidebar-link.scss";
-import "../styles/take-lesson-video.scss";
+import "../styles/month-schedule.scss";
 import {
   AdminLayoutRoute,
   AssessmentLayoutRoute,

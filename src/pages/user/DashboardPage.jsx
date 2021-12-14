@@ -8,10 +8,16 @@ import {
   Stack,
   Center,
 } from "@chakra-ui/react";
-import { Skeleton } from "@chakra-ui/skeleton";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { Route } from "react-router-dom";
-import { Button, Heading, Spinner, Text } from "../../components";
+import {
+  Button,
+  Heading,
+  Spinner,
+  Text,
+  DaySchedule,
+  MonthSchedule,
+} from "../../components";
 import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 import colors from "../../theme/colors";
 import { useApp } from "../../contexts";
@@ -23,7 +29,7 @@ import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
 
 const scheduledCards = [
   {
-    title: "Upcoming Assesments",
+    title: "Upcoming Assessment",
     value: 3,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
@@ -397,13 +403,13 @@ const DashboardPage = () => {
         </Section>
 
         <Section title="Calendar" flexBasis="374px">
-          <MiniBox
-            as={Skeleton}
-            flex={1}
-            minHeight="386px"
-            marginBottom={7}
-          ></MiniBox>
-          <MiniBox as={Skeleton} flex={1} minHeight="386px"></MiniBox>
+          <MiniBox flex={1} minHeight="386px" marginBottom={7}>
+            <MonthSchedule />
+          </MiniBox>
+
+          <MiniBox flex={1} minHeight="386px">
+            <DaySchedule />
+          </MiniBox>
         </Section>
       </Flex>
 
