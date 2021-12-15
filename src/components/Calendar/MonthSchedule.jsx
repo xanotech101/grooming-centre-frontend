@@ -10,34 +10,26 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Button, Text } from "../";
+import { getServerDateNow } from "../../utils";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useDisclosure } from "@chakra-ui/hooks";
 
-const appointments = [
-  {
-    title: "Website Re-Design Plan",
-    startDate: new Date(),
-    endDate: new Date(new Date().getTime() + 8.64e7),
-    id: 0,
-  },
-  {
-    title: "Re-Design Plan",
-    startDate: new Date(new Date().getTime() + 8.64e7),
-    endDate: new Date(new Date().getTime() + 8.64e7 * 2),
-    id: 0,
-  },
-];
-
-export const MonthSchedule = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+/**
+ * MonthSchedule Component for the Calendar
+ * @param {{ appointments: Array<{ title: string, startDate: Date, endDate: Date, id: string }> }} props
+ *
+ * @returns {JSX.Element}
+ */
+export const MonthSchedule = ({ appointments }) => {
+  const initNow = new Date(getServerDateNow());
+  const [currentDate, setCurrentDate] = useState(initNow);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleNext = () => {

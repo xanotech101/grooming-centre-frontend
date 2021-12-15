@@ -6,3 +6,4 @@ export * from "./truncate";
 export * from "./formData";
 export * from "./HTMLEvents";
 export * from "./populateSelectOptions";
+export * from "./DateNow";

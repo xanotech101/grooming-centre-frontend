@@ -95,7 +95,6 @@ const DashboardPage = () => {
   const manager = useGradeDetails();
 
   const { grades, isLoading } = manager;
-  console.log(grades);
 
   const notStarted =
     grades?.overview.totalCoursesCount -
@@ -404,7 +403,22 @@ const DashboardPage = () => {
 
         <Section title="Calendar" flexBasis="374px">
           <MiniBox flex={1} minHeight="386px" marginBottom={7}>
-            <MonthSchedule />
+            <MonthSchedule
+              appointments={[
+                {
+                  title: "EVENT: Meeting with client",
+                  startDate: new Date(new Date().getTime() + 8.64e7 * 2),
+                  endDate: new Date(new Date().getTime() + 8.64e7 * 3),
+                  id: 0,
+                },
+                {
+                  title: "COURSE: The Best Course Ever",
+                  startDate: new Date(),
+                  endDate: new Date(new Date().getTime() + 8.64e7),
+                  id: 2,
+                },
+              ]}
+            />
           </MiniBox>
 
           <MiniBox flex={1} minHeight="386px">
@@ -412,14 +426,6 @@ const DashboardPage = () => {
           </MiniBox>
         </Section>
       </Flex>
-
-      {/* <Section title="Ongoing Courses" titleSeeAllHref="#">
-        <CoursesRowLayout />
-      </Section> */}
-
-      {/* <Section title="Completed Courses" titleSeeAllHref="#">
-        <CoursesRowLayout />
-      </Section> */}
     </Stack>
   );
 };

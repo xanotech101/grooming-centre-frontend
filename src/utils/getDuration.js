@@ -5,7 +5,7 @@
  * @returns {{hours: number, minutes: number, combinedText: string}}
  */
 
-import { getServerDateNow } from "./DateNow";
+import { getServerDateNow } from ".";
 
 export function getDuration(number) {
   const tempHours = number / 60;
