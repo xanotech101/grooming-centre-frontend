@@ -19,6 +19,7 @@ import {
 import { MdAudiotrack, MdFileDownload } from "react-icons/md";
 import { IoPlay } from "react-icons/io5";
 import { useDownload } from "../../hooks";
+import { Avatar } from "@chakra-ui/avatar";
 
 const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
   const { isLoading, handleDownload } = useDownload();
@@ -169,9 +170,10 @@ export const CourseBoxCard = ({
             spacing={5}
           >
             <HStack spacing={2}>
-              <Image
-                src={instructor?.profilePics || thumbnailPlaceholder}
-                isLoading={isLoading}
+              <Avatar
+                name={instructor?.firstName + " " + instructor?.lastName}
+                src={instructor?.profilePics}
+                // isLoading={isLoading}
                 boxSize="37px"
                 rounded="full"
               />
@@ -329,9 +331,10 @@ export const CourseBoxCard = ({
             spacing={5}
           >
             <HStack spacing={2}>
-              <Image
-                src={instructor?.profilePics || thumbnailPlaceholder}
-                isLoading={isLoading}
+              <Avatar
+                name={instructor?.firstName + " " + instructor?.lastName}
+                src={instructor?.profilePics}
+                // isloading={isLoading}
                 boxSize="37px"
                 rounded="full"
               />
