@@ -1,3 +1,4 @@
+import { Skeleton } from "@chakra-ui/skeleton";
 import {
   Box,
   Flex,
@@ -23,9 +24,10 @@ import colors from "../../theme/colors";
 import { useApp } from "../../contexts";
 import useGradeDetails from "./Courses/Grades/hooks/useGradeDetails";
 import { IoCalendarOutline } from "react-icons/io5";
-import { BiNotepad } from "react-icons/bi";
+import { BiNotepad, BiRefresh } from "react-icons/bi";
 import { ImFileText } from "react-icons/im";
 import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
+import { useDaySchedule, useMonthSchedule } from "../../hooks";
 
 const scheduledCards = [
   {
@@ -154,6 +156,15 @@ const DashboardPage = () => {
       },
     },
   };
+
+  const {
+    dateManager: dayDateManager,
+    resource: dayAppointments,
+    handleFetch: handleDayRetry,
+  } = useDaySchedule();
+
+  const { resource: monthAppointments, handleFetch: handleMonthRetry } =
+    useMonthSchedule();
 
   return (
     <Stack
@@ -402,46 +413,59 @@ const DashboardPage = () => {
         </Section>
 
         <Section title="Calendar" flexBasis="374px">
-          <MiniBox flex={1} minHeight="386px" marginBottom={7}>
-            <MonthSchedule
-              appointments={[
-                {
-                  title: "EVENT: Meeting with client",
-                  startDate: new Date(new Date().getTime() + 8.64e7 * 2),
-                  endDate: new Date(new Date().getTime() + 8.64e7 * 3),
-                  id: 0,
-                },
-                {
-                  title: "COURSE: The Best Course Ever",
-                  startDate: new Date(),
-                  endDate: new Date(new Date().getTime() + 8.64e7),
-                  id: 2,
-                },
-              ]}
-            />
-          </MiniBox>
+          <CalendarBox
+            resource={monthAppointments}
+            onRetry={handleMonthRetry}
+            marginBottom={7}
+          />
 
-          <MiniBox flex={1} minHeight="386px">
-            <DaySchedule
-              appointments={[
-                {
-                  title: "LESSON: Beginner Yoga",
-                  startDate: new Date(),
-                  endDate: new Date(new Date().getTime() + 60 * 60 * 1000),
-                },
-                {
-                  title: "EVENT: Yoga for Beginners",
-                  startDate: new Date(new Date().getTime() + 60 * 60 * 1000),
-                  endDate: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-                },
-              ]}
-            />
-          </MiniBox>
+          <CalendarBox
+            resource={dayAppointments}
+            onRetry={handleDayRetry}
+            dayDateManager={dayDateManager}
+          />
         </Section>
       </Flex>
     </Stack>
   );
 };
+
+const CalendarBox = ({ resource, onRetry, dayDateManager, ...rest }) => (
+  <MiniBox
+    as={resource.loading && Skeleton}
+    flex={1}
+    minHeight="386px"
+    {...rest}
+  >
+    {resource.err && (
+      <Flex
+        textAlign="center"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="386px"
+        flexDirection="column"
+      >
+        <Text color="secondary.5" fontSize="heading.h4">
+          Ops! Something went wrong
+        </Text>
+
+        <Button mt={5} leftIcon={<BiRefresh />} onClick={onRetry}>
+          Try Again
+        </Button>
+      </Flex>
+    )}
+
+    {resource.data &&
+      (dayDateManager ? (
+        <DaySchedule
+          appointments={resource.data}
+          dateManager={dayDateManager}
+        />
+      ) : (
+        <MonthSchedule appointments={resource.data} />
+      ))}
+  </MiniBox>
+);
 
 const MiniBox = ({ children, ...rest }) => {
   return (

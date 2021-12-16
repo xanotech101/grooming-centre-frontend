@@ -1,15 +1,17 @@
-import { endedDates, ongoingDates, upcomingDates } from "../course/responses";
+import { endedDates, ongoingDates } from "../course/responses";
 
 export const userGetDayAppointmentsRes = {
   data: {
     events: [
       {
-        ...endedDates,
+        startTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 7),
+        endTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 10),
         id: "eventId_1",
         title: "Video Conference",
       },
       {
-        ...upcomingDates,
+        startTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 5),
+        endTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 6),
         id: "eventId_2",
         title: "Live Stream",
       },
@@ -17,8 +19,13 @@ export const userGetDayAppointmentsRes = {
     lessons: [
       {
         ...ongoingDates,
-        id: "eventId_1",
+        id: "lessonId_1",
         title: "The Best DS and Algo section",
+      },
+      {
+        ...endedDates,
+        id: "lessonId_2",
+        title: "The Algo Expert",
       },
     ],
   },

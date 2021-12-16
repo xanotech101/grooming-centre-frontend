@@ -27,7 +27,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
  *
  * @returns {JSX.Element}
  */
-export const MonthSchedule = ({ appointments }) => {
+export const MonthSchedule = ({ appointments, dateManger }) => {
   const initNow = new Date(getServerDateNow());
   const [currentDate, setCurrentDate] = useState(initNow);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,7 +54,6 @@ export const MonthSchedule = ({ appointments }) => {
       </Scheduler>
     </Box>
   );
-
   const renderMonthSwitch = () => (
     <Flex justifyContent="space-between" alignItems="center" p={3} flex={1}>
       <Button asIcon onClick={handlePrev}>

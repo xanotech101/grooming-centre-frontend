@@ -7,12 +7,8 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { AiFillEdit } from "react-icons/ai";
 import { Button, DatePicker } from "..";
-import { useDateTimePicker } from "../../hooks";
-import { getServerDateNow } from "../../utils";
 
-export const DaySchedule = ({ appointments }) => {
-  const dateManger = useDateTimePicker(new Date(getServerDateNow()));
-
+export const DaySchedule = ({ appointments, dateManager }) => {
   return (
     <>
       <Box
@@ -23,8 +19,8 @@ export const DaySchedule = ({ appointments }) => {
       >
         <DatePicker
           id="startTime"
-          onChange={dateManger.handleChange}
-          value={dateManger.value}
+          onChange={dateManager.handleChange}
+          value={dateManager.value}
         />
 
         <Button asIcon position="absolute" top="10px" left="150px" zIndex="-1">
@@ -34,7 +30,7 @@ export const DaySchedule = ({ appointments }) => {
 
       <Box className="mini">
         <Scheduler data={appointments}>
-          <ViewState currentDate={dateManger.value} />
+          <ViewState currentDate={dateManager.value} />
           <DayView startDayHour={8.5} endDayHour={17.5} />
           <Appointments />
         </Scheduler>
