@@ -422,7 +422,20 @@ const DashboardPage = () => {
           </MiniBox>
 
           <MiniBox flex={1} minHeight="386px">
-            <DaySchedule />
+            <DaySchedule
+              appointments={[
+                {
+                  title: "LESSON: Beginner Yoga",
+                  startDate: new Date(),
+                  endDate: new Date(new Date().getTime() + 60 * 60 * 1000),
+                },
+                {
+                  title: "EVENT: Yoga for Beginners",
+                  startDate: new Date(new Date().getTime() + 60 * 60 * 1000),
+                  endDate: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
+                },
+              ]}
+            />
           </MiniBox>
         </Section>
       </Flex>
