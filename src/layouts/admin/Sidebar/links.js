@@ -45,7 +45,7 @@ export const links = [
   },
 ];
 
-export const settingsLinks = [
+export const superAdminSettingsLinks = [
   {
     text: "account",
     href: "/admin/settings/",
@@ -56,5 +56,14 @@ export const settingsLinks = [
     href: "/admin/settings/grade-criteria",
     text: "grade criteria",
     icon: <RiDashboardLine />,
+  },
+];
+
+export const settingsLinks = [
+  {
+    text: "account",
+    href: "/admin/settings/",
+    exact: true,
+    icon: <FiSettings />,
   },
 ];
