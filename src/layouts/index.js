@@ -11,3 +11,5 @@ export * from "./user/Forum/ForumLayout";
 export * from "./user/OnBoardingLayout/FormLayout";
 export * from "./user/OnBoardingLayout/OnBoardingLayout";
 export * from "./admin/EditPageLayout";
+export * from "./admin/EditPageLayout";
+export * from "./user/Chat/ChatLayout";
