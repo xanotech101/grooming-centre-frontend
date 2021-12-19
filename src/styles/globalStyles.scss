@@ -70,3 +70,34 @@
   padding: 0 16px !important;
 }
 /* END OF Override Material-ui DateAndTimePickers */
+
+/* Carousel styles */
+.rec.rec-arrow {
+  border-radius: 0;
+  background-color: white;
+  border: none;
+  box-shadow: none;
+}
+.rec.rec-arrow:hover:enabled {
+  background-color: white;
+  color: black;
+  box-shadow: none;
+}
+.rec .rec-arrow:disabled {
+  visibility: hidden;
+}
+.rec .rec-dot_active:hover {
+  box-shadow: 0 0 1px 3px #333;
+  background-color: #333;
+}
+.rec .rec-dot:hover {
+  box-shadow: 0 0 1px 3px #333;
+}
+.rec .rec-dot:focus {
+  cursor: pointer;
+  box-shadow: 0 0 1px 3px #333;
+}
+.rec .rec-dot_active {
+  box-shadow: 0 0 1px 3px #333;
+  background-color: #333;
+}
