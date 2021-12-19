@@ -59,7 +59,7 @@ const GradeCriteriaPage = () => {
       const body = appendFormData(data);
 
       const { message } = await adminEditGradeCriteria(body);
-
+      window.location.reload();
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",

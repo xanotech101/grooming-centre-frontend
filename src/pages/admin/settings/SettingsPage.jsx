@@ -22,6 +22,8 @@ import { appendFormData, capitalizeFirstLetter } from "../../../utils";
 const AccountPage = () => {
   const {
     state: { user },
+    fetchCurrentUser,
+    handleLogout,
   } = useApp();
 
   const toast = useToast();
@@ -59,7 +61,12 @@ const AccountPage = () => {
       });
       reset();
 
+      if (data.password) {
+        handleLogout();
+      }
+
       replace("/admin");
+      fetchCurrentUser();
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),

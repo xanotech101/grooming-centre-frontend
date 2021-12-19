@@ -193,7 +193,7 @@ const UserListingPage = () => {
 
       <Table
         {...tableProps}
-        placeholder="Name, role, email, department"
+        placeholder="Name, email"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

@@ -12,7 +12,7 @@ import {
   RichTextToView,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
-import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
 import { useRichText, useQueryParams } from "../../../../../hooks";
 import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
@@ -35,16 +35,6 @@ const QuestionsPage = () => {
   console.log(isExamination);
 
   const assessmentManager = useAssessmentPreview(null, assessmentId, true);
-
-  // // Remove Scrollbar on the body
-  // useEffect(() => {
-  //   const body = document.querySelector("body");
-  //   body.style.overflow = "hidden";
-
-  //   return () => {
-  //     body.style.overflow = "auto";
-  //   };
-  // }, []);
 
   return (
     <>
@@ -220,6 +210,10 @@ const CreateQuestionPage = (assessmentManager) => {
     formState: { isSubmitting },
   } = useForm();
   const [answer, setAnswer] = useState();
+
+  const handleChange = (event) => {
+    setAnswer(event.target.value);
+  };
   const questionRichTextManager = useRichText();
 
   useEffect(() => {
@@ -374,48 +368,84 @@ const CreateQuestionPage = (assessmentManager) => {
         <Text paddingTop={2} paddingBottom={8}>
           Mark the correct option
         </Text>
-        <RadioGroup onChange={setAnswer} value={answer}>
-          <Stack direction="column">
-            <Flex flexDirection="row" paddingBottom={6}>
-              <Radio paddingTop={8} paddingRight={6} value="1" id="radio-1" />
-              <Input
-                id="option-1"
-                label="Option 01"
-                {...register("option-1", { required: "must not be empty" })}
-                placeholder="Enter the first option here"
+        {/* <fieldset onChange={setAnswer} id="radio" value={answer}> */}
+        <Stack direction="column">
+          <Flex flexDirection="row" paddingBottom={6}>
+            <Flex paddingTop={12} paddingRight={6}>
+              <input
+                type="radio"
+                checked={answer === "1"}
+                onChange={handleChange}
+                name="radio"
+                value="1"
+                id="radio-1"
               />
             </Flex>
+            <Input
+              id="option-1"
+              label="Option 01"
+              {...register("option-1", { required: "must not be empty" })}
+              placeholder="Enter the first option here"
+            />
+          </Flex>
 
-            <Flex flexDirection="row" paddingBottom={6}>
-              <Radio paddingTop={8} paddingRight={6} value="2" id="radio-2" />
-              <Input
-                id="option-2"
-                label="Option 02"
-                {...register("option-2", { required: "must not be empty" })}
-                placeholder="Enter the first option here"
+          <Flex flexDirection="row" paddingBottom={6}>
+            <Flex paddingTop={12} paddingRight={6}>
+              <input
+                type="radio"
+                checked={answer === "2"}
+                onChange={handleChange}
+                name="radio"
+                value="2"
+                id="radio-2"
               />
             </Flex>
+            <Input
+              id="option-2"
+              label="Option 02"
+              {...register("option-2", { required: "must not be empty" })}
+              placeholder="Enter the first option here"
+            />
+          </Flex>
 
-            <Flex flexDirection="row" paddingBottom={6}>
-              <Radio paddingTop={8} paddingRight={6} value="3" id="radio-3" />
-              <Input
-                id="option-3"
-                label="Option 03"
-                {...register("option-3", { required: "must not be empty" })}
-                placeholder="Enter the first option here"
+          <Flex flexDirection="row" paddingBottom={6}>
+            <Flex paddingTop={12} paddingRight={6}>
+              <input
+                type="radio"
+                checked={answer === "3"}
+                onChange={handleChange}
+                name="radio"
+                value="3"
+                id="radio-3"
               />
             </Flex>
-            <Flex flexDirection="row" paddingBottom={6}>
-              <Radio paddingTop={8} paddingRight={6} value="4" id="radio-4" />
-              <Input
-                id="option-4"
-                label="Option 04"
-                {...register("option-4", { required: "must not be empty" })}
-                placeholder="Enter the first option here"
+            <Input
+              id="option-3"
+              label="Option 03"
+              {...register("option-3", { required: "must not be empty" })}
+              placeholder="Enter the first option here"
+            />
+          </Flex>
+          <Flex flexDirection="row" paddingBottom={6}>
+            <Flex paddingTop={12} paddingRight={6}>
+              <input
+                type="radio"
+                checked={answer === "4"}
+                onChange={handleChange}
+                name="radio"
+                value="4"
+                id="radio-4"
               />
             </Flex>
-          </Stack>
-        </RadioGroup>
+            <Input
+              id="option-4"
+              label="Option 04"
+              {...register("option-4", { required: "must not be empty" })}
+              placeholder="Enter the first option here"
+            />
+          </Flex>
+        </Stack>
+        {/* </fieldset> */}
       </Box>
       <Flex justifyContent="flex-end" paddingTop={8}>
         <Button
