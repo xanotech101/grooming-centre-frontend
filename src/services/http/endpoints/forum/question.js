@@ -1,4 +1,7 @@
-import { truncateText, getFullName } from "../../../../utils";
+import {
+  truncateText,
+  // getFullName
+} from "../../../../utils";
 import { http } from "../../http";
 
 // /**
@@ -123,14 +126,25 @@ export const userForumGetQuestions = async (params) => {
     body: truncateText(question.question, 100),
     active: question.active,
     createdAt: question.createdAt,
-    tags: question.tags.map((tag) => ({
-      id: tag.id,
-      label: tag.name,
-    })),
+    // tags: question.tags.map((tag) => ({
+    //   id: tag.id,
+    //   label: tag.name,
+    // })), // TODO: uncomment
+    // user: {
+    //   id: question.user.id,
+    //   profilePics: question.user.profilePics,
+    //   fullName: getFullName(question.user),
+    // }, // TODO: uncomment
+    tags: [
+      {
+        id: "n/a",
+        label: "n/a",
+      },
+    ],
     user: {
-      id: question.user.id,
-      profilePics: question.user.profilePics,
-      fullName: getFullName(question.user),
+      id: question.userId,
+      profilePics: null,
+      fullName: "N/A",
     },
     commentCount: question.commentCount,
   }));
@@ -157,7 +171,7 @@ export const userForumGetQuestions = async (params) => {
  * }
  */
 export const userForumGetQuestionDetails = async (id) => {
-  const path = `/forum/questions/${id}`;
+  const path = `/forum/question/${id}`;
 
   const {
     data: { data },
@@ -199,7 +213,7 @@ export const userForumGetCategories = async () => {
 
   const categories = data.map((category) => ({
     value: category.id,
-    label: category.name,
+    label: category.title,
   }));
 
   return { categories };

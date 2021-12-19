@@ -16,15 +16,15 @@ export const userForumGetCategoriesRes = {
   data: [
     {
       id: "forumCategoryId_1",
-      name: "science and technology",
+      title: "science and technology",
     },
     {
       id: "forumCategoryId_2",
-      name: "business",
+      title: "business",
     },
     {
       id: "forumCategoryId_3",
-      name: "look, this is just mock please",
+      title: "look, this is just mock please",
     },
   ],
 };

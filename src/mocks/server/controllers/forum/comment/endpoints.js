@@ -19,15 +19,15 @@ import {
 
 const userForumGetComments = [
   rest.get(
-    getUrl("/forum/questions/questionId_1/comments"),
+    getUrl("/forum/comment/question/questionId_1"),
     handleSuccessResponse(userForumGetCommentsRes_questionId_1)
   ),
   rest.get(
-    getUrl("/forum/questions/questionId_2/comments"),
+    getUrl("/forum/comment/question/questionId_2"),
     handleSuccessResponse(userForumGetCommentsRes_questionId_2)
   ),
   rest.get(
-    getUrl("/forum/questions/questionId_3/comments"),
+    getUrl("/forum/comment/question/questionId_3"),
     handleSuccessResponse(userForumGetCommentsRes_questionId_3)
   ),
 ];

@@ -55,17 +55,17 @@ const userForumDeleteQuestion = [
 const userForumGetQuestionDetails = [
   rest.get(
     // TODO: change `method`
-    getUrl("/forum/questions/questionId_1"), // TODO: change `path`
+    getUrl("/forum/question/questionId_1"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_1)
   ),
   rest.get(
     // TODO: change `method`
-    getUrl("/forum/questions/questionId_2"), // TODO: change `path`
+    getUrl("/forum/question/questionId_2"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_2)
   ),
   rest.get(
     // TODO: change `method`
-    getUrl("/forum/questions/questionId_3"), // TODO: change `path`
+    getUrl("/forum/question/questionId_3"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_3)
   ),
 ];
