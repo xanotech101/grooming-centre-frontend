@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/layout";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { ForumLayoutRoute, ChatLayoutRoute } from "../../layouts";
+import { NotFoundPageRoute } from "../../pages/admin";
 
 import {
   CourseDetailsPageRoute,
@@ -27,7 +28,7 @@ const MainArea = () => {
         <CoursesPagesRoute path="/courses" />
         <Redirect exact from="/" to="/courses" />
 
-        <Route render={(props) => <div {...props}>Not found</div>} />
+        <Route render={(props) => <NotFoundPageRoute />} />
       </Switch>
     </Box>
   );

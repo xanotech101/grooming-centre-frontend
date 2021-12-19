@@ -7,7 +7,13 @@ import { BiCertification } from "react-icons/bi";
 import { FiCheckSquare } from "react-icons/fi";
 import { ImArrowUp } from "react-icons/im";
 import { Route } from "react-router-dom";
-import { Button, Heading, Input, SkeletonText } from "../../../components";
+import {
+  Button,
+  Heading,
+  Input,
+  SkeletonText,
+  Text,
+} from "../../../components";
 import { useFetch } from "../../../hooks";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
@@ -53,7 +59,7 @@ const GradeCriteriaPage = () => {
       const body = appendFormData(data);
 
       const { message } = await adminEditGradeCriteria(body);
-
+      window.location.reload();
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -80,14 +86,16 @@ const GradeCriteriaPage = () => {
       >
         <OverviewBox
           href="#"
-          value={
+          children={
             gradeCriteria.loading ? (
               <SkeletonText numberOfLines={1} width="60px" />
             ) : (
-              gradeCriteria?.data?.[0].totalExaminationScore
+              <Text bold as="level2">
+                {gradeCriteria?.data?.[0].totalExaminationScore}
+              </Text>
             )
           }
-          name={
+          title={
             gradeCriteria.loading ? (
               <SkeletonText paddingTop={2} numberOfLines={1} />
             ) : (
@@ -99,14 +107,16 @@ const GradeCriteriaPage = () => {
         />
         <OverviewBox
           href="#"
-          value={
+          children={
             gradeCriteria.loading ? (
               <SkeletonText numberOfLines={1} width="60px" />
             ) : (
-              gradeCriteria?.data?.[0].totalAssessmentScore
+              <Text bold as="level2">
+                {gradeCriteria?.data?.[0].totalAssessmentScore}
+              </Text>
             )
           }
-          name={
+          title={
             gradeCriteria.loading ? (
               <SkeletonText paddingTop={2} numberOfLines={1} />
             ) : (
@@ -118,14 +128,16 @@ const GradeCriteriaPage = () => {
         />
         <OverviewBox
           href="#"
-          value={
+          children={
             gradeCriteria.loading ? (
               <SkeletonText numberOfLines={1} width={10} />
             ) : (
-              gradeCriteria?.data?.[0].totalAttendanceScore
+              <Text bold as="level2">
+                {gradeCriteria?.data?.[0].totalAttendanceScore}
+              </Text>
             )
           }
-          name={
+          title={
             gradeCriteria.loading ? (
               <SkeletonText paddingTop={2} numberOfLines={1} />
             ) : (
@@ -146,9 +158,8 @@ const GradeCriteriaPage = () => {
         padding={6}
         boxShadow="0 0 10px 3px rgba(0, 0, 0, .1)"
       >
-        <Stack spacing={8}>
+        <Stack spacing={8} width="50%">
           <Input
-            width="50%"
             type="number"
             label="Examination"
             id="totalExaminationScore"
@@ -158,7 +169,6 @@ const GradeCriteriaPage = () => {
             error={errors.totalExaminationScore?.message}
           />
           <Input
-            width="50%"
             type="number"
             label="Assessment"
             id="totalAssessmentScore"
@@ -168,7 +178,6 @@ const GradeCriteriaPage = () => {
             error={errors.totalAssessmentScore?.message}
           />
           <Input
-            width="50%"
             type="number"
             label="Attendance"
             id="totalAttendanceScore"

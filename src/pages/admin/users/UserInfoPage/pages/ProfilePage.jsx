@@ -235,6 +235,8 @@ export const OverviewBox = ({
   icon,
   name,
   value,
+  title,
+  children,
   href,
   isLoading,
 }) => {
@@ -265,9 +267,11 @@ export const OverviewBox = ({
           <SkeletonText />
         ) : (
           <>
+            {children}
             <Text bold as="level2">
               {value}
             </Text>
+            {title}
             <Text>{name}</Text>
           </>
         )}
