@@ -1,7 +1,4 @@
-import {
-  truncateText,
-  // getFullName
-} from "../../../../utils";
+import { truncateText, getFullName } from "../../../../utils";
 import { http } from "../../http";
 
 // /**
@@ -82,7 +79,7 @@ import { http } from "../../http";
  * }
  */
 export const userForumGetYourQuestions = async () => {
-  const path = `/forum/question?my-questions=true`;
+  const path = `/forum/question/mine/all`;
 
   const {
     data: { data },
@@ -98,7 +95,7 @@ export const userForumGetYourQuestions = async () => {
       id: tag.id,
       label: tag.name,
     })),
-    commentCount: question.commentCount,
+    commentCount: question.forumComments,
   }));
 
   return { questions };
@@ -126,27 +123,16 @@ export const userForumGetQuestions = async (params) => {
     body: truncateText(question.question, 100),
     active: question.active,
     createdAt: question.createdAt,
-    // tags: question.tags.map((tag) => ({
-    //   id: tag.id,
-    //   label: tag.name,
-    // })), // TODO: uncomment
-    // user: {
-    //   id: question.user.id,
-    //   profilePics: question.user.profilePics,
-    //   fullName: getFullName(question.user),
-    // }, // TODO: uncomment
-    tags: [
-      {
-        id: "n/a",
-        label: "n/a",
-      },
-    ],
+    tags: question.tags.map((tag) => ({
+      id: tag.id,
+      label: tag.name,
+    })),
     user: {
-      id: question.userId,
-      profilePics: null,
-      fullName: "N/A",
+      id: question.user.id,
+      profilePics: question.user.profilePics,
+      fullName: getFullName(question.user),
     },
-    commentCount: question.commentCount,
+    commentCount: question.forumComments,
   }));
 
   return { questions };
@@ -182,7 +168,7 @@ export const userForumGetQuestionDetails = async (id) => {
     categoryId: data.categoryId,
     title: data.title,
     body: data.question,
-    commentCount: data.commentCount,
+    commentCount: data.forumComments,
     createdAt: data.createdAt,
     active: data.active,
     tags: data.tags.map((tag) => ({

@@ -13,11 +13,18 @@ import {
   userForumDeleteQuestionRes,
 } from "./responses";
 
-const userForumGetQuestions = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/question"), // TODO: change `path`
-  handleSuccessResponse(userForumGetQuestionsRes)
-);
+const userForumGetQuestions = [
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/question"), // TODO: change `path`
+    handleSuccessResponse(userForumGetQuestionsRes)
+  ),
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/question/mine/all"), // TODO: change `path`
+    handleSuccessResponse(userForumGetQuestionsRes)
+  ),
+];
 
 const userForumGetCategories = rest.get(
   // TODO: change `method`
