@@ -1,3 +1,4 @@
+import { Skeleton } from "@chakra-ui/skeleton";
 import {
   Box,
   Flex,
@@ -8,22 +9,29 @@ import {
   Stack,
   Center,
 } from "@chakra-ui/react";
-import { Skeleton } from "@chakra-ui/skeleton";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { Route } from "react-router-dom";
-import { Button, Heading, Spinner, Text } from "../../components";
+import {
+  Button,
+  Heading,
+  Spinner,
+  Text,
+  DaySchedule,
+  MonthSchedule,
+} from "../../components";
 import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 import colors from "../../theme/colors";
 import { useApp } from "../../contexts";
 import useGradeDetails from "./Courses/Grades/hooks/useGradeDetails";
 import { IoCalendarOutline } from "react-icons/io5";
-import { BiNotepad } from "react-icons/bi";
+import { BiNotepad, BiRefresh } from "react-icons/bi";
 import { ImFileText } from "react-icons/im";
 import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
+import { useDaySchedule, useMonthSchedule } from "../../hooks";
 
 const scheduledCards = [
   {
-    title: "Upcoming Assesments",
+    title: "Upcoming Assessment",
     value: 3,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
@@ -89,7 +97,6 @@ const DashboardPage = () => {
   const manager = useGradeDetails();
 
   const { grades, isLoading } = manager;
-  console.log(grades);
 
   const notStarted =
     grades?.overview.totalCoursesCount -
@@ -149,6 +156,15 @@ const DashboardPage = () => {
       },
     },
   };
+
+  const {
+    dateManager: dayDateManager,
+    resource: dayAppointments,
+    handleFetch: handleDayRetry,
+  } = useDaySchedule();
+
+  const { resource: monthAppointments, handleFetch: handleMonthRetry } =
+    useMonthSchedule();
 
   return (
     <Stack
@@ -397,26 +413,59 @@ const DashboardPage = () => {
         </Section>
 
         <Section title="Calendar" flexBasis="374px">
-          <MiniBox
-            as={Skeleton}
-            flex={1}
-            minHeight="386px"
+          <CalendarBox
+            resource={monthAppointments}
+            onRetry={handleMonthRetry}
             marginBottom={7}
-          ></MiniBox>
-          <MiniBox as={Skeleton} flex={1} minHeight="386px"></MiniBox>
+          />
+
+          <CalendarBox
+            resource={dayAppointments}
+            onRetry={handleDayRetry}
+            dayDateManager={dayDateManager}
+          />
         </Section>
       </Flex>
-
-      {/* <Section title="Ongoing Courses" titleSeeAllHref="#">
-        <CoursesRowLayout />
-      </Section> */}
-
-      {/* <Section title="Completed Courses" titleSeeAllHref="#">
-        <CoursesRowLayout />
-      </Section> */}
     </Stack>
   );
 };
+
+const CalendarBox = ({ resource, onRetry, dayDateManager, ...rest }) => (
+  <MiniBox
+    as={resource.loading && Skeleton}
+    flex={1}
+    minHeight="386px"
+    {...rest}
+  >
+    {resource.err && (
+      <Flex
+        textAlign="center"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="386px"
+        flexDirection="column"
+      >
+        <Text color="secondary.5" fontSize="heading.h4">
+          Ops! Something went wrong
+        </Text>
+
+        <Button mt={5} leftIcon={<BiRefresh />} onClick={onRetry}>
+          Try Again
+        </Button>
+      </Flex>
+    )}
+
+    {resource.data &&
+      (dayDateManager ? (
+        <DaySchedule
+          appointments={resource.data}
+          dateManager={dayDateManager}
+        />
+      ) : (
+        <MonthSchedule appointments={resource.data} />
+      ))}
+  </MiniBox>
+);
 
 const MiniBox = ({ children, ...rest }) => {
   return (

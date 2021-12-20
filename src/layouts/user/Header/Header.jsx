@@ -56,8 +56,6 @@ const Avatar = () => {
   const isAdmin = () => {
     const role = getOneMetadata("userRoles", state.user.userRoleId);
 
-    console.log(role, /admin/i.test(role?.name));
-
     if (/admin/i.test(role?.name)) return true;
   };
 

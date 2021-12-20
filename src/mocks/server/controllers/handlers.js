@@ -16,8 +16,10 @@ import metadata from "./metadata/endpoints";
 import role from "./role/endpoints";
 import event from "./event/endpoints";
 import library from "./library/endpoints";
+import appointments from "./appointments/endpoints";
 
 const commonHandlers = [
+  ...appointments,
   ...auth,
   ...course,
   ...lesson,

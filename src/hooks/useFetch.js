@@ -19,11 +19,11 @@ export const useFetchAndCache = () => {
   });
 
   const handleFetchResource = useCallback(
-    async ({ cacheKey, fetcher }) => {
+    async ({ cacheKey, fetcher, bypass }) => {
       setResource({ loading: true });
 
       try {
-        const resource = await handleGetOrSetAndGet(cacheKey, fetcher);
+        const resource = await handleGetOrSetAndGet(cacheKey, fetcher, bypass);
 
         if (componentIsMount) setResource({ data: resource });
       } catch (err) {

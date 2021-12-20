@@ -154,7 +154,11 @@ const Listing = ({ events, headerButton }) => {
               {event.renderEventName ? (
                 event.renderEventName()
               ) : (
-                <EventNameLink event={event} />
+                <EventNameLink
+                  event={event}
+                  joinEventResource={joinEventResource}
+                  handleJoinEvent={handleJoinEvent}
+                />
               )}
 
               <Text>{truncateText(event.description, 60)}</Text>
@@ -179,24 +183,31 @@ const Listing = ({ events, headerButton }) => {
 const JoinEventButton = ({ event, onJoinEvent, resource }) => {
   return (
     <Button
-      isLoading={resource.loading || resource.data}
+      isLoading={resource?.loading || resource?.data}
       disabled={
-        true
-        // !isOngoing(event.startTime, event.endTime) ||          //Uncomment out
-        // resource.loading ||
-        // resource.data
+        // true
+        !isOngoing(event?.startTime, event?.endTime) || //Uncomment out
+        resource?.loading ||
+        resource?.data
       }
       rightIcon={<BiRightArrowAlt />}
-      onClick={onJoinEvent.bind(null, event.id, event.link)}
+      onClick={onJoinEvent?.bind(null, event?.id, event?.link)}
     >
       Join Event
     </Button>
   );
 };
 
-export const EventNameLink = ({ event, renderCallToAction }) => (
+export const EventNameLink = ({
+  event,
+  renderCallToAction,
+  joinEventResource,
+  handleJoinEvent,
+}) => (
   <ViewEventButton
     event={event}
+    joinEventResource={joinEventResource}
+    handleJoinEvent={handleJoinEvent}
     renderCallToAction={renderCallToAction}
     renderTrigger={({ onOpen }) => (
       <Text

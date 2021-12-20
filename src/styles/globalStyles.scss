@@ -69,6 +69,10 @@
   border-radius: 2px !important;
   padding: 0 16px !important;
 }
+
+.MuiInputBase-input.MuiInput-input {
+  border: none !important;
+}
 /* END OF Override Material-ui DateAndTimePickers */
 
 /* Carousel styles */

@@ -91,6 +91,8 @@ export const adminEditCourseRes_courseId_3 = {
 export const userCourseListingRes = {
   data: [
     {
+      startTime: new Date(new Date().getTime()),
+      endTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 20),
       id: "courseId_1",
       duration: 120,
       description: "Learn HTML and CSS for free today",
@@ -109,6 +111,8 @@ export const userCourseListingRes = {
       progressPercentage: 75,
     },
     {
+      startTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 22),
+      endTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 30),
       id: "courseId_3",
       duration: 100,
       description: "React Design Patters",
@@ -128,6 +132,8 @@ export const userCourseListingRes = {
       progressPercentage: 1,
     },
     {
+      startTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 50),
+      endTime: new Date(new Date().getTime() + 60 * 60 * 1000 * 100),
       id: "courseId_2",
       duration: 180,
       description: "Nodejs Advanced Concept",
