@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Flex, Grid } from "@chakra-ui/layout";
-import { Button, Heading, Spinner, Text, Link } from "../../../components";
+import { Button, Heading, Spinner, Text } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { EmptyState } from "../../../layouts";
 import dayjs from "dayjs";
