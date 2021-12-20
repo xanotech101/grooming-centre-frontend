@@ -112,6 +112,7 @@ const useComments = (fetcher) => {
     const UIHandler = () => {
       const newComments = [...comments.data];
       const comment = newComments.find((c) => c.id === commentId);
+      console.log(comment.expressions);
 
       const expressionIndex = comment.expressions.findIndex(
         (e) => e.userId === expression.userId

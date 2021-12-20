@@ -51,7 +51,7 @@ export const userForumGetQuestionsRes = {
           firstName: requestMyDataRes.data.firstName,
           lastName: requestMyDataRes.data.lastName,
         },
-        forumComments: 10,
+        forumComments: [{}, {}],
       },
       {
         id: "questionId_2",
@@ -71,7 +71,7 @@ export const userForumGetQuestionsRes = {
           firstName: "jane",
           lastName: "bar",
         },
-        forumComments: 7,
+        forumComments: [{}, {}],
       },
       {
         id: "questionId_3",
@@ -88,7 +88,7 @@ export const userForumGetQuestionsRes = {
           firstName: requestMyDataRes.data.firstName,
           lastName: requestMyDataRes.data.lastName,
         },
-        forumComments: 5,
+        forumComments: [{}, {}],
       },
     ],
   },
@@ -116,7 +116,6 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
         title: "Computer Engineering",
       },
     ],
-    forumComments: 10,
   },
 };
 
@@ -147,7 +146,6 @@ export const userForumGetQuestionDetailsRes_questionId_2 = {
         title: "Computer Engineering",
       },
     ],
-    forumComments: 10,
   },
 };
 
@@ -178,7 +176,6 @@ export const userForumGetQuestionDetailsRes_questionId_3 = {
         title: "Computer Engineering",
       },
     ],
-    forumComments: 10,
   },
 };
 
@@ -203,7 +200,7 @@ export const userForumGetQuestionsByTagRes = {
           firstName: "jane",
           lastName: "bar",
         },
-        forumComments: 10,
+        forumComments: [{}, {}],
       },
       {
         id: "questionId_2",
@@ -222,7 +219,7 @@ export const userForumGetQuestionsByTagRes = {
           firstName: "jane",
           lastName: "bar",
         },
-        forumComments: 10,
+        forumComments: [{}, {}],
       },
     ],
   },

@@ -65,7 +65,7 @@ const ChatLayout = () => {
             <AiOutlinePlus />
           </IconButton>
 
-          <Input placeholder="Type a message here" variant="ghost" />
+          <Input id="type" placeholder="Type a message here" variant="ghost" />
 
           <IconButton shadow="none" marginRight={2}>
             <GrEmoji />

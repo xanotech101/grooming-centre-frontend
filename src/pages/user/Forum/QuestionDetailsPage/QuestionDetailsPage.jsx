@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Route } from "react-router-dom";
 import { QuestionListCard } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
@@ -9,6 +10,7 @@ import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
   const { question, commentsManager } = useQuestionDetailsPage();
+  const [commentCount, setCommentCount] = useState(0);
 
   return (
     <>
@@ -18,7 +20,11 @@ const QuestionDetailsPage = () => {
 
       {question.data && (
         <>
-          <QuestionListCard {...question.data} disabled />
+          <QuestionListCard
+            {...question.data}
+            commentCount={commentCount}
+            disabled
+          />
 
           <Comments commentsManager={commentsManager} canAddComment>
             {({
@@ -33,7 +39,7 @@ const QuestionDetailsPage = () => {
               deleteStatusIsLoading,
               expStatusIsLoading,
             }) => {
-              console.log(comments);
+              setCommentCount(comments.data.length);
 
               return (
                 <>

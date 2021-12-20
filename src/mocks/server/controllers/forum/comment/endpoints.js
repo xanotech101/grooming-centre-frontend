@@ -57,11 +57,19 @@ const userForumEditComment = [
 
 const userForumDeleteComment = [
   rest.delete(
+    getUrl("/forum/comment/replyId_1"),
+    handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+  rest.delete(
     getUrl("/forum/comment/replyId_3"),
     handleSuccessResponse(userForumDeleteCommentRes)
   ),
   rest.delete(
     getUrl("/forum/comment/replyId_2"),
+    handleSuccessResponse(userForumDeleteCommentRes)
+  ),
+  rest.delete(
+    getUrl("/forum/comment/commentId_1"),
     handleSuccessResponse(userForumDeleteCommentRes)
   ),
   rest.delete(
