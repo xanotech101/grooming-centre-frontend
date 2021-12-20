@@ -19,6 +19,8 @@ export const userGetEventListingRes = {
       natus laudantium totam quisquam odit consectetur reprehenderit non quae
       vitae?`,
       departmentId: "departmentId_1",
+      eventLink: "http://localhost:4000/courses",
+      eventPassword: "password",
     },
     {
       ...ongoingDates,

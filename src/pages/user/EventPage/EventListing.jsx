@@ -336,7 +336,7 @@ export const ViewEventButton = ({
                   {event.attendeesCount}
                 </Text>
               </>
-            ) : canJoinEvent ? (
+            ) : canJoinEvent && isOngoing(event.startTime, event.endTime) ? (
               <>
                 <Text my={2} as="level3">
                   <Box as="b" mr={5}>
