@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { Box, Flex, Grid } from "@chakra-ui/layout";
-import { Button, Heading, Spinner, Text } from "../../../components";
+import { Button, Heading, Spinner, Text, Link } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { EmptyState } from "../../../layouts";
 import dayjs from "dayjs";
@@ -63,13 +64,14 @@ const Listing = ({ events, headerButton }) => {
 
   const { resource: joinEventResource, handleFetchResource } = useFetch();
   const toast = useToast();
+  const [joinedEvents, setJoinEvents] = useState(0);
 
   const handleJoinEvent = (id, link) =>
     handleFetchResource({
       fetcher: async () => {
         await userJoinEvent(id);
 
-        return { link };
+        return { link, id };
       },
       onError: (err) => {
         console.error(err);
@@ -79,8 +81,14 @@ const Listing = ({ events, headerButton }) => {
           position: "top",
         });
       },
-      onSuccess: (event) => {
-        window.location.href = event.link;
+      onSuccess: () => {
+        let ls = localStorage.getItem("joined-events");
+        ls = ls ? JSON.parse(ls) : {};
+        ls[id] = true;
+
+        localStorage.setItem("joined-events", JSON.stringify(ls));
+
+        setJoinEvents((prev) => prev + 1);
       },
     });
 
@@ -158,6 +166,7 @@ const Listing = ({ events, headerButton }) => {
                   event={event}
                   joinEventResource={joinEventResource}
                   handleJoinEvent={handleJoinEvent}
+                  joinedEvents={joinedEvents}
                 />
               )}
 
@@ -171,6 +180,7 @@ const Listing = ({ events, headerButton }) => {
                 event={event}
                 joinEventResource={joinEventResource}
                 handleJoinEvent={handleJoinEvent}
+                joinedEvents={joinedEvents}
               />
             )}
           </Grid>
@@ -180,12 +190,13 @@ const Listing = ({ events, headerButton }) => {
   );
 };
 
-const JoinEventButton = ({ event, onJoinEvent, resource }) => {
+const JoinEventButton = ({ event, onJoinEvent, resource, canJoinEvent }) => {
   return (
     <Button
-      isLoading={resource?.loading || resource?.data}
+      isLoading={resource?.loading}
       disabled={
         // true
+        canJoinEvent ||
         !isOngoing(event?.startTime, event?.endTime) || //Uncomment out
         resource?.loading ||
         resource?.data
@@ -203,9 +214,11 @@ export const EventNameLink = ({
   renderCallToAction,
   joinEventResource,
   handleJoinEvent,
+  joinedEvents,
 }) => (
   <ViewEventButton
     event={event}
+    joinedEvents={joinedEvents}
     joinEventResource={joinEventResource}
     handleJoinEvent={handleJoinEvent}
     renderCallToAction={renderCallToAction}
@@ -229,10 +242,24 @@ export const ViewEventButton = ({
   renderCallToAction,
   joinEventResource,
   handleJoinEvent,
+  joinedEvents,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { getOneMetadata } = useApp();
+
+  const [canJoinEvent, setCanJoinEvent] = useState(0);
+
+  useEffect(() => {
+    let ls = localStorage.getItem("joined-events");
+    ls = ls ? JSON.parse(ls) : {};
+
+    const canJoin = ls[event.id];
+
+    if (canJoin) {
+      setCanJoinEvent(true);
+    }
+  }, [event.id, joinedEvents]);
 
   return (
     <>
@@ -309,6 +336,33 @@ export const ViewEventButton = ({
                   {event.attendeesCount}
                 </Text>
               </>
+            ) : canJoinEvent ? (
+              <>
+                <Text my={2} as="level3">
+                  <Box as="b" mr={5}>
+                    LINK:
+                  </Box>
+
+                  <a href={event.link} target="_blank" rel="noreferrer">
+                    <Box
+                      as="b"
+                      mr={5}
+                      color="accent.6"
+                      textDecoration="underline"
+                    >
+                      {event.link}
+                    </Box>
+                  </a>
+                </Text>
+
+                <Text my={2} as="level3">
+                  <Box as="b" mr={5}>
+                    PASSWORD:
+                  </Box>
+
+                  <i>{event.password}</i>
+                </Text>
+              </>
             ) : null}
           </ModalBody>
 
@@ -321,6 +375,7 @@ export const ViewEventButton = ({
               renderCallToAction({ event })
             ) : (
               <JoinEventButton
+                canJoinEvent={canJoinEvent}
                 event={event}
                 resource={joinEventResource}
                 onJoinEvent={handleJoinEvent}

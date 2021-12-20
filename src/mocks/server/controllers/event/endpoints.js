@@ -14,7 +14,7 @@ const userGetEventListing = rest.get(
   handleSuccessResponse(userGetEventListingRes)
 );
 const userJoinEvent = rest.get(
-  getUrl("/events/join/eventId_2"),
+  getUrl("/event-attendance/create/eventId_2"),
   handleSuccessResponse(userJoinEventRes)
 );
 const adminGetEventListing = rest.get(

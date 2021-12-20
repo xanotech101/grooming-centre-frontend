@@ -30,6 +30,7 @@ export const userGetEventListingRes = {
       vitae?`,
       departmentId: "departmentId_2",
       eventLink: "http://localhost:4000/courses",
+      eventPassword: "password",
     },
     {
       ...upcomingDates,
@@ -95,4 +96,6 @@ export const adminEditEventRes = {
   message: "event updated successfully",
 };
 
-export const userJoinEventRes = {};
+export const userJoinEventRes = {
+  message: "event attendee record created successfully",
+};

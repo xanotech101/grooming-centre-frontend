@@ -20,6 +20,7 @@ export const userGetEventListing = async () => {
     description: event.description,
     departmentId: event.departmentId,
     link: event.eventLink,
+    password: event.eventPassword,
   }));
 
   return { events };
@@ -32,7 +33,7 @@ export const userGetEventListing = async () => {
  * @returns {Promise<void>}
  */
 export const userJoinEvent = async (eventId) => {
-  const path = `/events/join/${eventId}`;
+  const path = `/event-attendance/create/${eventId}`;
 
   await http.get(path);
 };

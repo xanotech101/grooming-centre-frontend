@@ -85,7 +85,7 @@ const QuestionsResult = ({ questions }) => {
         </PageLoaderLayout>
       )}
 
-      {questions.data && (
+      {questions.data && !questionsIsEmpty && (
         <Box position="absolute" transform="translateY(-160px)">
           <Heading as="h4">
             <Box as="span" color="primary.base">
