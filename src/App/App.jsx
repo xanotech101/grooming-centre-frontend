@@ -5,7 +5,7 @@ import "../styles/courses-row-layout.scss";
 import "../styles/globalStyles.scss";
 import "../styles/user-header-nav-link.scss";
 import "../styles/user-forum-sidebar-link.scss";
-import "../styles/take-lesson-video.scss";
+import "../styles/month-schedule.scss";
 import {
   AdminLayoutRoute,
   AssessmentLayoutRoute,
@@ -16,8 +16,6 @@ import { useApp } from "../contexts";
 import { useEffect } from "react";
 
 function App() {
-  console.log("remove this log");
-
   return (
     <GlobalProviders>
       <Router>

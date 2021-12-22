@@ -76,7 +76,7 @@ export const FormGroupPropTypes = {
   id: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   label: PropTypes.string,
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.any,
   isLoading: PropTypes.bool,
   error: PropTypes.string,
 };

@@ -30,6 +30,7 @@ import { useToast } from "@chakra-ui/toast";
 export const EventListing = ({
   isLoading,
   hasError,
+  forAdmin,
   eventsIsEmpty,
   events,
   headerButton,
@@ -37,13 +38,20 @@ export const EventListing = ({
   <>
     {isLoading && <LoadingState />}
     {hasError && <ErrorState />}
-    {eventsIsEmpty && (
-      <EmptyState
-        cta={<Button link="/dashboard">Return to dashboard</Button>}
-        heading="No Upcoming Events"
-        description="You have no events scheduled"
-      />
-    )}
+    {eventsIsEmpty &&
+      (forAdmin ? (
+        <EmptyState
+          cta={<Button link="/admin/events/edit/new">Create one</Button>}
+          heading="No Events yet!"
+          description="There isn't any event yet. Create one to get started!"
+        />
+      ) : (
+        <EmptyState
+          cta={<Button link="/dashboard">Return to dashboard</Button>}
+          heading="No Upcoming Events"
+          description="You have no events scheduled"
+        />
+      ))}
     {events && !eventsIsEmpty && (
       <Listing events={events} headerButton={headerButton} />
     )}
@@ -79,7 +87,7 @@ const Listing = ({ events, headerButton }) => {
   return (
     <Box
       minHeight="50vh"
-      maxWidth={breakpoints.tablet}
+      maxWidth={breakpoints.laptop}
       marginX="auto"
       border="1px"
       backgroundColor="white"
@@ -146,7 +154,11 @@ const Listing = ({ events, headerButton }) => {
               {event.renderEventName ? (
                 event.renderEventName()
               ) : (
-                <EventNameLink event={event} />
+                <EventNameLink
+                  event={event}
+                  joinEventResource={joinEventResource}
+                  handleJoinEvent={handleJoinEvent}
+                />
               )}
 
               <Text>{truncateText(event.description, 60)}</Text>
@@ -171,23 +183,31 @@ const Listing = ({ events, headerButton }) => {
 const JoinEventButton = ({ event, onJoinEvent, resource }) => {
   return (
     <Button
-      isLoading={resource.loading || resource.data}
+      isLoading={resource?.loading || resource?.data}
       disabled={
-        !isOngoing(event.startTime, event.endTime) ||
-        resource.loading ||
-        resource.data
+        // true
+        !isOngoing(event?.startTime, event?.endTime) || //Uncomment out
+        resource?.loading ||
+        resource?.data
       }
       rightIcon={<BiRightArrowAlt />}
-      onClick={onJoinEvent.bind(null, event.id, event.link)}
+      onClick={onJoinEvent?.bind(null, event?.id, event?.link)}
     >
       Join Event
     </Button>
   );
 };
 
-export const EventNameLink = ({ event, renderCallToAction }) => (
+export const EventNameLink = ({
+  event,
+  renderCallToAction,
+  joinEventResource,
+  handleJoinEvent,
+}) => (
   <ViewEventButton
     event={event}
+    joinEventResource={joinEventResource}
+    handleJoinEvent={handleJoinEvent}
     renderCallToAction={renderCallToAction}
     renderTrigger={({ onOpen }) => (
       <Text
@@ -276,7 +296,9 @@ export const ViewEventButton = ({
                     DEPARTMENT:
                   </Box>
                   {event.departmentId
-                    ? getOneMetadata("departments", event.departmentId)?.name
+                    ? getOneMetadata("departments", event.departmentId, {
+                        allMetadata: true,
+                      })?.name
                     : "N/A"}
                 </Text>
 

@@ -31,7 +31,7 @@ const userGetVideoListing = rest.get(
 );
 
 const adminLibraryListing = rest.get(
-  getUrl("/admin/library"),
+  getUrl("/library/admin"),
   handleSuccessResponse(adminLibraryListingRes)
 );
 

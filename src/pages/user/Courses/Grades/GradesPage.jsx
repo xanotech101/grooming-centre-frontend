@@ -194,7 +194,7 @@ export const Grades = ({ isLoading, grades, duration }) => {
   );
 };
 
-const EmptyState = ({ text }) => (
+export const EmptyState = ({ text }) => (
   <Flex
     justifyContent="center"
     alignItems="center"

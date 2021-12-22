@@ -16,131 +16,136 @@ import {
 } from "../../../../services";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import { useTableRows } from "../../../../hooks";
-
-const tableProps = {
-  filterControls: [
-    {
-      triggerText: "%Grade point",
-      queryKey: "grade",
-      width: "125%",
-      body: {
-        radios: [
-          { label: "1 to 30", queryValue: "1-30" },
-          { label: "31 to 50", queryValue: "31-50" },
-          { label: "51 to 70", queryValue: "51-70" },
-          {
-            label: "71 to 100",
-            queryValue: "71-100",
-          },
-        ],
-      },
-    },
-    {
-      triggerText: "Department",
-      queryKey: "department",
-      width: "125%",
-      body: {
-        checks: [
-          { label: "Finance", queryValue: "finance" },
-          { label: "Engineering", queryValue: "engineering" },
-          {
-            label: "Accounting",
-            queryValue: "accounting",
-          },
-        ],
-      },
-    },
-    {
-      triggerText: "Role",
-      queryKey: "role",
-      width: "170%",
-      body: {
-        checks: [
-          { label: "Super Admin", queryValue: "super admin" },
-          { label: "Admin", queryValue: "admin" },
-          { label: "User", queryValue: "user" },
-        ],
-      },
-    },
-    {
-      triggerText: "Sort",
-      queryKey: "sort",
-      triggerIcon: <FaSortAmountUpAlt />,
-      width: "200px",
-      position: "right-bottom",
-      // noFilterTags: true,
-      body: {
-        radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
-        ],
-      },
-    },
-  ],
-
-  columns: [
-    {
-      id: "1",
-      key: "fullName",
-      text: "Full name",
-      renderContent: (data) => (
-        <Link href={`/admin/users/details/${data.userId}/profile`}>
-          <Text>{data.text}</Text>
-        </Link>
-      ),
-    },
-    { id: "2", key: "department", text: "Department" },
-    {
-      id: "3",
-      key: "email",
-      text: "Email Address",
-    },
-    { id: "4", key: "gradePoint", text: "% Grade point" },
-    { id: "5", key: "certificates", text: "Certificates" },
-  ],
-
-  options: {
-    action: [
-      {
-        text: "View",
-        link: (user) => `/admin/users/details/${user.id}/profile`,
-      },
-      {
-        text: "Edit",
-        link: (user) => `/admin/users/edit/${user.id}`,
-      },
-      {
-        isDelete: true,
-      },
-    ],
-    selection: true,
-    multipleDeleteFetcher: async (selectedUsers) => {
-      console.log(selectedUsers);
-      await adminDeleteMultipleCourses();
-    },
-    pagination: true,
-  },
-};
+import { useApp } from "../../../../contexts";
 
 const UserListingPage = () => {
+  const appManager = useApp();
+
+  const departmentName = appManager.state.metadata?.departments.map(
+    (department) => department.name
+  );
+
+  const tableProps = {
+    filterControls: [
+      {
+        triggerText: "%Grade point",
+        queryKey: "grade",
+        width: "125%",
+        body: {
+          radios: [
+            { label: "1 to 30", queryValue: "1-30" },
+            { label: "31 to 50", queryValue: "31-50" },
+            { label: "51 to 70", queryValue: "51-70" },
+            {
+              label: "71 to 100",
+              queryValue: "71-100",
+            },
+          ],
+        },
+      },
+      {
+        triggerText: "Department",
+        queryKey: "department",
+        width: "125%",
+        body: {
+          checks: [
+            ...(departmentName?.map((name) => ({
+              label: name,
+              queryValue: name,
+            })) || []),
+          ],
+        },
+      },
+      {
+        triggerText: "Role",
+        queryKey: "role",
+        width: "170%",
+        body: {
+          checks: [
+            { label: "Super Admin", queryValue: "super admin" },
+            { label: "Admin", queryValue: "admin" },
+            { label: "User", queryValue: "user" },
+          ],
+        },
+      },
+      {
+        triggerText: "Sort",
+        queryKey: "sort",
+        triggerIcon: <FaSortAmountUpAlt />,
+        width: "200px",
+        position: "right-bottom",
+        // noFilterTags: true,
+        body: {
+          radios: [
+            {
+              label: "Alphabetically: ascending",
+              queryValue: "asc",
+              additionalParams: { date: false },
+            },
+            {
+              label: "Alphabetically: descending",
+              queryValue: "desc",
+              additionalParams: { date: false },
+            },
+            {
+              label: "Date: ascending",
+              queryValue: "asc",
+              additionalParams: { date: true },
+            },
+            {
+              label: "Date: descending",
+              queryValue: "desc",
+              additionalParams: { date: true },
+            },
+          ],
+        },
+      },
+    ],
+
+    columns: [
+      {
+        id: "1",
+        key: "fullName",
+        text: "Full name",
+        renderContent: (data) => (
+          <Link href={`/admin/users/details/${data.userId}/profile`}>
+            <Text>{data.text}</Text>
+          </Link>
+        ),
+      },
+      { id: "2", key: "department", text: "Department" },
+      {
+        id: "3",
+        key: "email",
+        text: "Email Address",
+      },
+      { id: "4", key: "gradePoint", text: "% Grade point" },
+      { id: "5", key: "certificates", text: "Certificates" },
+    ],
+
+    options: {
+      action: [
+        {
+          text: "View",
+          link: (user) => `/admin/users/details/${user.id}/profile`,
+        },
+        {
+          text: "Edit",
+          link: (user) => `/admin/users/edit/${user.id}`,
+        },
+        {
+          isDelete: true,
+        },
+      ],
+      selection: true,
+      multipleDeleteFetcher: async (selectedUsers) => {
+        console.log(selectedUsers);
+        await adminDeleteMultipleCourses();
+      },
+      pagination: true,
+    },
+  };
+
   const mapUserToRow = (user) => ({
     ...user,
     fullName: {
@@ -188,7 +193,7 @@ const UserListingPage = () => {
 
       <Table
         {...tableProps}
-        placeholder="Name, role, email, department"
+        placeholder="Name, email"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

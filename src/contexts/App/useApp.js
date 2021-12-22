@@ -27,7 +27,16 @@ export const useApp = () => {
   const fetchMetadata = useCallback(async () => {
     try {
       const { data } = await requestMetadata();
-      setState((prev) => ({ ...prev, metadata: data }));
+      setState((prev) => ({
+        ...prev,
+        metadata: {
+          ...data,
+          departments: data.departments.filter(
+            (department) => department.name !== "General"
+          ),
+        },
+        allMetadata: data,
+      }));
     } catch (err) {
       console.error(err);
     }
@@ -36,8 +45,7 @@ export const useApp = () => {
   const fetchCurrentUser = useCallback(async () => {
     try {
       const { data } = await requestMyData();
-
-      localStorage.setItem("DateNow", data.serverCurrentTime);
+      localStorage.setItem("DateNow", new Date(data.currentDateTime).getTime());
 
       setState((prev) => ({
         ...prev,
@@ -78,8 +86,10 @@ export const useApp = () => {
     setState((prev) => ({ ...prev, user: null, token: null }));
   }, [setState]);
 
-  const getOneMetadata = (arrayKey, id) =>
-    state.metadata?.[arrayKey]?.find((item) => item.id === id);
+  const getOneMetadata = (arrayKey, id, options) =>
+    state[options?.allMetadata ? "allMetadata" : "metadata"]?.[arrayKey]?.find(
+      (item) => item.id === id
+    );
 
   const isAuthenticated = handleGetTokenFromClientStorage() ? true : false;
 

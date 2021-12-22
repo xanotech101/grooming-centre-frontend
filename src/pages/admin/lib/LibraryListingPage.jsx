@@ -10,6 +10,7 @@ import {
   Table,
   Text,
 } from "../../../components";
+import { useApp } from "../../../contexts";
 import { useTableRows } from "../../../hooks";
 import { AdminMainAreaWrapper } from "../../../layouts";
 import {
@@ -17,118 +18,130 @@ import {
   adminLibraryListing,
 } from "../../../services";
 
-const tableProps = {
-  filterControls: [
-    {
-      triggerText: "Type",
-      queryKey: "type",
-      width: "170%",
-      body: {
-        checks: [
-          { label: "Video", queryValue: "video" },
-          { label: "Audio", queryValue: "audio" },
-          { label: "Pdf", queryValue: "pdf" },
-        ],
-      },
-    },
-    {
-      triggerText: "Department",
-      queryKey: "department",
-      width: "125%",
-      body: {
-        checks: [
-          { label: "Finance", queryValue: "finance" },
-          { label: "Engineering", queryValue: "engineering" },
-          {
-            label: "Accounting",
-            queryValue: "accounting",
-          },
-        ],
-      },
-    },
-    {
-      triggerText: "Sort",
-      queryKey: "sort",
-      triggerIcon: <FaSortAmountUpAlt />,
-      width: "200px",
-      position: "right-bottom",
-      // noFilterTags: true,
-      body: {
-        radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
-        ],
-      },
-    },
-  ],
+const LibraryListingPage = () => {
+  const appManager = useApp();
 
-  columns: [
-    {
-      id: "1",
-      key: "title",
-      text: "Title",
-      renderContent: (data) => (
-        <Link href={`/admin/library/details/${data.libraryId}`}>
-          <Text>{data.text}</Text>
-        </Link>
-      ),
-    },
-    { id: "2", key: "department", text: "Department" },
-    {
-      id: "3",
-      key: "type",
-      text: "Type",
-    },
-    {
-      id: "4",
-      key: "instructor",
-      text: "Uploaded By",
-      fraction: "200px",
-    },
-  ],
+  const department = appManager.state.metadata?.departments.map(
+    (department) => department
+  );
 
-  options: {
-    action: [
+  const tableProps = {
+    filterControls: [
+      // {
+      //   triggerText: "Type",
+      //   queryKey: "type",
+      //   width: "170%",
+      //   body: {
+      //     radios: [
+      //       { label: "Video", queryValue: "video" },
+      //       { label: "Audio", queryValue: "audio" },
+      //       { label: "Pdf", queryValue: "pdf" },
+      //     ],
+      //   },
+      // },
       {
-        text: "View",
-        link: (library) => `/admin/library/details/${library.id}`,
+        triggerText: "Department",
+        queryKey: "department",
+        width: "125%",
+        body: {
+          checks: [
+            ...(department?.map(({ name, id }) => ({
+              label: name,
+              queryValue: id,
+            })) || []),
+          ],
+        },
       },
       {
-        text: "Edit",
-        link: (library) => `/admin/library/edit/${library.id}`,
-      },
-      {
-        isDelete: true,
+        triggerText: "Sort",
+        queryKey: "sort",
+        triggerIcon: <FaSortAmountUpAlt />,
+        width: "200px",
+        position: "right-bottom",
+        // noFilterTags: true,
+        body: {
+          radios: [
+            {
+              label: "Alphabetically: ascending",
+              queryValue: "asc",
+              additionalParams: { date: false },
+            },
+            {
+              label: "Alphabetically: descending",
+              queryValue: "desc",
+              additionalParams: { date: false },
+            },
+            {
+              label: "Date: ascending",
+              queryValue: "asc",
+              additionalParams: { date: true },
+            },
+            {
+              label: "Date: descending",
+              queryValue: "desc",
+              additionalParams: { date: true },
+            },
+          ],
+        },
       },
     ],
-    selection: true,
-    multipleDeleteFetcher: async (selectedLibrary) => {
-      console.log(selectedLibrary);
-      await adminDeleteMultipleCourses();
-    },
-    pagination: true,
-  },
-};
 
-const LibraryListingPage = () => {
+    columns: [
+      {
+        id: "1",
+        key: "title",
+        text: "Title",
+        renderContent: (data) => (
+          <Link href={`/admin/library/details/${data.libraryId}`}>
+            <Text>{data.text}</Text>
+          </Link>
+        ),
+      },
+      {
+        id: "2",
+        key: "department",
+        text: "Department",
+        renderContent: (departmentId) =>
+          appManager.getOneMetadata("departments", departmentId, {
+            allMetadata: true,
+          })?.name,
+      },
+      {
+        id: "3",
+        key: "type",
+        text: "Type",
+      },
+      {
+        id: "4",
+        key: "instructor",
+        text: "Uploaded By",
+        fraction: "200px",
+      },
+    ],
+
+    options: {
+      action: [
+        {
+          text: "View",
+          link: (library) => `/admin/library/details/${library.id}`,
+        },
+        {
+          text: "Edit",
+          link: (library) => `/admin/library/edit/${library.id}`,
+        },
+        {
+          isDelete: true,
+        },
+      ],
+      selection: true,
+      multipleDeleteFetcher: async (selectedLibrary) => {
+        console.log(selectedLibrary);
+        await adminDeleteMultipleCourses();
+      },
+      pagination: true,
+    },
+  };
+
   const mapLibraryToRow = (library) => ({
     id: library.id,
 
@@ -136,8 +149,8 @@ const LibraryListingPage = () => {
       text: library.title,
       libraryId: library.id,
     },
-    department: library.department.name,
-    type: library.libraryType.name,
+    department: library.departmentId,
+    type: library.fileType,
     instructor: `${library.instructor.firstName} ${library.instructor.lastName}`,
   });
 
@@ -177,7 +190,7 @@ const LibraryListingPage = () => {
       </Flex>
       <Table
         {...tableProps}
-        placeholder="Title, department, type"
+        placeholder="Title, type"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

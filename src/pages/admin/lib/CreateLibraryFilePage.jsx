@@ -47,8 +47,7 @@ const CreateLibraryFilePage = () => {
   } = useForm();
 
   const {
-    state: { metadata },
-    getOneMetadata,
+    state: { allMetadata },
   } = useApp();
 
   const fileManager = useUpload();
@@ -67,11 +66,11 @@ const CreateLibraryFilePage = () => {
   }, [libraryFile]);
 
   useEffect(() => {
-    if (libraryFile && metadata?.departments) {
-      setValue("departmentId", libraryFile.department.id);
+    if (libraryFile && allMetadata?.departments) {
+      setValue("departmentId", libraryFile?.departmentId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [libraryFile, metadata?.departments]);
+  }, [libraryFile, allMetadata?.departments]);
 
   useEffect(() => {
     if (libraryFile) {
@@ -81,37 +80,35 @@ const CreateLibraryFilePage = () => {
   }, [libraryFile]);
 
   const setLibraryAccept = (libraryTypeId) => {
-    const libraryType = getOneMetadata("libraryType", libraryTypeId)?.name;
-
-    if (libraryType === "pdf") {
+    if (libraryTypeId === "pdf") {
       fileManager.handleAcceptChange("application/pdf");
     }
 
-    if (libraryType === "video") {
+    if (libraryTypeId === "video") {
       fileManager.handleAcceptChange("video/mp4, video/mkv");
     }
 
-    if (libraryType === "audio") {
+    if (libraryTypeId === "audio") {
       fileManager.handleAcceptChange("audio/mpeg, audio/ogg, audio/wav");
     }
   };
 
   // Init `libraryTypeId` value and set `accept` for file upload input
   useEffect(() => {
-    if (libraryFile && metadata) {
-      setValue("libraryTypeId", libraryFile.libraryTypeId);
-      setLibraryAccept(libraryFile.libraryTypeId);
+    if (libraryFile) {
+      setValue("libraryTypeId", libraryFile.fileType);
+      setLibraryAccept(libraryFile.fileType);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [libraryFile, metadata]);
+  }, [libraryFile]);
 
   // Init `library File` file url
   useEffect(() => {
     if (libraryFile) {
       const fileIsAVideo = libraryFile.fileExtension === "mp4";
       const fileIsPDF = libraryFile.fileExtension === "pdf";
-      const fileIsAudio = libraryFile.fileExtension === "mp3";
+      const fileIsAudio = libraryFile.fileExtension === "mpeg";
 
       if (fileIsAVideo) {
         fileManager.handleInitialVideoSelect(libraryFile.file);
@@ -141,7 +138,7 @@ const CreateLibraryFilePage = () => {
     return () => subscription.unsubscribe();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch, metadata]);
+  }, [watch]);
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -223,7 +220,7 @@ const CreateLibraryFilePage = () => {
             : "Add File"
         }
         onSubmit={handleSubmit(onSubmit)}
-        submitButtonIsDisabled={!metadata}
+        submitButtonIsDisabled={!allMetadata}
         submitButtonIsLoading={isSubmitting}
       >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
@@ -241,9 +238,9 @@ const CreateLibraryFilePage = () => {
           <GridItem>
             <Select
               label="Select department"
-              options={populateSelectOptions(metadata?.departments)}
+              options={populateSelectOptions(allMetadata?.departments)}
               id="departmentId"
-              isLoading={!metadata?.departments}
+              isLoading={!allMetadata?.departments}
               {...register("departmentId", {
                 required: "Please select a department",
               })}
@@ -271,13 +268,17 @@ const CreateLibraryFilePage = () => {
         </Grid>
 
         <Grid marginBottom={10}>
-          <GridItem>
+          <GridItem width="50%">
             <Select
               id="libraryTypeId"
-              width="50%"
               label="File type"
-              options={populateSelectOptions(metadata?.libraryType)}
-              isLoading={!metadata?.libraryType}
+              options={[
+                { value: "pdf", label: "Pdf" },
+                { value: "video", label: "Video" },
+                { value: "audio", label: "Audio" },
+              ]}
+              // options={populateSelectOptions(metadata?.libraryType)}
+              // isLoading={!metadata?.libraryType}
               isRequired
               error={errors.libraryTypeId?.message}
               {...register("libraryTypeId", {

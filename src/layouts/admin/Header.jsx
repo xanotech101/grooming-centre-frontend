@@ -70,8 +70,16 @@ const QuickAccess = () => {
           <MenuItem as={Link} to="/admin/departments/create">
             Add Department
           </MenuItem>
+          <MenuItem as={Link} to="/admin/users/edit/new">
+            Add User
+          </MenuItem>
+          <MenuItem as={Link} to="/admin/courses/edit/new">
+            Add Course
+          </MenuItem>
 
-          <MenuItem>Add Course</MenuItem>
+          <MenuItem as={Link} to="/admin/events/edit/new">
+            Add Event
+          </MenuItem>
         </MenuGroup>
       </MenuList>
     </Menu>

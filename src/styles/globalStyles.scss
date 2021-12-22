@@ -69,14 +69,39 @@
   border-radius: 2px !important;
   padding: 0 16px !important;
 }
+
+.MuiInputBase-input.MuiInput-input {
+  border: none !important;
+}
 /* END OF Override Material-ui DateAndTimePickers */
 
-/* Override Material-ui RichTextEditor */
-.rich-text .MUIRichTextEditor-editorContainer-5 {
-  position: unset;
-  padding: 0 5px !important;
-  min-height: 200px !important;
-  border: 1px solid var(--accent-1) !important;
-  border-radius: 2px !important;
+/* Carousel styles */
+.rec.rec-arrow {
+  border-radius: 0;
+  background-color: white;
+  border: none;
+  box-shadow: none;
 }
-/* END OF Override Material-ui RichTextEditor */
+.rec.rec-arrow:hover:enabled {
+  background-color: white;
+  color: black;
+  box-shadow: none;
+}
+.rec .rec-arrow:disabled {
+  visibility: hidden;
+}
+.rec .rec-dot_active:hover {
+  box-shadow: 0 0 1px 3px #333;
+  background-color: #333;
+}
+.rec .rec-dot:hover {
+  box-shadow: 0 0 1px 3px #333;
+}
+.rec .rec-dot:focus {
+  cursor: pointer;
+  box-shadow: 0 0 1px 3px #333;
+}
+.rec .rec-dot_active {
+  box-shadow: 0 0 1px 3px #333;
+  background-color: #333;
+}

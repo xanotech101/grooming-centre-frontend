@@ -1,15 +1,21 @@
+import { Avatar } from "@chakra-ui/avatar";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { Button, Heading, Link, Text } from "../../../components";
 import { useApp } from "../../../contexts";
-import { links, settingsLinks } from "./links";
+import { links, settingsLinks, superAdminSettingsLinks } from "./links";
 import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
   const { state, getOneMetadata, handleLogout } = useApp();
 
   const isSettingsPage = /settings/i.test(window.location.pathname);
+
+  const role = getOneMetadata("userRoles", state.user?.userRoleId);
+
+  console.log(role, /super admin/i.test(role?.name));
+  const isSuperAdmin = /super admin/i.test(role?.name);
 
   return (
     <Flex
@@ -45,7 +51,17 @@ const Sidebar = () => {
               marginBottom={5}
               paddingBottom={5}
             >
-              <Skeleton rounded="full" boxSize="100px" />
+              {!state.user ? (
+                <Skeleton rounded="full" boxSize="100px" />
+              ) : (
+                <Avatar
+                  name={state.user?.firstName + " " + state.user?.lastName}
+                  borderRadius="100%"
+                  width="100px"
+                  height="100px"
+                  src={state.user?.profilePics}
+                />
+              )}
 
               {state.user && (
                 <>
@@ -67,9 +83,13 @@ const Sidebar = () => {
         <Box as="nav" padding={5} height="100%" overflowY="scroll">
           <Stack as="ul" spacing={2} listStyleType="none">
             {isSettingsPage
-              ? settingsLinks.map((link) => (
-                  <SidebarLink key={link.text} link={link} />
-                ))
+              ? isSuperAdmin
+                ? superAdminSettingsLinks.map((link) => (
+                    <SidebarLink key={link.text} link={link} />
+                  ))
+                : settingsLinks.map((link) => (
+                    <SidebarLink key={link.text} link={link} />
+                  ))
               : links.map((link) => (
                   <SidebarLink key={link.text} link={link} />
                 ))}

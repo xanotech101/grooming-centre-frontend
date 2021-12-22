@@ -58,6 +58,7 @@ const ViewLessonInfoPage = () => {
         >
           <Heading fontSize="heading.h3">Lesson details</Heading>
           <Button
+            disabled={!lesson}
             paddingLeft={2}
             sizes="small"
             rightIcon={<FaEdit />}

@@ -9,12 +9,12 @@ import {
   MenuList,
 } from "@chakra-ui/menu";
 import { MdNotificationsActive } from "react-icons/md";
-import avatarImagePlaceholder from "../../../assets/images/Avatar.svg";
-import { BrandLogo, Button, Image } from "../../../components";
+import { BrandLogo, Button } from "../../../components";
 import { useApp } from "../../../contexts";
 import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
+import { Avatar as AvatarImage } from "@chakra-ui/avatar";
 
 const Header = () => {
   return (
@@ -51,12 +51,23 @@ const Header = () => {
 };
 
 const Avatar = () => {
-  const { handleLogout } = useApp();
+  const { handleLogout, state, getOneMetadata } = useApp();
+
+  const isAdmin = () => {
+    const role = getOneMetadata("userRoles", state.user.userRoleId);
+
+    if (/admin/i.test(role?.name)) return true;
+  };
 
   return (
     <Menu>
       <MenuButton as={IconButton} isRound>
-        <Image rounded="full" boxSize="40px" src={avatarImagePlaceholder} />
+        <AvatarImage
+          name={state.user?.firstName + " " + state.user?.lastName}
+          rounded="full"
+          boxSize="40px"
+          src={state.user?.profilePics}
+        />
       </MenuButton>
 
       <MenuList position="relative" zIndex={2}>
@@ -67,9 +78,11 @@ const Avatar = () => {
           <MenuItem as={Link} to="/courses/grade-overview">
             Grades
           </MenuItem>
-          <MenuItem as={Link} to="/admin">
-            Admin Dashboard
-          </MenuItem>
+          {state.user && isAdmin() && (
+            <MenuItem as={Link} to="/admin">
+              Admin Dashboard
+            </MenuItem>
+          )}
         </MenuGroup>
         <MenuDivider />
         <MenuItem onClick={handleLogout} color="secondary.6">
