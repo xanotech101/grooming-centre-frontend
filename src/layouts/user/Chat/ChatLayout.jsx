@@ -6,9 +6,16 @@ import {
   Grid,
   Stack,
   HStack,
+  SkeletonCircle,
 } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
-import { Button, Heading, Text, Input } from "../../../components";
+import {
+  Button,
+  Heading,
+  Text,
+  Input,
+  SkeletonText,
+} from "../../../components";
 import imagePlaceholder from "../../../assets/images/Avatar.svg";
 import breakpoints, {
   maxWidthStyles_userPages,
@@ -16,7 +23,7 @@ import breakpoints, {
 import { MdAttachFile } from "react-icons/md";
 import { truncateText } from "../../../utils";
 import { GrEmoji } from "react-icons/gr";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiRefresh } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
 import { useFetch } from "../../../hooks";
@@ -43,10 +50,8 @@ const ChatLayout = () => {
     const { messages } = await userGetMessages();
     return messages;
   }, []);
-  const {
-    resource: messages,
-    // handleFetch: handleMessagesRetry
-  } = useFetcher(messagesFetcher);
+  const { resource: messages, handleFetch: handleMessagesRetry } =
+    useFetcher(messagesFetcher);
 
   return (
     <Grid
@@ -66,6 +71,9 @@ const ChatLayout = () => {
           overflowY="auto"
           height="calc(65vh + 82px + 73px - 43.19px)"
         >
+          {messages.loading &&
+            [1, 2, 3, 4, 5].map((i) => <MessagesItem isLoading key={i} />)}
+
           {messages.data &&
             messages.data.map((msg) => (
               <MessagesItem
@@ -77,6 +85,28 @@ const ChatLayout = () => {
                 unreadCount={msg.unreadCount}
               />
             ))}
+
+          {
+            <Flex
+              textAlign="center"
+              alignItems="center"
+              justifyContent="center"
+              minHeight="386px"
+              flexDirection="column"
+            >
+              <Text color="secondary.5" fontSize="heading.h4">
+                Ops! Something went wrong
+              </Text>
+
+              <Button
+                mt={5}
+                leftIcon={<BiRefresh />}
+                onClick={handleMessagesRetry}
+              >
+                Try Again
+              </Button>
+            </Flex>
+          }
         </Box>
       </Box>
 
@@ -136,7 +166,14 @@ const ChatLayout = () => {
   );
 };
 
-const MessagesItem = ({ msg, name, date, profilePics, unreadCount }) => (
+const MessagesItem = ({
+  msg,
+  name,
+  date,
+  profilePics,
+  unreadCount,
+  isLoading,
+}) => (
   <HStack
     borderBottom="1px"
     borderColor="accent.1"
@@ -164,31 +201,46 @@ const MessagesItem = ({ msg, name, date, profilePics, unreadCount }) => (
         </Text>
       </Grid>
     )}
-
-    <Avatar
-      name={name}
-      src={profilePics}
-      boxSize="60px"
-      rounded="full"
-      alignSelf={"center"}
-    />
+    {isLoading ? (
+      <SkeletonCircle boxSize="60px" />
+    ) : (
+      <Avatar
+        name={name}
+        src={profilePics}
+        boxSize="60px"
+        rounded="full"
+        alignSelf={"center"}
+      />
+    )}
 
     <Box flex={1}>
-      <Text mb={2} textTransform="capitalize">
-        {name}
-      </Text>
-      <Text as="level5">{truncateText(msg, 56)}</Text>
+      {!isLoading ? (
+        <>
+          <Text mb={2} textTransform="capitalize">
+            {name}
+          </Text>
+
+          <Text as="level5">{truncateText(msg, 56)}</Text>
+        </>
+      ) : (
+        <>
+          <SkeletonText numberOfLines={1} mb={5} />
+          <SkeletonText numberOfLines={2} />
+        </>
+      )}
     </Box>
 
-    <Stack alignItems="center">
-      <Text as="level5" opacity={0.8}>
-        {date}
-      </Text>
+    {!isLoading && (
+      <Stack alignItems="center">
+        <Text as="level5" opacity={0.8}>
+          {date}
+        </Text>
 
-      <IconButton>
-        <BiDotsVerticalRounded />
-      </IconButton>
-    </Stack>
+        <IconButton>
+          <BiDotsVerticalRounded />
+        </IconButton>
+      </Stack>
+    )}
   </HStack>
 );
 
