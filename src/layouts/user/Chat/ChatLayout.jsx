@@ -19,8 +19,35 @@ import { GrEmoji } from "react-icons/gr";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
+import { useFetch } from "../../../hooks";
+import { useCallback, useEffect } from "react";
+import { userGetMessages } from "../../../services";
+
+const useFetcher = (fetcher) => {
+  const { resource, handleFetchResource } = useFetch();
+
+  const handleFetch = useCallback(
+    () => handleFetchResource({ fetcher }),
+    [fetcher, handleFetchResource]
+  );
+
+  useEffect(() => {
+    handleFetch();
+  }, [handleFetch]);
+
+  return { resource, handleFetch };
+};
 
 const ChatLayout = () => {
+  const messagesFetcher = useCallback(async () => {
+    const { messages } = await userGetMessages();
+    return messages;
+  }, []);
+  const {
+    resource: messages,
+    // handleFetch: handleMessagesRetry
+  } = useFetcher(messagesFetcher);
+
   return (
     <Grid
       {...maxWidthStyles_userPages}
@@ -30,29 +57,26 @@ const ChatLayout = () => {
       padding={8}
     >
       <Box as="aside">
-        <Box background="accent.1" padding={3} roundedTop="md">
+        <Box background="accent.1" padding={2} roundedTop="md">
           <Heading fontSize="text.level3">Messaging</Heading>
         </Box>
 
         <Box
           padding={3}
-          overflowY="scroll"
+          overflowY="auto"
           height="calc(65vh + 82px + 73px - 43.19px)"
         >
-          <MessagesItem
-            msg={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}
-            name="John Doe"
-            date="Yesterday"
-            profilePics={imagePlaceholder}
-            unreadCount={2}
-          />
-          <MessagesItem
-            msg={`Xup man`}
-            name="John Doe"
-            date="Yesterday"
-            profilePics={imagePlaceholder}
-            unreadCount={2}
-          />
+          {messages.data &&
+            messages.data.map((msg) => (
+              <MessagesItem
+                key={msg.id}
+                msg={msg.message}
+                date={msg.date}
+                name={msg.user.name}
+                profilePics={msg.user.profilePics}
+                unreadCount={msg.unreadCount}
+              />
+            ))}
         </Box>
       </Box>
 
@@ -72,7 +96,9 @@ const ChatLayout = () => {
             />
 
             <Box marginLeft={2}>
-              <Text bold>John doe</Text>
+              <Text bold textTransform="capitalize">
+                John doe
+              </Text>
               <Text color="accent.7">last online 5 hours ago</Text>
             </Box>
           </Flex>
@@ -88,7 +114,7 @@ const ChatLayout = () => {
           </ButtonGroup>
         </Flex>
 
-        <Box height="65vh" overflowY="scroll"></Box>
+        <Box height="65vh" overflowY="auto"></Box>
 
         <Flex padding={4} borderTop="1px" borderColor="accent.1">
           <IconButton backgroundColor="accent.1">
@@ -119,6 +145,26 @@ const MessagesItem = ({ msg, name, date, profilePics, unreadCount }) => (
     spacing={3}
     pos="relative"
   >
+    {unreadCount && (
+      <Grid
+        placeItems="center"
+        boxSize="27px"
+        rounded="full"
+        backgroundColor="primary.base"
+        color="white"
+        pos="absolute"
+        top={2.5}
+        left={2.5}
+        zIndex={1}
+        border="3px solid"
+        borderColor="white"
+      >
+        <Text as="level5" bold>
+          {unreadCount}
+        </Text>
+      </Grid>
+    )}
+
     <Avatar
       name={name}
       src={profilePics}
@@ -128,7 +174,9 @@ const MessagesItem = ({ msg, name, date, profilePics, unreadCount }) => (
     />
 
     <Box flex={1}>
-      <Text mb={2}>{name}</Text>
+      <Text mb={2} textTransform="capitalize">
+        {name}
+      </Text>
       <Text as="level5">{truncateText(msg, 56)}</Text>
     </Box>
 
@@ -136,23 +184,6 @@ const MessagesItem = ({ msg, name, date, profilePics, unreadCount }) => (
       <Text as="level5" opacity={0.8}>
         {date}
       </Text>
-
-      <Grid
-        placeItems="center"
-        boxSize="27px"
-        rounded="full"
-        backgroundColor="primary.base"
-        color="white"
-        pos="absolute"
-        top={1}
-        left={-1}
-        border="3px solid"
-        borderColor="white"
-      >
-        <Text as="level5" bold>
-          {unreadCount}
-        </Text>
-      </Grid>
 
       <IconButton>
         <BiDotsVerticalRounded />
