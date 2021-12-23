@@ -39,8 +39,20 @@ const ChatLayout = () => {
           overflowY="scroll"
           height="calc(65vh + 82px + 73px - 43.19px)"
         >
-          <MessagesItem />
-          <MessagesItem />
+          <MessagesItem
+            msg={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}
+            name="John Doe"
+            date="Yesterday"
+            profilePics={imagePlaceholder}
+            unreadCount={2}
+          />
+          <MessagesItem
+            msg={`Xup man`}
+            name="John Doe"
+            date="Yesterday"
+            profilePics={imagePlaceholder}
+            unreadCount={2}
+          />
         </Box>
       </Box>
 
@@ -98,13 +110,7 @@ const ChatLayout = () => {
   );
 };
 
-const MessagesItem = ({
-  msg = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
-dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
-consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
-adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing
-elit.`,
-}) => (
+const MessagesItem = ({ msg, name, date, profilePics, unreadCount }) => (
   <HStack
     borderBottom="1px"
     borderColor="accent.1"
@@ -114,21 +120,21 @@ elit.`,
     pos="relative"
   >
     <Avatar
-      name="John doe"
-      src={imagePlaceholder}
+      name={name}
+      src={profilePics}
       boxSize="60px"
       rounded="full"
       alignSelf={"center"}
     />
 
-    <Box>
-      <Text mb={2}>Sophie Willis</Text>
+    <Box flex={1}>
+      <Text mb={2}>{name}</Text>
       <Text as="level5">{truncateText(msg, 56)}</Text>
     </Box>
 
     <Stack alignItems="center">
       <Text as="level5" opacity={0.8}>
-        Yesterday
+        {date}
       </Text>
 
       <Grid
@@ -144,7 +150,7 @@ elit.`,
         borderColor="white"
       >
         <Text as="level5" bold>
-          80
+          {unreadCount}
         </Text>
       </Grid>
 
