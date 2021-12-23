@@ -1,22 +1,42 @@
 import { http } from "../http";
 
-export const userGetMessages = async () => {
-  const path = `/chat/messages`;
+export const userGetUsersMessages = async () => {
+  const path = `/chat/messages/users`;
 
   const {
     data: { data },
   } = await http.get(path);
 
-  const messages = data.map((msg) => ({
-    id: msg.id,
-    message: msg.message,
+  const users = data.map((userMsg) => ({
+    id: userMsg.id,
+    message: userMsg.lastMessage,
     user: {
-      profilePics: msg.user.profilePics,
-      name: msg.user.firstName + " " + msg.user.lastName,
+      id: userMsg.user.id,
+      profilePics: userMsg.user.profilePics,
+      name: userMsg.user.firstName + " " + userMsg.user.lastName,
     },
-    date: msg.date,
-    unreadCount: msg.unreadCount,
+    date: userMsg.date,
+    unreadCount: userMsg.unreadCount,
   }));
 
-  return { messages };
+  return { users };
+};
+
+export const userGetAUserMessages = async (id) => {
+  const path = `/chat/messages/users/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const user = {
+    id: data.id,
+    user: {
+      id: data.user.id,
+      profilePics: data.user.profilePics,
+      name: data.user.firstName + " " + data.user.lastName,
+    },
+  };
+
+  return { user };
 };
