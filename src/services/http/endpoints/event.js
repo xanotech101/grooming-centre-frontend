@@ -35,7 +35,7 @@ export const userGetEventListing = async () => {
 export const userJoinEvent = async (eventId) => {
   const path = `/event-attendance/create/${eventId}`;
 
-  await http.get(path);
+  await http.post(path);
 };
 
 /**

@@ -71,7 +71,7 @@ const Avatar = () => {
       </MenuButton>
 
       <MenuList position="relative" zIndex={2}>
-        <MenuGroup title="Profile">
+        <MenuGroup>
           <MenuItem>My Account</MenuItem>
           <MenuItem as={Link} to="/chats">
             Messages
