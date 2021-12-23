@@ -29,6 +29,7 @@ import {
   Input,
   SkeletonText,
   SearchBar,
+  Image,
 } from "../../../components";
 import imagePlaceholder from "../../../assets/images/Avatar.svg";
 import breakpoints, {
@@ -45,6 +46,7 @@ import { Fragment, useCallback, useEffect } from "react";
 import { userGetAUserMessages, userGetUsersMessages } from "../../../services";
 import dayjs from "dayjs";
 import { EmptyState } from "../../../layouts";
+import errorImage from "../../../assets/images/error.svg";
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
@@ -190,6 +192,7 @@ const ChatArea = () => {
   const userId = useQueryParams().get("userId");
 
   const noCurrentUser = !userId;
+
   // const noCurrentUserMessages = !currentUserMessages.loading && !currentUserMessages.err && currentUserMessages.data?.messages.length;
 
   return (
@@ -197,6 +200,15 @@ const ChatArea = () => {
       {noCurrentUser || currentUserMessages.err ? (
         <EmptyState
           height="calc(65vh + 82px)"
+          illustration={
+            <Image
+              src={errorImage}
+              height="200px"
+              alt="Course Header"
+              mb={5}
+              transform="translateX(-10px)"
+            />
+          }
           heading={
             currentUserMessages.err
               ? "Ops! Something went wrong"
@@ -275,7 +287,10 @@ const ChatArea = () => {
       )}
 
       <Flex padding={4} borderTop="1px" borderColor="accent.1">
-        <IconButton backgroundColor="accent.1" disabled={noCurrentUser}>
+        <IconButton
+          backgroundColor="accent.1"
+          disabled={noCurrentUser || !currentUserMessages.data}
+        >
           <AiOutlinePlus />
         </IconButton>
 
@@ -283,14 +298,21 @@ const ChatArea = () => {
           id="type"
           placeholder="Type a message here"
           variant="ghost"
-          disabled={noCurrentUser}
+          disabled={noCurrentUser || !currentUserMessages.data}
         />
 
-        <IconButton shadow="none" marginRight={2} disabled={noCurrentUser}>
+        <IconButton
+          shadow="none"
+          marginRight={2}
+          disabled={noCurrentUser || !currentUserMessages.data}
+        >
           <GrEmoji />
         </IconButton>
 
-        <IconButton primary disabled={noCurrentUser}>
+        <IconButton
+          primary
+          disabled={noCurrentUser || !currentUserMessages.data}
+        >
           <IoIosSend />
         </IconButton>
       </Flex>
