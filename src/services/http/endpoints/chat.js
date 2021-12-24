@@ -50,3 +50,10 @@ export const userGetAUserMessages = async (id) => {
 
   return { user };
 };
+
+export const currentUserMessagePayload = ({ title, userId }) => ({
+  id: `${Date.now()}`,
+  date: dayjs().to(dayjs(new Date().toISOString())),
+  title,
+  userId,
+});

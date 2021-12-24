@@ -21,6 +21,8 @@ import {
   ModalCloseButton,
   ModalHeader,
   Skeleton,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { Route, useHistory } from "react-router-dom";
 import {
@@ -37,7 +39,7 @@ import breakpoints, {
   maxWidthStyles_userPages,
 } from "../../../theme/breakpoints";
 import { MdAttachFile } from "react-icons/md";
-import { truncateText } from "../../../utils";
+import { capitalizeFirstLetter, truncateText } from "../../../utils";
 import { GrEmoji } from "react-icons/gr";
 import {
   BiCheckDouble,
@@ -48,10 +50,15 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
 import { useFetch, useQueryParams } from "../../../hooks";
 import { Fragment, useCallback, useEffect, useRef } from "react";
-import { userGetAUserMessages, userGetUsersMessages } from "../../../services";
+import {
+  currentUserMessagePayload,
+  userGetAUserMessages,
+  userGetUsersMessages,
+} from "../../../services";
 import { EmptyState } from "../../../layouts";
 import errorImage from "../../../assets/images/error.svg";
 import { useApp } from "../../../contexts";
+import { useForm } from "react-hook-form";
 
 const useAllUsersMessages = () => {
   const { resource, handleFetchResource } = useFetch();
@@ -74,7 +81,7 @@ const useAllUsersMessages = () => {
 };
 
 const useUserMessages = () => {
-  const { resource, handleFetchResource } = useFetch();
+  const { resource, setResource, handleFetchResource } = useFetch();
   const userId = useQueryParams().get("userId");
 
   const fetcher = useCallback(async () => {
@@ -91,7 +98,7 @@ const useUserMessages = () => {
     if (userId) handleFetch();
   }, [handleFetch, userId]);
 
-  return { resource, handleFetch };
+  return { resource, setResource, handleFetch };
 };
 
 const ChatLayout = () => {
@@ -143,7 +150,7 @@ const Aside = () => {
       <Box
         padding={3}
         overflowY="auto"
-        height="calc(65vh + 82px + 73px - 55px)"
+        height="calc(60vh + 82px + 73px - 55px)"
       >
         {allUsersMessages.loading &&
           [1, 2, 3, 4, 5].map((i) => <UsersMessagesItem isLoading key={i} />)}
@@ -190,6 +197,7 @@ const Aside = () => {
 const ChatArea = () => {
   const {
     resource: currentUserMessages,
+    setResource: setCurrentUserMessages,
     handleFetch: handleCurrentMessagesRetry,
   } = useUserMessages();
   const userId = useQueryParams().get("userId");
@@ -197,6 +205,8 @@ const ChatArea = () => {
   const {
     state: { user: currentLoggedInUser },
   } = useApp();
+
+  const toast = useToast();
 
   const noCurrentUser = !userId;
   const noCurrentUserMessages =
@@ -219,16 +229,58 @@ const ChatArea = () => {
       }))
     : null;
 
-  const typeInputRef = useRef();
   const messagesRef = useRef();
 
   const scrollMessagesToBottom = () => {
-    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    setTimeout(
+      () => (messagesRef.current.scrollTop = messagesRef.current.scrollHeight),
+      300
+    );
+  };
+
+  const handleFocusTypeInput = () =>
+    document.querySelector("#type-message")?.focus();
+
+  const handleNewMessageAdd = (payload) => {
+    console.log(payload);
+
+    setCurrentUserMessages((currentUserMessages) => ({
+      data: {
+        ...currentUserMessages.data,
+        conversations: [...currentUserMessages.data.conversations, payload],
+      },
+    }));
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+  } = useForm();
+
+  const onSubmit = async ({ message }) => {
+    try {
+      handleNewMessageAdd(
+        currentUserMessagePayload({
+          title: message,
+          userId: currentLoggedInUser.id,
+        })
+      );
+
+      reset();
+    } catch (err) {
+      toast({
+        description: capitalizeFirstLetter(err.message),
+        position: "top",
+        status: "error",
+      });
+    }
   };
 
   useEffect(() => {
     if (conversations?.length > 0) {
-      typeInputRef.current.focus();
+      handleFocusTypeInput();
       scrollMessagesToBottom();
     }
   }, [conversations?.length]);
@@ -237,7 +289,7 @@ const ChatArea = () => {
     <Box as="main" shadow="md">
       {noCurrentUser || currentUserMessages.err || noCurrentUserMessages ? (
         <EmptyState
-          height="calc(65vh + 82px)"
+          height="calc(60vh + 82px)"
           illustration={
             noCurrentUserMessages ? undefined : (
               <Image
@@ -267,7 +319,7 @@ const ChatArea = () => {
             currentUserMessages.err ? (
               <Button onClick={handleCurrentMessagesRetry}>Try Again</Button>
             ) : noCurrentUserMessages ? (
-              <Button onClick={() => typeInputRef.current.focus()}>
+              <Button onClick={handleFocusTypeInput}>
                 Start A Conversation
               </Button>
             ) : (
@@ -333,7 +385,7 @@ const ChatArea = () => {
             </ButtonGroup>
           </Flex>
 
-          <Box height="65vh" overflowY="auto" py={4} ref={messagesRef}>
+          <Box height="60vh" overflowY="auto" py={4} ref={messagesRef}>
             {currentUserMessages.loading && !currentLoggedInUser && (
               <>
                 <MessageBox isLoading />
@@ -346,22 +398,30 @@ const ChatArea = () => {
             )}
 
             {currentLoggedInUser &&
-              conversations?.map((message) => (
-                <MessageBox
-                  key={message.id}
-                  mine={currentLoggedInUser?.id === message.userId}
-                  profilePics={message.userProfilePics}
-                  name={currentUserMessages.data.user.name}
-                  date={message.date}
-                >
-                  <Text>{message.title}</Text>
-                </MessageBox>
-              ))}
+              conversations?.map((message) => {
+                return (
+                  <MessageBox
+                    key={message.id}
+                    mine={currentLoggedInUser?.id === message.userId}
+                    profilePics={message.userProfilePics}
+                    name={currentUserMessages.data.user.name}
+                    date={message.date}
+                  >
+                    <Text>{message.title}</Text>
+                  </MessageBox>
+                );
+              })}
           </Box>
         </>
       )}
 
-      <Flex padding={4} borderTop="1px" borderColor="accent.1">
+      <Flex
+        as="form"
+        padding={4}
+        borderTop="1px"
+        borderColor="accent.1"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <IconButton
           backgroundColor="accent.1"
           // disabled={noCurrentUser || !currentUserMessages.data}
@@ -371,12 +431,14 @@ const ChatArea = () => {
         </IconButton>
 
         <Input
-          id="type"
+          id="type-message"
           placeholder="Type a message here"
           variant="ghost"
           disabled={noCurrentUser || !currentUserMessages.data}
           mx={2}
-          ref={typeInputRef}
+          {...register("message", {
+            required: true,
+          })}
         />
 
         <IconButton
@@ -389,9 +451,15 @@ const ChatArea = () => {
 
         <IconButton
           primary
-          disabled={noCurrentUser || !currentUserMessages.data}
+          disabled={
+            noCurrentUser ||
+            !currentUserMessages.data ||
+            isSubmitting ||
+            !currentLoggedInUser
+          }
+          type="submit"
         >
-          <IoIosSend />
+          {isSubmitting ? <Spinner /> : <IoIosSend />}
         </IconButton>
       </Flex>
     </Box>
