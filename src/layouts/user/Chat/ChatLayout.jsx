@@ -225,7 +225,7 @@ const ChatArea = () => {
             : item.date,
         userProfilePics:
           list[index - 1]?.userId === list[index].userId
-            ? null
+            ? "skip"
             : item.userProfilePics,
       }))
     : null;
@@ -537,7 +537,7 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
         />
       ) : (
         <>
-          {!mine && profilePics && (
+          {!mine && profilePics !== "skip" && (
             <Avatar
               name={name}
               src={profilePics}
@@ -546,7 +546,7 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
               mr={3}
             />
           )}
-          {!mine && !profilePics && <Box boxSize="30px" mr={3}></Box>}
+          {!mine && profilePics === "skip" && <Box boxSize="30px" mr={3}></Box>}
 
           <Stack
             flex={1}
