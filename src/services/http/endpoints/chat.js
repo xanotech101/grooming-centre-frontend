@@ -1,4 +1,7 @@
 import { http } from "../http";
+import dayjs from "dayjs";
+const relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
 
 export const userGetUsersMessages = async () => {
   const path = `/chat/messages/users`;
@@ -15,7 +18,7 @@ export const userGetUsersMessages = async () => {
       profilePics: userMsg.user.profilePics,
       name: userMsg.user.firstName + " " + userMsg.user.lastName,
     },
-    date: userMsg.date,
+    date: dayjs().to(dayjs(userMsg.date)),
     unreadCount: userMsg.unreadCount,
   }));
 
@@ -36,6 +39,13 @@ export const userGetAUserMessages = async (id) => {
       profilePics: data.user.profilePics,
       name: data.user.firstName + " " + data.user.lastName,
     },
+    conversations: data.messages.map((msg) => ({
+      id: msg.id,
+      title: msg.title,
+      date: dayjs().to(dayjs(msg.createdAt)),
+      userId: msg.user.id,
+      userProfilePics: msg.user.profilePics,
+    })),
   };
 
   return { user };

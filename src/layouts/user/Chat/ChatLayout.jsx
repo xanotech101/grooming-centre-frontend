@@ -20,6 +20,7 @@ import {
   ModalFooter,
   ModalCloseButton,
   ModalHeader,
+  Skeleton,
 } from "@chakra-ui/react";
 import { Route, useHistory } from "react-router-dom";
 import {
@@ -42,13 +43,11 @@ import { BiDotsVerticalRounded, BiRefresh } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
 import { useFetch, useQueryParams } from "../../../hooks";
-import { Fragment, useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useRef } from "react";
 import { userGetAUserMessages, userGetUsersMessages } from "../../../services";
-import dayjs from "dayjs";
 import { EmptyState } from "../../../layouts";
 import errorImage from "../../../assets/images/error.svg";
-var relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime);
+import { useApp } from "../../../contexts";
 
 const useAllUsersMessages = () => {
   const { resource, handleFetchResource } = useFetch();
@@ -140,7 +139,7 @@ const Aside = () => {
       <Box
         padding={3}
         overflowY="auto"
-        height="calc(65vh + 82px + 73px - 43.19px)"
+        height="calc(65vh + 82px + 73px - 55px)"
       >
         {allUsersMessages.loading &&
           [1, 2, 3, 4, 5].map((i) => <UsersMessagesItem isLoading key={i} />)}
@@ -191,9 +190,27 @@ const ChatArea = () => {
   } = useUserMessages();
   const userId = useQueryParams().get("userId");
 
-  const noCurrentUser = !userId;
+  const {
+    state: { user: currentLoggedInUser },
+  } = useApp();
 
+  const noCurrentUser = !userId;
   // const noCurrentUserMessages = !currentUserMessages.loading && !currentUserMessages.err && currentUserMessages.data?.messages.length;
+
+  const conversations = currentUserMessages.data
+    ? currentUserMessages.data.conversations.map((item, index, list) => ({
+        ...item,
+        date:
+          list[index + 1]?.date === list[index].date &&
+          list[index + 1]?.userId === list[index].userId
+            ? null
+            : item.date,
+        userProfilePics:
+          list[index - 1]?.userId === list[index].userId
+            ? null
+            : item.userProfilePics,
+      }))
+    : null;
 
   return (
     <Box as="main" shadow="md">
@@ -259,7 +276,7 @@ const ChatArea = () => {
                 {currentUserMessages.data && (
                   <>
                     <Text bold textTransform="capitalize">
-                      John doe
+                      {currentUserMessages.data.user.name}
                     </Text>
                     <Text color="accent.7">Last online 5 hours ago</Text>
                   </>
@@ -268,7 +285,10 @@ const ChatArea = () => {
             </Flex>
 
             <ButtonGroup spacing="4">
-              <IconButton disabled={currentUserMessages.loading}>
+              <IconButton
+                // disabled={currentUserMessages.loading}
+                disabled // TODO: remove this we support upload
+              >
                 <MdAttachFile />
               </IconButton>
 
@@ -282,14 +302,39 @@ const ChatArea = () => {
             </ButtonGroup>
           </Flex>
 
-          <Box height="65vh" overflowY="auto"></Box>
+          <Box height="65vh" overflowY="auto" py={4}>
+            {currentUserMessages.loading && !currentLoggedInUser && (
+              <>
+                <MessageBox isLoading />
+                <MessageBox isLoading />
+                <MessageBox isLoading mine />
+                <MessageBox isLoading />
+                <MessageBox isLoading mine />
+                <MessageBox isLoading />
+              </>
+            )}
+
+            {currentLoggedInUser &&
+              conversations?.map((message) => (
+                <MessageBox
+                  key={message.id}
+                  mine={currentLoggedInUser?.id === message.userId}
+                  profilePics={message.userProfilePics}
+                  name={currentUserMessages.data.user.name}
+                  date={message.date}
+                >
+                  <Text>{message.title}</Text>
+                </MessageBox>
+              ))}
+          </Box>
         </>
       )}
 
       <Flex padding={4} borderTop="1px" borderColor="accent.1">
         <IconButton
           backgroundColor="accent.1"
-          disabled={noCurrentUser || !currentUserMessages.data}
+          // disabled={noCurrentUser || !currentUserMessages.data}
+          disabled // TODO: remove this we support upload
         >
           <AiOutlinePlus />
         </IconButton>
@@ -317,6 +362,67 @@ const ChatArea = () => {
         </IconButton>
       </Flex>
     </Box>
+  );
+};
+
+const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
+  const style = {
+    maxWidth: "80%",
+    border: "1px",
+    color: mine ? "accent.3" : "white",
+    backgroundColor: !mine && "accent.3",
+    p: 4,
+    rounded: "1rem",
+    roundedTopStart: !mine && "none",
+    roundedBottomRight: mine && "none",
+  };
+
+  const wrapperRef = useRef();
+
+  useEffect(() => {
+    if (!isLoading) wrapperRef.current.focus();
+  }, [isLoading]);
+
+  return (
+    <Flex
+      ref={wrapperRef}
+      tabIndex={0}
+      outline="none"
+      p={2}
+      pb={0}
+      justifyContent={isLoading && (mine ? "flex-end" : "flex-start")}
+    >
+      {isLoading ? (
+        <Skeleton
+          {...style}
+          width={Math.random() > 0.5 ? "50%" : "40%"}
+          height="55px"
+        />
+      ) : (
+        <>
+          {!mine && profilePics && (
+            <Avatar
+              name={name}
+              src={profilePics}
+              rounded="full"
+              boxSize="30px"
+              mr={3}
+            />
+          )}
+          {!mine && !profilePics && <Box boxSize="30px" mr={3}></Box>}
+
+          <Stack flex={1} alignItems={mine ? "flex-end" : "flex-start"}>
+            <Box {...style}>{children}</Box>
+
+            {date && (
+              <Text color="accent.3" pb={2}>
+                {date}
+              </Text>
+            )}
+          </Stack>
+        </>
+      )}
+    </Flex>
   );
 };
 
@@ -465,7 +571,7 @@ const UsersMessagesItem = ({
       {!isLoading && (
         <Stack alignItems="center">
           <Text as="level5" opacity={0.8}>
-            {dayjs().to(dayjs(date))}
+            {date}
           </Text>
 
           <MoreIconButton
