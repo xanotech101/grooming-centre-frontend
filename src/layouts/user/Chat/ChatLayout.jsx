@@ -199,7 +199,10 @@ const ChatArea = () => {
   } = useApp();
 
   const noCurrentUser = !userId;
-  // const noCurrentUserMessages = !currentUserMessages.loading && !currentUserMessages.err && currentUserMessages.data?.messages.length;
+  const noCurrentUserMessages =
+    !currentUserMessages.loading &&
+    !currentUserMessages.err &&
+    currentUserMessages.data?.conversations.length === 0;
 
   const conversations = currentUserMessages.data
     ? currentUserMessages.data.conversations.map((item, index, list) => ({
@@ -216,33 +219,57 @@ const ChatArea = () => {
       }))
     : null;
 
+  const typeInputRef = useRef();
+  const messagesRef = useRef();
+
+  const scrollMessagesToBottom = () => {
+    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  };
+
+  useEffect(() => {
+    if (conversations?.length > 0) {
+      typeInputRef.current.focus();
+      scrollMessagesToBottom();
+    }
+  }, [conversations?.length]);
+
   return (
     <Box as="main" shadow="md">
-      {noCurrentUser || currentUserMessages.err ? (
+      {noCurrentUser || currentUserMessages.err || noCurrentUserMessages ? (
         <EmptyState
           height="calc(65vh + 82px)"
           illustration={
-            <Image
-              src={errorImage}
-              height="200px"
-              alt="Course Header"
-              mb={5}
-              transform="translateX(-10px)"
-            />
+            noCurrentUserMessages ? undefined : (
+              <Image
+                src={errorImage}
+                height="200px"
+                alt="Course Header"
+                mb={5}
+                transform="translateX(-10px)"
+              />
+            )
           }
           heading={
             currentUserMessages.err
               ? "Ops! Something went wrong"
+              : noCurrentUserMessages
+              ? "No messages yet"
               : "No user selected"
           }
           description={
-            currentUserMessages.err
+            noCurrentUserMessages
+              ? "Start messaging to get started"
+              : currentUserMessages.err
               ? "An unexpected error occurred. Please try again later."
               : "Please select a user"
           }
           cta={
             currentUserMessages.err ? (
               <Button onClick={handleCurrentMessagesRetry}>Try Again</Button>
+            ) : noCurrentUserMessages ? (
+              <Button onClick={() => typeInputRef.current.focus()}>
+                Start A Conversation
+              </Button>
             ) : (
               <ListOfUsers
                 renderTrigger={({ onOpen }) => (
@@ -306,7 +333,7 @@ const ChatArea = () => {
             </ButtonGroup>
           </Flex>
 
-          <Box height="65vh" overflowY="auto" py={4}>
+          <Box height="65vh" overflowY="auto" py={4} ref={messagesRef}>
             {currentUserMessages.loading && !currentLoggedInUser && (
               <>
                 <MessageBox isLoading />
@@ -348,6 +375,8 @@ const ChatArea = () => {
           placeholder="Type a message here"
           variant="ghost"
           disabled={noCurrentUser || !currentUserMessages.data}
+          mx={2}
+          ref={typeInputRef}
         />
 
         <IconButton
@@ -382,21 +411,12 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
     position: "relative",
   };
 
-  const wrapperRef = useRef();
-
-  useEffect(() => {
-    if (!isLoading) wrapperRef.current.focus();
-  }, [isLoading]);
-
   const moreList = mine
     ? [{ text: "Edit This Messages" }, { text: "Delete this Message" }]
     : [{ text: "Delete this Message" }];
 
   return (
     <Flex
-      ref={wrapperRef}
-      tabIndex={0}
-      outline="none"
       p={2}
       pb={0}
       justifyContent={isLoading && (mine ? "flex-end" : "flex-start")}
