@@ -46,10 +46,10 @@ import {
   BiDotsVerticalRounded,
   BiRefresh,
 } from "react-icons/bi";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
 import { useFetch, useQueryParams } from "../../../hooks";
-import { Fragment, useCallback, useEffect, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
   currentUserMessagePayload,
   userGetAUserMessages,
@@ -59,6 +59,7 @@ import { EmptyState } from "../../../layouts";
 import errorImage from "../../../assets/images/error.svg";
 import { useApp } from "../../../contexts";
 import { useForm } from "react-hook-form";
+import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 
 const useAllUsersMessages = () => {
   const { resource, handleFetchResource } = useFetch();
@@ -257,7 +258,12 @@ const ChatArea = () => {
     handleSubmit,
     formState: { isSubmitting },
     reset,
+    setValue,
+    getValues,
   } = useForm();
+
+  const handleEmojiSelect = ({ emoji }) =>
+    setValue("message", `${getValues("message")}${emoji}`);
 
   const onSubmit = async ({ message }) => {
     try {
@@ -441,13 +447,10 @@ const ChatArea = () => {
           })}
         />
 
-        <IconButton
-          shadow="none"
-          marginRight={2}
+        <EmojiPicker
           disabled={noCurrentUser || !currentUserMessages.data}
-        >
-          <GrEmoji />
-        </IconButton>
+          onSelect={handleEmojiSelect}
+        />
 
         <IconButton
           primary
@@ -462,6 +465,43 @@ const ChatArea = () => {
           {isSubmitting ? <Spinner /> : <IoIosSend />}
         </IconButton>
       </Flex>
+    </Box>
+  );
+};
+
+const EmojiPicker = ({ disabled, onSelect }) => {
+  const [displayPicker, setDisplayPicker] = useState(false);
+
+  const handleTogglePicker = () => setDisplayPicker((prev) => !prev);
+
+  const onEmojiClick = (_event, emojiObject) => {
+    onSelect(emojiObject);
+    setDisplayPicker(false);
+  };
+
+  return (
+    <Box pos="relative">
+      <IconButton
+        shadow="none"
+        marginRight={2}
+        disabled={disabled}
+        onClick={handleTogglePicker}
+        primary={displayPicker}
+      >
+        {displayPicker ? <AiOutlineClose /> : <GrEmoji />}
+      </IconButton>
+
+      {displayPicker && (
+        <Box pos="absolute" bottom="110%" right="0" zIndex={100}>
+          <Picker
+            onEmojiClick={onEmojiClick}
+            disableAutoFocus={true}
+            skinTone={SKIN_TONE_MEDIUM_DARK}
+            groupNames={{ smileys_people: "PEOPLE" }}
+            native
+          />
+        </Box>
+      )}
     </Box>
   );
 };
