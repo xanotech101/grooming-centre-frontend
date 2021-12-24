@@ -59,7 +59,7 @@ import { EmptyState } from "../../../layouts";
 import errorImage from "../../../assets/images/error.svg";
 import { useApp } from "../../../contexts";
 import { useForm } from "react-hook-form";
-import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
+import Picker, { SKIN_TONE_MEDIUM } from "emoji-picker-react";
 
 const useAllUsersMessages = () => {
   const { resource, handleFetchResource } = useFetch();
@@ -496,7 +496,7 @@ const EmojiPicker = ({ disabled, onSelect }) => {
           <Picker
             onEmojiClick={onEmojiClick}
             disableAutoFocus={true}
-            skinTone={SKIN_TONE_MEDIUM_DARK}
+            skinTone={SKIN_TONE_MEDIUM}
             groupNames={{ smileys_people: "PEOPLE" }}
             native
           />
