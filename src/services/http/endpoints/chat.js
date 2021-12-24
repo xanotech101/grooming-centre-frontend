@@ -33,7 +33,7 @@ export const userGetAUserMessages = async (id) => {
   } = await http.get(path);
 
   const user = {
-    id: data.id,
+    // id: data.id,
     user: {
       id: data.user.id,
       profilePics: data.user.profilePics,

@@ -39,7 +39,11 @@ import breakpoints, {
 import { MdAttachFile } from "react-icons/md";
 import { truncateText } from "../../../utils";
 import { GrEmoji } from "react-icons/gr";
-import { BiDotsVerticalRounded, BiRefresh } from "react-icons/bi";
+import {
+  BiCheckDouble,
+  BiDotsVerticalRounded,
+  BiRefresh,
+} from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
 import { useFetch, useQueryParams } from "../../../hooks";
@@ -375,6 +379,7 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
     rounded: "1rem",
     roundedTopStart: !mine && "none",
     roundedBottomRight: mine && "none",
+    position: "relative",
   };
 
   const wrapperRef = useRef();
@@ -382,6 +387,10 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
   useEffect(() => {
     if (!isLoading) wrapperRef.current.focus();
   }, [isLoading]);
+
+  const moreList = mine
+    ? [{ text: "Edit This Messages" }, { text: "Delete this Message" }]
+    : [{ text: "Delete this Message" }];
 
   return (
     <Flex
@@ -411,8 +420,37 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
           )}
           {!mine && !profilePics && <Box boxSize="30px" mr={3}></Box>}
 
-          <Stack flex={1} alignItems={mine ? "flex-end" : "flex-start"}>
-            <Box {...style}>{children}</Box>
+          <Stack
+            flex={1}
+            alignItems={mine ? "flex-end" : "flex-start"}
+            pos="relative"
+          >
+            <Box {...style}>
+              {children}
+
+              <Box
+                position="absolute"
+                zIndex="1"
+                top={"50%"}
+                transform="translateY(-50%)"
+                left={!mine && "calc(100% + 20px)"}
+                right={mine && "calc(100% + 20px)"}
+              >
+                <MoreIconButton
+                  transform="rotate(90deg)"
+                  color="accent.3"
+                  list={moreList}
+                  placement={mine ? "left" : "right"}
+                />
+              </Box>
+            </Box>
+
+            {mine && (
+              <Box position="absolute" right={2} top="-3px">
+                {/* <BiCheck /> */}
+                <BiCheckDouble />
+              </Box>
+            )}
 
             {date && (
               <Text color="accent.3" pb={2}>
@@ -586,21 +624,21 @@ const UsersMessagesItem = ({
   );
 };
 
-const MoreIconButton = ({ list }) => {
+const MoreIconButton = ({ list, placement = "bottom-end", ...rest }) => {
   return (
-    <Menu placement="bottom-end">
+    <Menu placement={placement}>
       <MenuButton
         as={Box}
         cursor={!list ? "no-drop" : "pointer"}
         opacity={!list ? 0.5 : 1}
       >
-        <IconButton>
+        <IconButton {...rest}>
           <BiDotsVerticalRounded />
         </IconButton>
       </MenuButton>
 
       {list && (
-        <MenuList>
+        <MenuList color="black">
           {list.map((item, index) =>
             item.renderContent ? (
               <Fragment key={index}>{item.renderContent()}</Fragment>
