@@ -46,14 +46,14 @@ import {
   BiDotsVerticalRounded,
   BiRefresh,
 } from "react-icons/bi";
-import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineClose, AiOutlineFile } from "react-icons/ai";
 import { IoIosSend } from "react-icons/io";
 import { useFetch, useQueryParams } from "../../../hooks";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
   currentUserMessagePayload,
-  userGetAUserMessages,
-  userGetUsersMessages,
+  userGetOneRoom,
+  userGetMessagingRooms,
 } from "../../../services";
 import { EmptyState } from "../../../layouts";
 import errorImage from "../../../assets/images/error.svg";
@@ -61,12 +61,40 @@ import { useApp } from "../../../contexts";
 import { useForm } from "react-hook-form";
 import Picker, { SKIN_TONE_MEDIUM } from "emoji-picker-react";
 
-const useAllUsersMessages = () => {
+// //
+// //
+// import socketClient from "socket.io-client";
+// const SERVER = "http://127.0.0.1:8080";
+// //
+// //
+
+const ChatLayout = () => {
+  // const socket = socketClient(SERVER);
+  // socket.on("connection", () => {
+  //   console.log(`I'm connected with the back-end`);
+  // });
+
+  return (
+    <Grid
+      {...maxWidthStyles_userPages}
+      maxWidth={breakpoints["laptop"]}
+      gridTemplateColumns="350px 1fr"
+      gridGap={10}
+      padding={8}
+    >
+      <Aside />
+
+      <ChatArea />
+    </Grid>
+  );
+};
+
+const useAllMessagingRooms = () => {
   const { resource, handleFetchResource } = useFetch();
 
   const fetcher = useCallback(async () => {
-    const { users } = await userGetUsersMessages();
-    return users;
+    const { rooms } = await userGetMessagingRooms();
+    return rooms;
   }, []);
 
   const handleFetch = useCallback(
@@ -86,7 +114,7 @@ const useUserMessages = () => {
   const userId = useQueryParams().get("userId");
 
   const fetcher = useCallback(async () => {
-    const { user } = await userGetAUserMessages(userId);
+    const { user } = await userGetOneRoom(userId);
     return user;
   }, [userId]);
 
@@ -102,25 +130,9 @@ const useUserMessages = () => {
   return { resource, setResource, handleFetch };
 };
 
-const ChatLayout = () => {
-  return (
-    <Grid
-      {...maxWidthStyles_userPages}
-      maxWidth={breakpoints["laptop"]}
-      gridTemplateColumns="325px 1fr"
-      gridGap={10}
-      padding={8}
-    >
-      <Aside />
-
-      <ChatArea />
-    </Grid>
-  );
-};
-
 const Aside = () => {
-  const { resource: allUsersMessages, handleFetch: handleMessagesRetry } =
-    useAllUsersMessages();
+  const { resource: allMessagingRooms, handleFetch: handleMessagesRetry } =
+    useAllMessagingRooms();
 
   return (
     <Box as="aside">
@@ -153,23 +165,25 @@ const Aside = () => {
         overflowY="auto"
         height="calc(60vh + 82px + 73px - 55px)"
       >
-        {allUsersMessages.loading &&
-          [1, 2, 3, 4, 5].map((i) => <UsersMessagesItem isLoading key={i} />)}
+        {allMessagingRooms.loading &&
+          [1, 2, 3, 4, 5].map((i) => <MessagingRoomsItem isLoading key={i} />)}
 
-        {allUsersMessages.data &&
-          allUsersMessages.data.map((userMsg) => (
-            <UsersMessagesItem
-              key={userMsg.id}
-              msg={userMsg.message}
-              date={userMsg.date}
-              name={userMsg.user.name}
-              userId={userMsg.user.id}
-              profilePics={userMsg.user.profilePics}
-              unreadCount={userMsg.unreadCount}
+        {allMessagingRooms.data &&
+          allMessagingRooms.data.map((room) => (
+            <MessagingRoomsItem
+              key={room.id}
+              id={room.id}
+              isGroup={room.isGroup}
+              msg={room.message.text}
+              date={room.message.date}
+              file={room.message.file}
+              name={room.name}
+              profilePics={room.image}
+              unreadCount={room.unreadCount}
             />
           ))}
 
-        {allUsersMessages.err && (
+        {allMessagingRooms.err && (
           <Flex
             textAlign="center"
             alignItems="center"
@@ -648,9 +662,11 @@ const ListOfUsers = ({ renderTrigger }) => {
   );
 };
 
-const UsersMessagesItem = ({
-  userId,
+const MessagingRoomsItem = ({
+  id,
   msg,
+  file,
+  isGroup,
   name,
   date,
   profilePics,
@@ -660,7 +676,7 @@ const UsersMessagesItem = ({
   const { push } = useHistory();
 
   const handleViewConversation = () => {
-    push(`/chats?userId=${userId}`);
+    push(`/chats?roomId=${id}`);
   };
 
   return (
@@ -671,6 +687,7 @@ const UsersMessagesItem = ({
       alignItems="flex-start"
       spacing={3}
       pos="relative"
+      // border={isGroup && "1px"}
     >
       {unreadCount && (
         <Grid
@@ -701,11 +718,19 @@ const UsersMessagesItem = ({
           rounded="full"
           alignSelf={"center"}
           cursor="pointer"
+          transition=".05s"
+          _hover={{ transform: "scale(1.02)" }}
           onClick={handleViewConversation}
         />
       )}
 
-      <Box flex={1} cursor="pointer" onClick={handleViewConversation}>
+      <Box
+        flex={1}
+        cursor="pointer"
+        transition=".05s"
+        _hover={{ transform: "scale(1.02)" }}
+        onClick={handleViewConversation}
+      >
         {!isLoading ? (
           <>
             <Box mb={2}>
@@ -724,7 +749,25 @@ const UsersMessagesItem = ({
               </Text>
             </Box>
 
-            <Text as="level5">{truncateText(msg, 56)}</Text>
+            {msg ? (
+              <Text as="level5">{truncateText(msg, 56)}</Text>
+            ) : (
+              file && (
+                <Flex
+                  border="1px"
+                  borderColor="accent.1"
+                  p={1}
+                  color="primary.base"
+                  w="fit-content"
+                >
+                  <Text mr={1} as="level5">
+                    {file.name}
+                  </Text>
+
+                  <AiOutlineFile />
+                </Flex>
+              )
+            )}
           </>
         ) : (
           <>

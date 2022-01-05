@@ -2,27 +2,27 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
-  userGetAUserMessagesRes_userId_1,
-  userGetAUserMessagesRes_userId_2,
-  userGetMessagesRes,
+  userGetOneRoomRes_userId_1,
+  userGetOneRoomRes_userId_2,
+  userGetMessagingRoomsRes,
 } from "./responses";
 
-const userGetUsersMessages = rest.get(
-  getUrl("/chat/messages/users"),
-  handleSuccessResponse(userGetMessagesRes)
+const userGetMessagingRooms = rest.get(
+  getUrl("/chat/rooms"),
+  handleSuccessResponse(userGetMessagingRoomsRes)
 );
 
-const userGetAUserMessages = [
+const userGetOneRoom = [
   rest.get(
-    getUrl("/chat/messages/users/userId_1"),
-    handleSuccessResponse(userGetAUserMessagesRes_userId_1)
+    getUrl("/chat/rooms/userId_1"),
+    handleSuccessResponse(userGetOneRoomRes_userId_1)
   ),
   rest.get(
-    getUrl("/chat/messages/users/userId_2"),
-    handleSuccessResponse(userGetAUserMessagesRes_userId_2)
+    getUrl("/chat/rooms/userId_2"),
+    handleSuccessResponse(userGetOneRoomRes_userId_2)
   ),
 ];
 
-const chat = [userGetUsersMessages, ...userGetAUserMessages];
+const chat = [userGetMessagingRooms, ...userGetOneRoom];
 
 export default chat;

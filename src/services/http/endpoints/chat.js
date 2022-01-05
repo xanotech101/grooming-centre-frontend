@@ -1,32 +1,43 @@
 import { http } from "../http";
 import dayjs from "dayjs";
+import { truncateText } from "../../../utils";
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
-export const userGetUsersMessages = async () => {
-  const path = `/chat/messages/users`;
+export const userGetMessagingRooms = async () => {
+  const path = `/chat/rooms`;
 
   const {
     data: { data },
   } = await http.get(path);
 
-  const users = data.map((userMsg) => ({
-    id: userMsg.id,
-    message: userMsg.lastMessage,
-    user: {
-      id: userMsg.user.id,
-      profilePics: userMsg.user.profilePics,
-      name: userMsg.user.firstName + " " + userMsg.user.lastName,
+  const rooms = data.map((room) => ({
+    id: room.id,
+    isGroup: room.isGroup,
+    name: room.name,
+    image: room.image,
+    unreadCount: room.unreadCount,
+    message: {
+      text: room.message.text,
+      date: dayjs().to(dayjs(room.message.createdAt)),
+      file: room.message.file
+        ? {
+            // url: room.message.file.url,
+            // extension: room.message.file.extension,
+            type: room.message.file.type,
+            name: `${truncateText(room.message.file.name, 25)}.${
+              room.message.file.extension
+            }`,
+          }
+        : null,
     },
-    date: dayjs().to(dayjs(userMsg.date)),
-    unreadCount: userMsg.unreadCount,
   }));
 
-  return { users };
+  return { rooms };
 };
 
-export const userGetAUserMessages = async (id) => {
-  const path = `/chat/messages/users/${id}`;
+export const userGetOneRoom = async (id) => {
+  const path = `/chat/rooms/${id}`;
 
   const {
     data: { data },
