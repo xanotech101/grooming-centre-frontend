@@ -73,9 +73,9 @@ const Avatar = () => {
       <MenuList position="relative" zIndex={2}>
         <MenuGroup>
           <MenuItem>My Account</MenuItem>
-          <MenuItem as={Link} to="/chats">
+          {/* <MenuItem as={Link} to="/chats">
             Messages
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem>Certificates</MenuItem>
           <MenuItem>Examination</MenuItem>
           <MenuItem as={Link} to="/courses/grade-overview">
