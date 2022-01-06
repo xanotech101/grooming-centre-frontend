@@ -17,11 +17,13 @@ import role from "./role/endpoints";
 import event from "./event/endpoints";
 import library from "./library/endpoints";
 import appointments from "./appointments/endpoints";
+import chat from "./chat/endpoints";
 
 const commonHandlers = [
   ...appointments,
   ...auth,
   ...course,
+  ...chat,
   ...lesson,
   ...user,
   ...grades,

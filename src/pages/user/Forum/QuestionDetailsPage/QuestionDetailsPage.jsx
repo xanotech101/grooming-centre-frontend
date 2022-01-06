@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { Route } from "react-router-dom";
-import { Heading, QuestionListCard } from "../../../../components";
+import { QuestionListCard } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
-import { capitalizeWords } from "../../../../utils";
+import { QuestionsPageErrorState } from "../../../../pages/user";
 import Comments from "../Comments/Comments";
 import CommentList from "../Comments/CommentList";
 import CommentForm, { CommentsHeader } from "../Comments/CommentForm";
@@ -9,22 +10,21 @@ import useQuestionDetailsPage from "./hooks/useQuestionDetailsPage";
 
 const QuestionDetailsPage = () => {
   const { question, commentsManager } = useQuestionDetailsPage();
+  const [commentCount, setCommentCount] = useState(0);
 
   return (
     <>
       {question.loading && <PageLoaderLayout height="70%" width="100%" />}
 
-      {question.err && (
-        <PageLoaderLayout height="70%" width="100%">
-          <Heading as="h3" marginBottom={3} color="red.500">
-            {capitalizeWords(question.err)}
-          </Heading>
-        </PageLoaderLayout>
-      )}
+      {question.err && <QuestionsPageErrorState />}
 
       {question.data && (
         <>
-          <QuestionListCard {...question.data} disabled />
+          <QuestionListCard
+            {...question.data}
+            commentCount={commentCount}
+            disabled
+          />
 
           <Comments commentsManager={commentsManager} canAddComment>
             {({
@@ -39,7 +39,7 @@ const QuestionDetailsPage = () => {
               deleteStatusIsLoading,
               expStatusIsLoading,
             }) => {
-              console.log(comments);
+              setCommentCount(comments.data.length);
 
               return (
                 <>

@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/layout";
 import { useState } from "react";
+import { QuestionsPageErrorState } from "../..";
 import { Button, Heading, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
-import { capitalizeWords } from "../../../../utils";
 import CommentForm from "./CommentForm";
 
 const Comments = ({ commentsManager, children, canAddComment }) => {
@@ -14,13 +14,7 @@ const Comments = ({ commentsManager, children, canAddComment }) => {
     <Box paddingTop={3} paddingBottom={10}>
       {comments.loading && <PageLoaderLayout height="30vh" width="100%" />}
 
-      {comments.err && (
-        <PageLoaderLayout height="30vh" width="100%">
-          <Heading as="h3" marginBottom={3} color="red.500">
-            {capitalizeWords(comments.err)}
-          </Heading>
-        </PageLoaderLayout>
-      )}
+      {comments.err && <QuestionsPageErrorState />}
 
       {commentsIsEmpty && <NoComments canAddComment={canAddComment} />}
 

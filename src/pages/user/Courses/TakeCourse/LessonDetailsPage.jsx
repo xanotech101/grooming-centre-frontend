@@ -98,13 +98,13 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
         {error ? (
           <EmptyState
             cta={<Button onClick={handleTryAgain}>Try Again</Button>}
-            heading="Oops An Error Occurred"
-            description="An unexpected error occurred, please try again later"
+            heading="Ops! Something went wrong"
+            description="An unexpected error occurred. Please try again later."
           />
         ) : lessonIsDisabled ? (
           <EmptyState
             cta={<Button onClick={handleGoBack}>Go Back</Button>}
-            heading="Oops An Error Occurred"
+            heading="Ops! Something went wrong"
             description="You are are not allowed to view this lesson"
           />
         ) : (

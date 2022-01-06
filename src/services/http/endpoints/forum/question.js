@@ -1,74 +1,6 @@
 import { truncateText, getFullName } from "../../../../utils";
 import { http } from "../../http";
 
-// /**
-//  * Endpoint to get forum questions result from a tag search
-//  *
-//  * @returns {
-//  *   Promise<{
-//  *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>,  user: { id: string, profilePics: string, fullName: string }, commentCount: number }>
-//  *   }>
-//  * }
-//  */
-// export const userForumGetQuestionsByTag = async (tagId) => {
-//   const path = `/forum/tag/${tagId}/questions`;
-
-//   const {
-//     data: { data },
-//   } = await http.get(path);
-
-//   const questions = data.rows.map((question) => ({
-//     id: question.id,
-//     title: question.title,
-//     body: truncateText(question.question, 100),
-//     createdAt: question.createdAt,
-//     // TODO: propose to the backend team
-//     tags: question.tags.map((tag) => ({
-//       id: tag.id,
-//       label: tag.name,
-//     })),
-//     user: {
-//       id: question.user.id,
-//       profilePics: question.user.profilePics,
-//       fullName: getFullName(question.user),
-//     },
-//     commentCount: question.commentCount, // TODO: propose to the backend team
-//   }));
-
-//   return { questions };
-// };
-
-// /**
-//  * Endpoint to get the current user forum questions
-//  *
-//  * @returns {
-//  *   Promise<{
-//  *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, commentCount: number }>
-//  *   }>
-//  * }
-//  */
-// export const userForumGetYourQuestions = async () => {
-//   const path = `/forum/your-questions`;
-
-//   const {
-//     data: { data },
-//   } = await http.get(path);
-
-//   const questions = data.rows.map((question) => ({
-//     id: question.id,
-//     title: question.title,
-//     body: truncateText(question.question, 100),
-//     createdAt: question.createdAt,
-//     // TODO: propose to the backend team
-//     tags: question.tags.map((tag) => ({
-//       id: tag.id,
-//       label: tag.name,
-//     })),
-//     commentCount: question.commentCount, // TODO: propose to the backend team
-//   }));
-
-//   return { questions };
-// };
 /**
  * Endpoint to get the current user forum questions
  *
@@ -79,7 +11,7 @@ import { http } from "../../http";
  * }
  */
 export const userForumGetYourQuestions = async () => {
-  const path = `/forum/question?my-questions=true`;
+  const path = `/forum/question/mine/all`;
 
   const {
     data: { data },
@@ -95,7 +27,7 @@ export const userForumGetYourQuestions = async () => {
       id: tag.id,
       label: tag.name,
     })),
-    commentCount: question.commentCount,
+    commentCount: question.forumComments.length,
   }));
 
   return { questions };
@@ -132,7 +64,7 @@ export const userForumGetQuestions = async (params) => {
       profilePics: question.user.profilePics,
       fullName: getFullName(question.user),
     },
-    commentCount: question.commentCount,
+    commentCount: question.forumComments.length,
   }));
 
   return { questions };
@@ -157,7 +89,7 @@ export const userForumGetQuestions = async (params) => {
  * }
  */
 export const userForumGetQuestionDetails = async (id) => {
-  const path = `/forum/questions/${id}`;
+  const path = `/forum/question/${id}`;
 
   const {
     data: { data },
@@ -168,7 +100,6 @@ export const userForumGetQuestionDetails = async (id) => {
     categoryId: data.categoryId,
     title: data.title,
     body: data.question,
-    commentCount: data.commentCount,
     createdAt: data.createdAt,
     active: data.active,
     tags: data.tags.map((tag) => ({
@@ -199,7 +130,7 @@ export const userForumGetCategories = async () => {
 
   const categories = data.map((category) => ({
     value: category.id,
-    label: category.name,
+    label: category.title,
   }));
 
   return { categories };

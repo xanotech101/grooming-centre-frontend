@@ -21,7 +21,7 @@ import { IoPlay } from "react-icons/io5";
 import { useDownload } from "../../hooks";
 import { Avatar } from "@chakra-ui/avatar";
 
-const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
+export const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
   const { isLoading, handleDownload } = useDownload();
 
   return (

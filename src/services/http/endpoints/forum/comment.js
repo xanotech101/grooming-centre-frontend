@@ -58,7 +58,7 @@ export const userForumGetYourAnswers = async () => {
  * }
  */
 export const userForumGetComments = async (questionId) => {
-  const path = `/forum/questions/${questionId}/comments`;
+  const path = `/forum/comment/question/${questionId}`;
 
   const {
     data: { data },

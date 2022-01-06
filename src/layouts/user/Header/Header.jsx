@@ -70,8 +70,11 @@ const Avatar = () => {
         />
       </MenuButton>
       <MenuList position="relative" zIndex={2}>
-        <MenuGroup title="Profile">
+        <MenuGroup>
           <MenuItem>My Account</MenuItem>
+          {/* <MenuItem as={Link} to="/chats">
+            Messages
+          </MenuItem> */}
           <MenuItem>Certificates</MenuItem>
           <MenuItem>Examination</MenuItem>
           <MenuItem as={Link} to="/courses/grade-overview">

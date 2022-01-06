@@ -1,8 +1,8 @@
 import { Route } from "react-router-dom";
+import { QuestionsPageErrorState } from "../..";
 import { Heading, QuestionListCard, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { AskAQuestionButton } from "../../../../layouts/user/Forum/Header/Header";
-import { capitalizeWords } from "../../../../utils";
 import useYourQuestionsPage from "./hooks/useYourQuestionsPage";
 
 const YourQuestionsPage = () => {
@@ -30,13 +30,7 @@ const YourQuestionsPage = () => {
         </PageLoaderLayout>
       )}
 
-      {questions.err && (
-        <PageLoaderLayout height="70%" width="100%">
-          <Heading as="h3" marginBottom={3} color="red.500">
-            {capitalizeWords(questions.err)}
-          </Heading>
-        </PageLoaderLayout>
-      )}
+      {questions.err && <QuestionsPageErrorState />}
 
       {questions.data?.map((question) => (
         <QuestionListCard key={question.id} {...question} />
@@ -46,5 +40,7 @@ const YourQuestionsPage = () => {
 };
 
 export const YourQuestionsPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <YourQuestionsPage {...props} />} />;
+  return (
+    <Route {...rest} render={(props) => <YourQuestionsPage {...props} />} />
+  );
 };

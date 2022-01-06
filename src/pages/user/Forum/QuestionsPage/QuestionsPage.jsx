@@ -1,10 +1,14 @@
 import { Box } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
-import { Heading, QuestionListCard, Text } from "../../../../components";
+import {
+  Button,
+  Heading,
+  QuestionListCard,
+  Text,
+} from "../../../../components";
 import { useQueryParams } from "../../../../hooks";
-import { PageLoaderLayout } from "../../../../layouts";
+import { PageLoaderLayout, EmptyState } from "../../../../layouts";
 import { AskAQuestionButton } from "../../../../layouts/user/Forum/Header/Header";
-import { capitalizeWords } from "../../../../utils";
 import useQuestionsPage from "./hooks/useQuestionsPage";
 
 const QuestionsPage = () => {
@@ -34,13 +38,7 @@ const QuestionsPage = () => {
         </PageLoaderLayout>
       )}
 
-      {questions.err && (
-        <PageLoaderLayout height="70%" width="100%">
-          <Heading as="h3" marginBottom={3} color="red.500">
-            {capitalizeWords(questions.err)}
-          </Heading>
-        </PageLoaderLayout>
-      )}
+      {questions.err && <QuestionsPageErrorState />}
 
       {query && questions.data && (
         <Box position="absolute" transform="translateY(-60px)">
@@ -61,6 +59,14 @@ const QuestionsPage = () => {
     </>
   );
 };
+
+export const QuestionsPageErrorState = () => (
+  <EmptyState
+    cta={<Button onClick={() => window.location.reload()}>Try again</Button>}
+    heading="Oops An Error Occurred"
+    description="You are are not allowed to view this lesson"
+  />
+);
 
 export const QuestionsPageRoute = ({ ...rest }) => {
   return <Route {...rest} render={(props) => <QuestionsPage {...props} />} />;
