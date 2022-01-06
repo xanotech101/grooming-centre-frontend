@@ -69,7 +69,6 @@ const Avatar = () => {
           src={state.user?.profilePics}
         />
       </MenuButton>
-
       <MenuList position="relative" zIndex={2}>
         <MenuGroup title="Profile">
           <MenuItem>My Account</MenuItem>
