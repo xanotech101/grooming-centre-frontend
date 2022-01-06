@@ -2,8 +2,9 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
-  userGetOneRoomRes_userId_1,
-  userGetOneRoomRes_userId_2,
+  userGetOneRoomRes_roomId_1,
+  userGetOneRoomRes_roomId_2,
+  userGetOneRoomRes_roomId_3,
   userGetMessagingRoomsRes,
 } from "./responses";
 
@@ -14,12 +15,16 @@ const userGetMessagingRooms = rest.get(
 
 const userGetOneRoom = [
   rest.get(
-    getUrl("/chat/rooms/userId_1"),
-    handleSuccessResponse(userGetOneRoomRes_userId_1)
+    getUrl("/chat/rooms/roomId_1"),
+    handleSuccessResponse(userGetOneRoomRes_roomId_1)
   ),
   rest.get(
-    getUrl("/chat/rooms/userId_2"),
-    handleSuccessResponse(userGetOneRoomRes_userId_2)
+    getUrl("/chat/rooms/roomId_2"),
+    handleSuccessResponse(userGetOneRoomRes_roomId_2)
+  ),
+  rest.get(
+    getUrl("/chat/rooms/roomId_3"),
+    handleSuccessResponse(userGetOneRoomRes_roomId_3)
   ),
 ];
 

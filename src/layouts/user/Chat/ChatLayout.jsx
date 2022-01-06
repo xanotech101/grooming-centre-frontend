@@ -33,6 +33,7 @@ import {
   SkeletonText,
   SearchBar,
   Image,
+  DownloadButton,
 } from "../../../components";
 import imagePlaceholder from "../../../assets/images/Avatar.svg";
 import breakpoints, {
@@ -109,14 +110,14 @@ const useAllMessagingRooms = () => {
   return { resource, handleFetch };
 };
 
-const useUserMessages = () => {
+const useRoomConversations = () => {
   const { resource, setResource, handleFetchResource } = useFetch();
-  const userId = useQueryParams().get("userId");
+  const roomId = useQueryParams().get("roomId");
 
   const fetcher = useCallback(async () => {
-    const { user } = await userGetOneRoom(userId);
-    return user;
-  }, [userId]);
+    const { room } = await userGetOneRoom(roomId);
+    return room;
+  }, [roomId]);
 
   const handleFetch = useCallback(
     () => handleFetchResource({ fetcher }),
@@ -124,8 +125,8 @@ const useUserMessages = () => {
   );
 
   useEffect(() => {
-    if (userId) handleFetch();
-  }, [handleFetch, userId]);
+    if (roomId) handleFetch();
+  }, [handleFetch, roomId]);
 
   return { resource, setResource, handleFetch };
 };
@@ -210,27 +211,29 @@ const Aside = () => {
 };
 
 const ChatArea = () => {
+  const toast = useToast();
   const {
-    resource: currentUserMessages,
-    setResource: setCurrentUserMessages,
-    handleFetch: handleCurrentMessagesRetry,
-  } = useUserMessages();
-  const userId = useQueryParams().get("userId");
+    resource: currentRoom,
+    setResource: setCurrentRoom,
+    handleFetch: handleFetchCurrentRoomRetry,
+  } = useRoomConversations();
+  const roomId = useQueryParams().get("roomId");
 
   const {
     state: { user: currentLoggedInUser },
   } = useApp();
 
-  const toast = useToast();
+  const noCurrentSelectedRoom = !roomId;
+  const noCurrentSelectedRoomMessages =
+    !currentRoom.loading &&
+    !currentRoom.err &&
+    currentRoom.data?.conversations.length === 0;
 
-  const noCurrentUser = !userId;
-  const noCurrentUserMessages =
-    !currentUserMessages.loading &&
-    !currentUserMessages.err &&
-    currentUserMessages.data?.conversations.length === 0;
+  const getUser = (userId) =>
+    currentRoom.data?.users.find((user) => user.id === userId);
 
-  const conversations = currentUserMessages.data
-    ? currentUserMessages.data.conversations.map((item, index, list) => ({
+  const conversations = currentRoom.data
+    ? currentRoom.data.conversations.map((item, index, list) => ({
         ...item,
         date:
           list[index + 1]?.date === list[index].date &&
@@ -240,17 +243,19 @@ const ChatArea = () => {
         userProfilePics:
           list[index - 1]?.userId === list[index].userId
             ? "skip"
-            : item.userProfilePics,
+            : getUser(item.userId)?.profilePics,
       }))
     : null;
+
+  console.log(conversations, noCurrentSelectedRoom, currentRoom.data);
 
   const messagesRef = useRef();
 
   const scrollMessagesToBottom = () => {
-    setTimeout(
-      () => (messagesRef.current.scrollTop = messagesRef.current.scrollHeight),
-      300
-    );
+    setTimeout(() => {
+      if (messagesRef.current)
+        messagesRef.current.scrollTop = messagesRef.current?.scrollHeight;
+    }, 300);
   };
 
   const handleFocusTypeInput = () =>
@@ -259,10 +264,10 @@ const ChatArea = () => {
   const handleNewMessageAdd = (payload) => {
     console.log(payload);
 
-    setCurrentUserMessages((currentUserMessages) => ({
+    setCurrentRoom((currentRoom) => ({
       data: {
-        ...currentUserMessages.data,
-        conversations: [...currentUserMessages.data.conversations, payload],
+        ...currentRoom.data,
+        conversations: [...currentRoom.data.conversations, payload],
       },
     }));
   };
@@ -283,7 +288,7 @@ const ChatArea = () => {
     try {
       handleNewMessageAdd(
         currentUserMessagePayload({
-          title: message,
+          text: message,
           userId: currentLoggedInUser.id,
         })
       );
@@ -305,129 +310,188 @@ const ChatArea = () => {
     }
   }, [conversations?.length]);
 
-  return (
-    <Box as="main" shadow="md">
-      {noCurrentUser || currentUserMessages.err || noCurrentUserMessages ? (
-        <EmptyState
-          height="calc(60vh + 82px)"
-          illustration={
-            noCurrentUserMessages ? undefined : (
-              <Image
-                src={errorImage}
-                height="200px"
-                alt="Course Header"
-                mb={5}
-                transform="translateX(-10px)"
-              />
-            )
-          }
-          heading={
-            currentUserMessages.err
-              ? "Ops! Something went wrong"
-              : noCurrentUserMessages
-              ? "No messages yet"
-              : "No user selected"
-          }
-          description={
-            noCurrentUserMessages
-              ? "Start messaging to get started"
-              : currentUserMessages.err
-              ? "An unexpected error occurred. Please try again later."
-              : "Please select a user"
-          }
-          cta={
-            currentUserMessages.err ? (
-              <Button onClick={handleCurrentMessagesRetry}>Try Again</Button>
-            ) : noCurrentUserMessages ? (
-              <Button onClick={handleFocusTypeInput}>
-                Start A Conversation
-              </Button>
-            ) : (
-              <ListOfUsers
-                renderTrigger={({ onOpen }) => (
-                  <Button onClick={onOpen}>Start A Conversation</Button>
-                )}
-              />
-            )
+  const groupUserNames = currentRoom.data?.isGroup
+    ? [
+        currentRoom.data?.users[0],
+        currentRoom.data?.users[1],
+        currentRoom.data?.users[2],
+      ].reduce(
+        (acc, user, index) => `${acc}${index ? ", " : ""}${user.name}`,
+        ""
+      )
+    : null;
+
+  const renderHeader = () => (
+    <Flex
+      justifyContent="space-between"
+      background="accent.1"
+      padding={4}
+      roundedTop="md"
+    >
+      <Flex>
+        {currentRoom.loading && <SkeletonCircle boxSize="50px" />}
+
+        {currentRoom.data && (
+          <Avatar
+            name={currentRoom.data.name}
+            src={currentRoom.data.image}
+            boxSize="50px"
+            rounded="full"
+          />
+        )}
+
+        <Box marginLeft={2}>
+          {currentRoom.loading && (
+            <SkeletonText numberOfLines={2} width="300px" />
+          )}
+
+          {currentRoom.data && (
+            <>
+              <Text bold textTransform="capitalize">
+                {currentRoom.data.name}
+              </Text>
+
+              {groupUserNames ? (
+                <Flex gridGap="3">
+                  <Text>{groupUserNames}</Text>
+                  {currentRoom.data?.users.length > 3 && (
+                    <Text bold>+ {currentRoom.data?.users.length - 3}</Text>
+                  )}
+                </Flex>
+              ) : (
+                <Text color="accent.7">Inactive</Text>
+              )}
+            </>
+          )}
+        </Box>
+      </Flex>
+
+      <ButtonGroup spacing="4">
+        <IconButton
+          // disabled={currentUserMessages.loading}
+          disabled // TODO: remove this we support upload
+        >
+          <MdAttachFile />
+        </IconButton>
+
+        <MoreIconButton
+          list={
+            !currentRoom.loading && [{ text: "Delete Entire Conversation" }]
           }
         />
+      </ButtonGroup>
+    </Flex>
+  );
+
+  return (
+    <Box as="main" shadow="md">
+      {noCurrentSelectedRoom ||
+      currentRoom.err ||
+      noCurrentSelectedRoomMessages ? (
+        <>
+          {currentRoom.data && renderHeader()}
+
+          <EmptyState
+            height={`calc(60vh + 82px${currentRoom.data ? " - 72px" : ""})`}
+            illustration={
+              noCurrentSelectedRoomMessages ? undefined : (
+                <Image
+                  src={errorImage}
+                  height="200px"
+                  alt="Course Header"
+                  mb={5}
+                  transform="translateX(-10px)"
+                />
+              )
+            }
+            heading={
+              currentRoom.err
+                ? "Ops! Something went wrong"
+                : noCurrentSelectedRoomMessages
+                ? "No messages yet"
+                : "No user selected"
+            }
+            description={
+              noCurrentSelectedRoomMessages
+                ? "Start messaging to get started"
+                : currentRoom.err
+                ? "An unexpected error occurred. Please try again later."
+                : "Please select a user"
+            }
+            cta={
+              currentRoom.err ? (
+                <Button onClick={handleFetchCurrentRoomRetry}>Try Again</Button>
+              ) : noCurrentSelectedRoomMessages ? (
+                <Button onClick={handleFocusTypeInput}>
+                  Start A Conversation
+                </Button>
+              ) : (
+                <ListOfUsers
+                  renderTrigger={({ onOpen }) => (
+                    <Button onClick={onOpen}>Start A Conversation</Button>
+                  )}
+                />
+              )
+            }
+          />
+        </>
       ) : (
         <>
-          <Flex
-            justifyContent="space-between"
-            background="accent.1"
-            padding={4}
-            roundedTop="md"
-          >
-            <Flex>
-              {currentUserMessages.loading && <SkeletonCircle boxSize="50px" />}
-
-              {currentUserMessages.data && (
-                <Avatar
-                  name={currentUserMessages.data.user.name}
-                  src={currentUserMessages.data.user.profilePics}
-                  boxSize="50px"
-                  rounded="full"
-                />
-              )}
-
-              <Box marginLeft={2}>
-                {currentUserMessages.loading && (
-                  <SkeletonText numberOfLines={2} width="300px" />
-                )}
-
-                {currentUserMessages.data && (
-                  <>
-                    <Text bold textTransform="capitalize">
-                      {currentUserMessages.data.user.name}
-                    </Text>
-                    <Text color="accent.7">Last online 5 hours ago</Text>
-                  </>
-                )}
-              </Box>
-            </Flex>
-
-            <ButtonGroup spacing="4">
-              <IconButton
-                // disabled={currentUserMessages.loading}
-                disabled // TODO: remove this we support upload
-              >
-                <MdAttachFile />
-              </IconButton>
-
-              <MoreIconButton
-                list={
-                  !currentUserMessages.loading && [
-                    { text: "Delete Entire Conversation" },
-                  ]
-                }
-              />
-            </ButtonGroup>
-          </Flex>
+          {renderHeader()}
 
           <Box height="60vh" overflowY="auto" py={4} ref={messagesRef}>
-            {currentUserMessages.loading && !currentLoggedInUser && (
+            {currentRoom.loading && !currentLoggedInUser && (
               <>
                 <MessageBox isLoading />
                 <MessageBox isLoading />
-                <MessageBox isLoading mine />
+                <MessageBox isLoading isMine />
                 <MessageBox isLoading />
-                <MessageBox isLoading mine />
+                <MessageBox isLoading isMine />
                 <MessageBox isLoading />
               </>
             )}
 
             {currentLoggedInUser &&
               conversations?.map((message) => {
+                const isMyMessage = message.userId === currentLoggedInUser?.id;
+
                 return (
                   <MessageBox
                     key={message.id}
-                    mine={currentLoggedInUser?.id === message.userId}
+                    isMine={isMyMessage}
                     profilePics={message.userProfilePics}
-                    name={currentUserMessages.data.user.name}
+                    name={getUser(message.userId)?.name}
                     date={message.date}
+                    file={message.file}
+                    showName={currentRoom.data?.isGroup}
                   >
-                    <Text>{message.title}</Text>
+                    <Text>{message.text}</Text>
+
+                    {message.file && (
+                      <Flex
+                        flexDir={"column"}
+                        alignItems="flex-end"
+                        mt={message.text && 2}
+                      >
+                        <Flex
+                          border="1px"
+                          borderColor="accent.1"
+                          p={2}
+                          color={!isMyMessage ? "accent.3" : "primary.base"}
+                          bg={!isMyMessage ? "accent.1" : "transparent"}
+                          w="fit-content"
+                          rounded="md"
+                          shadow={!isMyMessage && "sm"}
+                        >
+                          <Text mr={1} as="level5" bold>
+                            ({message.file.size}) {message.file.name}.
+                            {message.file.extension}
+                          </Text>
+
+                          <AiOutlineFile />
+                        </Flex>
+                      </Flex>
+                    )}
                   </MessageBox>
                 );
               })}
@@ -454,7 +518,7 @@ const ChatArea = () => {
           id="type-message"
           placeholder="Type a message here"
           variant="ghost"
-          disabled={noCurrentUser || !currentUserMessages.data}
+          disabled={noCurrentSelectedRoom || !currentRoom.data}
           mx={2}
           {...register("message", {
             required: true,
@@ -462,15 +526,15 @@ const ChatArea = () => {
         />
 
         <EmojiPicker
-          disabled={noCurrentUser || !currentUserMessages.data}
+          disabled={noCurrentSelectedRoom || !currentRoom.data}
           onSelect={handleEmojiSelect}
         />
 
         <IconButton
           primary
           disabled={
-            noCurrentUser ||
-            !currentUserMessages.data ||
+            noCurrentSelectedRoom ||
+            !currentRoom.data ||
             isSubmitting ||
             !currentLoggedInUser
           }
@@ -520,28 +584,53 @@ const EmojiPicker = ({ disabled, onSelect }) => {
   );
 };
 
-const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
+const MessageBox = ({
+  children,
+  isMine,
+  isLoading,
+  profilePics,
+  name,
+  date,
+  file,
+  showName,
+}) => {
   const style = {
     maxWidth: "80%",
     border: "1px",
-    color: mine ? "accent.3" : "white",
-    backgroundColor: !mine && "accent.3",
+    color: isMine ? "accent.3" : "white",
+    backgroundColor: !isMine && "accent.3",
     p: 4,
     rounded: "1rem",
-    roundedTopStart: !mine && "none",
-    roundedBottomRight: mine && "none",
+    roundedTopStart: !isMine && "none",
+    roundedBottomRight: isMine && "none",
     position: "relative",
   };
 
-  const moreList = mine
+  let moreList = isMine
     ? [{ text: "Edit This Messages" }, { text: "Delete this Message" }]
     : [{ text: "Delete this Message" }];
+
+  if (file)
+    moreList = [
+      {
+        renderContent: () => (
+          <DownloadButton
+            title={file.name}
+            file={file.url}
+            fileExtension={file.extension}
+          />
+        ),
+      },
+      ...moreList,
+    ];
+
+  const showProfilePics = !isMine && profilePics !== "skip";
 
   return (
     <Flex
       p={2}
       pb={0}
-      justifyContent={isLoading && (mine ? "flex-end" : "flex-start")}
+      justifyContent={isLoading && (isMine ? "flex-end" : "flex-start")}
     >
       {isLoading ? (
         <Skeleton
@@ -551,7 +640,7 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
         />
       ) : (
         <>
-          {!mine && profilePics !== "skip" && (
+          {showProfilePics && (
             <Avatar
               name={name}
               src={profilePics}
@@ -560,13 +649,21 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
               mr={3}
             />
           )}
-          {!mine && profilePics === "skip" && <Box boxSize="30px" mr={3}></Box>}
+          {!isMine && profilePics === "skip" && (
+            <Box boxSize="30px" mr={3}></Box>
+          )}
 
           <Stack
             flex={1}
-            alignItems={mine ? "flex-end" : "flex-start"}
+            alignItems={isMine ? "flex-end" : "flex-start"}
             pos="relative"
           >
+            {showName && showProfilePics && (
+              <Text as="level5" bold>
+                {name}
+              </Text>
+            )}
+
             <Box {...style}>
               {children}
 
@@ -575,19 +672,19 @@ const MessageBox = ({ children, mine, isLoading, profilePics, name, date }) => {
                 zIndex="1"
                 top={"50%"}
                 transform="translateY(-50%)"
-                left={!mine && "calc(100% + 20px)"}
-                right={mine && "calc(100% + 20px)"}
+                left={!isMine && "calc(100% + 20px)"}
+                right={isMine && "calc(100% + 20px)"}
               >
                 <MoreIconButton
                   transform="rotate(90deg)"
                   color="accent.3"
                   list={moreList}
-                  placement={mine ? "left" : "right"}
+                  placement={isMine ? "left" : "right"}
                 />
               </Box>
             </Box>
 
-            {mine && (
+            {isMine && (
               <Box position="absolute" right={2} top="-3px">
                 {/* <BiCheck /> */}
                 <BiCheckDouble />
@@ -666,7 +763,6 @@ const MessagingRoomsItem = ({
   id,
   msg,
   file,
-  isGroup,
   name,
   date,
   profilePics,
@@ -687,7 +783,6 @@ const MessagingRoomsItem = ({
       alignItems="flex-start"
       spacing={3}
       pos="relative"
-      // border={isGroup && "1px"}
     >
       {unreadCount && (
         <Grid
@@ -759,8 +854,9 @@ const MessagingRoomsItem = ({
                   p={1}
                   color="primary.base"
                   w="fit-content"
+                  md
                 >
-                  <Text mr={1} as="level5">
+                  <Text mr={1} as="level5" bold>
                     {file.name}
                   </Text>
 

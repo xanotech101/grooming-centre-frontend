@@ -1,6 +1,6 @@
 import { http } from "../http";
 import dayjs from "dayjs";
-import { truncateText } from "../../../utils";
+import { getFullName, truncateText } from "../../../utils";
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
@@ -22,8 +22,6 @@ export const userGetMessagingRooms = async () => {
       date: dayjs().to(dayjs(room.message.createdAt)),
       file: room.message.file
         ? {
-            // url: room.message.file.url,
-            // extension: room.message.file.extension,
             type: room.message.file.type,
             name: `${truncateText(room.message.file.name, 25)}.${
               room.message.file.extension
@@ -43,28 +41,39 @@ export const userGetOneRoom = async (id) => {
     data: { data },
   } = await http.get(path);
 
-  const user = {
-    // id: data.id,
-    user: {
-      id: data.user.id,
-      profilePics: data.user.profilePics,
-      name: data.user.firstName + " " + data.user.lastName,
-    },
-    conversations: data.messages.map((msg) => ({
-      id: msg.id,
-      title: msg.title,
-      date: dayjs().to(dayjs(msg.createdAt)),
-      userId: msg.user.id,
-      userProfilePics: msg.user.profilePics,
+  const room = {
+    id: data.id,
+    name: data.name,
+    isGroup: data.isGroup,
+    image: data.image,
+    users: data.users.map((user) => ({
+      id: user.id,
+      profilePics: user.profilePics,
+      name: getFullName(user),
+    })),
+    conversations: data.messages.map((message) => ({
+      id: message.id,
+      text: message.text,
+      date: dayjs().to(dayjs(message.createdAt)),
+      userId: message.userId,
+      file: message.file
+        ? {
+            url: message.file.url,
+            extension: message.file.extension,
+            type: message.file.type,
+            name: message.file.name,
+            size: message.file.size,
+          }
+        : null,
     })),
   };
 
-  return { user };
+  return { room };
 };
 
-export const currentUserMessagePayload = ({ title, userId }) => ({
+export const currentUserMessagePayload = ({ text, userId }) => ({
   id: `${Date.now()}`,
   date: dayjs().to(dayjs(new Date().toISOString())),
-  title,
+  text,
   userId,
 });
