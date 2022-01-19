@@ -1,6 +1,6 @@
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, HStack } from "@chakra-ui/layout";
-import onBoardingImage from "../../../assets/images/onboarding1.png";
+import onBoardingImage from "../../../assets/images/GC Login 1.jpg";
 import bgImagePlaceholder from "../../../assets/images/Auth.svg";
 import { Heading, Text } from "../../../components";
 
