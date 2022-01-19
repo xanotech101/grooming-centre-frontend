@@ -37,7 +37,7 @@ const Header = () => {
           <Brand sm textColor="white" />
         </Flex>
 
-        <SearchBar marginLeft={10} adminLayoutHeaderStyle flex={1} />
+        <SearchBar marginLeft={10} adminLayoutHeaderStyle flex={1} mt={3} />
       </Flex>
 
       <ButtonGroup>

@@ -5,7 +5,7 @@ import MainArea from "./MainArea";
 
 const OnBoardingLayout = () => {
   return (
-    <Flex height="100vh" w="100vw" pos="fixed" top={0} left={0}>
+    <Flex height="100vh">
       <MainArea />
       <Hero />
     </Flex>
