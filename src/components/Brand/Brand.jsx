@@ -1,49 +1,42 @@
-import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import imagePlaceholder from "../../assets/images/Brand.svg";
-import { Image, Link, Text } from "..";
+import smLogo from "../../assets/images/Brand.png";
+import lgLogo from "../../assets/images/Brand-long.png";
+import { Image, Link } from "..";
 
-export const Brand = ({ sm, textColor }) => {
+export const Brand = ({ sm, xs, lg }) => {
   return (
     <Link href="/">
-      <Flex alignItems="center">
-        <Logo sm={sm} />
-
-        <Box
-          width="130px"
-          borderLeft={!sm && "2px"}
-          paddingLeft={sm ? 1 : 4}
-          marginLeft={sm ? 1 : 4}
-          alignSelf="flex-start"
-        >
-          <Text
-            fontSize={sm ? "text.level1" : "heading.h2"}
-            lineHeight="30px"
-            textColor={textColor}
-            // transform="translateY(20%)"
-          >
-            UNKNOWN
-          </Text>
-        </Box>
-      </Flex>
+      <Logo sm={sm} lg={lg} xs={xs} withLongLogo />
     </Link>
   );
 };
 
-export const BrandLogo = ({ sm, ...rest }) => {
+export const BrandLogo = ({ sm, lg, ...rest }) => {
   return (
     <Link href="/">
-      <Logo sm={sm} {...rest} />
+      <Logo sm={sm} lg={lg} {...rest} />
     </Link>
   );
 };
 
-const Logo = ({ sm, ...rest }) => {
+const Logo = ({ sm, lg, xs, withLongLogo, ...rest }) => {
   return (
     <Image
-      src={imagePlaceholder}
-      boxSize={sm ? "40px" : "50px"}
-      rounded="full"
+      src={withLongLogo ? lgLogo : smLogo}
+      w={
+        withLongLogo
+          ? "170px"
+          : xs
+          ? "32px"
+          : sm
+          ? "40px"
+          : lg
+          ? "80px"
+          : "50px"
+      }
+      h={
+        withLongLogo ? "56px" : xs ? "32px" : sm ? "40px" : lg ? "80px" : "50px"
+      }
       {...rest}
     />
   );
