@@ -8,11 +8,11 @@ const Footer = () => {
       as="footer"
       color="white"
       backgroundColor="primary.base"
-      height="100px"
+      height="60px"
       padding={5}
     >
       <Flex alignItems="center" {...maxWidthStyles_userPages}>
-        <Text as="level1">All rights reserved</Text>
+        <Text as="level3">Grooming Centre LMS 2022 All rights reversed</Text>
       </Flex>
     </Box>
   );
