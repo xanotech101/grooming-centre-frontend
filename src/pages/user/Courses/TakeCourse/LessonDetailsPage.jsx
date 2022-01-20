@@ -258,7 +258,7 @@ const PDFReader = ({ lesson, handleEndLesson }) => {
   return (
     <embed
       id="take-lesson-pdf"
-      src={lesson?.file + "#toolbar=0"}
+      src={lesson?.file}
       // title={lesson?.title}
       type="application/pdf"
       height="100%"
