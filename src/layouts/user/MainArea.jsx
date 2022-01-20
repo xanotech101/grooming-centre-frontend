@@ -26,7 +26,7 @@ const MainArea = () => {
         <GradesPageRoute path="/courses/grade-overview" />
         <CertificatePageRoute path="/courses/:course_id/certificate" />
         <CoursesPagesRoute path="/courses" />
-        <Redirect exact from="/" to="/courses" />
+        <Redirect exact from="/" to="/dashboard" />
 
         <Route render={(props) => <NotFoundPageRoute />} />
       </Switch>

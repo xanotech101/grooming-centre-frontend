@@ -10,12 +10,14 @@ import {
   useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
   useRedirectNewUserToNewPasswordPage,
+  useBlockSuperAdminFromUserScreens,
 } from "../../hooks";
 
 const UserLayout = () => {
   const hasInitRefreshed = usePageRefreshAfterLogin();
   useRedirectNonAuthUserToSigninPage();
   useRedirectNewUserToNewPasswordPage();
+  useBlockSuperAdminFromUserScreens();
 
   return (
     <Box maxWidth={breakpoints["4k"]} marginX="auto">

@@ -2,8 +2,30 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useApp } from "../contexts";
 
+export const useBlockSuperAdminFromUserScreens = () => {
+  const appManager = useApp();
+
+  const { replace } = useHistory();
+
+  useEffect(() => {
+    if (appManager.state.user) {
+      const role = appManager.getOneMetadata(
+        "userRoles",
+        appManager.state.user.userRoleId
+      );
+
+      console.log(role?.name);
+
+      if (/super/i.test(role?.name)) {
+        return replace("/admin");
+      }
+    }
+  }, [appManager, appManager.state.user, replace]);
+};
+
 export const useRedirectNonAuthUserToSigninPage = () => {
   const appManager = useApp();
+
   const { replace } = useHistory();
 
   useEffect(() => {
@@ -15,7 +37,10 @@ export const useRedirectNonAuthUserToSigninPage = () => {
 
 const handleRedirectUserToRoleScreen = (appManager, replace) => {
   if (appManager.state.user && appManager.state.metadata) {
-    const { userRoleId, departmentId } = appManager.state.user;
+    const {
+      userRoleId,
+      // departmentId
+    } = appManager.state.user;
     const role = appManager.getOneMetadata("userRoles", userRoleId);
 
     console.log(
@@ -28,9 +53,11 @@ const handleRedirectUserToRoleScreen = (appManager, replace) => {
     if (!/admin/i.test(role?.name)) {
       return replace("/");
     }
-    if (departmentId) {
-      return replace("/");
-    }
+
+    // FOr normal admins to redirect to user screen
+    // if (departmentId) {
+    //   return replace("/");
+    // }
 
     replace("/admin");
   }
