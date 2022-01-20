@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import GlobalProviders from "./GlobalProviders";
 import "../styles/course-box-card.scss";
@@ -67,14 +66,6 @@ function AppConfig() {
   useAppConfig();
 
   return (
-    // <Box
-    //   height="100vh"
-    //   w="100vw"
-    //   pos="fixed"
-    //   top={0}
-    //   left={0}
-    //   overflow="scroll"
-    // >
     <Switch>
       <AdminLayoutRoute path="/admin" />
       <AssessmentLayoutRoute
@@ -84,7 +75,6 @@ function AppConfig() {
       <TakeCourseLayoutRoute path="/courses/take" />
       <UserLayoutRoute path="/" />
     </Switch>
-    // </Box>
   );
 }
 
