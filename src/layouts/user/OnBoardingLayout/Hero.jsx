@@ -55,11 +55,11 @@ const Hero = () => {
             <Text maxWidth="500px">Training beyond Borders</Text>
           </Box>
 
-          <HStack spacing={5}>
+          {/* <HStack spacing={5}>
             <Box boxSize="10px" rounded="full" backgroundColor="white" />
             <Box boxSize="10px" rounded="full" backgroundColor="white" />
             <Box boxSize="10px" rounded="full" backgroundColor="white" />
-          </HStack>
+          </HStack> */}
         </Flex>
       </Flex>
     </Flex>
