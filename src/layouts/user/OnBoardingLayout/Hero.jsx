@@ -49,13 +49,10 @@ const Hero = () => {
         >
           <Box paddingTop={10} marginBottom={16}>
             <Heading as="h1" size="md" marginBottom={6}>
-              Lorem Ipsum dolor
+              Grooming Centre LMS
             </Heading>
 
-            <Text maxWidth="500px">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id
-              adipiscing dui pulvinar mattis sed semper.
-            </Text>
+            <Text maxWidth="500px">Training beyond Borders</Text>
           </Box>
 
           <HStack spacing={5}>

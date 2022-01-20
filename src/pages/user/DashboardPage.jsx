@@ -27,7 +27,7 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { BiNotepad, BiRefresh } from "react-icons/bi";
 import { ImFileText } from "react-icons/im";
 import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
-import { useDaySchedule, useMonthSchedule } from "../../hooks";
+import {  useMonthSchedule } from "../../hooks";
 
 const scheduledCards = [
   {
@@ -157,11 +157,11 @@ const DashboardPage = () => {
     },
   };
 
-  const {
-    dateManager: dayDateManager,
-    resource: dayAppointments,
-    handleFetch: handleDayRetry,
-  } = useDaySchedule();
+  // const {
+  //   dateManager: dayDateManager,
+  //   resource: dayAppointments,
+  //   handleFetch: handleDayRetry,
+  // } = useDaySchedule();
 
   const { resource: monthAppointments, handleFetch: handleMonthRetry } =
     useMonthSchedule();
@@ -419,11 +419,11 @@ const DashboardPage = () => {
             marginBottom={7}
           />
 
-          <CalendarBox
+          {/* <CalendarBox
             resource={dayAppointments}
             onRetry={handleDayRetry}
             dayDateManager={dayDateManager}
-          />
+          /> */}
         </Section>
       </Flex>
     </Stack>

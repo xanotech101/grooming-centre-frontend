@@ -248,15 +248,19 @@ const Player = ({
 
 const PDFReader = ({ lesson, handleEndLesson }) => {
   useEffect(() => {
+    console.log(document.querySelectorAll("#take-lesson-pdf #icon"));
+
     handleEndLesson();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <iframe
-      src={lesson?.file}
-      title={lesson?.title}
+    <embed
+      id="take-lesson-pdf"
+      src={lesson?.file + "#toolbar=0"}
+      // title={lesson?.title}
+      type="application/pdf"
       height="100%"
       width="100%"
     />
