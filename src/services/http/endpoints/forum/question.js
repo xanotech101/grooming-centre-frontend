@@ -55,16 +55,20 @@ export const userForumGetQuestions = async (params) => {
     body: truncateText(question.question, 100),
     active: question.active,
     createdAt: question.createdAt,
-    tags: question.tags.map((tag) => ({
-      id: tag.id,
-      label: tag.name,
-    })),
+    // Fix from the backend
+    tags: Array.isArray(question.tags)
+      ? question.tags.map((tag) => ({
+          id: tag.id,
+          label: tag.name,
+        }))
+      : [],
     user: {
       id: question.user.id,
       profilePics: question.user.profilePics,
       fullName: getFullName(question.user),
     },
-    commentCount: question.forumComments.length,
+    // Fix from the backend
+    commentCount: question.forumComments.length || 0,
   }));
 
   return { questions };
