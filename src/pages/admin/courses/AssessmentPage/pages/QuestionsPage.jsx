@@ -243,7 +243,7 @@ const CreateQuestionPage = (assessmentManager) => {
     if (question) {
       const option3 = question.options.find((opt) => opt.optionIndex === 3);
 
-      setValue("option-3", option3.name);
+      setValue("option-3", option3?.name);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
@@ -251,7 +251,7 @@ const CreateQuestionPage = (assessmentManager) => {
     if (question) {
       const option4 = question.options.find((opt) => opt.optionIndex === 4);
 
-      setValue("option-4", option4.name);
+      setValue("option-4", option4?.name);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
@@ -422,7 +422,7 @@ const CreateQuestionPage = (assessmentManager) => {
             <Input
               id="option-3"
               label="Option 03"
-              {...register("option-3", { required: "must not be empty" })}
+              {...register("option-3")}
               placeholder="Enter the first option here"
             />
           </Flex>
@@ -440,7 +440,7 @@ const CreateQuestionPage = (assessmentManager) => {
             <Input
               id="option-4"
               label="Option 04"
-              {...register("option-4", { required: "must not be empty" })}
+              {...register("option-4")}
               placeholder="Enter the first option here"
             />
           </Flex>
@@ -614,7 +614,7 @@ const buildOptions = (data) => {
         optionIndex,
       };
 
-      options.push(option);
+      if (option.name) options.push(option);
     }
   }
 

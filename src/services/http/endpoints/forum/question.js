@@ -75,6 +75,48 @@ export const userForumGetQuestions = async (params) => {
 };
 
 /**
+ * Endpoint to get forum questions byt tagId
+ *
+ * @returns {
+ *   Promise<{
+ *     questions: Array<{ id: string, name: string, body: string, tags: Array<{ value: string, label: string }>, user: { id: string, profilePics: string, fullName: string }, commentCount: number }>
+ *   }>
+ * }
+ */
+export const userForumGetQuestionsByTagId = async (id) => {
+  const path = `/forum/tag/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const questions = data[0].forumQuestion.map((question) => ({
+    id: question.id,
+    title: question.title,
+    body: truncateText(question.question, 100),
+    active: question.active, // TODO: add this very important
+    createdAt: question.createdAt,
+    // Fix from the backend
+    tags: Array.isArray(question.tags)
+      ? question.tags.map((tag) => ({
+          id: tag.id,
+          label: tag.name,
+        }))
+      : [],
+
+    user: {
+      id: question.userId,
+      // profilePics: question.user.profilePics,
+      fullName: getFullName(question.user) || "not set",
+    },
+    // Fix from the backend
+    commentCount: question.forumComments?.length || 0,
+  }));
+
+  return { questions };
+};
+
+/**
  * Endpoint to get forum question details
  * @param {string} id - questionId
  *

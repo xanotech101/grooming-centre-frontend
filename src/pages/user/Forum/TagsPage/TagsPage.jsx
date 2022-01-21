@@ -34,6 +34,8 @@ const TagsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTags.length]);
 
+  console.log(selectedTags.length);
+
   return (
     <Box paddingBottom={2}>
       <TagsInput

@@ -66,32 +66,36 @@ export const userForumGetComments = async (questionId) => {
     data: { data },
   } = await http.get(path);
 
-  const comments = data.map((comment) => ({
-    id: comment.id,
-    createdAt: comment.createdAt,
-    body: comment.comment,
-    replyCount: comment.comments?.length || 0,
-    likes: getExpressionCount("like", comment.expressions),
-    dislikes: getExpressionCount("dislike", comment.expressions),
-    expressions: Array.isArray(comment.expressions) ? comment.expressions : [],
-    active: comment.active,
-    user: {
-      id: comment.user.id,
-      profilePics: comment.user.profilePics,
-      fullName: getFullName(comment.user),
-    },
-    replies: Array.isArray(comment.comments)
-      ? comment.comments?.map((reply) => ({
-          id: reply.id,
-          body: reply.comment,
-          active: reply.active,
-          user: {
-            id: reply.user.id,
-            fullName: getFullName(reply.user),
-          },
-        }))
-      : [],
-  }));
+  const comments = data
+    .filter((comment) => comment.commentId === null)
+    .map((comment) => ({
+      id: comment.id,
+      createdAt: comment.createdAt,
+      body: comment.comment,
+      replyCount: comment.comments?.length || 0,
+      likes: getExpressionCount("like", comment.expressions),
+      dislikes: getExpressionCount("dislike", comment.expressions),
+      expressions: Array.isArray(comment.expressions)
+        ? comment.expressions
+        : [],
+      active: comment.active,
+      user: {
+        id: comment.user.id,
+        profilePics: comment.user.profilePics,
+        fullName: getFullName(comment.user),
+      },
+      replies: Array.isArray(comment.comments)
+        ? comment.comments?.map((reply) => ({
+            id: reply.id,
+            body: reply.comment,
+            active: reply.active,
+            user: {
+              id: reply.user.id,
+              fullName: getFullName(reply.user),
+            },
+          }))
+        : [],
+    }));
 
   return { comments };
 };
@@ -174,7 +178,7 @@ export const userForumAddComment = async (body) => {
     createdAt: data.createdAt,
     likes: getExpressionCount("like", data.expressions),
     dislikes: getExpressionCount("dislike", data.expressions),
-    expressions: data.expressions,
+    expressions: Array.isArray(data.expressions) ? data.expressions : [],
   };
 
   return { message, data: comment };
