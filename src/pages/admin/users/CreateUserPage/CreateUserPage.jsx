@@ -130,6 +130,11 @@ const CreateUserPage = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, metadata?.userRoles]);
 
+  const userRole = appManager.getOneMetadata(
+    "userRoles",
+    user?.userRoleId
+  )?.name;
+
   return (
     <>
       <Box paddingLeft={6}>
@@ -210,27 +215,32 @@ const CreateUserPage = ({
               })}
               error={errors.departmentId?.message}
             />
-            <Select
-              label="Select Role"
-              options={populateSelectOptions(metadata?.userRoles, (r) => {
-                const role = appManager.getOneMetadata("userRoles", r.id)?.name;
+            {!userRole?.toLowerCase().includes("super") && (
+              <Select
+                label="Select Role"
+                options={populateSelectOptions(metadata?.userRoles, (r) => {
+                  const role = appManager.getOneMetadata(
+                    "userRoles",
+                    r.id
+                  )?.name;
 
-                if (role !== "super admin") {
-                  return true;
-                }
+                  if (role !== "super admin") {
+                    return true;
+                  }
 
-                if (!creatorRoleIsSuperAdmin && role !== "admin") {
-                  return true;
-                }
-              })}
-              isLoading={!metadata?.userRoles}
-              isRequired
-              {...register("roleId", {
-                required: "Please select a role",
-              })}
-              id="roleId"
-              error={errors.roleId?.message}
-            />
+                  if (!creatorRoleIsSuperAdmin && role !== "admin") {
+                    return true;
+                  }
+                })}
+                isLoading={!metadata?.userRoles}
+                isRequired
+                {...register("roleId", {
+                  required: "Please select a role",
+                })}
+                id="roleId"
+                error={errors.roleId?.message}
+              />
+            )}
           </Grid>
         </Stack>
       </CreatePageLayout>
