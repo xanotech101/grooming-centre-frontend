@@ -30,7 +30,7 @@ const appointmentsMapper =
  * @returns {Promise<{ appointments: Array<{ id: string, title: string, startDate: Date, endDate: Date }>>}
  */
 export const userGetDayAppointments = async (date) => {
-  const path = `/appointments/day`;
+  const path = `/schedule`;
 
   const {
     data: { data },

@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, useLocation } from "react-router-dom";
 import { Box, Flex, HStack } from "@chakra-ui/layout";
 import {
   CircularProgress,
@@ -14,6 +14,7 @@ import useGradeDetails from "./hooks/useGradeDetails";
 import { PageLoaderLayout } from "../../../../layouts";
 import { getDuration } from "../../../../utils";
 import { ReactComponent as NoData } from "../../../../assets/images/no-data.svg";
+import { useEffect } from "react";
 
 const totalCourseChartConfig = {
   data: {
@@ -45,6 +46,17 @@ const GradesPage = () => {
 
 export const Grades = ({ isLoading, grades, duration }) => {
   const isAdmin = /admin/i.test(window.location.pathname);
+
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash.includes("certificates")) {
+      document.getElementById("certificates")?.scrollIntoView();
+
+      console.log(document.getElementById("certificates"));
+    }
+  }, [hash]);
+
   return (
     <Flex flexDirection="column" height="100%" width="100%">
       {isLoading ? (
@@ -143,6 +155,7 @@ export const Grades = ({ isLoading, grades, duration }) => {
             paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
             backgroundColor="white"
             paddingBottom={isAdmin ? "40px" : null}
+            id="certificates"
           >
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses Completed

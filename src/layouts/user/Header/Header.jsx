@@ -75,7 +75,9 @@ const Avatar = () => {
           {/* <MenuItem as={Link} to="/chats">
             Messages
           </MenuItem> */}
-          <MenuItem>Certificates</MenuItem>
+          <MenuItem as={Link} to="/courses/grade-overview#certificates">
+            Certificates
+          </MenuItem>
           <MenuItem>Examination</MenuItem>
           <MenuItem as={Link} to="/courses/grade-overview">
             Grades
