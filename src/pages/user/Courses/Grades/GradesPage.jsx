@@ -41,7 +41,11 @@ const GradesPage = () => {
   const { grades, isLoading } = manager;
   console.log(grades);
 
-  return <Grades isLoading={isLoading} grades={grades} />;
+  return (
+    <>
+      <Grades isLoading={isLoading} grades={grades} />
+    </>
+  );
 };
 
 export const Grades = ({ isLoading, grades, duration }) => {

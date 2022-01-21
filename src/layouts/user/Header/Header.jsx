@@ -15,6 +15,16 @@ import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 import { Avatar as AvatarImage } from "@chakra-ui/avatar";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { AccountPage } from "../../../pages/admin";
 
 const Header = () => {
   return (
@@ -71,7 +81,8 @@ const Avatar = () => {
       </MenuButton>
       <MenuList position="relative" zIndex={2}>
         <MenuGroup>
-          <MenuItem>My Account</MenuItem>
+          <AccountMenuItem />
+
           {/* <MenuItem as={Link} to="/chats">
             Messages
           </MenuItem> */}
@@ -96,5 +107,25 @@ const Avatar = () => {
     </Menu>
   );
 };
+
+function AccountMenuItem() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <MenuItem onClick={onOpen}> My Account</MenuItem>
+
+      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>My Account</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <AccountPage onCallToActionClick={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 
 export default Header;

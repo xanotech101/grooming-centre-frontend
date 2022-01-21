@@ -14,14 +14,18 @@ import {
   Upload,
 } from "../../../components";
 import { useApp } from "../../../contexts";
-import { useUpload } from "../../../hooks";
+import { useUpload, useGoBack } from "../../../hooks";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import { requestUpdateDetails } from "../../../services";
-import { appendFormData, capitalizeFirstLetter } from "../../../utils";
+import {
+  appendFormData,
+  capitalizeFirstLetter,
+  capitalizeWords,
+} from "../../../utils";
 
-export const AccountPage = () => {
+export const AccountPage = ({ onCallToActionClick }) => {
   const {
-    state: { user },
+    state: { user, metadata },
     fetchCurrentUser,
     handleLogout,
   } = useApp();
@@ -51,6 +55,7 @@ export const AccountPage = () => {
         profilePicture,
       };
       Reflect.deleteProperty(data, "confirmPassword");
+      Reflect.deleteProperty(data, "department");
       const body = appendFormData(data);
 
       const { message } = await requestUpdateDetails(body);
@@ -65,8 +70,13 @@ export const AccountPage = () => {
         handleLogout();
       }
 
-      replace("/admin");
       fetchCurrentUser();
+
+      if (onCallToActionClick) {
+        return onCallToActionClick();
+      }
+
+      replace("/admin");
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
@@ -118,12 +128,40 @@ export const AccountPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  useEffect(() => {
+    if (user && metadata?.departments) {
+      console.log(user.departmentId, metadata.departments[0]);
+
+      const department = metadata.departments.find(
+        ({ id }) => id === user.departmentId
+      )?.name;
+
+      setValue("department", department);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, metadata?.departments]);
+
+  useEffect(() => {
+    if (user && metadata?.userRoles) {
+      const role = metadata.userRoles.find(
+        ({ id }) => id === user.userRoleId
+      )?.name;
+
+      setValue("role", capitalizeWords(role));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, metadata?.userRoles]);
+
+  const handleGoBack = useGoBack();
+
   return (
     <AdminMainAreaWrapper>
       <Box as="form" paddingY={8} onSubmit={handleSubmit(onSubmit)}>
-        <Heading fontSize="heading.h3" paddingBottom={4}>
-          Account
-        </Heading>
+        {!onCallToActionClick && (
+          <Heading fontSize="heading.h3" paddingBottom={4}>
+            Account
+          </Heading>
+        )}
         <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
@@ -142,7 +180,7 @@ export const AccountPage = () => {
             label="First Name"
             isRequired
             {...register("firstName", {
-              required: "Firstname is required",
+              required: "First name is required",
             })}
           />
           <Input
@@ -152,7 +190,7 @@ export const AccountPage = () => {
             label="Last Name"
             isRequired
             {...register("lastName", {
-              required: "Lastname is required",
+              required: "Last name is required",
             })}
           />
           <Select
@@ -169,9 +207,25 @@ export const AccountPage = () => {
             })}
             error={errors.gender?.message}
           />
+
+          <Input
+            label="Department"
+            id="department"
+            isLoading={!metadata?.departments}
+            {...register("department")}
+            disabled
+          />
+
+          <Input
+            label="Role"
+            id="role"
+            isLoading={!metadata?.userRoles}
+            {...register("role")}
+            disabled
+          />
         </Grid>
 
-        <Box marginBottom={6}>
+        <Box marginBottom={6} w="fit-content">
           <Upload
             isMini
             isRequired
@@ -241,7 +295,11 @@ export const AccountPage = () => {
         </Grid>
 
         <Flex justifyContent="flex-end">
-          <Button secondary marginRight={6} link="/">
+          <Button
+            secondary
+            marginRight={6}
+            onClick={onCallToActionClick || handleGoBack}
+          >
             Cancel
           </Button>
           <Button
