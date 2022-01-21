@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { Flex, Box, Grid } from "@chakra-ui/layout";
+import { Flex, Box, Grid, ButtonGroup } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Route } from "react-router-dom";
 import {
@@ -26,6 +26,7 @@ import {
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { PageLoaderLayout } from "../../../../../layouts";
 import { useCallback, useEffect, useState } from "react";
+import { BsCheckCircle } from "react-icons/bs";
 
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
@@ -202,6 +203,11 @@ const CreateQuestionPage = (assessmentManager) => {
 
   const { question, isLoading, error } = useQuestionDetails(assessmentManager);
 
+  const [isMultipleChoiceOptions, setIsMultipleChoiceOptions] = useState(true);
+
+  const handleMultipleChoiceOptionsToggle = () =>
+    setIsMultipleChoiceOptions((prev) => !prev);
+
   const {
     register,
     reset,
@@ -227,10 +233,27 @@ const CreateQuestionPage = (assessmentManager) => {
     if (question) {
       const option1 = question.options.find((opt) => opt.optionIndex === 1);
 
-      setValue("option-1", option1.name);
+      setValue("option-1", !isMultipleChoiceOptions ? "True" : option1.name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question, isMultipleChoiceOptions]);
+
+  useEffect(() => {
+    if (!isMultipleChoiceOptions) {
+      setValue("option-1", "True");
+      setValue("option-2", "False");
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMultipleChoiceOptions]);
+
+  useEffect(() => {
+    if (question?.options.length === 2) {
+      setIsMultipleChoiceOptions(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
+
   useEffect(() => {
     if (question) {
       const option2 = question.options.find((opt) => opt.optionIndex === 2);
@@ -369,6 +392,28 @@ const CreateQuestionPage = (assessmentManager) => {
           Mark the correct option
         </Text>
         {/* <fieldset onChange={setAnswer} id="radio" value={answer}> */}
+
+        <Box borderBottom="1px" borderColor="accent.2" pb={2} mb={5}>
+          <ButtonGroup size="xs">
+            <Button
+              onClick={handleMultipleChoiceOptionsToggle}
+              leftIcon={isMultipleChoiceOptions && <BsCheckCircle />}
+              ghost={!isMultipleChoiceOptions}
+              disabled={isEditMode && !question}
+            >
+              Multiple Choices
+            </Button>
+            <Button
+              onClick={handleMultipleChoiceOptionsToggle}
+              leftIcon={!isMultipleChoiceOptions && <BsCheckCircle />}
+              ghost={isMultipleChoiceOptions}
+              disabled={isEditMode && !question}
+            >
+              True/False
+            </Button>
+          </ButtonGroup>
+        </Box>
+
         <Stack direction="column">
           <Flex flexDirection="row" paddingBottom={6}>
             <Flex paddingTop={12} paddingRight={6}>
@@ -384,11 +429,11 @@ const CreateQuestionPage = (assessmentManager) => {
             <Input
               id="option-1"
               label="Option 01"
-              {...register("option-1", { required: "must not be empty" })}
+              {...register("option-1", { required: true })}
+              disabled={!isMultipleChoiceOptions}
               placeholder="Enter the first option here"
             />
           </Flex>
-
           <Flex flexDirection="row" paddingBottom={6}>
             <Flex paddingTop={12} paddingRight={6}>
               <input
@@ -403,47 +448,51 @@ const CreateQuestionPage = (assessmentManager) => {
             <Input
               id="option-2"
               label="Option 02"
-              {...register("option-2", { required: "must not be empty" })}
-              placeholder="Enter the first option here"
+              {...register("option-2", { required: true })}
+              disabled={!isMultipleChoiceOptions}
+              placeholder="Enter the second option here"
             />
           </Flex>
-
-          <Flex flexDirection="row" paddingBottom={6}>
-            <Flex paddingTop={12} paddingRight={6}>
-              <input
-                type="radio"
-                checked={answer === "3"}
-                onChange={handleChange}
-                name="radio"
-                value="3"
-                id="radio-3"
-              />
-            </Flex>
-            <Input
-              id="option-3"
-              label="Option 03"
-              {...register("option-3")}
-              placeholder="Enter the first option here"
-            />
-          </Flex>
-          <Flex flexDirection="row" paddingBottom={6}>
-            <Flex paddingTop={12} paddingRight={6}>
-              <input
-                type="radio"
-                checked={answer === "4"}
-                onChange={handleChange}
-                name="radio"
-                value="4"
-                id="radio-4"
-              />
-            </Flex>
-            <Input
-              id="option-4"
-              label="Option 04"
-              {...register("option-4")}
-              placeholder="Enter the first option here"
-            />
-          </Flex>
+          {isMultipleChoiceOptions && (
+            <>
+              <Flex flexDirection="row" paddingBottom={6}>
+                <Flex paddingTop={12} paddingRight={6}>
+                  <input
+                    type="radio"
+                    checked={answer === "3"}
+                    onChange={handleChange}
+                    name="radio"
+                    value="3"
+                    id="radio-3"
+                  />
+                </Flex>
+                <Input
+                  id="option-3"
+                  label="Option 03"
+                  {...register("option-3", { required: true })}
+                  placeholder="Enter the third option here"
+                />
+              </Flex>
+              <Flex flexDirection="row" paddingBottom={6}>
+                <Flex paddingTop={12} paddingRight={6}>
+                  <input
+                    type="radio"
+                    checked={answer === "4"}
+                    onChange={handleChange}
+                    name="radio"
+                    value="4"
+                    id="radio-4"
+                  />
+                </Flex>
+                <Input
+                  id="option-4"
+                  label="Option 04"
+                  {...register("option-4", { required: true })}
+                  placeholder="Enter the last option here"
+                />
+              </Flex>
+            </>
+          )}
         </Stack>
         {/* </fieldset> */}
       </Box>
