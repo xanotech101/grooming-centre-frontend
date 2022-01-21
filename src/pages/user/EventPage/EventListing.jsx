@@ -261,6 +261,8 @@ export const ViewEventButton = ({
     }
   }, [event.id, joinedEvents]);
 
+  event.link = event.link.replace(/\?pwd=(.)*$/, "");
+
   return (
     <>
       {renderTrigger ? (
