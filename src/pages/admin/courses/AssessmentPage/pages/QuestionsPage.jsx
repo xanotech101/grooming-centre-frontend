@@ -294,6 +294,10 @@ const CreateQuestionPage = (assessmentManager) => {
       const questionText =
         questionRichTextManager.handleGetValueAndValidate("Question");
       const options = buildOptions({ ...data, answer });
+      if (!isMultipleChoiceOptions) {
+        options.pop();
+        options.pop();
+      }
 
       // Validate `isAnswer` field
       const hasAnswer = options.find((opt) => opt.isAnswer);
