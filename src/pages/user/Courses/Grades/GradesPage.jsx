@@ -52,8 +52,6 @@ export const Grades = ({ isLoading, grades, duration }) => {
   useEffect(() => {
     if (hash.includes("certificates")) {
       document.getElementById("certificates")?.scrollIntoView();
-
-      console.log(document.getElementById("certificates"));
     }
   }, [hash]);
 

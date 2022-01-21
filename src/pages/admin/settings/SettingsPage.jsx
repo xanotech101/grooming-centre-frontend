@@ -19,7 +19,7 @@ import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import { requestUpdateDetails } from "../../../services";
 import { appendFormData, capitalizeFirstLetter } from "../../../utils";
 
-const AccountPage = () => {
+export const AccountPage = () => {
   const {
     state: { user },
     fetchCurrentUser,
