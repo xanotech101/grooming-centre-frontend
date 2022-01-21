@@ -56,6 +56,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
       };
       Reflect.deleteProperty(data, "confirmPassword");
       Reflect.deleteProperty(data, "department");
+      Reflect.deleteProperty(data, "role");
       const body = appendFormData(data);
 
       const { message } = await requestUpdateDetails(body);
@@ -225,18 +226,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
           />
         </Grid>
 
-        <Box marginBottom={6} w="fit-content">
-          <Upload
-            isMini
-            isRequired
-            id="profilePics"
-            label="Profile Picture"
-            onFileSelect={thumbnailUpload.handleFileSelect}
-            imageUrl={thumbnailUpload.image.url}
-            accept={thumbnailUpload.accept}
-          />
-        </Box>
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6}>
+        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6} pt={7}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Personal Information
@@ -246,6 +236,21 @@ export const AccountPage = ({ onCallToActionClick }) => {
               your account
             </Text>
           </GridItem>
+
+          <GridItem colSpan={2}>
+            <Box w="fit-content">
+              <Upload
+                isMini
+                isRequired
+                id="profilePics"
+                label="Profile Picture"
+                onFileSelect={thumbnailUpload.handleFileSelect}
+                imageUrl={thumbnailUpload.image.url}
+                accept={thumbnailUpload.accept}
+              />
+            </Box>
+          </GridItem>
+
           <Input
             data-testid="input"
             id="email"
