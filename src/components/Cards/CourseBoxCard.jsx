@@ -258,7 +258,7 @@ export const CourseBoxCard = ({
                           <iframe
                             src={file}
                             title={title}
-                            height="100%"
+                            height="600px"
                             width="100%"
                           />
                         }
