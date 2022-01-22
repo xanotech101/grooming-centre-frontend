@@ -10,12 +10,17 @@ import {
   Button,
   Link,
   RichTextToView,
+  Upload,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
-import { useRichText, useQueryParams } from "../../../../../hooks";
-import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
+import { useRichText, useQueryParams, useUpload } from "../../../../../hooks";
+import {
+  capitalizeFirstLetter,
+  capitalizeWords,
+  appendFormData,
+} from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
   adminCreateAssessmentQuestion,
@@ -288,13 +293,29 @@ const CreateQuestionPage = (assessmentManager) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
 
+  const questionImageManager = useUpload();
+
+  // TODO: uncomment for editMode's sake
+  // useEffect(() => {
+  //   if (question) {
+  //     questionImageManager.handleInitialImageSelect(question.image);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [question]);
+
   // const { handleDelete } = useCache();
   const onSubmit = async (data) => {
     try {
+      console.log(data);
+
+      const image = questionImageManager.handleGetFileAndValidate(
+        "Question Cover",
+        true // TODO: remove comment
+      );
       const questionText =
         questionRichTextManager.handleGetValueAndValidate("Question");
       const options = buildOptions({ ...data, answer });
-      if (!isMultipleChoiceOptions) {
+      if (!isMultipleChoiceOptions && options.length === 4) {
         options.pop();
         options.pop();
       }
@@ -303,48 +324,68 @@ const CreateQuestionPage = (assessmentManager) => {
       const hasAnswer = options.find((opt) => opt.isAnswer);
       if (!hasAnswer) throw new Error("Please select an answer");
 
-      data = isExamination
-        ? {
-            examinationId: isExamination,
-            question: questionText,
-            options,
-          }
-        : { assessmentId, question: questionText, options };
+      data =
+        isEditMode && !isExamination
+          ? {
+              image,
+              question: JSON.stringify({
+                id: questionId,
+                question: questionText,
+                assessmentId,
+                // active: true,
+              }),
+              options: JSON.stringify(
+                options.map((opt) => ({
+                  ...opt,
+                  id: question?.options.find(({ name }) => opt.name === name)
+                    ?.id,
+                  assessmentQuestionId: questionId,
+                  // active: true,
+                }))
+              ),
+            }
+          : isEditMode && isExamination
+          ? {
+              image,
+              question: JSON.stringify({
+                id: questionId,
+                question: questionText,
+                examinationId: isExamination,
+                active: true,
+              }),
+              options: JSON.stringify(
+                options.map((opt) => ({
+                  ...opt,
+                  id: question?.options.find(({ name }) => opt.name === name)
+                    ?.id,
+                  examinationQuestionId: questionId,
+                  active: true,
+                }))
+              ),
+            }
+          : // is Create Mode
+          isExamination
+          ? {
+              image,
+              examinationId: isExamination,
+              question: questionText,
+              options: JSON.stringify(options),
+            }
+          : {
+              image,
+              assessmentId,
+              question: questionText,
+              options: JSON.stringify(options),
+            };
 
       console.log(data);
 
-      const body = data;
+      const body = appendFormData(data);
 
       const { message } = await (isEditMode && !isExamination
-        ? adminEditAssessmentQuestion({
-            question: {
-              id: questionId,
-              question: questionText,
-              assessmentId,
-              // active: true,
-            },
-            options: options.map((opt) => ({
-              ...opt,
-              id: question?.options.find(({ name }) => opt.name === name)?.id,
-              assessmentQuestionId: questionId,
-              // active: true,
-            })),
-          })
+        ? adminEditAssessmentQuestion(body)
         : isEditMode && isExamination
-        ? adminEditExaminationQuestion({
-            question: {
-              id: questionId,
-              question: questionText,
-              examinationId: isExamination,
-              active: true,
-            },
-            options: options.map((opt) => ({
-              ...opt,
-              id: question?.options.find(({ name }) => opt.name === name)?.id,
-              examinationQuestionId: questionId,
-              active: true,
-            })),
-          })
+        ? adminEditExaminationQuestion(body)
         : isExamination
         ? adminCreateExaminationQuestion(body)
         : adminCreateAssessmentQuestion(body));
@@ -389,7 +430,18 @@ const CreateQuestionPage = (assessmentManager) => {
           onChange={questionRichTextManager.handleChange}
           defaultValue={questionRichTextManager.data.default}
         />
+
+        <Box marginTop={8}>
+          <Upload
+            id="coverImage"
+            label="Event Cover"
+            onFileSelect={questionImageManager.handleFileSelect}
+            imageUrl={questionImageManager.image.url}
+            accept={questionImageManager.accept}
+          />
+        </Box>
       </Box>
+
       <Box marginTop={10} padding={6} backgroundColor="white">
         <Heading fontSize="heading.h4">Enter the Options</Heading>
         <Text paddingTop={2} paddingBottom={8}>
