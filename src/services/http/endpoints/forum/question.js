@@ -75,7 +75,7 @@ export const userForumGetQuestions = async (params) => {
 };
 
 /**
- * Endpoint to get forum questions by a tagId
+ * Endpoint to get forum questions by tagId
  *
  * @returns {
  *   Promise<{
