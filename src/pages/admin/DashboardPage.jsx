@@ -25,6 +25,7 @@ import Carousel from "react-elastic-carousel";
 import { MdVideoLibrary } from "react-icons/md";
 import { FaRegFileAudio } from "react-icons/fa";
 import { SkeletonCircle } from "@chakra-ui/skeleton";
+import colors from "../../theme/colors";
 
 const useUserListing = () => {
   const { resource: users, handleFetchResource } = useFetchAndCache();
@@ -176,7 +177,11 @@ const DashboardPage = () => {
       datasets: [
         {
           data: [...(roleUsers || [])],
-          backgroundColor: [...getColors()],
+          backgroundColor: [
+            colors.primary.base,
+            colors.secondary["4"],
+            colors.accent["7"],
+          ],
           borderWidth: 0,
         },
       ],
