@@ -23,3 +23,4 @@ export * from "./events/CreateEventPage";
 export * from "./lib/LibraryListingPage";
 export * from "./lib/CreateLibraryFilePage";
 export * from "./lib/ViewFileDetailsPage";
+export * from "./standaloneExams/StandaloneExaminationListingPage";
