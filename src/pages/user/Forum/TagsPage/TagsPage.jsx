@@ -32,9 +32,7 @@ const TagsPage = () => {
     return () => handleClearQuestionsData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTags.length]);
-
-  console.log(selectedTags.length);
+  }, [selectedTags?.[0]?.id]);
 
   return (
     <Box paddingBottom={2}>

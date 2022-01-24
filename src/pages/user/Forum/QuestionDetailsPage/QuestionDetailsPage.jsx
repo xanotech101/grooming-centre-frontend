@@ -26,7 +26,10 @@ const QuestionDetailsPage = () => {
             disabled
           />
 
-          <Comments commentsManager={commentsManager} canAddComment>
+          <Comments
+            commentsManager={commentsManager}
+            canAddComment={question.data?.active}
+          >
             {({
               handleAddComment,
               comments,

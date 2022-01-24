@@ -6,7 +6,7 @@ import { AskAQuestionButton } from "../../../../layouts/user/Forum/Header/Header
 import useYourQuestionsPage from "./hooks/useYourQuestionsPage";
 
 const YourQuestionsPage = () => {
-  const { questions } = useYourQuestionsPage();
+  const { questions, handleFetch } = useYourQuestionsPage();
 
   const questionsIsEmpty =
     !questions.loading && !questions.err && !questions.data?.length
@@ -33,7 +33,11 @@ const YourQuestionsPage = () => {
       {questions.err && <QuestionsPageErrorState />}
 
       {questions.data?.map((question) => (
-        <QuestionListCard key={question.id} {...question} />
+        <QuestionListCard
+          key={question.id}
+          onDeleteSuccess={handleFetch}
+          {...question}
+        />
       ))}
     </>
   );

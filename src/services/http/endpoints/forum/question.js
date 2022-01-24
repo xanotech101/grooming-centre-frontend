@@ -23,11 +23,13 @@ export const userForumGetYourQuestions = async () => {
     body: truncateText(question.question, 100),
     active: question.active,
     createdAt: question.createdAt,
-    tags: question.tags.map((tag) => ({
-      id: tag.id,
-      label: tag.name,
-    })),
-    commentCount: question.forumComments.length,
+    tags: Array.isArray(question.tags) // TODO: pin
+      ? question.tags.map((tag) => ({
+          id: tag.id,
+          label: tag.name,
+        }))
+      : [],
+    commentCount: question.forumComments.length || 0, // TODO: pin
   }));
 
   return { questions };
@@ -55,8 +57,7 @@ export const userForumGetQuestions = async (params) => {
     body: truncateText(question.question, 100),
     active: question.active,
     createdAt: question.createdAt,
-    // Fix from the backend
-    tags: Array.isArray(question.tags)
+    tags: Array.isArray(question.tags) // TODO: pin
       ? question.tags.map((tag) => ({
           id: tag.id,
           label: tag.name,
@@ -67,8 +68,7 @@ export const userForumGetQuestions = async (params) => {
       profilePics: question.user.profilePics,
       fullName: getFullName(question.user),
     },
-    // Fix from the backend
-    commentCount: question.forumComments.length || 0,
+    commentCount: question.forumComments.length || 0, // TODO: pin
   }));
 
   return { questions };
