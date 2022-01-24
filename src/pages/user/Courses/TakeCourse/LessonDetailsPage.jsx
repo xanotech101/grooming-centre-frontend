@@ -258,14 +258,16 @@ const PDFReader = ({ lesson, handleEndLesson }) => {
   }, []);
 
   return (
-    <embed
-      id="take-lesson-pdf"
-      src={lesson?.file}
-      // title={lesson?.title}
-      type="application/pdf"
-      height="100%"
-      width="100%"
-    />
+    <Box minW="300px" h="calc(100vh - 170px)">
+      <embed
+        id="take-lesson-pdf"
+        src={lesson?.file}
+        // title={lesson?.title}
+        type="application/pdf"
+        height="100%"
+        width="100%"
+      />
+    </Box>
   );
 };
 
