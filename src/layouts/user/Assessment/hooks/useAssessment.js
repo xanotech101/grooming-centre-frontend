@@ -187,19 +187,21 @@ const useAssessment = () => {
       body: (
         <>
           <Text marginBottom={5}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. A,
-            tristique aliquam adipiscing senectus nulla nibh.."
+            Please note that you will not be able to retake this{" "}
+            {isExamination ? "examination" : "assessment"} after you submit.
+            Double check your answers before submitting.
           </Text>
 
           <Text marginBottom={5}>
-            Answered{" "}
+            You answered{" "}
             <Box as="b" color="secondary.6" fontSize="text.level3">
               {Reflect.ownKeys(selectedAnswers).length}
             </Box>{" "}
-            of{" "}
+            out of{" "}
             <Box as="b" fontSize="text.level3">
               {assessment.questionCount}
-            </Box>
+            </Box>{" "}
+            questions
           </Text>
         </>
       ),
