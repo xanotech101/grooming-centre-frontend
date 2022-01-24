@@ -7,6 +7,7 @@ import {
   NavigationBlocker,
   RichTextToView,
   Text,
+  Image,
 } from "../../../components";
 import breakpoints from "../../../theme/breakpoints";
 import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
@@ -135,13 +136,24 @@ const AssessmentLayout = () => {
                         : handleNextQuestion
                     }
                   >
-                    <RichTextToView
-                      marginBottom={6}
-                      padding={2}
-                      backgroundColor="accent.1"
-                      flex={0.2}
-                      text={currentQuestion?.question}
-                    />
+                    <Box marginBottom={6}>
+                      <RichTextToView
+                        marginBottom={2}
+                        padding={2}
+                        backgroundColor="accent.1"
+                        flex={0.2}
+                        text={currentQuestion?.question}
+                      />
+                      {currentQuestion?.image && (
+                        <Image
+                          src={currentQuestion?.image}
+                          alt={currentQuestion?.question}
+                          width="100%"
+                          height="400px"
+                          rounded="sm"
+                        />
+                      )}
+                    </Box>
 
                     <RadioGroup
                       defaultValue="1"
