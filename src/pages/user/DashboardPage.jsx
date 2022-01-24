@@ -281,17 +281,12 @@ const DashboardPage = () => {
                     </Text>
                   </Box>
 
-                  <Flex
-                    width="150px"
-                    height="170px"
-                    position="absolute"
-                    top="98px"
-                  >
+                  <Flex boxSize="170px" position="absolute" top="98px">
                     <Doughnut {...totalGradeChartConfig} />
                     <Flex
                       flexDirection="column"
                       position="absolute"
-                      left="300px"
+                      left="200px"
                     >
                       <Box paddingBottom={4}>
                         <Text color="accent.3">Assessments</Text>
