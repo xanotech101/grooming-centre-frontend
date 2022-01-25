@@ -60,7 +60,7 @@ export const userForumGetQuestions = async (params) => {
     tags: Array.isArray(question.tags) // TODO: pin
       ? question.tags.map((tag) => ({
           id: tag.id,
-          label: tag.name,
+          label: tag.title,
         }))
       : [],
     user: {
@@ -100,7 +100,7 @@ export const userForumGetQuestionsByTagId = async (id) => {
     tags: Array.isArray(question.tags)
       ? question.tags.map((tag) => ({
           id: tag.id,
-          label: tag.name,
+          label: tag.title,
         }))
       : [],
 

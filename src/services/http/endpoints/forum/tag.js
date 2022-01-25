@@ -5,14 +5,14 @@ import { http } from "../../http";
  *
  * @returns {Promise<{ tags: Array<{ value: string, label: string }> }>}
  */
-export const userForumGetTags = async () => {
+export const userForumGetTags = async (params) => {
   const path = `/forum/tag`; // TODO: pass in filter values
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
-  const tags = data.map((tag) => ({
+  const tags = data.rows.map((tag) => ({
     id: tag.id,
     label: tag.title,
   }));
