@@ -1,6 +1,5 @@
 import { Route } from "react-router-dom";
 import { Flex } from "@chakra-ui/layout";
-import { BreadcrumbItem } from "@chakra-ui/react";
 import {
   Button,
   Heading,
@@ -13,11 +12,12 @@ import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
   adminDeleteMultipleCourses,
-  adminGetExaminationListing,
+  adminGetStandaloneExaminationListing,
 } from "../../../services";
 import { getDuration } from "../../../utils";
 import dayjs from "dayjs";
 import { useTableRows } from "../../../hooks";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const tableProps = {
   filterControls: [
@@ -63,11 +63,18 @@ const tableProps = {
       fraction: "2fr",
       renderContent: (data) => (
         <Link
-          href={`/admin/courses/${data.courseId}/assessment/${data.courseId}/overview?examination=${data.examinationId}`}
+          // href={`/admin/courses/${data.courseId}/assessment/${data.courseId}/overview?examination=${data.examinationId}`}
+          href={`/admin/standalone-exam/${data.examinationId}`}
         >
           <Text>{data.text}</Text>
         </Link>
       ),
+    },
+    {
+      id: "3",
+      key: "noOfUsers",
+      text: "No. of Users",
+      fraction: "200px",
     },
     {
       id: "4",
@@ -106,22 +113,21 @@ const tableProps = {
 const StandaloneExaminationListingPage = () => {
   // const { id: courseId } = useParams();
 
-  const courseId = "courseId_3";
-
   const mapExaminationToRow = (examination) => ({
     id: examination.id,
-    courseId,
+    // courseId,
     title: {
       text: examination.title,
       examinationId: examination.id,
-      courseId,
+      // courseId,
     },
     startDate: dayjs(examination.startTime).format("DD/MM/YYYY h:mm a"),
     duration: getDuration(examination.duration).combinedText,
+    noOfUsers: examination.noOfUsers,
   });
 
   const fetcher = () => async () => {
-    const { examinations } = await adminGetExaminationListing(courseId);
+    const { examinations } = await adminGetStandaloneExaminationListing();
 
     const rows = examinations.map(mapExaminationToRow);
 
@@ -133,16 +139,16 @@ const StandaloneExaminationListingPage = () => {
   return (
     <AdminMainAreaWrapper>
       <Breadcrumb
-        item2={
-          <BreadcrumbItem isCurrentPage>
-            <Link href="/admin/courses">Courses </Link>
-          </BreadcrumbItem>
-        }
-        item3={
-          <BreadcrumbItem isCurrentPage>
-            <Link href="#">Examination</Link>
-          </BreadcrumbItem>
-        }
+      // item2={
+      //   <BreadcrumbItem isCurrentPage>
+      //     <Link href="/admin/courses">Courses </Link>
+      //   </BreadcrumbItem>
+      // }
+      // item3={
+      //   <BreadcrumbItem isCurrentPage>
+      //     <Link href="#">Examination</Link>
+      //   </BreadcrumbItem>
+      // }
       />
 
       <Flex
@@ -154,11 +160,11 @@ const StandaloneExaminationListingPage = () => {
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
-          Examination
+          Standalone Examinations
         </Heading>
 
         <Button
-          link={`/admin/courses/${courseId}/assessment/new/overview?examination=true`}
+          link={`/admin/standalone-examination/new/overview?examination=true`}
         >
           Add Examination
         </Button>

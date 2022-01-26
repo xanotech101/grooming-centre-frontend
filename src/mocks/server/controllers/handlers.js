@@ -18,6 +18,7 @@ import event from "./event/endpoints";
 import library from "./library/endpoints";
 import appointments from "./appointments/endpoints";
 import chat from "./chat/endpoints";
+import standaloneExamination from "./standaloneExamination/endpoints";
 
 const commonHandlers = [
   ...appointments,
@@ -29,6 +30,7 @@ const commonHandlers = [
   ...grades,
   ...certificate,
   ...examination,
+  ...standaloneExamination,
   ...assessment,
   ...forumTag,
   ...forumQuestion,
