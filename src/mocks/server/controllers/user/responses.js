@@ -19,7 +19,7 @@ export const user = {
 
 export const userListingRes = {
   data: {
-    count: 120,
+    count: 102,
     rows: [
       {
         ...user.data,

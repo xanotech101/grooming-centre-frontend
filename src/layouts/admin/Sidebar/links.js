@@ -30,7 +30,7 @@ export const links = [
     icon: <IoIosCalendar />,
   },
   {
-    href: "/admin/standalone-exam",
+    href: "/admin/standalone-exams",
     text: "Standalone Exams",
     icon: <TiPen />,
   },

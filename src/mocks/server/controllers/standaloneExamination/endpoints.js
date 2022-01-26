@@ -4,6 +4,7 @@ import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
   adminGetStandaloneExaminationListingRes,
+  adminGetStandaloneExaminationParticipantsRes,
   // submitExaminationRes,
   // adminCreateExaminationQuestionRes,
   // adminCreateExaminationRes,
@@ -15,6 +16,16 @@ const adminGetStandaloneExaminationListing = [
   rest.get(
     getUrl("/standalone-examinations"),
     handleSuccessResponse(adminGetStandaloneExaminationListingRes)
+  ),
+];
+const adminGetStandaloneExaminationParticipants = [
+  rest.get(
+    getUrl("/standalone-examinations/participants/standaloneExaminationId_1"),
+    handleSuccessResponse(adminGetStandaloneExaminationParticipantsRes)
+  ),
+  rest.get(
+    getUrl("/standalone-examinations/participants/standaloneExaminationId_2"),
+    handleSuccessResponse(adminGetStandaloneExaminationParticipantsRes)
   ),
 ];
 
@@ -53,6 +64,7 @@ const adminGetStandaloneExaminationListing = [
 
 const standaloneExamination = [
   ...adminGetStandaloneExaminationListing,
+  ...adminGetStandaloneExaminationParticipants,
   // adminCreateExamination,
   // adminCreateExaminationQuestion,
   // adminEditExaminationQuestion,

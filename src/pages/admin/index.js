@@ -24,4 +24,4 @@ export * from "./lib/LibraryListingPage";
 export * from "./lib/CreateLibraryFilePage";
 export * from "./lib/ViewFileDetailsPage";
 export * from "./standaloneExams/StandaloneExaminationListingPage";
-export * from "./standaloneExams/StandaloneExaminationDetailsPage";
+export * from "./standaloneExams/StandaloneExaminationAllParticipantsPage";

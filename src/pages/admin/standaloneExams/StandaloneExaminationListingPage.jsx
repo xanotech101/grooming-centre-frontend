@@ -17,7 +17,6 @@ import {
 import { getDuration } from "../../../utils";
 import dayjs from "dayjs";
 import { useTableRows } from "../../../hooks";
-import { AiOutlineSearch } from "react-icons/ai";
 
 const tableProps = {
   filterControls: [
@@ -64,7 +63,7 @@ const tableProps = {
       renderContent: (data) => (
         <Link
           // href={`/admin/courses/${data.courseId}/assessment/${data.courseId}/overview?examination=${data.examinationId}`}
-          href={`/admin/standalone-exam/${data.examinationId}`}
+          href={`/admin/standalone-exams/${data.examinationId}/${data.text}`}
         >
           <Text>{data.text}</Text>
         </Link>

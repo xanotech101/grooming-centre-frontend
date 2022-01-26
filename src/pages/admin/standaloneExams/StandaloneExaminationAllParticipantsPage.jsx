@@ -12,14 +12,15 @@ import {
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
   adminDeleteMultipleCourses,
-  adminGetUserListing,
+  adminGetStandaloneExaminationParticipants,
 } from "../../../services";
 import { BreadcrumbItem } from "@chakra-ui/react";
 import { useTableRows } from "../../../hooks";
 import { useApp } from "../../../contexts";
 import { FiEdit } from "react-icons/fi";
+import { useParams } from "react-router-dom";
 
-const StandaloneExaminationDetailsPage = () => {
+const StandaloneExaminationAllParticipantsPage = () => {
   const appManager = useApp();
 
   const departmentName = appManager.state.metadata?.departments.map(
@@ -53,18 +54,6 @@ const StandaloneExaminationDetailsPage = () => {
               label: name,
               queryValue: name,
             })) || []),
-          ],
-        },
-      },
-      {
-        triggerText: "Role",
-        queryKey: "role",
-        width: "170%",
-        body: {
-          checks: [
-            { label: "Super Admin", queryValue: "super admin" },
-            { label: "Admin", queryValue: "admin" },
-            { label: "User", queryValue: "user" },
           ],
         },
       },
@@ -152,12 +141,16 @@ const StandaloneExaminationDetailsPage = () => {
       userId: user.id,
     },
     department: user.departmentName,
-    certificates: user.noOfCertificate,
   });
+
+  const { examinationId, examinationName } = useParams();
 
   const fetcher = (props) => async () => {
     const { users, showingDocumentsCount, totalDocumentsCount } =
-      await adminGetUserListing(props?.params);
+      await adminGetStandaloneExaminationParticipants(
+        examinationId,
+        props?.params
+      );
 
     const rows = users.map(mapUserToRow);
 
@@ -189,12 +182,14 @@ const StandaloneExaminationDetailsPage = () => {
       <Breadcrumb
         item2={
           <BreadcrumbItem>
-            <Link href="/admin/standalone-examinations">
-              Standalone Examination
-            </Link>
+            <Link href="/admin/standalone-exams">Standalone Examination</Link>
           </BreadcrumbItem>
         }
-        item3={<BreadcrumbItem isCurrentPage>Participants</BreadcrumbItem>}
+        item3={
+          <BreadcrumbItem isCurrentPage>
+            <Link>All Participants</Link>
+          </BreadcrumbItem>
+        }
       />
       <Flex
         justifyContent="space-between"
@@ -205,7 +200,7 @@ const StandaloneExaminationDetailsPage = () => {
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
-          Hot Exam on March
+          {examinationName}
         </Heading>
 
         <Button link="/admin/users/edit/new" leftIcon={<FiEdit />}>
@@ -228,13 +223,15 @@ const StandaloneExaminationDetailsPage = () => {
   );
 };
 
-export const StandaloneExaminationDetailsPageRoute = ({ ...rest }) => {
+export const StandaloneExaminationAllParticipantsPageRoute = ({ ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) => <StandaloneExaminationDetailsPage {...props} />}
+      render={(props) => (
+        <StandaloneExaminationAllParticipantsPage {...props} />
+      )}
     />
   );
 };
 
-export default StandaloneExaminationDetailsPage;
+export default StandaloneExaminationAllParticipantsPage;

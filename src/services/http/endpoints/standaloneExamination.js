@@ -84,6 +84,34 @@ export const adminGetStandaloneExaminationListing = async () => {
   return { examinations };
 };
 
+/**
+ * Endpoint for an examination participates
+ * @param {string} id
+ * @param {object} params
+ *
+ */
+export const adminGetStandaloneExaminationParticipants = async (id, params) => {
+  const path = `/standalone-examinations/participants/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path, { params });
+
+  return {
+    users: data.rows.map((user) => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      departmentId: user.department?.id,
+      departmentName: user.department?.name,
+      grade: user.grade,
+    })),
+    showingDocumentsCount: data.rows.length,
+    totalDocumentsCount: data.count,
+  };
+};
+
 // /**
 //  * Endpoint to submit an `examination`
 //  * @param {object} body - answers
