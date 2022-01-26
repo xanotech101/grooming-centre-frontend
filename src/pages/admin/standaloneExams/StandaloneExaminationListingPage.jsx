@@ -105,7 +105,7 @@ const tableProps = {
       console.log(selectedExaminations);
       await adminDeleteMultipleCourses();
     },
-    pagination: false,
+    pagination: true,
   },
 };
 
@@ -126,11 +126,12 @@ const StandaloneExaminationListingPage = () => {
   });
 
   const fetcher = () => async () => {
-    const { examinations } = await adminGetStandaloneExaminationListing();
+    const { examinations, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetStandaloneExaminationListing();
 
     const rows = examinations.map(mapExaminationToRow);
 
-    return { rows };
+    return { rows, showingDocumentsCount, totalDocumentsCount };
   };
 
   const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
