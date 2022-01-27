@@ -50,94 +50,14 @@ export const adminGetStandaloneExaminationListingRes = {
         id: "standaloneExaminationId_1",
         title: "ReactJs Lol examination",
         startTime: ongoingDates.startTime,
-        duration: 10.2,
-        // examinationScoreSheets: [{}],
-        amountOfQuestions: 2,
-        courseId: "courseId_3",
+        duration: 40,
         noOfUsers: 4,
-        // examinationQuestions: [
-        //   {
-        //     id: "questionId_1",
-        //     question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A div","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
-
-        //     options: [
-        //       {
-        //         id: "optionId_1",
-        //         name: "me",
-        //         optionIndex: "1",
-        //       },
-        //       {
-        //         id: "optionId_2",
-        //         name: "you",
-        //         optionIndex: "2",
-        //         isAnswer: true,
-        //       },
-        //       {
-        //         id: "optionId_3",
-        //         name: "them",
-        //         optionIndex: "3",
-        //       },
-        //       {
-        //         id: "optionId_4",
-        //         name: "we",
-        //         optionIndex: "4",
-        //       },
-        //     ],
-        //   },
-        //   {
-        //     id: "questionId_2",
-        //     question: `{"blocks":[{"key":"bd4p2","text":"How to Stye A division","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":12,"length":5,"style":"UNDERLINE"},{"offset":12,"length":5,"style":"BOLD"},{"offset":12,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}`,
-
-        //     options: [
-        //       {
-        //         id: "optionId_1",
-        //         name: "me",
-        //         optionIndex: "1",
-        //       },
-        //       {
-        //         id: "optionId_2",
-        //         name: "you",
-        //         optionIndex: "2",
-        //       },
-        //       {
-        //         id: "optionId_3",
-        //         name: "them",
-        //         optionIndex: "3",
-        //       },
-        //       {
-        //         id: "optionId_4",
-        //         name: "we",
-        //         optionIndex: "4",
-        //         isAnswer: true,
-        //       },
-        //     ],
-        //   },
-        // ],
-        // users: [
-        //   {
-        //     id: "userId_1",
-        //     firstName: "John",
-        //     lastName: "Doe",
-        //     profilePics: "https://i.imgur.com/wSTFkRM.png",
-        //     grade: "A",
-        //   },
-        //   {
-        //     id: "userId_3",
-        //     firstName: "John",
-        //     lastName: "Doe",
-        //     profilePics: "https://i.imgur.com/wSTFkRM.png",
-        //     grade: "C",
-        //   },
-        // ],
       },
       {
         id: "standaloneExaminationId_2",
         title: "HTML examination",
         startTime: ongoingDates.startTime,
-        duration: 10.2,
-        // examinationScoreSheets: [{}],
-        amountOfQuestions: 2,
-        courseId: "courseId_3",
+        duration: 100,
         noOfUsers: 2,
       },
     ],
