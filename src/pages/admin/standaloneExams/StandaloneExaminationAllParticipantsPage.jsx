@@ -203,7 +203,10 @@ const StandaloneExaminationAllParticipantsPage = () => {
           {examinationName}
         </Heading>
 
-        <Button link="/admin/users/edit/new" leftIcon={<FiEdit />}>
+        <Button
+          link={`/admin/courses/not-set/assessment/not-set/overview?examination=${examinationId}`}
+          leftIcon={<FiEdit />}
+        >
           Edit
         </Button>
       </Flex>
