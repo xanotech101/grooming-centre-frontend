@@ -222,7 +222,7 @@ const CreateQuestionPage = (assessmentManager) => {
   } = useForm();
   const [answer, setAnswer] = useState();
 
-  const handleChange = (event) => {
+  const handleAnswerChange = (event) => {
     setAnswer(event.target.value);
   };
   const questionRichTextManager = useRichText();
@@ -476,7 +476,7 @@ const CreateQuestionPage = (assessmentManager) => {
               <input
                 type="radio"
                 checked={answer === "1"}
-                onChange={handleChange}
+                onChange={handleAnswerChange}
                 name="radio"
                 value="1"
                 id="radio-1"
@@ -495,7 +495,7 @@ const CreateQuestionPage = (assessmentManager) => {
               <input
                 type="radio"
                 checked={answer === "2"}
-                onChange={handleChange}
+                onChange={handleAnswerChange}
                 name="radio"
                 value="2"
                 id="radio-2"
@@ -516,7 +516,7 @@ const CreateQuestionPage = (assessmentManager) => {
                   <input
                     type="radio"
                     checked={answer === "3"}
-                    onChange={handleChange}
+                    onChange={handleAnswerChange}
                     name="radio"
                     value="3"
                     id="radio-3"
@@ -534,7 +534,7 @@ const CreateQuestionPage = (assessmentManager) => {
                   <input
                     type="radio"
                     checked={answer === "4"}
-                    onChange={handleChange}
+                    onChange={handleAnswerChange}
                     name="radio"
                     value="4"
                     id="radio-4"
