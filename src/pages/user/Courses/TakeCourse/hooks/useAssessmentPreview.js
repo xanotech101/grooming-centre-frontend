@@ -7,6 +7,7 @@ import {
   requestAssessmentDetails,
   requestExaminationDetails,
 } from "../../../../../services";
+import { isStandaloneExaminationAndIsNotEditMode } from "../../../../admin/courses/AssessmentPage/pages/OverviewPage";
 
 /**
  * Assessment state`Manager`
@@ -75,7 +76,11 @@ const useAssessmentPreview = (
   );
 
   const handleFetch = (bypassCache) => {
-    if (!assessmentIsNew) fetchAssessmentDetails(bypassCache);
+    if (
+      !assessmentIsNew &&
+      assessmentId !== isStandaloneExaminationAndIsNotEditMode
+    )
+      fetchAssessmentDetails(bypassCache);
   };
 
   const handleTryAgain = () => {

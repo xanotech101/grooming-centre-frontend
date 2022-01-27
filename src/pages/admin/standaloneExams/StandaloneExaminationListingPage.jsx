@@ -109,8 +109,6 @@ const tableProps = {
 };
 
 const StandaloneExaminationListingPage = () => {
-  // const { id: courseId } = useParams();
-
   const mapExaminationToRow = (examination) => ({
     id: examination.id,
     // courseId,
@@ -163,7 +161,7 @@ const StandaloneExaminationListingPage = () => {
         </Heading>
 
         <Button
-          link={`/admin/standalone-examination/new/overview?examination=true`}
+          link={`/admin/courses/not-set/assessment/not-set/overview?examination=new`}
         >
           Add Examination
         </Button>
