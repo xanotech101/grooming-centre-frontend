@@ -153,94 +153,106 @@ const CreateAssessmentPage = () => {
       <Box as="form" onSubmit={handleSubmit(onSubmit)} marginY={14} marginX={6}>
         <Box backgroundColor="white" padding={10}>
           {isStandaloneExamination && (
-            <Box mb={10} pb={5}>
-              <Flex justifyContent="space-between" mb={5} w="400px">
-                <Flex alignItems={"center"}>
-                  <input
-                    type="radio"
-                    checked={standaloneExamType === "departments"}
-                    onChange={handleAnswerChange}
-                    name="radio"
-                    value="departments"
-                    id="radio-1"
-                  />
+            <>
+              <Box>
+                <Flex justifyContent="space-between" mb={5} w="400px">
+                  <Flex alignItems={"center"}>
+                    <input
+                      type="radio"
+                      checked={standaloneExamType === "departments"}
+                      onChange={handleAnswerChange}
+                      name="radio"
+                      value="departments"
+                      id="radio-1"
+                    />
 
-                  <Box as="label" htmlFor="radio-1" ml={2}>
-                    <Text>By Departments</Text>
-                  </Box>
+                    <Box as="label" htmlFor="radio-1" ml={2}>
+                      <Text>By Departments</Text>
+                    </Box>
+                  </Flex>
+
+                  <Flex alignItems={"center"}>
+                    <input
+                      type="radio"
+                      checked={standaloneExamType === "users"}
+                      onChange={handleAnswerChange}
+                      name="radio"
+                      value="users"
+                      id="radio-2"
+                    />
+
+                    <Box as="label" htmlFor="radio-2" ml={2}>
+                      <Text>By Users</Text>
+                    </Box>
+                  </Flex>
                 </Flex>
 
-                <Flex alignItems={"center"}>
-                  <input
-                    type="radio"
-                    checked={standaloneExamType === "users"}
-                    onChange={handleAnswerChange}
-                    name="radio"
-                    value="users"
-                    id="radio-2"
-                  />
-
-                  <Box as="label" htmlFor="radio-2" ml={2}>
-                    <Text>By Users</Text>
+                <Box id="form-drop">
+                  <Box as="label">
+                    <Text as="level.2" pb={2}>
+                      Choose{" "}
+                      {standaloneExamType === "users" ? "Users" : "Departments"}
+                    </Text>
                   </Box>
-                </Flex>
-              </Flex>
 
-              <Box id="form-drop">
-                <Box as="label">
-                  <Text as="level.2" pb={2}>
-                    Choose{" "}
-                    {standaloneExamType === "users" ? "Users" : "Departments"}
-                  </Text>
-                </Box>
+                  <Flex flexWrap="wrap">
+                    {selectedIDs.map((item) => (
+                      <Tag key={item.value} mr={2} mb={2}>
+                        <TagLabel>{item.label}</TagLabel>
 
-                <Flex flexWrap="wrap">
-                  {selectedIDs.map((item) => (
-                    <Tag key={item.value} mr={2} mb={2}>
-                      <TagLabel>{item.label}</TagLabel>
+                        <TagCloseButton
+                          onClick={() => {
+                            setSelectedIDs(
+                              selectedIDs.filter(
+                                (selectedItem) =>
+                                  selectedItem.value !== item.value
+                              )
+                            );
+                          }}
+                        />
+                      </Tag>
+                    ))}
+                  </Flex>
 
-                      <TagCloseButton
-                        onClick={() => {
-                          setSelectedIDs(
-                            selectedIDs.filter(
-                              (selectedItem) =>
-                                selectedItem.value !== item.value
-                            )
-                          );
-                        }}
+                  {standaloneExamType === "users" && users.data && (
+                    <MultiSelect
+                      options={users.data}
+                      value={selectedIDs}
+                      onChange={setSelectedIDs}
+                      labelledBy="Select"
+                    />
+                  )}
+
+                  {standaloneExamType === "users" && users.loading && (
+                    <Spinner />
+                  )}
+
+                  {standaloneExamType === "departments" &&
+                    metadata?.departments && (
+                      <MultiSelect
+                        options={metadata?.departments.map((department) => ({
+                          value: department.id,
+                          label: capitalizeWords(department.name),
+                        }))}
+                        value={selectedIDs}
+                        onChange={setSelectedIDs}
+                        labelledBy="Select"
                       />
-                    </Tag>
-                  ))}
-                </Flex>
+                    )}
 
-                {standaloneExamType === "users" && users.data && (
-                  <MultiSelect
-                    options={users.data}
-                    value={selectedIDs}
-                    onChange={setSelectedIDs}
-                    labelledBy="Select"
-                  />
-                )}
-
-                {standaloneExamType === "users" && users.loading && <Spinner />}
-
-                {standaloneExamType === "departments" && metadata?.departments && (
-                  <MultiSelect
-                    options={metadata?.departments.map((department) => ({
-                      value: department.id,
-                      label: capitalizeWords(department.name),
-                    }))}
-                    value={selectedIDs}
-                    onChange={setSelectedIDs}
-                    labelledBy="Select"
-                  />
-                )}
-
-                {standaloneExamType === "users" && !metadata?.departments && (
-                  <Spinner />
-                )}
+                  {standaloneExamType === "users" && !metadata?.departments && (
+                    <Spinner />
+                  )}
+                </Box>
               </Box>
-            </Box>
+
+              <Box
+                borderBottom="1px"
+                borderColor="accent.1"
+                mt={5}
+                mb={10}
+              ></Box>
+            </>
           )}
 
           <Input
