@@ -1,4 +1,5 @@
 import { http } from "../..";
+import { capitalizeFirstLetter } from "../../../utils";
 
 /**
  * Endpoint to delete user
@@ -42,6 +43,22 @@ export const adminGetUserListing = async (params) => {
     })),
     showingDocumentsCount: data.rows.length,
     totalDocumentsCount: data.count,
+  };
+};
+export const userGetUserListing = async () => {
+  const path = `/users`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return {
+    users: data.map((user) => ({
+      value: user.id,
+      label: `${capitalizeFirstLetter(`${user.firstName} ${user.lastName}`)} (${
+        user.email
+      })`,
+    })),
   };
 };
 
