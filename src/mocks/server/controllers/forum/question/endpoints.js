@@ -8,16 +8,22 @@ import {
   userForumGetQuestionDetailsRes_questionId_1,
   userForumGetQuestionDetailsRes_questionId_2,
   userForumGetQuestionDetailsRes_questionId_3,
-  userForumGetQuestionsByTagRes,
   userForumEditQuestionRes,
   userForumDeleteQuestionRes,
 } from "./responses";
 
-const userForumGetQuestions = rest.get(
-  // TODO: change `method`
-  getUrl("/forum/question"), // TODO: change `path`
-  handleSuccessResponse(userForumGetQuestionsRes)
-);
+const userForumGetQuestions = [
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/question"), // TODO: change `path`
+    handleSuccessResponse(userForumGetQuestionsRes)
+  ),
+  rest.get(
+    // TODO: change `method`
+    getUrl("/forum/question/mine/all"), // TODO: change `path`
+    handleSuccessResponse(userForumGetQuestionsRes)
+  ),
+];
 
 const userForumGetCategories = rest.get(
   // TODO: change `method`
@@ -55,39 +61,25 @@ const userForumDeleteQuestion = [
 const userForumGetQuestionDetails = [
   rest.get(
     // TODO: change `method`
-    getUrl("/forum/questions/questionId_1"), // TODO: change `path`
+    getUrl("/forum/question/questionId_1"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_1)
   ),
   rest.get(
     // TODO: change `method`
-    getUrl("/forum/questions/questionId_2"), // TODO: change `path`
+    getUrl("/forum/question/questionId_2"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_2)
   ),
   rest.get(
     // TODO: change `method`
-    getUrl("/forum/questions/questionId_3"), // TODO: change `path`
+    getUrl("/forum/question/questionId_3"), // TODO: change `path`
     handleSuccessResponse(userForumGetQuestionDetailsRes_questionId_3)
-  ),
-];
-
-const userForumGetQuestionsByTag = [
-  rest.get(
-    // TODO: change `method`
-    getUrl("/forum/tag/tagId_1/questions"), // TODO: change `path`
-    handleSuccessResponse(userForumGetQuestionsByTagRes)
-  ),
-  rest.get(
-    // TODO: change `method`
-    getUrl("/forum/tag/tagId_2/questions"), // TODO: change `path`
-    handleSuccessResponse(userForumGetQuestionsByTagRes)
   ),
 ];
 
 const forumQuestion = [
   userForumGetCategories,
   userForumPublishQuestion,
-  userForumGetQuestions,
-  ...userForumGetQuestionsByTag,
+  ...userForumGetQuestions,
   ...userForumGetQuestionDetails,
   ...userForumEditQuestion,
   ...userForumDeleteQuestion,

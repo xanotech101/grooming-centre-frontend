@@ -1,8 +1,9 @@
 import { Box } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
+import { QuestionsPageErrorState } from "../..";
 import { Button, Heading, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
-import { capitalizeWords } from "../../../../utils";
 import CommentForm from "./CommentForm";
 
 const Comments = ({ commentsManager, children, canAddComment }) => {
@@ -14,13 +15,7 @@ const Comments = ({ commentsManager, children, canAddComment }) => {
     <Box paddingTop={3} paddingBottom={10}>
       {comments.loading && <PageLoaderLayout height="30vh" width="100%" />}
 
-      {comments.err && (
-        <PageLoaderLayout height="30vh" width="100%">
-          <Heading as="h3" marginBottom={3} color="red.500">
-            {capitalizeWords(comments.err)}
-          </Heading>
-        </PageLoaderLayout>
-      )}
+      {comments.err && <QuestionsPageErrorState />}
 
       {commentsIsEmpty && <NoComments canAddComment={canAddComment} />}
 
@@ -32,6 +27,8 @@ const Comments = ({ commentsManager, children, canAddComment }) => {
 const NoComments = ({ canAddComment }) => {
   const [commentClicked, setCommentClicked] = useState(false);
 
+  const toast = useToast();
+
   return !commentClicked ? (
     <PageLoaderLayout height="70%" width="100%">
       <Heading as="h3" marginBottom={3}>
@@ -41,7 +38,19 @@ const NoComments = ({ canAddComment }) => {
         Be the first to comment under this thread.
       </Text>
 
-      <Button sm onClick={() => canAddComment && setCommentClicked(true)}>
+      <Button
+        sm
+        onClick={() => {
+          if (canAddComment) return setCommentClicked(true);
+
+          toast.closeAll();
+          toast({
+            position: "top",
+            status: "error",
+            description: "Sorry, you can't comment on an inactive thread",
+          });
+        }}
+      >
         Comment
       </Button>
     </PageLoaderLayout>

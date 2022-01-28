@@ -4,18 +4,32 @@ import { Heading, Spinner } from "../../../../../components";
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import EditAssessmentPage from "./EditAssessmentPage";
 import CreateAssessmentPage from "./CreateAssessmentPage";
+import { useQueryParams } from "../../../../../hooks";
+
+export const isStandaloneExaminationAndIsNotEditMode =
+  "isStandaloneExamination && isNotEdit";
 
 const OverviewPage = () => {
-  const { assessmentId } = useParams();
-  const isEditMode = assessmentId && assessmentId !== "new";
+  const { id: courseId, assessmentId } = useParams();
+  const examinationId = useQueryParams().get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && examinationId
+      ? true
+      : false;
+
+  const isEditMode = isStandaloneExamination
+    ? examinationId && examinationId !== "new"
+    : assessmentId && assessmentId !== "new";
 
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,
-    assessmentId,
+    isStandaloneExamination && !isEditMode
+      ? isStandaloneExaminationAndIsNotEditMode
+      : isStandaloneExamination && isEditMode
+      ? examinationId
+      : assessmentId,
     true
   );
-
-  console.log(assessment);
 
   return isEditMode && (isLoading || error) ? (
     <Flex

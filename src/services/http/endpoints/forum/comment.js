@@ -2,10 +2,12 @@ import { getFullName } from "../../../../utils";
 import { http } from "../../http";
 
 export const getExpressionCount = (expText, expressions) =>
-  expressions.reduce(
-    (prev, exp) => (exp.expression === expText ? (prev += 1) : prev),
-    0
-  );
+  Array.isArray(expressions)
+    ? expressions?.reduce(
+        (prev, exp) => (exp.expression === expText ? (prev += 1) : prev),
+        0
+      )
+    : 0;
 
 /**
  * Endpoint to get the current user forum answers
@@ -58,36 +60,42 @@ export const userForumGetYourAnswers = async () => {
  * }
  */
 export const userForumGetComments = async (questionId) => {
-  const path = `/forum/questions/${questionId}/comments`;
+  const path = `/forum/comment/question/${questionId}`;
 
   const {
     data: { data },
   } = await http.get(path);
 
-  const comments = data.map((comment) => ({
-    id: comment.id,
-    createdAt: comment.createdAt,
-    body: comment.comment,
-    replyCount: comment.replies.length,
-    likes: getExpressionCount("like", comment.expressions),
-    dislikes: getExpressionCount("dislike", comment.expressions),
-    expressions: comment.expressions,
-    active: comment.active,
-    user: {
-      id: comment.user.id,
-      profilePics: comment.user.profilePics,
-      fullName: getFullName(comment.user),
-    },
-    replies: comment.replies.map((reply) => ({
-      id: reply.id,
-      body: reply.comment,
-      active: reply.active,
+  const comments = data
+    .filter((comment) => comment.commentId === null)
+    .map((comment) => ({
+      id: comment.id,
+      createdAt: comment.createdAt,
+      body: comment.comment,
+      replyCount: comment.comments?.length || 0,
+      likes: getExpressionCount("like", comment.expressions),
+      dislikes: getExpressionCount("dislike", comment.expressions),
+      expressions: Array.isArray(comment.expressions)
+        ? comment.expressions
+        : [],
+      active: comment.active,
       user: {
-        id: reply.user.id,
-        fullName: getFullName(reply.user),
+        id: comment.user.id,
+        profilePics: comment.user.profilePics,
+        fullName: getFullName(comment.user),
       },
-    })),
-  }));
+      replies: Array.isArray(comment.comments)
+        ? comment.comments?.map((reply) => ({
+            id: reply.id,
+            body: reply.comment,
+            active: reply.active,
+            user: {
+              id: reply.user.id,
+              fullName: getFullName(reply.user),
+            },
+          }))
+        : [],
+    }));
 
   return { comments };
 };
@@ -118,17 +126,18 @@ export const userForumEditComment = async (commentId, body) => {
     createdAt: data.createdAt,
     likes: getExpressionCount("like", data.expressions),
     dislikes: getExpressionCount("dislike", data.expressions),
-    expressions: data.expressions,
-    replyCount: data.replies.length,
-    replies: data.replies.map((reply) => ({
-      id: reply.id,
-      body: reply.comment,
-      active: reply.active,
-      user: {
-        id: reply.user.id,
-        fullName: getFullName(reply.user),
-      },
-    })),
+    expressions: Array.isArray(data.expressions) ? data.expressions : [],
+    replyCount: data.comments?.length || 0,
+    replies:
+      data.comments?.map((reply) => ({
+        id: reply.id,
+        body: reply.comment,
+        active: reply.active,
+        user: {
+          id: reply.user.id,
+          fullName: getFullName(reply.user),
+        },
+      })) || [],
   };
 
   return { message, data: comment };
@@ -159,7 +168,7 @@ export const userForumAddComment = async (body) => {
 
   const {
     data: { message, data },
-  } = await http.post(path, { ...body, type: 1 });
+  } = await http.post(path, { ...body });
 
   const comment = {
     id: data.id,
@@ -169,7 +178,7 @@ export const userForumAddComment = async (body) => {
     createdAt: data.createdAt,
     likes: getExpressionCount("like", data.expressions),
     dislikes: getExpressionCount("dislike", data.expressions),
-    expressions: data.expressions,
+    expressions: Array.isArray(data.expressions) ? data.expressions : [],
   };
 
   return { message, data: comment };
@@ -198,7 +207,7 @@ export const userForumAddReply = async (body) => {
 
   const {
     data: { message, data },
-  } = await http.post(path, { ...body, type: 2 });
+  } = await http.post(path, { ...body });
 
   const reply = {
     id: data.id,

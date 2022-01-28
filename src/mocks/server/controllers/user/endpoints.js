@@ -2,7 +2,7 @@ import { rest } from "msw";
 import { getUrl } from "../../http";
 import { handleSuccessResponse } from "../helpers";
 import {
-  userListingRes,
+  adminGetUserListingRes,
   userDetailsRes_userId_1,
   userDetailsRes_userId_2,
   userDetailsRes_userId_3,
@@ -10,11 +10,17 @@ import {
   adminEditUserRes_userId_2,
   adminEditUserRes_userId_3,
   adminDeleteUserRes,
+  userGetUserListingRes,
 } from "./responses";
 
 const adminGetUserListing = rest.get(
   getUrl("/admin/users"),
-  handleSuccessResponse(userListingRes)
+  handleSuccessResponse(adminGetUserListingRes)
+);
+
+const userGetUserListing = rest.get(
+  getUrl("/users"),
+  handleSuccessResponse(userGetUserListingRes)
 );
 
 const adminGetUserDetails = [
@@ -64,6 +70,7 @@ const adminDeleteUser = [
 
 const user = [
   adminGetUserListing,
+  userGetUserListing,
   ...adminGetUserDetails,
   ...adminEditUser,
   ...adminDeleteUser,

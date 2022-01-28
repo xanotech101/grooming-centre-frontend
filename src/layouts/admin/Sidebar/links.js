@@ -5,6 +5,7 @@ import { RiDashboardLine } from "react-icons/ri";
 import { IoIosCalendar } from "react-icons/io";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { VscLibrary } from "react-icons/vsc";
+import { TiPen } from "react-icons/ti";
 
 export const links = [
   {
@@ -27,6 +28,11 @@ export const links = [
     href: "/admin/events",
     text: "events",
     icon: <IoIosCalendar />,
+  },
+  {
+    href: "/admin/standalone-exams",
+    text: "Standalone Exams",
+    icon: <TiPen />,
   },
   {
     href: "/admin/departments?page=1&limit=10",

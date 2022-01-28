@@ -27,7 +27,7 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { BiNotepad, BiRefresh } from "react-icons/bi";
 import { ImFileText } from "react-icons/im";
 import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
-import { useDaySchedule, useMonthSchedule } from "../../hooks";
+import { useMonthSchedule, useDaySchedule } from "../../hooks";
 
 const scheduledCards = [
   {
@@ -267,7 +267,7 @@ const DashboardPage = () => {
                 >
                   <NoData width="100px" height="100px" />
                   <Text color="secondary.5" fontSize="heading.h4">
-                    No Data
+                    No Grades Yet
                   </Text>
                 </Flex>
               ) : (
@@ -281,17 +281,12 @@ const DashboardPage = () => {
                     </Text>
                   </Box>
 
-                  <Flex
-                    width="170px"
-                    height="170px"
-                    position="absolute"
-                    top="98px"
-                  >
+                  <Flex boxSize="170px" position="absolute" top="98px">
                     <Doughnut {...totalGradeChartConfig} />
                     <Flex
                       flexDirection="column"
                       position="absolute"
-                      left="300px"
+                      left="200px"
                     >
                       <Box paddingBottom={4}>
                         <Text color="accent.3">Assessments</Text>
@@ -338,7 +333,7 @@ const DashboardPage = () => {
                 >
                   <NoData width="100px" height="100px" />
                   <Text color="secondary.5" fontSize="heading.h4">
-                    No Data
+                    No Courses Taken Yet
                   </Text>
                 </Flex>
               ) : (
@@ -352,9 +347,15 @@ const DashboardPage = () => {
                       <Text bold as="level1" marginRight={2}>
                         {grades?.overview.totalCoursesCount}
                       </Text>
-                      <Text as="level5" color="accent.5" m>
-                        +1 New
-                      </Text>
+                      {Math.random() > 0.5 ? (
+                        <Text as="level5" color="accent.5">
+                          +1 New
+                        </Text>
+                      ) : (
+                        <Text as="level5" color="red.500">
+                          -1 New
+                        </Text>
+                      )}
                     </Flex>
                   </Box>
 

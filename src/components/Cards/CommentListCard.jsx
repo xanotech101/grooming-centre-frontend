@@ -57,6 +57,7 @@ export const CommentListCard = ({
   active,
   mentionedUser,
   expressions,
+  deactivateAddComment,
 }) => {
   const {
     displayReplyForm,

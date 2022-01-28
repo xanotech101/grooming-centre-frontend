@@ -30,8 +30,12 @@ const Header = () => {
   const { id: courseId, assessmentId } = useParams();
 
   const examinationId = useQueryParams().get("examination");
-
   const isExamination = examinationId;
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && examinationId
+      ? true
+      : false;
+  const standaloneExaminationName = useQueryParams().get("examinationName");
 
   const isActiveLink = (LinkMatcher) =>
     window.location.pathname.includes(LinkMatcher);
@@ -81,7 +85,11 @@ const Header = () => {
             width="100%"
             leftIcon={<IoArrowBack />}
             link={
-              isExamination
+              isStandaloneExamination
+                ? examinationId === "new"
+                  ? "/admin/standalone-exams"
+                  : `/admin/standalone-exams/${examinationId}/${standaloneExaminationName}`
+                : isExamination
                 ? `/admin/courses/details/${courseId}/exam`
                 : `/admin/courses/details/${courseId}/assessment`
             }

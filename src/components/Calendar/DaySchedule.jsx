@@ -16,6 +16,7 @@ export const DaySchedule = ({ appointments, dateManager }) => {
         position="relative"
         transition=".3s"
         _hover={{ transform: "scale(1.02)" }}
+        className="date"
       >
         <DatePicker
           id="startTime"

@@ -1,12 +1,11 @@
+import { getServerDateNow } from ".";
+
 /**
  * Formats `duration` to  Hours and Minutes, given the `durationNumber` in Minutes
  *
  * @param {number} number - in minutes
  * @returns {{hours: number, minutes: number, combinedText: string}}
  */
-
-import { getServerDateNow } from ".";
-
 export function getDuration(number) {
   const tempHours = number / 60;
   const hours = Math.floor(tempHours);

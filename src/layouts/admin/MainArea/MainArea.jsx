@@ -25,6 +25,8 @@ import {
   LibraryListingPageRoute,
   CreateLibraryFilePageRoute,
   ViewFileDetailsPageRoute,
+  StandaloneExaminationListingPageRoute,
+  StandaloneExaminationAllParticipantsPageRoute,
 } from "../../../pages/admin";
 
 const MainArea = () => {
@@ -57,6 +59,15 @@ const MainArea = () => {
             path="/admin/departments/details/:departmentId/info"
           />
           <RolesPageRoute exact path="/admin/role" />
+
+          <StandaloneExaminationListingPageRoute
+            exact
+            path="/admin/standalone-exams"
+          />
+          <StandaloneExaminationAllParticipantsPageRoute
+            exact
+            path="/admin/standalone-exams/:examinationId/:examinationName"
+          />
 
           <CreateEventPageRoute path="/admin/events/edit/:eventId" />
           <EventsPageRoute path="/admin/events" />

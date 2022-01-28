@@ -1,6 +1,6 @@
 import { Image } from "@chakra-ui/image";
-import { Box, Flex, HStack } from "@chakra-ui/layout";
-import onBoardingImage from "../../../assets/images/onboarding1.png";
+import { Box, Flex } from "@chakra-ui/layout";
+import onBoardingImage from "../../../assets/images/GC Login 1.jpg";
 import bgImagePlaceholder from "../../../assets/images/Auth.svg";
 import { Heading, Text } from "../../../components";
 
@@ -49,20 +49,17 @@ const Hero = () => {
         >
           <Box paddingTop={10} marginBottom={16}>
             <Heading as="h1" size="md" marginBottom={6}>
-              Lorem Ipsum dolor
+              Grooming Centre LMS
             </Heading>
 
-            <Text maxWidth="500px">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id
-              adipiscing dui pulvinar mattis sed semper.
-            </Text>
+            <Text maxWidth="500px">Training beyond Borders</Text>
           </Box>
 
-          <HStack spacing={5}>
+          {/* <HStack spacing={5}>
             <Box boxSize="10px" rounded="full" backgroundColor="white" />
             <Box boxSize="10px" rounded="full" backgroundColor="white" />
             <Box boxSize="10px" rounded="full" backgroundColor="white" />
-          </HStack>
+          </HStack> */}
         </Flex>
       </Flex>
     </Flex>

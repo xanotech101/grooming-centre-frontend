@@ -16,15 +16,15 @@ export const userForumGetCategoriesRes = {
   data: [
     {
       id: "forumCategoryId_1",
-      name: "science and technology",
+      title: "science and technology",
     },
     {
       id: "forumCategoryId_2",
-      name: "business",
+      title: "business",
     },
     {
       id: "forumCategoryId_3",
-      name: "look, this is just mock please",
+      title: "look, this is just mock please",
     },
   ],
 };
@@ -51,7 +51,7 @@ export const userForumGetQuestionsRes = {
           firstName: requestMyDataRes.data.firstName,
           lastName: requestMyDataRes.data.lastName,
         },
-        commentCount: 10,
+        forumComments: [{}, {}],
       },
       {
         id: "questionId_2",
@@ -71,7 +71,7 @@ export const userForumGetQuestionsRes = {
           firstName: "jane",
           lastName: "bar",
         },
-        commentCount: 7,
+        forumComments: [{}, {}],
       },
       {
         id: "questionId_3",
@@ -88,7 +88,7 @@ export const userForumGetQuestionsRes = {
           firstName: requestMyDataRes.data.firstName,
           lastName: requestMyDataRes.data.lastName,
         },
-        commentCount: 5,
+        forumComments: [{}, {}],
       },
     ],
   },
@@ -109,14 +109,13 @@ export const userForumGetQuestionDetailsRes_questionId_1 = {
       firstName: requestMyDataRes.data.firstName,
       lastName: requestMyDataRes.data.lastName,
     },
-    // TODO: propose to backend team to replace this with `commentCount`
+    // TODO: propose to backend team to replace this with `forumComments`
     tags: [
       {
         id: "1546bbaf-d4fb-4be5-9b7f-477e2c06ddd4",
         title: "Computer Engineering",
       },
     ],
-    commentCount: 10,
   },
 };
 
@@ -147,7 +146,6 @@ export const userForumGetQuestionDetailsRes_questionId_2 = {
         title: "Computer Engineering",
       },
     ],
-    commentCount: 10,
   },
 };
 
@@ -178,7 +176,6 @@ export const userForumGetQuestionDetailsRes_questionId_3 = {
         title: "Computer Engineering",
       },
     ],
-    commentCount: 10,
   },
 };
 
@@ -203,7 +200,7 @@ export const userForumGetQuestionsByTagRes = {
           firstName: "jane",
           lastName: "bar",
         },
-        commentCount: 10,
+        forumComments: [{}, {}],
       },
       {
         id: "questionId_2",
@@ -222,7 +219,7 @@ export const userForumGetQuestionsByTagRes = {
           firstName: "jane",
           lastName: "bar",
         },
-        commentCount: 10,
+        forumComments: [{}, {}],
       },
     ],
   },

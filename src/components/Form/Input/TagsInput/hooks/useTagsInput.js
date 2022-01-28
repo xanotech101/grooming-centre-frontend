@@ -20,9 +20,7 @@ const useTagsInput = (props) => {
   } = useFetch();
 
   const fetcher = (value) => async () => {
-    console.log("searching...", value);
-
-    const { tags } = await userForumGetTags();
+    const { tags } = await userForumGetTags({ word: value });
     return tags;
   };
 
@@ -47,7 +45,12 @@ const useTagsInput = (props) => {
     }
   }, [tagsResult.err, toast]);
 
-  return { selectedTags: propSelectedTags, handleTagSearch, tagsResult, handleClearResource };
+  return {
+    selectedTags: propSelectedTags,
+    handleTagSearch,
+    tagsResult,
+    handleClearResource,
+  };
 };
 
 export default useTagsInput;

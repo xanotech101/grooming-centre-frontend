@@ -21,6 +21,7 @@ export const TagsInput = forwardRef(
       isCreatingTag,
       selectedTags: propSelectedTags,
       wrapperProps,
+      label,
       ...rest
     },
     ref
@@ -68,6 +69,7 @@ export const TagsInput = forwardRef(
       <Box position="relative" {...wrapperProps}>
         <Input
           ref={ref}
+          label={label}
           {...rest}
           onChange={handleTagType}
           isLoading={tagsResult.loading || isCreatingTag}
@@ -75,7 +77,11 @@ export const TagsInput = forwardRef(
         />
 
         {tagsResult.data && (
-          <TagsResult results={tagsResult.data} onTagSelect={handleTagSelect} />
+          <TagsResult
+            results={tagsResult.data}
+            onTagSelect={handleTagSelect}
+            label={label}
+          />
         )}
 
         <SelectedTags tags={selectedTags} onTagDeselect={handleTagDeselect} />

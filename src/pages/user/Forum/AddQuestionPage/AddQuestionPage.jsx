@@ -121,7 +121,8 @@ const AddQuestionPage = () => {
       >
         <Select
           id="categoryId"
-          placeholder="Choose categories"
+          label="Category"
+          placeholder="Choose category"
           options={categories.data}
           isLoading={categories.loading || questionIsLoading}
           isRequired
@@ -137,6 +138,8 @@ const AddQuestionPage = () => {
         >
           <Input
             id="title"
+            label="Title"
+            isRequired
             placeholder="Type catching attention title"
             error={formManager.formState.errors.title?.message}
             {...formManager.register("title", {
@@ -152,8 +155,10 @@ const AddQuestionPage = () => {
         >
           <Textarea
             id="question"
+            label="Question"
             placeholder="Type your question"
             minHeight="150px"
+            isRequired
             error={formManager.formState.errors.question?.message}
             {...formManager.register("question", {
               required: "You have to ask a question",
@@ -172,10 +177,12 @@ const AddQuestionPage = () => {
 
         <TagsInput
           id="tags"
+          label="Tags"
           placeholder="Choose up to three tags"
           onKeyUp={handleTagInputEnterKeyPress}
           isCreatingTag={isCreatingTag}
           selectedTags={selectedTags}
+          isRequired
           onChange={handleTagType}
           onTagSelect={handleTagSelectMany}
           onTagDeselect={handleTagDeselect}

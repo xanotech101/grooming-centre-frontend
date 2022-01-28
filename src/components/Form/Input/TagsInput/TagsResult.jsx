@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Text } from "../../..";
 import { getTagInput } from "./hooks/useTagsInput";
 
-const TagsResult = ({ results, onTagSelect }) => {
+const TagsResult = ({ results, onTagSelect, label }) => {
   // ?When this component mount it cause the input to lose fucus
   // Make the input to gain fucus
   useEffect(() => {
@@ -21,7 +21,7 @@ const TagsResult = ({ results, onTagSelect }) => {
   return (
     <Box
       position="absolute"
-      top="38px"
+      top={label ? "70px" : "38px"}
       left={0}
       // height="100px"
       padding={2}

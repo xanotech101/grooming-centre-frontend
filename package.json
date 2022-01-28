@@ -21,6 +21,7 @@
     "date-fns": "^2.23.0",
     "dayjs": "^1.10.7",
     "draft-js-export-html": "^1.4.1",
+    "emoji-picker-react": "^3.5.0",
     "framer-motion": "^4.1.17",
     "js-file-download": "^0.4.12",
     "msw": "^0.35.0",
@@ -35,18 +36,25 @@
     "react-elastic-carousel": "^0.11.5",
     "react-hook-form": "^7.15.0",
     "react-icons": "^4.2.0",
+    "react-multi-select-component": "^4.2.1",
     "react-player": "^2.9.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "serve": "^13.0.2",
+    "socket.io-client": "^4.4.0",
+    "styled-components": "^5.3.3",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.2"
   },
   "engines": {
-    "node": "14.0.0"
+    "node": "14.18.0",
+    "npm": "6.14.15"
   },
   "scripts": {
-    "start": "set PORT=4000 && react-scripts start",
+    "dev": "set PORT=4000 && react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
+    "heroku-postbuild": "npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

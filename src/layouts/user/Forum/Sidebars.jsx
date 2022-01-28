@@ -21,11 +21,11 @@ const menuLinks = [
     text: "Tags",
     icon: <BsTag />,
   },
-  {
-    href: "/forum/mentions",
-    text: "Mentions",
-    icon: <BsTag />,
-  },
+  // {
+  //   href: "/forum/mentions",
+  //   text: "Mentions",
+  //   icon: <BsTag />,
+  // },
 ];
 const personalNavLinks = [
   {

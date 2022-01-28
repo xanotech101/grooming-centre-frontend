@@ -21,7 +21,7 @@ import { IoPlay } from "react-icons/io5";
 import { useDownload } from "../../hooks";
 import { Avatar } from "@chakra-ui/avatar";
 
-const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
+export const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
   const { isLoading, handleDownload } = useDownload();
 
   return (
@@ -258,7 +258,7 @@ export const CourseBoxCard = ({
                           <iframe
                             src={file}
                             title={title}
-                            height="100%"
+                            height="600px"
                             width="100%"
                           />
                         }

@@ -1,12 +1,12 @@
 import { Route } from "react-router-dom";
+import { QuestionsPageErrorState } from "../..";
 import { Heading, QuestionListCard, Text } from "../../../../components";
 import { PageLoaderLayout } from "../../../../layouts";
 import { AskAQuestionButton } from "../../../../layouts/user/Forum/Header/Header";
-import { capitalizeWords } from "../../../../utils";
 import useYourQuestionsPage from "./hooks/useYourQuestionsPage";
 
 const YourQuestionsPage = () => {
-  const { questions } = useYourQuestionsPage();
+  const { questions, handleFetch } = useYourQuestionsPage();
 
   const questionsIsEmpty =
     !questions.loading && !questions.err && !questions.data?.length
@@ -30,21 +30,21 @@ const YourQuestionsPage = () => {
         </PageLoaderLayout>
       )}
 
-      {questions.err && (
-        <PageLoaderLayout height="70%" width="100%">
-          <Heading as="h3" marginBottom={3} color="red.500">
-            {capitalizeWords(questions.err)}
-          </Heading>
-        </PageLoaderLayout>
-      )}
+      {questions.err && <QuestionsPageErrorState />}
 
       {questions.data?.map((question) => (
-        <QuestionListCard key={question.id} {...question} />
+        <QuestionListCard
+          key={question.id}
+          onDeleteSuccess={handleFetch}
+          {...question}
+        />
       ))}
     </>
   );
 };
 
 export const YourQuestionsPageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <YourQuestionsPage {...props} />} />;
+  return (
+    <Route {...rest} render={(props) => <YourQuestionsPage {...props} />} />
+  );
 };

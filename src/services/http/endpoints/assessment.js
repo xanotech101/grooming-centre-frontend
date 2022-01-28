@@ -29,8 +29,10 @@ export const requestAssessmentDetails = async (id, forAdmin) => {
       ? data.assessmentQuestions.map((q, index) => ({
           id: q.id,
           question: q.question,
-          // questionIndex: +q.questionIndex, // TODO: propose this field to be implemented by the BACKEND team
-          questionIndex: index, // TODO: might remove `index`
+          image: q.image,
+          // image:
+          //   "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80", // TODO: remove hard coded data
+          questionIndex: index,
           options: q.options.map((opt) => ({
             id: opt.id,
             isAnswer: opt.isAnswer,

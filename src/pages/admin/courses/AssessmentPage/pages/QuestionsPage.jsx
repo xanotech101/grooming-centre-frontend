@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { Flex, Box, Grid } from "@chakra-ui/layout";
+import { Flex, Box, Grid, ButtonGroup } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Route } from "react-router-dom";
 import {
@@ -10,12 +10,17 @@ import {
   Button,
   Link,
   RichTextToView,
+  Upload,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
-import { useRichText, useQueryParams } from "../../../../../hooks";
-import { capitalizeFirstLetter, capitalizeWords } from "../../../../../utils";
+import { useRichText, useQueryParams, useUpload } from "../../../../../hooks";
+import {
+  capitalizeFirstLetter,
+  capitalizeWords,
+  appendFormData,
+} from "../../../../../utils";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
   adminCreateAssessmentQuestion,
@@ -26,6 +31,7 @@ import {
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { PageLoaderLayout } from "../../../../../layouts";
 import { useCallback, useEffect, useState } from "react";
+import { BsCheckCircle } from "react-icons/bs";
 
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
@@ -202,6 +208,11 @@ const CreateQuestionPage = (assessmentManager) => {
 
   const { question, isLoading, error } = useQuestionDetails(assessmentManager);
 
+  const [isMultipleChoiceOptions, setIsMultipleChoiceOptions] = useState(true);
+
+  const handleMultipleChoiceOptionsToggle = () =>
+    setIsMultipleChoiceOptions((prev) => !prev);
+
   const {
     register,
     reset,
@@ -211,7 +222,7 @@ const CreateQuestionPage = (assessmentManager) => {
   } = useForm();
   const [answer, setAnswer] = useState();
 
-  const handleChange = (event) => {
+  const handleAnswerChange = (event) => {
     setAnswer(event.target.value);
   };
   const questionRichTextManager = useRichText();
@@ -227,10 +238,27 @@ const CreateQuestionPage = (assessmentManager) => {
     if (question) {
       const option1 = question.options.find((opt) => opt.optionIndex === 1);
 
-      setValue("option-1", option1.name);
+      setValue("option-1", !isMultipleChoiceOptions ? "True" : option1.name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question, isMultipleChoiceOptions]);
+
+  useEffect(() => {
+    if (!isMultipleChoiceOptions) {
+      setValue("option-1", "True");
+      setValue("option-2", "False");
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMultipleChoiceOptions]);
+
+  useEffect(() => {
+    if (question?.options.length === 2) {
+      setIsMultipleChoiceOptions(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
+
   useEffect(() => {
     if (question) {
       const option2 = question.options.find((opt) => opt.optionIndex === 2);
@@ -243,7 +271,7 @@ const CreateQuestionPage = (assessmentManager) => {
     if (question) {
       const option3 = question.options.find((opt) => opt.optionIndex === 3);
 
-      setValue("option-3", option3.name);
+      setValue("option-3", option3?.name);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
@@ -251,7 +279,7 @@ const CreateQuestionPage = (assessmentManager) => {
     if (question) {
       const option4 = question.options.find((opt) => opt.optionIndex === 4);
 
-      setValue("option-4", option4.name);
+      setValue("option-4", option4?.name);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
@@ -265,59 +293,99 @@ const CreateQuestionPage = (assessmentManager) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
 
+  const questionImageManager = useUpload();
+
+  // TODO: uncomment for editMode's sake
+  // useEffect(() => {
+  //   if (question) {
+  //     questionImageManager.handleInitialImageSelect(question.image);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [question]);
+
   // const { handleDelete } = useCache();
   const onSubmit = async (data) => {
     try {
+      console.log(data);
+
+      const image = questionImageManager.handleGetFileAndValidate(
+        "Question Cover",
+        true // TODO: remove comment
+      );
       const questionText =
         questionRichTextManager.handleGetValueAndValidate("Question");
       const options = buildOptions({ ...data, answer });
+      if (!isMultipleChoiceOptions && options.length === 4) {
+        options.pop();
+        options.pop();
+      }
 
       // Validate `isAnswer` field
       const hasAnswer = options.find((opt) => opt.isAnswer);
       if (!hasAnswer) throw new Error("Please select an answer");
 
-      data = isExamination
-        ? {
-            examinationId: isExamination,
-            question: questionText,
-            options,
-          }
-        : { assessmentId, question: questionText, options };
+      data =
+        isEditMode && !isExamination
+          ? {
+              image,
+              question: JSON.stringify({
+                id: questionId,
+                question: questionText,
+                assessmentId,
+                // active: true,
+              }),
+              options: JSON.stringify(
+                options.map((opt) => ({
+                  ...opt,
+                  id: question?.options.find(({ name }) => opt.name === name)
+                    ?.id,
+                  assessmentQuestionId: questionId,
+                  // active: true,
+                }))
+              ),
+            }
+          : isEditMode && isExamination
+          ? {
+              image,
+              question: JSON.stringify({
+                id: questionId,
+                question: questionText,
+                examinationId: isExamination,
+                active: true,
+              }),
+              options: JSON.stringify(
+                options.map((opt) => ({
+                  ...opt,
+                  id: question?.options.find(({ name }) => opt.name === name)
+                    ?.id,
+                  examinationQuestionId: questionId,
+                  active: true,
+                }))
+              ),
+            }
+          : // is Create Mode
+          isExamination
+          ? {
+              image,
+              examinationId: isExamination,
+              question: questionText,
+              options: JSON.stringify(options),
+            }
+          : {
+              image,
+              assessmentId,
+              question: questionText,
+              options: JSON.stringify(options),
+            };
 
       console.log(data);
 
-      const body = data;
+      const body = appendFormData(data);
 
       const { message } = await (isEditMode && !isExamination
-        ? adminEditAssessmentQuestion({
-            question: {
-              id: questionId,
-              question: questionText,
-              assessmentId,
-              // active: true,
-            },
-            options: options.map((opt) => ({
-              ...opt,
-              id: question?.options.find(({ name }) => opt.name === name)?.id,
-              assessmentQuestionId: questionId,
-              // active: true,
-            })),
-          })
+        ? adminEditAssessmentQuestion(body)
         : isEditMode && isExamination
-        ? adminEditExaminationQuestion({
-            question: {
-              id: questionId,
-              question: questionText,
-              examinationId: isExamination,
-              active: true,
-            },
-            options: options.map((opt) => ({
-              ...opt,
-              id: question?.options.find(({ name }) => opt.name === name)?.id,
-              examinationQuestionId: questionId,
-              active: true,
-            })),
-          })
+        ? adminEditExaminationQuestion(body)
         : isExamination
         ? adminCreateExaminationQuestion(body)
         : adminCreateAssessmentQuestion(body));
@@ -362,20 +430,53 @@ const CreateQuestionPage = (assessmentManager) => {
           onChange={questionRichTextManager.handleChange}
           defaultValue={questionRichTextManager.data.default}
         />
+
+        <Box marginTop={8}>
+          <Upload
+            id="coverImage"
+            label="Event Cover"
+            onFileSelect={questionImageManager.handleFileSelect}
+            imageUrl={questionImageManager.image.url}
+            accept={questionImageManager.accept}
+          />
+        </Box>
       </Box>
+
       <Box marginTop={10} padding={6} backgroundColor="white">
         <Heading fontSize="heading.h4">Enter the Options</Heading>
         <Text paddingTop={2} paddingBottom={8}>
           Mark the correct option
         </Text>
         {/* <fieldset onChange={setAnswer} id="radio" value={answer}> */}
+
+        <Box borderBottom="1px" borderColor="accent.2" pb={2} mb={5}>
+          <ButtonGroup size="xs">
+            <Button
+              onClick={handleMultipleChoiceOptionsToggle}
+              leftIcon={isMultipleChoiceOptions && <BsCheckCircle />}
+              ghost={!isMultipleChoiceOptions}
+              disabled={isEditMode && !question}
+            >
+              Multiple Choices
+            </Button>
+            <Button
+              onClick={handleMultipleChoiceOptionsToggle}
+              leftIcon={!isMultipleChoiceOptions && <BsCheckCircle />}
+              ghost={isMultipleChoiceOptions}
+              disabled={isEditMode && !question}
+            >
+              True/False
+            </Button>
+          </ButtonGroup>
+        </Box>
+
         <Stack direction="column">
           <Flex flexDirection="row" paddingBottom={6}>
             <Flex paddingTop={12} paddingRight={6}>
               <input
                 type="radio"
                 checked={answer === "1"}
-                onChange={handleChange}
+                onChange={handleAnswerChange}
                 name="radio"
                 value="1"
                 id="radio-1"
@@ -384,17 +485,17 @@ const CreateQuestionPage = (assessmentManager) => {
             <Input
               id="option-1"
               label="Option 01"
-              {...register("option-1", { required: "must not be empty" })}
+              {...register("option-1", { required: true })}
+              disabled={!isMultipleChoiceOptions}
               placeholder="Enter the first option here"
             />
           </Flex>
-
           <Flex flexDirection="row" paddingBottom={6}>
             <Flex paddingTop={12} paddingRight={6}>
               <input
                 type="radio"
                 checked={answer === "2"}
-                onChange={handleChange}
+                onChange={handleAnswerChange}
                 name="radio"
                 value="2"
                 id="radio-2"
@@ -403,47 +504,51 @@ const CreateQuestionPage = (assessmentManager) => {
             <Input
               id="option-2"
               label="Option 02"
-              {...register("option-2", { required: "must not be empty" })}
-              placeholder="Enter the first option here"
+              {...register("option-2", { required: true })}
+              disabled={!isMultipleChoiceOptions}
+              placeholder="Enter the second option here"
             />
           </Flex>
-
-          <Flex flexDirection="row" paddingBottom={6}>
-            <Flex paddingTop={12} paddingRight={6}>
-              <input
-                type="radio"
-                checked={answer === "3"}
-                onChange={handleChange}
-                name="radio"
-                value="3"
-                id="radio-3"
-              />
-            </Flex>
-            <Input
-              id="option-3"
-              label="Option 03"
-              {...register("option-3", { required: "must not be empty" })}
-              placeholder="Enter the first option here"
-            />
-          </Flex>
-          <Flex flexDirection="row" paddingBottom={6}>
-            <Flex paddingTop={12} paddingRight={6}>
-              <input
-                type="radio"
-                checked={answer === "4"}
-                onChange={handleChange}
-                name="radio"
-                value="4"
-                id="radio-4"
-              />
-            </Flex>
-            <Input
-              id="option-4"
-              label="Option 04"
-              {...register("option-4", { required: "must not be empty" })}
-              placeholder="Enter the first option here"
-            />
-          </Flex>
+          {isMultipleChoiceOptions && (
+            <>
+              <Flex flexDirection="row" paddingBottom={6}>
+                <Flex paddingTop={12} paddingRight={6}>
+                  <input
+                    type="radio"
+                    checked={answer === "3"}
+                    onChange={handleAnswerChange}
+                    name="radio"
+                    value="3"
+                    id="radio-3"
+                  />
+                </Flex>
+                <Input
+                  id="option-3"
+                  label="Option 03"
+                  {...register("option-3", { required: true })}
+                  placeholder="Enter the third option here"
+                />
+              </Flex>
+              <Flex flexDirection="row" paddingBottom={6}>
+                <Flex paddingTop={12} paddingRight={6}>
+                  <input
+                    type="radio"
+                    checked={answer === "4"}
+                    onChange={handleAnswerChange}
+                    name="radio"
+                    value="4"
+                    id="radio-4"
+                  />
+                </Flex>
+                <Input
+                  id="option-4"
+                  label="Option 04"
+                  {...register("option-4", { required: true })}
+                  placeholder="Enter the last option here"
+                />
+              </Flex>
+            </>
+          )}
         </Stack>
         {/* </fieldset> */}
       </Box>
@@ -614,7 +719,7 @@ const buildOptions = (data) => {
         optionIndex,
       };
 
-      options.push(option);
+      if (option.name) options.push(option);
     }
   }
 

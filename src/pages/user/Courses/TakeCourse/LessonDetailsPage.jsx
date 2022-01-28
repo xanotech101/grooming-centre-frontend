@@ -53,6 +53,8 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
 
   const fileIsPDF = /(\.pdf)$/i.test(lesson?.file);
 
+  console.log({ videoHasBeenCompleted });
+
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
       {/* // Block Page Navigation when Lesson has not ended (been completed) */}
@@ -98,13 +100,13 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
         {error ? (
           <EmptyState
             cta={<Button onClick={handleTryAgain}>Try Again</Button>}
-            heading="Oops An Error Occurred"
-            description="An unexpected error occurred, please try again later"
+            heading="Ops! Something went wrong"
+            description="An unexpected error occurred. Please try again later."
           />
         ) : lessonIsDisabled ? (
           <EmptyState
             cta={<Button onClick={handleGoBack}>Go Back</Button>}
-            heading="Oops An Error Occurred"
+            heading="Ops! Something went wrong"
             description="You are are not allowed to view this lesson"
           />
         ) : (
@@ -248,18 +250,24 @@ const Player = ({
 
 const PDFReader = ({ lesson, handleEndLesson }) => {
   useEffect(() => {
+    console.log(document.querySelectorAll("#take-lesson-pdf #icon"));
+
     handleEndLesson();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <iframe
-      src={lesson?.file}
-      title={lesson?.title}
-      height="100%"
-      width="100%"
-    />
+    <Box minW="300px" h="calc(100vh - 170px)">
+      <embed
+        id="take-lesson-pdf"
+        src={lesson?.file}
+        // title={lesson?.title}
+        type="application/pdf"
+        height="100%"
+        width="100%"
+      />
+    </Box>
   );
 };
 

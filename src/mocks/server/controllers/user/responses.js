@@ -17,9 +17,9 @@ export const user = {
   },
 };
 
-export const userListingRes = {
+export const adminGetUserListingRes = {
   data: {
-    count: 120,
+    count: 102,
     rows: [
       {
         ...user.data,
@@ -66,6 +66,59 @@ export const userListingRes = {
       },
     ],
   },
+};
+
+export const userGetUserListingRes = {
+  data: [
+    {
+      id: "userId_2",
+      firstName: "Victoria",
+      lastName: "Vivian :)",
+      email: "admin@admin.io",
+    },
+    {
+      id: "userId_3",
+      firstName: "Micheal",
+      lastName: "Scofield",
+      email: "michealscofield@gmail.com",
+    },
+    {
+      id: "userId_4",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john_doe@gmial.xom",
+    },
+    {
+      id: "userId_AS4",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john_doe@gmial.xom",
+    },
+    {
+      id: "user23Id_4",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john_doe@gmial.xom",
+    },
+    {
+      id: "us1erId_4",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john_doe@gmial.xom",
+    },
+    {
+      id: "u3432serId_4",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john_doe@gmial.xom",
+    },
+    {
+      id: "userId56_4",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john_doe@gmial.xom",
+    },
+  ],
 };
 
 export const userDetailsRes_userId_1 = {

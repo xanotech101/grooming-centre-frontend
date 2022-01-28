@@ -39,7 +39,7 @@ Link.propTypes = {
   children: PropTypes.any,
   className: PropTypes.string,
   exact: PropTypes.bool,
-  href: PropTypes.string.isRequired,
+  href: PropTypes.string,
   navLink: PropTypes.bool,
   disabled: PropTypes.bool,
   style: PropTypes.object,

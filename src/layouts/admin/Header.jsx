@@ -24,7 +24,18 @@ const Header = () => {
       alignItems="center"
     >
       <Flex alignItems="center" flex={0.8} maxWidth="1000px">
-        <Brand sm textColor="white" />
+        <Flex
+          justifyContent="center"
+          w="266px"
+          ml={-8}
+          bg="#FFF"
+          height="60px"
+          alignItems="center"
+          borderBottom="1px"
+          borderColor="gray.200"
+        >
+          <Brand sm textColor="white" />
+        </Flex>
 
         <SearchBar marginLeft={10} adminLayoutHeaderStyle flex={1} />
       </Flex>

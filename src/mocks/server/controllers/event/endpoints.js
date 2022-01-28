@@ -13,8 +13,8 @@ const userGetEventListing = rest.get(
   getUrl("/events/upcoming"),
   handleSuccessResponse(userGetEventListingRes)
 );
-const userJoinEvent = rest.get(
-  getUrl("/events/join/eventId_2"),
+const userJoinEvent = rest.post(
+  getUrl("/event-attendance/create/eventId_2"),
   handleSuccessResponse(userJoinEventRes)
 );
 const adminGetEventListing = rest.get(
