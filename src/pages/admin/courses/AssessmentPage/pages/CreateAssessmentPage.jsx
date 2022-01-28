@@ -31,6 +31,7 @@ import {
 import { MultiSelect } from "react-multi-select-component";
 import { useEffect } from "react";
 import { useApp } from "../../../../../contexts";
+import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
 const CreateAssessmentPage = () => {
   const { id: courseId, assessmentId } = useParams();
@@ -193,17 +194,22 @@ const CreateAssessmentPage = () => {
                   </Text>
                 </Box>
 
-                <Flex>
+                <Flex flexWrap="wrap">
                   {selectedIDs.map((item) => (
-                    <Box
-                      key={item.value}
-                      bg="gray.100"
-                      p={2}
-                      rounded="md"
-                      mr={2}
-                    >
-                      {item.label}
-                    </Box>
+                    <Tag key={item.value} mr={2} mb={2}>
+                      <TagLabel>{item.label}</TagLabel>
+
+                      <TagCloseButton
+                        onClick={() => {
+                          setSelectedIDs(
+                            selectedIDs.filter(
+                              (selectedItem) =>
+                                selectedItem.value !== item.value
+                            )
+                          );
+                        }}
+                      />
+                    </Tag>
                   ))}
                 </Flex>
 
