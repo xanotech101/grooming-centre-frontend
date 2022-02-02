@@ -49,7 +49,7 @@ const Hero = () => {
         >
           <Box paddingTop={10} marginBottom={16}>
             <Heading as="h1" size="md" marginBottom={6}>
-              Grooming Centre LMS
+              Grooming Centre LMS (Staging Phase)
             </Heading>
 
             <Text maxWidth="500px">Training beyond Borders</Text>
