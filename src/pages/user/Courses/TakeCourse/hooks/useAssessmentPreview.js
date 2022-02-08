@@ -6,6 +6,7 @@ import useQueryParams from "../../../../../hooks/useQueryParams";
 import {
   requestAssessmentDetails,
   requestExaminationDetails,
+  requestStandaloneExaminationDetails,
 } from "../../../../../services";
 import { isStandaloneExaminationAndIsNotEditMode } from "../../../../admin/courses/AssessmentPage/pages/OverviewPage";
 
@@ -27,13 +28,15 @@ const useAssessmentPreview = (
 ) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { assessment_id } = useParams();
+  const { id: courseId, assessment_id } = useParams();
 
   assessmentId = assessmentId || assessment_id;
   const assessmentIsNew = assessmentId === "new";
 
   const queryParams = useQueryParams();
   const isExamination = queryParams.get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && isExamination ? true : false;
 
   const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
   const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
@@ -45,14 +48,14 @@ const useAssessmentPreview = (
   });
 
   const fetcher = useCallback(async () => {
-    const data = await (isExamination
-      ? // `assessmentId` is `examinationId` in this case
-
-        requestExaminationDetails(assessmentId, isForAdmin)
+    const data = await (isStandaloneExamination
+      ? requestStandaloneExaminationDetails(assessmentId) // `assessmentId` is `examinationId` in this case
+      : isExamination
+      ? requestExaminationDetails(assessmentId, isForAdmin) // `assessmentId` is `examinationId` in this case
       : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination, isForAdmin]);
+  }, [assessmentId, isExamination, isForAdmin, isStandaloneExamination]);
 
   const fetchAssessmentDetails = useCallback(
     async (bypassCache) => {

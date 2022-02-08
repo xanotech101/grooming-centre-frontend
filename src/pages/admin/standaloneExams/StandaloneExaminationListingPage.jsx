@@ -71,7 +71,7 @@ const tableProps = {
     {
       id: "3",
       key: "noOfUsers",
-      text: "No. of Users",
+      text: "No. of Candidates",
       fraction: "200px",
     },
     {
@@ -93,7 +93,7 @@ const tableProps = {
       {
         text: "Edit",
         link: (examination) =>
-          `/admin/courses/${examination.courseId}/assessment/${examination.courseId}/overview?examination=${examination.id}`,
+          `/admin/courses/not-set/assessment/not-set/overview?examination=${examination.id}&examinationName=${examination.title.text}`,
       },
       {
         isDelete: true,

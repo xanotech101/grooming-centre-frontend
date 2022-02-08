@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useHistory } from "react-router-dom";
 import {
@@ -20,25 +20,35 @@ import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
   adminCreateAssessment,
   adminCreateExamination,
-  userGetUserListing,
+  adminCreateStandaloneExamination,
+  adminGetUserListing,
 } from "../../../../../services";
 import {
-  appendFormData,
   capitalizeFirstLetter,
   capitalizeWords,
   formatDateToISO,
 } from "../../../../../utils";
 import { MultiSelect } from "react-multi-select-component";
-import { useEffect } from "react";
 import { useApp } from "../../../../../contexts";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
 const CreateAssessmentPage = () => {
   const { id: courseId, assessmentId } = useParams();
+
   const isExamination = useQueryParams().get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
+      ? true
+      : false;
+
+  const [standaloneExamType, setStandaloneExamType] = useState("departments");
 
   const { push } = useHistory();
   const toast = useToast();
+  const [selectedIDs, setSelectedIDs] = useState([]);
+  const {
+    state: { metadata },
+  } = useApp();
 
   const {
     register,
@@ -49,11 +59,15 @@ const CreateAssessmentPage = () => {
   const handleCancel = useGoBack();
 
   const startTimeManager = useDateTimePicker();
+
   // Handle form submission
   const onSubmit = async (data) => {
     try {
       const startTime =
         startTimeManager.handleGetValueAndValidate("Start Time");
+
+      if (selectedIDs.length === 0)
+        throw new Error("Please select at least one User or Department");
 
       data = {
         ...data,
@@ -61,11 +75,27 @@ const CreateAssessmentPage = () => {
         startTime: formatDateToISO(startTime),
       };
 
-      const body = appendFormData(data);
+      isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
+      const body = isStandaloneExamination
+        ? {
+            ...data,
+            type: standaloneExamType,
+            ...(standaloneExamType === "users"
+              ? {
+                  usersId: selectedIDs.map(({ value }) => value),
+                }
+              : {
+                  departmentIds: selectedIDs.map(({ value }) => value),
+                }),
+          }
+        : data;
 
-      const { message, assessment, examination } = await (isExamination
-        ? adminCreateExamination(body)
-        : adminCreateAssessment(body));
+      const { message, assessment, examination } =
+        await (isStandaloneExamination
+          ? adminCreateStandaloneExamination(body)
+          : isExamination
+          ? adminCreateExamination(body)
+          : adminCreateAssessment(body));
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -89,27 +119,22 @@ const CreateAssessmentPage = () => {
     }
   };
 
-  const examinationId = useQueryParams().get("examination");
-  const isStandaloneExamination =
-    courseId === "not-set" && assessmentId === "not-set" && examinationId
-      ? true
-      : false;
-  const [standaloneExamType, setStandaloneExamType] = useState("departments");
-
-  const handleAnswerChange = (event) => {
+  const handleStandaloneExamTypeChange = (event) => {
     setStandaloneExamType(event.target.value);
   };
-
-  const [selectedIDs, setSelectedIDs] = useState([]);
-  const {
-    state: { metadata },
-  } = useApp();
 
   const { resource: users, handleFetchResource } = useFetch();
   useEffect(() => {
     handleFetchResource({
       fetcher: async () => {
-        const { users } = await userGetUserListing();
+        let { users } = await adminGetUserListing();
+
+        users = users.map((user) => ({
+          value: user.id,
+          label: `${capitalizeFirstLetter(
+            `${user.firstName} ${user.lastName}`
+          )} (${user.email})`,
+        }));
 
         return users;
       },
@@ -129,12 +154,6 @@ const CreateAssessmentPage = () => {
   }, [users.err]);
 
   useEffect(() => {
-    console.log(standaloneExamType);
-
-    setSelectedIDs([]);
-  }, [standaloneExamType]);
-
-  useEffect(() => {
     if (selectedIDs.length > 0) {
       const content_el = document.querySelector(
         "#form-drop .dropdown-heading-value"
@@ -145,8 +164,6 @@ const CreateAssessmentPage = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIDs.length]);
-
-  console.log(selectedIDs);
 
   return (
     <AdminMainAreaWrapper>
@@ -160,7 +177,7 @@ const CreateAssessmentPage = () => {
                     <input
                       type="radio"
                       checked={standaloneExamType === "departments"}
-                      onChange={handleAnswerChange}
+                      onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="departments"
                       id="radio-1"
@@ -175,7 +192,7 @@ const CreateAssessmentPage = () => {
                     <input
                       type="radio"
                       checked={standaloneExamType === "users"}
-                      onChange={handleAnswerChange}
+                      onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="users"
                       id="radio-2"
@@ -189,7 +206,7 @@ const CreateAssessmentPage = () => {
 
                 <Box id="form-drop">
                   <Box as="label">
-                    <Text as="level.2" pb={2}>
+                    <Text as="level2" pb={2}>
                       Choose{" "}
                       {standaloneExamType === "users" ? "Users" : "Departments"}
                     </Text>
@@ -311,7 +328,7 @@ const CreateAssessmentPage = () => {
               !metadata?.departments ||
               users.err
             }
-            loadingText
+            loadingText="Saving"
             type="submit"
           >
             Save

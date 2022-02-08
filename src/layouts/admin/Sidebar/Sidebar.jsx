@@ -11,10 +11,7 @@ const Sidebar = () => {
   const { state, getOneMetadata, handleLogout } = useApp();
 
   const isSettingsPage = /settings/i.test(window.location.pathname);
-
   const role = getOneMetadata("userRoles", state.user?.userRoleId);
-
-  console.log(role, /super admin/i.test(role?.name));
   const isSuperAdmin = /super admin/i.test(role?.name);
 
   return (

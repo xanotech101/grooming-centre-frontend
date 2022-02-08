@@ -14,17 +14,21 @@ import {
 
 const adminGetStandaloneExaminationListing = [
   rest.get(
-    getUrl("/standalone-examinations"),
+    getUrl("/stand-alone-examination/all"),
     handleSuccessResponse(adminGetStandaloneExaminationListingRes)
   ),
 ];
 const adminGetStandaloneExaminationParticipants = [
   rest.get(
-    getUrl("/standalone-examinations/participants/standaloneExaminationId_1"),
+    getUrl(
+      "/stand-alone-examination/all/participants/standaloneExaminationId_1"
+    ),
     handleSuccessResponse(adminGetStandaloneExaminationParticipantsRes)
   ),
   rest.get(
-    getUrl("/standalone-examinations/participants/standaloneExaminationId_2"),
+    getUrl(
+      "/stand-alone-examination/all/participants/standaloneExaminationId_2"
+    ),
     handleSuccessResponse(adminGetStandaloneExaminationParticipantsRes)
   ),
 ];

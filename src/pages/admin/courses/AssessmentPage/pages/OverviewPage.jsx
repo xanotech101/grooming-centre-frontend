@@ -31,6 +31,8 @@ const OverviewPage = () => {
     true
   );
 
+  // console.log(isEditMode, assessment);
+
   return isEditMode && (isLoading || error) ? (
     <Flex
       // Make the height 100% of the screen minus the `height` of the Header and Footer

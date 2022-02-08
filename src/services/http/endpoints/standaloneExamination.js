@@ -1,3 +1,4 @@
+import { getEndTime } from "../../../utils";
 import { http } from "../http";
 
 // /**
@@ -66,26 +67,72 @@ import { http } from "../http";
  * @returns {Promise<{ examinations: Array<{ id: string, examinationId: string, title: string,  startTime: Date, duration: number }> }>}
  */
 export const adminGetStandaloneExaminationListing = async () => {
-  const path = `/standalone-examinations`;
+  const path = `/stand-alone-examination/all`;
 
   const {
     data: { data },
   } = await http.get(path);
 
-  const examinations = data.rows.map((exam) => ({
+  const examinations = data.map((exam) => ({
     id: exam.id,
     title: exam.title,
     examinationId: exam.examinationId,
     duration: exam.duration,
     startTime: exam.startTime,
-    noOfUsers: exam.noOfUsers,
+    noOfUsers: exam.examinationCandidateLength,
   }));
 
   return {
     examinations,
-    showingDocumentsCount: data.rows.length,
-    totalDocumentsCount: data.count,
+    // showingDocumentsCount: data.rows.length, // No pagination for now
+    // totalDocumentsCount: data.count, // No pagination for now
+    showingDocumentsCount: data.length,
+    totalDocumentsCount: data.length,
   };
+};
+
+export const requestStandaloneExaminationDetails = async (id, forAdmin) => {
+  // const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
+  const path = `/stand-alone-examination/${id}`;
+
+  let {
+    data: { data },
+  } = await http.get(path);
+
+  data = data[0];
+
+  const examination = {
+    id: data.id,
+    type: data.type,
+    selectedIDs: [
+      ...(data.departmentIds || [
+        // TODO: remove the `||` and this array
+        data.type === "users"
+          ? "5bae7a67-7cd1-4011-bc56-c39c18a6ad57" // test userId
+          : "a2bd09a4-bd5f-4a90-828c-34d57f775af7", // test departmentId
+      ]),
+    ],
+    topic: data.title,
+    duration: data.duration,
+    questionCount: data.amountOfQuestions,
+    startTime: data.startTime,
+    endTime: getEndTime(data.startTime, data.duration),
+    minimumPercentageScoreToEarnABadge:
+      data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
+    questions: data.standAloneExaminationQuestion.map((q, index) => ({
+      id: q.id,
+      question: q.question,
+      questionIndex: +q.questionIndex || index,
+      options: q.options.map((opt, optIndex) => ({
+        id: opt.id,
+        isAnswer: opt.isAnswer,
+        name: opt.answer,
+        optionIndex: +opt.optionIndex || optIndex,
+      })),
+    })),
+  };
+
+  return { examination };
 };
 
 /**
@@ -95,7 +142,7 @@ export const adminGetStandaloneExaminationListing = async () => {
  *
  */
 export const adminGetStandaloneExaminationParticipants = async (id, params) => {
-  const path = `/standalone-examinations/participants/${id}`;
+  const path = `/stand-alone-examination/all/participants/${id}`;
 
   const {
     data: { data },

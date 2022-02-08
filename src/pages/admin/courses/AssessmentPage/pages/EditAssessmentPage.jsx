@@ -1,29 +1,53 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router";
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { Button, DateTimePicker, Input } from "../../../../../components";
+import {
+  Button,
+  DateTimePicker,
+  Input,
+  Spinner,
+  Text,
+} from "../../../../../components";
 import {
   useDateTimePicker,
+  useFetch,
   useGoBack,
   useQueryParams,
 } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
+  adminEditStandaloneExamination,
   adminEditAssessment,
   adminEditExamination,
+  adminGetUserListing,
 } from "../../../../../services";
 import {
-  appendFormData,
   capitalizeFirstLetter,
+  capitalizeWords,
   formatDateToISO,
 } from "../../../../../utils";
-import { useCache } from "../../../../../contexts";
+import { useCache, useApp } from "../../../../../contexts";
+import { MultiSelect } from "react-multi-select-component";
+import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
-const EditAssessmentPage = ({ assessment }) => {
+const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
   const { id: courseId, assessmentId } = useParams();
+
+  const standaloneExaminationName = useQueryParams().get("examinationName");
   const isExamination = useQueryParams().get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
+      ? true
+      : false;
+
+  const [standaloneExamType, setStandaloneExamType] = useState("departments");
+  const [selectedIDs, setSelectedIDs] = useState([]);
+  const {
+    state: { metadata },
+    getOneMetadata,
+  } = useApp();
 
   const { push } = useHistory();
   const toast = useToast();
@@ -39,39 +63,41 @@ const EditAssessmentPage = ({ assessment }) => {
 
   const startTimeManager = useDateTimePicker();
 
-  console.log(assessment);
+  console.log(assessmentOrExam);
 
   // Init `Title` value
   useEffect(() => {
-    if (assessment) {
-      setValue("title", assessment.topic);
+    if (assessmentOrExam) {
+      setValue("title", assessmentOrExam.topic);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessmentOrExam]);
 
   // Init `StartTime` value
   useEffect(() => {
-    if (assessment?.startTime) {
-      startTimeManager.handleChange(assessment.startTime);
+    if (assessmentOrExam?.startTime) {
+      startTimeManager.handleChange(assessmentOrExam.startTime);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment?.startTime]);
+  }, [assessmentOrExam?.startTime]);
 
   // Init `Duration` value
   useEffect(() => {
-    if (assessment) {
-      setValue("duration", assessment.duration);
+    if (assessmentOrExam) {
+      setValue("duration", assessmentOrExam.duration);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessmentOrExam]);
 
   // Init `Number of Questions` value
   useEffect(() => {
-    if (assessment) {
-      setValue("amountOfQuestions", assessment?.questionCount);
+    if (assessmentOrExam) {
+      setValue("amountOfQuestions", assessmentOrExam?.questionCount);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessmentOrExam]);
+
+  console.log(selectedIDs);
 
   const { handleDelete } = useCache();
 
@@ -87,9 +113,24 @@ const EditAssessmentPage = ({ assessment }) => {
         startTime: formatDateToISO(startTime),
       };
 
-      const body = appendFormData(data);
+      isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
+      // const body = isStandaloneExamination
+      //   ? {
+      //       ...data,
+      //       ...(standaloneExamType === "users"
+      //         ? {
+      //             usersId: selectedIDs.map(({ value }) => value),
+      //           }
+      //         : {
+      //             departmentIds: selectedIDs.map(({ value }) => value),
+      //           }),
+      //     }
+      //   : data;
+      const body = data;
 
-      const { message } = await (isExamination
+      const { message } = await (isStandaloneExamination
+        ? adminEditStandaloneExamination(isExamination, body)
+        : isExamination
         ? adminEditExamination(assessmentId, body)
         : adminEditAssessment(assessmentId, body));
 
@@ -101,7 +142,9 @@ const EditAssessmentPage = ({ assessment }) => {
 
       handleDelete(isExamination || assessmentId);
 
-      isExamination
+      isStandaloneExamination
+        ? push(`/admin/standalone-exams/${isExamination}/${data.title}`)
+        : isExamination
         ? push(`/admin/courses/details/${courseId}/exam`)
         : push(`/admin/courses/details/${courseId}/assessment`);
     } catch (error) {
@@ -113,10 +156,194 @@ const EditAssessmentPage = ({ assessment }) => {
     }
   };
 
+  // const handleStandaloneExamTypeChange = (event) => {
+  //   setStandaloneExamType(event.target.value);
+  // };
+
+  const { resource: users, handleFetchResource } = useFetch();
+  useEffect(() => {
+    handleFetchResource({
+      fetcher: async () => {
+        let { users } = await adminGetUserListing();
+
+        users = users.map((user) => ({
+          value: user.id,
+          label: `${capitalizeFirstLetter(
+            `${user.firstName} ${user.lastName}`
+          )} (${user.email})`,
+        }));
+
+        return users;
+      },
+    });
+  }, [handleFetchResource]);
+
+  // Init `selectedIDs` value
+  useEffect(() => {
+    if (assessmentOrExam && users.data && metadata) {
+      let selectedIDs = [];
+
+      if (assessmentOrExam.type === "users")
+        selectedIDs = assessmentOrExam.selectedIDs.map(
+          (id) => users.data.find(({ value }) => value === id) || {}
+        );
+
+      if (assessmentOrExam.type === "departments")
+        selectedIDs = assessmentOrExam.selectedIDs.map((id) => ({
+          value: id,
+          label: capitalizeWords(getOneMetadata("departments", id)?.name),
+        }));
+
+      setSelectedIDs(selectedIDs);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assessmentOrExam, users.data, metadata]);
+
+  // Init `StandaloneExamType` value
+  useEffect(() => {
+    if (assessmentOrExam) {
+      setStandaloneExamType(assessmentOrExam?.type);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assessmentOrExam]);
+
+  useEffect(() => {
+    if (users.err)
+      toast({
+        description: "Something went wrong! please refresh the page",
+        position: "top",
+        status: "error",
+        duration: 60000,
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users.err]);
+
+  useEffect(() => {
+    if (selectedIDs.length > 0) {
+      const content_el = document.querySelector(
+        "#form-drop .dropdown-heading-value"
+      );
+
+      content_el.innerHTML = "<span></span>";
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIDs.length]);
+
   return (
     <AdminMainAreaWrapper>
       <Box as="form" onSubmit={handleSubmit(onSubmit)} marginY={14} marginX={6}>
         <Box backgroundColor="white" padding={10}>
+          {isStandaloneExamination && (
+            <>
+              <Box opacity={0.7}>
+                <Flex justifyContent="space-between" mb={5} w="400px">
+                  <Flex cursor="no-drop" alignItems={"center"}>
+                    <input
+                      type="radio"
+                      checked={standaloneExamType === "departments"}
+                      // onChange={handleStandaloneExamTypeChange}
+                      name="radio"
+                      value="departments"
+                      id="radio-1"
+                      style={{ cursor: "no-drop" }}
+                    />
+
+                    <Box cursor="no-drop" as="label" htmlFor="radio-1" ml={2}>
+                      <Text>By Departments</Text>
+                    </Box>
+                  </Flex>
+
+                  <Flex cursor="no-drop" alignItems={"center"}>
+                    <input
+                      type="radio"
+                      checked={standaloneExamType === "users"}
+                      // onChange={handleStandaloneExamTypeChange}
+                      name="radio"
+                      value="users"
+                      id="radio-2"
+                      style={{ cursor: "no-drop" }}
+                    />
+
+                    <Box cursor="no-drop" as="label" htmlFor="radio-2" ml={2}>
+                      <Text>By Users</Text>
+                    </Box>
+                  </Flex>
+                </Flex>
+
+                <Box id="form-drop" cursor="no-drop">
+                  <Box as="label">
+                    <Text as="level2" pb={2}>
+                      Choose{" "}
+                      {standaloneExamType === "users" ? "Users" : "Departments"}
+                    </Text>
+                  </Box>
+
+                  <Flex flexWrap="wrap">
+                    {selectedIDs.map((item) => (
+                      <Tag key={item.value} mr={2} mb={2}>
+                        <TagLabel>{item.label}</TagLabel>
+
+                        {/* <TagCloseButton
+                          onClick={() => {
+                            setSelectedIDs(
+                              selectedIDs.filter(
+                                (selectedItem) =>
+                                  selectedItem.value !== item.value
+                              )
+                            );
+                          }}
+                        /> */}
+                      </Tag>
+                    ))}
+                  </Flex>
+
+                  {standaloneExamType === "users" && users.data && (
+                    <MultiSelect
+                      disabled
+                      options={users.data}
+                      value={selectedIDs}
+                      onChange={setSelectedIDs}
+                      labelledBy="Select"
+                    />
+                  )}
+
+                  {standaloneExamType === "users" && users.loading && (
+                    <Spinner />
+                  )}
+
+                  {standaloneExamType === "departments" &&
+                    metadata?.departments && (
+                      <MultiSelect
+                        disabled
+                        options={metadata?.departments.map((department) => ({
+                          value: department.id,
+                          label: capitalizeWords(department.name),
+                        }))}
+                        value={selectedIDs}
+                        onChange={setSelectedIDs}
+                        labelledBy="Select"
+                      />
+                    )}
+
+                  {standaloneExamType === "users" && !metadata?.departments && (
+                    <Spinner />
+                  )}
+                </Box>
+              </Box>
+
+              <Box
+                borderBottom="1px"
+                borderColor="accent.1"
+                mt={5}
+                mb={10}
+              ></Box>
+            </>
+          )}
+
           <Input
             label={isExamination ? "Examination Title" : "Assessment Title"}
             id="title"
@@ -165,7 +392,17 @@ const EditAssessmentPage = ({ assessment }) => {
           <Button secondary onClick={handleCancel}>
             Cancel
           </Button>
-          <Button isLoading={isSubmitting} loadingText type="submit">
+          <Button
+            isLoading={isSubmitting || users.loading || !metadata?.departments}
+            disabled={
+              isSubmitting ||
+              users.loading ||
+              !metadata?.departments ||
+              users.err
+            }
+            loadingText="Updating"
+            type="submit"
+          >
             Update
           </Button>
         </Flex>
