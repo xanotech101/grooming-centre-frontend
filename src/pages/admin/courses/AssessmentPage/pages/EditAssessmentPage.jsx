@@ -113,20 +113,19 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
       };
 
       isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
-      Reflect.deleteProperty(data, "type");
-      const body = isStandaloneExamination
-        ? {
-            ...data,
-            type: standaloneExamType,
-            ...(standaloneExamType === "users"
-              ? {
-                  usersId: selectedIDs.map(({ value }) => value),
-                }
-              : {
-                  departmentIds: selectedIDs.map(({ value }) => value),
-                }),
-          }
-        : data;
+      // const body = isStandaloneExamination
+      //   ? {
+      //       ...data,
+      //       ...(standaloneExamType === "users"
+      //         ? {
+      //             usersId: selectedIDs.map(({ value }) => value),
+      //           }
+      //         : {
+      //             departmentIds: selectedIDs.map(({ value }) => value),
+      //           }),
+      //     }
+      //   : data;
+      const body = data;
 
       const { message } = await (isStandaloneExamination
         ? adminEditStandaloneExamination(isExamination, body)
@@ -237,7 +236,7 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
         <Box backgroundColor="white" padding={10}>
           {isStandaloneExamination && (
             <>
-              <Box>
+              <Box opacity={0.7}>
                 <Flex justifyContent="space-between" mb={5} w="400px">
                   <Flex cursor="no-drop" alignItems={"center"}>
                     <input
@@ -272,7 +271,7 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
                   </Flex>
                 </Flex>
 
-                <Box id="form-drop">
+                <Box id="form-drop" cursor="no-drop">
                   <Box as="label">
                     <Text as="level2" pb={2}>
                       Choose{" "}
@@ -285,7 +284,7 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
                       <Tag key={item.value} mr={2} mb={2}>
                         <TagLabel>{item.label}</TagLabel>
 
-                        <TagCloseButton
+                        {/* <TagCloseButton
                           onClick={() => {
                             setSelectedIDs(
                               selectedIDs.filter(
@@ -294,13 +293,14 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
                               )
                             );
                           }}
-                        />
+                        /> */}
                       </Tag>
                     ))}
                   </Flex>
 
                   {standaloneExamType === "users" && users.data && (
                     <MultiSelect
+                      disabled
                       options={users.data}
                       value={selectedIDs}
                       onChange={setSelectedIDs}
@@ -315,6 +315,7 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
                   {standaloneExamType === "departments" &&
                     metadata?.departments && (
                       <MultiSelect
+                        disabled
                         options={metadata?.departments.map((department) => ({
                           value: department.id,
                           label: capitalizeWords(department.name),
