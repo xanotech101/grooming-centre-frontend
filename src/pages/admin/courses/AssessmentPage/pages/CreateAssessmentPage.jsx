@@ -155,12 +155,6 @@ const CreateAssessmentPage = () => {
   }, [users.err]);
 
   useEffect(() => {
-    console.log(standaloneExamType);
-
-    setSelectedIDs([]);
-  }, [standaloneExamType]);
-
-  useEffect(() => {
     if (selectedIDs.length > 0) {
       const content_el = document.querySelector(
         "#form-drop .dropdown-heading-value"
