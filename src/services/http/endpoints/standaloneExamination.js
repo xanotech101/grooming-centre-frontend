@@ -1,3 +1,4 @@
+import { getEndTime } from "../../../utils";
 import { http } from "../http";
 
 // /**
@@ -88,6 +89,46 @@ export const adminGetStandaloneExaminationListing = async () => {
     showingDocumentsCount: data.length,
     totalDocumentsCount: data.length,
   };
+};
+
+export const requestStandaloneExaminationDetails = async (id, forAdmin) => {
+  // const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
+  const path = `/stand-alone-examination/${id}`;
+
+  let {
+    data: { data },
+  } = await http.get(path);
+
+  data = data[0];
+
+  const examination = {
+    id: data.id,
+    type: data.type || "users",
+    selectedIDs: [
+      ...(data.departmentIds ||
+        data.usersId || ["5bae7a67-7cd1-4011-bc56-c39c18a6ad57"]),
+    ],
+    topic: data.title,
+    duration: data.duration,
+    questionCount: data.amountOfQuestions,
+    startTime: data.startTime,
+    endTime: getEndTime(data.startTime, data.duration),
+    minimumPercentageScoreToEarnABadge:
+      data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
+    questions: data.standAloneExaminationQuestion.map((q, index) => ({
+      id: q.id,
+      question: q.question,
+      questionIndex: +q.questionIndex || index,
+      options: q.options.map((opt, optIndex) => ({
+        id: opt.id,
+        isAnswer: opt.isAnswer,
+        name: opt.answer,
+        optionIndex: +opt.optionIndex || optIndex,
+      })),
+    })),
+  };
+
+  return { examination };
 };
 
 /**

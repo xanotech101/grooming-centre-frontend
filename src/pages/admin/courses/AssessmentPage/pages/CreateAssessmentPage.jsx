@@ -24,7 +24,6 @@ import {
   adminGetUserListing,
 } from "../../../../../services";
 import {
-  appendFormData,
   capitalizeFirstLetter,
   capitalizeWords,
   formatDateToISO,
@@ -120,7 +119,7 @@ const CreateAssessmentPage = () => {
     }
   };
 
-  const handleAnswerChange = (event) => {
+  const handleStandaloneExamTypeChange = (event) => {
     setStandaloneExamType(event.target.value);
   };
 
@@ -166,8 +165,6 @@ const CreateAssessmentPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIDs.length]);
 
-  console.log(selectedIDs);
-
   return (
     <AdminMainAreaWrapper>
       <Box as="form" onSubmit={handleSubmit(onSubmit)} marginY={14} marginX={6}>
@@ -180,7 +177,7 @@ const CreateAssessmentPage = () => {
                     <input
                       type="radio"
                       checked={standaloneExamType === "departments"}
-                      onChange={handleAnswerChange}
+                      onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="departments"
                       id="radio-1"
@@ -195,7 +192,7 @@ const CreateAssessmentPage = () => {
                     <input
                       type="radio"
                       checked={standaloneExamType === "users"}
-                      onChange={handleAnswerChange}
+                      onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="users"
                       id="radio-2"
@@ -331,7 +328,7 @@ const CreateAssessmentPage = () => {
               !metadata?.departments ||
               users.err
             }
-            loadingText
+            loadingText="Saving"
             type="submit"
           >
             Save

@@ -31,7 +31,7 @@ const OverviewPage = () => {
     true
   );
 
-  console.log(isEditMode);
+  // console.log(isEditMode, assessment);
 
   return isEditMode && (isLoading || error) ? (
     <Flex
