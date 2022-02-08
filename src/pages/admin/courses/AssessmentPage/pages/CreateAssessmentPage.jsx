@@ -75,11 +75,11 @@ const CreateAssessmentPage = () => {
         courseId,
         startTime: formatDateToISO(startTime),
       };
-      
-      isStandaloneExamination && Reflect.deleteProperty(data, "courseId"); 
+
+      isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
       const body = isStandaloneExamination
         ? {
-          ...data,
+            ...data,
             type: standaloneExamType,
             ...(standaloneExamType === "users"
               ? {
@@ -90,7 +90,6 @@ const CreateAssessmentPage = () => {
                 }),
           }
         : data;
-      
 
       const { message, assessment, examination } =
         await (isStandaloneExamination
