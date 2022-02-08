@@ -74,6 +74,20 @@ export const adminCreateStandaloneExamination = async (body) => {
   return { message, examination };
 };
 
+export const adminEditStandaloneExamination = async (id, body) => {
+  const path = `/stand-alone-examination/edit/${id}`;
+
+  const {
+    data: { message, data },
+  } = await http.patch(path, body);
+
+  const examination = {
+    id: data.id,
+  };
+
+  return { message, examination };
+};
+
 /**
  * Endpoint for examination listing
  * @param {string} courseId

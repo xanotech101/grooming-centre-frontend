@@ -18,12 +18,12 @@ import {
 } from "../../../../../hooks";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
+  adminEditStandaloneExamination,
   adminEditAssessment,
   adminEditExamination,
   adminGetUserListing,
 } from "../../../../../services";
 import {
-  appendFormData,
   capitalizeFirstLetter,
   capitalizeWords,
   formatDateToISO,
@@ -112,9 +112,24 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
         startTime: formatDateToISO(startTime),
       };
 
-      const body = appendFormData(data);
+      isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
+      const body = isStandaloneExamination
+        ? {
+            ...data,
+            type: standaloneExamType,
+            ...(standaloneExamType === "users"
+              ? {
+                  usersId: selectedIDs.map(({ value }) => value),
+                }
+              : {
+                  departmentIds: selectedIDs.map(({ value }) => value),
+                }),
+          }
+        : data;
 
-      const { message } = await (isExamination
+      const { message } = await (isStandaloneExamination
+        ? adminEditStandaloneExamination(isExamination, body)
+        : isExamination
         ? adminEditExamination(assessmentId, body)
         : adminEditAssessment(assessmentId, body));
 
