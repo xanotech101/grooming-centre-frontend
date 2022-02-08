@@ -60,6 +60,20 @@ export const adminCreateExamination = async (body) => {
   return { message, examination };
 };
 
+export const adminCreateStandaloneExamination = async (body) => {
+  const path = `/stand-alone-examination/create`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+
+  const examination = {
+    id: data.id,
+  };
+
+  return { message, examination };
+};
+
 /**
  * Endpoint for examination listing
  * @param {string} courseId

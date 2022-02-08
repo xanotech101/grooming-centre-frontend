@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useHistory } from "react-router-dom";
 import {
@@ -20,6 +20,7 @@ import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
   adminCreateAssessment,
   adminCreateExamination,
+  adminCreateStandaloneExamination,
   adminGetUserListing,
 } from "../../../../../services";
 import {
@@ -29,16 +30,26 @@ import {
   formatDateToISO,
 } from "../../../../../utils";
 import { MultiSelect } from "react-multi-select-component";
-import { useEffect } from "react";
 import { useApp } from "../../../../../contexts";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
 const CreateAssessmentPage = () => {
   const { id: courseId, assessmentId } = useParams();
+
   const isExamination = useQueryParams().get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
+      ? true
+      : false;
+
+  const [standaloneExamType, setStandaloneExamType] = useState("departments");
 
   const { push } = useHistory();
   const toast = useToast();
+  const [selectedIDs, setSelectedIDs] = useState([]);
+  const {
+    state: { metadata },
+  } = useApp();
 
   const {
     register,
@@ -49,23 +60,44 @@ const CreateAssessmentPage = () => {
   const handleCancel = useGoBack();
 
   const startTimeManager = useDateTimePicker();
+
   // Handle form submission
   const onSubmit = async (data) => {
     try {
       const startTime =
         startTimeManager.handleGetValueAndValidate("Start Time");
 
+      if (selectedIDs.length === 0)
+        throw new Error("Please select at least one User or Department");
+
       data = {
         ...data,
         courseId,
         startTime: formatDateToISO(startTime),
       };
+      
+      isStandaloneExamination && Reflect.deleteProperty(data, "courseId"); 
+      const body = isStandaloneExamination
+        ? {
+          ...data,
+            type: standaloneExamType,
+            ...(standaloneExamType === "users"
+              ? {
+                  usersId: selectedIDs.map(({ value }) => value),
+                }
+              : {
+                  departmentIds: selectedIDs.map(({ value }) => value),
+                }),
+          }
+        : data;
+      
 
-      const body = appendFormData(data);
-
-      const { message, assessment, examination } = await (isExamination
-        ? adminCreateExamination(body)
-        : adminCreateAssessment(body));
+      const { message, assessment, examination } =
+        await (isStandaloneExamination
+          ? adminCreateStandaloneExamination(body)
+          : isExamination
+          ? adminCreateExamination(body)
+          : adminCreateAssessment(body));
 
       toast({
         description: capitalizeFirstLetter(message),
@@ -89,21 +121,9 @@ const CreateAssessmentPage = () => {
     }
   };
 
-  const examinationId = useQueryParams().get("examination");
-  const isStandaloneExamination =
-    courseId === "not-set" && assessmentId === "not-set" && examinationId
-      ? true
-      : false;
-  const [standaloneExamType, setStandaloneExamType] = useState("departments");
-
   const handleAnswerChange = (event) => {
     setStandaloneExamType(event.target.value);
   };
-
-  const [selectedIDs, setSelectedIDs] = useState([]);
-  const {
-    state: { metadata },
-  } = useApp();
 
   const { resource: users, handleFetchResource } = useFetch();
   useEffect(() => {
