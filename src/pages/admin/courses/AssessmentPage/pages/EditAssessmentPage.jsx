@@ -113,6 +113,7 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
       };
 
       isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
+      Reflect.deleteProperty(data, "type");
       const body = isStandaloneExamination
         ? {
             ...data,
@@ -153,9 +154,9 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
     }
   };
 
-  const handleStandaloneExamTypeChange = (event) => {
-    setStandaloneExamType(event.target.value);
-  };
+  // const handleStandaloneExamTypeChange = (event) => {
+  //   setStandaloneExamType(event.target.value);
+  // };
 
   const { resource: users, handleFetchResource } = useFetch();
   useEffect(() => {
@@ -238,32 +239,34 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
             <>
               <Box>
                 <Flex justifyContent="space-between" mb={5} w="400px">
-                  <Flex alignItems={"center"}>
+                  <Flex cursor="no-drop" alignItems={"center"}>
                     <input
                       type="radio"
                       checked={standaloneExamType === "departments"}
-                      onChange={handleStandaloneExamTypeChange}
+                      // onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="departments"
                       id="radio-1"
+                      style={{ cursor: "no-drop" }}
                     />
 
-                    <Box as="label" htmlFor="radio-1" ml={2}>
+                    <Box cursor="no-drop" as="label" htmlFor="radio-1" ml={2}>
                       <Text>By Departments</Text>
                     </Box>
                   </Flex>
 
-                  <Flex alignItems={"center"}>
+                  <Flex cursor="no-drop" alignItems={"center"}>
                     <input
                       type="radio"
                       checked={standaloneExamType === "users"}
-                      onChange={handleStandaloneExamTypeChange}
+                      // onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="users"
                       id="radio-2"
+                      style={{ cursor: "no-drop" }}
                     />
 
-                    <Box as="label" htmlFor="radio-2" ml={2}>
+                    <Box cursor="no-drop" as="label" htmlFor="radio-2" ml={2}>
                       <Text>By Users</Text>
                     </Box>
                   </Flex>
