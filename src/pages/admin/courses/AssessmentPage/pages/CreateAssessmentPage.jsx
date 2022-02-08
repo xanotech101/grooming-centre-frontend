@@ -12,7 +12,6 @@ import {
 } from "../../../../../components";
 import {
   useDateTimePicker,
-  useFetch,
   useGoBack,
   useQueryParams,
 } from "../../../../../hooks";
@@ -21,7 +20,6 @@ import {
   adminCreateAssessment,
   adminCreateExamination,
   adminCreateStandaloneExamination,
-  adminGetUserListing,
 } from "../../../../../services";
 import {
   capitalizeFirstLetter,
@@ -32,7 +30,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { useApp } from "../../../../../contexts";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
-const CreateAssessmentPage = () => {
+const CreateAssessmentPage = ({ users }) => {
   const { id: courseId, assessmentId } = useParams();
 
   const isExamination = useQueryParams().get("examination");
@@ -122,36 +120,6 @@ const CreateAssessmentPage = () => {
   const handleStandaloneExamTypeChange = (event) => {
     setStandaloneExamType(event.target.value);
   };
-
-  const { resource: users, handleFetchResource } = useFetch();
-  useEffect(() => {
-    handleFetchResource({
-      fetcher: async () => {
-        let { users } = await adminGetUserListing();
-
-        users = users.map((user) => ({
-          value: user.id,
-          label: `${capitalizeFirstLetter(
-            `${user.firstName} ${user.lastName}`
-          )} (${user.email})`,
-        }));
-
-        return users;
-      },
-    });
-  }, [handleFetchResource]);
-
-  useEffect(() => {
-    if (users.err)
-      toast({
-        description: "Something went wrong! please refresh the page",
-        position: "top",
-        status: "error",
-        duration: 60000,
-      });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users.err]);
 
   useEffect(() => {
     if (selectedIDs.length > 0) {
