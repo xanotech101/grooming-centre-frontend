@@ -103,10 +103,14 @@ export const requestStandaloneExaminationDetails = async (id, forAdmin) => {
 
   const examination = {
     id: data.id,
-    type: data.type || "users",
+    type: data.type,
     selectedIDs: [
-      ...(data.departmentIds ||
-        data.usersId || ["5bae7a67-7cd1-4011-bc56-c39c18a6ad57"]),
+      ...(data.departmentIds || [
+        // TODO: remove the `||` and this array
+        data.type === "users"
+          ? "5bae7a67-7cd1-4011-bc56-c39c18a6ad57" // test userId
+          : "a2bd09a4-bd5f-4a90-828c-34d57f775af7", // test departmentId
+      ]),
     ],
     topic: data.title,
     duration: data.duration,

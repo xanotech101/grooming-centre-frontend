@@ -32,7 +32,7 @@ import { useCache, useApp } from "../../../../../contexts";
 import { MultiSelect } from "react-multi-select-component";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
-const EditAssessmentPage = ({ assessment }) => {
+const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
   const { id: courseId, assessmentId } = useParams();
 
   const isExamination = useQueryParams().get("examination");
@@ -62,39 +62,39 @@ const EditAssessmentPage = ({ assessment }) => {
 
   const startTimeManager = useDateTimePicker();
 
-  console.log(assessment);
+  console.log(assessmentOrExam);
 
   // Init `Title` value
   useEffect(() => {
-    if (assessment) {
-      setValue("title", assessment.topic);
+    if (assessmentOrExam) {
+      setValue("title", assessmentOrExam.topic);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessmentOrExam]);
 
   // Init `StartTime` value
   useEffect(() => {
-    if (assessment?.startTime) {
-      startTimeManager.handleChange(assessment.startTime);
+    if (assessmentOrExam?.startTime) {
+      startTimeManager.handleChange(assessmentOrExam.startTime);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment?.startTime]);
+  }, [assessmentOrExam?.startTime]);
 
   // Init `Duration` value
   useEffect(() => {
-    if (assessment) {
-      setValue("duration", assessment.duration);
+    if (assessmentOrExam) {
+      setValue("duration", assessmentOrExam.duration);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessmentOrExam]);
 
   // Init `Number of Questions` value
   useEffect(() => {
-    if (assessment) {
-      setValue("amountOfQuestions", assessment?.questionCount);
+    if (assessmentOrExam) {
+      setValue("amountOfQuestions", assessmentOrExam?.questionCount);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment]);
+  }, [assessmentOrExam]);
 
   console.log(selectedIDs);
 
@@ -162,25 +162,34 @@ const EditAssessmentPage = ({ assessment }) => {
 
   // Init `selectedIDs` value
   useEffect(() => {
-    if (assessment && users.data && metadata) {
+    if (assessmentOrExam && users.data && metadata) {
       let selectedIDs = [];
 
-      if (assessment.type === "users")
-        selectedIDs = assessment.selectedIDs.map((id) =>
-          users.data.find(({ value }) => value === id)
+      if (assessmentOrExam.type === "users")
+        selectedIDs = assessmentOrExam.selectedIDs.map(
+          (id) => users.data.find(({ value }) => value === id) || {}
         );
 
-      if (assessment.type === "departments")
-        selectedIDs = assessment.selectedIDs.map((id) => ({
+      if (assessmentOrExam.type === "departments")
+        selectedIDs = assessmentOrExam.selectedIDs.map((id) => ({
           value: id,
-          label: capitalizeWords(getOneMetadata("departments", id).name),
+          label: capitalizeWords(getOneMetadata("departments", id)?.name),
         }));
 
       setSelectedIDs(selectedIDs);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment, users.data, metadata]);
+  }, [assessmentOrExam, users.data, metadata]);
+
+  // Init `StandaloneExamType` value
+  useEffect(() => {
+    if (assessmentOrExam) {
+      setStandaloneExamType(assessmentOrExam?.type);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assessmentOrExam]);
 
   useEffect(() => {
     if (users.err)
