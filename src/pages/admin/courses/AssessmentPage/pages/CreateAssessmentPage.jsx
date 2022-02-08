@@ -20,7 +20,7 @@ import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
   adminCreateAssessment,
   adminCreateExamination,
-  userGetUserListing,
+  adminGetUserListing,
 } from "../../../../../services";
 import {
   appendFormData,
@@ -109,7 +109,14 @@ const CreateAssessmentPage = () => {
   useEffect(() => {
     handleFetchResource({
       fetcher: async () => {
-        const { users } = await userGetUserListing();
+        let { users } = await adminGetUserListing();
+
+        users = users.map((user) => ({
+          value: user.id,
+          label: `${capitalizeFirstLetter(
+            `${user.firstName} ${user.lastName}`
+          )} (${user.email})`,
+        }));
 
         return users;
       },
@@ -189,7 +196,7 @@ const CreateAssessmentPage = () => {
 
                 <Box id="form-drop">
                   <Box as="label">
-                    <Text as="level.2" pb={2}>
+                    <Text as="level2" pb={2}>
                       Choose{" "}
                       {standaloneExamType === "users" ? "Users" : "Departments"}
                     </Text>
