@@ -71,7 +71,7 @@ const tableProps = {
     {
       id: "3",
       key: "noOfUsers",
-      text: "No. of Users",
+      text: "No. of Candidates",
       fraction: "200px",
     },
     {

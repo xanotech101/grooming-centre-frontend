@@ -66,25 +66,27 @@ import { http } from "../http";
  * @returns {Promise<{ examinations: Array<{ id: string, examinationId: string, title: string,  startTime: Date, duration: number }> }>}
  */
 export const adminGetStandaloneExaminationListing = async () => {
-  const path = `/standalone-examinations`;
+  const path = `/stand-alone-examination/all`;
 
   const {
     data: { data },
   } = await http.get(path);
 
-  const examinations = data.rows.map((exam) => ({
+  const examinations = data.map((exam) => ({
     id: exam.id,
     title: exam.title,
     examinationId: exam.examinationId,
     duration: exam.duration,
     startTime: exam.startTime,
-    noOfUsers: exam.noOfUsers,
+    noOfUsers: exam.examinationCandidateLength,
   }));
 
   return {
     examinations,
-    showingDocumentsCount: data.rows.length,
-    totalDocumentsCount: data.count,
+    // showingDocumentsCount: data.rows.length, // No pagination for now
+    // totalDocumentsCount: data.count, // No pagination for now
+    showingDocumentsCount: data.length,
+    totalDocumentsCount: data.length,
   };
 };
 
@@ -95,7 +97,7 @@ export const adminGetStandaloneExaminationListing = async () => {
  *
  */
 export const adminGetStandaloneExaminationParticipants = async (id, params) => {
-  const path = `/standalone-examinations/participants/${id}`;
+  const path = `/stand-alone-examination/all/participants/${id}`;
 
   const {
     data: { data },
