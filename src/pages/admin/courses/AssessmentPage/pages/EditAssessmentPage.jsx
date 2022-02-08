@@ -35,6 +35,7 @@ import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
   const { id: courseId, assessmentId } = useParams();
 
+  const standaloneExaminationName = useQueryParams().get("examinationName");
   const isExamination = useQueryParams().get("examination");
   const isStandaloneExamination =
     courseId === "not-set" && assessmentId === "not-set" && isExamination
@@ -141,7 +142,9 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
 
       handleDelete(isExamination || assessmentId);
 
-      isExamination
+      isStandaloneExamination
+        ? push(`/admin/standalone-exams/${isExamination}/${data.title}`)
+        : isExamination
         ? push(`/admin/courses/details/${courseId}/exam`)
         : push(`/admin/courses/details/${courseId}/assessment`);
     } catch (error) {
