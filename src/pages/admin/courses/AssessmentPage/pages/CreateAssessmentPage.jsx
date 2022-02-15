@@ -64,7 +64,7 @@ const CreateAssessmentPage = ({ users }) => {
       const startTime =
         startTimeManager.handleGetValueAndValidate("Start Time");
 
-      if (selectedIDs.length === 0)
+      if (selectedIDs.length === 0 && isStandaloneExamination)
         throw new Error("Please select at least one User or Department");
 
       data = {

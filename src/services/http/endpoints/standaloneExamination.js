@@ -142,14 +142,14 @@ export const requestStandaloneExaminationDetails = async (id, forAdmin) => {
  *
  */
 export const adminGetStandaloneExaminationParticipants = async (id, params) => {
-  const path = `/stand-alone-examination/all/participants/${id}`;
+  const path = `/stand-alone-examination/participants/${id}`;
 
   const {
     data: { data },
   } = await http.get(path, { params });
 
   return {
-    users: data.rows.map((user) => ({
+    users: data.map((user) => ({
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -158,8 +158,10 @@ export const adminGetStandaloneExaminationParticipants = async (id, params) => {
       departmentName: user.department?.name,
       grade: user.grade,
     })),
-    showingDocumentsCount: data.rows.length,
-    totalDocumentsCount: data.count,
+    // showingDocumentsCount: data.rows.length, // TODO: no pagination for now
+    // totalDocumentsCount: data.count, // TODO: no pagination for now
+    showingDocumentsCount: data.length,
+    totalDocumentsCount: data.length,
   };
 };
 
