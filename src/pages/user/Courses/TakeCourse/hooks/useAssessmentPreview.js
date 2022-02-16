@@ -6,7 +6,7 @@ import useQueryParams from "../../../../../hooks/useQueryParams";
 import {
   requestAssessmentDetails,
   requestExaminationDetails,
-  requestStandaloneExaminationDetails,
+  getStandaloneExaminationDetails,
 } from "../../../../../services";
 import { isStandaloneExaminationAndIsNotEditMode } from "../../../../admin/courses/AssessmentPage/pages/OverviewPage";
 
@@ -49,9 +49,9 @@ const useAssessmentPreview = (
 
   const fetcher = useCallback(async () => {
     const data = await (isStandaloneExamination
-      ? requestStandaloneExaminationDetails(assessmentId) // `assessmentId` is `examinationId` in this case
+      ? getStandaloneExaminationDetails(isExamination) // `isExamination` is `examinationId` in this case
       : isExamination
-      ? requestExaminationDetails(assessmentId, isForAdmin) // `assessmentId` is `examinationId` in this case
+      ? requestExaminationDetails(isExamination, isForAdmin) // `isExamination` is `examinationId` in this case
       : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;

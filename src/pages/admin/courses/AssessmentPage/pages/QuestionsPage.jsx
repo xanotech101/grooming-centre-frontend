@@ -25,6 +25,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import {
   adminCreateAssessmentQuestion,
   adminCreateExaminationQuestion,
+  adminCreateStandaloneExaminationQuestion,
   adminEditAssessmentQuestion,
   adminEditExaminationQuestion,
 } from "../../../../../services";
@@ -51,6 +52,7 @@ const QuestionsPage = () => {
           ? "Create "
           : "Update "}
         {isExamination ? "Examination" : "Assessment"}
+        {" Question"}
       </Heading>
 
       <Flex>
@@ -203,6 +205,10 @@ const CreateQuestionPage = (assessmentManager) => {
   const toast = useToast();
   const { id: courseId, assessmentId, questionId } = useParams();
   const isExamination = useQueryParams().get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
+      ? true
+      : false;
 
   const isEditMode = questionId && questionId !== "new";
 
@@ -254,10 +260,10 @@ const CreateQuestionPage = (assessmentManager) => {
 
   useEffect(() => {
     if (question?.options.length === 2) {
-      setIsMultipleChoiceOptions(false);
+      return setIsMultipleChoiceOptions(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [question]);
+    setIsMultipleChoiceOptions(true);
+  }, [question, question?.options.length]);
 
   useEffect(() => {
     if (question) {
@@ -308,13 +314,16 @@ const CreateQuestionPage = (assessmentManager) => {
     try {
       console.log(data);
 
-      const image = questionImageManager.handleGetFileAndValidate(
+      const file = questionImageManager.handleGetFileAndValidate(
         "Question Cover",
         true // TODO: remove comment
       );
       const questionText =
         questionRichTextManager.handleGetValueAndValidate("Question");
-      const options = buildOptions({ ...data, answer });
+      const options = buildOptions(
+        { ...data, answer },
+        isStandaloneExamination
+      );
       if (!isMultipleChoiceOptions && options.length === 4) {
         options.pop();
         options.pop();
@@ -327,7 +336,7 @@ const CreateQuestionPage = (assessmentManager) => {
       data =
         isEditMode && !isExamination
           ? {
-              image,
+              file,
               question: JSON.stringify({
                 id: questionId,
                 question: questionText,
@@ -346,7 +355,7 @@ const CreateQuestionPage = (assessmentManager) => {
             }
           : isEditMode && isExamination
           ? {
-              image,
+              file,
               question: JSON.stringify({
                 id: questionId,
                 question: questionText,
@@ -356,8 +365,9 @@ const CreateQuestionPage = (assessmentManager) => {
               options: JSON.stringify(
                 options.map((opt) => ({
                   ...opt,
-                  id: question?.options.find(({ name }) => opt.name === name)
-                    ?.id,
+                  id: question?.options.find(
+                    ({ name }) => (opt.answer || opt.name) === name
+                  )?.id,
                   examinationQuestionId: questionId,
                   active: true,
                 }))
@@ -366,13 +376,15 @@ const CreateQuestionPage = (assessmentManager) => {
           : // is Create Mode
           isExamination
           ? {
-              image,
-              examinationId: isExamination,
+              file,
+              [isStandaloneExamination
+                ? "standAloneExaminationId"
+                : "examinationId"]: isExamination,
               question: questionText,
               options: JSON.stringify(options),
             }
           : {
-              image,
+              file,
               assessmentId,
               question: questionText,
               options: JSON.stringify(options),
@@ -386,6 +398,8 @@ const CreateQuestionPage = (assessmentManager) => {
         ? adminEditAssessmentQuestion(body)
         : isEditMode && isExamination
         ? adminEditExaminationQuestion(body)
+        : isStandaloneExamination
+        ? adminCreateStandaloneExaminationQuestion(body)
         : isExamination
         ? adminCreateExaminationQuestion(body)
         : adminCreateAssessmentQuestion(body));
@@ -704,22 +718,25 @@ const getQuestionNumber = (index) =>
     index + 1 < 9 ? `0${index + 1}` : index === undefined ? "01" : index + 1
   }`;
 
-const buildOptions = (data) => {
+const buildOptions = (data, isStandaloneExamination) => {
   const options = [];
 
   for (const item in data) {
-    if (Object.hasOwnProperty.call(data, item) && /option/.test(item)) {
+    if (/option/.test(item)) {
       const name = data[item];
       const optionIndex = +item.replace("option-", "");
       const isAnswer = +data.answer === optionIndex;
 
       const option = {
-        name,
+        [isStandaloneExamination ? "answer" : "name"]: name,
         isAnswer,
         optionIndex,
       };
 
-      if (option.name) options.push(option);
+      if (isStandaloneExamination)
+        Reflect.deleteProperty(option, "optionIndex");
+
+      if (option.name || option.answer) options.push(option);
     }
   }
 

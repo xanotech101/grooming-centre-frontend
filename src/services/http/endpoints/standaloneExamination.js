@@ -91,7 +91,7 @@ export const adminGetStandaloneExaminationListing = async () => {
   };
 };
 
-export const requestStandaloneExaminationDetails = async (id, forAdmin) => {
+export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   // const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
   const path = `/stand-alone-examination/${id}`;
 
@@ -181,20 +181,20 @@ export const adminGetStandaloneExaminationParticipants = async (id, params) => {
 //   return { message };
 // };
 
-// /**
-//  * Endpoint for examination question creation
-//  * @param {object} body
-//  * @returns {Promise<{ message: string }>}
-//  */
-// export const adminCreateExaminationQuestion = async (body) => {
-//   const path = "/examination/question/create";
+/**
+ * Endpoint for examination question creation
+ * @param {object} body
+ * @returns {Promise<{ message: string }>}
+ */
+export const adminCreateStandaloneExaminationQuestion = async (body) => {
+  const path = "/stand-alone-examination-question/create";
 
-//   const {
-//     data: { message },
-//   } = await http.post(path, body);
+  const {
+    data: { message },
+  } = await http.post(path, body);
 
-//   return { message };
-// };
+  return { message };
+};
 
 // /**
 //  * Endpoint to for admin to edit a examination
