@@ -667,6 +667,7 @@ const QuestionCard = ({ questionNumber, question, image, id, ...rest }) => {
 
         {image && (
           <Image
+            mt={5}
             src={image}
             alt={"question"}
             width="100%"
