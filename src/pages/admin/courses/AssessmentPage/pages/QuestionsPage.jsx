@@ -165,6 +165,8 @@ const useQuestionDetails = (assessmentManager) => {
         return foundQuestion;
       });
 
+      console.log(question);
+
       if (question) setQuestion({ ...question, index });
     }
   }, [assessmentManager.assessment?.questions, questionId]);
@@ -302,12 +304,13 @@ const CreateQuestionPage = (assessmentManager) => {
   const questionImageManager = useUpload();
 
   // TODO: uncomment for editMode's sake
-  // useEffect(() => {
-  //   if (question) {
-  //     questionImageManager.handleInitialImageSelect(question.image);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [question]);
+  useEffect(() => {
+    if (question) {
+      console.log(question.file);
+      questionImageManager.handleInitialImageSelect(question.file);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question]);
 
   // const { handleDelete } = useCache();
   const onSubmit = async (data) => {

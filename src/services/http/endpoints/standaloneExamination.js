@@ -122,6 +122,7 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
     questions: data.standAloneExaminationQuestion.map((q, index) => ({
       id: q.id,
       question: q.question,
+      file: q.file,
       questionIndex: +q.questionIndex || index,
       options: q.options.map((opt, optIndex) => ({
         id: opt.id,

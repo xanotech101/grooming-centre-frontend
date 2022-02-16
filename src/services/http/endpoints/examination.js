@@ -28,6 +28,7 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     questions: data.examinationQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,
+      file: q.file,
       questionIndex: +q.questionIndex || index,
       options: q.options.map((opt) => ({
         id: opt.id,

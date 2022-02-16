@@ -29,9 +29,7 @@ export const requestAssessmentDetails = async (id, forAdmin) => {
       ? data.assessmentQuestions.map((q, index) => ({
           id: q.id,
           question: q.question,
-          image: q.image,
-          // image:
-          //   "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80", // TODO: remove hard coded data
+          file: q.file,
           questionIndex: index,
           options: q.options.map((opt) => ({
             id: opt.id,
