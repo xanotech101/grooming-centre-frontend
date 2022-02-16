@@ -11,6 +11,7 @@ import {
   Link,
   RichTextToView,
   Upload,
+  Image,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { Stack } from "@chakra-ui/react";
@@ -621,6 +622,7 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
           id={q.id}
           questionNumber={getQuestionNumber(index)}
           question={q.question}
+          image={q.file}
           marginBottom={4}
         />
       ))}
@@ -631,14 +633,14 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
             isExamination ? `?examination=${isExamination}` : ""
           }`}
         >
-          Add Another Question
+          Add New Question
         </Button>
       </Box>
     </Box>
   );
 };
 
-const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
+const QuestionCard = ({ questionNumber, question, image, id, ...rest }) => {
   const { id: courseId, assessmentId } = useParams();
   const isExamination = useQueryParams().get("examination");
   const editLink = getEditQuestionLink(
@@ -662,6 +664,16 @@ const QuestionCard = ({ questionNumber, question, id, ...rest }) => {
         </Heading>
 
         <RichTextToView paddingTop={2} text={question} />
+
+        {image && (
+          <Image
+            src={image}
+            alt={"question"}
+            width="100%"
+            height="400px"
+            rounded="md"
+          />
+        )}
       </Box>
 
       <Box transform="translateY(-10px)">
