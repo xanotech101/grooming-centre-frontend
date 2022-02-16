@@ -44,6 +44,12 @@ export const requestAssessmentDetails = async (id, forAdmin) => {
   return { assessment };
 };
 
+export const adminDeleteAssessmentQuestionFile = async (questionId) => {
+  const path = `/assessment/question/delete-image/${questionId}`;
+
+  await http.delete(path);
+};
+
 /**
  * Endpoint to submit an `assessment`
  * @param {object} body - answers

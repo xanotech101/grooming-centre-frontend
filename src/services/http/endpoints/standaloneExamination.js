@@ -92,8 +92,7 @@ export const adminGetStandaloneExaminationListing = async () => {
 };
 
 export const getStandaloneExaminationDetails = async (id, forAdmin) => {
-  // const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
-  const path = `/stand-alone-examination/${id}`;
+  const path = `/stand-alone-examination${forAdmin ? "/admin" : ""}/${id}`;
 
   let {
     data: { data },
@@ -195,6 +194,14 @@ export const adminCreateStandaloneExaminationQuestion = async (body) => {
   } = await http.post(path, body);
 
   return { message };
+};
+
+export const adminDeleteStandaloneExaminationQuestionFile = async (
+  questionId
+) => {
+  const path = `/stand-alone-examination-question/delete/image/${questionId}`;
+
+  await http.delete(path);
 };
 
 // /**

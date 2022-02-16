@@ -42,6 +42,12 @@ export const requestExaminationDetails = async (id, forAdmin) => {
   return { examination };
 };
 
+export const adminDeleteExaminationQuestionFile = async (questionId) => {
+  const path = `/examination/question/delete-image/${questionId}`;
+
+  await http.delete(path);
+};
+
 /**
  * Endpoint for examination creation
  * @param {{ title: string, courseId: string, duration: number, amountOfQuestions: string, startTime: string }} body

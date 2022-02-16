@@ -27,6 +27,9 @@ import {
   adminCreateAssessmentQuestion,
   adminCreateExaminationQuestion,
   adminCreateStandaloneExaminationQuestion,
+  adminDeleteAssessmentQuestionFile,
+  adminDeleteExaminationQuestionFile,
+  adminDeleteStandaloneExaminationQuestionFile,
   adminEditAssessmentQuestion,
   adminEditExaminationQuestion,
 } from "../../../../../services";
@@ -39,8 +42,10 @@ const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
   const { id: courseId, assessmentId, questionId } = useParams();
   const isExamination = useQueryParams().get("examination");
-
-  console.log(isExamination);
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
+      ? true
+      : false;
 
   const assessmentManager = useAssessmentPreview(null, assessmentId, true);
 
@@ -52,7 +57,11 @@ const QuestionsPage = () => {
           : questionId === "new"
           ? "Create "
           : "Update "}
-        {isExamination ? "Examination" : "Assessment"}
+        {isStandaloneExamination
+          ? "Standalone Examination"
+          : isExamination
+          ? "Examination"
+          : "Assessment"}
         {" Question"}
       </Heading>
 
@@ -165,8 +174,6 @@ const useQuestionDetails = (assessmentManager) => {
 
         return foundQuestion;
       });
-
-      console.log(question);
 
       if (question) setQuestion({ ...question, index });
     }
@@ -307,7 +314,6 @@ const CreateQuestionPage = (assessmentManager) => {
   // TODO: uncomment for editMode's sake
   useEffect(() => {
     if (question) {
-      console.log(question.file);
       questionImageManager.handleInitialImageSelect(question.file);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -393,9 +399,6 @@ const CreateQuestionPage = (assessmentManager) => {
               question: questionText,
               options: JSON.stringify(options),
             };
-
-      console.log(data);
-
       const body = appendFormData(data);
 
       const { message } = await (isEditMode && !isExamination
@@ -428,6 +431,16 @@ const CreateQuestionPage = (assessmentManager) => {
     }
   };
 
+  const deleteRequestServiceFunction = async () => {
+    if (question) {
+      if (isStandaloneExamination)
+        await adminDeleteStandaloneExaminationQuestionFile(question.id);
+      else if (isExamination)
+        await adminDeleteExaminationQuestionFile(question.id);
+      else await adminDeleteAssessmentQuestionFile(question.id);
+    }
+  };
+
   return (
     <Box as="form" onSubmit={handleSubmit(onSubmit)} padding={6} width="70%">
       <Box
@@ -454,6 +467,8 @@ const CreateQuestionPage = (assessmentManager) => {
             id="coverImage"
             label="Event Cover"
             onFileSelect={questionImageManager.handleFileSelect}
+            onDelete={questionImageManager.handleFileDelete}
+            deleteRequestServiceFunction={deleteRequestServiceFunction}
             imageUrl={questionImageManager.image.url}
             accept={questionImageManager.accept}
           />

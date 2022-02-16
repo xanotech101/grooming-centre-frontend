@@ -49,7 +49,7 @@ const useAssessmentPreview = (
 
   const fetcher = useCallback(async () => {
     const data = await (isStandaloneExamination
-      ? getStandaloneExaminationDetails(isExamination) // `isExamination` is `examinationId` in this case
+      ? getStandaloneExaminationDetails(isExamination, true) // `isExamination` is `examinationId` in this case
       : isExamination
       ? requestExaminationDetails(assessmentId, isForAdmin) // `assessmentId` is `courseId` in this case
       : requestAssessmentDetails(assessmentId, isForAdmin));
