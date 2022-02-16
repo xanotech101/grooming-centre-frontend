@@ -27,7 +27,9 @@ import {
   adminCreateAssessmentQuestion,
   adminCreateExaminationQuestion,
   adminCreateStandaloneExaminationQuestion,
+  adminDeleteAssessmentQuestion,
   adminDeleteAssessmentQuestionFile,
+  adminDeleteExaminationQuestion,
   adminDeleteExaminationQuestionFile,
   adminDeleteStandaloneExaminationQuestionFile,
   adminEditAssessmentQuestion,
@@ -37,6 +39,7 @@ import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useA
 import { PageLoaderLayout } from "../../../../../layouts";
 import { useCallback, useEffect, useState } from "react";
 import { BsCheckCircle } from "react-icons/bs";
+import { FaTrash } from "react-icons/fa";
 
 const QuestionsPage = () => {
   const isQuestionListingPage = useQueryParams().get("question-listing");
@@ -201,8 +204,6 @@ const useQuestionDetails = (assessmentManager) => {
     }
   }, [assessmentManager.error, toast]);
 
-  console.log(question);
-
   return {
     question,
     isLoading: assessmentManager.isLoading,
@@ -220,7 +221,7 @@ const CreateQuestionPage = (assessmentManager) => {
       ? true
       : false;
 
-  const isEditMode = questionId && questionId !== "new";
+  const isDeleteMode = questionId && questionId !== "new";
 
   const { question, isLoading, error } = useQuestionDetails(assessmentManager);
 
@@ -242,13 +243,6 @@ const CreateQuestionPage = (assessmentManager) => {
     setAnswer(event.target.value);
   };
   const questionRichTextManager = useRichText();
-
-  useEffect(() => {
-    if (question) {
-      questionRichTextManager.handleInitData(question.question);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [question]);
 
   useEffect(() => {
     if (question) {
@@ -322,14 +316,25 @@ const CreateQuestionPage = (assessmentManager) => {
   // const { handleDelete } = useCache();
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      if (isDeleteMode) {
+        const ok = window.confirm(
+          "Are you sure you want to delete this question?"
+        );
+
+        if (!ok) return;
+      }
 
       const file = questionImageManager.handleGetFileAndValidate(
         "Question Cover",
         true // TODO: remove comment
       );
+
       const questionText =
+        !isDeleteMode &&
         questionRichTextManager.handleGetValueAndValidate("Question");
+
+      console.log(data);
+
       const options = buildOptions(
         { ...data, answer },
         isStandaloneExamination
@@ -344,7 +349,7 @@ const CreateQuestionPage = (assessmentManager) => {
       if (!hasAnswer) throw new Error("Please select an answer");
 
       data =
-        isEditMode && !isExamination
+        isDeleteMode && !isExamination
           ? {
               file,
               question: JSON.stringify({
@@ -363,7 +368,7 @@ const CreateQuestionPage = (assessmentManager) => {
                 }))
               ),
             }
-          : isEditMode && isExamination
+          : isDeleteMode && isExamination
           ? {
               file,
               question: JSON.stringify({
@@ -401,11 +406,12 @@ const CreateQuestionPage = (assessmentManager) => {
             };
       const body = appendFormData(data);
 
-      const { message } = await (isEditMode && !isExamination
-        ? adminEditAssessmentQuestion(body)
-        : isEditMode && isExamination
-        ? adminEditExaminationQuestion(body)
-        : isStandaloneExamination
+      const { message } = await (isDeleteMode && !isExamination
+        ? adminDeleteAssessmentQuestion(question.id)
+        : isDeleteMode && isExamination
+        ? adminDeleteExaminationQuestion(question.id)
+        : // Create mode
+        isStandaloneExamination
         ? adminCreateStandaloneExaminationQuestion(body)
         : isExamination
         ? adminCreateExaminationQuestion(body)
@@ -417,7 +423,7 @@ const CreateQuestionPage = (assessmentManager) => {
         status: "success",
       });
 
-      // Clean UP
+      // Clean UP input
       reset();
 
       assessmentManager.handleFetch(true);
@@ -431,15 +437,15 @@ const CreateQuestionPage = (assessmentManager) => {
     }
   };
 
-  const deleteRequestServiceFunction = async () => {
-    if (question) {
-      if (isStandaloneExamination)
-        await adminDeleteStandaloneExaminationQuestionFile(question.id);
-      else if (isExamination)
-        await adminDeleteExaminationQuestionFile(question.id);
-      else await adminDeleteAssessmentQuestionFile(question.id);
-    }
-  };
+  // const deleteImage = async () => {
+  //   if (question) {
+  //     if (isStandaloneExamination)
+  //       await adminDeleteStandaloneExaminationQuestionFile(question.id);
+  //     else if (isExamination)
+  //       await adminDeleteExaminationQuestionFile(question.id);
+  //     else await adminDeleteAssessmentQuestionFile(question.id);
+  //   }
+  // };
 
   return (
     <Box as="form" onSubmit={handleSubmit(onSubmit)} padding={6} width="70%">
@@ -449,29 +455,41 @@ const CreateQuestionPage = (assessmentManager) => {
         paddingBottom="60px"
         backgroundColor="white"
       >
-        <RichText
-          height="250px"
-          id="question"
-          label={getQuestionNumber(
-            question && questionId !== "new"
-              ? question.index
-              : assessmentManager.assessment?.questions?.length
-          )}
-          placeholder="Enter your question here"
-          onChange={questionRichTextManager.handleChange}
-          defaultValue={questionRichTextManager.data.default}
-        />
-
-        <Box marginTop={8}>
-          <Upload
-            id="coverImage"
-            label="Event Cover"
-            onFileSelect={questionImageManager.handleFileSelect}
-            onDelete={questionImageManager.handleFileDelete}
-            deleteRequestServiceFunction={deleteRequestServiceFunction}
-            imageUrl={questionImageManager.image.url}
-            accept={questionImageManager.accept}
+        {isDeleteMode ? (
+          <RichTextToView
+            marginBottom={2}
+            padding={2}
+            backgroundColor="accent.1"
+            flex={0.2}
+            text={question?.question}
           />
+        ) : (
+          <RichText
+            height="250px"
+            id="question"
+            label={getQuestionNumber(
+              question && questionId !== "new"
+                ? question.index
+                : assessmentManager.assessment?.questions?.length
+            )}
+            placeholder="Enter your question here"
+            onChange={questionRichTextManager.handleChange}
+            defaultValue={questionRichTextManager.data.default}
+          />
+        )}
+        <Box marginTop={8}>
+          {isDeleteMode && !question?.file ? null : (
+            <Upload
+              id="coverImage"
+              label="Event Cover"
+              onFileSelect={questionImageManager.handleFileSelect}
+              // onDelete={questionImageManager.handleFileDelete}
+              // deleteRequestServiceFunction={deleteImage}
+              imageUrl={questionImageManager.image.url}
+              accept={questionImageManager.accept}
+              disabled={isDeleteMode}
+            />
+          )}
         </Box>
       </Box>
 
@@ -488,7 +506,7 @@ const CreateQuestionPage = (assessmentManager) => {
               onClick={handleMultipleChoiceOptionsToggle}
               leftIcon={isMultipleChoiceOptions && <BsCheckCircle />}
               ghost={!isMultipleChoiceOptions}
-              disabled={isEditMode && !question}
+              disabled={isDeleteMode}
             >
               Multiple Choices
             </Button>
@@ -496,7 +514,7 @@ const CreateQuestionPage = (assessmentManager) => {
               onClick={handleMultipleChoiceOptionsToggle}
               leftIcon={!isMultipleChoiceOptions && <BsCheckCircle />}
               ghost={isMultipleChoiceOptions}
-              disabled={isEditMode && !question}
+              disabled={isDeleteMode}
             >
               True/False
             </Button>
@@ -507,6 +525,7 @@ const CreateQuestionPage = (assessmentManager) => {
           <Flex flexDirection="row" paddingBottom={6}>
             <Flex paddingTop={12} paddingRight={6}>
               <input
+                disabled={isDeleteMode}
                 type="radio"
                 checked={answer === "1"}
                 onChange={handleAnswerChange}
@@ -519,13 +538,14 @@ const CreateQuestionPage = (assessmentManager) => {
               id="option-1"
               label="Option 01"
               {...register("option-1", { required: true })}
-              disabled={!isMultipleChoiceOptions}
+              disabled={!isMultipleChoiceOptions || isDeleteMode}
               placeholder="Enter the first option here"
             />
           </Flex>
           <Flex flexDirection="row" paddingBottom={6}>
             <Flex paddingTop={12} paddingRight={6}>
               <input
+                disabled={isDeleteMode}
                 type="radio"
                 checked={answer === "2"}
                 onChange={handleAnswerChange}
@@ -538,7 +558,7 @@ const CreateQuestionPage = (assessmentManager) => {
               id="option-2"
               label="Option 02"
               {...register("option-2", { required: true })}
-              disabled={!isMultipleChoiceOptions}
+              disabled={!isMultipleChoiceOptions || isDeleteMode}
               placeholder="Enter the second option here"
             />
           </Flex>
@@ -547,6 +567,7 @@ const CreateQuestionPage = (assessmentManager) => {
               <Flex flexDirection="row" paddingBottom={6}>
                 <Flex paddingTop={12} paddingRight={6}>
                   <input
+                    disabled={isDeleteMode}
                     type="radio"
                     checked={answer === "3"}
                     onChange={handleAnswerChange}
@@ -556,6 +577,7 @@ const CreateQuestionPage = (assessmentManager) => {
                   />
                 </Flex>
                 <Input
+                  disabled={isDeleteMode}
                   id="option-3"
                   label="Option 03"
                   {...register("option-3", { required: true })}
@@ -565,6 +587,7 @@ const CreateQuestionPage = (assessmentManager) => {
               <Flex flexDirection="row" paddingBottom={6}>
                 <Flex paddingTop={12} paddingRight={6}>
                   <input
+                    disabled={isDeleteMode}
                     type="radio"
                     checked={answer === "4"}
                     onChange={handleAnswerChange}
@@ -574,6 +597,7 @@ const CreateQuestionPage = (assessmentManager) => {
                   />
                 </Flex>
                 <Input
+                  disabled={isDeleteMode}
                   id="option-4"
                   label="Option 04"
                   {...register("option-4", { required: true })}
@@ -590,8 +614,9 @@ const CreateQuestionPage = (assessmentManager) => {
           type="submit"
           disabled={isLoading || isSubmitting || error}
           isLoading={isLoading || isSubmitting}
+          leftIcon={isDeleteMode && <FaTrash />}
         >
-          {isEditMode ? "Update" : "Add"} Question
+          {isDeleteMode ? "Delete" : "Add"} Question
         </Button>
       </Flex>
     </Box>
@@ -702,7 +727,7 @@ const QuestionCard = ({ questionNumber, question, image, id, ...rest }) => {
 export const MoreIconButton = ({ editLink }) => {
   const { push } = useHistory();
 
-  const handleEditClick = () => {
+  const handleViewClick = () => {
     push(editLink);
   };
 
@@ -721,7 +746,7 @@ export const MoreIconButton = ({ editLink }) => {
       </MenuButton>
 
       <MenuList position="relative" zIndex={2}>
-        <MenuItem onClick={handleEditClick}>Edit question</MenuItem>
+        <MenuItem onClick={handleViewClick}>Preview question</MenuItem>
         <MenuItem>Delete question</MenuItem>
       </MenuList>
     </Menu>

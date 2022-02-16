@@ -115,6 +115,25 @@ export const adminEditAssessmentQuestion = async (body) => {
   return { message };
 };
 
+export const adminDeleteAssessment = async (assessmentId) => {
+  const path = `/assessment/delete/${assessmentId}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
+};
+export const adminDeleteAssessmentQuestion = async (questionId) => {
+  const path = `/assessment/question/delete/${questionId}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
+};
+
 /**
  * Endpoint for assessment listing
  * @param {string} courseId
