@@ -51,7 +51,7 @@ const useAssessmentPreview = (
     const data = await (isStandaloneExamination
       ? getStandaloneExaminationDetails(isExamination) // `isExamination` is `examinationId` in this case
       : isExamination
-      ? requestExaminationDetails(isExamination, isForAdmin) // `isExamination` is `examinationId` in this case
+      ? requestExaminationDetails(assessmentId, isForAdmin) // `assessmentId` is `courseId` in this case
       : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;
