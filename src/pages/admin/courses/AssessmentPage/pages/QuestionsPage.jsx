@@ -12,11 +12,17 @@ import {
   RichTextToView,
   Upload,
   Image,
+  Spinner,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { Stack } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router";
-import { useRichText, useQueryParams, useUpload } from "../../../../../hooks";
+import {
+  useRichText,
+  useQueryParams,
+  useUpload,
+  useFetch,
+} from "../../../../../hooks";
 import {
   capitalizeFirstLetter,
   capitalizeWords,
@@ -28,12 +34,8 @@ import {
   adminCreateExaminationQuestion,
   adminCreateStandaloneExaminationQuestion,
   adminDeleteAssessmentQuestion,
-  adminDeleteAssessmentQuestionFile,
   adminDeleteExaminationQuestion,
-  adminDeleteExaminationQuestionFile,
-  adminDeleteStandaloneExaminationQuestionFile,
-  adminEditAssessmentQuestion,
-  adminEditExaminationQuestion,
+  adminDeleteStandaloneExaminationQuestion,
 } from "../../../../../services";
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import { PageLoaderLayout } from "../../../../../layouts";
@@ -643,7 +645,7 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
             No Questions Asked Yet
           </Heading>
           <Text as="level3" marginBottom={7}>
-            Be the first to ask a question.
+            Create a new question to get started.
           </Text>
         </PageLoaderLayout>
       )}
@@ -683,6 +685,10 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
 const QuestionCard = ({ questionNumber, question, image, id, ...rest }) => {
   const { id: courseId, assessmentId } = useParams();
   const isExamination = useQueryParams().get("examination");
+  const isStandaloneExamination =
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
+      ? true
+      : false;
   const editLink = getEditQuestionLink(
     courseId,
     assessmentId,
@@ -690,41 +696,105 @@ const QuestionCard = ({ questionNumber, question, image, id, ...rest }) => {
     isExamination
   );
 
+  const { resource: deleteRequest, handleFetchResource } = useFetch();
+  const toast = useToast();
+
+  const handleDelete = () => {
+    const ok = window.confirm("Are you sure you want to delete this question?");
+    if (!ok) return;
+
+    handleFetchResource({
+      fetcher: async () => {
+        if (isStandaloneExamination)
+          await adminDeleteStandaloneExaminationQuestion(id);
+        else if (isExamination) await adminDeleteExaminationQuestion(id);
+        else await adminDeleteAssessmentQuestion(id);
+
+        return "Question Deleted Successfully";
+      },
+      onError: (err) => {
+        toast({
+          description: err.message,
+          position: "top",
+          status: "error",
+        });
+      },
+      onSuccess: (msg) => {
+        toast({
+          description: msg,
+          position: "top",
+          status: "success",
+        });
+      },
+    });
+  };
+
   return (
-    <Flex
-      {...rest}
-      alignItems="stretch"
-      justifyContent="space-between"
-      backgroundColor="white"
-      padding={6}
-    >
-      <Box>
-        <Heading fontSize="text.level2">
-          <Link href={editLink}>{questionNumber}</Link>
-        </Heading>
-
-        <RichTextToView paddingTop={2} text={question} />
-
-        {image && (
-          <Image
-            mt={5}
-            src={image}
-            alt={"question"}
-            width="100%"
-            height="400px"
+    <>
+      {deleteRequest.loading && (
+        <Flex
+          pos="fixed"
+          top="0"
+          left="0"
+          zIndex={100}
+          w="100vw"
+          h="100vh"
+          alignItems="center"
+          justifyContent="center"
+          bg="rgba(255,255,255, .5)"
+        >
+          <Flex
+            alignItems="center"
+            bg="rgba(255,255,255)"
+            p={6}
+            shadow="md"
             rounded="md"
-          />
-        )}
-      </Box>
+            w="300px"
+            flexDirection="column"
+          >
+            <Box>
+              <Spinner mb={5} />
+            </Box>
+            Please wait. Deleting this file might take some time.
+          </Flex>
+        </Flex>
+      )}
 
-      <Box transform="translateY(-10px)">
-        <MoreIconButton editLink={editLink} />
-      </Box>
-    </Flex>
+      <Flex
+        {...rest}
+        alignItems="stretch"
+        justifyContent="space-between"
+        backgroundColor="white"
+        padding={6}
+      >
+        <Box>
+          <Heading fontSize="text.level2">
+            <Link href={editLink}>{questionNumber}</Link>
+          </Heading>
+
+          <RichTextToView paddingTop={2} text={question} />
+
+          {image && (
+            <Image
+              mt={5}
+              src={image}
+              alt={"question"}
+              width="100%"
+              height="400px"
+              rounded="md"
+            />
+          )}
+        </Box>
+
+        <Box transform="translateY(-10px)">
+          <MoreIconButton editLink={editLink} onDelete={handleDelete} />
+        </Box>
+      </Flex>
+    </>
   );
 };
 
-export const MoreIconButton = ({ editLink }) => {
+export const MoreIconButton = ({ editLink, onDelete }) => {
   const { push } = useHistory();
 
   const handleViewClick = () => {
@@ -747,7 +817,7 @@ export const MoreIconButton = ({ editLink }) => {
 
       <MenuList position="relative" zIndex={2}>
         <MenuItem onClick={handleViewClick}>Preview question</MenuItem>
-        <MenuItem>Delete question</MenuItem>
+        <MenuItem onClick={onDelete}>Delete question</MenuItem>
       </MenuList>
     </Menu>
   );

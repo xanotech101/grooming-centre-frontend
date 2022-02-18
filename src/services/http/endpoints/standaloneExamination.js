@@ -204,6 +204,15 @@ export const adminDeleteStandaloneExaminationQuestionFile = async (
   await http.delete(path);
 };
 
+export const adminDeleteStandaloneExaminationQuestion = async (questionId) => {
+  const path = `/stand-alone-examination-question/delete/${questionId}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
+};
 // /**
 //  * Endpoint to for admin to edit a examination
 //  * @param {{ title: ?string, duration: number, amountOfQuestions: number, startTime: ?Date, courseId: string }} body
