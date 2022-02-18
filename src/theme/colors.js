@@ -1,7 +1,7 @@
 const colors = {
   primary: {
-    base: "#ae0932",
-    hover: "#ae0932B2",
+    base: "#660066",
+    hover: "#660066B2",
   },
   secondary: {
     "05": "#ffc5d336",
