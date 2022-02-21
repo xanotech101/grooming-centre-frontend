@@ -12,7 +12,6 @@ import {
 } from "../../../../../components";
 import {
   useDateTimePicker,
-  useFetch,
   useGoBack,
   useQueryParams,
 } from "../../../../../hooks";
@@ -21,7 +20,6 @@ import {
   adminEditStandaloneExamination,
   adminEditAssessment,
   adminEditExamination,
-  adminGetUserListing,
 } from "../../../../../services";
 import {
   capitalizeFirstLetter,
@@ -30,12 +28,11 @@ import {
 } from "../../../../../utils";
 import { useCache, useApp } from "../../../../../contexts";
 import { MultiSelect } from "react-multi-select-component";
-import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
+import { Tag, TagLabel } from "@chakra-ui/react";
 
-const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
+const EditAssessmentPage = ({ users, assessment: assessmentOrExam }) => {
   const { id: courseId, assessmentId } = useParams();
 
-  const standaloneExaminationName = useQueryParams().get("examinationName");
   const isExamination = useQueryParams().get("examination");
   const isStandaloneExamination =
     courseId === "not-set" && assessmentId === "not-set" && isExamination
@@ -159,24 +156,6 @@ const EditAssessmentPage = ({ assessment: assessmentOrExam }) => {
   // const handleStandaloneExamTypeChange = (event) => {
   //   setStandaloneExamType(event.target.value);
   // };
-
-  const { resource: users, handleFetchResource } = useFetch();
-  useEffect(() => {
-    handleFetchResource({
-      fetcher: async () => {
-        let { users } = await adminGetUserListing();
-
-        users = users.map((user) => ({
-          value: user.id,
-          label: `${capitalizeFirstLetter(
-            `${user.firstName} ${user.lastName}`
-          )} (${user.email})`,
-        }));
-
-        return users;
-      },
-    });
-  }, [handleFetchResource]);
 
   // Init `selectedIDs` value
   useEffect(() => {

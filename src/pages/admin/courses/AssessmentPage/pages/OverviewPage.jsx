@@ -4,7 +4,11 @@ import { Heading, Spinner } from "../../../../../components";
 import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 import EditAssessmentPage from "./EditAssessmentPage";
 import CreateAssessmentPage from "./CreateAssessmentPage";
-import { useQueryParams } from "../../../../../hooks";
+import { useFetch, useQueryParams } from "../../../../../hooks";
+import { useEffect } from "react";
+import { adminGetUserListing } from "../../../../../services";
+import { capitalizeFirstLetter } from "../../../../../utils";
+import { useToast } from "@chakra-ui/react";
 
 export const isStandaloneExaminationAndIsNotEditMode =
   "isStandaloneExamination && isNotEdit";
@@ -31,7 +35,40 @@ const OverviewPage = () => {
     true
   );
 
-  // console.log(isEditMode, assessment);
+  const { resource: users, handleFetchResource } = useFetch();
+  useEffect(() => {
+    handleFetchResource({
+      fetcher: async () => {
+        let { users } = await adminGetUserListing();
+
+        users = users.map((user) => ({
+          value: user.id,
+          label: `${capitalizeFirstLetter(
+            `${user.firstName} ${user.lastName}`
+          )} (${user.email})`,
+        }));
+
+        console.log("ssdsd...");
+
+        return users;
+      },
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toast = useToast();
+  useEffect(() => {
+    if (users.err)
+      toast({
+        description: "Something went wrong! please refresh the page",
+        position: "top",
+        status: "error",
+        duration: 60000,
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users.err]);
 
   return isEditMode && (isLoading || error) ? (
     <Flex
@@ -47,9 +84,9 @@ const OverviewPage = () => {
       ) : null}
     </Flex>
   ) : isEditMode ? (
-    <EditAssessmentPage assessment={assessment} />
+    <EditAssessmentPage users={users} assessment={assessment} />
   ) : (
-    <CreateAssessmentPage />
+    <CreateAssessmentPage users={users} />
   );
 };
 

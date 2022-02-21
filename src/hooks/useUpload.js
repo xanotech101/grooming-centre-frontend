@@ -46,14 +46,16 @@ export const useUpload = (props) => {
       setAudio({ url: null });
     }
 
-    console.log({
-      file,
-      pdf: fileIsPDF,
-      audio: fileIsAudio,
-      video: fileIsAVideo,
-    });
-
     setFile(file);
+  };
+
+  const handleFileDelete = () => {
+    setVideo({ url: null });
+    setImage({ url: null });
+    setPdf({ url: null });
+    setAudio({ url: null });
+
+    setFile(null);
   };
 
   useEffect(() => {
@@ -96,6 +98,7 @@ export const useUpload = (props) => {
     audio,
     file,
     handleFileSelect,
+    handleFileDelete,
     handleAcceptChange,
     handleGetFileAndValidate,
     handleInitialImageSelect,

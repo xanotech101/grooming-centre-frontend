@@ -65,33 +65,30 @@ export const adminGetStandaloneExaminationListingRes = {
 };
 
 export const adminGetStandaloneExaminationParticipantsRes = {
-  data: {
-    count: 50,
-    rows: [
-      {
-        id: "userId_2",
-        firstName: "Victoria",
-        lastName: "Vivian :)",
-        email: "admin@admin.io",
-        department: {
-          id: "departmentId_2",
-          name: "Software development",
-        },
-        grade: "A",
+  data: [
+    {
+      id: "userId_2",
+      firstName: "Victoria",
+      lastName: "Vivian :)",
+      email: "admin@admin.io",
+      department: {
+        id: "departmentId_2",
+        name: "Software development",
       },
-      {
-        id: "userId_3",
-        firstName: "Micheal",
-        lastName: "Scofield",
-        email: "michealscofield@gmail.com",
-        department: {
-          id: "departmentId_3",
-          name: "computer science",
-        },
-        grade: "B",
+      grade: "A",
+    },
+    {
+      id: "userId_3",
+      firstName: "Micheal",
+      lastName: "Scofield",
+      email: "michealscofield@gmail.com",
+      department: {
+        id: "departmentId_3",
+        name: "computer science",
       },
-    ],
-  },
+      grade: "B",
+    },
+  ],
 };
 
 // export const submitExaminationRes = {

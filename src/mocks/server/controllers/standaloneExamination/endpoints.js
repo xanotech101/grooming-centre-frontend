@@ -20,15 +20,11 @@ const adminGetStandaloneExaminationListing = [
 ];
 const adminGetStandaloneExaminationParticipants = [
   rest.get(
-    getUrl(
-      "/stand-alone-examination/all/participants/standaloneExaminationId_1"
-    ),
+    getUrl("/stand-alone-examination/participants/standaloneExaminationId_1"),
     handleSuccessResponse(adminGetStandaloneExaminationParticipantsRes)
   ),
   rest.get(
-    getUrl(
-      "/stand-alone-examination/all/participants/standaloneExaminationId_2"
-    ),
+    getUrl("/stand-alone-examination/participants/standaloneExaminationId_2"),
     handleSuccessResponse(adminGetStandaloneExaminationParticipantsRes)
   ),
 ];

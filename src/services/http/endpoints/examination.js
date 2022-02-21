@@ -28,6 +28,7 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     questions: data.examinationQuestions.map((q, index) => ({
       id: q.id,
       question: q.question,
+      file: q.file,
       questionIndex: +q.questionIndex || index,
       options: q.options.map((opt) => ({
         id: opt.id,
@@ -39,6 +40,31 @@ export const requestExaminationDetails = async (id, forAdmin) => {
   };
 
   return { examination };
+};
+
+export const adminDeleteExaminationQuestionFile = async (questionId) => {
+  const path = `/examination/question/delete-image/${questionId}`;
+
+  await http.delete(path);
+};
+
+export const adminDeleteExamination = async (courseId) => {
+  const path = `/examination/delete/${courseId}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
+};
+export const adminDeleteExaminationQuestion = async (questionId) => {
+  const path = `/examination/question/delete/${questionId}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
 };
 
 /**
