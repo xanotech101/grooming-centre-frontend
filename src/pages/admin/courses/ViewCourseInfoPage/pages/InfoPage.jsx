@@ -39,7 +39,6 @@ const InfoPage = () => {
   const isLoading = courseDetails.loading;
   const isError = courseDetails.err;
 
-  console.log(courseDetailsData);
   const toast = useToast();
   const [isPublishing, setIsPublishing] = useState(false);
   const handlePublishCourse = async () => {

@@ -296,7 +296,7 @@ const CreateLibraryFilePage = () => {
               videoUrl={fileManager.video.url}
               pdfUrl={fileManager.pdf.url}
               audioUrl={fileManager.audio.url}
-              disabled={!getValues("libraryTypeId")}
+              //disabled={!getValues("libraryTypeId")}
               onFileSelect={fileManager.handleFileSelect}
               accept={fileManager.accept}
             />
