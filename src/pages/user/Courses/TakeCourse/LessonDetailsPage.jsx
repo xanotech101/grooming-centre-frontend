@@ -53,8 +53,6 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
 
   const fileIsPDF = /(\.pdf)$/i.test(lesson?.file);
 
-  console.log({ videoHasBeenCompleted });
-
   return (
     <Flex flexDirection="column" flex={1} height="100vh">
       {/* // Block Page Navigation when Lesson has not ended (been completed) */}
