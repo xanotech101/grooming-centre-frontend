@@ -122,7 +122,7 @@ const Listing = ({ events, headerButton }) => {
       </Grid>
 
       <Box px={3}>
-        {events.map((event) => (
+        {events && events.map((event) => (
           <Grid
             key={event.id}
             columnGap={16}

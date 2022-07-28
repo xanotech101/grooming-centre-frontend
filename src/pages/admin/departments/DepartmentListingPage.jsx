@@ -17,90 +17,111 @@ import {
 import { BreadcrumbItem } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { useTableRows } from "../../../hooks";
+import { useApp } from "../../../contexts";
 
-const tableProps = {
-  filterControls: [
-    {
-      triggerText: "Sort",
-      queryKey: "sort",
-      triggerIcon: <FaSortAmountUpAlt />,
-      width: "200px",
-      position: "right-bottom",
-      // noFilterTags: true,
-      body: {
-        radios: [
-          {
-            label: "Alphabetically: ascending",
-            queryValue: "asc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Alphabetically: descending",
-            queryValue: "desc",
-            additionalParams: { date: false },
-          },
-          {
-            label: "Date: ascending",
-            queryValue: "asc",
-            additionalParams: { date: true },
-          },
-          {
-            label: "Date: descending",
-            queryValue: "desc",
-            additionalParams: { date: true },
-          },
-        ],
-      },
-    },
-  ],
 
-  columns: [
-    {
-      id: "2",
-      key: "title",
-      text: "Title",
-      fraction: "2fr",
-      renderContent: (data) => (
-        <Link href={`/admin/departments/details/${data.departmentId}/info`}>
-          <Text>{data.text}</Text>
-        </Link>
-      ),
-    },
-    {
-      id: "4",
-      key: "createdAt",
-      text: "Created at",
-      fraction: "200px",
-    },
-    {
-      id: "5",
-      key: "noOfusers",
-      text: "No of Users",
-      fraction: "150px",
-    },
-  ],
-
-  options: {
-    action: [
-      {
-        text: "View",
-        link: (department) =>
-          `/admin/departments/details/${department.id}/info`,
-      },
-      {
-        isDelete: true,
-      },
-    ],
-    selection: true,
-    multipleDeleteFetcher: async (selectedDepartments) => {
-      console.log(selectedDepartments);
-      await adminDeleteMultipleCourses();
-    },
-    pagination: true,
-  },
-};
 
 const DepartmentListingPage = () => {
+  const appManager = useApp();
+
+	const departmentName = appManager.state.metadata?.departments.map(
+		department => department.name
+	);
+
+	const tableProps = {
+		filterControls: [
+			{
+				triggerText: 'Department',
+				queryKey: 'department',
+				width: '125%',
+				body: {
+					checks: [
+						...(departmentName?.map(name => ({
+							label: name,
+							queryValue: name,
+						})) || []),
+					],
+				},
+			},
+			{
+				triggerText: 'Sort',
+				queryKey: 'sort',
+				triggerIcon: <FaSortAmountUpAlt />,
+				width: '200px',
+				position: 'right-bottom',
+				// noFilterTags: true,
+				body: {
+					radios: [
+						{
+							label: 'Alphabetically: ascending',
+							queryValue: 'asc',
+							additionalParams: { date: false },
+						},
+						{
+							label: 'Alphabetically: descending',
+							queryValue: 'desc',
+							additionalParams: { date: false },
+						},
+						{
+							label: 'Date: ascending',
+							queryValue: 'asc',
+							additionalParams: { date: true },
+						},
+						{
+							label: 'Date: descending',
+							queryValue: 'desc',
+							additionalParams: { date: true },
+						},
+					],
+				},
+			},
+		],
+
+		columns: [
+			{
+				id: '2',
+				key: 'title',
+				text: 'Title',
+				fraction: '2fr',
+				renderContent: data => (
+					<Link href={`/admin/departments/details/${data.departmentId}/info`}>
+						<Text>{data.text}</Text>
+					</Link>
+				),
+			},
+			{
+				id: '4',
+				key: 'createdAt',
+				text: 'Created at',
+				fraction: '200px',
+			},
+			{
+				id: '5',
+				key: 'noOfusers',
+				text: 'No of Users',
+				fraction: '150px',
+			},
+		],
+
+		options: {
+			action: [
+				{
+					text: 'View',
+					link: department =>
+						`/admin/departments/details/${department.id}/info`,
+				},
+				{
+					isDelete: true,
+				},
+			],
+			selection: true,
+			multipleDeleteFetcher: async selectedDepartments => {
+				console.log(selectedDepartments);
+				await adminDeleteMultipleCourses();
+			},
+			pagination: true,
+		},
+	};
   const mapDepartmentToRow = (department) => ({
     id: department.id,
     title: { text: department.name, departmentId: department.id },

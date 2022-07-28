@@ -89,6 +89,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
 
   useEffect(() => {
     if (user) {
+      console.log({ user });
       setValue("firstName", user.firstName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
