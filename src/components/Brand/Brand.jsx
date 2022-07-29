@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import smLogo from "../../assets/images/Brand.png";
-import lgLogo from "../../assets/images/Brand-long.png";
+import smLogo from "../../assets/images/newlogo.png";
+import lgLogo from "../../assets/images/newlogo.png";
 import { Image, Link } from "..";
 
 export const Brand = ({ sm, xs, lg }) => {
