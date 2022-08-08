@@ -183,7 +183,7 @@ const DashboardPage = () => {
           paddingY={{ base: 10, laptop: 0 }}
         >
           <Heading as="h1" fontSize="heading.h2" color="primary.base">
-            {`Hi ${appManager.state.user?.firstName}!`}
+            {`Hi ${appManager?.state?.user?.firstName}!`}
           </Heading>
           <Text bold as="level1" color="accent.3">
             Welcome back, nice to see you again!
