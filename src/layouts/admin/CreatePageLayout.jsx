@@ -35,7 +35,7 @@ export const CreatePageLayout = ({
               {title}
             </Heading>
 
-            <Text as="level2">{subTitle}</Text>
+            {/* <Text as="level2">{subTitle}</Text> */}
           </Box>
 
           <Button secondary leftIcon={<IoArrowBack />} onClick={handleGoBack}>
