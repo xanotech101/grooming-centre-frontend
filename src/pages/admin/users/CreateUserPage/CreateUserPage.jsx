@@ -153,7 +153,7 @@ const CreateUserPage = ({
       </Box>
       <CreatePageLayout
         title="Create User"
-        submitButtonText={isEditMode ? "Update Course" : "Submit"}
+        submitButtonText={isEditMode ? "Update User" : "Submit"}
         submitButtonIsLoading={isSubmitting}
         onSubmit={handleSubmit(onSubmit)}
       >
