@@ -103,7 +103,6 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
       if (!selectedTags.length)
         throw new Error("Please select at least one tag");
 
-      console.log(selectedTags);
 
       const body = {
         title: question.title,

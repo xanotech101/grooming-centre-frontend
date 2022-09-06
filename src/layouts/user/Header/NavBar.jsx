@@ -23,6 +23,10 @@ const links = [
     text: "Events",
   },
   {
+    href: "/polls",
+    text: "Polls",
+  },
+  {
     href: "/courses/grade-overview",
     text: "Grades",
   },

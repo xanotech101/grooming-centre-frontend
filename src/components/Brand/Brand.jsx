@@ -21,7 +21,6 @@ export const BrandLogo = ({ sm, lg, ...rest }) => {
 };
 
 const Logo = ({ sm, lg, xs, withLongLogo, ...rest }) => {
-	console.log({ sm, xs, lg, withLongLogo });
 	return (
 		<Image
 			src={withLongLogo ? lgLogo : smLogo}
