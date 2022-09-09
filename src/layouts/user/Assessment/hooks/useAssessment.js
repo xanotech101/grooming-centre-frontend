@@ -18,6 +18,8 @@ const useAssessment = () => {
   const { course_id } = useParams();
   const isExamination = useQueryParams().get("examination");
 
+  console.log({ assessment });
+
   assessment.questions = sortByIndexField(
     assessment.questions,
     "questionIndex"

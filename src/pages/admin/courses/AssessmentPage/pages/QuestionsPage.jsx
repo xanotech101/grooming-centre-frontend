@@ -483,7 +483,7 @@ const CreateQuestionPage = (assessmentManager) => {
           {isDeleteMode && !question?.file ? null : (
             <Upload
               id="coverImage"
-              label="Event Cover"
+              label="Question Image"
               onFileSelect={questionImageManager.handleFileSelect}
               // onDelete={questionImageManager.handleFileDelete}
               // deleteRequestServiceFunction={deleteImage}

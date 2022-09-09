@@ -14,9 +14,9 @@ import { pageWrapperSpacing_userPages } from '../../../theme/breakpoints';
 const CoursesPagesRouter = () => {
   return (
 		<Box
-			{...maxWidthStyles_userPages}
+			// {...maxWidthStyles_userPages}
 			paddingY={{ base: 2, laptop: 5 }}
-			paddingX={{ base: 2, laptop: 8, 'laptop-l': 5 }}
+			// paddingX={{ base: 2, laptop: 8, 'laptop-l': 5 }}
 		>
 			<Box
 				as='section'
