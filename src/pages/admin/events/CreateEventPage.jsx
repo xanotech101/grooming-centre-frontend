@@ -252,7 +252,7 @@ const CreateEventPage = () => {
 						error={errors.location?.message}
 					/>
 				</Box>
-				<Box width='' marginBottom={8}>
+				{/* <Box width='' marginBottom={8}>
 					<Input
 						label='Price'
 						isRequired
@@ -262,7 +262,7 @@ const CreateEventPage = () => {
 						})}
 						error={errors.price?.message}
 					/>
-				</Box>
+				</Box> */}
 			</Grid>
 
 			<Box marginBottom={8}>
