@@ -96,7 +96,7 @@ const Avatar = () => {
           </MenuItem>
           {state.user && isAdmin() && (
             <MenuItem as={Link} to="/admin">
-              Admin Dashboard
+              Admin  Dashboard
             </MenuItem>
           )}
         </MenuGroup>
