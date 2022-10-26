@@ -19,7 +19,7 @@ const Header = () => {
       as="header"
       height="60px"
       paddingX={8}
-      backgroundColor="primary.base"
+      backgroundColor="others.3"
       justifyContent="space-between"
       alignItems="center"
     >
@@ -67,9 +67,9 @@ const QuickAccess = () => {
       <MenuButton
         as={IconButton}
         isRound
-        backgroundColor="primary.base"
-        _hover={{ backgroundColor: "primary.hover" }}
-        _active={{ backgroundColor: "primary.hover" }}
+        backgroundColor="others.3"
+        _hover={{ backgroundColor: "others.3" }}
+        _active={{ backgroundColor: "others.3" }}
       >
         <Center>
           <AiFillPlusCircle color="white" size="24px" />

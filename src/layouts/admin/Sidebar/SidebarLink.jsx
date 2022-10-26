@@ -35,7 +35,7 @@ const SidebarLink = ({ link }) => {
       {...props}
       {...(accordionManager.isActive
         ? {
-            backgroundColor: colors.primary.base,
+            backgroundColor: colors.secondary.base,
             color: "white",
             borderRadius: "4px",
           }
@@ -71,7 +71,7 @@ const SidebarLink = ({ link }) => {
             color: colors.accent[3],
           }}
           activeStyle={{
-            backgroundColor: colors.primary.base,
+            backgroundColor: colors.others[3],
             color: "white",
           }}
         >
