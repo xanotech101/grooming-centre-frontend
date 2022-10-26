@@ -68,7 +68,7 @@ export const Button = ({
         }
       : {
           ...commonStyles,
-          backgroundColor: "primary.base",
+          backgroundColor: "others.3",
           textColor: "white",
           borderColor: "transparent",
         };
