@@ -80,9 +80,10 @@ const GradeCriteriaPage = () => {
         Grade Criteria
       </Heading>
       <Grid
-        templateColumns="repeat(3, minmax(150px, 1fr))"
+        templateColumns={{lg:"repeat(3, minmax(150px, 1fr))"}}
         gridAutoRows="100px"
         gap={3}
+        rowGap={6}
       >
         <OverviewBox
           href="#"
@@ -158,7 +159,7 @@ const GradeCriteriaPage = () => {
         padding={6}
         boxShadow="0 0 10px 3px rgba(0, 0, 0, .1)"
       >
-        <Stack spacing={8} width="50%">
+        <Stack spacing={8} width={{lg:"50%", base:"100%"}}>
           <Input
             type="number"
             label="Examination"

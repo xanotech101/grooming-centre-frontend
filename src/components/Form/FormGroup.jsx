@@ -20,7 +20,6 @@ const FormGroup = ({
   return (
     <FormControl
       id={id}
-      display="flex"
       flexDirection="column"
       position="relative"
       {...rest}

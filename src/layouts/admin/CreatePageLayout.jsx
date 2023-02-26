@@ -13,6 +13,7 @@ export const CreatePageLayout = ({
   submitButtonIsDisabled,
   title,
   onSubmit,
+  isFullwidth
 }) => {
   const handleGoBack = useGoBack();
 
@@ -59,6 +60,8 @@ export const CreatePageLayout = ({
               isLoading={submitButtonIsLoading}
               disabled={submitButtonIsDisabled || submitButtonIsLoading}
               loadingText={submitButtonText}
+              isFullwidth={{sm:"100%",md:"100%",lg:"auto"}}
+    
             >
               {submitButtonText}
             </Button>

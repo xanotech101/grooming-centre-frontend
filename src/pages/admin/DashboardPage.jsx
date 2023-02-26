@@ -195,8 +195,8 @@ const DashboardPage = () => {
   };
 
   return (
-    <AdminMainAreaWrapper marginBottom={4}>
-      <Grid marginY={4} templateColumns="repeat(3, 1fr)" gap={6}>
+    <AdminMainAreaWrapper marginBottom={4} marginRight={{ lg:"5", md:"5", sm:"5"}}>
+      <Grid marginY={4} templateColumns={{lg:"repeat(3, 1fr)", sm:null, md:"1fr"}} gap={6}>
         <GridItem>
           <MiniBox
             children={
@@ -273,11 +273,11 @@ const DashboardPage = () => {
           />
         </GridItem>
       </Grid>
-      <Flex flexDirection="row">
+      <Flex flexDirection={{lg:"row", sm:"column", md:"column"}}>
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width="50%"
+          width={{lg:"50%", sm:"100%", md:"100%"}}
           // height="600px"
           paddingY={4}
           paddingX={6}
@@ -349,11 +349,12 @@ const DashboardPage = () => {
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width="50%"
+          width={{lg:"50%", sm:"100%", md:"100%"}}
           // height="600px"
           paddingY={4}
           paddingX={6}
-          marginLeft={3}
+          marginLeft={{lg:3, sm:0, md:0}}
+          marginTop={{lg:0, sm:5, md:5}}
         >
           <Flex paddingBottom={4} justifyContent="space-between">
             {library.loading ? (

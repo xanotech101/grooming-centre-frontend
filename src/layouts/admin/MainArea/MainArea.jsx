@@ -32,11 +32,11 @@ import PollsListingPageRoute from '../../../pages/admin/polls/PollsPage';
 import { CreatePollsPageRoute } from '../../../pages/admin/polls/CreatePollsPage';
 import { ViewPollsInfoPageRoute } from '../../../pages/admin/polls/layout/ViewPollsInfoPage';
 import { CreateOptionsPageRoute } from '../../../pages/admin/polls/CreateOptionsPage';
+import SidebarWithHeader from '../Sidebar/SideBar2';
 
 const MainArea = () => {
 	return (
-		<Flex flexDirection='column' flex={1}>
-			<Box as='main' flex={1} overflowY='auto' flexBasis='1px'>
+		    <Box marginLeft={{md:"270px", sm:"0px", lg:"270px"}} paddingY="50px" paddingX="30px">
 				<Switch>
 					<DashboardPageRoute exact path='/admin' />
 					<CourseListingPageRoute exact path='/admin/courses' />
@@ -91,10 +91,10 @@ const MainArea = () => {
 					<SecurityPageRoute path='/admin/settings/security' />
 					<GradeCriteriaPageRoute path='/admin/settings/grade-criteria' />
 					<SettingsPageRoute path='/admin/settings' />
+					<SidebarWithHeader path="/admin/sidebar2"/>
 					<NotFoundPageRoute />
 				</Switch>
 			</Box>
-		</Flex>
 	);
 };
 

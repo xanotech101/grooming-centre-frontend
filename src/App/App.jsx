@@ -7,6 +7,7 @@ import "../styles/user-header-nav-link.scss";
 import "../styles/user-forum-sidebar-link.scss";
 import "../styles/month-schedule.scss";
 import "../styles/take-lesson-video.scss";
+import "../styles/responsiveness.css"
 import {
   AdminLayoutRoute,
   AssessmentLayoutRoute,

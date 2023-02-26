@@ -158,13 +158,13 @@ export const AccountPage = ({ onCallToActionClick }) => {
 
   return (
     <AdminMainAreaWrapper>
-      <Box as="form" paddingY={8} onSubmit={handleSubmit(onSubmit)}>
+      <Box as="form" paddingY={2} onSubmit={handleSubmit(onSubmit)}>
         {!onCallToActionClick && (
           <Heading fontSize="heading.h3" paddingBottom={4}>
             Account
           </Heading>
         )}
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6}>
+        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Profile
@@ -225,9 +225,9 @@ export const AccountPage = ({ onCallToActionClick }) => {
             {...register("role")}
             disabled
           />
-        </Grid>
+        </Box>
 
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6} pt={7}>
+        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6} pt={7}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Personal Information
@@ -298,9 +298,9 @@ export const AccountPage = ({ onCallToActionClick }) => {
                 value === values.password || "Password must match",
             })}
           />
-        </Grid>
+        </Box>
 
-        <Flex justifyContent="flex-end">
+        <Flex justifyContent={{sm:"center", md:"center", lg:"flex-end"}}>
           <Button
             secondary
             marginRight={6}

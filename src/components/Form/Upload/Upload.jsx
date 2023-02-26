@@ -92,7 +92,7 @@ export const Upload = forwardRef(
 
       return (
         <>
-          <Flex
+          <Box
             style={isMini ? { border: "none" } : { ...style }}
             {...props}
             {...getRootProps()}
@@ -170,7 +170,7 @@ export const Upload = forwardRef(
                 </Button>
               </Stack>
             )}
-          </Flex>
+          </Box>
 
           {deleteRequest.loading && (
             <Flex

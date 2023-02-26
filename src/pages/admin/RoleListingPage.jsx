@@ -58,7 +58,6 @@ const RolesPage = () => {
         }
       />
       <Box
-        marginX={6}
         padding={10}
         marginY={10}
         border="1px"

@@ -7,7 +7,7 @@ import useAccordion from "./hooks/useAccordion";
 import { Box, Flex } from "@chakra-ui/layout";
 import { Link, Text } from "../../../components";
 
-const SidebarLink = ({ link }) => {
+const SidebarLink = ({ link, onClick }) => {
   const accordionManager = useAccordion();
 
   const handleTopLevelLinkClick = () => {
@@ -62,6 +62,7 @@ const SidebarLink = ({ link }) => {
     <li>
       {link.href ? (
         <Link
+        onClick={onClick}
           navLink
           href={link.href}
           exact={link.exact}

@@ -178,7 +178,7 @@ const CreateEventPage = () => {
 				isSubmitting || isLoading || hasError || disableSubmit
 			}
 		>
-			<Grid templateColumns='repeat(2, 1fr)' gap={10} marginBottom={10}>
+			<Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
 				<Input
 					label='Title'
 					isRequired
@@ -200,7 +200,7 @@ const CreateEventPage = () => {
 					})}
 					error={errors.departmentId?.message}
 				/>
-			</Grid>
+			</Box>
 
 			<Box marginBottom={8}>
 				<Textarea
@@ -220,7 +220,7 @@ const CreateEventPage = () => {
 				/>
 			</Box>
 
-			<Grid templateColumns='repeat(2, 1fr)' gap={10} marginBottom={10}>
+			<Box as="div" w="100%" display={{lg:"grid",sm:"block", md:"block"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
 				<DateTimePicker
 					id='startTime'
 					isRequired
@@ -236,9 +236,9 @@ const CreateEventPage = () => {
 					value={endTimeManager.value}
 					onChange={endTimeManager.handleChange}
 				/>
-			</Grid>
+			</Box>
 
-			<Grid templateColumns='repeat(2, 1fr)' gap={10} marginBottom={10}>
+			<Box as="div" display={{lg:"grid",sm:"block", md:"block"}} gridTemplateColumns="1fr" gap={10} marginBottom={10}>
 				<Box width='' marginBottom={8}>
 					<Select
 						label='Event Location'
@@ -263,7 +263,7 @@ const CreateEventPage = () => {
 						error={errors.price?.message}
 					/>
 				</Box> */}
-			</Grid>
+			</Box>
 
 			<Box marginBottom={8}>
 				<Upload

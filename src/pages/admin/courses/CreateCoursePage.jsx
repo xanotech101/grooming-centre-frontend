@@ -164,7 +164,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         onSubmit={handleSubmit(onSubmit)}
         submitButtonIsLoading={isSubmitting}
       >
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
           {/* Row 1 */}
           <GridItem>
             <Input
@@ -190,7 +190,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               error={errors.departmentId?.message}
             />
           </GridItem>
-        </Grid>
+        </Box>
         {/* Row 2 */}
         <Grid marginBottom={10}>
           <Textarea

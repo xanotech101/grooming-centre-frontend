@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App/App";
+import "./index.css"
 import { setupDevelopmentServer } from "./mocks/server/dev-env/server";
 import reportWebVitals from "./reportWebVitals";
 

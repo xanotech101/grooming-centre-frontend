@@ -5,9 +5,11 @@ import { AiOutlinePoweroff } from "react-icons/ai";
 import { Button, Heading, Link, Text } from "../../../components";
 import { useApp } from "../../../contexts";
 import { links, settingsLinks, superAdminSettingsLinks } from "./links";
+import { ToggleMenu } from "../../../components/ToggleMenu/ToggleMenu";
 import SidebarLink from "./SidebarLink";
-
+import { useState } from "react";
 const Sidebar = () => {
+  const [menu,showMenu]=useState(true)
   const { state, getOneMetadata, handleLogout } = useApp();
 
   const isSettingsPage = /settings/i.test(window.location.pathname);
@@ -15,19 +17,23 @@ const Sidebar = () => {
   const isSuperAdmin = /super admin/i.test(role?.name);
 
   return (
-    <Flex
-      flexDirection="column"
-      as="aside"
+    <Box
+      as="div"
+      display={{lg:"block" ,sm:"none", md:"block"}}
       width="270px"
-      flexShrink={0}
       paddingRight={1}
+      className="side-bar"
     >
+
       <Flex
         flexDirection="column"
         height="100%"
         backgroundColor="white"
         shadow="lg"
+        padding="10px"
+        className="relative"
       >
+        <ToggleMenu icon={menu} onClick={()=>showMenu(!menu)}/>
         {isSettingsPage ? (
           <Box paddingTop={10} paddingX={5}>
             <Heading fontSize="heading.h3" paddingBottom={2}>
@@ -104,7 +110,7 @@ const Sidebar = () => {
           </Button>
         </Box>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 

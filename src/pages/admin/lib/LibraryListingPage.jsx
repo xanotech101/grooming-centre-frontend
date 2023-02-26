@@ -175,8 +175,10 @@ const LibraryListingPage = () => {
         }
       />
       <Flex
-        justifyContent="space-between"
-        alignItems="center"
+       justifyContent='space-between'
+       flexDirection={{lg:"row", base:"column"}}
+       alignItems={{sm:"flex-start", md:"flex-start"}}
+       rowGap={6}
         borderBottom="1px"
         borderColor="accent.2"
         paddingBottom={5}
