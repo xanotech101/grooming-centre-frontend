@@ -60,7 +60,7 @@ export const CreatePageLayout = ({
               isLoading={submitButtonIsLoading}
               disabled={submitButtonIsDisabled || submitButtonIsLoading}
               loadingText={submitButtonText}
-              isFullwidth={{sm:"100%",md:"100%",lg:"auto"}}
+              isFullwidth={{base:"100%",md:"100%",lg:"auto"}}
     
             >
               {submitButtonText}

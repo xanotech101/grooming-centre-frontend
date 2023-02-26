@@ -164,9 +164,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         onSubmit={handleSubmit(onSubmit)}
         submitButtonIsLoading={isSubmitting}
       >
-        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
+        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection={{base:"column", md:"column"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
           {/* Row 1 */}
-          <GridItem>
             <Input
               label="Course title"
               isRequired
@@ -176,8 +175,6 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               })}
               error={errors.title?.message}
             />
-          </GridItem>
-          <GridItem>
             <Select
               isRequired
               label="Select department"
@@ -189,7 +186,6 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               })}
               error={errors.departmentId?.message}
             />
-          </GridItem>
         </Box>
         {/* Row 2 */}
         <Grid marginBottom={10}>

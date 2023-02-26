@@ -273,17 +273,17 @@ const DashboardPage = () => {
           />
         </GridItem>
       </Grid>
-      <Flex flexDirection={{lg:"row", sm:"column", md:"column"}}>
+      <Flex flexDirection={{ base:"column", md:"column", lg:"row"}} rowGap={5}>
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width={{lg:"50%", sm:"100%", md:"100%"}}
+          width={{ sm:"100%", md:"100%", lg:"50%"}}
           // height="600px"
           paddingY={4}
           paddingX={6}
           marginRight={3}
         >
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" flexDirection={{sm:"column", md:"column", lg:"row"}}>
             {departmentName ? (
               <Text fontSize="heading.h3" bold>
                 Statistics
@@ -356,7 +356,7 @@ const DashboardPage = () => {
           marginLeft={{lg:3, sm:0, md:0}}
           marginTop={{lg:0, sm:5, md:5}}
         >
-          <Flex paddingBottom={4} justifyContent="space-between">
+          <Flex paddingBottom={4} justifyContent="space-between" flexDirection={{sm:"column", md:"column", lg:"row"}}>
             {library.loading ? (
               <SkeletonText numberOfLines={1} width={40} />
             ) : (
