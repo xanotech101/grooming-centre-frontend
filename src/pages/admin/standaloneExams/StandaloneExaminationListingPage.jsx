@@ -166,11 +166,7 @@ const StandaloneExaminationListingPage = () => {
           Standalone Examinations
         </Heading>
 
-        <Button
-          link={`/admin/courses/not-set/assessment/not-set/overview?examination=new`}
-        >
-          Add Examination
-        </Button>
+        <Button link={`/admin/standalone/create-exam`}>Add Examination</Button>
       </Box>
 
       <Table

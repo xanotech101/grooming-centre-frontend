@@ -32,6 +32,7 @@ import PollsListingPageRoute from "../../../pages/admin/polls/PollsPage";
 import { CreatePollsPageRoute } from "../../../pages/admin/polls/CreatePollsPage";
 import { ViewPollsInfoPageRoute } from "../../../pages/admin/polls/layout/ViewPollsInfoPage";
 import { CreateOptionsPageRoute } from "../../../pages/admin/polls/CreateOptionsPage";
+import { CreateStandalonePageRoute } from "../../../pages/admin/standaloneExams/CreateStandaloneExamPage";
 
 const MainArea = () => {
   return (
@@ -75,6 +76,7 @@ const MainArea = () => {
           exact
           path="/admin/standalone-exams/:examinationId/:examinationName"
         />
+        <CreateStandalonePageRoute exact path="/admin/standalone/create-exam" />
 
         <PollsListingPageRoute exact path="/admin/polls" />
         <CreatePollsPageRoute exact path="/admin/polls/edit/:id" />
