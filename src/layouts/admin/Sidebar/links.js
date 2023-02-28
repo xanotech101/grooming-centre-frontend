@@ -29,11 +29,11 @@ export const links = [
 		text: 'events',
 		icon: <IoIosCalendar />,
 	},
-	// {
-	// 	href: '/admin/standalone-exams',
-	// 	text: 'Standalone Exams',
-	// 	icon: <TiPen />,
-	// },
+	{
+		href: '/admin/standalone-exams',
+		text: 'Standalone Exams',
+		icon: <TiPen />,
+	},
 	{
 		href: '/admin/polls',
 		text: 'Polls',
