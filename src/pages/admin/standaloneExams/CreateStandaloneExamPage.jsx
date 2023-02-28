@@ -26,6 +26,7 @@ import {
 import { MultiSelect } from "react-multi-select-component";
 import { useApp } from "../../../contexts";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
+import Header from "../courses/AssessmentPage/layout/Header";
 
 export const CreateStandaloneExamPage = ({ users }) => {
   const { id: courseId, assessmentId } = useParams();
@@ -132,6 +133,7 @@ export const CreateStandaloneExamPage = ({ users }) => {
 
   return (
     <AdminMainAreaWrapper>
+      <Header />
       <Box as="form" onSubmit={handleSubmit(onSubmit)} marginY={14} marginX={6}>
         <Box backgroundColor="white" padding={10}>
           {isStandaloneExamination && (
