@@ -42,26 +42,22 @@ const Header = () => {
 
   return (
     <Flex
-      alignItems="center"
       as="header"
       backgroundColor="white"
       shadow="0 2px 2px rgba(0, 0, 0, .05)"
-      position="relative"
-      zIndex={1}
-      paddingX={12}
-      paddingY={2}
+      marginTop="20px"
+      padding={6}
     >
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
+      <Box
+        as="nav"
+        display="flex"
+        alignItems={{ base: "flex-start", md: "center", lg: "center" }}
+        flexDirection={{ base: "column", md: "row", lg: "row" }}
+        gap={3}
+        justifyContent="space-between"
+        width="100%"
       >
         {/** Empty box */}
-        <Box></Box>
         <Flex as="ul" listStyleType="none">
           {links.map((link) => (
             <li key={link.text}>
@@ -98,7 +94,7 @@ const Header = () => {
             {isExamination ? "Examination" : "Assessment"}
           </Button>
         </Flex>
-      </nav>
+      </Box>
     </Flex>
   );
 };

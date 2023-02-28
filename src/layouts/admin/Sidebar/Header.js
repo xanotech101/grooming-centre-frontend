@@ -1,5 +1,8 @@
+import React from "react";
 import { ButtonGroup, IconButton } from "@chakra-ui/button";
-import { Center, Flex } from "@chakra-ui/layout";
+import { Center } from "@chakra-ui/layout";
+import { HStack } from "@chakra-ui/layout";
+import { useDisclosure } from "@chakra-ui/react";
 import {
   Menu,
   MenuButton,
@@ -11,56 +14,38 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
 import { MdNotificationsActive } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { Brand, Button, SearchBar } from "../../components";
+import { Button } from "../../../components";
+import { SlideShow } from "../../../components/SlideShow/SlideShow";
 
-const Header = () => {
+export const Header = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
-    <Flex
-      as="header"
-      height="60px"
-      paddingX={8}
-      backgroundColor="others.3"
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Flex alignItems="center" flex={0.8} maxWidth="1000px">
-        <Flex
-          justifyContent="center"
-          w="266px"
-          ml={-8}
-          bg="#FFF"
-          height="60px"
-          alignItems="center"
-          borderBottom="1px"
-          borderColor="gray.200"
-        >
-          <Brand sm textColor="white" />
-        </Flex>
+    <div>
+      <HStack spacing={{ base: "0", md: "6" }} h="65px">
+        <ButtonGroup paddingEnd="18px">
+          <QuickAccess />
 
-        {/* <SearchBar marginLeft={10} adminLayoutHeaderStyle flex={1} /> */}
-      </Flex>
+          <p onClick={onOpen}>
+            <Button asIcon ghost reversePrimaryColor largeSize>
+              <MdNotificationsActive />
+            </Button>
+          </p>
 
-      <ButtonGroup>
-        <QuickAccess />
-
-        <Button asIcon ghost reversePrimaryColor largeSize>
-          <MdNotificationsActive />
-        </Button>
-
-        <Button
-          link={`/admin/settings`}
-          asIcon
-          ghost
-          reversePrimaryColor
-          largeSize
-        >
-          <FiSettings />
-        </Button>
-      </ButtonGroup>
-    </Flex>
+          <Button
+            link={`/admin/settings`}
+            asIcon
+            ghost
+            reversePrimaryColor
+            largeSize
+          >
+            <FiSettings />
+          </Button>
+        </ButtonGroup>
+      </HStack>
+      <SlideShow isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+    </div>
   );
 };
-
 const QuickAccess = () => {
   return (
     <Menu>
@@ -96,5 +81,3 @@ const QuickAccess = () => {
     </Menu>
   );
 };
-
-export default Header;

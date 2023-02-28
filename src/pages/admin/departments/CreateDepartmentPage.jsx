@@ -62,11 +62,11 @@ const CreateDepartmentPage = () => {
         />
       </Box>
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Box marginX={6} marginY={10} padding={10} backgroundColor="white">
+        <Box  marginY={10} padding={10} backgroundColor="white"  w={{lg:"50%", md:"100%",sm:"100%"}}>
           <Input
             label="Title"
             id="name"
-            width="50%"
+            width="100%"
             {...register("name", {
               required: "Title is required",
             })}

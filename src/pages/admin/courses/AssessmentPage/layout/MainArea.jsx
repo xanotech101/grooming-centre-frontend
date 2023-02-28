@@ -5,7 +5,7 @@ import QuestionsPageRoute from "../pages/QuestionsPage";
 
 const MainArea = () => {
   return (
-    <Box flex={1} overflowY="scroll">
+    <Box flex={1}>
       <Switch>
         <OverviewPageRoute path="/admin/courses/:id/assessment/:assessmentId/overview" />
         <QuestionsPageRoute path="/admin/courses/:id/assessment/:assessmentId/questions/:questionId" />

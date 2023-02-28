@@ -10,11 +10,12 @@ const Footer = () => {
       backgroundColor="primary.base"
       height="60px"
       padding={5}
+      marginLeft={{base:"0", lg:"250px", md:"250px"}}
     >
-      <Flex alignItems="center" {...maxWidthStyles_userPages}>
-        <Text as="level3">
+      <Flex alignItems="center" {...maxWidthStyles_userPages} justifyContent="center">
+        <Box textAlign="center">
           GROOMING CENTRE E-LEARNING SUITE © 2022 All rights reversed
-        </Text>
+        </Box>
       </Flex>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom";
 import { useApp } from "../../contexts";
@@ -7,12 +7,9 @@ import {
   usePageRefreshAfterLogin,
   useRedirectNewUserToNewPasswordPage,
 } from "../../hooks";
-import breakpoints from "../../theme/breakpoints";
 import Footer from "../user/Footer";
-import Header from "./Header";
+import { SideBar } from "./Sidebar/Navbar";
 import MainArea from "./MainArea/MainArea";
-import Sidebar from "./Sidebar/Sidebar";
-
 const useRedirect = () => {
   const { replace } = useHistory();
   const appManager = useApp();
@@ -44,28 +41,11 @@ const AdminLayout = () => {
   const isSettingsPage = /settings/i.test(window.location.pathname);
 
   return (
-    <Flex
-      flexDirection="column"
-      height="100vh"
-      backgroundColor={isSettingsPage ? "white" : "gray.100"}
-      maxWidth={breakpoints["laptop-l"]}
-      marginX="auto"
-      shadow="0 0 10px 3px rgba(0, 0, 0, .1)"
-    >
-      <Header />
-
-      <Flex
-        height="100%"
-        marginX={isSettingsPage ? "100px" : null}
-        marginY={isSettingsPage ? "40px" : null}
-        boxShadow={isSettingsPage ? "0px 2px 7px rgba(0, 0, 0, 0.1)" : null}
-        overflow="hidden"
-      >
-        <Sidebar />
-        <MainArea />
-      </Flex>
+    <Box backgroundColor={isSettingsPage ? "white" : "gray.100"} minH="100vh">
+      <SideBar />
+      <MainArea />
       {isSettingsPage ? <Footer /> : null}
-    </Flex>
+    </Box>
   );
 };
 

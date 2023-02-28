@@ -158,7 +158,7 @@ const CreateUserPage = ({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Stack spacing={10} marginBottom={10}>
-          <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={10}>
+        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection={{base:"column", md:"column"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
             <Input
               label="Firstname"
               id="firstName"
@@ -241,7 +241,7 @@ const CreateUserPage = ({
                 error={errors.roleId?.message}
               />
             )}
-          </Grid>
+          </Box>
         </Stack>
       </CreatePageLayout>
     </>

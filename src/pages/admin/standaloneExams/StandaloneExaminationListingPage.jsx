@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import { Flex } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/layout";
 import {
   Button,
   Heading,
@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   Link,
 } from "../../../components";
+import { BreadcrumbItem } from "@chakra-ui/react";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
@@ -136,24 +137,29 @@ const StandaloneExaminationListingPage = () => {
   return (
     <AdminMainAreaWrapper>
       <Breadcrumb
-      // item2={
-      //   <BreadcrumbItem isCurrentPage>
-      //     <Link href="/admin/courses">Courses </Link>
-      //   </BreadcrumbItem>
-      // }
-      // item3={
-      //   <BreadcrumbItem isCurrentPage>
-      //     <Link href="#">Examination</Link>
-      //   </BreadcrumbItem>
-      // }
+        item2={
+          <BreadcrumbItem isCurrentPage>
+            <Link href="/admin/s">Examination</Link>
+          </BreadcrumbItem>
+        }
+        item3={
+          <BreadcrumbItem isCurrentPage>
+            <Link href="/admin/standalone-exams/:examinationId/:examinationName">
+              All Participants
+            </Link>
+          </BreadcrumbItem>
+        }
       />
 
-      <Flex
+      <Box
+        display="flex"
+        flexDirection={{ base: "column", md: "column", lg: "row" }}
         justifyContent="space-between"
-        alignItems="center"
+        alignItems={{ base: "flex-start", md: "flex-start", lg: "center" }}
         borderBottom="1px"
         borderColor="accent.2"
         paddingBottom={5}
+        gap={5}
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
@@ -165,7 +171,7 @@ const StandaloneExaminationListingPage = () => {
         >
           Add Examination
         </Button>
-      </Flex>
+      </Box>
 
       <Table
         {...tableProps}

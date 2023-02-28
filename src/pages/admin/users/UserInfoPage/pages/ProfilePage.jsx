@@ -113,7 +113,9 @@ const ProfilePage = () => {
               USER INFORMATION
             </Heading>
 
-            <Grid templateColumns="153px 1.5fr 1.5fr" gap={16}>
+            <Box  display="flex" gap={5}
+				flexDirection={{lg:"row", base:"column"}}
+				>
               <Box width="200px" height="200px">
                 {userIsLoading ? (
                   <SkeletonCircle size="200px" />
@@ -128,7 +130,7 @@ const ProfilePage = () => {
                 )}
               </Box>
 
-              <Box>
+              <Box marginTop={2}>
                 {userIsLoading ? (
                   <SkeletonText numberOfLines={6} spacing={5} />
                 ) : (
@@ -144,9 +146,7 @@ const ProfilePage = () => {
                     <Detail name="gender" value={user?.gender} />
                   </>
                 )}
-              </Box>
-
-              <Box>
+                <Box>
                 {userIsLoading ? (
                   <SkeletonText numberOfLines={4} spacing={5} />
                 ) : (
@@ -156,13 +156,14 @@ const ProfilePage = () => {
                   </>
                 )}
               </Box>
-            </Grid>
+              </Box>
+            </Box>
           </Box>
         </Section>
 
         <Section heading="Overview">
           <Grid
-            templateColumns="repeat(3, minmax(150px, 1fr))"
+            templateColumns={{lg:"repeat(3, minmax(150px, 1fr))", base:"1fr"}}
             gridAutoRows="100px"
             gap={3}
           >
@@ -219,11 +220,11 @@ export const Detail = ({ name, value, valueProps }) => {
 export const Section = ({ heading, children, editButton }) => {
   return (
     <Box as="section" marginBottom={10}>
-      <Box as="header" display="flex" justifyContent="space-between">
-        <Heading fontSize="heading.h3" marginLeft={6} marginBottom={5}>
+      <Box as="header" display="flex" flexDirection={{lg:"row", base:"column"}} justifyContent="space-between" rowGap={4}>
+        <Heading fontSize="heading.h3">
           {heading}
         </Heading>
-        {editButton}
+        <Box marginBottom={4}> {editButton}</Box>
       </Box>
       {children}
     </Box>

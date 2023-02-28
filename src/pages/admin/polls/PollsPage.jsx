@@ -102,6 +102,7 @@ const PollsListingPage = () => {
 	const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
 	return (
+		
 		<AdminMainAreaWrapper>
 			<Breadcrumb
 			// item2={
@@ -118,11 +119,14 @@ const PollsListingPage = () => {
 
 			<Flex
 				justifyContent='space-between'
-				alignItems='center'
+				flexDirection={{lg:"row", base:"column"}}
+				alignItems={{sm:"flex-start", md:"flex-start"}}
+				rowGap={6}
 				borderBottom='1px'
 				borderColor='accent.2'
 				paddingBottom={5}
 				marginBottom={5}
+				
 			>
 				<Heading as='h1' fontSize='heading.h3'>
 					Polls

@@ -150,11 +150,13 @@ const DepartmentListingPage = () => {
         }
       />
       <Flex
-        justifyContent="space-between"
-        alignItems="center"
+        justifyContent={{lg:"space-between", md:"flex-start", base:"flex-start"}}
+        alignItems={{lg:"center", md:"flex-start", base:"flex-start"}}
+		flexDirection={{lg:"row", md:"column", base:"column"}}
         borderBottom="1px"
         borderColor="accent.2"
         paddingBottom={5}
+		rowGap={5}
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">

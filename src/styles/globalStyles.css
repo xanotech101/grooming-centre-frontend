@@ -2,14 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sacramento:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 /* END OF Fonts */
-
 /* Colors */
 :root {
   --primary-base: #660066;
   --primary-hover: #660066b2;
-
   --secondary-base: #800020;
-
   --secondary-05: #ffc5d336;
   --secondary-1: #ffc5d3;
   --secondary-2: #ff93ae;
@@ -20,32 +17,29 @@
   --secondary-7: #5a051a;
   --secondary-8: #3c0311;
   --secondary-9: #1d060b;
-
   --accent-1: #e8e8e8;
   --accent-2: #c1c9d2;
   --accent-3: #697386;
   --accent-4: #7fffdf;
-
   --white: #ffffff;
   --black: #000000;
 }
-/* END OF Colors */
 
+/* END OF Colors */
 * {
   scroll-behavior: smooth;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--primary-base);
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: var(--secondary-05);
-  }
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-base);
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: var(--secondary-05);
 }
 
 .disabled-link {
@@ -60,11 +54,13 @@
   /* max-width: 100% !important;
   min-width: 100% !important; */
 }
+
 .date-time-picker .MuiInputBase-root::after,
 .date-time-picker .MuiInputBase-root::before {
   content: none !important;
   border-bottom: none !important;
 }
+
 .date-time-picker input {
   height: 40px !important;
   border: 1px solid var(--accent-2) !important;
@@ -75,8 +71,8 @@
 .date .MuiInputBase-input.MuiInput-input {
   border: none !important;
 }
-/* END OF Override Material-ui DateAndTimePickers */
 
+/* END OF Override Material-ui DateAndTimePickers */
 /* Carousel styles */
 .rec.rec-arrow {
   border-radius: 0;
@@ -84,25 +80,31 @@
   border: none;
   box-shadow: none;
 }
+
 .rec.rec-arrow:hover:enabled {
   background-color: white;
   color: black;
   box-shadow: none;
 }
+
 .rec .rec-arrow:disabled {
   visibility: hidden;
 }
+
 .rec .rec-dot_active:hover {
   box-shadow: 0 0 1px 3px #333;
   background-color: #333;
 }
+
 .rec .rec-dot:hover {
   box-shadow: 0 0 1px 3px #333;
 }
+
 .rec .rec-dot:focus {
   cursor: pointer;
   box-shadow: 0 0 1px 3px #333;
 }
+
 .rec .rec-dot_active {
   box-shadow: 0 0 1px 3px #333;
   background-color: #333;

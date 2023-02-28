@@ -12,7 +12,7 @@ const useGradeDetails = () => {
   const {id: userId} = useParams();
 
   const [gradeDetails, setGradeDetails] = useState({
-    data: null,
+    data:null,
     loading: false,
     err: null,
   });
@@ -57,7 +57,7 @@ const GradeHistoryPage = () => {
   const { grades, isLoading } = manager;
   console.log(grades);
 
-  return  <Grades isLoading={isLoading} grades={grades} />
+  return  <Grades isLoading={isLoading}  grades={grades} />
 };
 
 const GradeHistoryPageRoute = ({ ...rest }) => {

@@ -191,7 +191,7 @@ export const Table = ({
 
   const getTemplateColumns = () =>
     columns.reduce(
-      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : "1fr "),
+      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : "2fr "),
       ""
     );
 
@@ -280,7 +280,7 @@ export const Table = ({
           divider={<StackDivider borderColor="gray.200" marginY={0} />}
           role="table"
           paddingBottom={5}
-          width={width}
+          width="100%"
           maxWidth={maxWidth}
           overflowX="auto"
           backgroundColor="white"
