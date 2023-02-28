@@ -9,10 +9,8 @@ import {
 } from "../../hooks";
 import breakpoints from "../../theme/breakpoints";
 import Footer from "../user/Footer";
-import Header from "./Header";
+import { SideBar } from "./Sidebar/Navbar";
 import MainArea from "./MainArea/MainArea";
-import Sidebar from "./Sidebar/Sidebar";
-import Sidebar2 from "./Sidebar/SideBar2";
 const useRedirect = () => {
   const { replace } = useHistory();
   const appManager = useApp();
@@ -44,13 +42,11 @@ const AdminLayout = () => {
   const isSettingsPage = /settings/i.test(window.location.pathname);
 
   return (
-   <Box  backgroundColor={isSettingsPage ? "white" : "gray.100"} minH="100vh">
-
-       <Sidebar2/>
-        <MainArea />
-         {isSettingsPage ? <Footer /> : null}
-      </Box>
-     
+    <Box backgroundColor={isSettingsPage ? "white" : "gray.100"} minH="100vh">
+      <SideBar />
+      <MainArea />
+      {isSettingsPage ? <Footer /> : null}
+    </Box>
   );
 };
 

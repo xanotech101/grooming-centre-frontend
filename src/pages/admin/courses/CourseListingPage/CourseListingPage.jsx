@@ -175,9 +175,9 @@ const CourseListingPage = () => {
         }
       />
       <Flex
-        justifyContent={{lg:"space-between", base:"flex-start"}}
-        alignItems={{lg:"center", base:"flex-start"}}
-        flexDirection={{lg:"row", base:"column"}}
+        justifyContent={{ lg: "space-between", base: "flex-start" }}
+        alignItems={{ lg: "center", base: "flex-start" }}
+        flexDirection={{ lg: "row", base: "column" }}
         borderBottom="1px"
         borderColor="accent.2"
         paddingBottom={5}

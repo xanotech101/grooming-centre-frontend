@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components";
 import { SlideShow } from "../../../components/SlideShow/SlideShow";
 
-export const Header2 = () => {
+export const Header = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <div>

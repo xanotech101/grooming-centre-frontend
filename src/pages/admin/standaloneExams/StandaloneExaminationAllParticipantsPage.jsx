@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import { Route } from "react-router-dom";
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import {
@@ -154,13 +154,20 @@ const StandaloneExaminationAllParticipantsPage = () => {
           </BreadcrumbItem>
         }
       />
-      <Flex
-        justifyContent="space-between"
-        alignItems="center"
+      <Box
+        display="flex"
+        justifyContent={{
+          base: "flex-start",
+          md: "flex-start",
+          lg: "space-between",
+        }}
+        alignItems={{ base: "flex-start", md: "flex-start", lg: "center" }}
+        flexDirection={{ base: "column", md: "column", lg: "row" }}
         borderBottom="1px"
         borderColor="accent.2"
         paddingBottom={5}
         marginBottom={5}
+        gap={5}
       >
         <Heading as="h1" fontSize="heading.h3">
           {examinationName}
@@ -172,7 +179,7 @@ const StandaloneExaminationAllParticipantsPage = () => {
         >
           Edit
         </Button>
-      </Flex>
+      </Box>
 
       <Heading as="h1" fontSize="heading.h4" mb={10}>
         All Participants

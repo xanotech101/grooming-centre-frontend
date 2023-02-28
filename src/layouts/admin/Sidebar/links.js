@@ -8,52 +8,52 @@ import { VscLibrary } from "react-icons/vsc";
 import { TiPen } from "react-icons/ti";
 
 export const links = [
-	{
-		href: '/admin/',
-		text: 'dashboard',
-		exact: true,
-		icon: <RiDashboardLine />,
-	},
-	{
-		href: '/admin/users?page=1&limit=10',
-		text: 'users',
-		icon: <HiUsers />,
-	},
-	{
-		href: '/admin/courses?page=1&limit=10',
-		text: 'courses',
-		icon: <GiBookshelf />,
-	},
-	{
-		href: '/admin/events',
-		text: 'events',
-		icon: <IoIosCalendar />,
-	},
-	// {
-	// 	href: '/admin/standalone-exams',
-	// 	text: 'Standalone Exams',
-	// 	icon: <TiPen />,
-	// },
-	{
-		href: '/admin/polls',
-		text: 'Polls',
-		icon: <TiPen />,
-	},
-	{
-		href: '/admin/departments?page=1&limit=10',
-		text: 'departments',
-		icon: <HiOutlineOfficeBuilding />,
-	},
-	{
-		href: '/admin/role',
-		text: 'roles',
-		icon: <AiOutlineUsergroupDelete />,
-	},
-	{
-		href: '/admin/library',
-		text: 'library',
-		icon: <VscLibrary />,
-	},
+  {
+    href: "/admin/",
+    text: "dashboard",
+    exact: true,
+    icon: <RiDashboardLine />,
+  },
+  {
+    href: "/admin/users?page=1&limit=10",
+    text: "users",
+    icon: <HiUsers />,
+  },
+  {
+    href: "/admin/courses?page=1&limit=10",
+    text: "courses",
+    icon: <GiBookshelf />,
+  },
+  {
+    href: "/admin/events",
+    text: "events",
+    icon: <IoIosCalendar />,
+  },
+  {
+    href: "/admin/standalone-exams",
+    text: "Standalone Exams",
+    icon: <TiPen />,
+  },
+  {
+    href: "/admin/polls",
+    text: "Polls",
+    icon: <TiPen />,
+  },
+  {
+    href: "/admin/departments?page=1&limit=10",
+    text: "departments",
+    icon: <HiOutlineOfficeBuilding />,
+  },
+  {
+    href: "/admin/role",
+    text: "roles",
+    icon: <AiOutlineUsergroupDelete />,
+  },
+  {
+    href: "/admin/library",
+    text: "library",
+    icon: <VscLibrary />,
+  },
 ];
 
 export const superAdminSettingsLinks = [

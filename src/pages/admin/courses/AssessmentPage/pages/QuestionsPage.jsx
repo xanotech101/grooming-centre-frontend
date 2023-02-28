@@ -70,14 +70,21 @@ const QuestionsPage = () => {
         {" Question"}
       </Heading>
 
-      <Flex>
+      <Flex
+        flexDirection={{
+          base: "column-reverse",
+          md: "column-reverse",
+          lg: "row",
+        }}
+        alignItems={{ base: "flex-start", md: "column", lg: "row" }}
+      >
         {isQuestionListingPage ? (
           <QuestionListingPage {...assessmentManager} />
         ) : (
           <CreateQuestionPage {...assessmentManager} />
         )}
 
-        <Box padding={6} width="30%">
+        <Box padding={6} width={{ base: "100%", md: "100%", lg: "30%" }}>
           <Box
             paddingTop="20px"
             paddingX="20px"
@@ -85,13 +92,7 @@ const QuestionsPage = () => {
             backgroundColor="white"
             height={240}
           >
-            <Flex
-              justifyContent="space-between"
-              borderBottom="1px"
-              borderColor="accent.1"
-              mb={5}
-              pb={3}
-            >
+            <Flex borderBottom="1px" borderColor="accent.1" mb={5} pb={3}>
               <Heading fontSize="heading.h5">List Of Questions</Heading>
 
               <Link
@@ -146,7 +147,8 @@ const ButtonNavItem = ({ number, answered, isCurrent, link }) => {
   return (
     <Link href={link}>
       <Flex
-        justifyContent="center"
+        flexDirection={{ base: "column", md: "column", lg: "row" }}
+        justifyContent={{ base: "flex-start", md: "flex-start", lg: "center" }}
         boxSize="40px"
         rounded="4px"
         alignItems="center"
@@ -450,7 +452,12 @@ const CreateQuestionPage = (assessmentManager) => {
   // };
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)} padding={6} width="70%">
+    <Box
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      padding={6}
+      width={{ base: "100%", md: "100%", lg: "70%" }}
+    >
       <Box
         paddingTop="20px"
         paddingX="20px"

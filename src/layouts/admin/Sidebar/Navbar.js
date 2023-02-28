@@ -21,9 +21,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
-import { Header2 } from "./Header2";
+import { Header } from "./Header";
 import { Brand } from "../../../components";
-export default function Sidebar2({ children }) {
+export const SideBar = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")}>
@@ -52,9 +52,9 @@ export default function Sidebar2({ children }) {
       </Box>
     </Box>
   );
-}
+};
 
-const SidebarContent = ({ onClose, ...rest }) => {
+export const SidebarContent = ({ onClose, ...rest }) => {
   const { state, getOneMetadata, handleLogout } = useApp();
 
   const isSettingsPage = /settings/i.test(window.location.pathname);
@@ -169,43 +169,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
-  return (
-    <Link
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "cyan.400",
-          color: "white",
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: "white",
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
-  );
-};
-
-const MobileNav = ({ onOpen, ...rest }) => {
+export const MobileNav = ({ onOpen, ...rest }) => {
   return (
     <Flex
       alignItems="center"
@@ -229,7 +193,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
           marginEnd={10}
         />
       </Box>
-      <Header2 />
+      <Header />
     </Flex>
   );
 };
