@@ -166,7 +166,7 @@ const StandaloneExaminationListingPage = () => {
           Standalone Examinations
         </Heading>
 
-        <Button link={`/admin/standalone/create-exam`}>Add Examination</Button>
+        <Button link="/admin/standalone-exams/create-exam">Add Examination</Button>
       </Box>
 
       <Table
