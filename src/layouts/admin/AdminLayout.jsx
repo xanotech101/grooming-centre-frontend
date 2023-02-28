@@ -7,7 +7,6 @@ import {
   usePageRefreshAfterLogin,
   useRedirectNewUserToNewPasswordPage,
 } from "../../hooks";
-import breakpoints from "../../theme/breakpoints";
 import Footer from "../user/Footer";
 import { SideBar } from "./Sidebar/Navbar";
 import MainArea from "./MainArea/MainArea";
