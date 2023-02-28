@@ -115,7 +115,15 @@ export const Button = ({
         {children}
       </IconButton>
     ) : (
-      <ButtonChakraui position="relative" {...getButtonSizeStyles()} {...props} display="block" textAlign="center" w={isFullwidth} onClick={onClick}>
+      <ButtonChakraui
+        position="relative"
+        {...getButtonSizeStyles()}
+        {...props}
+        display="block"
+        textAlign="center"
+        w={isFullwidth}
+        onClick={onClick}
+      >
         {leftIcon && (
           <Icon
             position="absolute"

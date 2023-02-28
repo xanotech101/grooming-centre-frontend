@@ -76,7 +76,7 @@ const GradeCriteriaPage = () => {
 
   return (
     <AdminMainAreaWrapper paddingY={8}>
-      <Heading fontSize="heading.h3" marginBottom={4}>
+      <Heading fontSize="heading.h3" marginBottom={4} marginTop={6}>
         Grade Criteria
       </Heading>
       <Grid

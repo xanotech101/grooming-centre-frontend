@@ -36,7 +36,7 @@ import SidebarWithHeader from '../Sidebar/SideBar2';
 
 const MainArea = () => {
 	return (
-		    <Box marginLeft={{md:"270px", sm:"0px", lg:"270px"}} paddingY="50px" paddingX="30px">
+		    <Box marginLeft={{md:"270px", base:"0px", lg:"270px"}} paddingY="30px" paddingX="18px">
 				<Switch>
 					<DashboardPageRoute exact path='/admin' />
 					<CourseListingPageRoute exact path='/admin/courses' />

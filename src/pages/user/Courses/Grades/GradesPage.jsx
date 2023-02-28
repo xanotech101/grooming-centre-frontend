@@ -81,7 +81,7 @@ export const Grades = ({ isLoading, grades, duration }) => {
             <HStack
               width="100%"
               flexDirection={{ base: "column", laptop: "row" }}
-              spacing={6}
+              gap={{ base:4, lg:2, md:4 }}
               mt={6}
             >
               <PerformanceOverviewCard

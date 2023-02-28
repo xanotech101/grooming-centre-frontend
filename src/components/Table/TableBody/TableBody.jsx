@@ -40,7 +40,7 @@ const TableBody = ({
   };
 
   return (
-    <Box role="tbody" width="700px">
+    <Box role="tbody">
       {!deletionInProgress &&
         rows.data?.rows?.map((row) => (
           <Grid

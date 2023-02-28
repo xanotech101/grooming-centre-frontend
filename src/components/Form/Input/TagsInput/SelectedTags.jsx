@@ -3,7 +3,7 @@ import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/tag";
 
 export const SelectedTags = ({ tags, onTagDeselect }) => {
   return tags.length ? (
-    <Flex>
+    <Flex flexWrap="wrap">
       {tags.map((tag) => (
         <Tag
           key={tag.id}

@@ -178,7 +178,7 @@ const CreateEventPage = () => {
 				isSubmitting || isLoading || hasError || disableSubmit
 			}
 		>
-			<Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
+			 <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection={{base:"column", md:"column"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
 				<Input
 					label='Title'
 					isRequired
@@ -220,7 +220,7 @@ const CreateEventPage = () => {
 				/>
 			</Box>
 
-			<Box as="div" w="100%" display={{lg:"grid",sm:"block", md:"block"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
+			<Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection={{base:"column", md:"column"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
 				<DateTimePicker
 					id='startTime'
 					isRequired

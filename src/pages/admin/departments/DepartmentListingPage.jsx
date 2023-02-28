@@ -150,9 +150,9 @@ const DepartmentListingPage = () => {
         }
       />
       <Flex
-        justifyContent={{lg:"space-between", md:"flex-start", sm:"flex-start"}}
-        alignItems={{lg:"center", md:"flex-start", sm:"flex-start"}}
-		flexDirection={{lg:"row", md:"column", sm:"column"}}
+        justifyContent={{lg:"space-between", md:"flex-start", base:"flex-start"}}
+        alignItems={{lg:"center", md:"flex-start", base:"flex-start"}}
+		flexDirection={{lg:"row", md:"column", base:"column"}}
         borderBottom="1px"
         borderColor="accent.2"
         paddingBottom={5}

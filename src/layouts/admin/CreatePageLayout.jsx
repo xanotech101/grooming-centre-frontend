@@ -24,11 +24,12 @@ export const CreatePageLayout = ({
           shadow="md"
           rounded="sm"
           as="header"
+          flexDirection={{base:"column", md:"row", lg:"row"}}
           justifyContent="space-between"
-          height="150px"
+          minHeight="150px"
           backgroundColor="white"
           paddingX={5}
-          paddingTop={5}
+          paddingY={5}
           marginBottom={5}
         >
           <Box>
@@ -39,7 +40,7 @@ export const CreatePageLayout = ({
             {/* <Text as="level2">{subTitle}</Text> */}
           </Box>
 
-          <Button secondary leftIcon={<IoArrowBack />} onClick={handleGoBack}>
+          <Button secondary leftIcon={<IoArrowBack />} onClick={handleGoBack} isFullwidth="130px">
             Go Back
           </Button>
         </Flex>

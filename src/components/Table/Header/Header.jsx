@@ -101,7 +101,6 @@ const Header = ({
         onSearch={handleSearch}
         onClear={handleClearSearch}
       />
-
       {filterControls && (
         <FilterButtonsGroup
           data={filterControls}

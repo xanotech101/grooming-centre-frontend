@@ -191,7 +191,7 @@ export const Table = ({
 
   const getTemplateColumns = () =>
     columns.reduce(
-      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : "1fr "),
+      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : "2fr "),
       ""
     );
 

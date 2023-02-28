@@ -178,8 +178,8 @@ const UserListingPage = () => {
 			/>
 			<Flex
 				justifyContent='space-between'
-				flexDirection={{lg:"row", base:"column"}}
-				alignItems={{sm:"flex-start", md:"flex-start"}}
+				flexDirection={{lg:"row", base:"column", md:"column"}}
+				alignItems={{base:"flex-start", md:"flex-start"}}
 				rowGap={6}
 				borderBottom='1px'
 				borderColor='accent.2'

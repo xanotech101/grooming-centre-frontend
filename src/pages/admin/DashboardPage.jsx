@@ -281,7 +281,6 @@ const DashboardPage = () => {
           // height="600px"
           paddingY={4}
           paddingX={6}
-          marginRight={3}
         >
           <Flex justifyContent="space-between" flexDirection={{sm:"column", md:"column", lg:"row"}}>
             {departmentName ? (

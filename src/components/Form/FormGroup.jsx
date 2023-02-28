@@ -20,6 +20,7 @@ const FormGroup = ({
   return (
     <FormControl
       id={id}
+      display="flex"
       flexDirection="column"
       position="relative"
       {...rest}
@@ -53,7 +54,7 @@ const FormGroup = ({
           disabled: isLoading,
         })}
 
-        {isLoading && <Spinner size="md" position="absolute" right={2} />}
+        {isLoading && <Spinner size="md" position="absolute" right={30} />}
       </Flex>
 
       {error && (

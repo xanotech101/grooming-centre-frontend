@@ -164,7 +164,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
             Account
           </Heading>
         )}
-        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6}>
+        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Profile
@@ -227,7 +227,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
           />
         </Box>
 
-        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6} pt={7}>
+        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6} pt={7}>
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Personal Information

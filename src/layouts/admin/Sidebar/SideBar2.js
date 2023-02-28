@@ -66,7 +66,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ md: "270px", sm: "full", lg: "270px" }}
+      w={{ md: "270px", base: "full", lg: "270px" }}
       pos="fixed"
       h="full"
       zIndex="6"
@@ -226,17 +226,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
           aria-label="open menu"
           icon={<FiMenu />}
           marginLeft={7}
+          marginEnd={10}
         />
-
-        <Text
-          display={{ base: "flex", md: "none" }}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold"
-          paddingEnd={20}
-        >
-          <Brand sm textColor="white" />
-        </Text>
       </Box>
       <Header2 />
     </Flex>

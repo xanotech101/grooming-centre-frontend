@@ -109,7 +109,7 @@ const Content = ({ currentTab }) => {
             {...getStyles(link.tab)}
             paddingX={3}
           >
-            {link.icon} <Box paddingRight={1}></Box> {link.text}
+            {link.icon} <Box></Box> {link.text}
           </Button>
         ))}
       </HStack>
