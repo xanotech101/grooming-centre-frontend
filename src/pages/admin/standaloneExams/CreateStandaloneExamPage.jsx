@@ -297,15 +297,15 @@ export const CreateStandaloneExamPage = ({ users }) => {
             Cancel
           </Button>
           <Button
-            isLoading={isSubmitting || users.loading || !metadata?.departments}
-            disabled={
-              isSubmitting ||
-              users.loading ||
-              !metadata?.departments ||
-              users.err
-            }
-            loadingText="Saving"
-            type="submit"
+          //isLoading={isSubmitting || users.loading || !metadata?.departments}
+          // disabled={
+          //isSubmitting ||
+          // users.loading ||
+          // !metadata?.departments ||
+          // users.err
+          // }
+          //</Flex> loadingText="Saving"
+          //</Box> type="submit"
           >
             Save
           </Button>
