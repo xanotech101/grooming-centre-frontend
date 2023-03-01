@@ -298,16 +298,7 @@ export const CreateStandaloneExamPage = ({ users }) => {
           <Button secondary onClick={handleCancel}>
             Cancel
           </Button>
-          <Button
-          //isLoading={isSubmitting || users.loading || !metadata?.departments}
-          // disabled={
-          //isSubmitting ||
-          // users.loading ||
-          // !metadata?.departments ||
-          // users.err
-          // }
-          //</Flex> loadingText="Saving"
-          //</Box> type="submit"
+          <Button onClick={onSubmit}
           >
             Save
           </Button>
