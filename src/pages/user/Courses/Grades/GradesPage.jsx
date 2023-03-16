@@ -49,9 +49,7 @@ const GradesPage = () => {
 
 export const Grades = ({ isLoading, grades, myGrades }) => {
   const isAdmin = /admin/i.test(window.location.pathname);
-  console.log(myGrades);
-  console.log('break');
-  console.log(grades);
+  console.log('New update');
 
   const { hash } = useLocation();
 

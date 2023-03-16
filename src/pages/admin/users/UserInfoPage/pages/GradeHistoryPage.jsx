@@ -24,6 +24,7 @@ const useGradeDetails = () => {
       const { grades } = await adminGetUserGrades(userId);
       setMyGrades(grades);
     } catch (error) {
+      setGradeDetails({ err: error.message });
       console.log(error.message);
     }
   }, [userId]);
