@@ -1,5 +1,5 @@
-import { Box, Flex } from "@chakra-ui/layout";
-import { Switch } from "react-router-dom";
+import { Box, Flex } from '@chakra-ui/layout';
+import { Switch } from 'react-router-dom';
 import {
   CourseListingPageRoute,
   // CoursesPageRoute,
@@ -27,17 +27,17 @@ import {
   ViewFileDetailsPageRoute,
   StandaloneExaminationListingPageRoute,
   StandaloneExaminationAllParticipantsPageRoute,
-} from "../../../pages/admin";
-import PollsListingPageRoute from "../../../pages/admin/polls/PollsPage";
-import { CreatePollsPageRoute } from "../../../pages/admin/polls/CreatePollsPage";
-import { ViewPollsInfoPageRoute } from "../../../pages/admin/polls/layout/ViewPollsInfoPage";
-import { CreateOptionsPageRoute } from "../../../pages/admin/polls/CreateOptionsPage";
-import { CreateStandalonePageRoute } from "../../../pages/admin/standaloneExams/CreateStandaloneExamPage";
+} from '../../../pages/admin';
+import PollsListingPageRoute from '../../../pages/admin/polls/PollsPage';
+import { CreatePollsPageRoute } from '../../../pages/admin/polls/CreatePollsPage';
+import { ViewPollsInfoPageRoute } from '../../../pages/admin/polls/layout/ViewPollsInfoPage';
+import { CreateOptionsPageRoute } from '../../../pages/admin/polls/CreateOptionsPage';
+import { CreateStandalonePageRoute } from '../../../pages/admin/standaloneExams/CreateStandaloneExamPage';
 
 const MainArea = () => {
   return (
     <Box
-      marginLeft={{ md: "270px", base: "0px", lg: "270px" }}
+      marginLeft={{ md: '270px', base: '0px', lg: '270px' }}
       paddingY="30px"
       paddingX="18px"
     >
