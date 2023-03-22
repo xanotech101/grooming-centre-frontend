@@ -1,7 +1,7 @@
-import { http } from "../http";
+import { http } from '../http';
 
 /**
- * Endpoint for assessment listing
+  Endpoint for assessment listing
  * @param {object} params
  *
  * @returns {Promise<{ assessments: Array<{ id: string, name: string, createdAt: Date, noOfUsers: number }> }>}
@@ -13,7 +13,7 @@ export const adminGetDepartmentListing = async (params) => {
     data: { data },
   } = await http.get(path, { params });
 
-  data.rows = data.rows.filter((row) => row.name !== "General");
+  data.rows = data.rows.filter((row) => row.name !== 'General');
   return {
     departments: data.rows.map((department) => ({
       id: department.id,
@@ -33,8 +33,10 @@ export const adminGetDepartmentListing = async (params) => {
  * @param {{ name: string, departmentId: string, }} body
  * @returns {Promise<{ message: string, department: { id: string } }>}
  */
+
+// admincreatedepartment 1
 export const adminCreateDepartment = async (body) => {
-  const path = "/department/create";
+  const path = '/department/create';
 
   const {
     data: { message, data },
