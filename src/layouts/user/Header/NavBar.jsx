@@ -1,34 +1,38 @@
-import { Flex } from "@chakra-ui/layout";
-import { Link, Text } from "../../../components";
+import { Flex } from '@chakra-ui/layout';
+import { Link, Text } from '../../../components';
 
 const links = [
   {
-    href: "/dashboard",
-    text: "Dashboard",
+    href: '/dashboard',
+    text: 'Dashboard',
   },
   {
-    href: "/courses",
-    text: "Courses",
+    href: '/courses',
+    text: 'Courses',
   },
   {
-    href: "/library/books",
-    text: "Library",
+    href: '/library/books',
+    text: 'Library',
   },
   {
-    href: "/forum",
-    text: "Forum",
+    href: '/forum',
+    text: 'Forum',
   },
   {
-    href: "/events",
-    text: "Events",
+    href: '/events',
+    text: 'Events',
   },
   {
-    href: "/polls",
-    text: "Polls",
+    href: '/polls',
+    text: 'Polls',
   },
   {
-    href: "/courses/grade-overview",
-    text: "Grades",
+    href: '/courses/grade-overview',
+    text: 'Grades',
+  },
+  {
+    href: '/standalone-exams',
+    text: 'Standalone',
   },
 ];
 

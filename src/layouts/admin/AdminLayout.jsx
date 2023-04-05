@@ -41,7 +41,10 @@ const AdminLayout = () => {
   const isSettingsPage = /settings/i.test(window.location.pathname);
 
   return (
-    <Box backgroundColor={isSettingsPage ? "white" : "gray.100"} minH="100vh">
+    <Box
+      backgroundColor={isSettingsPage ? "gray.100" : "gray.100"}
+      minH="100vh"
+    >
       <SideBar />
       <MainArea />
       {isSettingsPage ? <Footer /> : null}

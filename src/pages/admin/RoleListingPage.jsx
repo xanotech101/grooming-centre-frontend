@@ -57,12 +57,7 @@ const RolesPage = () => {
           </BreadcrumbItem>
         }
       />
-      <Box
-        padding={10}
-        marginY={10}
-        border="1px"
-        borderColor="accent.9"
-      >
+      <Box padding={10} marginY={10} border="1px" borderColor="accent.9">
         <Heading fontSize="heading.h4" paddingBottom={4}>
           Roles
         </Heading>

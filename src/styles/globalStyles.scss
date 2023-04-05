@@ -1,6 +1,6 @@
 /* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Sacramento:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 /* END OF Fonts */
 
 /* Colors */
@@ -110,4 +110,91 @@
 
 .relative {
   position: relative;
+}
+.my-bullet_point {
+  list-style: none;
+  li::before {
+    content: '\2022';
+    color: #c4c4c4;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+  }
+}
+.users_details {
+  margin-top: 40px;
+  border-radius: 4px;
+  background-color: #fff;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 20px;
+}
+.content-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  width: 100%;
+}
+.content-table thead tr {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+}
+.content-table th {
+  padding: 15px;
+}
+.content-table td {
+  margin-bottom: 5px;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.content-table tbody tr {
+  border-bottom: 1px solid rgba(33, 63, 125, 0.1);
+  cursor: pointer;
+}
+.modal_dots {
+  // position: relative;
+  position: absolute;
+  @media screen and (max-width: 1024px) {
+    position: relative;
+  }
+}
+.dropdown-menu {
+  position: absolute;
+  box-shadow: 3px 5px 20px 0px rgba(0, 0, 0, 0.04);
+  background-color: #fff;
+  border: 2px solid rgba(84, 95, 125, 0.1);
+  border-radius: 8px;
+  right: 3px;
+  top: 45px;
+  z-index: 100;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  .modal_items {
+    padding: 10px 15px;
+    align-items: center;
+    display: flex;
+  }
+  .set_red {
+    color: red;
+  }
+  @media screen and (max-width: 1024px) {
+    top: 10px;
+  }
+}
+.drop-active {
+  opacity: 1;
+  visibility: visible;
+}
+.drop-inactive {
+  opacity: 0;
+  visibility: hidden;
 }

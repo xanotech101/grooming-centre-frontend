@@ -1,6 +1,6 @@
-import { Flex } from "@chakra-ui/layout";
-import { Route } from "react-router-dom";
-import { FaSortAmountUpAlt } from "react-icons/fa";
+import { Flex } from '@chakra-ui/layout';
+import { Route } from 'react-router-dom';
+import { FaSortAmountUpAlt } from 'react-icons/fa';
 import {
   Button,
   Heading,
@@ -8,15 +8,15 @@ import {
   Breadcrumb,
   Link,
   Text,
-} from "../../../../components";
-import { AdminMainAreaWrapper } from "../../../../layouts/admin/MainArea/Wrapper";
+} from '../../../../components';
+import { AdminMainAreaWrapper } from '../../../../layouts/admin/MainArea/Wrapper';
 import {
   adminDeleteMultipleCourses,
   adminGetUserListing,
-} from "../../../../services";
-import { BreadcrumbItem } from "@chakra-ui/react";
-import { useTableRows } from "../../../../hooks";
-import { useApp } from "../../../../contexts";
+} from '../../../../services';
+import { BreadcrumbItem } from '@chakra-ui/react';
+import { useTableRows } from '../../../../hooks';
+import { useApp } from '../../../../contexts';
 
 const UserListingPage = () => {
   const appManager = useApp();
@@ -28,25 +28,25 @@ const UserListingPage = () => {
   const tableProps = {
     filterControls: [
       {
-        triggerText: "%Grade point",
-        queryKey: "grade",
-        width: "125%",
+        triggerText: '%Grade point',
+        queryKey: 'grade',
+        width: '125%',
         body: {
           radios: [
-            { label: "1 to 30", queryValue: "1-30" },
-            { label: "31 to 50", queryValue: "31-50" },
-            { label: "51 to 70", queryValue: "51-70" },
+            { label: '1 to 30', queryValue: '1-30' },
+            { label: '31 to 50', queryValue: '31-50' },
+            { label: '51 to 70', queryValue: '51-70' },
             {
-              label: "71 to 100",
-              queryValue: "71-100",
+              label: '71 to 100',
+              queryValue: '71-100',
             },
           ],
         },
       },
       {
-        triggerText: "Department",
-        queryKey: "department",
-        width: "125%",
+        triggerText: 'Department',
+        queryKey: 'department',
+        width: '125%',
         body: {
           checks: [
             ...(departmentName?.map((name) => ({
@@ -57,44 +57,44 @@ const UserListingPage = () => {
         },
       },
       {
-        triggerText: "Role",
-        queryKey: "role",
-        width: "170%",
+        triggerText: 'Role',
+        queryKey: 'role',
+        width: '170%',
         body: {
           checks: [
-            { label: "Super Admin", queryValue: "super admin" },
-            { label: "Admin", queryValue: "admin" },
-            { label: "User", queryValue: "user" },
+            { label: 'Super Admin', queryValue: 'super admin' },
+            { label: 'Admin', queryValue: 'admin' },
+            { label: 'User', queryValue: 'user' },
           ],
         },
       },
       {
-        triggerText: "Sort",
-        queryKey: "sort",
+        triggerText: 'Sort',
+        queryKey: 'sort',
         triggerIcon: <FaSortAmountUpAlt />,
-        width: "200px",
-        position: "right-bottom",
+        width: '200px',
+        position: 'right-bottom',
         // noFilterTags: true,
         body: {
           radios: [
             {
-              label: "Alphabetically: ascending",
-              queryValue: "asc",
+              label: 'Alphabetically: ascending',
+              queryValue: 'asc',
               additionalParams: { date: false },
             },
             {
-              label: "Alphabetically: descending",
-              queryValue: "desc",
+              label: 'Alphabetically: descending',
+              queryValue: 'desc',
               additionalParams: { date: false },
             },
             {
-              label: "Date: ascending",
-              queryValue: "asc",
+              label: 'Date: ascending',
+              queryValue: 'asc',
               additionalParams: { date: true },
             },
             {
-              label: "Date: descending",
-              queryValue: "desc",
+              label: 'Date: descending',
+              queryValue: 'desc',
               additionalParams: { date: true },
             },
           ],
@@ -104,33 +104,33 @@ const UserListingPage = () => {
 
     columns: [
       {
-        id: "1",
-        key: "fullName",
-        text: "Full name",
+        id: '1',
+        key: 'fullName',
+        text: 'Full name',
         renderContent: (data) => (
           <Link href={`/admin/users/details/${data.userId}/profile`}>
             <Text>{data.text}</Text>
           </Link>
         ),
       },
-      { id: "2", key: "department", text: "Department" },
+      { id: '2', key: 'department', text: 'Department' },
       {
-        id: "3",
-        key: "email",
-        text: "Email Address",
+        id: '3',
+        key: 'email',
+        text: 'Email Address',
       },
-      { id: "4", key: "gradePoint", text: "% Grade point" },
-      { id: "5", key: "certificates", text: "Certificates" },
+      { id: '4', key: 'gradePoint', text: '% Grade point' },
+      { id: '5', key: 'certificates', text: 'Certificates' },
     ],
 
     options: {
       action: [
         {
-          text: "View",
+          text: 'View',
           link: (user) => `/admin/users/details/${user.id}/profile`,
         },
         {
-          text: "Edit",
+          text: 'Edit',
           link: (user) => `/admin/users/edit/${user.id}`,
         },
         {
@@ -139,7 +139,6 @@ const UserListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedUsers) => {
-        console.log(selectedUsers);
         await adminDeleteMultipleCourses();
       },
       pagination: true,
@@ -178,8 +177,8 @@ const UserListingPage = () => {
       />
       <Flex
         justifyContent="space-between"
-        flexDirection={{ lg: "row", base: "column", md: "column" }}
-        alignItems={{ base: "flex-start", md: "flex-start" }}
+        flexDirection={{ lg: 'row', base: 'column', md: 'column' }}
+        alignItems={{ base: 'flex-start', md: 'flex-start' }}
         rowGap={6}
         borderBottom="1px"
         borderColor="accent.2"

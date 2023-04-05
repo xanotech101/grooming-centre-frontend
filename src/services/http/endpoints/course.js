@@ -1,8 +1,8 @@
 import {
   getDurationBetweenStartTimeAndEndTime,
   getEndTime,
-} from "../../../utils";
-import { http } from "../http";
+} from '../../../utils';
+import { http } from '../http';
 
 /**
  * Endpoint to get `course-listing`
@@ -25,7 +25,7 @@ export const adminGetCourseListing = async (params) => {
         firstName: course.user.firstName,
         lastName: course.user.lastName,
       },
-      startDate: course.lesson[0] ? course.lesson[0].startTime : "not set",
+      startDate: course.lesson[0] ? course.lesson[0].startTime : 'not set',
       isPublished: course.isPublished,
     })),
     showingDocumentsCount: data.length,
@@ -59,7 +59,7 @@ export const adminEditCourse = async (courseId, body) => {
  * @returns {Promise<{ message: string, course: { id: string } }>}
  */
 export const adminCreateCourse = async (body) => {
-  const path = "/course/create";
+  const path = '/course/create';
 
   const {
     data: { message, data },
@@ -104,7 +104,7 @@ export const adminGetUserCourseListing = async (userId, params) => {
       id: course.id,
       title: course.title,
       instructor: {
-        name: course.instructor.firstName + " " + course.instructor.lastName,
+        name: course.instructor.firstName + ' ' + course.instructor.lastName,
       },
       status: course.progressPercentage,
       active: course.active,

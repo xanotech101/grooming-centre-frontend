@@ -1,79 +1,79 @@
-import { FiSettings } from "react-icons/fi";
-import { GiBookshelf } from "react-icons/gi";
-import { HiOutlineOfficeBuilding, HiUsers } from "react-icons/hi";
-import { RiDashboardLine } from "react-icons/ri";
-import { IoIosCalendar } from "react-icons/io";
-import { AiOutlineUsergroupDelete } from "react-icons/ai";
-import { VscLibrary } from "react-icons/vsc";
-import { TiPen } from "react-icons/ti";
+import { FiSettings } from 'react-icons/fi';
+import { GiBookshelf } from 'react-icons/gi';
+import { HiOutlineOfficeBuilding, HiUsers } from 'react-icons/hi';
+import { RiDashboardLine } from 'react-icons/ri';
+import { IoIosCalendar } from 'react-icons/io';
+import { AiOutlineUsergroupDelete } from 'react-icons/ai';
+import { VscLibrary } from 'react-icons/vsc';
+import { TiPen } from 'react-icons/ti';
 
 export const links = [
   {
-    href: "/admin/",
-    text: "dashboard",
+    href: '/admin/',
+    text: 'dashboard',
     exact: true,
     icon: <RiDashboardLine />,
   },
   {
-    href: "/admin/users?page=1&limit=10",
-    text: "users",
+    href: '/admin/users?page=1&limit=10',
+    text: 'users',
     icon: <HiUsers />,
   },
   {
-    href: "/admin/courses?page=1&limit=10",
-    text: "courses",
+    href: '/admin/courses?page=1&limit=10',
+    text: 'courses',
     icon: <GiBookshelf />,
   },
   {
-    href: "/admin/events",
-    text: "events",
+    href: '/admin/events',
+    text: 'events',
     icon: <IoIosCalendar />,
   },
   {
-    href: "/admin/standalone-exams",
-    text: "Standalone Exams",
+    href: '/admin/standalone-exams',
+    text: 'Standalone Exams',
     icon: <TiPen />,
   },
   {
-    href: "/admin/polls",
-    text: "Polls",
+    href: '/admin/polls',
+    text: 'Polls',
     icon: <TiPen />,
   },
   {
-    href: "/admin/departments?page=1&limit=10",
-    text: "departments",
+    href: '/admin/departments?page=1&limit=10',
+    text: 'departments',
     icon: <HiOutlineOfficeBuilding />,
   },
   {
-    href: "/admin/role",
-    text: "roles",
+    href: '/admin/role',
+    text: 'roles',
     icon: <AiOutlineUsergroupDelete />,
   },
   {
-    href: "/admin/library",
-    text: "library",
+    href: '/admin/library',
+    text: 'library',
     icon: <VscLibrary />,
   },
 ];
 
 export const superAdminSettingsLinks = [
   {
-    text: "account",
-    href: "/admin/settings/",
+    text: 'account',
+    href: '/admin/settings/',
     exact: true,
     icon: <FiSettings />,
   },
   {
-    href: "/admin/settings/grade-criteria",
-    text: "grade criteria",
+    href: '/admin/settings/grade-criteria',
+    text: 'grade criteria',
     icon: <RiDashboardLine />,
   },
 ];
 
 export const settingsLinks = [
   {
-    text: "account",
-    href: "/admin/settings/",
+    text: 'account',
+    href: '/admin/settings/',
     exact: true,
     icon: <FiSettings />,
   },

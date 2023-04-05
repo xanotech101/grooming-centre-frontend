@@ -63,26 +63,26 @@ export const requestExaminationDetails = async (id, forAdmin) => {
 /**
  * Creates a new examination.
  * @param {{
-*   title: string,
-*   courseId: string,
-*   duration: number,
-*   amountOfQuestions: number,
-*   startTime: string
-* }} body - The request body containing the examination details.
-* @returns {Promise<{ message: string, examination: { id: string } }>}
-*/
+ *   title: string,
+ *   courseId: string,
+ *   duration: number,
+ *   amountOfQuestions: number,
+ *   startTime: string
+ * }} body - The request body containing the examination details.
+ * @returns {Promise<{ message: string, examination: { id: string } }>}
+ */
 export const adminCreateExamination = async (body) => {
- const path = '/examination/create';
+  const path = "/examination/create";
 
- const {
-   data: { message, data },
- } = await http.post(path, body);
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
 
- const examination = {
-   id: data.id,
- };
+  const examination = {
+    id: data.id,
+  };
 
- return { message, examination };
+  return { message, examination };
 };
 /**
  * Endpoint for examination listing
@@ -90,28 +90,29 @@ export const adminCreateExamination = async (body) => {
  *
  * @returns {Promise<{ examinations: Array<{ id: string, examinationId: string, title: string,  startTime: Date, duration: number }> }>}
  */
-export const adminGetStandaloneExaminationListing = async () => {
-  const path = `/stand-alone-examination/all`;
+export const adminGetStandaloneExaminationListing = async (params) => {
+  const path = `/stand-alone-examination/admin/all`;
+  console.log(params);
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
-  const examinations = data.map((exam) => ({
+  const examinations = data.rows.map((exam) => ({
     id: exam.id,
     title: exam.title,
-    examinationId: exam.examinationId,
     duration: exam.duration,
     startTime: exam.startTime,
-    noOfUsers: exam.examinationCandidateLength,
+    noOfUsers: exam.standAloneExaminationGrade.length,
+    isPublished: exam.isPublished,
   }));
 
   return {
     examinations,
-    // showingDocumentsCount: data.rows.length, // No pagination for now
-    // totalDocumentsCount: data.count, // No pagination for now
-    showingDocumentsCount: data.length,
-    totalDocumentsCount: data.length,
+    showingDocumentsCount: data.rows.length, // No pagination for now
+    totalDocumentsCount: data.count, // No pagination for now
+    // showingDocumentsCount: data.length,
+    // totalDocumentsCount: data.length,
   };
 };
 
@@ -125,36 +126,28 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   data = data[0];
 
   const examination = {
-		id: data.id,
-		type: data.type,
-		selectedIDs: [
-			...(data.departmentIds || [
-				// TODO: remove the `||` and this array
-				data.type === 'users'
-					? '5bae7a67-7cd1-4011-bc56-c39c18a6ad57' // test userId
-					: 'a2bd09a4-bd5f-4a90-828c-34d57f775af7', // test departmentId
-			]),
-		],
-		topic: data.title,
-		duration: data.duration,
-		questionCount: data.amountOfQuestions,
-		startTime: data.startTime,
-		endTime: getEndTime(data.startTime, data.duration),
-		minimumPercentageScoreToEarnABadge:
-			data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
-		questions: data.standAloneExaminationQuestion.map((q, index) => ({
-			id: q.id,
-			question: q.question,
-			file: q.file,
-			questionIndex: +q.questionIndex || index,
-			options: q.standAloneExaminationOption.map((opt, optIndex) => ({
-				id: opt.id,
-				isAnswer: opt.isAnswer,
-				name: opt.answer,
-				optionIndex: +opt.optionIndex || optIndex,
-			})),
-		})),
-	};
+    id: data.id,
+    topic: data.title,
+    duration: data.duration,
+    questionCount: data.amountOfQuestions,
+    startTime: data.startTime,
+    endTime: getEndTime(data.startTime, data.duration),
+    isPublished: data.isPublished,
+    // minimumPercentageScoreToEarnABadge:
+    //   data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
+    questions: data.standAloneExaminationQuestion.map((q, index) => ({
+      id: q.id,
+      question: q.question,
+      file: q.file,
+      questionIndex: +q.questionIndex || index,
+      options: q.standAloneExaminationOption.map((opt, optIndex) => ({
+        id: opt.id,
+        isAnswer: opt.isAnswer,
+        name: opt.answer,
+        optionIndex: +opt.optionIndex || optIndex,
+      })),
+    })),
+  };
 
   return { examination };
 };
@@ -189,21 +182,34 @@ export const adminGetStandaloneExaminationParticipants = async (id, params) => {
   };
 };
 
-/**
- * Endpoint to submit an `examination`
- * @param {object} body - answers
- *
- * @returns {Promise<{ message: string }>}
- */
-export const submitExamination = async (body) => {
-  const path = `/examination/scoresheet/create`;
+export const getStandaloneExaminationParticipants = async (id) => {
+  const path = `/stand-alone-examination/participants/${id}`;
 
   const {
-    data: { message },
-  } = await http.post(path, body);
+    data: { data },
+  } = await http.get(path);
 
-  return { message };
+  return {
+    users: data.users,
+    departments: data.departments,
+  };
 };
+
+// /**
+//  * Endpoint to submit an `examination`
+//  * @param {object} body - answers
+//  *
+//  * @returns {Promise<{ message: string }>}
+//  */
+// export const submitExamination = async (body) => {
+//   const path = `/examination/scoresheet/create`;
+
+//   const {
+//     data: { message },
+//   } = await http.post(path, body);
+
+//   return { message };
+// };
 
 /**
  * Endpoint for examination question creation
@@ -212,6 +218,17 @@ export const submitExamination = async (body) => {
  */
 export const adminCreateStandaloneExaminationQuestion = async (body) => {
   const path = "/stand-alone-examination-question/create";
+  console.log(body);
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+export const adminCreateStandaloneExamination = async (body) => {
+  const path = "/stand-alone-examination/create";
 
   const {
     data: { message },

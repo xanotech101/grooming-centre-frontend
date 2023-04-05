@@ -1,5 +1,5 @@
-import { getEndTime } from "../../../utils";
-import { http } from "../http";
+import { getEndTime } from '../../../utils';
+import { http } from '../http';
 
 /**
  * Endpoint to get `examination-details`
@@ -8,7 +8,7 @@ import { http } from "../http";
  * @returns {Promise<{ examination: Examination }>}
  */
 export const requestExaminationDetails = async (id, forAdmin) => {
-  const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
+  const path = `/examination${forAdmin ? '/admin' : ''}/${id}`;
 
   const {
     data: { data },
@@ -109,6 +109,7 @@ export const adminEditStandaloneExamination = async (id, body) => {
 
   const examination = {
     id: data.id,
+    isPublished: data.isPublished,
   };
 
   return { message, examination };
@@ -163,7 +164,7 @@ export const submitExamination = async (body) => {
  * @returns {Promise<{ message: string }>}
  */
 export const adminCreateExaminationQuestion = async (body) => {
-  const path = "/examination/question/create";
+  const path = '/examination/question/create';
 
   const {
     data: { message },

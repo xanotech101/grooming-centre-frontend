@@ -15,7 +15,9 @@ import {
 import { ExaminationsPageRoute } from "../../pages/user/ExaminationsPage/ExaminationsPage";
 import { PollsPageRoute } from "../../pages/user/PollsPage/PollsPage";
 import { PollsVotePageRoute } from "../../pages/user/PollsVotePage/PollsVotePage";
-import { TakeStandaloneExamLayoutRoute } from "../../pages/user/ExaminationsPage/TakeStandaloneExam";
+import { StandaloneExamsRoute } from "../../pages/user/StandaloneExamDetails/StandaloneExamsDetails";
+import { StandalonePagesRoute } from "../../pages/user/StandaloneExaminations/StandaloneExaminations";
+
 const MainArea = () => {
   return (
     <Box as="main" marginBottom={16}>
@@ -33,7 +35,9 @@ const MainArea = () => {
         <ExaminationsPageRoute exact path="/examinations" />
         <PollsVotePageRoute exact path="/polls/:pollId/vote" />
         <Redirect exact from="/" to="/dashboard" />
-        <TakeStandaloneExamLayoutRoute path="/examinations/take" />
+        <StandalonePagesRoute exact path="/standalone-exams" />
+        <StandaloneExamsRoute exact path="/standalone-exams/:examid" />
+
         <Route render={(props) => <NotFoundPageRoute />} />
       </Switch>
     </Box>

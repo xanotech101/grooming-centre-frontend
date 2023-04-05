@@ -1,4 +1,4 @@
-import { http } from "../http";
+import { http } from '../http';
 
 /**
  * Endpoint to get `lesson-details`
@@ -17,7 +17,7 @@ export const requestLessonDetails = async (id) => {
     lesson: {
       ...data,
       hasEnded: data.lessonTracking?.[0]?.isCompleted,
-      file: data.file.replace("http://", "https://"),
+      file: data.file.replace('http://', 'https://'),
     },
   };
 };

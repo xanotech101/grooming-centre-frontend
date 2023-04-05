@@ -89,9 +89,13 @@ const Header = ({
       as="header"
       flexWrap="wrap"
       rowGap={4}
-      alignItems={{lg:"center", sm:"flex-start", md:"flex-start"}}
-      flexDirection={{lg:"row", md:"column", sm:"column"}}
-      justifyContent={{lg:"space-between", sm:"flex-start", md:"flex-start"}}
+      alignItems={{ lg: "center", sm: "flex-start", md: "flex-start" }}
+      flexDirection={{ lg: "row", md: "column", sm: "column", base: "column" }}
+      justifyContent={{
+        lg: "space-between",
+        sm: "flex-start",
+        md: "flex-start",
+      }}
       display={SearchBarVisibility}
     >
       <SearchBar

@@ -158,13 +158,27 @@ export const AccountPage = ({ onCallToActionClick }) => {
 
   return (
     <AdminMainAreaWrapper>
-      <Box as="form" paddingY={2} onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        as="form"
+        paddingY={2}
+        onSubmit={handleSubmit(onSubmit)}
+        backgroundColor="white"
+        padding={10}
+        mt={6}
+      >
         {!onCallToActionClick && (
           <Heading fontSize="heading.h3" paddingBottom={4}>
             Account
           </Heading>
         )}
-        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6}>
+        <Box
+          as="div"
+          display={{ lg: "grid", base: "flex", md: "flex" }}
+          flexDirection="column"
+          gridTemplateColumns="1fr 1fr"
+          gap={10}
+          marginBottom={6}
+        >
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Profile
@@ -227,7 +241,15 @@ export const AccountPage = ({ onCallToActionClick }) => {
           />
         </Box>
 
-        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={6} pt={7}>
+        <Box
+          as="div"
+          display={{ lg: "grid", base: "flex", md: "flex" }}
+          flexDirection="column"
+          gridTemplateColumns="1fr 1fr"
+          gap={10}
+          marginBottom={6}
+          pt={7}
+        >
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Personal Information
@@ -300,7 +322,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
           />
         </Box>
 
-        <Flex justifyContent={{sm:"center", md:"center", lg:"flex-end"}}>
+        <Flex justifyContent={{ sm: "center", md: "center", lg: "flex-end" }}>
           <Button
             secondary
             marginRight={6}

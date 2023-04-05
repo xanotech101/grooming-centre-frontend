@@ -1,5 +1,5 @@
-import { ButtonGroup, IconButton } from "@chakra-ui/button";
-import { Box, Flex, HStack } from "@chakra-ui/layout";
+import { ButtonGroup, IconButton } from '@chakra-ui/button';
+import { Box, Flex, HStack } from '@chakra-ui/layout';
 import {
   Menu,
   MenuButton,
@@ -7,14 +7,14 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-} from "@chakra-ui/menu";
-import { MdNotificationsActive } from "react-icons/md";
-import { BrandLogo, Button } from "../../../components";
-import { useApp } from "../../../contexts";
-import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
-import NavBar from "./NavBar";
-import { Link } from "react-router-dom";
-import { Avatar as AvatarImage } from "@chakra-ui/avatar";
+} from '@chakra-ui/menu';
+import { MdNotificationsActive } from 'react-icons/md';
+import { BrandLogo, Button } from '../../../components';
+import { useApp } from '../../../contexts';
+import { maxWidthStyles_userPages } from '../../../theme/breakpoints';
+import NavBar from './NavBar';
+import { Link } from 'react-router-dom';
+import { Avatar as AvatarImage } from '@chakra-ui/avatar';
 import {
   Modal,
   ModalBody,
@@ -23,9 +23,8 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-} from "@chakra-ui/react";
-import { AccountPage } from "../../../pages/admin";
-
+} from '@chakra-ui/react';
+import { AccountPage } from '../../../pages/admin';
 
 const Header = () => {
   return (
@@ -43,7 +42,7 @@ const Header = () => {
         </HStack>
 
         <NavBar
-          display={{ base: "none", tablet: "flex" }}
+          display={{ base: 'none', tablet: 'flex' }}
           flex={1}
           marginRight={5}
         />
@@ -65,7 +64,7 @@ const Avatar = () => {
   const { handleLogout, state, getOneMetadata } = useApp();
 
   const isAdmin = () => {
-    const role = getOneMetadata("userRoles", state.user.userRoleId);
+    const role = getOneMetadata('userRoles', state.user.userRoleId);
 
     if (/admin/i.test(role?.name)) return true;
   };
@@ -74,7 +73,7 @@ const Avatar = () => {
     <Menu>
       <MenuButton as={IconButton} isRound>
         <AvatarImage
-          name={state.user?.firstName + " " + state.user?.lastName}
+          name={state.user?.firstName + ' ' + state.user?.lastName}
           rounded="full"
           boxSize="40px"
           src={state.user?.profilePics}
@@ -96,7 +95,7 @@ const Avatar = () => {
           </MenuItem>
           {state.user && isAdmin() && (
             <MenuItem as={Link} to="/admin">
-              Admin  Dashboard
+              Admin Dashboard
             </MenuItem>
           )}
         </MenuGroup>

@@ -111,7 +111,7 @@ export const Button = ({
     };
 
     return asIcon ? (
-      <IconButton aria-label={iconAriaLabel} {...props}>
+      <IconButton onClick={onClick} aria-label={iconAriaLabel} {...props}>
         {children}
       </IconButton>
     ) : (
@@ -119,7 +119,7 @@ export const Button = ({
         position="relative"
         {...getButtonSizeStyles()}
         {...props}
-        display="block"
+        display="inline-block"
         textAlign="center"
         w={isFullwidth}
         onClick={onClick}

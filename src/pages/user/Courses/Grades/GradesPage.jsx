@@ -1,24 +1,24 @@
-import { Route, useLocation } from "react-router-dom";
-import { Box, Flex, HStack } from "@chakra-ui/layout";
+import { Route, useLocation } from 'react-router-dom';
+import { Box, Flex, HStack } from '@chakra-ui/layout';
 import {
   CircularProgress,
   Center,
   ListItem,
   UnorderedList,
   Progress,
-} from "@chakra-ui/react";
-import { Doughnut } from "react-chartjs-2";
-import { Heading, Text, Button } from "../../../../components";
-import colors from "../../../../theme/colors";
-import useGradeDetails from "./hooks/useGradeDetails";
-import { PageLoaderLayout } from "../../../../layouts";
-import { getDuration } from "../../../../utils";
-import { ReactComponent as NoData } from "../../../../assets/images/no-data.svg";
-import { useEffect } from "react";
+} from '@chakra-ui/react';
+import { Doughnut } from 'react-chartjs-2';
+import { Heading, Text, Button } from '../../../../components';
+import colors from '../../../../theme/colors';
+import useGradeDetails from './hooks/useGradeDetails';
+import { PageLoaderLayout } from '../../../../layouts';
+import { getDuration } from '../../../../utils';
+import { ReactComponent as NoData } from '../../../../assets/images/no-data.svg';
+import { useEffect } from 'react';
 
 const totalCourseChartConfig = {
   data: {
-    labels: ["Attendance", "Examination", "Attendance"],
+    labels: ['Attendance', 'Examination', 'Attendance'],
     datasets: [
       {
         data: [20, 20, 20],
@@ -38,24 +38,24 @@ const totalCourseChartConfig = {
 const GradesPage = () => {
   const manager = useGradeDetails();
 
-  const { grades, isLoading } = manager;
-  console.log(grades);
+  const { grades, isLoading, myGrades } = manager;
 
   return (
     <>
-      <Grades isLoading={isLoading} grades={grades} />
+      <Grades isLoading={isLoading} grades={grades} myGrades={myGrades} />
     </>
   );
 };
 
-export const Grades = ({ isLoading, grades, duration }) => {
+export const Grades = ({ isLoading, grades, myGrades }) => {
   const isAdmin = /admin/i.test(window.location.pathname);
+  console.log('New update');
 
   const { hash } = useLocation();
 
   useEffect(() => {
-    if (hash.includes("certificates")) {
-      document.getElementById("certificates")?.scrollIntoView();
+    if (hash.includes('certificates')) {
+      document.getElementById('certificates')?.scrollIntoView();
     }
   }, [hash]);
 
@@ -69,59 +69,59 @@ export const Grades = ({ isLoading, grades, duration }) => {
             bgGradient="linear(to-l, #390411 31.84%, #540D1E 46.72%, #69192D 80.18%)"
             paddingY={10}
             width="100%"
-            paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
+            paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
           >
             <Heading fontSize="24" color="accent.1">
               Performance Overview
             </Heading>
             <Text pt={3} color="accent.1" fontSize="lg">
-              {`${grades?.overview.completedCourseLength} courses completed`}
+              {`${myGrades?.overview?.completedCourseLength} courses completed`}
             </Text>
 
             <HStack
               width="100%"
-              flexDirection={{ base: "column", laptop: "row" }}
-              gap={{ base:4, lg:2, md:4 }}
+              flexDirection={{ base: 'column', laptop: 'row' }}
+              gap={{ base: 4, lg: 2, md: 4 }}
               mt={6}
             >
               <PerformanceOverviewCard
                 title="Attendance"
-                percentage={grades?.overview.averageAttendanceScore}
-                completedCourses={grades?.overview.completedCourseLength}
-                totalCourses={grades?.overview.totalCoursesCount}
+                percentage={myGrades?.overview?.averageAttendanceScore}
+                completedCourses={myGrades?.overview?.completedCourseLength}
+                totalCourses={myGrades?.overview?.totalCoursesCount}
                 color="others.2"
-                progress={grades?.overview.averageAttendanceScore}
+                progress={myGrades?.overview?.averageAttendanceScore}
               />
 
               <PerformanceOverviewCard
                 title="Assessment"
-                percentage={grades?.overview.averageAssessmentScore}
-                completedCourses={grades?.overview.completedCourseLength}
-                totalCourses={grades?.overview.totalCoursesCount}
+                percentage={myGrades?.overview?.averageAssessmentScore}
+                completedCourses={myGrades?.overview?.completedCourseLength}
+                totalCourses={myGrades?.overview?.totalCoursesCount}
                 color="others.4"
-                progress={grades?.overview.averageAssessmentScore}
+                progress={myGrades?.overview?.averageAssessmentScore}
               />
 
               <PerformanceOverviewCard
                 title="Examination"
-                percentage={grades?.overview.averageExaminationScore}
-                completedCourses={grades?.overview.completedCourseLength}
-                totalCourses={grades?.overview.totalCoursesCount}
+                percentage={myGrades?.overview?.averageExaminationScore}
+                completedCourses={myGrades?.overview?.completedCourseLength}
+                totalCourses={myGrades?.overview?.totalCoursesCount}
                 color="primary.base"
-                progress={grades?.overview.averageExaminationScore}
+                progress={myGrades?.overview?.averageExaminationScore}
               />
             </HStack>
           </Box>
           <Box
             pt={10}
-            paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
+            paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
             backgroundColor="white"
           >
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses in Progress
             </Text>
-            {grades?.ongoingCourses[0] ? (
-              grades?.ongoingCourses.map((grade) => {
+            {myGrades?.ongoingCourses?.[0] ? (
+              myGrades?.ongoingCourses?.map((grade) => {
                 const duration = getDuration(grade.courseDuration);
                 return (
                   <Box key={grade.id}>
@@ -147,23 +147,23 @@ export const Grades = ({ isLoading, grades, duration }) => {
               <EmptyState
                 text={
                   isAdmin
-                    ? "This user has not completed any course"
-                    : "You have not completed any course"
+                    ? 'This user has not completed any course'
+                    : 'You have not completed any course'
                 }
               />
             )}
           </Box>
           <Box
-            paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
+            paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
             backgroundColor="white"
-            paddingBottom={isAdmin ? "40px" : null}
+            paddingBottom={isAdmin ? '40px' : null}
             id="certificates"
           >
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses Completed
             </Text>
-            {grades?.completedCourses[0] ? (
-              grades?.completedCourses.map((grade) => {
+            {myGrades?.completedCourses?.[0] ? (
+              myGrades?.completedCourses.map((grade) => {
                 const duration = getDuration(grade.courseDuration);
                 return (
                   <Box key={grade.id}>
@@ -197,8 +197,8 @@ export const Grades = ({ isLoading, grades, duration }) => {
               <EmptyState
                 text={
                   isAdmin
-                    ? "This user has not completed any course"
-                    : "You have not completed any course"
+                    ? 'This user has not completed any course'
+                    : 'You have not completed any course'
                 }
               />
             )}
@@ -242,7 +242,7 @@ const PerformanceOverviewCard = ({
       width="100%"
       borderRadius="12"
       bg="white"
-      paddingX={{ base: "10px", laptop: "40px" }}
+      paddingX={{ base: '10px', laptop: '40px' }}
       paddingY={6}
     >
       <Flex flexDirection="row" justifyContent="space-between">
@@ -361,14 +361,14 @@ const CourseOverviewCard = ({
           justifyContent="center"
           data-percentage={`${totalPercentage}%`}
           _after={{
-            content: "attr(data-percentage)",
-            position: "absolute",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            width: "100%",
-            pointerEvents: "none",
+            content: 'attr(data-percentage)',
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            width: '100%',
+            pointerEvents: 'none',
             top: 0,
             left: 0,
           }}

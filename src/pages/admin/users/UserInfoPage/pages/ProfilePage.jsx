@@ -1,6 +1,6 @@
-import { Box, Flex, Grid } from "@chakra-ui/layout";
-import { ImArrowUp } from "react-icons/im";
-import { Route, useParams } from "react-router-dom";
+import { Box, Flex, Grid } from '@chakra-ui/layout';
+import { ImArrowUp } from 'react-icons/im';
+import { Route, useParams } from 'react-router-dom';
 import {
   Heading,
   Link,
@@ -8,18 +8,18 @@ import {
   Text,
   Breadcrumb,
   Button,
-} from "../../../../../components";
-import { useCache } from "../../../../../contexts";
-import Icon from "@chakra-ui/icon";
-import { FiCheckSquare } from "react-icons/fi";
-import { BiCertification } from "react-icons/bi";
-import { HiOutlineSwitchHorizontal } from "react-icons/hi";
-import { BreadcrumbItem } from "@chakra-ui/react";
-import { useComponentIsMount } from "../../../../../hooks";
-import { useCallback, useEffect, useState } from "react";
-import { adminGetUserDetails } from "../../../../../services";
-import { Avatar, SkeletonCircle } from "@chakra-ui/react";
-import { FaEdit } from "react-icons/fa";
+} from '../../../../../components';
+import { useCache } from '../../../../../contexts';
+import Icon from '@chakra-ui/icon';
+import { FiCheckSquare } from 'react-icons/fi';
+import { BiCertification } from 'react-icons/bi';
+import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
+import { BreadcrumbItem } from '@chakra-ui/react';
+import { useComponentIsMount } from '../../../../../hooks';
+import { useCallback, useEffect, useState } from 'react';
+import { adminGetUserDetails } from '../../../../../services';
+import { Avatar, SkeletonCircle } from '@chakra-ui/react';
+import { FaEdit } from 'react-icons/fa';
 
 export const useViewUserDetails = () => {
   const { handleGetOrSetAndGet } = useCache();
@@ -51,7 +51,7 @@ export const useViewUserDetails = () => {
   }, [userId, componentIsMount]);
 
   useEffect(() => {
-    if (userId !== "new") fetchUserDetails();
+    if (userId !== 'new') fetchUserDetails();
   }, [fetchUserDetails, userId]);
 
   const user = userDetails.data;
@@ -67,7 +67,6 @@ export const useViewUserDetails = () => {
 
 const ProfilePage = () => {
   const { user, isLoading } = useViewUserDetails();
-  console.log(user);
 
   const userIsLoading = isLoading;
 
@@ -113,15 +112,17 @@ const ProfilePage = () => {
               USER INFORMATION
             </Heading>
 
-            <Box  display="flex" gap={5}
-				flexDirection={{lg:"row", base:"column"}}
-				>
+            <Box
+              display="flex"
+              gap={5}
+              flexDirection={{ lg: 'row', base: 'column' }}
+            >
               <Box width="200px" height="200px">
                 {userIsLoading ? (
                   <SkeletonCircle size="200px" />
                 ) : (
                   <Avatar
-                    name={user?.firstName + " " + user?.lastName}
+                    name={user?.firstName + ' ' + user?.lastName}
                     width="100%"
                     height="100%"
                     src={user?.profilePics}
@@ -140,22 +141,22 @@ const ProfilePage = () => {
                     <Detail
                       name="Email"
                       value={user?.email}
-                      valueProps={{ color: "primary.base" }}
+                      valueProps={{ color: 'primary.base' }}
                     />
                     <Detail name="Phone" value={user?.phone} />
                     <Detail name="gender" value={user?.gender} />
                   </>
                 )}
                 <Box>
-                {userIsLoading ? (
-                  <SkeletonText numberOfLines={4} spacing={5} />
-                ) : (
-                  <>
-                    <Detail name="department" value={user?.departmentName} />
-                    <Detail name="role" value={user?.userRoleName} />
-                  </>
-                )}
-              </Box>
+                  {userIsLoading ? (
+                    <SkeletonText numberOfLines={4} spacing={5} />
+                  ) : (
+                    <>
+                      <Detail name="department" value={user?.departmentName} />
+                      <Detail name="role" value={user?.userRoleName} />
+                    </>
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -163,7 +164,10 @@ const ProfilePage = () => {
 
         <Section heading="Overview">
           <Grid
-            templateColumns={{lg:"repeat(3, minmax(150px, 1fr))", base:"1fr"}}
+            templateColumns={{
+              lg: 'repeat(3, minmax(150px, 1fr))',
+              base: '1fr',
+            }}
             gridAutoRows="100px"
             gap={3}
           >
@@ -212,7 +216,7 @@ export const Detail = ({ name, value, valueProps }) => {
       <Text bold textTransform="capitalize">
         {name}:
       </Text>
-      <Text {...valueProps}>{value || "notSet"}</Text>
+      <Text {...valueProps}>{value || 'notSet'}</Text>
     </Grid>
   );
 };
@@ -220,10 +224,14 @@ export const Detail = ({ name, value, valueProps }) => {
 export const Section = ({ heading, children, editButton }) => {
   return (
     <Box as="section" marginBottom={10}>
-      <Box as="header" display="flex" flexDirection={{lg:"row", base:"column"}} justifyContent="space-between" rowGap={4}>
-        <Heading fontSize="heading.h3">
-          {heading}
-        </Heading>
+      <Box
+        as="header"
+        display="flex"
+        flexDirection={{ lg: 'row', base: 'column' }}
+        justifyContent="space-between"
+        rowGap={4}
+      >
+        <Heading fontSize="heading.h3">{heading}</Heading>
         <Box marginBottom={4}> {editButton}</Box>
       </Box>
       {children}
@@ -250,7 +258,7 @@ export const OverviewBox = ({
       backgroundColor="white"
       shadow="md"
       paddingX={5}
-      _hover={{ transform: "scale(1.01)" }}
+      _hover={{ transform: 'scale(1.01)' }}
       {...props}
     >
       <Grid
@@ -281,9 +289,9 @@ export const OverviewBox = ({
   );
 
   return isLoading ? (
-    renderContent({ position: "unset" })
+    renderContent({ position: 'unset' })
   ) : (
-    <Link href={href} style={{ position: "relative" }}>
+    <Link href={href} style={{ position: 'relative' }}>
       {renderContent()}
     </Link>
   );

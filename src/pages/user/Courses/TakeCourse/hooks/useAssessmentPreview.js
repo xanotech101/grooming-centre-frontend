@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useCache } from "../../../../../contexts";
-import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
-import useQueryParams from "../../../../../hooks/useQueryParams";
+import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useCache } from '../../../../../contexts';
+import useComponentIsMount from '../../../../../hooks/useComponentIsMount';
+import useQueryParams from '../../../../../hooks/useQueryParams';
 import {
   requestAssessmentDetails,
   requestExaminationDetails,
   getStandaloneExaminationDetails,
-} from "../../../../../services";
-import { isStandaloneExaminationAndIsNotEditMode } from "../../../../admin/courses/AssessmentPage/pages/OverviewPage";
+} from '../../../../../services';
+import { isStandaloneExaminationAndIsNotEditMode } from '../../../../admin/courses/AssessmentPage/pages/OverviewPage';
 
 /**
  * Assessment state`Manager`
@@ -31,12 +31,11 @@ const useAssessmentPreview = (
   const { id: courseId, assessment_id } = useParams();
 
   assessmentId = assessmentId || assessment_id;
-  const assessmentIsNew = assessmentId === "new";
+  const assessmentIsNew = assessmentId === 'new';
 
   const queryParams = useQueryParams();
-  const isExamination = queryParams.get("examination");
-  const isStandaloneExamination =
-    courseId === "not-set" && isExamination ? true : false;
+  const isExamination = queryParams.get('examination');
+  const isStandaloneExamination = !courseId && isExamination ? true : false;
 
   const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
   const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
