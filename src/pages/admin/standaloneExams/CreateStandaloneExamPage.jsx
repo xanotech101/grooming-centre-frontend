@@ -28,8 +28,30 @@ import { useApp } from "../../../contexts";
 import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 import Header from "../courses/AssessmentPage/layout/Header";
 import { Select } from "@material-ui/core";
+import { useFetch } from "../../../hooks";
+import { adminGetUserListing } from "../../../services";
+export const CreateStandaloneExamPage = () => {
+  const { resource: users, handleFetchResource } = useFetch();
+  useEffect(() => {
+    handleFetchResource({
+      fetcher: async () => {
+        let { users } = await adminGetUserListing();
 
-export const CreateStandaloneExamPage = ({ users }) => {
+        users = users.map((user) => ({
+          value: user.id,
+          label: `${capitalizeFirstLetter(
+            `${user.firstName} ${user.lastName}`
+          )} (${user.email})`,
+        }));
+
+        console.log("ssdsd...");
+
+        return users;
+      },
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const { id: courseId, assessmentId } = useParams();
 
   const isExamination = useQueryParams().get("examination");
@@ -187,7 +209,7 @@ export const CreateStandaloneExamPage = ({ users }) => {
                 <Box as="label">
                   <Text as="level2" pb={2}>
                     Choose{" "}
-                    {standaloneExamType === "users" ? "Users" : "Departments"}
+                    {standaloneExamType === "users" ? "users" : "Departments"}
                   </Text>
                 </Box>
 

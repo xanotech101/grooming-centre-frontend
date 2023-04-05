@@ -30,7 +30,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
   ) : assessmentIsDisabled ? (
     <EmptyState
       height="80vh"
-      cta={<Button onClick={handleGoBack}>Go Bac</Button>}
+      cta={<Button onClick={handleGoBack}>Go Back</Button>}
       heading="Oops An Error Occurred"
       description={`You are are not allowed to view this ${
         isExamination ? "examination" : "assessment"

@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { adminGetUserListing } from "../../../../../services";
 import { capitalizeFirstLetter } from "../../../../../utils";
 import { useToast } from "@chakra-ui/react";
+import { CreateStandaloneExamPage } from "../../../standaloneExams/CreateStandaloneExamPage";
 
 export const isStandaloneExaminationAndIsNotEditMode =
   "isStandaloneExamination && isNotEdit";
