@@ -1,9 +1,9 @@
-import { Box } from "@chakra-ui/layout";
-import { Switch } from "react-router-dom";
-import InfoPageRoute from "../pages/InfoPage";
-import LessonPageRoute from "../pages/LessonPage";
-import AssessmentListingPageRoute from "../pages/AssessmentListingPage";
-import ExamListingPageRoute from "../pages/ExamListingPage";
+import { Box } from '@chakra-ui/layout';
+import { Switch } from 'react-router-dom';
+import InfoPageRoute from '../pages/InfoPage';
+import LessonPageRoute from '../pages/LessonPage';
+import AssessmentListingPageRoute from '../pages/AssessmentListingPage';
+import ExamListingPageRoute from '../pages/ExamListingPage';
 
 const MainArea = () => {
   return (

@@ -33,6 +33,8 @@ import { CreatePollsPageRoute } from '../../../pages/admin/polls/CreatePollsPage
 import { ViewPollsInfoPageRoute } from '../../../pages/admin/polls/layout/ViewPollsInfoPage';
 import { CreateOptionsPageRoute } from '../../../pages/admin/polls/CreateOptionsPage';
 import { CreateStandalonePageRoute } from '../../../pages/admin/standaloneExams/CreateStandaloneExamPage';
+import QuestionsStandaloneRoute from '../../../pages/admin/standaloneExams/QuestionsStandalone';
+import { ParticipantsListingPageRoute } from '../../../pages/admin/participants/ParticipantsListingPage';
 
 const MainArea = () => {
   return (
@@ -72,14 +74,16 @@ const MainArea = () => {
           exact
           path="/admin/standalone-exams"
         />
-        <StandaloneExaminationAllParticipantsPageRoute
+        {/* <ParticipantsListingPageRoute exact path ="/"/> */}
+        {/* <QuestionsStandaloneRoute
+          exact
+          path="/admin/standalone-exams/questions/:id"
+        /> */}
+        {/* <StandaloneExaminationAllParticipantsPageRoute
           exact
           path="/admin/standalone-exams/:examinationId/:examinationName"
-        />
-        <CreateStandalonePageRoute
-          exact
-          path="/admin/standalone-exams/:create"
-        />
+        /> */}
+        <CreateStandalonePageRoute path="/admin/standalone-exams" />
 
         <PollsListingPageRoute exact path="/admin/polls" />
         <CreatePollsPageRoute exact path="/admin/polls/edit/:id" />

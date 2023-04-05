@@ -139,7 +139,6 @@ const UserListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedUsers) => {
-        console.log(selectedUsers);
         await adminDeleteMultipleCourses();
       },
       pagination: true,

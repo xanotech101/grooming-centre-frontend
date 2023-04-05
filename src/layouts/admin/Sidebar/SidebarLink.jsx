@@ -1,11 +1,11 @@
-import Icon from "@chakra-ui/icon";
-import { useEffect } from "react";
-import { BiChevronDown } from "react-icons/bi";
-import colors from "../../../theme/colors";
-import PropTypes from "prop-types";
-import useAccordion from "./hooks/useAccordion";
-import { Box, Flex } from "@chakra-ui/layout";
-import { Link, Text } from "../../../components";
+import Icon from '@chakra-ui/icon';
+import { useEffect } from 'react';
+import { BiChevronDown } from 'react-icons/bi';
+import colors from '../../../theme/colors';
+import PropTypes from 'prop-types';
+import useAccordion from './hooks/useAccordion';
+import { Box, Flex } from '@chakra-ui/layout';
+import { Link, Text } from '../../../components';
 
 const SidebarLink = ({ link, onClick }) => {
   const accordionManager = useAccordion();
@@ -31,13 +31,13 @@ const SidebarLink = ({ link, onClick }) => {
       paddingX={3}
       onClick={handleTopLevelLinkClick}
       textTransform="capitalize"
-      _hover={{ cursor: "pointer" }}
+      _hover={{ cursor: 'pointer' }}
       {...props}
       {...(accordionManager.isActive
         ? {
             backgroundColor: colors.secondary.base,
-            color: "white",
-            borderRadius: "4px",
+            color: 'white',
+            borderRadius: '4px',
           }
         : {})}
     >
@@ -62,18 +62,18 @@ const SidebarLink = ({ link, onClick }) => {
     <li>
       {link.href ? (
         <Link
-        onClick={onClick}
+          onClick={onClick}
           navLink
           href={link.href}
           exact={link.exact}
           style={{
-            display: "block",
-            borderRadius: "4px",
+            display: 'block',
+            borderRadius: '4px',
             color: colors.accent[3],
           }}
           activeStyle={{
             backgroundColor: colors.others[3],
-            color: "white",
+            color: 'white',
           }}
         >
           {renderTopLevelContent()}
@@ -99,12 +99,12 @@ const SidebarLink = ({ link, onClick }) => {
                 href={link.href}
                 activeStyle={{
                   color: colors.primary.base,
-                  fontWeight: "bold",
-                  backgroundColor: colors.secondary["05"],
-                  borderRadius: "1rem",
+                  fontWeight: 'bold',
+                  backgroundColor: colors.secondary['05'],
+                  borderRadius: '1rem',
                 }}
                 style={{
-                  display: "block",
+                  display: 'block',
                   color: colors.accent[3],
                 }}
               >
@@ -113,7 +113,7 @@ const SidebarLink = ({ link, onClick }) => {
                   marginY={2}
                   paddingX={5}
                   textTransform="capitalize"
-                  _hover={{ color: "accent.2" }}
+                  _hover={{ color: 'accent.2' }}
                 >
                   {link.text}
                 </Text>
