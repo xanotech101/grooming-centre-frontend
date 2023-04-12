@@ -23,8 +23,9 @@ jobs:
 
       - name: npm install, build, and test
         run: |
+          unset CI
           npm install
-          CI=false npm run build
+          npm run build
           
       - name: Zip Release
         # You may pin to the exact commit or the version.
