@@ -11,9 +11,11 @@ import {
 } from '../../../services';
 import { capitalizeFirstLetter } from '../../../utils';
 import ParticipantsPagination from './ParticipantsPagination';
+import { useHistory } from 'react-router-dom';
 
 const ParticipantsListingPage = () => {
   const toast = useToast();
+  const push = useHistory();
   const examinationId = useQueryParams().get('examination');
   const [users, setUsers] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -32,25 +34,22 @@ const ParticipantsListingPage = () => {
     err: null,
   });
 
-  // const handleDelete = async (id) => {
-  //   try {
-  //     const { message } = deleteStandaloneExaminationParticipants(id);
-  //     toast({
-  //       description: capitalizeFirstLetter(message),
-  //       position: 'top',
-  //       status: 'success',
-  //     });
-  //   } catch (error) {
-  //     toast({
-  //       description: error.message,
-  //       position: 'top',
-  //       status: 'error',
-  //     });
-  //   }
-  // };
-
-  const handleDelete = (id) => {
-    console.log(id);
+  const handleDelete = async (id) => {
+    try {
+      const { message } = await deleteStandaloneExaminationParticipants(id);
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: 'top',
+        status: 'success',
+      });
+      window.location.reload(true);
+    } catch (error) {
+      toast({
+        description: error.message,
+        position: 'top',
+        status: 'error',
+      });
+    }
   };
 
   const getParticipants = useCallback(async () => {
@@ -70,6 +69,8 @@ const ParticipantsListingPage = () => {
   useEffect(() => {
     getParticipants();
   }, [getParticipants]);
+
+  console.log(users);
 
   const usersRecord = users?.slice(firstIndex, lastIndex);
 

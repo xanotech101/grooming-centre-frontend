@@ -62,7 +62,7 @@ const StandAloneHeader = () => {
     );
 
     utils.book_append_sheet(wb, ws, 'Orders');
-    writeFile(wb, 'Orders.xlsx');
+    writeFile(wb, 'ExaminationResult.xlsx');
   };
 
   const handlePublishing = async () => {
