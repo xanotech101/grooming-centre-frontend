@@ -15,7 +15,6 @@ import {
   StandalonePagesRoute,
   StandaloneExamsStartRoute,
 } from '../../pages/user';
-import { ExaminationsPageRoute } from '../../pages/user/ExaminationsPage/ExaminationsPage';
 import { PollsPageRoute } from '../../pages/user/PollsPage/PollsPage';
 import { StandalonePreAssessmentRoute } from '../../pages/user/StandaloneExamDetails/StandalonePreAssessment';
 
@@ -33,7 +32,6 @@ const MainArea = () => {
         <CertificatePageRoute path="/courses/:course_id/certificate" />
         <CoursesPagesRoute path="/courses" />
         <PollsPageRoute exact path="/polls" />
-        <ExaminationsPageRoute exact path="/examinations" />
 
         <StandalonePagesRoute exact path="/standalone-exams" />
         <StandalonePreAssessmentRoute exact path="/standalone-exams/take" />

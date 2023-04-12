@@ -1,31 +1,31 @@
-import { Box, Center, Flex, Grid, GridItem } from "@chakra-ui/layout";
-import { useCallback, useEffect } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { FiUsers } from "react-icons/fi";
-import { GiBookshelf, GiSpellBook } from "react-icons/gi";
+import { Box, Center, Flex, Grid, GridItem } from '@chakra-ui/layout';
+import { useCallback, useEffect } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { FiUsers } from 'react-icons/fi';
+import { GiBookshelf, GiSpellBook } from 'react-icons/gi';
 // import { IoMdMore } from "react-icons/io";
-import { IoCalendarOutline } from "react-icons/io5";
-import { Route } from "react-router-dom";
-import { useAdminEventsPage } from ".";
+import { IoCalendarOutline } from 'react-icons/io5';
+import { Route } from 'react-router-dom';
+import { useAdminEventsPage } from '.';
 import {
   // Button,
   SkeletonText,
   Text,
-} from "../../components";
-import { useFetchAndCache } from "../../hooks";
-import { AdminMainAreaWrapper } from "../../layouts";
+} from '../../components';
+import { useFetchAndCache } from '../../hooks';
+import { AdminMainAreaWrapper } from '../../layouts';
 import {
   adminGetDepartmentListing,
   adminGetRoleListing,
   adminGetUserListing,
   adminLibraryListing,
-} from "../../services";
-import useCourseListing from "./courses/hooks/useCourseListing";
-import Carousel from "react-elastic-carousel";
-import { MdVideoLibrary } from "react-icons/md";
-import { FaRegFileAudio } from "react-icons/fa";
-import { SkeletonCircle } from "@chakra-ui/skeleton";
-import colors from "../../theme/colors";
+} from '../../services';
+import useCourseListing from './courses/hooks/useCourseListing';
+import Carousel from 'react-elastic-carousel';
+import { MdVideoLibrary } from 'react-icons/md';
+import { FaRegFileAudio } from 'react-icons/fa';
+import { SkeletonCircle } from '@chakra-ui/skeleton';
+import colors from '../../theme/colors';
 
 const useUserListing = () => {
   const { resource: users, handleFetchResource } = useFetchAndCache();
@@ -36,7 +36,7 @@ const useUserListing = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchResource({ cacheKey: "users", fetcher });
+    handleFetchResource({ cacheKey: 'users', fetcher });
   }, [handleFetchResource, fetcher]);
 
   return {
@@ -53,7 +53,7 @@ const useDepartmentListing = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchResource({ cacheKey: "departments", fetcher });
+    handleFetchResource({ cacheKey: 'departments', fetcher });
   }, [handleFetchResource, fetcher]);
 
   return {
@@ -70,7 +70,7 @@ const useRoleListing = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchResource({ cacheKey: "roles", fetcher });
+    handleFetchResource({ cacheKey: 'roles', fetcher });
   }, [handleFetchResource, fetcher]);
 
   return {
@@ -87,7 +87,7 @@ const useLibraryListing = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchResource({ cacheKey: "library", fetcher });
+    handleFetchResource({ cacheKey: 'library', fetcher });
   }, [handleFetchResource, fetcher]);
 
   return {
@@ -104,19 +104,19 @@ const DashboardPage = () => {
   const { library } = useLibraryListing();
 
   // get uploaded library books
-  const isPdf = library.data?.map((lib) => lib.fileType === "pdf");
+  const isPdf = library.data?.map((lib) => lib.fileType === 'pdf');
   const books = isPdf?.filter(function (value) {
     return value === true;
   });
 
   // get uploaded library videos
-  const isVideo = library.data?.map((lib) => lib.fileType === "video");
+  const isVideo = library.data?.map((lib) => lib.fileType === 'video');
   const videos = isVideo?.filter(function (value) {
     return value === true;
   });
 
   // get uploaded library audio files
-  const isAudio = library.data?.map((lib) => lib.fileType === "audio");
+  const isAudio = library.data?.map((lib) => lib.fileType === 'audio');
   const audio = isAudio?.filter(function (value) {
     return value === true;
   });
@@ -166,7 +166,7 @@ const DashboardPage = () => {
 
     options: {
       plugins: {
-        legend: { position: "bottom" },
+        legend: { position: 'bottom' },
       },
     },
   };
@@ -179,8 +179,8 @@ const DashboardPage = () => {
           data: [...(roleUsers || [])],
           backgroundColor: [
             colors.primary.base,
-            colors.secondary["4"],
-            colors.accent["7"],
+            colors.secondary['4'],
+            colors.accent['7'],
           ],
           borderWidth: 0,
         },
@@ -189,14 +189,21 @@ const DashboardPage = () => {
 
     options: {
       plugins: {
-        legend: { position: "bottom" },
+        legend: { position: 'bottom' },
       },
     },
   };
 
   return (
-    <AdminMainAreaWrapper marginBottom={4} marginRight={{ lg:"5", md:"5", sm:"5"}}>
-      <Grid marginY={4} templateColumns={{lg:"repeat(3, 1fr)", sm:null, md:"1fr"}} gap={6}>
+    <AdminMainAreaWrapper
+      marginBottom={4}
+      marginRight={{ lg: '5', md: '5', sm: '5' }}
+    >
+      <Grid
+        marginY={4}
+        templateColumns={{ lg: 'repeat(3, 1fr)', sm: null, md: '1fr' }}
+        gap={6}
+      >
         <GridItem>
           <MiniBox
             children={
@@ -211,7 +218,7 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={users.loading ? "none" : "secondary.5"}
+            iconBackgroundColor={users.loading ? 'none' : 'secondary.5'}
             icon={
               users.loading ? (
                 <SkeletonCircle />
@@ -238,7 +245,7 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={courseIsLoading ? "none" : "secondary.5"}
+            iconBackgroundColor={courseIsLoading ? 'none' : 'secondary.5'}
             icon={
               courseIsLoading ? (
                 <SkeletonCircle />
@@ -262,7 +269,7 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={eventsIsLoading ? "none" : "secondary.5"}
+            iconBackgroundColor={eventsIsLoading ? 'none' : 'secondary.5'}
             icon={
               eventsIsLoading ? (
                 <SkeletonCircle />
@@ -273,16 +280,22 @@ const DashboardPage = () => {
           />
         </GridItem>
       </Grid>
-      <Flex flexDirection={{ base:"column", md:"column", lg:"row"}} rowGap={5}>
+      <Flex
+        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+        rowGap={5}
+      >
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width={{ sm:"100%", md:"100%", lg:"50%"}}
+          width={{ sm: '100%', md: '100%', lg: '50%' }}
           // height="600px"
           paddingY={4}
           paddingX={6}
         >
-          <Flex justifyContent="space-between" flexDirection={{sm:"column", md:"column", lg:"row"}}>
+          <Flex
+            justifyContent="space-between"
+            flexDirection={{ sm: 'column', md: 'column', lg: 'row' }}
+          >
             {departmentName ? (
               <Text fontSize="heading.h3" bold>
                 Statistics
@@ -348,14 +361,18 @@ const DashboardPage = () => {
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width={{lg:"50%", sm:"100%", md:"100%"}}
+          width={{ lg: '50%', sm: '100%', md: '100%' }}
           // height="600px"
           paddingY={4}
           paddingX={6}
-          marginLeft={{lg:3, sm:0, md:0}}
-          marginTop={{lg:0, sm:5, md:5}}
+          marginLeft={{ lg: 3, sm: 0, md: 0 }}
+          marginTop={{ lg: 0, sm: 5, md: 5 }}
         >
-          <Flex paddingBottom={4} justifyContent="space-between" flexDirection={{sm:"column", md:"column", lg:"row"}}>
+          <Flex
+            paddingBottom={4}
+            justifyContent="space-between"
+            flexDirection={{ sm: 'column', md: 'column', lg: 'row' }}
+          >
             {library.loading ? (
               <SkeletonText numberOfLines={1} width={40} />
             ) : (

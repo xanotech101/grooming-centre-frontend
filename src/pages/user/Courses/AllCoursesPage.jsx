@@ -1,6 +1,6 @@
-import { Route } from "react-router-dom";
-import { CardGridLayout } from "../../../layouts";
-import useCourses from "./hooks/useCourses";
+import { Route } from 'react-router-dom';
+import { CardGridLayout } from '../../../layouts';
+import useCourses from './hooks/useCourses';
 
 const AllCoursesPage = () => {
   const { courses } = useCourses();

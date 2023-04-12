@@ -157,8 +157,6 @@ export const usersGetStandaloneExaminationListing = async () => {
   }));
   return {
     examinations,
-    // showingDocumentsCount: data.length,
-    // totalDocumentsCount: data.length,
   };
 };
 
@@ -170,6 +168,7 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   } = await http.get(path);
 
   data = data[0];
+  console.log(data);
 
   const examination = {
     id: data.id,
@@ -238,6 +237,18 @@ export const getStandaloneExaminationParticipants = async (id) => {
   return {
     users: data.users,
     departments: data.departments,
+  };
+};
+
+export const deleteStandaloneExaminationParticipants = async (id) => {
+  const path = `/stand-alone-examination/participants/${id}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return {
+    message,
   };
 };
 

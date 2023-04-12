@@ -18,7 +18,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
   const duration = getDuration(assessment.duration);
   const handleGoBack = useGoBack();
 
-  console.log(assessment, assessmentIsDisabled);
+  // console.log(assessment, assessmentIsDisabled);
 
   return error ? (
     <EmptyState

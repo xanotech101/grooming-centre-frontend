@@ -4,7 +4,10 @@ import { Route } from 'react-router-dom';
 import { Button, Heading } from '../../../components';
 import { HEADING, HEADING_DEPARTMENTS } from '../../../constants';
 import { useQueryParams } from '../../../hooks';
-import { getStandaloneExaminationParticipants } from '../../../services';
+import {
+  deleteStandaloneExaminationParticipants,
+  getStandaloneExaminationParticipants,
+} from '../../../services';
 import ParticipantsPagination from './ParticipantsPagination';
 
 const ParticipantsListingPage = () => {
@@ -26,9 +29,11 @@ const ParticipantsListingPage = () => {
     err: null,
   });
 
-  // const handleDelete = (id) => {
-  //   console.log(id);
-  // };
+  const handleDelete = async (id) => {
+    try {
+      const { message } = deleteStandaloneExaminationParticipants(id);
+    } catch (error) {}
+  };
 
   const getParticipants = useCallback(async () => {
     setDetails({ loading: true });
@@ -53,6 +58,7 @@ const ParticipantsListingPage = () => {
   const depsRecord = departments?.slice(depsfirstIndex, depslastIndex);
 
   const npages = Math.ceil(users.length / recordsPerPage);
+  console.log(users);
   const nDepspages = Math.ceil(departments.length / depsRecordsPerPage);
 
   return (
@@ -105,7 +111,7 @@ const ParticipantsListingPage = () => {
                       borderRadius: '5px',
                       cursor: 'pointer',
                     }}
-                    // onClick={() => handleDelete(item?.id)}
+                    onClick={() => handleDelete(item?.id)}
                   >
                     Delete
                   </div>

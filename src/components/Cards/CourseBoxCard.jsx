@@ -1,12 +1,12 @@
-import { Box, Flex, HStack, Icon, Stack } from "@chakra-ui/react";
-import { Skeleton } from "@chakra-ui/skeleton";
-import PropTypes from "prop-types";
-import { AiFillBook, AiOutlineRead } from "react-icons/ai";
-import { BsFillClockFill } from "react-icons/bs";
-import { Heading, Image, Link, Text, SkeletonText, Button } from "..";
-import { getDuration } from "../../utils";
-import thumbnailPlaceholder from "../../assets/images/onboarding1.png";
-import { useDisclosure } from "@chakra-ui/hooks";
+import { Box, Flex, HStack, Icon, Stack } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/skeleton';
+import PropTypes from 'prop-types';
+import { AiFillBook, AiOutlineRead } from 'react-icons/ai';
+import { BsFillClockFill } from 'react-icons/bs';
+import { Heading, Image, Link, Text, SkeletonText, Button } from '..';
+import { getDuration } from '../../utils';
+import thumbnailPlaceholder from '../../assets/images/onboarding1.png';
+import { useDisclosure } from '@chakra-ui/hooks';
 import {
   Modal,
   ModalBody,
@@ -15,11 +15,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/modal";
-import { MdAudiotrack, MdFileDownload } from "react-icons/md";
-import { IoPlay } from "react-icons/io5";
-import { useDownload } from "../../hooks";
-import { Avatar } from "@chakra-ui/avatar";
+} from '@chakra-ui/modal';
+import { MdAudiotrack, MdFileDownload } from 'react-icons/md';
+import { IoPlay } from 'react-icons/io5';
+import { useDownload } from '../../hooks';
+import { Avatar } from '@chakra-ui/avatar';
 
 export const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
   const { isLoading, handleDownload } = useDownload();
@@ -32,8 +32,8 @@ export const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
           disabled={isLoading}
           asIcon
           backgroundColor="primary.base"
-          onClick={handleDownload(file, title + "." + fileExtension)}
-          _hover={{ backgroundColor: "primary.hover" }}
+          onClick={handleDownload(file, title + '.' + fileExtension)}
+          _hover={{ backgroundColor: 'primary.hover' }}
           color="white"
         >
           <MdFileDownload />
@@ -44,7 +44,7 @@ export const DownloadButton = ({ file, title, fileExtension, asIcon }) => {
           disabled={isLoading}
           leftIcon={<MdFileDownload />}
           mr={3}
-          onClick={handleDownload(file, title + "." + fileExtension)}
+          onClick={handleDownload(file, title + '.' + fileExtension)}
         >
           Download
         </Button>
@@ -84,7 +84,7 @@ export const CourseBoxCard = ({
         blockScrollOnMount={false}
         isOpen={isOpen}
         onClose={onClose}
-        size={IsPdf ? "full" : "xl"}
+        size={IsPdf ? 'full' : 'xl'}
       >
         <ModalOverlay />
         <ModalContent>
@@ -92,7 +92,7 @@ export const CourseBoxCard = ({
             <Flex>{title}</Flex>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody height={IsPdf ? "600px" : null}>{modalBody}</ModalBody>
+          <ModalBody height={IsPdf ? '600px' : null}>{modalBody}</ModalBody>
 
           <ModalFooter>
             <Button secondary mr={3} onClick={onClose}>
@@ -111,7 +111,7 @@ export const CourseBoxCard = ({
       {isLibraryPage ? (
         <div
           className={`course-box-card ${
-            disabled ? "course-box-card--disabled" : ""
+            disabled ? 'course-box-card--disabled' : ''
           }`}
         >
           {IsVideo ? (
@@ -120,7 +120,7 @@ export const CourseBoxCard = ({
                 width="100%"
                 height="100%"
                 controls={false}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
                 onClick={onOpen}
                 src={file}
               />
@@ -128,13 +128,13 @@ export const CourseBoxCard = ({
               <IoPlay
                 onClick={onOpen}
                 style={{
-                  position: "absolute",
-                  top: "40%",
-                  left: "42%",
+                  position: 'absolute',
+                  top: '40%',
+                  left: '42%',
                   zIndex: 1,
-                  fontSize: "48px",
-                  color: "white",
-                  cursor: "pointer",
+                  fontSize: '48px',
+                  color: 'white',
+                  cursor: 'pointer',
                   opacity: 0.7,
                 }}
               />
@@ -171,7 +171,7 @@ export const CourseBoxCard = ({
           >
             <HStack spacing={2}>
               <Avatar
-                name={instructor?.firstName + " " + instructor?.lastName}
+                name={instructor?.firstName + ' ' + instructor?.lastName}
                 src={instructor?.profilePics}
                 // isLoading={isLoading}
                 boxSize="37px"
@@ -227,7 +227,7 @@ export const CourseBoxCard = ({
                         title={title}
                         modalBody={
                           <audio
-                            style={{ width: "100%" }}
+                            style={{ width: '100%' }}
                             autoPlay
                             src={file}
                             controls
@@ -286,7 +286,7 @@ export const CourseBoxCard = ({
       ) : (
         <Link
           className={`course-box-card ${
-            disabled ? "course-box-card--disabled" : ""
+            disabled ? 'course-box-card--disabled' : ''
           }`}
           href={`/courses/details/${id}`}
           disabled={isLoading}
@@ -314,12 +314,12 @@ export const CourseBoxCard = ({
 
           <Image
             src={thumbnail || thumbnailPlaceholder}
-            filter={disabled ? "sepia(10%)" : "none"}
+            filter={disabled ? 'sepia(10%)' : 'none'}
             isLoading={isLoading}
             className="course-box-card__image"
             transitionDuration=".7s"
             transitionDelay=".5s"
-            height={{ base: "150px" }}
+            height={{ base: '150px' }}
             width="100%"
           />
 
@@ -332,7 +332,7 @@ export const CourseBoxCard = ({
           >
             <HStack spacing={2}>
               <Avatar
-                name={instructor?.firstName + " " + instructor?.lastName}
+                name={instructor?.firstName + ' ' + instructor?.lastName}
                 src={instructor?.profilePics}
                 // isloading={isLoading}
                 boxSize="37px"
