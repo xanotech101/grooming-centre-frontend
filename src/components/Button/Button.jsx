@@ -1,8 +1,8 @@
-import { Button as ButtonChakraui, IconButton } from '@chakra-ui/button';
-import Icon from '@chakra-ui/icon';
+import { Button as ButtonChakraui, IconButton } from "@chakra-ui/button";
+import Icon from "@chakra-ui/icon";
 
-import PropTypes from 'prop-types';
-import { Link } from '..';
+import PropTypes from "prop-types";
+import { Link } from "..";
 
 export const Button = ({
   asIcon,
@@ -26,12 +26,12 @@ export const Button = ({
 }) => {
   const getOutlineStyles = () => {
     const commonStyles = {
-      backgroundColor: 'transparent',
-      textColor: 'primary.base',
-      border: '1px',
-      rounded: '4px',
+      backgroundColor: "transparent",
+      textColor: "primary.base",
+      border: "1px",
+      rounded: "4px",
       _hover: !disabled && {
-        backgroundColor: 'primary.hover',
+        backgroundColor: "primary.hover",
       },
     };
 
@@ -39,23 +39,23 @@ export const Button = ({
       ? {
           ...commonStyles,
           _hover: !disabled && {
-            backgroundColor: 'secondary.1',
+            backgroundColor: "secondary.1",
           },
         }
       : ghost
       ? {
           ...commonStyles,
-          borderColor: 'transparent',
-          rounded: 'none',
+          borderColor: "transparent",
+          rounded: "none",
           _hover: !disabled && {
-            backgroundColor: 'secondary.05',
+            backgroundColor: "secondary.05",
           },
         }
       : blue
       ? {
           ...commonStyles,
-          textColor: 'white',
-          backgroundColor: 'others.4',
+          textColor: "white",
+          backgroundColor: "others.4",
           _hover: !disabled && {
             opacity: 0.8,
           },
@@ -63,42 +63,42 @@ export const Button = ({
       : ordinary
       ? {
           ...commonStyles,
-          backgroundColor: 'accent.1',
-          color: 'accent.3',
-          border: 'none',
+          backgroundColor: "accent.1",
+          color: "accent.3",
+          border: "none",
           _hover: !disabled && { opacity: 0.8 },
         }
       : {
           ...commonStyles,
-          backgroundColor: 'others.3',
-          textColor: 'white',
-          borderColor: 'transparent',
+          backgroundColor: "others.3",
+          textColor: "white",
+          borderColor: "transparent",
         };
   };
 
   const getButtonSizeStyles = () =>
     sm
       ? {
-          paddingX: '28px',
-          size: 'sm',
+          paddingX: "28px",
+          size: "sm",
         }
       : xs
       ? {
-          size: 'xs',
+          size: "xs",
         }
       : {
-          paddingX: '33px',
+          paddingX: "33px",
         };
   const renderContent = (extraProps) => {
     const styles = asIcon
       ? {
-          backgroundColor: ghost ? 'transparent' : 'white',
-          color: reversePrimaryColor ? 'white' : 'black',
-          fontSize: largeSize ? 'heading.h3' : 'text.level1',
+          backgroundColor: ghost ? "transparent" : "white",
+          color: reversePrimaryColor ? "white" : "black",
+          fontSize: largeSize ? "heading.h3" : "text.level1",
           isRound: true,
           _hover: !disabled && {
-            backgroundColor: 'primary.hover',
-            textColor: 'white',
+            backgroundColor: "primary.hover",
+            textColor: "white",
           },
         }
       : getOutlineStyles();
@@ -119,7 +119,7 @@ export const Button = ({
         position="relative"
         {...getButtonSizeStyles()}
         {...props}
-        display="block"
+        display="inline-block"
         textAlign="center"
         w={isFullwidth}
         onClick={onClick}

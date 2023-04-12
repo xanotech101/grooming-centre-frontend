@@ -1,24 +1,24 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from "react-router-dom";
 
-import { useQueryParams } from '../../../hooks';
-import { AdminMainAreaWrapper } from '../../../layouts';
+import { useQueryParams } from "../../../hooks";
+import { AdminMainAreaWrapper } from "../../../layouts";
 
 // Added a new header component
-import StandAloneHeader from '../courses/AssessmentPage/layout/StandAloneHeader';
-import OverViewStandalone from './OverViewStandalone';
+import StandAloneHeader from "../courses/AssessmentPage/layout/StandAloneHeader";
+import OverViewStandalone from "./OverViewStandalone";
 
-import QuestionsStandaloneRoute from './QuestionsStandalone';
-import useAssessmentPreview from '../../user/Courses/TakeCourse/hooks/useAssessmentPreview';
+import QuestionsStandaloneRoute from "./QuestionsStandalone";
+import useAssessmentPreview from "../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 
-import { ParticipantsListingPageRoute } from '../participants/ParticipantsListingPage';
-import CreateParticipants from '../participants/CreateParticipants';
+import { ParticipantsListingPageRoute } from "../participants/ParticipantsListingPage";
+import CreateParticipants from "../participants/CreateParticipants";
 
 export const CreateStandaloneExamPage = () => {
-  const isExamination = useQueryParams().get('examination');
+  const isExamination = useQueryParams().get("examination");
 
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,
-    isExamination ? isExamination : 'isStandaloneExamination && isNotEdit',
+    isExamination ? isExamination : "isStandaloneExamination && isNotEdit",
     true
   );
 

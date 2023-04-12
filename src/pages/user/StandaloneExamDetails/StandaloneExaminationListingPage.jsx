@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { Heading, Image, Text } from '../../../components';
 import coverImagePlaceholder from '../../../assets/images/events-banner.svg';
-import TestImg from '../../../assets/images/onboarding1.png';
 import { pageWrapperSpacing_userPages } from '../../../theme/breakpoints';
 import { AiFillClockCircle } from 'react-icons/ai';
 import { useEffect, useState } from 'react';

@@ -76,6 +76,7 @@ export const RichText = ({
         >
           <MUIRichTextEditor
             onSave={save}
+            maxLength={7000}
             label={placeholder}
             autocomplete={{
               strategies: [
