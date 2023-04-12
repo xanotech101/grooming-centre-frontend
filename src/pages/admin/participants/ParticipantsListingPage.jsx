@@ -29,7 +29,7 @@ const ParticipantsListingPage = () => {
   const handleDelete = (id) => {
     console.log(id);
   };
-
+  //
   const getParticipants = useCallback(async () => {
     setDetails({ loading: true });
     try {
