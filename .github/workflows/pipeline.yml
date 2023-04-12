@@ -25,7 +25,7 @@ jobs:
         run: |
           $env:CI="false"
           npm install
-          npm run build
+          #npm run build
           
       - name: Zip Release
         # You may pin to the exact commit or the version.
@@ -60,5 +60,5 @@ jobs:
         with:
           app-name: 'privatefe'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_da42f073a15848b99be8a846c8f1657b }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FE85D67FD83A44118BB81EF143F2FCD8 }}
           package: release.zip
