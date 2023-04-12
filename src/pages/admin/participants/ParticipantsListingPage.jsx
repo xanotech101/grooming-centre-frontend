@@ -12,9 +12,14 @@ const ParticipantsListingPage = () => {
   const [users, setUsers] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [depsCurrentPage, setDepsCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(5);
+  const [depsRecordsPerPage, setDepsRecordsPerPage] = useState(5);
+
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
+  const depslastIndex = depsCurrentPage * depsRecordsPerPage;
+  const depsfirstIndex = depslastIndex - depsRecordsPerPage;
 
   const [details, setDetails] = useState({
     loading: false,
@@ -44,9 +49,11 @@ const ParticipantsListingPage = () => {
   }, [getParticipants]);
 
   const usersRecord = users?.slice(firstIndex, lastIndex);
-  const depsRecord = departments?.slice(firstIndex, lastIndex);
+  console.log(users);
+  const depsRecord = departments?.slice(depsfirstIndex, depslastIndex);
 
   const npages = Math.ceil(users.length / recordsPerPage);
+  const nDepspages = Math.ceil(departments.length / depsRecordsPerPage);
 
   return (
     <Box marginLeft="20px" marginRight="25px" marginTop="20px">
@@ -117,6 +124,7 @@ const ParticipantsListingPage = () => {
           firstIndex={firstIndex}
           lastIndex={lastIndex}
           nPages={npages}
+          name={'user'}
         />
       </div>
 
@@ -172,6 +180,14 @@ const ParticipantsListingPage = () => {
         <ParticipantsPagination
           documentCount={depsRecord?.length}
           totalCount={departments.length}
+          nPages={nDepspages}
+          currentPage={depsCurrentPage}
+          setCurrentPage={setDepsCurrentPage}
+          recordsPerPage={depsRecordsPerPage}
+          setRecordsPerPage={setDepsRecordsPerPage}
+          firstIndex={depsfirstIndex}
+          lastIndex={depslastIndex}
+          name={'docs'}
         />
       </div>
     </Box>
