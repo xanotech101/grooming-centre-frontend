@@ -26,10 +26,10 @@ const ParticipantsListingPage = () => {
     err: null,
   });
 
-  const handleDelete = (id) => {
-    console.log(id);
-  };
-  //
+  // const handleDelete = (id) => {
+  //   console.log(id);
+  // };
+
   const getParticipants = useCallback(async () => {
     setDetails({ loading: true });
     try {
@@ -105,7 +105,7 @@ const ParticipantsListingPage = () => {
                       borderRadius: '5px',
                       cursor: 'pointer',
                     }}
-                    onClick={() => handleDelete(item?.id)}
+                    // onClick={() => handleDelete(item?.id)}
                   >
                     Delete
                   </div>
