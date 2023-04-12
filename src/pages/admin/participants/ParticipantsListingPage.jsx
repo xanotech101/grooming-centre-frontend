@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useState, useEffect, useCallback } from 'react';
 import { Route } from 'react-router-dom';
+import { useToast } from '@chakra-ui/toast';
 import { Button, Heading } from '../../../components';
 import { HEADING, HEADING_DEPARTMENTS } from '../../../constants';
 import { useQueryParams } from '../../../hooks';
@@ -8,9 +9,11 @@ import {
   deleteStandaloneExaminationParticipants,
   getStandaloneExaminationParticipants,
 } from '../../../services';
+import { capitalizeFirstLetter } from '../../../utils';
 import ParticipantsPagination from './ParticipantsPagination';
 
 const ParticipantsListingPage = () => {
+  const toast = useToast();
   const examinationId = useQueryParams().get('examination');
   const [users, setUsers] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -29,10 +32,25 @@ const ParticipantsListingPage = () => {
     err: null,
   });
 
-  const handleDelete = async (id) => {
-    try {
-      const { message } = deleteStandaloneExaminationParticipants(id);
-    } catch (error) {}
+  // const handleDelete = async (id) => {
+  //   try {
+  //     const { message } = deleteStandaloneExaminationParticipants(id);
+  //     toast({
+  //       description: capitalizeFirstLetter(message),
+  //       position: 'top',
+  //       status: 'success',
+  //     });
+  //   } catch (error) {
+  //     toast({
+  //       description: error.message,
+  //       position: 'top',
+  //       status: 'error',
+  //     });
+  //   }
+  // };
+
+  const handleDelete = (id) => {
+    console.log(id);
   };
 
   const getParticipants = useCallback(async () => {
@@ -54,11 +72,11 @@ const ParticipantsListingPage = () => {
   }, [getParticipants]);
 
   const usersRecord = users?.slice(firstIndex, lastIndex);
-  console.log(users);
+
   const depsRecord = departments?.slice(depsfirstIndex, depslastIndex);
 
   const npages = Math.ceil(users.length / recordsPerPage);
-  console.log(users);
+
   const nDepspages = Math.ceil(departments.length / depsRecordsPerPage);
 
   return (

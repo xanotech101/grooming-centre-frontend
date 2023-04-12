@@ -168,7 +168,6 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   } = await http.get(path);
 
   data = data[0];
-  console.log(data);
 
   const examination = {
     id: data.id,
@@ -241,12 +240,14 @@ export const getStandaloneExaminationParticipants = async (id) => {
 };
 
 export const deleteStandaloneExaminationParticipants = async (id) => {
+  console.log(id);
   const path = `/stand-alone-examination/participants/${id}`;
 
   const {
     data: { message },
   } = await http.delete(path);
 
+  console.log(message);
   return {
     message,
   };
