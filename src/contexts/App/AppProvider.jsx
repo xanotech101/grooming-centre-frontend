@@ -7,6 +7,7 @@ export const AppProvider = (props) => {
     user: null,
     token: null,
     metadata: null,
+    examdata: [],
   });
   const value = useMemo(() => [state, setState], [state]);
 

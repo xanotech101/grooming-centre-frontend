@@ -2,71 +2,69 @@ import { useDisclosure } from '@chakra-ui/hooks';
 import { useToast } from '@chakra-ui/toast';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { Box } from '@chakra-ui/layout';
 import { useCache } from '../../../../contexts';
 import { Text } from '../../../../components';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import useAssessmentPreview from '../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview';
-import { submitAssessment } from '../../../../services';
-import { submitExamination } from '../../../../services/http/endpoints/examination';
+import { useQueryParams } from '../../../../hooks';
+import useStandalonePreview from './useStandalonePreview';
+import { submitAssessment, submitExamination } from '../../../../services';
 import { hasEnded, isUpcoming, sortByIndexField } from '../../../../utils';
-import { CongratsModalContent } from '../Modal';
-import useTimerCountdown from './useTimerCountdown';
-import { Box } from '@chakra-ui/layout';
+import { CongratsModalContent } from '../../../../layouts/user/Assessment/Modal';
+import useTimerCountdown from '../../../../layouts/user/Assessment/hooks/useTimerCountdown';
 
-const useAssessment = () => {
-  const { assessment, isLoading, error, setError } = useAssessmentPreview();
+const useStandalone = () => {
+  const { assessment, isLoading, error, setError } = useStandalonePreview();
   const { course_id } = useParams();
-  const isExamination = useQueryParams().get('examination');
+  const isExamination = useQueryParams().get('exam');
 
-  console.log({ assessment });
+  const pageLength = assessment?.question?.length - 1;
 
-  assessment.questions = sortByIndexField(
-    assessment.questions,
-    'questionIndex'
-  );
-  assessment.questions?.forEach((question) => {
+  const [index, setindex] = useState(0);
+
+  assessment.question = sortByIndexField(assessment.question, 'questionIndex');
+  assessment.question?.forEach((question) => {
     question.options = sortByIndexField(question.options, 'optionIndex');
   });
 
   const [currentQuestion, setCurrentQuestion] = useState({});
 
   const timerCountdownManger = useTimerCountdown({
-    startDate: assessment.startTime,
-    endDate: assessment.endTime,
+    startDate: assessment?.startTime,
+    endDate: assessment?.endTime,
   });
 
   // Initialize the first question
   useEffect(() => {
     if (assessment) {
-      setCurrentQuestion(assessment.questions?.[0]);
+      setCurrentQuestion(assessment?.question?.[index]);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment.questions?.[0]]);
+  }, [assessment?.question?.[index]]);
 
   // Handle Late/Too Early comer :) and deals with completed assessment
   useEffect(() => {
-    if (assessment.hasCompleted)
+    if (assessment?.hasCompleted)
       return setError(
         `You have already taken this ${
           isExamination ? 'examination' : 'assessment'
         }`
       );
 
-    if (isUpcoming(assessment.startTime))
+    if (isUpcoming(assessment?.startTime))
       return setError(
         `This ${
           isExamination ? 'examination' : 'assessment'
         } is not yet time to be taken`
       );
 
-    if (hasEnded(assessment.endTime))
+    if (hasEnded(assessment?.endTime))
       setError(
         `This ${isExamination ? 'examination' : 'assessment'} has already ended`
       );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assessment.endTime, assessment.startTime]);
+  }, [assessment?.endTime, assessment?.startTime]);
 
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submitStatus, setSubmitStatus] = useState({
@@ -74,6 +72,9 @@ const useAssessment = () => {
     error: false,
     loading: false,
   });
+  const [questionId, setQuestionId] = useState([]);
+  const [optionId, setOptionId] = useState([]);
+  const [id, setId] = useState(0);
 
   const toast = useToast();
   // const {
@@ -86,7 +87,7 @@ const useAssessment = () => {
     });
 
     try {
-      const questionIdArr = assessment?.questions?.reduce((acc, question) => {
+      const questionIdArr = assessment?.question?.reduce((acc, question) => {
         acc.push(question.id);
         return acc;
       }, []);
@@ -201,7 +202,7 @@ const useAssessment = () => {
             </Box>{' '}
             out of{' '}
             <Box as="b" fontSize="text.level3">
-              {assessment.questionCount}
+              {pageLength + 1}
             </Box>{' '}
             questions
           </Text>
@@ -218,15 +219,16 @@ const useAssessment = () => {
   const handleNextQuestion = (e) => {
     e.preventDefault();
 
-    const nextQuestion =
-      assessment.questions[currentQuestion?.questionIndex + 1];
+    setindex(index === pageLength ? pageLength : index + 1);
+
+    const nextQuestion = assessment.question[index];
 
     handleQuestionChange(nextQuestion);
   };
 
   const handlePreviousQuestion = () => {
-    const previousQuestion =
-      assessment.questions[currentQuestion?.questionIndex - 1];
+    setindex(index === 0 ? 0 : index - 1);
+    const previousQuestion = assessment.question[index];
 
     handleQuestionChange(previousQuestion);
   };
@@ -236,14 +238,19 @@ const useAssessment = () => {
       ...prev,
       [currentQuestion?.id]: selectedAssessmentOptionId,
     }));
+    setQuestionId((prev) => ({
+      ...prev,
+      [index]: currentQuestion?.id,
+    }));
+    setOptionId((prev) => ({
+      ...prev,
+      [index]: selectedAssessmentOptionId,
+    }));
   };
 
-  const shouldSubmit =
-    assessment.questionCount - 1 === currentQuestion?.questionIndex
-      ? true
-      : false;
+  const shouldSubmit = pageLength === index ? true : false;
 
-  const disablePreviousQuestion = !currentQuestion?.questionIndex;
+  const disablePreviousQuestion = index === 0;
 
   return {
     assessment,
@@ -267,7 +274,11 @@ const useAssessment = () => {
       prompt: modalPrompt,
       canClose: modalCanClose,
     },
+    pageLength,
+    index,
+    questionId,
+    optionId,
   };
 };
 
-export default useAssessment;
+export default useStandalone;

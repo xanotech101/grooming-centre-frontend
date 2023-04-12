@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { getEndTime } from "../../../../utils";
-import { getServerDateNow } from "../../../../utils/DateNow";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getEndTime } from '../../../../utils';
+import { getServerDateNow } from '../../../../utils/DateNow';
 
 const getLateEndDate = (startTime, endTime) => {
   const now = new Date(getServerDateNow());
   const duration = (new Date(endTime).getTime() - now.getTime()) / 1000 / 60;
   const newEndDate = new Date(getEndTime(startTime, duration));
+
+  console.log(startTime);
 
   return newEndDate;
 };
@@ -64,13 +66,13 @@ const useTimerCountdown = ({
     const seconds = Math.floor(distance / 1000);
 
     return {
-      hours: hours || "00",
-      minutes: /an/i.test(("0" + minutes).slice(-2))
-        ? "00"
-        : ("0" + minutes).slice(-2),
-      seconds: /an/i.test(("0" + seconds).slice(-2))
-        ? "00"
-        : ("0" + seconds).slice(-2),
+      hours: hours || '00',
+      minutes: /an/i.test(('0' + minutes).slice(-2))
+        ? '00'
+        : ('0' + minutes).slice(-2),
+      seconds: /an/i.test(('0' + seconds).slice(-2))
+        ? '00'
+        : ('0' + seconds).slice(-2),
     };
   };
 

@@ -29,6 +29,21 @@ export const HEADING = [
   },
 ];
 
+export const HEADING_DEPARTMENTS = [
+  {
+    id: 1,
+    desc: 'S/N',
+  },
+  {
+    id: 2,
+    desc: 'Department',
+  },
+  {
+    id: 3,
+    desc: 'Action',
+  },
+];
+
 export const DETAILS = [
   {
     id: 1,

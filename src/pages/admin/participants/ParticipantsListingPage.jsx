@@ -2,31 +2,27 @@ import { Box } from '@chakra-ui/react';
 import { useState, useEffect, useCallback } from 'react';
 import { Route } from 'react-router-dom';
 import { Button, Heading } from '../../../components';
-import { HEADING, MODAL, DETAILS } from '../../../constants';
-import dots from '../../../assets/images/dots.png';
+import { HEADING, HEADING_DEPARTMENTS } from '../../../constants';
 import { useQueryParams } from '../../../hooks';
-import {
-  adminGetStandaloneExaminationParticipants,
-  getStandaloneExaminationParticipants,
-} from '../../../services';
+import { getStandaloneExaminationParticipants } from '../../../services';
+import ParticipantsPagination from './ParticipantsPagination';
 
 const ParticipantsListingPage = () => {
   const examinationId = useQueryParams().get('examination');
-  const [open, setOpen] = useState(false);
-  const [id, setId] = useState('');
   const [users, setUsers] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [status, setStatus] = useState('pending');
-  const [statusStyle, setStatusStyle] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setRecordsPerPage] = useState(5);
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+
   const [details, setDetails] = useState({
     loading: false,
     err: null,
   });
 
-  const handleDotsClick = (e, id) => {
-    e.stopPropagation();
-    setOpen((prev) => !prev);
-    setId(id);
+  const handleDelete = (id) => {
+    console.log(id);
   };
 
   const getParticipants = useCallback(async () => {
@@ -47,9 +43,10 @@ const ParticipantsListingPage = () => {
     getParticipants();
   }, [getParticipants]);
 
-  console.log(users);
+  const usersRecord = users?.slice(firstIndex, lastIndex);
+  const depsRecord = departments?.slice(firstIndex, lastIndex);
 
-  const handleModalSelect = (value, myid) => {};
+  const npages = Math.ceil(users.length / recordsPerPage);
 
   return (
     <Box marginLeft="20px" marginRight="25px" marginTop="20px">
@@ -73,21 +70,19 @@ const ParticipantsListingPage = () => {
         </Button>
       </Box>
 
+      {/* for users */}
       <div className="users_details">
         <table className="content-table">
           <thead>
             <tr>
-              {HEADING.map((item) => (
-                <th key={item?.id}>{item?.desc}</th>
+              {HEADING.map((item, i) => (
+                <th key={i}>{item?.desc}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {users?.map((item, index) => (
-              <tr
-                key={item?.id}
-                // onClick={() => navigate(`users/${item?.userName}`)}
-              >
+            {usersRecord?.map((item, index) => (
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item?.firstName}</td>
                 <td>{item?.lastName}</td>
@@ -101,7 +96,9 @@ const ParticipantsListingPage = () => {
                       padding: '5px',
                       textAlign: 'center',
                       borderRadius: '5px',
+                      cursor: 'pointer',
                     }}
+                    onClick={() => handleDelete(item?.id)}
                   >
                     Delete
                   </div>
@@ -110,6 +107,72 @@ const ParticipantsListingPage = () => {
             ))}
           </tbody>
         </table>
+        <ParticipantsPagination
+          documentCount={usersRecord?.length}
+          totalCount={users?.length}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          recordsPerPage={recordsPerPage}
+          setRecordsPerPage={setRecordsPerPage}
+          firstIndex={firstIndex}
+          lastIndex={lastIndex}
+          nPages={npages}
+        />
+      </div>
+
+      {/* for departments */}
+
+      <Box
+        display="flex"
+        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+        justifyContent="space-between"
+        alignItems={{ base: 'flex-start', md: 'flex-start', lg: 'center' }}
+        paddingBottom={5}
+        gap={5}
+        marginTop="50px"
+      >
+        <Heading as="h1" fontSize="heading.h4">
+          By Departments
+        </Heading>
+      </Box>
+
+      <div className="users_details">
+        <table className="content-table">
+          <thead>
+            <tr>
+              {HEADING_DEPARTMENTS?.map((item) => (
+                <th key={item?.id}>{item?.desc}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {depsRecord?.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item?.name}</td>
+                <td>
+                  <div
+                    style={{
+                      backgroundColor: 'red',
+                      padding: '5px',
+                      textAlign: 'center',
+                      borderRadius: '5px',
+                      width: '50%',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleDelete(item?.id)}
+                  >
+                    Delete
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <ParticipantsPagination
+          documentCount={depsRecord?.length}
+          totalCount={departments.length}
+        />
       </div>
     </Box>
   );

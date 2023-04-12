@@ -1,7 +1,9 @@
-import { Box, Flex } from "@chakra-ui/layout";
-import { Text } from "../../components";
-import { maxWidthStyles_userPages } from "../../theme/breakpoints";
+import { Box, Flex } from '@chakra-ui/layout';
+import { Text } from '../../components';
+import { maxWidthStyles_userPages } from '../../theme/breakpoints';
 
+const date = new Date();
+const year = date.getFullYear();
 const Footer = () => {
   return (
     <Box
@@ -10,11 +12,15 @@ const Footer = () => {
       backgroundColor="primary.base"
       height="60px"
       padding={5}
-      marginLeft={{base:"0", lg:"250px", md:"250px"}}
+      marginLeft={{ base: '0', lg: '250px', md: '250px' }}
     >
-      <Flex alignItems="center" {...maxWidthStyles_userPages} justifyContent="center">
+      <Flex
+        alignItems="center"
+        {...maxWidthStyles_userPages}
+        justifyContent="center"
+      >
         <Box textAlign="center">
-          GROOMING CENTRE E-LEARNING SUITE © 2022 All rights reversed
+          GROOMING CENTRE E-LEARNING SUITE © {year} All rights reversed
         </Box>
       </Flex>
     </Box>

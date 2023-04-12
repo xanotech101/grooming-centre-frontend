@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
-import { useParams } from "react-router";
-import { useCache } from "..";
-import useCourseDetails from "../../pages/user/Courses/CourseDetails/hooks/useCourseDetails";
-import { TakeCourseContext } from "./TakeCourseProvider";
+import { useContext, useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useCache } from '..';
+import useCourseDetails from '../../pages/user/Courses/CourseDetails/hooks/useCourseDetails';
+import { TakeCourseContext } from './TakeCourseProvider';
 
 /**
  * TakeCourseLayout state `Manager` - its consumes the ContextProvider and returns whats neccessary.

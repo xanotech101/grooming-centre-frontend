@@ -49,6 +49,7 @@ const QuestionsStandalone = () => {
   const isStandaloneExamination = isExamination ? true : false;
 
   const assessmentManager = useAssessmentPreview(null, examinationId, true);
+
   return (
     <>
       <Heading fontSize="heading.h3" paddingTop={3} paddingX={6}>
@@ -621,7 +622,7 @@ const CreateQuestionPage = (assessmentManager) => {
 const QuestionListingPage = ({ assessment, isLoading, error }) => {
   const isExamination = useQueryParams().get('examination');
   console.log(assessment?.id);
-
+  console.log(assessment);
   const questions = assessment?.questions;
 
   const questionsIsEmpty =
@@ -815,7 +816,6 @@ const getQuestionListingLink = (isExamination, questionId) =>
   }${questionId ? `&question=${questionId}` : ''}`;
 
 const getEditQuestionLink = (questionId, isExamination) => {
-  console.log(isExamination);
   return `/admin/standalone-exams/questions/${
     isExamination ? `?examination=${isExamination}` : ''
   }${questionId ? `&question=${questionId}` : ''}`;

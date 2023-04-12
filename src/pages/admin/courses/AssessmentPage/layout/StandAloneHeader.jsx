@@ -1,17 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/layout';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { Button } from '../../../../../components';
 import { useQueryParams } from '../../../../../hooks';
-import { adminEditStandaloneExamination } from '../../../../../services';
+import {
+  adminEditStandaloneExamination,
+  adminGetAllStandaloneExaminationDetails,
+} from '../../../../../services';
+import useAssessmentPreview from '../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview';
+import { utils, writeFile } from 'xlsx';
 
-const StandAloneHeader = ({ assessment }) => {
+const StandAloneHeader = () => {
   const { id } = useParams();
 
   const examinationId = useQueryParams().get('examination');
+
+  const { isLoading, error, assessment } = useAssessmentPreview(
+    null,
+    examinationId ? examinationId : 'isStandaloneExamination && isNotEdit',
+    true
+  );
+
   const myId = useQueryParams().get('question');
   const [questionId, setQuestionId] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [gradeDetails, setGradeDetails] = useState([]);
   const [isPublished, setisPublished] = useState(assessment?.isPublished);
   const { push } = useHistory();
 
@@ -19,8 +32,41 @@ const StandAloneHeader = ({ assessment }) => {
     setisPublished(assessment?.isPublished);
   }, [assessment?.isPublished]);
 
+  const fetcher = useCallback(async () => {
+    console.log(examinationId);
+    try {
+      const { data } = await adminGetAllStandaloneExaminationDetails(
+        examinationId
+      );
+      setGradeDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [examinationId]);
+
+  useEffect(() => {
+    fetcher();
+  }, [fetcher]);
+
+  const handleGetGrades = () => {
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(
+      gradeDetails?.map((order) => ({
+        username: order.user.username,
+        firstName: order.user.firstName,
+        lastName: order.user.lastName,
+        gender: order.user.gender,
+        email: order.user.email,
+        score: order.score,
+      }))
+    );
+
+    utils.book_append_sheet(wb, ws, 'Orders');
+    writeFile(wb, 'Orders.xlsx');
+  };
+
   const handlePublishing = async () => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       const body = {
         isPublished: !isPublished,
@@ -30,11 +76,11 @@ const StandAloneHeader = ({ assessment }) => {
         body
       );
       setisPublished(examination?.isPublished);
-      setIsLoading(false);
+      setLoading(false);
       push(`/admin/standalone-exams`);
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -113,11 +159,20 @@ const StandAloneHeader = ({ assessment }) => {
           </Box>
 
           <Box display="flex" gap="10px">
+            <Button
+              secondary
+              isLoading={loading}
+              disabled={loading}
+              onClick={() => handleGetGrades()}
+              width="50%"
+            >
+              Get Grades
+            </Button>
             {examinationId ? (
               <Flex width="180px">
                 <Button
-                  isLoading={isLoading}
-                  disabled={isLoading}
+                  isLoading={loading}
+                  disabled={loading}
                   onClick={() => handlePublishing()}
                   width="100%"
                 >

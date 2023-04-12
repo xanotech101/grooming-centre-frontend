@@ -1,12 +1,27 @@
 import { Box } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { AiFillClockCircle } from 'react-icons/ai';
 import { MdVerified, MdPlayLesson } from 'react-icons/md';
+import { Button } from '../../../components';
+import { useQueryParams } from '../../../hooks';
+import useTakeStandalone from '../../../contexts/TakeStandaloneExam/useTakeStandalone';
+import timeConverter from './timeConverter';
+import { AppContext } from '../../../contexts';
 
-const StandaloneExamsDetails = () => {
-  const { examid } = useParams();
+const StandalonePreAssessment = () => {
+  const [exams, setExams] = useState([]);
+  const { examination } = useTakeStandalone();
+
+  useEffect(() => {
+    setExams(examination);
+  }, [examination]);
+
+  const examid = useQueryParams().get('exam');
+
+  const currentExamDetails = exams?.find((item) => item?.id === examid);
+
   return (
     <Box
       width="80%"
@@ -21,17 +36,18 @@ const StandaloneExamsDetails = () => {
       padding="40px"
     >
       <Box display="flex" gap="8px" flexDirection="column">
-        <h1 style={{ fontWeight: 'bold', fontSize: '24px' }}>
-          Assessment {examid}
-        </h1>
-        <h3 style={{ fontWeight: 'bold' }}>Topic: Introduction to HTML</h3>
+        <h1 style={{ fontWeight: 'bold', fontSize: '24px' }}>Assessment 1</h1>
+        <h3 style={{ fontWeight: 'bold' }}>
+          Topic: {currentExamDetails?.title}
+        </h3>
         <div>
           <p style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
             <MdPlayLesson style={{ color: '#c4c4c4' }} />
-            20 multiple choice questions
+            {currentExamDetails?.question?.length} multiple choice questions
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-            <AiFillClockCircle style={{ color: '#c4c4c4' }} /> 60 minutes
+            <AiFillClockCircle style={{ color: '#c4c4c4' }} />{' '}
+            {timeConverter(currentExamDetails?.duration)}
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
             <MdVerified style={{ color: '#c4c4c4' }} />
@@ -54,32 +70,21 @@ const StandaloneExamsDetails = () => {
           <li>We won’t show your results to anyone without your permission.</li>
         </ul>
       </Box>
-      <Link to="/exam-start">
-        <div
-          style={{
-            background: '#800020',
-            color: 'white',
-            width: '150px',
-            alignItems: 'center',
-            padding: '8px',
-            borderRadius: '4px',
-            display: 'flex',
-            cursor: 'pointer',
-            justifyContent: 'center',
-          }}
-        >
-          Take Assessment
-        </div>
+      {/* <Link to={`/exam-start/?exam=${examid}`}>
+        <Button>Assessment</Button>
+      </Link> */}
+      <Link to={`/standalone-exams/start/?exam=${examid}`}>
+        <Button>Assessment</Button>
       </Link>
     </Box>
   );
 };
 
-export const StandaloneExamsRoute = ({ ...rest }) => {
+export const StandalonePreAssessmentRoute = ({ ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) => <StandaloneExamsDetails {...props} />}
+      render={(props) => <StandalonePreAssessment {...props} />}
     />
   );
 };

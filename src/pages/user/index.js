@@ -19,4 +19,6 @@ export * from './OnBoarding/ForgotPasswordPage/ForgotPasswordPage';
 export * from './OnBoarding/UpdateDetailsPage/UpdateDetailsPage';
 export * from './OnBoarding/NewPasswordPage';
 export * from './Certificate/CertificatePage';
-export * from './StandaloneExaminations/StandaloneExaminations';
+export * from './StandaloneExamDetails/StandaloneExaminationListingPage';
+export * from './StandaloneExamDetails/timeConverter';
+export * from './StandaloneExamDetails/StandaloneExamsStart.jsx';

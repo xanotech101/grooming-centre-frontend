@@ -92,6 +92,52 @@ export const adminGetStandaloneExaminationListing = async (params) => {
   };
 };
 
+export const userCreateStandaloneExaminationGrade = async (body) => {
+  const path = `/stand-alone-examination-grade/create`;
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
+export const adminGetAllStandaloneExaminationDetails = async (id) => {
+  const path = `/stand-alone-examination-grade/${id}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return {
+    data,
+  };
+};
+
+export const usersGetStandaloneExaminationListing = async () => {
+  const path = `/stand-alone-examination/all`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  const examinations = data.map((exam) => ({
+    id: exam.id,
+    title: exam.title,
+    duration: exam.duration,
+    startTime: exam.startTime,
+    noOfUsers: exam.standAloneExaminationGrade.length,
+    isPublished: exam.isPublished,
+    question: exam.standAloneExaminationQuestion,
+    standAloneExaminationGrade: exam.standAloneExaminationGrade,
+  }));
+  return {
+    examinations,
+    // showingDocumentsCount: data.length,
+    // totalDocumentsCount: data.length,
+  };
+};
+
 export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   const path = `/stand-alone-examination${forAdmin ? '/admin' : ''}/${id}`;
 
@@ -171,6 +217,16 @@ export const getStandaloneExaminationParticipants = async (id) => {
   };
 };
 
+export const adminCreateStandaloneExaminationParticipants = async (body) => {
+  const path = `/stand-alone-examination/participants`;
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
 // /**
 //  * Endpoint to submit an `examination`
 //  * @param {object} body - answers
@@ -195,16 +251,6 @@ export const getStandaloneExaminationParticipants = async (id) => {
 export const adminCreateStandaloneExaminationQuestion = async (body) => {
   const path = '/stand-alone-examination-question/create';
   console.log(body);
-
-  const {
-    data: { message },
-  } = await http.post(path, body);
-
-  return { message };
-};
-
-export const adminCreateStandaloneExamination = async (body) => {
-  const path = '/stand-alone-examination/create';
 
   const {
     data: { message },

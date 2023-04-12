@@ -1,21 +1,30 @@
-import { Box, Flex, Grid, HStack, Stack } from '@chakra-ui/layout';
+import { Box, Flex, Grid, HStack, Stack, Center } from '@chakra-ui/layout';
 import { Radio, RadioGroup } from '@chakra-ui/radio';
-import { Route } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { Route } from 'react-router';
 import {
   Button,
   Heading,
+  Image,
   NavigationBlocker,
   RichTextToView,
+  Spinner,
   Text,
-  Image,
 } from '../../../components';
+import { EmptyState, PageLoaderLayout } from '../../../layouts';
+import { CustomModal } from '../../../layouts/user/Assessment/Modal';
 import breakpoints from '../../../theme/breakpoints';
-import { PageLoaderLayout } from '../../global/PageLoader/PageLoaderLayout';
-import { CustomModal } from './Modal';
-import { EmptyState } from '../..';
-import useStandalone from '../../../pages/user/StandaloneExamDetails/standaloneHooks/useStandalone';
+import useStandalone from './standaloneHooks/useStandalone';
+import congratsIcon from '../../../assets/images/congratsIcon.png';
+import { useToast } from '@chakra-ui/toast';
+import { capitalizeFirstLetter } from '../../../utils';
+import {
+  userCreateStandaloneExaminationGrade,
+  usersGetStandaloneExaminationListing,
+} from '../../../services';
+import { useQueryParams } from '../../../hooks';
 
-const AssessmentLayout = () => {
+const StandaloneExamsStart = () => {
   const {
     assessment,
     course_id,
@@ -33,7 +42,71 @@ const AssessmentLayout = () => {
     handleNextQuestion,
     handlePreviousQuestion,
     handleOptionSelect,
+    pageLength,
+    index,
+    questionId,
+    optionId,
   } = useStandalone();
+  const toast = useToast();
+
+  const questionArr = Object.values(questionId);
+  const optionArr = Object.values(optionId);
+
+  const isExamination = useQueryParams().get('exam');
+  const [grade, setGrade] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [myAssessment, setMyAssessment] = useState([]);
+
+  const [modal, setModal] = useState({
+    state: false,
+    congrats: false,
+    score: false,
+  });
+  const handleExamSubmit = async () => {
+    try {
+      const body = {
+        standAloneExaminationId: isExamination,
+        standAloneExaminationQuestionsId: questionArr,
+        standAloneExaminationOptionsId: optionArr,
+      };
+      const { message } = await userCreateStandaloneExaminationGrade(body);
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: 'top',
+        status: 'success',
+      });
+      setModal({ ...modal, congrats: true });
+    } catch (error) {
+      toast({
+        description: error.message,
+        position: 'top',
+        status: 'error',
+      });
+    }
+  };
+
+  const handleViewResult = useCallback(async () => {
+    setModal({ ...modal, score: true });
+    setLoading(true);
+    try {
+      const { examinations } = await usersGetStandaloneExaminationListing();
+      setMyAssessment(examinations);
+    } catch (error) {
+      setLoading(false);
+    }
+  }, [modal]);
+
+  useEffect(() => {
+    const currentExamDetails = myAssessment?.find(
+      (item) => item?.id === isExamination
+    );
+    setGrade(currentExamDetails?.standAloneExaminationGrade[0]?.score);
+    setLoading(false);
+  }, [isExamination, myAssessment]);
+
+  const handleSubmit = () => {
+    setModal({ ...modal, state: true });
+  };
 
   const renderSubHeading = (heading) => (
     <Box
@@ -47,16 +120,121 @@ const AssessmentLayout = () => {
     </Box>
   );
 
-  // console.log(
-  //   submitStatus.success,
-  //   error,
-  //   isLoading,
-  //   !submitStatus.success && !error && !isLoading
-  // );
-  // console.log(selectedAnswers[currentQuestion?.id]);
-
   const renderContent = () => (
     <>
+      {modal.state && (
+        <Box
+          zIndex="100"
+          backgroundColor="rgba(0, 0, 0, 0.6)"
+          width="100vw"
+          top="0"
+          right="0"
+          position="fixed"
+          height="100vh"
+          padding="40px"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Box
+            borderRadius="10px"
+            backgroundColor="white"
+            width="525px"
+            height="256px"
+          >
+            {modal.congrats ? (
+              <Box>
+                {modal.score ? (
+                  <Box
+                    alignItems="center"
+                    display="flex"
+                    flexDirection="column"
+                    gap="30px"
+                    padding="20px"
+                  >
+                    <p style={{ fontWeight: 'bold' }}>Result Overview</p>
+                    <p>Your Score is</p>
+                    {loading ? (
+                      <Center height="100%">
+                        <Spinner />
+                      </Center>
+                    ) : (
+                      <p>{grade}%</p>
+                    )}
+                  </Box>
+                ) : (
+                  <Box
+                    alignItems="center"
+                    display="flex"
+                    flexDirection="column"
+                    gap="20px"
+                    padding="20px"
+                  >
+                    <p style={{ fontWeight: 'bold' }}>Congratulations</p>
+                    <img src={congratsIcon} width={'50px'} alt="congrats" />
+                    <p> completed</p>
+                    <Button onClick={() => handleViewResult()}>
+                      View Result
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+            ) : (
+              <Box padding="15px">
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '5px',
+                  }}
+                >
+                  <h2
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginTop: '7px',
+                    }}
+                  >
+                    Are you sure you want to submit your examination?
+                  </h2>
+                  <Text marginBottom="10px" marginTop="10px">
+                    Please note that you will not be able to retake this
+                    examination after you submit. Double check your answers
+                    before submitting.
+                  </Text>
+                  <Text marginBottom={5}>
+                    You answered{' '}
+                    <Box as="b" color="secondary.6" fontSize="text.level3">
+                      {Reflect.ownKeys(selectedAnswers).length}
+                    </Box>{' '}
+                    out of{' '}
+                    <Box as="b" fontSize="text.level3">
+                      {pageLength + 1}
+                    </Box>{' '}
+                    questions
+                  </Text>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '20px',
+                    float: 'right',
+                    marginTop: '50px',
+                  }}
+                >
+                  <Button
+                    onClick={() => setModal({ ...modal, state: false })}
+                    secondary
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={() => handleExamSubmit()}>Submit</Button>
+                </div>
+              </Box>
+            )}
+          </Box>
+        </Box>
+      )}
       <NavigationBlocker when={!submitStatus.success && !error && isLoading} />
 
       {isLoading ? (
@@ -100,7 +278,7 @@ const AssessmentLayout = () => {
               <Box
                 as="header"
                 color="white"
-                backgroundColor="primary.base"
+                backgroundColor="#800020"
                 padding={5}
                 paddingX={10}
               >
@@ -120,9 +298,7 @@ const AssessmentLayout = () => {
                   marginRight={5}
                 >
                   {renderSubHeading(
-                    `Question ${currentQuestion?.questionIndex + 1} of ${
-                      assessment.questionCount
-                    }`
+                    `Question ${index + 1} of ${pageLength + 1}`
                   )}
                   <Flex
                     flexDirection="column"
@@ -163,11 +339,13 @@ const AssessmentLayout = () => {
                       value={selectedAnswers[currentQuestion?.id] || 'default'}
                     >
                       <Stack spacing={4}>
-                        {currentQuestion?.options?.map((option) => (
-                          <Radio key={option.id} value={option.id}>
-                            <Text>{option.name}</Text>
-                          </Radio>
-                        ))}
+                        {currentQuestion?.standAloneExaminationOption?.map(
+                          (option) => (
+                            <Radio key={option.id} value={option.id}>
+                              <Text>{option.name}</Text>
+                            </Radio>
+                          )
+                        )}
 
                         <Radio value={'default'} display="none">
                           <Text>default</Text>
@@ -184,9 +362,13 @@ const AssessmentLayout = () => {
                         Previous
                       </Button>
 
-                      <Button type="submit">
-                        {shouldSubmit ? 'Submit' : 'Next'}
-                      </Button>
+                      {pageLength === index ? (
+                        <Button onClick={handleSubmit}>Submit</Button>
+                      ) : (
+                        <Button type="submit" onClick={handleNextQuestion}>
+                          Next
+                        </Button>
+                      )}
                     </Flex>
                   </Flex>
                 </Flex>
@@ -227,7 +409,7 @@ const AssessmentLayout = () => {
                         <Box
                           width="20px"
                           height="6px"
-                          backgroundColor="primary.base"
+                          backgroundColor="#800020"
                           border="1px"
                           borderColor="transparent"
                         ></Box>
@@ -241,7 +423,7 @@ const AssessmentLayout = () => {
                           width="20px"
                           height="6px"
                           border="1px"
-                          borderColor="primary.base"
+                          borderColor="#800020"
                         ></Box>
                         <Text as="level5" bold>
                           Unanswered
@@ -250,7 +432,7 @@ const AssessmentLayout = () => {
                     </Flex>
 
                     <Grid templateColumns="repeat(5, 1fr)" gap={2}>
-                      {assessment?.questions?.map((question, index) => (
+                      {assessment?.question?.map((question, index) => (
                         <ButtonNavItem
                           key={index}
                           number={index + 1}
@@ -279,12 +461,12 @@ const AssessmentLayout = () => {
 const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
   const styleProps = answered
     ? {
-        backgroundColor: 'primary.base',
+        backgroundColor: '#800020',
         color: 'white',
         borderColor: 'transparent',
       }
     : {
-        borderColor: 'primary.base',
+        borderColor: '#800020',
       };
 
   return (
@@ -308,37 +490,8 @@ const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
   );
 };
 
-export const AssessmentLayoutRoute = ({ ...rest }) => {
+export const StandaloneExamsStartRoute = ({ ...rest }) => {
   return (
-    <Route {...rest} render={(props) => <AssessmentLayout {...props} />} />
+    <Route {...rest} render={(props) => <StandaloneExamsStart {...props} />} />
   );
 };
-
-// const AssessmentHasEnded = () => {
-//   const queryParam = useQueryParams();
-//   const { course_id } = useParams();
-
-//   const message = queryParam.get("elapsed")
-//     ? "This assessment has already ended"
-//     : queryParam.get("timeout")
-//     ? "Timeout! you answers has been submitted"
-//     : "";
-
-//   return (
-//     <PageLoaderLayout>
-//       <Heading as="h1" fontSize="heading.h3">
-//         {message}
-//       </Heading>
-
-//       <Button link={`/courses/details/${course_id}`} marginTop={10}>
-//         Back to course
-//       </Button>
-//     </PageLoaderLayout>
-//   );
-// };
-
-// export const AssessmentHasEndedRoute = ({ ...rest }) => {
-//   return (
-//     <Route {...rest} render={(props) => <AssessmentHasEnded {...props} />} />
-//   );
-// };

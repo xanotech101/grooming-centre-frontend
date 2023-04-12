@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import { useCache } from "../../../../../contexts";
-import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
-import { userGetGrades } from "../../../../../services";
+import { useCallback, useEffect, useState } from 'react';
+import { useCache } from '../../../../../contexts';
+import useComponentIsMount from '../../../../../hooks/useComponentIsMount';
+import { userGetGrades } from '../../../../../services';
 
 const useGradeDetails = () => {
   const { handleGetOrSetAndGet } = useCache();
@@ -21,7 +21,7 @@ const useGradeDetails = () => {
     setGradeDetails({ loading: true });
 
     try {
-      const gradeDetails = await handleGetOrSetAndGet("gradeDetails", fetcher);
+      const gradeDetails = await handleGetOrSetAndGet('gradeDetails', fetcher);
       // console.log(gradeDetails);
       if (componentIsMount) setGradeDetails({ data: gradeDetails });
     } catch (err) {

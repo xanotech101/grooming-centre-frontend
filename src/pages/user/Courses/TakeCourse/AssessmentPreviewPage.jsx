@@ -1,20 +1,20 @@
-import { Box, UnorderedList, ListItem, List, ListIcon } from "@chakra-ui/react";
-import { BsClockFill } from "react-icons/bs";
-import { Route } from "react-router-dom";
-import { Button, Heading, SkeletonText, Text } from "../../../../components";
-import { useTakeCourse } from "../../../../contexts";
-import { getDuration } from "../../../../utils";
-import useQueryParams from "../../../../hooks/useQueryParams";
-import useAssessmentPreview from "./hooks/useAssessmentPreview";
-import { EmptyState } from "../../../../layouts";
-import { useGoBack } from "../../../../hooks";
+import { Box, UnorderedList, ListItem, List, ListIcon } from '@chakra-ui/react';
+import { BsClockFill } from 'react-icons/bs';
+import { Route } from 'react-router-dom';
+import { Button, Heading, SkeletonText, Text } from '../../../../components';
+import { useTakeCourse } from '../../../../contexts';
+import { getDuration } from '../../../../utils';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import useAssessmentPreview from './hooks/useAssessmentPreview';
+import { EmptyState } from '../../../../layouts';
+import { useGoBack } from '../../../../hooks';
 
 const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
   const { assessment, isLoading, error, handleTryAgain, assessmentIsDisabled } =
     useAssessmentPreview(sidebarLinks, null, null, sidebarLinkClickedState);
   useTakeCourse();
 
-  const isExamination = useQueryParams().get("examination");
+  const isExamination = useQueryParams().get('examination');
   const duration = getDuration(assessment.duration);
   const handleGoBack = useGoBack();
 
@@ -33,7 +33,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
       cta={<Button onClick={handleGoBack}>Go Back</Button>}
       heading="Oops An Error Occurred"
       description={`You are are not allowed to view this ${
-        isExamination ? "examination" : "assessment"
+        isExamination ? 'examination' : 'assessment'
       }`}
     />
   ) : (
@@ -79,7 +79,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
               </ListIcon>
 
               <Text>
-                Score a minimum of{" "}
+                Score a minimum of{' '}
                 {assessment.minimumPercentageScoreToEarnABadge}% to earn a badge
               </Text>
             </ListItem>
@@ -90,15 +90,15 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
       <UnorderedList spacing={2} paddingBottom={10}>
         <ListItem>
           <Text>
-            You must complete this{" "}
-            {isExamination ? "examination" : "assessment"} in one session — make
+            You must complete this{' '}
+            {isExamination ? 'examination' : 'assessment'} in one session — make
             sure your internet is reliable.
           </Text>
         </ListItem>
         <ListItem>
           <Text>
-            You can only take this{" "}
-            {isExamination ? "examination" : "assessment"} once, so do well to
+            You can only take this{' '}
+            {isExamination ? 'examination' : 'assessment'} once, so do well to
             put in your best.
           </Text>
         </ListItem>
