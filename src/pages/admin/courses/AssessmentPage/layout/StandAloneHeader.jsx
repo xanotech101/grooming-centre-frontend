@@ -77,7 +77,7 @@ const StandAloneHeader = () => {
       );
       setisPublished(examination?.isPublished);
       setLoading(false);
-      push(`/admin/standalone-exams`);
+      window.location.reload(true);
     } catch (error) {
       console.log(error);
       setLoading(false);
