@@ -36,8 +36,7 @@ const useAssessmentPreview = (
   const queryParams = useQueryParams();
   const isExamination = queryParams.get('examination');
 
-  // const isStandaloneExamination = !courseId && isExamination ? true : false;
-  const isStandaloneExamination = isExamination !== 'true';
+  const isStandaloneExamination = !courseId && isExamination ? true : false;
 
   const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
   const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };

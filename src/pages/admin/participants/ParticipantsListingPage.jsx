@@ -70,8 +70,6 @@ const ParticipantsListingPage = () => {
     getParticipants();
   }, [getParticipants]);
 
-  console.log(users);
-
   const usersRecord = users?.slice(firstIndex, lastIndex);
 
   const depsRecord = departments?.slice(depsfirstIndex, depslastIndex);

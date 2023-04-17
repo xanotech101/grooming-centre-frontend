@@ -92,7 +92,6 @@ export const adminCreateExamination = async (body) => {
  */
 export const adminGetStandaloneExaminationListing = async (params) => {
   const path = `/stand-alone-examination/admin/all`;
-  console.log(params);
 
   const {
     data: { data },
@@ -166,8 +165,6 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   let {
     data: { data },
   } = await http.get(path);
-
-  data = data[0];
 
   const examination = {
     id: data.id,
