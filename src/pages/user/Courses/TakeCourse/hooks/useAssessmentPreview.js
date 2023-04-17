@@ -35,6 +35,7 @@ const useAssessmentPreview = (
 
   const queryParams = useQueryParams();
   const isExamination = queryParams.get('examination');
+  console.log(isExamination);
 
   // const isStandaloneExamination = !courseId && isExamination ? true : false;
   const isStandaloneExamination = isExamination !== 'true';
