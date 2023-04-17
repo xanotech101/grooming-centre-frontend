@@ -187,7 +187,21 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
               error={errors.departmentId?.message}
             />
         </Box>
-        {/* Row 2 */}
+        <Box as="div" display={{lg:"grid",base:"flex", md:"flex"}} flexDirection={{base:"column", md:"column"}} gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
+          {/* Row 2 */}
+            <Select
+              isRequired
+              label="Select prerequisite"
+              options={populateSelectOptions(metadata?.departments)}
+              id="departmentId"
+              isLoading={!metadata?.departments}
+              {...register("departmentId", {
+                required: "Please select a department",
+              })}
+              error={errors.departmentId?.message}
+            />
+        </Box>
+        {/* Row 3 */}
         <Grid marginBottom={10}>
           <Textarea
             minHeight="150px"
@@ -205,7 +219,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             }
           />
         </Grid>
-        {/* Row 3 */}
+        {/* Row 4 */}
         <Grid marginBottom={10}>
           <GridItem colSpan={2}>
             <Upload
@@ -218,7 +232,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             />
           </GridItem>
         </Grid>
-        {/* Row 4 */}
+        {/* Row 5 */}
         <Grid marginBottom={10}>
           <GridItem colSpan={2}>
             <Upload
@@ -231,7 +245,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             />
           </GridItem>
         </Grid>
-        {/* Row 5 */}
+        {/* Row 6 */}
         <Grid marginBottom={10}>
           <GridItem>
             <Checkbox
