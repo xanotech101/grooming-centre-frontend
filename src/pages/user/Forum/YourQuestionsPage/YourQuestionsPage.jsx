@@ -1,14 +1,17 @@
-import { useState } from "react";
-import { Route } from "react-router-dom";
-import { QuestionsPageErrorState } from "../..";
-import { Heading, QuestionListCard, Text } from "../../../../components";
-import { PageLoaderLayout } from "../../../../layouts";
-import { AskAQuestionButton } from "../../../../layouts/user/Forum/Header/Header";
-import useYourQuestionsPage from "./hooks/useYourQuestionsPage";
+import { useState } from 'react';
+import { Route } from 'react-router-dom';
+import { QuestionsPageErrorState } from '../..';
+import { Heading, QuestionListCard, Text } from '../../../../components';
+import { PageLoaderLayout } from '../../../../layouts';
+import { AskAQuestionButton } from '../../../../layouts/user/Forum/Header/Header';
+import useYourQuestionsPage from './hooks/useYourQuestionsPage';
 
 const YourQuestionsPage = () => {
-  const { questions, handleFetch } = useYourQuestionsPage();
-  const [shuffleQuestion,setShuffleQuestion]=useState( questions.sort(() => Math.random() - 0.5))
+  const { questions } = useYourQuestionsPage();
+
+  // const [shuffleQuestion, setShuffleQuestion] = useState(
+  //   questions.splice()?.sort(() => Math.random() - 0.5)
+  // );
 
   const questionsIsEmpty =
     !questions.loading && !questions.err && !questions.data?.length
@@ -34,13 +37,17 @@ const YourQuestionsPage = () => {
 
       {questions.err && <QuestionsPageErrorState />}
 
-      {shuffleQuestion.data?.map((question) => (
+      {questions.data?.map((question) => (
+        <QuestionListCard key={question.id} {...question} />
+      ))}
+
+      {/* {shuffleQuestion.data?.map((question) => (
         <QuestionListCard
           key={question.id}
           onDeleteSuccess={handleFetch}
           {...question}
         />
-      ))}
+      ))} */}
     </>
   );
 };

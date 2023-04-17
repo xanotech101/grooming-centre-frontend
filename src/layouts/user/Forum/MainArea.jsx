@@ -1,5 +1,5 @@
-import { Box } from "@chakra-ui/react";
-import { Switch, Redirect } from "react-router-dom";
+import { Box } from '@chakra-ui/react';
+import { Switch, Redirect } from 'react-router-dom';
 import {
   AddQuestionPageRoute,
   MentionsPageRoute,
@@ -8,7 +8,7 @@ import {
   TagsPageRoute,
   YourAnswersPageRoute,
   YourQuestionsPageRoute,
-} from "../../../pages/user";
+} from '../../../pages/user';
 
 const MainArea = ({ ...rest }) => {
   return (

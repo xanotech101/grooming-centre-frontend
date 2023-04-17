@@ -46,6 +46,7 @@ const CreateUserPage = ({
   console.log(user);
 
   const metadata = propMetadata || appManager.state.metadata;
+  console.log(metadata);
 
   const { handleDelete } = useCache();
 

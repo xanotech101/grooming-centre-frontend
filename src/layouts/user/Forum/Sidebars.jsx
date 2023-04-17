@@ -1,24 +1,24 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex } from '@chakra-ui/react';
 import {
   AiOutlineComment,
   AiOutlineQuestionCircle,
   AiOutlineUnorderedList,
-} from "react-icons/ai";
-import { BsTag } from "react-icons/bs";
-import { useHistory } from "react-router";
-import { Link, SearchBar, Text } from "../../../components";
-import { AskAQuestionButton } from "./Header/Header";
-import useDisplayHeader from "./Header/hooks/useDisplayHeader";
+} from 'react-icons/ai';
+import { BsTag } from 'react-icons/bs';
+import { useHistory } from 'react-router';
+import { Link, SearchBar, Text } from '../../../components';
+import { AskAQuestionButton } from './Header/Header';
+import useDisplayHeader from './Header/hooks/useDisplayHeader';
 
 const menuLinks = [
   {
-    href: "/forum/questions?tab=new",
-    text: "Questions",
+    href: '/forum/questions?tab=new',
+    text: 'Questions',
     icon: <AiOutlineUnorderedList />,
   },
   {
-    href: "/forum/tags",
-    text: "Tags",
+    href: '/forum/tags',
+    text: 'Tags',
     icon: <BsTag />,
   },
   // {
@@ -29,13 +29,13 @@ const menuLinks = [
 ];
 const personalNavLinks = [
   {
-    href: "/forum/your-questions",
-    text: "Your questions",
+    href: '/forum/your-questions',
+    text: 'Your questions',
     icon: <AiOutlineQuestionCircle />,
   },
   {
-    href: "/forum/your-answers",
-    text: "Your answers",
+    href: '/forum/your-answers',
+    text: 'Your answers',
     icon: <AiOutlineComment />,
   },
 ];

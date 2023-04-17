@@ -1,30 +1,30 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
-import { Button } from "../../../../components";
-import { AiOutlineFire } from "react-icons/ai";
-import { BsArrowUpLeft, BsClockHistory } from "react-icons/bs";
-import { GoIssueClosed } from "react-icons/go";
-import useDisplayHeader from "./hooks/useDisplayHeader";
-import { useQueryParams, useTab } from "../../../../hooks";
+import { Box, Flex, HStack } from '@chakra-ui/react';
+import { Button } from '../../../../components';
+import { AiOutlineFire } from 'react-icons/ai';
+import { BsArrowUpLeft, BsClockHistory } from 'react-icons/bs';
+import { GoIssueClosed } from 'react-icons/go';
+import useDisplayHeader from './hooks/useDisplayHeader';
+import { useQueryParams, useTab } from '../../../../hooks';
 
 const links = [
   {
-    text: "New",
-    tab: "new",
+    text: 'New',
+    tab: 'new',
     icon: <BsClockHistory />,
   },
   {
-    text: "Top",
-    tab: "top",
+    text: 'Top',
+    tab: 'top',
     icon: <BsArrowUpLeft />,
   },
   {
-    text: "Hot",
-    tab: "hot",
+    text: 'Hot',
+    tab: 'hot',
     icon: <AiOutlineFire />,
   },
   {
-    text: "Closed",
-    tab: "closed",
+    text: 'Closed',
+    tab: 'closed',
     icon: <GoIssueClosed />,
   },
 ];
@@ -35,12 +35,12 @@ const Header = ({ ...rest }) => {
   const { currentTab } = useTab();
   const getStyles = (tab) =>
     !(tab === currentTab) ? { ordinary: true } : { blue: true };
-  const query = useQueryParams().get("q");
+  const query = useQueryParams().get('q');
 
   return (
     <Flex
       {...rest}
-      justifyContent={!pageDoNotRequireHeader ? "space-between" : "flex-end"}
+      justifyContent={!pageDoNotRequireHeader ? 'space-between' : 'flex-end'}
     >
       {!pageDoNotRequireHeader() && !query && (
         <HStack alignSelf="flex-start" spacing={1} flex={1}>
@@ -52,7 +52,9 @@ const Header = ({ ...rest }) => {
               {...getStyles(link.tab)}
               paddingX={3}
             >
-              {link.icon} <Box paddingRight={1}></Box> {link.text}
+              <Box display="flex" gap="5px">
+                {link.icon} <p>{link.text}</p>
+              </Box>
             </Button>
           ))}
         </HStack>
