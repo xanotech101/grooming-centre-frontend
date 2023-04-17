@@ -79,9 +79,15 @@ const CourseListingPage = () => {
     columns: [
       {
         id: '1',
+        key: 'displayId',
+        text: 'Course ID',
+        fraction: '100px',
+      },
+      {
+        id: '2',
         key: 'title',
         text: 'Course Title',
-        fraction: '3fr',
+        fraction: '300px',
         renderContent: (data) => (
           <Link href={`/admin/courses/details/${data.courseId}/info`}>
             <Text>{data.text}</Text>
@@ -145,6 +151,7 @@ const CourseListingPage = () => {
 
   const mapCourseToRow = (course) => ({
     id: course.id,
+    displayId: course.displayId,
     title: { text: course.title, courseId: course.id },
     startDate:
       course.startDate === 'not set'
