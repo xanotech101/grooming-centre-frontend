@@ -154,7 +154,6 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   // set prerequisite for edit
   useEffect(() => {
-    console.log(courseDetailsData)
     if (courseDetailsData && prerequisites) {
       setValue('preRequisiteId', courseDetailsData.preRequisiteId);
     }
