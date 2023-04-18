@@ -35,6 +35,33 @@ export const adminGetCourseListing = async (params) => {
 };
 
 /**
+ * Endpoint to get courses by department
+ *  @param {string} departmentId
+ *
+ * @returns {Promise<{ courses: CourseListArray }>}
+ */
+export const adminGetCoursesByDepartment = async (departmentId) => {
+  const path = `/course/admin/${departmentId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  return {
+    courses: data.map((course) => ({
+      id: course.id,
+      displayId: course.displayId,
+      title: course.title,
+      instructor: {
+        firstName: course.instructor.firstName,
+        lastName: course.instructor.lastName,
+      },
+      startDate: course.startTime || "not set",
+    })),
+  };
+};
+
+/**
  * Endpoint for course editing/modification
  * @param {string} courseId
  * @param {object} body
