@@ -11,6 +11,7 @@ import { Button, Image, Spinner } from "../..";
 import { useFetch } from "../../../hooks";
 import FormGroup, { FormGroupPropTypes } from "../FormGroup";
 import MiniUploadContent from "./MiniUploadContent";
+import fileIcon from "../../../assets/images/file.png";
 
 export const Upload = forwardRef(
   (
@@ -123,15 +124,10 @@ export const Upload = forwardRef(
                     {" "}
                   </object>
                 ) : excelUrl ? (
-                  <object
-                    id={previewElementId}
-                    width="100%"
-                    height="400"
-                    data={excelUrl}
-                    type=".csv"
-                  >
-                    {" "}
-                  </object>
+                  <div>
+                    <img width="100px" src={fileIcon} alt=""/><br/>
+                    <b><i>{excelUrl}</i></b>
+                  </div>
                 ) : (
                   <Image
                     id={previewElementId}

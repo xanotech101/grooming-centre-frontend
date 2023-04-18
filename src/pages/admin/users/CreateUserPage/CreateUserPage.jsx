@@ -1,7 +1,7 @@
-import Papa from "papaparse"
 import { Grid, GridItem, Stack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { Route, useParams, useHistory } from 'react-router-dom';
+import { read, utils } from "xlsx";
 import { Input, Select, Breadcrumb, Link, Upload } from '../../../../components';
 import { useApp, useCache } from '../../../../contexts';
 import { CreatePageLayout } from '../../../../layouts';
@@ -147,13 +147,18 @@ const CreateUserPage = ({
         "File"
       );
 
-      // console.log(file)
+      console.log(file)
 
-      Papa.parse(file, {
-        complete: function(results) {
-          // console.log("Finished:", results.data);
-        }}
-      )
+      const fileReader = new FileReader();
+      fileReader.readAsBinaryString(file)
+      fileReader.onload = (e)=>{
+        const data = e.target.result
+        const wb = read(data, {type: "binary"})
+        wb.SheetNames.forEach((sheet)=>{
+          const rowObj = utils.sheet_to_row_object_array(wb.Sheets[sheet]);
+          console.log(JSON.stringify(rowObj, undefined, 4))
+        })
+      }
       // toast({
       //   description: capitalizeFirstLetter(message),
       //   position: "top",

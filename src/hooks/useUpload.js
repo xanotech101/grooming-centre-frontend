@@ -43,7 +43,7 @@ export const useUpload = (props) => {
       }
 
       if (fileIsExcel) {
-        const url = URL.createObjectURL(file);
+        const url = file.name;
         setExcel({ url });
       }
     } else {
