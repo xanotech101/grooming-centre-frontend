@@ -24,6 +24,7 @@ export const Upload = forwardRef(
       videoUrl,
       audioUrl,
       pdfUrl,
+      excelUrl,
       alt,
       label,
       onFileSelect,
@@ -49,7 +50,7 @@ export const Upload = forwardRef(
       accept,
     });
 
-    const hasUploaded = imageUrl || videoUrl || pdfUrl || audioUrl;
+    const hasUploaded = imageUrl || videoUrl || pdfUrl || audioUrl || excelUrl;
 
     const { resource: deleteRequest, handleFetchResource } = useFetch();
     const toast = useToast();
@@ -118,6 +119,16 @@ export const Upload = forwardRef(
                     height="400"
                     data={pdfUrl}
                     type="application/pdf"
+                  >
+                    {" "}
+                  </object>
+                ) : excelUrl ? (
+                  <object
+                    id={previewElementId}
+                    width="100%"
+                    height="400"
+                    data={excelUrl}
+                    type=".csv"
                   >
                     {" "}
                   </object>

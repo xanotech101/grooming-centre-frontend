@@ -31,6 +31,7 @@
 		"msw": "^0.35.0",
 		"mui-rte": "^1.29.0",
 		"node-sass": "^6.0.1",
+		"papaparse": "^5.4.1",
 		"postcss": "^8.4.21",
 		"prop-types": "^15.7.2",
 		"react": "^17.0.2",

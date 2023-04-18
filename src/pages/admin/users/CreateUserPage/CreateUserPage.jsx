@@ -1,9 +1,11 @@
-import { Grid, Stack } from '@chakra-ui/layout';
+import Papa from "papaparse"
+import { Grid, GridItem, Stack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { Route, useParams, useHistory } from 'react-router-dom';
-import { Input, Select, Breadcrumb, Link } from '../../../../components';
+import { Input, Select, Breadcrumb, Link, Upload } from '../../../../components';
 import { useApp, useCache } from '../../../../contexts';
 import { CreatePageLayout } from '../../../../layouts';
+import { useUpload } from '../../../../hooks';
 import {
   adminEditUser,
   adminInviteUser,
@@ -43,12 +45,13 @@ const CreateUserPage = ({
   const isEditMode = useMemo(() => userId && userId !== 'new', [userId]);
 
   const { user } = useViewUserDetails();
-  console.log(user);
 
   const metadata = propMetadata || appManager.state.metadata;
-  console.log(metadata);
 
   const { handleDelete } = useCache();
+
+  
+  const fileManager = useUpload();
 
   const onSubmit = async (data) => {
     try {
@@ -136,6 +139,48 @@ const CreateUserPage = ({
     user?.userRoleId
   )?.name;
 
+  // Handle form submission
+  const onSubmitBatchUser = async (e) => {
+    e.preventDefault();
+    try {
+      const file = fileManager.handleGetFileAndValidate(
+        "File"
+      );
+
+      // console.log(file)
+
+      Papa.parse(file, {
+        complete: function(results) {
+          // console.log("Finished:", results.data);
+        }}
+      )
+      // toast({
+      //   description: capitalizeFirstLetter(message),
+      //   position: "top",
+      //   status: "success",
+      // });
+
+      // push(`/admin/courses/${courseId}/lesson/${lesson.id}/view`);
+    } catch (error) {
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+    }
+  };
+
+  const setLessonAccept = (fileType) => {
+    fileManager.handleAcceptChange(fileType)
+  };
+
+  // Init `lessonTypeId` value and set `accept` for file upload input
+  useEffect(() => {
+      setLessonAccept(".csv, .xlsx, .xls");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
   return (
     <>
       <Box paddingLeft={6}>
@@ -153,7 +198,7 @@ const CreateUserPage = ({
         />
       </Box>
       <CreatePageLayout
-        title="Create User"
+        title="Create Single User"
         submitButtonText={isEditMode ? 'Update User' : 'Submit'}
         submitButtonIsLoading={isSubmitting}
         onSubmit={handleSubmit(onSubmit)}
@@ -252,6 +297,28 @@ const CreateUserPage = ({
           </Box>
         </Stack>
       </CreatePageLayout>
+      { !isEditMode &&
+        <CreatePageLayout
+          title="Batch User Upload"
+          submitButtonText='Upload'
+          submitButtonIsLoading={isSubmitting}
+          onSubmit={onSubmitBatchUser}
+        >
+          <Grid spacing={10} marginBottom={10}>
+            <GridItem colSpan={2}>
+              <Upload
+                id="file"
+                previewElementId="file-video"
+                label="File (.csv, .xlsx, .xls)"
+                isRequired
+                excelUrl={fileManager.excel.url}
+                onFileSelect={fileManager.handleFileSelect}
+                accept={fileManager.accept}
+              />
+            </GridItem>
+          </Grid>
+        </CreatePageLayout>
+      }
     </>
   );
 };
