@@ -41,6 +41,16 @@ export const adminInviteUser = async (body) => {
   return { message };
 };
 
+export const adminInvitBatcheUser = async (body) => {
+  const path = '/admin/invite/batch-user';
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
 export const adminCreatePoll = async (body) => {
   const path = '/polls/create';
 

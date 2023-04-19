@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Grid, GridItem, Stack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { Route, useParams, useHistory } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { useUpload } from '../../../../hooks';
 import {
   adminEditUser,
   adminInviteUser,
+  adminInvitBatcheUser,
   superAdminInviteAdmin,
 } from '../../../../services';
 import { capitalizeFirstLetter } from '../../../../utils/formatString';
@@ -22,6 +24,9 @@ const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
   metadata: propMetadata,
 }) => {
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
+  const [uploadingUsers, setUploadingUsers] = useState(false);
+
   const toast = useToast();
   const appManager = useApp();
   const {
@@ -143,35 +148,50 @@ const CreateUserPage = ({
   const onSubmitBatchUser = async (e) => {
     e.preventDefault();
     try {
+      if(!selectedDepartmentId){
+        throw new Error("Please select a department")
+      }
+
       const file = fileManager.handleGetFileAndValidate(
         "File"
       );
 
-      console.log(file)
-
-      const fileReader = new FileReader();
-      fileReader.readAsBinaryString(file)
-      fileReader.onload = (e)=>{
-        const data = e.target.result
-        const wb = read(data, {type: "binary"})
-        wb.SheetNames.forEach((sheet)=>{
-          const rowObj = utils.sheet_to_row_object_array(wb.Sheets[sheet]);
-          console.log(JSON.stringify(rowObj, undefined, 4))
+      setUploadingUsers(true);
+  
+      const getJson = ()=>{
+        return new Promise((resolve, reject)=>{
+          const fileReader = new FileReader();
+          fileReader.readAsBinaryString(file)
+          fileReader.onload = (e)=>{
+            const data = e.target.result
+            const wb = read(data, {type: "binary"})
+            const rowObj = utils.sheet_to_row_object_array(wb.Sheets[wb.SheetNames[0]]);
+            resolve(JSON.stringify(rowObj))
+          }
         })
-      }
-      // toast({
-      //   description: capitalizeFirstLetter(message),
-      //   position: "top",
-      //   status: "success",
-      // });
+      } 
 
-      // push(`/admin/courses/${courseId}/lesson/${lesson.id}/view`);
+      const jsonObj = await getJson();
+
+      const { message } = await adminInvitBatcheUser({departmentId: selectedDepartmentId, users: jsonObj})
+
+      setUploadingUsers(false);
+      
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
+
+      push(`/admin/users`)
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
         position: "top",
         status: "error",
       });
+
+      setUploadingUsers(false)
     }
   };
 
@@ -306,10 +326,22 @@ const CreateUserPage = ({
         <CreatePageLayout
           title="Batch User Upload"
           submitButtonText='Upload'
-          submitButtonIsLoading={isSubmitting}
+          submitButtonIsLoading={uploadingUsers}
           onSubmit={onSubmitBatchUser}
         >
           <Grid spacing={10} marginBottom={10}>
+            <GridItem marginBottom={10}>
+              <Select
+                error={errors.departmentId?.message}
+                isRequired
+                label="Select department"
+                options={populateSelectOptions(metadata?.departments)}
+                id="departmentId"
+                isLoading={!metadata?.departments}
+                value={selectedDepartmentId}
+                onChange={(e)=> setSelectedDepartmentId(e.target.value)}
+              />
+            </GridItem>
             <GridItem colSpan={2}>
               <Upload
                 id="file"
