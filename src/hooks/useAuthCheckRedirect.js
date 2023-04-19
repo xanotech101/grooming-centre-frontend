@@ -14,8 +14,6 @@ export const useBlockSuperAdminFromUserScreens = () => {
         appManager.state.user.userRoleId
       );
 
-      console.log(role?.name);
-
       if (/super/i.test(role?.name)) {
         return replace("/admin");
       }
