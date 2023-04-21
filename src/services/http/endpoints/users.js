@@ -28,6 +28,7 @@ export const adminGetUserListing = async (params) => {
   return {
     users: data.rows.map((user) => ({
       id: user.id,
+      displayId: user.displayId,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,

@@ -66,7 +66,7 @@ const CreateUserPage = ({
             firstName: data.firstName,
             gender: data.gender,
             lastName: data.lastName,
-            roleId: data.roleId,
+            userRoleId: data.roleId,
           })
         : creatorRoleIsSuperAdmin &&
           appManager.getOneMetadata('userRoles', data.roleId)?.name === 'admin'

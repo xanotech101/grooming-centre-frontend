@@ -79,7 +79,7 @@ const Pagination = ({
       <Flex alignItems="center" mr={5}>
         <Text mr={5} ml={1}>
           Showing <b>{showingDocumentsCount}</b> out of{' '}
-          <b>{totalDocumentsCount}</b> documents
+          <b>{totalDocumentsCount}</b> items
         </Text>
         <Button asIcon onClick={handleGoPrevPage}>
           <BiChevronLeft />

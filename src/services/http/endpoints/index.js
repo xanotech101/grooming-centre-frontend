@@ -71,6 +71,19 @@ export const adminCreateOption = async (body) => {
   return { message };
 };
 
+
+export const adminGetDashboardStats = async () => {
+  const path = `/admin/dashboard-stats`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  console.log(data)
+
+  return data;
+};
+
 /**
  * Endpoint for first step to admin creation - (super admin)
  * @param {{ email: string, roleId: string, departmentId: string }} body

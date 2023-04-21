@@ -255,7 +255,6 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         >
           {/* Row 2 */}
           <Select
-            isRequired
             label="Select prerequisite"
             options={populatePrerequisiteOptions(prerequisites)}
             id="preRequisiteId"

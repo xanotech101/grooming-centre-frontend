@@ -47,6 +47,8 @@ export const adminGetCoursesByDepartment = async (departmentId) => {
     data: { data },
   } = await http.get(path);
 
+  console.log(data)
+
   return {
     courses: data.map((course) => ({
       id: course.id,
