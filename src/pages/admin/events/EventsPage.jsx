@@ -99,7 +99,6 @@ const Content = ({ currentTab }) => {
 
   return (
     <Box>
-      {/* {events && !eventsIsEmpty && ( */}
       <HStack alignSelf="flex-start" spacing={1} flex={1} mb={2}>
         {links.map((link) => (
           <Button
@@ -109,11 +108,10 @@ const Content = ({ currentTab }) => {
             {...getStyles(link.tab)}
             paddingX={3}
           >
-            {link.icon} <Box></Box> {link.text}
+            {link.icon} <Box paddingRight={1}></Box> {link.text}
           </Button>
         ))}
       </HStack>
-      {/* )} */}
       <EventListing
         isLoading={isLoading}
         hasError={hasError}
