@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Icon, Stack } from '@chakra-ui/react';
+import { Tooltip } from "@chakra-ui/tooltip";
 import { Skeleton } from '@chakra-ui/skeleton';
 import PropTypes from 'prop-types';
 import { AiFillBook, AiOutlineRead } from 'react-icons/ai';
@@ -58,6 +59,7 @@ export const CourseBoxCard = ({
   disabled,
   duration,
   id,
+  preRequisite,
   instructor,
   isLoading,
   lessonCount,
@@ -67,6 +69,8 @@ export const CourseBoxCard = ({
   fileExtension,
 }) => {
   duration = getDuration(duration);
+
+  const preRequisiteIncomplete = preRequisite?.courseTracking[0].progressPercentage < 100;
 
   const isLibraryPage = /library/i.test(window.location.pathname);
 
@@ -286,10 +290,11 @@ export const CourseBoxCard = ({
       ) : (
         <Link
           className={`course-box-card ${
-            disabled ? 'course-box-card--disabled' : ''
+            (disabled || preRequisiteIncomplete) ? 'course-box-card--disabled' : ''
           }`}
           href={`/courses/details/${id}`}
-          disabled={isLoading}
+          disabled={isLoading || preRequisite}
+          title={preRequisiteIncomplete? `Complete ${preRequisite.title} to have access to this course`: ""}
         >
           {console.log(progressPercentage)}
           {progressPercentage ? (
@@ -312,16 +317,33 @@ export const CourseBoxCard = ({
             </Box>
           ) : null}
 
-          <Image
-            src={thumbnail || thumbnailPlaceholder}
-            filter={disabled ? 'sepia(10%)' : 'none'}
-            isLoading={isLoading}
-            className="course-box-card__image"
-            transitionDuration=".7s"
-            transitionDelay=".5s"
-            height={{ base: '150px' }}
-            width="100%"
-          />
+          { preRequisiteIncomplete ? 
+            <Tooltip
+              label={`Complete ${preRequisite.title} to have access to this course`}
+              aria-label={preRequisite.title}
+            >
+              <Image
+                src={thumbnail || thumbnailPlaceholder}
+                filter={disabled ? 'sepia(10%)' : 'none'}
+                isLoading={isLoading}
+                className="course-box-card__image"
+                transitionDuration=".7s"
+                transitionDelay=".5s"
+                height={{ base: '150px' }}
+                width="100%"
+              />
+            </Tooltip> :
+            <Image
+              src={thumbnail || thumbnailPlaceholder}
+              filter={disabled ? 'sepia(10%)' : 'none'}
+              isLoading={isLoading}
+              className="course-box-card__image"
+              transitionDuration=".7s"
+              transitionDelay=".5s"
+              height={{ base: '150px' }}
+              width="100%"
+            />
+          }
 
           <Stack
             flex={1}
