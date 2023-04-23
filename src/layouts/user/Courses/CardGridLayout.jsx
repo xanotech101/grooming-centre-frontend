@@ -9,7 +9,6 @@ export const CardGridLayout = ({ cardContents }) => {
     cardContents.data &&
     !cardContents.data?.length;
 
-  console.log(cardContents.loading);
   const IsVideo = /videos/i.test(window.location.pathname);
 
   const IsAudio = /audio/i.test(window.location.pathname);
@@ -54,9 +53,9 @@ export const CardGridLayout = ({ cardContents }) => {
           'mobile-l': 'hidden',
         }}
         overflowY="hidden"
-        columnGap={{ base: '40px', laptop: '60px' }}
+        columnGap={{ base: '20px', laptop: '30px' }}
         rowGap={{ base: '40px', laptop: '50px' }}
-        padding={1}
+        padding={5}
       >
         {cardContents.err && (
           <GridItem

@@ -288,13 +288,13 @@ export const CourseBoxCard = ({
           </Stack>
         </div>
       ) : (
+        !preRequisiteIncomplete?
         <Link
           className={`course-box-card ${
-            (disabled || preRequisiteIncomplete) ? 'course-box-card--disabled' : ''
+            disabled ? 'course-box-card--disabled' : ''
           }`}
           href={`/courses/details/${id}`}
-          disabled={isLoading || preRequisite}
-          title={preRequisiteIncomplete? `Complete ${preRequisite.title} to have access to this course`: ""}
+          disabled={isLoading}
         >
           {console.log(progressPercentage)}
           {progressPercentage ? (
@@ -316,34 +316,17 @@ export const CourseBoxCard = ({
               </Text>
             </Box>
           ) : null}
-
-          { preRequisiteIncomplete ? 
-            <Tooltip
-              label={`Complete ${preRequisite.title} to have access to this course`}
-              aria-label={preRequisite.title}
-            >
-              <Image
-                src={thumbnail || thumbnailPlaceholder}
-                filter={disabled ? 'sepia(10%)' : 'none'}
-                isLoading={isLoading}
-                className="course-box-card__image"
-                transitionDuration=".7s"
-                transitionDelay=".5s"
-                height={{ base: '150px' }}
-                width="100%"
-              />
-            </Tooltip> :
-            <Image
-              src={thumbnail || thumbnailPlaceholder}
-              filter={disabled ? 'sepia(10%)' : 'none'}
-              isLoading={isLoading}
-              className="course-box-card__image"
-              transitionDuration=".7s"
-              transitionDelay=".5s"
-              height={{ base: '150px' }}
-              width="100%"
-            />
-          }
+          
+          <Image
+            src={thumbnail || thumbnailPlaceholder}
+            filter={disabled ? 'sepia(10%)' : 'none'}
+            isLoading={isLoading}
+            className="course-box-card__image"
+            transitionDuration=".7s"
+            transitionDelay=".5s"
+            height={{ base: '150px' }}
+            width="100%"
+          />
 
           <Stack
             flex={1}
@@ -417,6 +400,122 @@ export const CourseBoxCard = ({
             </Flex>
           </Stack>
         </Link>
+        :
+        <Tooltip
+          label={`Complete ${preRequisite?.title} to have access to this course`}
+          aria-label={preRequisite?.title}
+        >
+          <div 
+            className={`course-box-card ${
+              disabled ? 'course-box-card--disabled' : ''
+            }`}
+            style={{cursor:'pointer'}}
+          >
+            {console.log(progressPercentage)}
+            {progressPercentage ? (
+              <Box
+                backgroundColor="accent.5"
+                position="absolute"
+                zIndex={1}
+                width={`${progressPercentage}%`}
+                paddingY={1}
+                textShadow="1px 1px 1.5px rgba(0, 0, 0, .5)"
+              >
+                <Text
+                  transform="translateX(10px)"
+                  as="level5"
+                  color="white"
+                  width="100px"
+                >
+                  progress {progressPercentage}%
+                </Text>
+              </Box>
+            ) : null}
+            
+            <Image
+              src={thumbnail || thumbnailPlaceholder}
+              filter={disabled ? 'sepia(10%)' : 'none'}
+              isLoading={isLoading}
+              className="course-box-card__image"
+              transitionDuration=".7s"
+              transitionDelay=".5s"
+              height={{ base: '150px' }}
+              width="100%"
+            />
+
+            <Stack
+              flex={1}
+              justifyContent="space-between"
+              padding={2}
+              paddingBottom={4}
+              spacing={5}
+            >
+              <HStack spacing={2}>
+                <Avatar
+                  name={instructor?.firstName + ' ' + instructor?.lastName}
+                  src={instructor?.profilePics}
+                  // isloading={isLoading}
+                  boxSize="37px"
+                  rounded="full"
+                />
+
+                <Box flex={1}>
+                  {isLoading ? (
+                    <>
+                      <SkeletonText numberOfLines={2} />
+                    </>
+                  ) : (
+                    <>
+                      <Text>
+                        {`${instructor?.firstName} ${instructor?.lastName}`}
+                      </Text>
+                      <Text as="level5" color="accent.3">
+                        {instructor?.title}
+                      </Text>
+                    </>
+                  )}
+                </Box>
+              </HStack>
+
+              <Box flex={1}>
+                {isLoading ? (
+                  <SkeletonText numberOfLines={2} />
+                ) : (
+                  <Heading as="h3" fontSize="h4">
+                    {title}
+                  </Heading>
+                )}
+              </Box>
+
+              <Flex color="accent.3" justifyContent="space-between">
+                {isLoading ? (
+                  <>
+                    <Skeleton height="7px" width="80px" />
+                    <Skeleton height="7px" width="80px" />
+                  </>
+                ) : (
+                  <>
+                    <Flex alignItems="flex-end">
+                      <Icon fontSize="text.level1">
+                        <AiFillBook />
+                      </Icon>
+                      <Text>{lessonCount} lessons</Text>
+                    </Flex>
+                    <Flex alignItems="flex-end">
+                      <Icon fontSize="text.level1">
+                        <BsFillClockFill />
+                      </Icon>
+                      {/* TODO: convert minutes to hours and minutes */}
+                      <Text>
+                        {duration?.hours}hrs {duration.minutes}mins
+                      </Text>
+                    </Flex>
+                  </>
+                )}
+              </Flex>
+            </Stack>
+          </div>
+        </Tooltip>
       )}
     </>
   );
