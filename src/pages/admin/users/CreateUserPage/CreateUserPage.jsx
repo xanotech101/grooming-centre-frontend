@@ -1,12 +1,16 @@
-import { Grid, Stack } from '@chakra-ui/layout';
+import { useState } from 'react';
+import { Grid, GridItem, Stack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { Route, useParams, useHistory } from 'react-router-dom';
-import { Input, Select, Breadcrumb, Link } from '../../../../components';
+import { read, utils } from "xlsx";
+import { Input, Select, Breadcrumb, Link, Upload } from '../../../../components';
 import { useApp, useCache } from '../../../../contexts';
 import { CreatePageLayout } from '../../../../layouts';
+import { useUpload } from '../../../../hooks';
 import {
   adminEditUser,
   adminInviteUser,
+  adminInvitBatcheUser,
   superAdminInviteAdmin,
 } from '../../../../services';
 import { capitalizeFirstLetter } from '../../../../utils/formatString';
@@ -20,6 +24,9 @@ const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
   metadata: propMetadata,
 }) => {
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
+  const [uploadingUsers, setUploadingUsers] = useState(false);
+
   const toast = useToast();
   const appManager = useApp();
   const {
@@ -43,12 +50,13 @@ const CreateUserPage = ({
   const isEditMode = useMemo(() => userId && userId !== 'new', [userId]);
 
   const { user } = useViewUserDetails();
-  console.log(user);
 
   const metadata = propMetadata || appManager.state.metadata;
-  console.log(metadata);
 
   const { handleDelete } = useCache();
+
+  
+  const fileManager = useUpload();
 
   const onSubmit = async (data) => {
     try {
@@ -58,7 +66,7 @@ const CreateUserPage = ({
             firstName: data.firstName,
             gender: data.gender,
             lastName: data.lastName,
-            roleId: data.roleId,
+            userRoleId: data.roleId,
           })
         : creatorRoleIsSuperAdmin &&
           appManager.getOneMetadata('userRoles', data.roleId)?.name === 'admin'
@@ -136,6 +144,68 @@ const CreateUserPage = ({
     user?.userRoleId
   )?.name;
 
+  // Handle form submission
+  const onSubmitBatchUser = async (e) => {
+    e.preventDefault();
+    try {
+      if(!selectedDepartmentId){
+        throw new Error("Please select a department")
+      }
+
+      const file = fileManager.handleGetFileAndValidate(
+        "File"
+      );
+
+      setUploadingUsers(true);
+  
+      const getJson = ()=>{
+        return new Promise((resolve, reject)=>{
+          const fileReader = new FileReader();
+          fileReader.readAsBinaryString(file)
+          fileReader.onload = (e)=>{
+            const data = e.target.result
+            const wb = read(data, {type: "binary"})
+            const rowObj = utils.sheet_to_row_object_array(wb.Sheets[wb.SheetNames[0]]);
+            resolve(JSON.stringify(rowObj))
+          }
+        })
+      } 
+
+      const jsonObj = await getJson();
+
+      const { message } = await adminInvitBatcheUser({departmentId: selectedDepartmentId, users: jsonObj})
+
+      setUploadingUsers(false);
+      
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: "top",
+        status: "success",
+      });
+
+      push(`/admin/users`)
+    } catch (error) {
+      toast({
+        description: capitalizeFirstLetter(error.message),
+        position: "top",
+        status: "error",
+      });
+
+      setUploadingUsers(false)
+    }
+  };
+
+  const setLessonAccept = (fileType) => {
+    fileManager.handleAcceptChange(fileType)
+  };
+
+  // Init `lessonTypeId` value and set `accept` for file upload input
+  useEffect(() => {
+      setLessonAccept(".csv, .xlsx, .xls");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
   return (
     <>
       <Box paddingLeft={6}>
@@ -153,7 +223,7 @@ const CreateUserPage = ({
         />
       </Box>
       <CreatePageLayout
-        title="Create User"
+        title="Create Single User"
         submitButtonText={isEditMode ? 'Update User' : 'Submit'}
         submitButtonIsLoading={isSubmitting}
         onSubmit={handleSubmit(onSubmit)}
@@ -252,6 +322,40 @@ const CreateUserPage = ({
           </Box>
         </Stack>
       </CreatePageLayout>
+      { !isEditMode &&
+        <CreatePageLayout
+          title="Batch User Upload"
+          submitButtonText='Upload'
+          submitButtonIsLoading={uploadingUsers}
+          onSubmit={onSubmitBatchUser}
+        >
+          <Grid spacing={10} marginBottom={10}>
+            <GridItem marginBottom={10}>
+              <Select
+                error={errors.departmentId?.message}
+                isRequired
+                label="Select department"
+                options={populateSelectOptions(metadata?.departments)}
+                id="departmentId"
+                isLoading={!metadata?.departments}
+                value={selectedDepartmentId}
+                onChange={(e)=> setSelectedDepartmentId(e.target.value)}
+              />
+            </GridItem>
+            <GridItem colSpan={2}>
+              <Upload
+                id="file"
+                previewElementId="file-video"
+                label="File (.csv, .xlsx, .xls)"
+                isRequired
+                excelUrl={fileManager.excel.url}
+                onFileSelect={fileManager.handleFileSelect}
+                accept={fileManager.accept}
+              />
+            </GridItem>
+          </Grid>
+        </CreatePageLayout>
+      }
     </>
   );
 };

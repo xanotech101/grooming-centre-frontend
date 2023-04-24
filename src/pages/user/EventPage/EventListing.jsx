@@ -94,37 +94,35 @@ const Listing = ({ events, headerButton }) => {
 
   return (
     <Box
-      minHeight="50vh"
-      padding="30px"
-      w={{ base: "100%", md: "400px", lg: "500px" }}
-      backgroundColor="white"
-      borderColor="accent.1"
-      rounded="md"
+      minHeight='50vh'
+      // width={breakpoints.tablet}
+      marginX='auto'
+      border='1px'
+      backgroundColor='white'
+      borderColor='accent.1'
+      rounded='md'
     >
       <Grid
-        display="flex"
-        justifyContent="space-between"
-        flexDirection={{ base: "column-reverse", md: "row", lg: "row" }}
-        rowGap={3}
+				columnGap={10}
+				templateColumns='70px 50px 1fr 160px'
+				borderBottom='1px'
+				borderColor='accent.1'
+				px={3}
+				height='65px'
+				alignItems='center'
       >
-        <Text
-          opacity={0.8}
-          textAlign={{ base: "start", md: "center", lg: "center" }}
-          display={{ base: "none", md: "block", lg: "block" }}
-          bold
-        >
+        <Text opacity={0.8} textAlign='center' bold>
+          Event ID
+        </Text>
+        <Text opacity={0.8} textAlign='center' bold>
           Date
         </Text>
-        <Text
-          opacity={0.8}
-          bold
-          display={{ base: "none", md: "block", lg: "block" }}
-        >
+        <Text opacity={0.8} textAlign='center' bold>
           Event Type
         </Text>
         <Box display="flex" alignItems="center">
           {headerButton}
-          {events &&
+          {/* {events &&
             events.map((event) => (
               <Box display={{ base: "block", md: "none", lg: "none" }}>
                 {event.renderAction ? (
@@ -138,7 +136,7 @@ const Listing = ({ events, headerButton }) => {
                   />
                 )}
               </Box>
-            ))}
+            ))} */}
         </Box>
       </Grid>
 
@@ -146,55 +144,42 @@ const Listing = ({ events, headerButton }) => {
         {events &&
           events.map((event) => (
             <Grid
-              display="flex"
-              justifyContent="space-between"
-              flexDirection={{ base: "column-reverse", md: "row", lg: "row" }}
-              rowGap={3}
-              paddingTop="20px"
+              key={event.id}
+              columnGap={10}
+              templateColumns='70px 50px 1fr 100px'
+              borderBottom='1px'
+              borderColor='accent.1'
+              py={5}
             >
-              <Box
-                textAlign={{ base: "start", md: "center" }}
-                display="flex"
-                alignItems="center"
-                gap={2}
-              >
-                <Box>
-                  <Text
-                    opacity={0.8}
-                    textAlign={{ base: "start", md: "center", lg: "center" }}
-                    display={{ base: "block", md: "none", lg: "none" }}
-                    bold
-                  >
-                    Date
-                  </Text>
-                  <Text color="primary.hover" as="level5">
-                    {dayjs(event.startTime).format("dddd")}
-                  </Text>
-                </Box>
-                <Text fontSize="heading.h3" bold color="primary.base">
-                  {dayjs(event.startTime).format("D")}
+              <Box textAlign='center'>
+                <Text bold>{event.displayId}</Text>
+              </Box>
+
+              <Box textAlign='center'>
+                <Text color='primary.hover' as='level5'>
+                  {dayjs(event.startTime).format('dddd')}
                 </Text>
-                <Text bold>{dayjs(event.startTime).format("MMM")}</Text>
+                <Text fontSize='heading.h3' bold color='primary.base'>
+                  {dayjs(event.startTime).format('D')}
+                </Text>
+                <Text bold>{dayjs(event.startTime).format('MMM')}</Text>
               </Box>
 
               <Box>
-                <Text color="primary.hover" as="level5">
-                  {dayjs(event.startTime).format("h:mm A")} to{" "}
-                  {dayjs(event.endTime).format("h:mm A")}
+                <Text color='primary.hover' as='level5'>
+                  {dayjs(event.startTime).format('h:mm A')} to{' '}
+                  {dayjs(event.endTime).format('h:mm A')}
                   <Tag
-                    size="sm"
-                    variant="solid"
+                    size='sm'
+                    variant='solid'
                     marginLeft={6}
                     colorScheme={
-                      isOngoing(event.startTime, event.endTime)
-                        ? "green"
-                        : "gray"
+                      isOngoing(event.startTime, event.endTime) ? 'green' : 'gray'
                     }
                   >
-                    {isOngoing(event.startTime, event.endTime) &&
-                      "Ongoing Event"}
-                    {hasEnded(event.endTime) && "Event Has Ended"}
-                    {isUpcoming(event.startTime) && "Event Is Upcoming"}
+                    {isOngoing(event.startTime, event.endTime) && 'Ongoing Event'}
+                    {hasEnded(event.endTime) && 'Event Has Ended'}
+                    {isUpcoming(event.startTime) && 'Event Is Upcoming'}
                   </Tag>
                 </Text>
 
@@ -211,18 +196,17 @@ const Listing = ({ events, headerButton }) => {
 
                 <Text>{truncateText(event.description, 60)}</Text>
               </Box>
-              <Box display={{ base: "none", md: "block", lg: "block" }}>
-                {event.renderAction ? (
-                  event.renderAction()
-                ) : (
-                  <ViewEventButton
-                    event={event}
-                    joinEventResource={joinEventResource}
-                    handleJoinEvent={handleJoinEvent}
-                    joinedEvents={joinedEvents}
-                  />
-                )}
-              </Box>
+
+              {event.renderAction ? (
+                event.renderAction()
+              ) : (
+                <ViewEventButton
+                  event={event}
+                  joinEventResource={joinEventResource}
+                  handleJoinEvent={handleJoinEvent}
+                  joinedEvents={joinedEvents}
+                />
+              )}
             </Grid>
           ))}
       </Box>

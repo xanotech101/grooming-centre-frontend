@@ -105,22 +105,35 @@ const UserListingPage = () => {
     columns: [
       {
         id: '1',
-        key: 'fullName',
-        text: 'Full name',
+        key: 'userId',
+        text: 'User ID',
+        fraction: '100px',
         renderContent: (data) => (
           <Link href={`/admin/users/details/${data.userId}/profile`}>
             <Text>{data.text}</Text>
           </Link>
         ),
       },
-      { id: '2', key: 'department', text: 'Department' },
       {
-        id: '3',
+        id: '2',
+        key: 'fullName',
+        text: 'Full name',
+        fraction: '200px',
+        renderContent: (data) => (
+          <Link href={`/admin/users/details/${data.userId}/profile`}>
+            <Text>{data.text}</Text>
+          </Link>
+        ),
+      },
+      { id: '3', key: 'department', text: 'Department', fraction: '200px', },
+      {
+        id: '4',
         key: 'email',
         text: 'Email Address',
+        fraction: '250px',
       },
-      { id: '4', key: 'gradePoint', text: '% Grade point' },
-      { id: '5', key: 'certificates', text: 'Certificates' },
+      { id: '5', key: 'gradePoint', text: 'GP (%)', fraction: '75px', },
+      // { id: '6', key: 'certificates', text: 'Certificates', fraction: '75px', },
     ],
 
     options: {
@@ -149,6 +162,10 @@ const UserListingPage = () => {
     ...user,
     fullName: {
       text: `${user.firstName} ${user.lastName}`,
+      userId: user.id,
+    },
+    userId: {
+      text: `${user.displayId}`,
       userId: user.id,
     },
     department: user.departmentName,

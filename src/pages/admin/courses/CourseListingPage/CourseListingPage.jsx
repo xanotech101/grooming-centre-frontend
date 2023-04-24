@@ -86,6 +86,11 @@ const CourseListingPage = () => {
         key: 'displayId',
         text: 'Course ID',
         fraction: '100px',
+        renderContent: (data) => (
+          <Link href={`/admin/courses/details/${data.courseId}/info`}>
+            <Text>{data.text}</Text>
+          </Link>
+        ),
       },
       {
         id: '2',
@@ -102,7 +107,7 @@ const CourseListingPage = () => {
         id: '3',
         key: 'instructor',
         text: 'Instructor',
-        fraction: '100px',
+        fraction: '130px',
       },
       {
         id: '4',
@@ -154,7 +159,7 @@ const CourseListingPage = () => {
 
   const mapCourseToRow = (course) => ({
     id: course.id,
-    displayId: course.displayId,
+    displayId: {text: course.displayId, courseId: course.id},
     title: { text: course.title, courseId: course.id },
     startDate:
       course.startDate === 'not set'

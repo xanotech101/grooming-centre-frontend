@@ -16,6 +16,7 @@ import {
 import { useFetchAndCache } from '../../hooks';
 import { AdminMainAreaWrapper } from '../../layouts';
 import {
+  adminGetDashboardStats,
   adminGetDepartmentListing,
   adminGetRoleListing,
   adminGetUserListing,
@@ -29,123 +30,44 @@ import { SkeletonCircle } from '@chakra-ui/skeleton';
 import colors from '../../theme/colors';
 import { utils, writeFile } from 'xlsx';
 
-const useUserListing = () => {
-  const { resource: users, handleFetchResource } = useFetchAndCache();
+const useDashboardStats = () => {
+  const { resource: stats, handleFetchResource } = useFetchAndCache();
 
   const fetcher = useCallback(async () => {
-    const { users } = await adminGetUserListing();
-    return users;
+    const stats = await adminGetDashboardStats();
+    return stats;
   }, []);
 
   useEffect(() => {
-    handleFetchResource({ cacheKey: 'users', fetcher });
+    handleFetchResource({ cacheKey: 'dashboardStats', fetcher });
   }, [handleFetchResource, fetcher]);
 
   return {
-    users,
-  };
-};
-
-const useDepartmentListing = () => {
-  const { resource: departments, handleFetchResource } = useFetchAndCache();
-
-  const fetcher = useCallback(async () => {
-    const { departments } = await adminGetDepartmentListing();
-    return departments;
-  }, []);
-
-  useEffect(() => {
-    handleFetchResource({ cacheKey: 'departments', fetcher });
-  }, [handleFetchResource, fetcher]);
-
-  return {
-    departments,
-  };
-};
-
-const useRoleListing = () => {
-  const { resource: roles, handleFetchResource } = useFetchAndCache();
-
-  const fetcher = useCallback(async () => {
-    const { roles } = await adminGetRoleListing();
-    return roles;
-  }, []);
-
-  useEffect(() => {
-    handleFetchResource({ cacheKey: 'roles', fetcher });
-  }, [handleFetchResource, fetcher]);
-
-  return {
-    roles,
-  };
-};
-
-const useLibraryListing = () => {
-  const { resource: library, handleFetchResource } = useFetchAndCache();
-
-  const fetcher = useCallback(async () => {
-    const { library } = await adminLibraryListing();
-    return library;
-  }, []);
-
-  useEffect(() => {
-    handleFetchResource({ cacheKey: 'library', fetcher });
-  }, [handleFetchResource, fetcher]);
-
-  return {
-    library,
+    stats,
   };
 };
 
 const DashboardPage = () => {
-  const { users } = useUserListing();
-  const { events, isLoading: eventsIsLoading } = useAdminEventsPage();
-  const { courses, isLoading: courseIsLoading } = useCourseListing();
-  const { departments } = useDepartmentListing();
-  const { roles } = useRoleListing();
-  const { library } = useLibraryListing();
+  const { stats } = useDashboardStats();
 
-  // get uploaded library books
-  const isPdf = library.data?.map((lib) => lib.fileType === 'pdf');
-  const books = isPdf?.filter(function (value) {
-    return value === true;
-  });
+  const departmentName = stats.data?.usersByDepartment.map(
+    (department) => department.name
+  );
 
-  // get uploaded library videos
-  const isVideo = library.data?.map((lib) => lib.fileType === 'video');
-  const videos = isVideo?.filter(function (value) {
-    return value === true;
-  });
-
-  // get uploaded library audio files
-  const isAudio = library.data?.map((lib) => lib.fileType === 'audio');
-  const audio = isAudio?.filter(function (value) {
-    return value === true;
-  });
-
-  const departmentName = departments.data?.map((department) => department.name);
-
-  const departmentUsers = departments.data?.map(
-    (department) => department.noOfusers
+  const departmentUsers = stats.data?.usersByDepartment.map(
+    (department) => department.user.length
   );
 
   console.log(departmentName);
 
-  const roleName = roles.data?.map((role) => role.name);
+  const roleName = stats.data?.usersByRoles.map((role) => role.name);
 
-  const roleUsers = roles.data?.map((role) => role.noOfUsers);
+  const roleUsers = stats.data?.usersByRoles.map((role) => role.user.length);
 
   console.log(roleName);
 
   // get published courses
-  const isPublishedLength = courses?.map((course) => {
-    const isPublished = course.isPublished;
-    return isPublished;
-  });
-
-  const published = isPublishedLength?.filter(function (value) {
-    return value === true;
-  });
+  const published = stats.data?.courses?.filter((course) => course.isPublished);
 
   // randomize colors
   const getColors = () => {
@@ -205,11 +127,11 @@ const DashboardPage = () => {
     const ws = utils.json_to_sheet([
       {
         column1: 'No of Courses',
-        column2: courses?.length,
+        column2: stats.data?.courses?.length,
       },
       {
         column1: 'No of Users',
-        column2: users?.data?.length,
+        column2: stats.data?.users.length,
       },
       {
         column1: 'Published Courses',
@@ -261,20 +183,20 @@ const DashboardPage = () => {
         <GridItem>
           <MiniBox
             children={
-              users.loading ? (
+              stats.loading ? (
                 <SkeletonText numberOfLines={1} width={100} />
               ) : (
                 <Flex>
-                  <Text fontSize="heading.h3">{users.data?.length}</Text>
+                  <Text fontSize="heading.h3">{stats.data?.users.length}</Text>
                   <Text color="accent.3" paddingLeft={1} paddingTop={2}>
                     Users
                   </Text>
                 </Flex>
               )
             }
-            iconBackgroundColor={users.loading ? 'none' : 'secondary.5'}
+            iconBackgroundColor={stats.loading ? 'none' : 'secondary.5'}
             icon={
-              users.loading ? (
+              stats.loading ? (
                 <SkeletonCircle />
               ) : (
                 <FiUsers color="white" size="18px" />
@@ -285,12 +207,14 @@ const DashboardPage = () => {
         <GridItem>
           <MiniBox
             children={
-              courseIsLoading ? (
+              stats.loading ? (
                 <SkeletonText numberOfLines={2} width={100} />
               ) : (
                 <Flex flexDirection="column">
                   <Flex>
-                    <Text fontSize="heading.h3">{courses?.length}</Text>
+                    <Text fontSize="heading.h3">
+                      {stats.data?.courses?.length}
+                    </Text>
                     <Text color="accent.3" paddingLeft={1} paddingTop={2}>
                       Courses
                     </Text>
@@ -299,9 +223,9 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={courseIsLoading ? 'none' : 'secondary.5'}
+            iconBackgroundColor={stats.loading ? 'none' : 'secondary.5'}
             icon={
-              courseIsLoading ? (
+              stats.loading ? (
                 <SkeletonCircle />
               ) : (
                 <GiBookshelf color="white" size="18px" />
@@ -312,20 +236,22 @@ const DashboardPage = () => {
         <GridItem>
           <MiniBox
             children={
-              eventsIsLoading ? (
+              stats.loading ? (
                 <SkeletonText numberOfLines={1} width={100} />
               ) : (
                 <Flex>
-                  <Text fontSize="heading.h3">{events?.length}</Text>
+                  <Text fontSize="heading.h3">
+                    {stats.data?.events?.length}
+                  </Text>
                   <Text color="accent.3" paddingLeft={1} paddingTop={2}>
                     Events
                   </Text>
                 </Flex>
               )
             }
-            iconBackgroundColor={eventsIsLoading ? 'none' : 'secondary.5'}
+            iconBackgroundColor={stats.loading ? 'none' : 'secondary.5'}
             icon={
-              eventsIsLoading ? (
+              stats.loading ? (
                 <SkeletonCircle />
               ) : (
                 <IoCalendarOutline color="white" size="18px" />
@@ -427,7 +353,7 @@ const DashboardPage = () => {
             justifyContent="space-between"
             flexDirection={{ sm: 'column', md: 'column', lg: 'row' }}
           >
-            {library.loading ? (
+            {stats.loading ? (
               <SkeletonText numberOfLines={1} width={40} />
             ) : (
               <Text fontSize="heading.h3" bold>
@@ -451,7 +377,7 @@ const DashboardPage = () => {
               flexDirection="column"
               justifyContent="center"
             >
-              {library.loading ? (
+              {stats.loading ? (
                 <Flex justifyContent="space-between">
                   <SkeletonText numberOfLines={2} width={40} />
                   <SkeletonCircle />
@@ -463,7 +389,7 @@ const DashboardPage = () => {
                       Videos
                     </Text>
                     <Text fontSize="text.level1">
-                      {`${videos?.length} uploaded resources`}
+                      {`${stats.data?.video?.length} uploaded resources`}
                     </Text>
                   </Flex>
                   <MdVideoLibrary color="#BD1F46" size="32px" />
@@ -482,7 +408,7 @@ const DashboardPage = () => {
               flexDirection="column"
               justifyContent="center"
             >
-              {library.loading ? (
+              {stats.loading ? (
                 <Flex justifyContent="space-between">
                   <SkeletonText numberOfLines={2} width={40} />
                   <SkeletonCircle />
@@ -493,7 +419,7 @@ const DashboardPage = () => {
                     <Text color="accent.3" fontSize="text.level2" bold>
                       Books
                     </Text>
-                    <Text fontSize="text.level1">{`${books?.length} uploaded resources`}</Text>
+                    <Text fontSize="text.level1">{`${stats.data?.pdf.length} uploaded resources`}</Text>
                   </Flex>
                   <GiSpellBook color="#BD1F46" size="32px" />
                 </Flex>
@@ -511,7 +437,7 @@ const DashboardPage = () => {
               flexDirection="column"
               justifyContent="center"
             >
-              {library.loading ? (
+              {stats.loading ? (
                 <Flex justifyContent="space-between">
                   <SkeletonText numberOfLines={2} width={40} />
                   <SkeletonCircle />
@@ -522,7 +448,7 @@ const DashboardPage = () => {
                     <Text color="accent.3" fontSize="text.level2" bold>
                       Audio
                     </Text>
-                    <Text fontSize="text.level1">{`${audio?.length} uploaded resources`}</Text>
+                    <Text fontSize="text.level1">{`${stats.data?.audio?.length} uploaded resources`}</Text>
                   </Flex>
                   <FaRegFileAudio color="#BD1F46" size="32px" />
                 </Flex>

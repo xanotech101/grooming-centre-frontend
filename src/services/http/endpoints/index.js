@@ -41,6 +41,16 @@ export const adminInviteUser = async (body) => {
   return { message };
 };
 
+export const adminInvitBatcheUser = async (body) => {
+  const path = '/admin/invite/batch-user';
+
+  const {
+    data: { message },
+  } = await http.post(path, body);
+
+  return { message };
+};
+
 export const adminCreatePoll = async (body) => {
   const path = '/polls/create';
 
@@ -59,6 +69,19 @@ export const adminCreateOption = async (body) => {
   } = await http.post(path, body);
 
   return { message };
+};
+
+
+export const adminGetDashboardStats = async () => {
+  const path = `/admin/dashboard-stats`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  console.log(data)
+
+  return data;
 };
 
 /**

@@ -119,7 +119,6 @@ export const Button = ({
         position="relative"
         {...getButtonSizeStyles()}
         {...props}
-        display="inline-block"
         textAlign="center"
         w={isFullwidth}
         onClick={onClick}
