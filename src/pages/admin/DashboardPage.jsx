@@ -6,7 +6,6 @@ import { GiBookshelf, GiSpellBook } from 'react-icons/gi';
 // import { IoMdMore } from "react-icons/io";
 import { IoCalendarOutline } from 'react-icons/io5';
 import { Route } from 'react-router-dom';
-import { useAdminEventsPage } from '.';
 import {
   Button,
   // Button,
@@ -15,14 +14,7 @@ import {
 } from '../../components';
 import { useFetchAndCache } from '../../hooks';
 import { AdminMainAreaWrapper } from '../../layouts';
-import {
-  adminGetDashboardStats,
-  adminGetDepartmentListing,
-  adminGetRoleListing,
-  adminGetUserListing,
-  adminLibraryListing,
-} from '../../services';
-import useCourseListing from './courses/hooks/useCourseListing';
+import { adminGetDashboardStats } from '../../services';
 import Carousel from 'react-elastic-carousel';
 import { MdVideoLibrary } from 'react-icons/md';
 import { FaRegFileAudio } from 'react-icons/fa';
