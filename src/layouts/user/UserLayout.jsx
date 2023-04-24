@@ -12,7 +12,6 @@ import {
   useRedirectNewUserToNewPasswordPage,
   useBlockSuperAdminFromUserScreens,
 } from '../../hooks';
-import { AssessmentStartRoute } from '../../pages/user/AssessmentStart/AssessmentStart';
 
 const UserLayout = () => {
   const hasInitRefreshed = usePageRefreshAfterLogin();
@@ -33,7 +32,6 @@ const UserLayoutRouter = () => {
   return (
     <Switch>
       <OnBoardingLayoutRoute path="/auth" />
-      <AssessmentStartRoute exact path="/exam-start" />
       <Route path="/" render={(props) => <UserLayout {...props} />} />
     </Switch>
   );

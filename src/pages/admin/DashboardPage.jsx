@@ -8,6 +8,7 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import { Route } from 'react-router-dom';
 import { useAdminEventsPage } from '.';
 import {
+  Button,
   // Button,
   SkeletonText,
   Text,
@@ -26,6 +27,7 @@ import { MdVideoLibrary } from 'react-icons/md';
 import { FaRegFileAudio } from 'react-icons/fa';
 import { SkeletonCircle } from '@chakra-ui/skeleton';
 import colors from '../../theme/colors';
+import { utils, writeFile } from 'xlsx';
 
 const useUserListing = () => {
   const { resource: users, handleFetchResource } = useFetchAndCache();
@@ -127,9 +129,13 @@ const DashboardPage = () => {
     (department) => department.noOfusers
   );
 
+  console.log(departmentName);
+
   const roleName = roles.data?.map((role) => role.name);
 
   const roleUsers = roles.data?.map((role) => role.noOfUsers);
+
+  console.log(roleName);
 
   // get published courses
   const isPublishedLength = courses?.map((course) => {
@@ -194,11 +200,59 @@ const DashboardPage = () => {
     },
   };
 
+  const handleGetData = () => {
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet([
+      {
+        column1: 'No of Courses',
+        column2: courses?.length,
+      },
+      {
+        column1: 'No of Users',
+        column2: users?.data?.length,
+      },
+      {
+        column1: 'Published Courses',
+        column2: published?.length,
+      },
+      {
+        column1: '',
+        column2: '',
+      },
+      {
+        column1: 'DEPARTMENTS',
+        column2: '',
+      },
+      ...departmentName?.map((dept, i) => ({
+        column1: dept,
+        column2: departmentUsers[i],
+      })),
+      {
+        column1: '',
+        column2: '',
+      },
+      {
+        column1: 'ROLES',
+        column2: '',
+      },
+      ...roleName?.map((dept, i) => ({
+        column1: dept,
+        column2: roleUsers[i],
+      })),
+    ]);
+    utils.book_append_sheet(wb, ws, 'Orders');
+    writeFile(wb, 'DashboardData.xlsx');
+  };
+
   return (
     <AdminMainAreaWrapper
       marginBottom={4}
       marginRight={{ lg: '5', md: '5', sm: '5' }}
     >
+      <Box marginTop="20px" display="flex" justifyContent="flex-end">
+        <Button onClick={() => handleGetData()}>Export Dashboard</Button>
+      </Box>
+
       <Grid
         marginY={4}
         templateColumns={{ lg: 'repeat(3, 1fr)', sm: null, md: '1fr' }}

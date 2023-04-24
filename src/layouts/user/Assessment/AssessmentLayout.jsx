@@ -13,7 +13,7 @@ import breakpoints from '../../../theme/breakpoints';
 import { PageLoaderLayout } from '../../global/PageLoader/PageLoaderLayout';
 import { CustomModal } from './Modal';
 import { EmptyState } from '../..';
-import useStandalone from '../../../pages/user/StandaloneExamDetails/standaloneHooks/useStandalone';
+import useAssessment from './hooks/useAssessment';
 
 const AssessmentLayout = () => {
   const {
@@ -33,7 +33,7 @@ const AssessmentLayout = () => {
     handleNextQuestion,
     handlePreviousQuestion,
     handleOptionSelect,
-  } = useStandalone();
+  } = useAssessment();
 
   const renderSubHeading = (heading) => (
     <Box
@@ -184,6 +184,13 @@ const AssessmentLayout = () => {
                         Previous
                       </Button>
 
+                      {/* {pageLength === index ? (
+                        <Button onClick={handleSubmit}>Submit</Button>
+                      ) : (
+                        <Button type="submit" onClick={handleNextQuestion}>
+                          Next
+                        </Button>
+                      )} */}
                       <Button type="submit">
                         {shouldSubmit ? 'Submit' : 'Next'}
                       </Button>

@@ -30,7 +30,7 @@ const useCommentListCard = () => {
   };
 };
 
-const CommentListCard = ({
+const AnswersListCard = ({
   id,
   questionId,
   createdAt,
@@ -150,4 +150,4 @@ const CommentListCard = ({
   );
 };
 
-export default CommentListCard;
+export default AnswersListCard;

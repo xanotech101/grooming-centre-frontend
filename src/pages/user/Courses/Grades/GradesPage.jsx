@@ -15,6 +15,7 @@ import { PageLoaderLayout } from '../../../../layouts';
 import { getDuration } from '../../../../utils';
 import { ReactComponent as NoData } from '../../../../assets/images/no-data.svg';
 import { useEffect } from 'react';
+import { utils, writeFile } from 'xlsx';
 
 const totalCourseChartConfig = {
   data: {
@@ -51,6 +52,9 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
   const isAdmin = /admin/i.test(window.location.pathname);
   console.log('New update');
 
+  const completedCourses = myGrades?.completedCourses;
+  console.log(completedCourses);
+
   const { hash } = useLocation();
 
   useEffect(() => {
@@ -58,6 +62,92 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
       document.getElementById('certificates')?.scrollIntoView();
     }
   }, [hash]);
+
+  const handleGetData = () => {
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet([
+      {
+        column1: 'PERFORMANCE OVERVIEW',
+        column2: '',
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'No of Courses',
+        column2: `${myGrades?.overview?.totalCoursesCount}`,
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'Courses Completed',
+        column2: `${myGrades?.overview?.completedCourseLength}`,
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'Attendance',
+        column2: `${myGrades?.overview?.averageAttendanceScore}%`,
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'Assessment',
+        column2: `${myGrades?.overview?.averageAssessmentScore}%`,
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'Examination',
+        column2: `${myGrades?.overview?.averageExaminationScore}%`,
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: '',
+        column2: '',
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'COMPLETED COURSES',
+        column2: '',
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'course name',
+        column2: 'attendance',
+        column3: 'assessment',
+        column4: 'examination',
+      },
+      ...completedCourses?.map((data) => ({
+        column1: data.courseTitle,
+        column2: `${data.attendanceScore}%`,
+        column3: `${data.assessmentScore}%`,
+        column4: `${data.examinationScore}%`,
+      })),
+      {
+        column1: '',
+        column2: '',
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'ONGOING COURSES',
+        column2: '',
+        column3: '',
+        column4: '',
+      },
+      {
+        column1: 'course name',
+        column2: 'attendance',
+        column3: 'assessment',
+        column4: 'examination',
+      },
+    ]);
+    utils.book_append_sheet(wb, ws, 'Orders');
+    writeFile(wb, 'PerformanceData.xlsx');
+  };
 
   return (
     <Flex flexDirection="column" height="100%" width="100%">
@@ -117,6 +207,9 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
             paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
             backgroundColor="white"
           >
+            <Box marginTop="5px" display="flex" justifyContent="flex-end">
+              <Button onClick={() => handleGetData()}>Export Data</Button>
+            </Box>
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses in Progress
             </Text>

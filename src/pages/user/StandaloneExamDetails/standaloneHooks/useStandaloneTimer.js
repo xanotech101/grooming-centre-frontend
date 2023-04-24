@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { getEndTime } from '../../../../utils';
-import { getServerDateNow } from '../../../../utils/DateNow';
+import { getEndTime, getServerDateNow } from '../../../../utils';
 
 const getLateEndDate = (startTime, endTime) => {
   const now = new Date(getServerDateNow());
@@ -10,21 +9,50 @@ const getLateEndDate = (startTime, endTime) => {
   return newEndDate;
 };
 
-const useTimerCountdown = ({
-  startDate: _startDate,
-  endDate: _endDate,
-  // duration
-}) => {
+const useStandaloneTimer = ({ startDate: _startDate, duration }) => {
+  const [time, setTime] = useState('');
   const [startDate, setStartDate] = useState();
+  const [startCountDown, setStartCountDown] = useState(false);
+  const [hasTimeout, setHasTimeout] = useState(false);
+
+  const copyDate = new Date(_startDate);
+
+  const options = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+
+  const toHoursAndMinutes = (totalMinutes) => {
+    const minutes = totalMinutes % 60;
+    const hours = Math.floor(totalMinutes / 60);
+
+    setTime(`${padTo2Digits(hours)}:${padTo2Digits(minutes)}`);
+  };
+
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  useEffect(() => {
+    toHoursAndMinutes(duration);
+  }, [duration]);
+
+  const myDate = copyDate.toLocaleString('en-IN', options).replaceAll(',', '');
+  const _endDate = new Date(`${myDate} ${time}:00`).toJSON();
+  console.log(_startDate);
+  console.log(_endDate);
+  console.log(time);
+
+  console.log(new Date(_startDate));
+  console.log(new Date(_endDate));
 
   // Reduce EndDate due to late coming (The Lower the EndDate the Lower the `Timer`)
   const endDate = useMemo(
     () => _endDate && startDate && getLateEndDate(startDate, _endDate),
     [_endDate, startDate]
   );
-
-  const [startCountDown, setStartCountDown] = useState(false);
-  const [hasTimeout, setHasTimeout] = useState(false);
 
   const [hasEnded, setHasEnded] = useState({
     timeout: false,
@@ -39,13 +67,11 @@ const useTimerCountdown = ({
 
   // Initialize startDate
   useEffect(() => {
-    if (_startDate) setStartDate(new Date(_startDate));
+    if (_startDate) setStartDate(new Date(_startDate).getTime());
   }, [_startDate]);
 
   // Triggers countdown
   useEffect(() => {
-    if (endDate === undefined) return setStartCountDown(false);
-
     if (startDate && !hasEnded.timeout) {
       setStartCountDown(true);
     } else {
@@ -56,7 +82,8 @@ const useTimerCountdown = ({
   const [timeLeft, setTimeLeft] = useState({});
 
   const getDateDifferenceInHHMMSS = (date1, date2) => {
-    let distance = Math.abs(date1 - date2);
+    let distance = date1 - date2;
+
     const hours = Math.floor(distance / 3600000);
     distance -= hours * 3600000;
     const minutes = Math.floor(distance / 60000);
@@ -87,32 +114,32 @@ const useTimerCountdown = ({
   const handleStopCountdown = () => clearInterval(intervalIdRef.current);
 
   // Implements countdown
-  useEffect(() => {
-    if (startCountDown) {
-      intervalIdRef.current = setInterval(() => {
-        setStartDate((prev) => {
-          if (
-            +timeLeftHMS.hours === 0 &&
-            +timeLeftHMS.minutes === 0 &&
-            +timeLeftHMS.seconds - 1 === 0
-          ) {
-            setHasTimeout(true);
-          }
+  //   useEffect(() => {
+  //     if (startCountDown) {
+  //       intervalIdRef.current = setInterval(() => {
+  //         setStartDate((prev) => {
+  //           if (
+  //             +timeLeftHMS.hours === 0 &&
+  //             +timeLeftHMS.minutes === 0 &&
+  //             +timeLeftHMS.seconds - 1 === 0
+  //           ) {
+  //             setHasTimeout(true);
+  //           }
 
-          return new Date(prev.getTime() + 1000);
-        });
-      }, 1000);
+  //           return new Date(prev.getTime() + 1000);
+  //         });
+  //       }, 1000);
 
-      return () => handleStopCountdown();
-    } else {
-      handleStopCountdown();
-    }
-  }, [
-    startCountDown,
-    timeLeftHMS.hours,
-    timeLeftHMS.minutes,
-    timeLeftHMS.seconds,
-  ]);
+  //       return () => handleStopCountdown();
+  //     } else {
+  //       handleStopCountdown();
+  //     }
+  //   }, [
+  //     startCountDown,
+  //     timeLeftHMS.hours,
+  //     timeLeftHMS.minutes,
+  //     timeLeftHMS.seconds,
+  //   ]);
 
   return {
     timeLeft,
@@ -121,4 +148,4 @@ const useTimerCountdown = ({
   };
 };
 
-export default useTimerCountdown;
+export default useStandaloneTimer;

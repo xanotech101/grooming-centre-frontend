@@ -19,9 +19,13 @@ import { BreadcrumbItem } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { useTableRows } from '../../../../hooks';
 import { useApp } from '../../../../contexts';
+import { utils, writeFile } from 'xlsx';
+import { useState } from 'react';
 
 const CourseListingPage = () => {
   const appManager = useApp();
+
+  const [data, setData] = useState([]);
 
   const departmentName = appManager.state.metadata?.departments.map(
     (department) => department.name
@@ -142,7 +146,6 @@ const CourseListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedCourses) => {
-        console.log(selectedCourses);
         await adminDeleteMultipleCourses();
       },
       pagination: true,
@@ -166,11 +169,26 @@ const CourseListingPage = () => {
       await adminGetCourseListing(props?.params);
 
     const rows = courses.map(mapCourseToRow);
-
+    setData(rows);
     return { rows, showingDocumentsCount, totalDocumentsCount };
   };
 
   const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
+
+  const handleGetCourseList = () => {
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(
+      data?.map((order) => ({
+        courseId: order.displayId,
+        id: order.id,
+        instructor: order.instructor,
+        title: order.title.text,
+      }))
+    );
+
+    utils.book_append_sheet(wb, ws, 'Orders');
+    writeFile(wb, 'CourseList.xlsx');
+  };
 
   return (
     <AdminMainAreaWrapper>
@@ -195,7 +213,12 @@ const CourseListingPage = () => {
           Courses
         </Heading>
 
-        <Button link="/admin/courses/edit/new">Add Course</Button>
+        <Box display="flex" gap="8px">
+          <Button secondary onClick={() => handleGetCourseList()}>
+            Export Course List
+          </Button>
+          <Button link="/admin/courses/edit/new">Add Course</Button>
+        </Box>
       </Flex>
 
       <Table

@@ -1,6 +1,8 @@
 import { Grid, GridItem } from '@chakra-ui/layout';
 import { CourseBoxCard, Button } from '../../../components';
 import { EmptyState } from '../../../layouts';
+import CoursesPagination from '../../../components/Pagination/CoursesPagination';
+import { useEffect, useState } from 'react';
 
 export const CardGridLayout = ({ cardContents }) => {
   const cardContentsIsEmpty =
@@ -9,12 +11,26 @@ export const CardGridLayout = ({ cardContents }) => {
     cardContents.data &&
     !cardContents.data?.length;
 
-  console.log(cardContents.loading);
   const IsVideo = /videos/i.test(window.location.pathname);
 
   const IsAudio = /audio/i.test(window.location.pathname);
 
   const IsPdf = /books/i.test(window.location.pathname);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(4);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const pageLength = cardContents?.data?.length;
+
+  const currentItems = cardContents?.data?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const npages = Math.ceil(pageLength / itemsPerPage);
 
   return (
     <>
@@ -80,7 +96,7 @@ export const CardGridLayout = ({ cardContents }) => {
             .fill('')
             .map((_, index) => <CourseBoxCard key={index} isLoading />)}
 
-        {cardContents.data?.map((cardContent, index) => (
+        {currentItems?.map((cardContent, index) => (
           <CourseBoxCard
             key={index}
             {...cardContent}
@@ -88,6 +104,13 @@ export const CardGridLayout = ({ cardContents }) => {
           />
         ))}
       </Grid>
+      <CoursesPagination
+        itemsPerPage={itemsPerPage}
+        pageLength={pageLength}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        npages={npages}
+      />
     </>
   );
 };

@@ -1,23 +1,25 @@
 import { Route } from 'react-router-dom';
 import { Box } from '@chakra-ui/layout';
-import {
-  Button,
-  Heading,
-  Table,
-  Text,
-  Breadcrumb,
-  Link,
-} from '../../../components';
+
 import { BreadcrumbItem, Tag } from '@chakra-ui/react';
 import { FaSortAmountUpAlt } from 'react-icons/fa';
-import { AdminMainAreaWrapper } from '../../../layouts/admin/MainArea/Wrapper';
+
+import { getDuration } from '../../../utils';
+import dayjs from 'dayjs';
+import { useTableRows } from '../../../hooks';
+import {
+  Breadcrumb,
+  Button,
+  Heading,
+  Link,
+  Table,
+  Text,
+} from '../../../components';
 import {
   adminDeleteStandaloneExaminationQuestion,
   adminGetStandaloneExaminationListing,
 } from '../../../services';
-import { getDuration } from '../../../utils';
-import dayjs from 'dayjs';
-import { useTableRows } from '../../../hooks';
+import { AdminMainAreaWrapper } from '../../../layouts';
 
 const tableProps = {
   filterControls: [
@@ -128,7 +130,7 @@ const tableProps = {
   },
 };
 
-const StandaloneExaminationListingPage = () => {
+const AnnouncementListing = () => {
   const mapExaminationToRow = (examination) => ({
     id: examination.id,
     // courseId,
@@ -159,16 +161,9 @@ const StandaloneExaminationListingPage = () => {
       <Breadcrumb
         item2={
           <BreadcrumbItem isCurrentPage>
-            <Link href="/admin/standalone-exams"> Standalone Examination</Link>
+            <Link href="/admin/announcement"> Announcement</Link>
           </BreadcrumbItem>
         }
-        // item3={
-        //   <BreadcrumbItem isCurrentPage>
-        //     <Link href="/admin/standalone-exams/:examinationId/:examinationName">
-        //       Examination
-        //     </Link>
-        //   </BreadcrumbItem>
-        // }
       />
 
       <Box
@@ -181,10 +176,10 @@ const StandaloneExaminationListingPage = () => {
         marginBottom={5}
       >
         <Heading as="h1" fontSize="heading.h3">
-          Examination
+          Announcements
         </Heading>
 
-        <Button link={`/admin/standalone-exams/overview`}>Create Exam</Button>
+        <Button link={`/admin/announcement/create`}>Create announcement</Button>
       </Box>
 
       <Table
@@ -198,13 +193,8 @@ const StandaloneExaminationListingPage = () => {
   );
 };
 
-export const StandaloneExaminationListingPageRoute = ({ ...rest }) => {
+export const AnnouncementListingRoute = ({ ...rest }) => {
   return (
-    <Route
-      {...rest}
-      render={(props) => <StandaloneExaminationListingPage {...props} />}
-    />
+    <Route {...rest} render={(props) => <AnnouncementListing {...props} />} />
   );
 };
-
-export default StandaloneExaminationListingPageRoute;

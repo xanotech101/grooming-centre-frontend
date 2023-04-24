@@ -10,7 +10,6 @@ const ParticipantsPagination = ({
   currentPage,
   setCurrentPage,
   nPages,
-  name,
 }) => {
   const nextPage = () => {
     setCurrentPage(currentPage === nPages ? nPages : currentPage + 1);

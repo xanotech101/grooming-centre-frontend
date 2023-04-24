@@ -5,13 +5,13 @@ import { Button, Heading, SkeletonText, Text } from '../../../../components';
 import { useTakeCourse } from '../../../../contexts';
 import { getDuration } from '../../../../utils';
 import useQueryParams from '../../../../hooks/useQueryParams';
-import useAssessmentPreview from './hooks/useAssessmentPreview';
 import { EmptyState } from '../../../../layouts';
 import { useGoBack } from '../../../../hooks';
+import useCourseExamPreview from './hooks/courseExamPreview/useCourseExamPreview';
 
 const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
   const { assessment, isLoading, error, handleTryAgain, assessmentIsDisabled } =
-    useAssessmentPreview(sidebarLinks, null, null, sidebarLinkClickedState);
+    useCourseExamPreview(sidebarLinks, null, null, sidebarLinkClickedState);
   useTakeCourse();
 
   const isExamination = useQueryParams().get('examination');

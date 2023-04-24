@@ -1,6 +1,4 @@
-import { Box } from '@chakra-ui/layout';
 import React, { useState } from 'react';
-import { CommentListCard, ReplyListCard } from '../../../../../components';
 import AnswersListCard from './AnswersListCard';
 
 const AnswersList = ({

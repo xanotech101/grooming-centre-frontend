@@ -16,7 +16,7 @@ export const adminGetCourseListing = async (params) => {
   const {
     data: { data },
   } = await http.get(path, { params });
-  
+
   return {
     courses: data.rows.map((course) => ({
       id: course.id,
@@ -26,7 +26,7 @@ export const adminGetCourseListing = async (params) => {
         firstName: course.user.firstName,
         lastName: course.user.lastName,
       },
-      startDate: course.lesson[0] ? course.lesson[0].startTime : "not set",
+      startDate: course.lesson[0] ? course.lesson[0].startTime : 'not set',
       isPublished: course.isPublished,
     })),
     showingDocumentsCount: data.rows.length,
@@ -82,6 +82,7 @@ export const userGetCourseListing = async () => {
   const {
     data: { data },
   } = await http.get(path);
+  console.log(data);
 
   return { courses: data };
 };
