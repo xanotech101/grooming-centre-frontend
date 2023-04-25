@@ -63,12 +63,14 @@ export const CourseBoxCard = ({
   instructor,
   isLoading,
   lessonCount,
-  progressPercentage,
+  courseTracking,
   title,
   file,
   fileExtension,
 }) => {
   duration = getDuration(duration);
+
+  const progressPercentage = courseTracking? courseTracking[0]?.progressPercentage : null;
 
   const preRequisiteIncomplete = preRequisite?.courseTracking[0].progressPercentage < 100;
 
@@ -296,7 +298,6 @@ export const CourseBoxCard = ({
           href={`/courses/details/${id}`}
           disabled={isLoading}
         >
-          {console.log(progressPercentage)}
           {progressPercentage ? (
             <Box
               backgroundColor="accent.5"
@@ -366,9 +367,17 @@ export const CourseBoxCard = ({
               {isLoading ? (
                 <SkeletonText numberOfLines={2} />
               ) : (
+                <>
                 <Heading as="h3" fontSize="h4">
                   {title}
                 </Heading>
+                {
+                  preRequisite &&
+                  <Text>
+                    prerequisite: {preRequisite.title}
+                  </Text>
+                }
+                </>
               )}
             </Box>
 
@@ -481,9 +490,17 @@ export const CourseBoxCard = ({
                 {isLoading ? (
                   <SkeletonText numberOfLines={2} />
                 ) : (
-                  <Heading as="h3" fontSize="h4">
-                    {title}
-                  </Heading>
+                  <>
+                    <Heading as="h3" fontSize="h4">
+                      {title}
+                    </Heading>
+                    {
+                      preRequisite &&
+                      <Text>
+                        prerequisite: {preRequisite.title}
+                      </Text>
+                    }
+                  </>
                 )}
               </Box>
 
@@ -528,7 +545,6 @@ CourseBoxCard.propTypes = {
   id: PropTypes.string,
   isLoading: PropTypes.bool,
   lessonCount: PropTypes.number,
-  progressPercentage: PropTypes.number,
   title: PropTypes.string,
   instructor: PropTypes.shape({
     profilePics: PropTypes.string,

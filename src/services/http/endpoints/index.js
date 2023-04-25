@@ -79,8 +79,6 @@ export const adminGetDashboardStats = async () => {
     data: { data },
   } = await http.get(path);
 
-  console.log(data)
-
   return data;
 };
 
