@@ -32,7 +32,7 @@ const links = [
   },
   {
     href: '/standalone-exams',
-    text: 'Standalone',
+    text: 'Exams',
   },
 ];
 

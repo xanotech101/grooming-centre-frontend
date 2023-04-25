@@ -1,5 +1,5 @@
-import { Box, Flex } from "@chakra-ui/layout";
-import { Switch } from "react-router-dom";
+import { Box, Flex } from '@chakra-ui/layout';
+import { Switch } from 'react-router-dom';
 import {
   CourseListingPageRoute,
   // CoursesPageRoute,
@@ -27,19 +27,21 @@ import {
   ViewFileDetailsPageRoute,
   StandaloneExaminationListingPageRoute,
   StandaloneExaminationAllParticipantsPageRoute,
-} from "../../../pages/admin";
-import PollsListingPageRoute from "../../../pages/admin/polls/PollsPage";
-import { CreatePollsPageRoute } from "../../../pages/admin/polls/CreatePollsPage";
-import { ViewPollsInfoPageRoute } from "../../../pages/admin/polls/layout/ViewPollsInfoPage";
-import { CreateOptionsPageRoute } from "../../../pages/admin/polls/CreateOptionsPage";
-import { CreateStandalonePageRoute } from "../../../pages/admin/standaloneExams/CreateStandaloneExamPage";
-import QuestionsStandaloneRoute from "../../../pages/admin/standaloneExams/QuestionsStandalone";
-import { ParticipantsListingPageRoute } from "../../../pages/admin/participants/ParticipantsListingPage";
+} from '../../../pages/admin';
+import PollsListingPageRoute from '../../../pages/admin/polls/PollsPage';
+import { CreatePollsPageRoute } from '../../../pages/admin/polls/CreatePollsPage';
+import { ViewPollsInfoPageRoute } from '../../../pages/admin/polls/layout/ViewPollsInfoPage';
+import { CreateOptionsPageRoute } from '../../../pages/admin/polls/CreateOptionsPage';
+import { CreateStandalonePageRoute } from '../../../pages/admin/standaloneExams/CreateStandaloneExamPage';
+import QuestionsStandaloneRoute from '../../../pages/admin/standaloneExams/QuestionsStandalone';
+import { ParticipantsListingPageRoute } from '../../../pages/admin/participants/ParticipantsListingPage';
+import { AnnouncementListingRoute } from '../../../pages/admin/Annoncement/AnnouncementListing';
+import { CreateAnnouncementRoute } from '../../../pages/admin/Annoncement/CreateAnnouncement';
 
 const MainArea = () => {
   return (
     <Box
-      marginLeft={{ md: "270px", base: "0px", lg: "270px" }}
+      marginLeft={{ md: '270px', base: '0px', lg: '270px' }}
       paddingY="30px"
       paddingX="18px"
     >
@@ -103,6 +105,8 @@ const MainArea = () => {
         <SecurityPageRoute path="/admin/settings/security" />
         <GradeCriteriaPageRoute path="/admin/settings/grade-criteria" />
         <SettingsPageRoute path="/admin/settings" />
+        <AnnouncementListingRoute exact path="/admin/announcement" />
+        <CreateAnnouncementRoute exact path="/admin/announcement/create" />
         <NotFoundPageRoute />
       </Switch>
     </Box>

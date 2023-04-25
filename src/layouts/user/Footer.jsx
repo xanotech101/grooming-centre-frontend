@@ -12,7 +12,7 @@ const Footer = () => {
       backgroundColor="primary.base"
       height="60px"
       padding={5}
-      marginLeft={{ base: '0', lg: '250px', md: '250px' }}
+      // marginLeft={{ base: '0', lg: '250px', md: '250px' }}
     >
       <Flex
         alignItems="center"

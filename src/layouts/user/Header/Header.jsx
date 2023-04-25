@@ -25,8 +25,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AccountPage } from '../../../pages/admin';
+import { SlideShow } from '../../../components/SlideShow/SlideShow';
 
 const Header = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Box shadow="md">
       <Flex
@@ -50,12 +52,14 @@ const Header = () => {
 
         <ButtonGroup spacing={{ base: 2, laptop: 5 }}>
           <Avatar />
-
-          <Button asIcon>
-            <MdNotificationsActive />
-          </Button>
+          <p onClick={onOpen}>
+            <Button asIcon>
+              <MdNotificationsActive />
+            </Button>
+          </p>
         </ButtonGroup>
       </Flex>
+      <SlideShow isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
     </Box>
   );
 };
@@ -89,7 +93,9 @@ const Avatar = () => {
           <MenuItem as={Link} to="/courses/grade-overview#certificates">
             Certificates
           </MenuItem>
-          <MenuItem as={Link} to="/examinations">Examination</MenuItem>
+          <MenuItem as={Link} to="/examinations">
+            Examination
+          </MenuItem>
           <MenuItem as={Link} to="/courses/grade-overview">
             Grades
           </MenuItem>

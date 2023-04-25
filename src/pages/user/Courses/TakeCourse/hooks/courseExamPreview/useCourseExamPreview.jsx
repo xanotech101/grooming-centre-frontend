@@ -1,26 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useCache } from '../../../../../contexts';
-import useComponentIsMount from '../../../../../hooks/useComponentIsMount';
-import useQueryParams from '../../../../../hooks/useQueryParams';
-import {
-  requestAssessmentDetails,
-  requestExaminationDetails,
-  getStandaloneExaminationDetails,
-} from '../../../../../services';
-import { isStandaloneExaminationAndIsNotEditMode } from '../../../../admin/courses/AssessmentPage/pages/OverviewPage';
+import { useCache } from '../../../../../../contexts';
+import { useComponentIsMount, useQueryParams } from '../../../../../../hooks';
+import { requestExaminationDetails } from '../../../../../../services';
 
-/**
- * Assessment state`Manager`
- * @param { Array<{}> | null } sidebarLinks
- *
- * @returns {{
- *  assessment: Assessment,
- *  isLoading: boolean,
- *  error: string | null,
- * }}
- */
-const useAssessmentPreview = (
+const useCourseExamPreview = (
   sidebarLinks,
   assessmentId,
   isForAdmin,
@@ -29,19 +13,8 @@ const useAssessmentPreview = (
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
   const { id: courseId, assessment_id } = useParams();
-
-  assessmentId = assessmentId || assessment_id;
-  const assessmentIsNew = assessmentId === 'new';
-
-  console.log(assessmentId);
-
   const queryParams = useQueryParams();
   const isExamination = queryParams.get('examination');
-
-  const isStandaloneExamination = !courseId && isExamination ? true : false;
-
-  const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
-  const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
 
   const [assessmentDetails, setAssessmentDetails] = useState({
     data: null,
@@ -49,15 +22,18 @@ const useAssessmentPreview = (
     err: null,
   });
 
+  const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
+  const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
+
+  assessmentId = assessmentId || assessment_id;
+  const assessmentIsNew = assessmentId === 'new';
+
   const fetcher = useCallback(async () => {
-    const data = await (isStandaloneExamination
-      ? getStandaloneExaminationDetails(isExamination, true) // `isExamination` is `examinationId` in this case
-      : isExamination
-      ? requestExaminationDetails(assessmentId, isForAdmin) // `assessmentId` is `courseId` in this case
-      : requestAssessmentDetails(assessmentId, isForAdmin));
+    const data = await (isExamination &&
+      requestExaminationDetails(assessmentId, isForAdmin)); // `assessmentId` is `courseId` in this case
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination, isForAdmin, isStandaloneExamination]);
+  }, [assessmentId, isExamination, isForAdmin]);
 
   const fetchAssessmentDetails = useCallback(
     async (bypassCache) => {
@@ -81,11 +57,7 @@ const useAssessmentPreview = (
   );
 
   const handleFetch = (bypassCache) => {
-    if (
-      !assessmentIsNew &&
-      assessmentId !== isStandaloneExaminationAndIsNotEditMode
-    )
-      fetchAssessmentDetails(bypassCache);
+    if (!assessmentIsNew) fetchAssessmentDetails(bypassCache);
   };
 
   const handleTryAgain = () => {
@@ -121,4 +93,4 @@ const useAssessmentPreview = (
   };
 };
 
-export default useAssessmentPreview;
+export default useCourseExamPreview;

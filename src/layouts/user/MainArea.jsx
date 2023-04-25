@@ -22,6 +22,7 @@ const MainArea = () => {
   return (
     <Box as="main" marginBottom={16}>
       <Switch>
+        <Redirect exact from="/" to="/dashboard" />
         <DashboardPageRoute exact path="/dashboard" />
         <LibraryPageRoute path="/library" />
         <ForumLayoutRoute path="/forum" />
@@ -32,11 +33,9 @@ const MainArea = () => {
         <CertificatePageRoute path="/courses/:course_id/certificate" />
         <CoursesPagesRoute path="/courses" />
         <PollsPageRoute exact path="/polls" />
-
         <StandalonePagesRoute exact path="/standalone-exams" />
         <StandalonePreAssessmentRoute exact path="/standalone-exams/take" />
         <StandaloneExamsStartRoute exact path="/standalone-exams/start" />
-        <Redirect exact from="/" to="/dashboard" />
         <Route render={(props) => <NotFoundPageRoute />} />
       </Switch>
     </Box>

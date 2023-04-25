@@ -164,7 +164,7 @@ const StandAloneHeader = () => {
               isLoading={loading}
               disabled={loading}
               onClick={() => handleGetGrades()}
-              width="50%"
+              width="100%"
             >
               Get Grades
             </Button>

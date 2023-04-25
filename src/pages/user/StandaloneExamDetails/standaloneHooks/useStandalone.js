@@ -11,6 +11,8 @@ import { submitAssessment, submitExamination } from '../../../../services';
 import { hasEnded, isUpcoming, sortByIndexField } from '../../../../utils';
 import { CongratsModalContent } from '../../../../layouts/user/Assessment/Modal';
 import useTimerCountdown from '../../../../layouts/user/Assessment/hooks/useTimerCountdown';
+import useStandaloneTimer from './useStandaloneTimer';
+import { duration } from '@material-ui/core';
 
 const useStandalone = () => {
   const { assessment, isLoading, error, setError } = useStandalonePreview();
@@ -28,9 +30,9 @@ const useStandalone = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState({});
 
-  const timerCountdownManger = useTimerCountdown({
+  const timerCountdownManger = useStandaloneTimer({
     startDate: assessment?.startTime,
-    endDate: assessment?.endTime,
+    duration: assessment?.duration,
   });
 
   // Initialize the first question

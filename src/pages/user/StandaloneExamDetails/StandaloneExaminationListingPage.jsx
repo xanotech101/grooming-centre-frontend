@@ -12,9 +12,16 @@ import { useToast } from '@chakra-ui/toast';
 import useTakeStandalone from '../../../contexts/TakeStandaloneExam/useTakeStandalone';
 import completeImg from '../../../assets/images/image 10.png';
 import uncompleteImg from '../../../assets/images/image 11.png';
+import CoursesPagination from '../../../components/Pagination/CoursesPagination';
 
 const StandaloneExaminationListingPage = () => {
   const [exams, setExams] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(4);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const { examination } = useTakeStandalone();
   const { push } = useHistory();
@@ -42,6 +49,12 @@ const StandaloneExaminationListingPage = () => {
       timeStyle: 'short',
     });
   };
+
+  const pageLength = exams?.length;
+
+  const currentItems = exams?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const npages = Math.ceil(pageLength / itemsPerPage);
 
   return (
     <>
@@ -87,7 +100,7 @@ const StandaloneExaminationListingPage = () => {
           gap="30px"
         >
           {exams &&
-            exams?.map((exam) => (
+            currentItems?.map((exam) => (
               <Box
                 key={exam?.id}
                 height="280px"
@@ -209,6 +222,14 @@ const StandaloneExaminationListingPage = () => {
               </Box>
             ))}
         </Box>
+
+        <CoursesPagination
+          itemsPerPage={itemsPerPage}
+          pageLength={pageLength}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          npages={npages}
+        />
       </Box>
     </>
   );

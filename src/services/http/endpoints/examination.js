@@ -152,10 +152,12 @@ export const submitExamination = async (body) => {
   const path = `/examination/scoresheet/create`;
 
   const {
-    data: { message },
+    data: { message, data },
   } = await http.post(path, body);
 
-  return { message };
+  console.log(data);
+
+  return { message, data };
 };
 
 /**

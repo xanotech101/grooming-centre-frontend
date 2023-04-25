@@ -6,8 +6,8 @@ import {
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
-} from "@chakra-ui/react";
-import React from "react";
+} from '@chakra-ui/react';
+import React from 'react';
 export const SlideShow = ({ isOpen, onOpen, onClose, children }) => {
   const btnRef = React.useRef();
   return (
@@ -24,7 +24,7 @@ export const SlideShow = ({ isOpen, onOpen, onClose, children }) => {
           <DrawerHeader>Notifications</DrawerHeader>
 
           <DrawerBody>
-            {"content goes here...."} {children}
+            {'content goes here....'} {children}
           </DrawerBody>
 
           <DrawerFooter></DrawerFooter>

@@ -99,7 +99,7 @@ const useAddQuestionPage = ({ selectedTags, handleClearAllSelectedTags }) => {
   }, [question.data]);
 
   const handlePublishQuestion = async (question) => {
-    console.log('helo');
+    console.log(question);
     try {
       if (!selectedTags.length)
         throw new Error('Please select at least one tag');

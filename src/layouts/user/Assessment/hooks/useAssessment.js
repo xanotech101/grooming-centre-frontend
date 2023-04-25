@@ -12,13 +12,13 @@ import { hasEnded, isUpcoming, sortByIndexField } from '../../../../utils';
 import { CongratsModalContent } from '../Modal';
 import useTimerCountdown from './useTimerCountdown';
 import { Box } from '@chakra-ui/layout';
+import useCourseExamPreview from '../../../../pages/user/Courses/TakeCourse/hooks/courseExamPreview/useCourseExamPreview';
 
 const useAssessment = () => {
-  const { assessment, isLoading, error, setError } = useAssessmentPreview();
+  const { assessment, isLoading, error, setError } = useCourseExamPreview();
   const { course_id } = useParams();
   const isExamination = useQueryParams().get('examination');
-
-  console.log({ assessment });
+  const [score, setScore] = useState('');
 
   assessment.questions = sortByIndexField(
     assessment.questions,
@@ -113,7 +113,11 @@ const useAssessment = () => {
 
       console.log(questionIdArr, optionIdArr);
 
-      await (isExamination ? submitExamination(body) : submitAssessment(body));
+      const { message, data } = await (isExamination
+        ? submitExamination(body)
+        : submitAssessment(body));
+      console.log(data?.score);
+      setScore(data?.score);
 
       setSubmitStatus({
         success: true,
@@ -162,6 +166,7 @@ const useAssessment = () => {
       <CongratsModalContent
         redirectLink={`/courses/details/${course_id}`}
         contextText={assessment.topic}
+        score={score}
       />
     );
     timerCountdownManger.handleStopCountdown();

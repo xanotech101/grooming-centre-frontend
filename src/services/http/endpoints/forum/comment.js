@@ -188,6 +188,8 @@ export const userForumAddComment = async (body) => {
     data: { message, data },
   } = await http.post(path, { ...body });
 
+  console.log(data);
+
   const comment = {
     id: data.id,
     body: data.comment,

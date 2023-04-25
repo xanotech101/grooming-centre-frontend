@@ -205,3 +205,23 @@
     height: 100%;
   }
 }
+.course-pagination {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.course-pagination_num {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  p {
+    padding: 10px 15px;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+}
+.course-pagination_active {
+  background-color: #944d94;
+  color: #fff;
+}
