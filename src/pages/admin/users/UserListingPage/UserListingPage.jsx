@@ -125,14 +125,14 @@ const UserListingPage = () => {
           </Link>
         ),
       },
-      { id: '3', key: 'department', text: 'Department', fraction: '200px', },
+      { id: '3', key: 'department', text: 'Department', fraction: '200px' },
       {
         id: '4',
         key: 'email',
         text: 'Email Address',
         fraction: '250px',
       },
-      { id: '5', key: 'gradePoint', text: 'GP (%)', fraction: '75px', },
+      { id: '5', key: 'gradePoint', text: 'GP (%)', fraction: '75px' },
       // { id: '6', key: 'certificates', text: 'Certificates', fraction: '75px', },
     ],
 

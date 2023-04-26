@@ -159,7 +159,12 @@ const StandaloneExamsStart = () => {
                         <Spinner />
                       </Center>
                     ) : (
-                      <p>{grade}%</p>
+                      <>
+                        <p>{grade}%</p>
+                        <Button link={`/standalone-exams`}>
+                          Back to Exams
+                        </Button>
+                      </>
                     )}
                   </Box>
                 ) : (
@@ -243,8 +248,8 @@ const StandaloneExamsStart = () => {
         <EmptyState
           height="100vh"
           cta={
-            <Button link={`/courses/details/${course_id}`} marginTop={10}>
-              Back to course
+            <Button link={`/standalone-exams`} marginTop={10}>
+              Back to Exams
             </Button>
           }
           heading={error}

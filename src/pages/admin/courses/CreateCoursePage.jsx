@@ -23,7 +23,11 @@ import {
   capitalizeWords,
 } from '../../../utils';
 import { useHistory, useParams } from 'react-router';
-import { adminCreateCourse, adminEditCourse, adminGetCoursesByDepartment } from '../../../services';
+import {
+  adminCreateCourse,
+  adminEditCourse,
+  adminGetCoursesByDepartment,
+} from '../../../services';
 import { useUpload } from '../../../hooks';
 import useCourseDetails from '../../user/Courses/CourseDetails/hooks/useCourseDetails';
 import { useEffect, useMemo } from 'react';
@@ -54,8 +58,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   const onSubmit = async (data) => {
     try {
-      if(!selectedDepartmentId){
-        throw new Error("Please select a department")
+      if (!selectedDepartmentId) {
+        throw new Error('Please select a department');
       }
 
       const courseThumbnail =
@@ -105,13 +109,15 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   const isError = courseDetails.err;
 
   // get courses under selected department
-  useEffect(()=>{
+  useEffect(() => {
     setPrerequisiteLoading(true);
-    const getPrerequisite = async ()=>{
+    const getPrerequisite = async () => {
       try {
-        const { courses } = await adminGetCoursesByDepartment(selectedDepartmentId)
-        setPrerequisites(courses)
-        setPrerequisiteLoading(false)
+        const { courses } = await adminGetCoursesByDepartment(
+          selectedDepartmentId
+        );
+        setPrerequisites(courses);
+        setPrerequisiteLoading(false);
       } catch (error) {
         toast({
           description: capitalizeFirstLetter(error.message),
@@ -119,13 +125,12 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
           status: 'error',
         });
       }
-    }
+    };
 
-    if(selectedDepartmentId) getPrerequisite()
-    
+    if (selectedDepartmentId) getPrerequisite();
 
     // eslint-disable-next-line
-  }, [selectedDepartmentId])
+  }, [selectedDepartmentId]);
 
   // set image files for edit
   useEffect(() => {
@@ -147,7 +152,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   // set department for edit
   useEffect(() => {
     if (courseDetailsData && metadata?.departments) {
-      setSelectedDepartmentId(courseDetailsData.departmentId)
+      setSelectedDepartmentId(courseDetailsData.departmentId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData, metadata?.departments]);
@@ -242,7 +247,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             id="departmentId"
             isLoading={!metadata?.departments}
             value={selectedDepartmentId}
-            onChange={(e)=> setSelectedDepartmentId(e.target.value)}
+            onChange={(e) => setSelectedDepartmentId(e.target.value)}
           />
         </Box>
         <Box
@@ -258,7 +263,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             label="Select prerequisite"
             options={populatePrerequisiteOptions(prerequisites)}
             id="preRequisiteId"
-            placeholder={prerequisiteLoading? 'waiting for department...': ''}
+            placeholder={prerequisiteLoading ? 'waiting for department...' : ''}
             isLoading={prerequisiteLoading}
             {...register('preRequisiteId')}
             error={errors.preRequisiteId?.message}

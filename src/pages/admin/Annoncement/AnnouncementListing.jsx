@@ -17,6 +17,7 @@ import {
 } from '../../../components';
 import {
   adminDeleteStandaloneExaminationQuestion,
+  adminGetAnnouncementListing,
   adminGetStandaloneExaminationListing,
 } from '../../../services';
 import { AdminMainAreaWrapper } from '../../../layouts';
@@ -60,33 +61,31 @@ const tableProps = {
   columns: [
     {
       id: '2',
-      key: 'title',
-      text: 'Examination Title',
+      key: 'announceId',
+      text: 'Announcement Id',
       fraction: '2fr',
       renderContent: (data) => (
-        <Link
-          href={`/admin/standalone-exams/overview?examination=${data.examinationId}`}
-        >
+        <Link href={`/admin/announcement/edit/?announcement=${data.courseId}`}>
           <Text>{data.text}</Text>
         </Link>
       ),
     },
     {
       id: '3',
-      key: 'noOfUsers',
-      text: 'No. of Candidates',
+      key: 'department',
+      text: 'Department Id',
       fraction: '200px',
     },
     {
       id: '4',
-      key: 'startDate',
-      text: 'Start Date',
+      key: 'author',
+      text: 'Author Id',
       fraction: '200px',
     },
     {
       id: '5',
-      key: 'duration',
-      text: 'Duration',
+      key: 'text',
+      text: 'Details',
       fraction: '150px',
     },
     {
@@ -113,43 +112,40 @@ const tableProps = {
     action: [
       {
         text: 'Edit',
-        link: (examination) =>
-          `/admin/standalone-exams/overview/?examination=${examination.id}`,
+        link: (announcement) =>
+          `/admin/announcement/edit/?announcement=${announcement.id}`,
       },
       {
         isDelete: true,
       },
     ],
     selection: true,
-    multipleDeleteFetcher: async (selectedExaminations) => {
-      await adminDeleteStandaloneExaminationQuestion(
-        selectedExaminations[0]?.id
-      );
-    },
+    // multipleDeleteFetcher: async (selectedExaminations) => {
+    //   await adminDeleteStandaloneExaminationQuestion(
+    //     selectedExaminations[0]?.id
+    //   );
+    // },
     pagination: true,
   },
 };
 
 const AnnouncementListing = () => {
-  const mapExaminationToRow = (examination) => ({
-    id: examination.id,
-    // courseId,
-    title: {
-      text: examination.title,
-      examinationId: examination.id,
-      // courseId,
+  const mapExaminationToRow = (announcement) => ({
+    announceId: {
+      text: announcement.id.slice(0, 8),
+      courseId: announcement.id,
     },
-    startDate: dayjs(examination.startTime).format('DD/MM/YYYY h:mm a'),
-    duration: getDuration(examination.duration).combinedText,
-    noOfUsers: examination.noOfUsers,
-    status: examination.isPublished,
+    id: announcement.id,
+    department: announcement.departmentId.slice(0, 8),
+    author: announcement.senderId.slice(0, 8),
+    text: announcement.text.substring(0, 15).concat('...'),
   });
 
   const fetcher = (props) => async () => {
-    const { examinations, showingDocumentsCount, totalDocumentsCount } =
-      await adminGetStandaloneExaminationListing(props?.params);
+    const { announcements, showingDocumentsCount, totalDocumentsCount } =
+      await adminGetAnnouncementListing(props?.params);
 
-    const rows = examinations.map(mapExaminationToRow);
+    const rows = announcements.map(mapExaminationToRow);
 
     return { rows, showingDocumentsCount, totalDocumentsCount };
   };
@@ -179,7 +175,9 @@ const AnnouncementListing = () => {
           Announcements
         </Heading>
 
-        <Button link={`/admin/announcement/create`}>Create announcement</Button>
+        <Button link={`/admin/announcement/edit/?announcement=new`}>
+          Create announcement
+        </Button>
       </Box>
 
       <Table

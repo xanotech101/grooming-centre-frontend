@@ -106,7 +106,7 @@ const MainArea = () => {
         <GradeCriteriaPageRoute path="/admin/settings/grade-criteria" />
         <SettingsPageRoute path="/admin/settings" />
         <AnnouncementListingRoute exact path="/admin/announcement" />
-        <CreateAnnouncementRoute exact path="/admin/announcement/create" />
+        <CreateAnnouncementRoute exact path="/admin/announcement/edit" />
         <NotFoundPageRoute />
       </Switch>
     </Box>

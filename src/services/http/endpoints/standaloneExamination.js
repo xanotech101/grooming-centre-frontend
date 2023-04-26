@@ -149,11 +149,14 @@ export const usersGetStandaloneExaminationListing = async () => {
     title: exam.title,
     duration: exam.duration,
     startTime: exam.startTime,
+    endTime: getEndTime(exam.startTime, exam.duration),
     noOfUsers: exam.standAloneExaminationGrade.length,
     isPublished: exam.isPublished,
     question: exam.standAloneExaminationQuestion,
     standAloneExaminationGrade: exam.standAloneExaminationGrade,
   }));
+
+  console.log(examinations);
   return {
     examinations,
   };

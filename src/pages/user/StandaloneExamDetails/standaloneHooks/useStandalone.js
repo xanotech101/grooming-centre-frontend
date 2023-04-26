@@ -30,9 +30,9 @@ const useStandalone = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState({});
 
-  const timerCountdownManger = useStandaloneTimer({
-    startDate: assessment?.startTime,
-    duration: assessment?.duration,
+  const timerCountdownManger = useTimerCountdown({
+    startDate: assessment.startTime,
+    endDate: assessment.endTime,
   });
 
   // Initialize the first question
