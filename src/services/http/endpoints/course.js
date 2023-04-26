@@ -113,9 +113,6 @@ export const userGetCourseListing = async () => {
   const {
     data: { data },
   } = await http.get(path);
-  console.log(data);
-
-  console.log(data);
 
   return { courses: data };
 };
