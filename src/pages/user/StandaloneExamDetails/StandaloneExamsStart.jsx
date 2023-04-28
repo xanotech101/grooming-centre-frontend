@@ -23,9 +23,9 @@ import {
   usersGetStandaloneExaminationListing,
 } from "../../../services";
 import { useQueryParams } from "../../../hooks";
+import { Warning } from "@material-ui/icons";
 
 const StandaloneExamsStart = () => {
-  const [end, setEnd] = useState(true);
   const {
     assessment,
     course_id,
@@ -47,7 +47,7 @@ const StandaloneExamsStart = () => {
     index,
     questionId,
     optionId,
-  } = useStandalone();
+  } = useStandalone({handleExam:()=>handleExamSubmit()});
   const toast = useToast();
 
   const questionArr = Object.values(questionId);
@@ -57,12 +57,51 @@ const StandaloneExamsStart = () => {
   const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
   const [myAssessment, setMyAssessment] = useState([]);
-
+  const [modalContent, setModalContent] = useState();
+  const [modalPrompt, setModalPrompt] = useState(null);
+  const [modalCanClose, setModalCanClose] = useState(true);
   const [modal, setModal] = useState({
     state: false,
     congrats: false,
     score: false,
   });
+  // let count = 0;
+  // const location = window.location.pathname;
+  // useEffect(() => {
+  //   window.addEventListener("blur", () => {
+  //     if (
+  //       location !==
+  //       "/courses/take/565b55b1-0f4e-414c-a59d-83368d3e4106/assessment/start/dd335788-2237-4eb4-8a13-2e2fc2ae0c30"
+  //     ) {
+  //       count++;
+  //       modalManager.onOpen();
+  //       setModalContent(null);
+
+  //       setModalPrompt({
+  //         heading: `Leaving this tab more than twice will automatically submit your examination`,
+  //         body: (
+  //           <Box as="div" display="flex" alignItems="center" gap={3}>
+  //             <Warning
+  //               style={{
+  //                 height: "40px",
+  //                 width: "40px",
+  //                 color: "red",
+  //               }}
+  //             />
+  //             <div>please take note....</div>
+  //           </Box>
+  //         ),
+  //       });
+  //       if (count === 3) {
+  //         count = 0;
+  //         handleExamSubmit
+  //         modalManager.onClose()
+        
+  //       }
+  //     }
+  //   });
+  // }, []);
+
   const handleExamSubmit = async () => {
     try {
       const body = {

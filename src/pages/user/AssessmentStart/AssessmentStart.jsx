@@ -9,6 +9,7 @@ import { useQueryParams } from "../../../hooks";
 import congratsIcon from "../../../assets/images/congratsIcon.png";
 import { useDisclosure } from "@chakra-ui/react";
 import { Warning } from "@material-ui/icons";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const AssessmentStart = () => {
   const [modal, setModal] = useState({
     state: false,
@@ -91,19 +92,20 @@ const AssessmentStart = () => {
   };
 
   let count = 0;
-  const location = window.location.pathname;
+  const history=useHistory()
+  const location = `/standalone-exams/start/?exam=${id}`
   useEffect(() => {
     window.addEventListener("blur", () => {
       if (
         location ===
-        "/courses/take/565b55b1-0f4e-414c-a59d-83368d3e4106/assessment/start/dd335788-2237-4eb4-8a13-2e2fc2ae0c30"
+        `/standalone-exams/start/?exam=${id}`
       ) {
         count++;
         modalManager.onOpen();
         setModalContent(null);
 
         setModalPrompt({
-          heading: `Leaving this tab more than twice will automatically submit your quiz`,
+          heading: `Leaving this tab more than twice will automatically submit your examination`,
           body: (
             <Box as="div" display="flex" alignItems="center" gap={3}>
               <Warning
@@ -119,12 +121,18 @@ const AssessmentStart = () => {
         });
         if (count === 3) {
           count = 0;
-
-          handleSubmit();
+          modalManager.onClose()
+          
+          setModal({ ...modal, congrats: true })
+          history.push("/home")
+          
+          
+        
         }
       }
     });
   }, []);
+
   return (
     <Box position="relative">
       {modal.state && (

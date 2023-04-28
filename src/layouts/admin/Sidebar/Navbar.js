@@ -94,7 +94,7 @@ export const SidebarContent = ({ onClose, ...rest }) => {
             <Heading fontSize="heading.h3" paddingBottom={2}>
               Settings
             </Heading>
-            <Text paddingBottom={6}>Topics: Introduction to HTML</Text>
+           
           </Box>
         ) : (
           <Box padding={5}>
