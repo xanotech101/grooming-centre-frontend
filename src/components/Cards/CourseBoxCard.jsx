@@ -1,5 +1,5 @@
 import { Box, Flex, HStack, Icon, Stack } from '@chakra-ui/react';
-import { Tooltip } from "@chakra-ui/tooltip";
+import { Tooltip } from '@chakra-ui/tooltip';
 import { Skeleton } from '@chakra-ui/skeleton';
 import PropTypes from 'prop-types';
 import { AiFillBook, AiOutlineRead } from 'react-icons/ai';
@@ -70,9 +70,13 @@ export const CourseBoxCard = ({
 }) => {
   duration = getDuration(duration);
 
-  const progressPercentage = courseTracking? courseTracking[0]?.progressPercentage : null;
+  const progressPercentage = courseTracking
+    ? courseTracking[0]?.progressPercentage
+    : null;
+  c;
 
-  const preRequisiteIncomplete = preRequisite?.courseTracking[0].progressPercentage < 100;
+  const preRequisiteIncomplete =
+    preRequisite?.courseTracking[0].progressPercentage < 100;
 
   const isLibraryPage = /library/i.test(window.location.pathname);
 
@@ -289,8 +293,7 @@ export const CourseBoxCard = ({
             </Flex>
           </Stack>
         </div>
-      ) : (
-        !preRequisiteIncomplete?
+      ) : !preRequisiteIncomplete ? (
         <Link
           className={`course-box-card ${
             disabled ? 'course-box-card--disabled' : ''
@@ -317,7 +320,7 @@ export const CourseBoxCard = ({
               </Text>
             </Box>
           ) : null}
-          
+
           <Image
             src={thumbnail || thumbnailPlaceholder}
             filter={disabled ? 'sepia(10%)' : 'none'}
@@ -368,15 +371,12 @@ export const CourseBoxCard = ({
                 <SkeletonText numberOfLines={2} />
               ) : (
                 <>
-                <Heading as="h3" fontSize="h4">
-                  {title}
-                </Heading>
-                {
-                  preRequisite &&
-                  <Text>
-                    prerequisite: {preRequisite.title}
-                  </Text>
-                }
+                  <Heading as="h3" fontSize="h4">
+                    {title}
+                  </Heading>
+                  {preRequisite && (
+                    <Text>prerequisite: {preRequisite.title}</Text>
+                  )}
                 </>
               )}
             </Box>
@@ -409,16 +409,16 @@ export const CourseBoxCard = ({
             </Flex>
           </Stack>
         </Link>
-        :
+      ) : (
         <Tooltip
           label={`Complete ${preRequisite?.title} to have access to this course`}
           aria-label={preRequisite?.title}
         >
-          <div 
+          <div
             className={`course-box-card ${
               disabled ? 'course-box-card--disabled' : ''
             }`}
-            style={{cursor:'pointer'}}
+            style={{ cursor: 'pointer' }}
           >
             {console.log(progressPercentage)}
             {progressPercentage ? (
@@ -440,7 +440,7 @@ export const CourseBoxCard = ({
                 </Text>
               </Box>
             ) : null}
-            
+
             <Image
               src={thumbnail || thumbnailPlaceholder}
               filter={disabled ? 'sepia(10%)' : 'none'}
@@ -494,12 +494,9 @@ export const CourseBoxCard = ({
                     <Heading as="h3" fontSize="h4">
                       {title}
                     </Heading>
-                    {
-                      preRequisite &&
-                      <Text>
-                        prerequisite: {preRequisite.title}
-                      </Text>
-                    }
+                    {preRequisite && (
+                      <Text>prerequisite: {preRequisite.title}</Text>
+                    )}
                   </>
                 )}
               </Box>

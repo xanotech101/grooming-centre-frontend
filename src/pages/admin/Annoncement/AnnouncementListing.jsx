@@ -63,7 +63,7 @@ const tableProps = {
       id: '2',
       key: 'announceId',
       text: 'Announcement Id',
-      fraction: '2fr',
+      fraction: '250px',
       renderContent: (data) => (
         <Link href={`/admin/announcement/edit/?announcement=${data.courseId}`}>
           <Text>{data.text}</Text>
@@ -80,31 +80,13 @@ const tableProps = {
       id: '4',
       key: 'author',
       text: 'Author Id',
-      fraction: '200px',
+      fraction: '250px',
     },
     {
       id: '5',
       key: 'text',
       text: 'Details',
-      fraction: '150px',
-    },
-    {
-      id: '6',
-      key: 'status',
-      text: 'Status',
-      fraction: '150px',
-      renderContent: (status) => (
-        <Box>
-          <Tag
-            borderRadius="full"
-            size="sm"
-            backgroundColor={status ? 'accent.4' : 'accent.1'}
-            color={status ? 'accent.5' : 'accent.3'}
-          >
-            <Text bold>{status ? 'Published' : 'UnPublished'}</Text>
-          </Tag>
-        </Box>
-      ),
+      fraction: '250px',
     },
   ],
 
