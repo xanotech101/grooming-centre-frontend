@@ -33,8 +33,6 @@ const useAssessmentPreview = (
   assessmentId = assessmentId || assessment_id;
   const assessmentIsNew = assessmentId === 'new';
 
-  console.log(assessmentId);
-
   const queryParams = useQueryParams();
   const isExamination = queryParams.get('examination');
 

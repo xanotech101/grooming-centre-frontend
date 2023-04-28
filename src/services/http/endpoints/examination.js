@@ -14,6 +14,16 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     data: { data },
   } = await http.get(path);
 
+  const questionArray = data.examinationQuestions;
+
+  // shuffle questions
+  for (let i = questionArray.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * i);
+    const temp = questionArray[i];
+    questionArray[i] = questionArray[j];
+    questionArray[j] = temp;
+  }
+
   const examination = {
     id: data.id,
     courseId: data.courseId,
@@ -25,7 +35,7 @@ export const requestExaminationDetails = async (id, forAdmin) => {
     hasCompleted: data.examinationScoreSheets?.[0] ? true : false,
     minimumPercentageScoreToEarnABadge:
       data.minimumPercentageScoreToEarnABadge || 30, // TODO: remove hard coded data
-    questions: data.examinationQuestions.map((q, index) => ({
+    questions: questionArray.map((q, index) => ({
       id: q.id,
       question: q.question,
       file: q.file,
