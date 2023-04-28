@@ -1,4 +1,4 @@
-import { Skeleton } from "@chakra-ui/skeleton";
+import { Skeleton } from '@chakra-ui/skeleton';
 import {
   Box,
   Flex,
@@ -8,9 +8,9 @@ import {
   Icon,
   Stack,
   Center,
-} from "@chakra-ui/react";
-import { Bar, Doughnut } from "react-chartjs-2";
-import { Route } from "react-router-dom";
+} from '@chakra-ui/react';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import { Route } from 'react-router-dom';
 import {
   Button,
   Heading,
@@ -18,20 +18,20 @@ import {
   Text,
   DaySchedule,
   MonthSchedule,
-} from "../../components";
-import { maxWidthStyles_userPages } from "../../theme/breakpoints";
-import colors from "../../theme/colors";
-import { useApp } from "../../contexts";
-import useGradeDetails from "./Courses/Grades/hooks/useGradeDetails";
-import { IoCalendarOutline } from "react-icons/io5";
-import { BiNotepad, BiRefresh } from "react-icons/bi";
-import { ImFileText } from "react-icons/im";
-import { ReactComponent as NoData } from "../../assets/images/no-data.svg";
-import { useMonthSchedule, useDaySchedule } from "../../hooks";
+} from '../../components';
+import { maxWidthStyles_userPages } from '../../theme/breakpoints';
+import colors from '../../theme/colors';
+import { useApp } from '../../contexts';
+import useGradeDetails from './Courses/Grades/hooks/useGradeDetails';
+import { IoCalendarOutline } from 'react-icons/io5';
+import { BiNotepad, BiRefresh } from 'react-icons/bi';
+import { ImFileText } from 'react-icons/im';
+import { ReactComponent as NoData } from '../../assets/images/no-data.svg';
+import { useMonthSchedule, useDaySchedule } from '../../hooks';
 
 const scheduledCards = [
   {
-    title: "Upcoming Assessment",
+    title: 'Upcoming Assessment',
     value: 3,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
@@ -40,7 +40,7 @@ const scheduledCards = [
     ),
   },
   {
-    title: "Lessons to complete",
+    title: 'Lessons to complete',
     value: 2,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
@@ -49,7 +49,7 @@ const scheduledCards = [
     ),
   },
   {
-    title: "Events to attend",
+    title: 'Events to attend',
     value: 4,
     icon: (
       <Icon fontSize="heading.h3" color="secondary.4">
@@ -62,17 +62,17 @@ const scheduledCards = [
 const hoursSpentChartConfig = {
   data: {
     labels: [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
     ],
     datasets: [
       {
-        label: "# of Votes",
+        label: '# of Votes',
         data: [12, 10, 3, 8, 5, 15, 12],
         backgroundColor: [colors.primary.base],
         borderWidth: 0,
@@ -104,7 +104,7 @@ const DashboardPage = () => {
 
   const totalCourseChartConfig = {
     data: {
-      labels: ["In Progress", "Completed", "Yet to start"],
+      labels: ['In Progress', 'Completed', 'Yet to start'],
       datasets: [
         {
           data: [
@@ -125,7 +125,7 @@ const DashboardPage = () => {
     options: {
       plugins: {
         legend: {
-          position: "right",
+          position: 'right',
         },
       },
     },
@@ -140,7 +140,7 @@ const DashboardPage = () => {
 
   const totalGradeChartConfig = {
     data: {
-      labels: ["Total grade", ""],
+      labels: ['Total grade', ''],
       datasets: [
         {
           data: [totalGrade, Math.round(100 - totalGrade)],
@@ -173,8 +173,8 @@ const DashboardPage = () => {
       {...maxWidthStyles_userPages}
     >
       <Flex
-        flexDirection={{ base: "column", laptop: "row" }}
-        alignItems={{ base: "flex-start", laptop: "center" }}
+        flexDirection={{ base: 'column', laptop: 'row' }}
+        alignItems={{ base: 'flex-start', laptop: 'center' }}
         justifyContent="space-between"
       >
         <Box
@@ -195,7 +195,7 @@ const DashboardPage = () => {
           alignItems="center"
           background="primary.base"
           rounded="10px"
-          padding={{ base: 4, "laptop-l": 5 }}
+          padding={{ base: 4, 'laptop-l': 5 }}
           width="700px"
           height="175px"
         >
@@ -203,7 +203,7 @@ const DashboardPage = () => {
             bold
             fontSize="heading.h3"
             color="white"
-            width={{ base: "270px", "laptop-l": "340px" }}
+            width={{ base: '270px', 'laptop-l': '340px' }}
           >
             Here is what you have scheduled for Today.
           </Text>
@@ -215,7 +215,7 @@ const DashboardPage = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                boxSize={{ base: "100px", "laptop-l": "110px" }}
+                boxSize={{ base: '100px', 'laptop-l': '110px' }}
                 rounded="5px"
                 backgroundColor="white"
                 shadow="md"
@@ -501,7 +501,7 @@ const Section = ({ title, titleSeeAllHref, children, ...rest }) => {
             sm
             color="primary.base"
             backgroundColor="transparent"
-            _hover={{ backgroundColor: "secondary.1" }}
+            _hover={{ backgroundColor: 'secondary.1' }}
           >
             See All
           </Button>

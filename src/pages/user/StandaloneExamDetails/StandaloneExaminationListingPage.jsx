@@ -43,6 +43,8 @@ const StandaloneExaminationListingPage = () => {
     setExams(examination);
   }, [examination]);
 
+  console.log(exams);
+
   const DateConverter = (date) => {
     return new Date(date).toLocaleString('en-us', {
       dateStyle: 'medium',

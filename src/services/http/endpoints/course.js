@@ -17,6 +17,8 @@ export const adminGetCourseListing = async (params) => {
     data: { data },
   } = await http.get(path, { params });
 
+  console.log(data);
+
   return {
     courses: data.rows.map((course) => ({
       id: course.id,
@@ -47,7 +49,7 @@ export const adminGetCoursesByDepartment = async (departmentId) => {
     data: { data },
   } = await http.get(path);
 
-  console.log(data)
+  console.log(data);
 
   return {
     courses: data.map((course) => ({
@@ -58,7 +60,7 @@ export const adminGetCoursesByDepartment = async (departmentId) => {
         firstName: course.instructor.firstName,
         lastName: course.instructor.lastName,
       },
-      startDate: course.startTime || "not set",
+      startDate: course.startTime || 'not set',
     })),
   };
 };
