@@ -159,7 +159,7 @@ const CourseListingPage = () => {
 
   const mapCourseToRow = (course) => ({
     id: course.id,
-    displayId: {text: course.displayId, courseId: course.id},
+    displayId: { text: course.displayId, courseId: course.id },
     title: { text: course.title, courseId: course.id },
     startDate:
       course.startDate === 'not set'

@@ -60,10 +60,10 @@ const tableProps = {
 
   columns: [
     {
-      id: '2',
-      key: 'announceId',
-      text: 'Announcement Id',
-      fraction: '250px',
+      id: '1',
+      key: 'department',
+      text: 'Department',
+      fraction: '200px',
       renderContent: (data) => (
         <Link href={`/admin/announcement/edit/?announcement=${data.courseId}`}>
           <Text>{data.text}</Text>
@@ -71,21 +71,21 @@ const tableProps = {
       ),
     },
     {
-      id: '3',
-      key: 'department',
-      text: 'Department Id',
-      fraction: '200px',
-    },
-    {
-      id: '4',
+      id: '2',
       key: 'author',
-      text: 'Author Id',
+      text: 'Author',
       fraction: '250px',
     },
     {
-      id: '5',
+      id: '3',
       key: 'text',
-      text: 'Details',
+      text: 'Content',
+      fraction: '250px',
+    },
+    {
+      id: '4',
+      key: 'createdAt',
+      text: 'Date Created',
       fraction: '250px',
     },
   ],
@@ -113,19 +113,20 @@ const tableProps = {
 
 const AnnouncementListing = () => {
   const mapExaminationToRow = (announcement) => ({
-    announceId: {
-      text: announcement.id.slice(0, 8),
+    id: announcement.id,
+    department: {
+      text: announcement.department,
       courseId: announcement.id,
     },
-    id: announcement.id,
-    department: announcement.departmentId.slice(0, 8),
-    author: announcement.senderId.slice(0, 8),
+    author: announcement.firstName + ' ' + announcement.lastName,
     text: announcement.text.substring(0, 15).concat('...'),
+    createdAt: dayjs(announcement.createdAt).format('DD/MM/YYYY h:mm a'),
   });
 
   const fetcher = (props) => async () => {
     const { announcements, showingDocumentsCount, totalDocumentsCount } =
       await adminGetAnnouncementListing(props?.params);
+    console.log(announcements);
 
     const rows = announcements.map(mapExaminationToRow);
 

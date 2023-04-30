@@ -14,6 +14,9 @@ const StandAloneHeader = () => {
   const { id } = useParams();
 
   const examinationId = useQueryParams().get('examination');
+  console.log(examinationId);
+  const isQuestionListingPage = useQueryParams().get('question-listing');
+  console.log(isQuestionListingPage);
 
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,

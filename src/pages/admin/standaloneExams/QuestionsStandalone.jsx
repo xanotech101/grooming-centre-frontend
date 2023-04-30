@@ -211,6 +211,7 @@ const CreateQuestionPage = (assessmentManager) => {
   const { id: courseId, assessmentId } = useParams();
   const questionId = useQueryParams().get('question');
   const isExamination = useQueryParams().get('examination');
+  console.log(isExamination);
   const isStandaloneExamination =
     courseId === 'not-set' && assessmentId === 'not-set' && isExamination
       ? true
@@ -620,9 +621,6 @@ const CreateQuestionPage = (assessmentManager) => {
 };
 
 const QuestionListingPage = ({ assessment, isLoading, error }) => {
-  const isExamination = useQueryParams().get('examination');
-  console.log(assessment?.id);
-  console.log(assessment);
   const questions = assessment?.questions;
 
   const questionsIsEmpty =
@@ -664,7 +662,7 @@ const QuestionListingPage = ({ assessment, isLoading, error }) => {
 
       <Box paddingTop={10}>
         <Button
-          link={`/admin/standalone-exams/questions/examination=${isExamination}`}
+          link={`/admin/standalone-exams/questions/?examination=${assessment?.id}`}
         >
           Add New Question
         </Button>
@@ -811,9 +809,12 @@ export const MoreIconButton = ({ editLink, onDelete }) => {
   );
 };
 const getQuestionListingLink = (isExamination, questionId) =>
-  `/admin/standalone-exams/questions/list?question-listing=true/${
-    isExamination ? `?examination=${isExamination}` : ''
-  }${questionId ? `&question=${questionId}` : ''}`;
+  `/admin/standalone-exams/questions/?examination=${isExamination}&question-listing=true`;
+
+// const getQuestionListingLink = (isExamination, questionId) =>
+//   `/admin/standalone-exams/questions/list?question-listing=true/${
+//     isExamination ? `examination=${isExamination}` : ''
+//   }${questionId ? `&question=${questionId}` : ''}`;
 
 const getEditQuestionLink = (questionId, isExamination) => {
   return `/admin/standalone-exams/questions/${
