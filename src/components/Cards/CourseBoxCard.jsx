@@ -73,7 +73,7 @@ export const CourseBoxCard = ({
   const progressPercentage = courseTracking
     ? courseTracking[0]?.progressPercentage
     : null;
-  c;
+  
 
   const preRequisiteIncomplete =
     preRequisite?.courseTracking[0].progressPercentage < 100;

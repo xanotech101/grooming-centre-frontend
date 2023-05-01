@@ -1,7 +1,7 @@
-import { Box, Flex, Grid, HStack, Stack, Center } from '@chakra-ui/layout';
-import { Radio, RadioGroup } from '@chakra-ui/radio';
-import { useCallback, useEffect, useState } from 'react';
-import { Route } from 'react-router';
+import { Box, Flex, Grid, HStack, Stack, Center } from "@chakra-ui/layout";
+import { Radio, RadioGroup } from "@chakra-ui/radio";
+import { useCallback, useEffect, useState } from "react";
+import { Route } from "react-router";
 import {
   Button,
   Heading,
@@ -10,19 +10,20 @@ import {
   RichTextToView,
   Spinner,
   Text,
-} from '../../../components';
-import { EmptyState, PageLoaderLayout } from '../../../layouts';
-import { CustomModal } from '../../../layouts/user/Assessment/Modal';
-import breakpoints from '../../../theme/breakpoints';
-import useStandalone from './standaloneHooks/useStandalone';
-import congratsIcon from '../../../assets/images/congratsIcon.png';
-import { useToast } from '@chakra-ui/toast';
-import { capitalizeFirstLetter } from '../../../utils';
+} from "../../../components";
+import { EmptyState, PageLoaderLayout } from "../../../layouts";
+import { CustomModal } from "../../../layouts/user/Assessment/Modal";
+import breakpoints from "../../../theme/breakpoints";
+import useStandalone from "./standaloneHooks/useStandalone";
+import congratsIcon from "../../../assets/images/congratsIcon.png";
+import { useToast } from "@chakra-ui/toast";
+import { capitalizeFirstLetter } from "../../../utils";
 import {
   userCreateStandaloneExaminationGrade,
   usersGetStandaloneExaminationListing,
-} from '../../../services';
-import { useQueryParams } from '../../../hooks';
+} from "../../../services";
+import { useQueryParams } from "../../../hooks";
+import { Warning } from "@material-ui/icons";
 
 const StandaloneExamsStart = () => {
   const {
@@ -46,22 +47,61 @@ const StandaloneExamsStart = () => {
     index,
     questionId,
     optionId,
-  } = useStandalone();
+  } = useStandalone({handleExam:()=>handleExamSubmit()});
   const toast = useToast();
 
   const questionArr = Object.values(questionId);
   const optionArr = Object.values(optionId);
 
-  const isExamination = useQueryParams().get('exam');
-  const [grade, setGrade] = useState('');
+  const isExamination = useQueryParams().get("exam");
+  const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
   const [myAssessment, setMyAssessment] = useState([]);
-
+  const [modalContent, setModalContent] = useState();
+  const [modalPrompt, setModalPrompt] = useState(null);
+  const [modalCanClose, setModalCanClose] = useState(true);
   const [modal, setModal] = useState({
     state: false,
     congrats: false,
     score: false,
   });
+  // let count = 0;
+  // const location = window.location.pathname;
+  // useEffect(() => {
+  //   window.addEventListener("blur", () => {
+  //     if (
+  //       location !==
+  //       "/courses/take/565b55b1-0f4e-414c-a59d-83368d3e4106/assessment/start/dd335788-2237-4eb4-8a13-2e2fc2ae0c30"
+  //     ) {
+  //       count++;
+  //       modalManager.onOpen();
+  //       setModalContent(null);
+
+  //       setModalPrompt({
+  //         heading: `Leaving this tab more than twice will automatically submit your examination`,
+  //         body: (
+  //           <Box as="div" display="flex" alignItems="center" gap={3}>
+  //             <Warning
+  //               style={{
+  //                 height: "40px",
+  //                 width: "40px",
+  //                 color: "red",
+  //               }}
+  //             />
+  //             <div>please take note....</div>
+  //           </Box>
+  //         ),
+  //       });
+  //       if (count === 3) {
+  //         count = 0;
+  //         handleExamSubmit
+  //         modalManager.onClose()
+        
+  //       }
+  //     }
+  //   });
+  // }, []);
+
   const handleExamSubmit = async () => {
     try {
       const body = {
@@ -72,15 +112,15 @@ const StandaloneExamsStart = () => {
       const { message } = await userCreateStandaloneExaminationGrade(body);
       toast({
         description: capitalizeFirstLetter(message),
-        position: 'top',
-        status: 'success',
+        position: "top",
+        status: "success",
       });
       setModal({ ...modal, congrats: true });
     } catch (error) {
       toast({
         description: error.message,
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     }
   };
@@ -152,7 +192,7 @@ const StandaloneExamsStart = () => {
                     gap="30px"
                     padding="20px"
                   >
-                    <p style={{ fontWeight: 'bold' }}>Result Overview</p>
+                    <p style={{ fontWeight: "bold" }}>Result Overview</p>
                     <p>Your Score is</p>
                     {loading ? (
                       <Center height="100%">
@@ -175,8 +215,8 @@ const StandaloneExamsStart = () => {
                     gap="20px"
                     padding="20px"
                   >
-                    <p style={{ fontWeight: 'bold' }}>Congratulations</p>
-                    <img src={congratsIcon} width={'50px'} alt="congrats" />
+                    <p style={{ fontWeight: "bold" }}>Congratulations</p>
+                    <img src={congratsIcon} width={"50px"} alt="congrats" />
                     <p> completed</p>
                     <Button onClick={() => handleViewResult()}>
                       View Result
@@ -188,16 +228,16 @@ const StandaloneExamsStart = () => {
               <Box padding="15px">
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '5px',
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5px",
                   }}
                 >
                   <h2
                     style={{
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginTop: '7px',
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                      marginTop: "7px",
                     }}
                   >
                     Are you sure you want to submit your examination?
@@ -208,23 +248,23 @@ const StandaloneExamsStart = () => {
                     before submitting.
                   </Text>
                   <Text marginBottom={5}>
-                    You answered{' '}
+                    You answered{" "}
                     <Box as="b" color="secondary.6" fontSize="text.level3">
                       {Reflect.ownKeys(selectedAnswers).length}
-                    </Box>{' '}
-                    out of{' '}
+                    </Box>{" "}
+                    out of{" "}
                     <Box as="b" fontSize="text.level3">
                       {pageLength + 1}
-                    </Box>{' '}
+                    </Box>{" "}
                     questions
                   </Text>
                 </div>
                 <div
                   style={{
-                    display: 'flex',
-                    gap: '20px',
-                    float: 'right',
-                    marginTop: '50px',
+                    display: "flex",
+                    gap: "20px",
+                    float: "right",
+                    marginTop: "50px",
                   }}
                 >
                   <Button
@@ -341,7 +381,7 @@ const StandaloneExamsStart = () => {
                       marginBottom={8}
                       flex={1}
                       onChange={handleOptionSelect}
-                      value={selectedAnswers[currentQuestion?.id] || 'default'}
+                      value={selectedAnswers[currentQuestion?.id] || "default"}
                     >
                       <Stack spacing={4}>
                         {currentQuestion?.standAloneExaminationOption?.map(
@@ -352,7 +392,7 @@ const StandaloneExamsStart = () => {
                           )
                         )}
 
-                        <Radio value={'default'} display="none">
+                        <Radio value={"default"} display="none">
                           <Text>default</Text>
                         </Radio>
                       </Stack>
@@ -379,12 +419,12 @@ const StandaloneExamsStart = () => {
                 </Flex>
 
                 <Box as="aside" flex="0 0 232px">
-                  {renderSubHeading('Time Left')}
+                  {renderSubHeading("Time Left")}
 
                   <Flex justifyContent="space-between" marginBottom={6}>
                     <Box textAlign="center">
                       <Text bold as="level1">
-                        {timerCountdownManger.timeLeft.hours || '00'}
+                        {timerCountdownManger.timeLeft.hours || "00"}
                       </Text>
                       <Text color="accent.2">hours</Text>
                     </Box>
@@ -466,12 +506,12 @@ const StandaloneExamsStart = () => {
 const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
   const styleProps = answered
     ? {
-        backgroundColor: '#800020',
-        color: 'white',
-        borderColor: 'transparent',
+        backgroundColor: "#800020",
+        color: "white",
+        borderColor: "transparent",
       }
     : {
-        borderColor: '#800020',
+        borderColor: "#800020",
       };
 
   return (
@@ -485,7 +525,7 @@ const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
       cursor="pointer"
       onClick={onClick}
       transition=".5s"
-      transform={isCurrent && 'scale(1.1)'}
+      transform={isCurrent && "scale(1.1)"}
       {...styleProps}
     >
       <Text bold as="level1">
