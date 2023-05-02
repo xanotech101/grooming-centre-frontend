@@ -26,6 +26,7 @@ const CourseListingPage = () => {
   const appManager = useApp();
 
   const [data, setData] = useState([]);
+  console.log(data);
 
   const departmentName = appManager.state.metadata?.departments.map(
     (department) => department.name
@@ -184,7 +185,7 @@ const CourseListingPage = () => {
     const wb = utils.book_new();
     const ws = utils.json_to_sheet(
       data?.map((order) => ({
-        courseId: order.displayId,
+        courseId: order.displayId.courseId,
         id: order.id,
         instructor: order.instructor,
         title: order.title.text,
