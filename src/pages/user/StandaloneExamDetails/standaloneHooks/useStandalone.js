@@ -181,12 +181,12 @@ const useStandalone = ({handleExam}) => {
   // Prompt to continue/cancel submission
   let count = 0;
   const history=useHistory()
-  const location = `/standalone-exams/start/?exam=${assessment.id}`
+  const location =window.location.pathname
   useEffect(() => {
     window.addEventListener("blur", () => {
       if (
-        location ===
-        `/standalone-exams/start/?exam=${assessment.id}`
+        !location.match(`/standalone-exams/start/?exam=${assessment.id}`)
+        
       ) {
         count++;
         modalManager.onOpen();
@@ -208,11 +208,12 @@ const useStandalone = ({handleExam}) => {
           ),
         });
         if (count === 3) {
+          history.push("/standalone-exams")
           count = 0;
           modalManager.onClose()
-          
+        
           handleExam()
-          history.push("/standalone-exams")
+         
           
           
         

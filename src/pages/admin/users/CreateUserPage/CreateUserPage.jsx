@@ -2,8 +2,14 @@ import { useState } from 'react';
 import { Grid, GridItem, Stack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { Route, useParams, useHistory } from 'react-router-dom';
-import { read, utils } from "xlsx";
-import { Input, Select, Breadcrumb, Link, Upload } from '../../../../components';
+import { read, utils } from 'xlsx';
+import {
+  Input,
+  Select,
+  Breadcrumb,
+  Link,
+  Upload,
+} from '../../../../components';
 import { useApp, useCache } from '../../../../contexts';
 import { CreatePageLayout } from '../../../../layouts';
 import { useUpload } from '../../../../hooks';
@@ -55,7 +61,6 @@ const CreateUserPage = ({
 
   const { handleDelete } = useCache();
 
-  
   const fileManager = useUpload();
 
   const onSubmit = async (data) => {
@@ -148,64 +153,66 @@ const CreateUserPage = ({
   const onSubmitBatchUser = async (e) => {
     e.preventDefault();
     try {
-      if(!selectedDepartmentId){
-        throw new Error("Please select a department")
+      if (!selectedDepartmentId) {
+        throw new Error('Please select a department');
       }
 
-      const file = fileManager.handleGetFileAndValidate(
-        "File"
-      );
+      const file = fileManager.handleGetFileAndValidate('File');
 
       setUploadingUsers(true);
-  
-      const getJson = ()=>{
-        return new Promise((resolve, reject)=>{
+
+      const getJson = () => {
+        return new Promise((resolve, reject) => {
           const fileReader = new FileReader();
-          fileReader.readAsBinaryString(file)
-          fileReader.onload = (e)=>{
-            const data = e.target.result
-            const wb = read(data, {type: "binary"})
-            const rowObj = utils.sheet_to_row_object_array(wb.Sheets[wb.SheetNames[0]]);
-            resolve(JSON.stringify(rowObj))
-          }
-        })
-      } 
+          fileReader.readAsBinaryString(file);
+          fileReader.onload = (e) => {
+            const data = e.target.result;
+            const wb = read(data, { type: 'binary' });
+            const rowObj = utils.sheet_to_row_object_array(
+              wb.Sheets[wb.SheetNames[0]]
+            );
+            resolve(JSON.stringify(rowObj));
+          };
+        });
+      };
 
       const jsonObj = await getJson();
 
-      const { message } = await adminInvitBatcheUser({departmentId: selectedDepartmentId, users: jsonObj})
-
-      setUploadingUsers(false);
-      
-      toast({
-        description: capitalizeFirstLetter(message),
-        position: "top",
-        status: "success",
+      const { message } = await adminInvitBatcheUser({
+        departmentId: selectedDepartmentId,
+        users: jsonObj,
       });
 
-      push(`/admin/users`)
+      setUploadingUsers(false);
+
+      toast({
+        description: capitalizeFirstLetter(message),
+        position: 'top',
+        status: 'success',
+      });
+
+      push(`/admin/users`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
-        position: "top",
-        status: "error",
+        position: 'top',
+        status: 'error',
       });
 
-      setUploadingUsers(false)
+      setUploadingUsers(false);
     }
   };
 
   const setLessonAccept = (fileType) => {
-    fileManager.handleAcceptChange(fileType)
+    fileManager.handleAcceptChange(fileType);
   };
 
   // Init `lessonTypeId` value and set `accept` for file upload input
   useEffect(() => {
-      setLessonAccept(".csv, .xlsx, .xls");
+    setLessonAccept('.csv, .xlsx, .xls');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
   return (
     <>
       <Box paddingLeft={6}>
@@ -322,10 +329,10 @@ const CreateUserPage = ({
           </Box>
         </Stack>
       </CreatePageLayout>
-      { !isEditMode &&
+      {!isEditMode && (
         <CreatePageLayout
           title="Batch User Upload"
-          submitButtonText='Upload'
+          submitButtonText="Upload"
           submitButtonIsLoading={uploadingUsers}
           onSubmit={onSubmitBatchUser}
         >
@@ -339,7 +346,7 @@ const CreateUserPage = ({
                 id="departmentId"
                 isLoading={!metadata?.departments}
                 value={selectedDepartmentId}
-                onChange={(e)=> setSelectedDepartmentId(e.target.value)}
+                onChange={(e) => setSelectedDepartmentId(e.target.value)}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -355,7 +362,7 @@ const CreateUserPage = ({
             </GridItem>
           </Grid>
         </CreatePageLayout>
-      }
+      )}
     </>
   );
 };

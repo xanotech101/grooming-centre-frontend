@@ -18,14 +18,12 @@ export const CardGridLayout = ({ cardContents }) => {
   const IsPdf = /books/i.test(window.location.pathname);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setitemsPerPage] = useState(5);
+  const [itemsPerPage, setitemsPerPage] = useState(4);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const pageLength = cardContents?.data?.length;
-
-  console.log(cardContents);
 
   const currentItems = cardContents?.data?.slice(
     indexOfFirstItem,
@@ -106,13 +104,13 @@ export const CardGridLayout = ({ cardContents }) => {
           />
         ))}
       </Grid>
-      {/* <CoursesPagination
+      <CoursesPagination
         itemsPerPage={itemsPerPage}
         pageLength={pageLength}
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
         npages={npages}
-      /> */}
+      />
     </>
   );
 };
