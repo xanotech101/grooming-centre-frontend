@@ -60,7 +60,6 @@ export const AccountPage = ({ onCallToActionClick }) => {
       const body = appendFormData(data);
 
       const { message } = await requestUpdateDetails(body);
-
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",
@@ -77,6 +76,8 @@ export const AccountPage = ({ onCallToActionClick }) => {
       if (onCallToActionClick) {
         return onCallToActionClick();
       }
+
+      replace("/admin");
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),
@@ -85,8 +86,10 @@ export const AccountPage = ({ onCallToActionClick }) => {
       });
     }
   };
+
   useEffect(() => {
     if (user) {
+      console.log({ user });
       setValue("firstName", user.firstName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,12 +115,13 @@ export const AccountPage = ({ onCallToActionClick }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     if (user) {
       setValue("email", user.email);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -125,6 +129,19 @@ export const AccountPage = ({ onCallToActionClick }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (user && metadata?.departments) {
+      console.log(user.departmentId, metadata.departments[0]);
+
+      const department = metadata.departments.find(
+        ({ id }) => id === user.departmentId
+      )?.name;
+
+      setValue("department", department);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, metadata?.departments]);
 
   useEffect(() => {
     if (user && metadata?.userRoles) {
@@ -138,16 +155,30 @@ export const AccountPage = ({ onCallToActionClick }) => {
   }, [user, metadata?.userRoles]);
 
   const handleGoBack = useGoBack();
-  console.log(thumbnailUpload.image.url);
+
   return (
     <AdminMainAreaWrapper>
-      <Box as="form" paddingY={8} onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        as="form"
+        paddingY={2}
+        onSubmit={handleSubmit(onSubmit)}
+        backgroundColor="white"
+        padding={10}
+        mt={6}
+      >
         {!onCallToActionClick && (
           <Heading fontSize="heading.h3" paddingBottom={4}>
             Account
           </Heading>
         )}
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6}>
+        <Box
+          as="div"
+          display={{ lg: "grid", base: "flex", md: "flex" }}
+          flexDirection="column"
+          gridTemplateColumns="1fr 1fr"
+          gap={10}
+          marginBottom={6}
+        >
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Profile
@@ -181,17 +212,24 @@ export const AccountPage = ({ onCallToActionClick }) => {
           <Select
             id="gender"
             label="Gender"
-            // isRequired
+            isRequired
             width="100%"
             options={[
               { label: "Female", value: "female" },
               { label: "Male", value: "male" },
             ]}
-            // {...register('gender', {
-            // 	required: 'Please select your gender',
-            // })}
-            {...register("gender")}
+            {...register("gender", {
+              required: "Please select your gender",
+            })}
             error={errors.gender?.message}
+          />
+
+          <Input
+            label="Department"
+            id="department"
+            isLoading={!metadata?.departments}
+            {...register("department")}
+            disabled
           />
 
           <Input
@@ -201,9 +239,17 @@ export const AccountPage = ({ onCallToActionClick }) => {
             {...register("role")}
             disabled
           />
-        </Grid>
+        </Box>
 
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} marginBottom={6} pt={7}>
+        <Box
+          as="div"
+          display={{ lg: "grid", base: "flex", md: "flex" }}
+          flexDirection="column"
+          gridTemplateColumns="1fr 1fr"
+          gap={10}
+          marginBottom={6}
+          pt={7}
+        >
           <GridItem colSpan={2}>
             <Heading marginBottom={4} fontSize="heading.h4">
               Personal Information
@@ -218,7 +264,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
             <Box w="fit-content">
               <Upload
                 isMini
-                //isRequired
+                isRequired
                 id="profilePics"
                 label="Profile Picture"
                 onFileSelect={thumbnailUpload.handleFileSelect}
@@ -247,13 +293,12 @@ export const AccountPage = ({ onCallToActionClick }) => {
             data-testid="input"
             id="phone"
             error={errors.phone?.message}
-            //isRequired
+            isRequired
             label="Phone Number"
             type="tel"
-            // {...register('phone', {
-            // 	required: 'Phone number is required',
-            // })}
-            {...register("phone")}
+            {...register("phone", {
+              required: "Phone number is required",
+            })}
           />
           <PasswordInput
             id="new-password"
@@ -275,9 +320,9 @@ export const AccountPage = ({ onCallToActionClick }) => {
                 value === values.password || "Password must match",
             })}
           />
-        </Grid>
+        </Box>
 
-        <Flex justifyContent="flex-end">
+        <Flex justifyContent={{ sm: "center", md: "center", lg: "flex-end" }}>
           <Button
             secondary
             marginRight={6}

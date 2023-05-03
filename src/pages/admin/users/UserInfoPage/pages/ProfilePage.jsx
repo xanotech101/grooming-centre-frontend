@@ -57,7 +57,7 @@ export const useViewUserDetails = () => {
   const user = userDetails.data;
   const isLoading = userDetails.loading;
   const error = userDetails.err;
-
+console.log(user);
   return {
     user,
     isLoading,

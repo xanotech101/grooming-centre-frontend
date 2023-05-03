@@ -13,11 +13,13 @@ import { CongratsModalContent } from "../../../../layouts/user/Assessment/Modal"
 import useTimerCountdown from "../../../../layouts/user/Assessment/hooks/useTimerCountdown";
 import { useHistory } from "react-router-dom";
 import { Warning } from "@material-ui/icons";
+import { useLocation } from "react-router-dom/cjs/react-router-dom";
 const useStandalone = ({handleExam}) => {
   const { assessment, isLoading, error, setError } = useStandalonePreview();
   const { course_id } = useParams();
   const isExamination = useQueryParams().get("exam");
-
+const [locate, setLocate]=useState("")
+const [end, setEnd]=useState(true)
   const pageLength = assessment?.question?.length - 1;
 
   const [index, setindex] = useState(0);
@@ -143,6 +145,7 @@ const useStandalone = ({handleExam}) => {
 
   // Automatically submit when timeout
   useEffect(() => {
+    
     if (timerCountdownManger.hasEnded.timeout) {
       handleSubmit();
     }
@@ -179,48 +182,54 @@ const useStandalone = ({handleExam}) => {
   }, [submitStatus.success]);
 
   // Prompt to continue/cancel submission
-  let count = 0;
-  const history=useHistory()
-  const location =window.location.pathname
-  useEffect(() => {
-    window.addEventListener("blur", () => {
-      if (
-        !location.match(`/standalone-exams/start/?exam=${assessment.id}`)
-        
-      ) {
-        count++;
-        modalManager.onOpen();
-        setModalContent(null);
+  // let count = 0;
+  // const history=useHistory()
+  // const location =useLocation()
+  // useEffect(() => {
+  //   setLocate(location.pathname==="/standalone-exams/start/")
+   
+  //     if (locate && end===true) {
 
-        setModalPrompt({
-          heading: `Leaving this tab more than twice will automatically submit your examination`,
-          body: (
-            <Box as="div" display="flex" alignItems="center" gap={3}>
-              <Warning
-                style={{
-                  height: "40px",
-                  width: "40px",
-                  color: "red",
-                }}
-              />
-              <div>please take note....</div>
-            </Box>
-          ),
-        });
-        if (count === 3) {
-          history.push("/standalone-exams")
-          count = 0;
-          modalManager.onClose()
+  //      window.addEventListener("blur", () => {
+  //       count++;
+  //       modalManager.onOpen();
+  //       setModalContent(null);
+
+  //       setModalPrompt({
+  //         heading: `Leaving this tab more than twice will automatically submit your examination`,
+  //         body: (
+  //           <Box as="div" display="flex" alignItems="center" gap={3}>
+  //             <Warning
+  //               style={{
+  //                 height: "40px",
+  //                 width: "40px",
+  //                 color: "red",
+  //               }}
+  //             />
+  //             <div>please take note....</div>
+  //           </Box>
+  //         ),
+  //       });
+  //       if (count === 3) {
+  //         setEnd(false)
+  //         count = 0;
+  //         window.location.reload(true)
+  //         history.push("/standalone-exams")
+         
+  //         modalManager.onClose()
         
-          handleExam()
+  //         handleExam()
          
           
           
         
-        }
-      }
-    });
-  }, []);
+  //       }
+      
+  //     });
+  //   }
+       
+   
+  // }, [locate]);
 
   const handleSubmitConfirmation = (e) => {
     e.preventDefault();

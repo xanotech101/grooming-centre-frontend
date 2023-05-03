@@ -10,6 +10,7 @@ import congratsIcon from "../../../assets/images/congratsIcon.png";
 import { useDisclosure } from "@chakra-ui/react";
 import { Warning } from "@material-ui/icons";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useLocation } from "react-router-dom/cjs/react-router-dom";
 const AssessmentStart = () => {
   const [modal, setModal] = useState({
     state: false,
@@ -91,47 +92,52 @@ const AssessmentStart = () => {
     setIcon(false);
   };
 
-  let count = 0;
-  const history=useHistory()
-  const location = `/standalone-exams/start/?exam=${id}`
-  useEffect(() => {
-    window.addEventListener("blur", () => {
-      if (
-        location ===
-        `/standalone-exams/start/?exam=${id}`
-      ) {
-        count++;
-        modalManager.onOpen();
-        setModalContent(null);
+  // let count = 0;
+  // const history=useHistory()
+  // const location = useLocation()
+  // useEffect(() => {
+ 
+  //     if (
+  //       location ===
+  //       `/standalone-exams/start/`
+  //     ) {
 
-        setModalPrompt({
-          heading: `Leaving this tab more than twice will automatically submit your examination`,
-          body: (
-            <Box as="div" display="flex" alignItems="center" gap={3}>
-              <Warning
-                style={{
-                  height: "40px",
-                  width: "40px",
-                  color: "red",
-                }}
-              />
-              <div>please take note....</div>
-            </Box>
-          ),
-        });
-        if (count === 3) {
-          count = 0;
-          modalManager.onClose()
+  //       window.addEventListener("blur", () => {
+  //         count++;
+  //         modalManager.onOpen();
+  //         setModalContent(null);
+  //         setModalPrompt({
+  //           heading: `Leaving this tab more than twice will automatically submit your examination`,
+  //           body: (
+  //             <Box as="div" display="flex" alignItems="center" gap={3}>
+  //               <Warning
+  //                 style={{
+  //                   height: "40px",
+  //                   width: "40px",
+  //                   color: "red",
+  //                 }}
+  //               />
+  //               <div>please take note....</div>
+  //             </Box>
+  //           ),
+  //         });
+  //         if (count === 3) {
+  //           count = 0;
+  //           modalManager.onClose()
+            
+  //           setModal({ ...modal, congrats: true })
+  //           history.push("/home")
+            
+            
           
-          setModal({ ...modal, congrats: true })
-          history.push("/home")
-          
-          
-        
-        }
-      }
-    });
-  }, []);
+  //         }
+  //       });
+      
+
+
+  //     }
+   
+  // }, []);
 
   return (
     <Box position="relative">
