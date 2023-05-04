@@ -93,42 +93,42 @@ export const AccountPage = ({ onCallToActionClick }) => {
       setValue("firstName", user.firstName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {
       setValue("lastName", user.lastName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {
       setValue("gender", user.gender);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {
       thumbnailUpload.handleInitialImageSelect(user.profilePics);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {
       setValue("email", user.email);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {
       setValue("phone", user.phone);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user && metadata?.departments) {

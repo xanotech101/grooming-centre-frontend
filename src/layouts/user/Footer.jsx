@@ -9,7 +9,7 @@ const Footer = () => {
     <Box
       as="footer"
       color="white"
-      backgroundColor="primary.base"
+      backgroundColor="#800020"
       height="60px"
       padding={5}
       // marginLeft={{ base: '0', lg: '250px', md: '250px' }}

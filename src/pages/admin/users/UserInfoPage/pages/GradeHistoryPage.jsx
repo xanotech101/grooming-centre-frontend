@@ -52,7 +52,7 @@ const useGradeDetails = () => {
   const grade = gradeDetails.data;
   const isLoading = gradeDetails.loading;
   const error = gradeDetails.err;
-
+console.log(grade);
   return {
     grade,
     isLoading,

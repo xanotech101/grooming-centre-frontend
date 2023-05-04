@@ -1,28 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Flex } from '@chakra-ui/layout';
-import { NavLink, useHistory, useParams } from 'react-router-dom';
-import { Button } from '../../../../../components';
-import { useQueryParams } from '../../../../../hooks';
+import React, { useCallback, useEffect, useState } from "react";
+import { Box, Flex } from "@chakra-ui/layout";
+import { NavLink, useHistory, useParams } from "react-router-dom";
+import { Button } from "../../../../../components";
+import { useQueryParams } from "../../../../../hooks";
 import {
   adminEditStandaloneExamination,
   adminGetAllStandaloneExaminationDetails,
-} from '../../../../../services';
-import useAssessmentPreview from '../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview';
-import { utils, writeFile } from 'xlsx';
+} from "../../../../../services";
+import useAssessmentPreview from "../../../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
+import { utils, writeFile } from "xlsx";
 
 const StandAloneHeader = () => {
   const { id } = useParams();
 
   const examinationId = useQueryParams().get('examination');
+  console.log(examinationId);
+  const isQuestionListingPage = useQueryParams().get('question-listing');
+  console.log(isQuestionListingPage);
 
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,
-    examinationId ? examinationId : 'isStandaloneExamination && isNotEdit',
+    examinationId ? examinationId : "isStandaloneExamination && isNotEdit",
     true
   );
 
-  const myId = useQueryParams().get('question');
-  const [questionId, setQuestionId] = useState('');
+  const myId = useQueryParams().get("question");
+  const [questionId, setQuestionId] = useState("");
   const [loading, setLoading] = useState(false);
   const [gradeDetails, setGradeDetails] = useState([]);
   const [isPublished, setisPublished] = useState(assessment?.isPublished);
@@ -61,8 +64,8 @@ const StandAloneHeader = () => {
       }))
     );
 
-    utils.book_append_sheet(wb, ws, 'Orders');
-    writeFile(wb, 'ExaminationResult.xlsx');
+    utils.book_append_sheet(wb, ws, "Orders");
+    writeFile(wb, "ExaminationResult.xlsx");
   };
 
   const handlePublishing = async () => {
@@ -85,7 +88,7 @@ const StandAloneHeader = () => {
   };
 
   useEffect(() => {
-    if (!myId === true) setQuestionId('new');
+    if (!myId === true) setQuestionId("new");
     else {
       setQuestionId(myId);
     }
@@ -93,7 +96,7 @@ const StandAloneHeader = () => {
 
   const examIdCheck =
     !examinationId && !questionId
-      ? '/admin/standalone-exams/questions'
+      ? "/admin/standalone-exams/questions"
       : examinationId && !questionId
       ? `/admin/standalone-exams/questions/?examination=${examinationId}`
       : `/admin/standalone-exams/questions/?examination=${examinationId}&question=${questionId}`;
@@ -106,32 +109,32 @@ const StandAloneHeader = () => {
         marginLeft="22px"
         height="auto"
         alignItems="center"
-        width={{ sm: '90%', md: '91%', lg: '96%' }}
+        width={{ sm: "90%", md: "91%", lg: "96%" }}
         padding={6}
       >
         <Box
           display="flex"
-          gap={{ sm: '10px', lg: '0px' }}
-          flexDirection={{ sm: 'column', lg: 'row' }}
+          gap={{ sm: "10px", lg: "0px" }}
+          flexDirection={{ sm: "column", lg: "row" }}
           justifyContent="space-between"
         >
           <Box display="flex" gap="20px" alignItems="center">
             <NavLink
               style={(state) => ({
-                color: state ? '#000000' : '#6C6C6C',
+                color: state ? "#000000" : "#6C6C6C",
               })}
               to={`/admin/standalone-exams/overview${
-                examinationId ? `?examination=${examinationId}` : ''
+                examinationId ? `?examination=${examinationId}` : ""
               }`}
             >
               Overview
             </NavLink>
             {!examinationId ? (
-              <p style={{ color: '#6c6c6c', cursor: 'pointer' }}>Questions</p>
+              <p style={{ color: "#6c6c6c", cursor: "pointer" }}>Questions</p>
             ) : (
               <NavLink
                 style={(state) => ({
-                  color: state ? '#000000' : '#6C6C6C',
+                  color: state ? "#000000" : "#6C6C6C",
                 })}
                 to={examIdCheck}
                 disabled={!examinationId}
@@ -140,16 +143,16 @@ const StandAloneHeader = () => {
               </NavLink>
             )}
             {!examinationId ? (
-              <p style={{ color: '#6c6c6c', cursor: 'pointer' }}>
+              <p style={{ color: "#6c6c6c", cursor: "pointer" }}>
                 Participants
               </p>
             ) : (
               <NavLink
                 style={(state) => ({
-                  color: state ? '#000000' : '#6C6C6C',
+                  color: state ? "#000000" : "#6C6C6C",
                 })}
                 to={`/admin/standalone-exams/participants/${
-                  examinationId ? `?examination=${examinationId}` : ''
+                  examinationId ? `?examination=${examinationId}` : ""
                 }`}
                 disabled={!examinationId}
               >
@@ -176,7 +179,7 @@ const StandAloneHeader = () => {
                   onClick={() => handlePublishing()}
                   width="100%"
                 >
-                  {isPublished ? 'Unpublish' : 'Publish'}
+                  {isPublished ? "Unpublish" : "Publish"}
                 </Button>
               </Flex>
             ) : null}

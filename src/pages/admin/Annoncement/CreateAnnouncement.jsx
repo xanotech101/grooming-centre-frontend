@@ -2,7 +2,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Route, useHistory, useParams } from 'react-router-dom';
-import { Input, Select } from '../../../components';
+import { Input, Select, Textarea } from '../../../components';
 import { useApp } from '../../../contexts';
 import { CreatePageLayout } from '../../../layouts';
 import {
@@ -61,7 +61,6 @@ const CreateAnnouncement = () => {
         ...data,
       };
 
-      console.log(body);
       const { message } = await (isEditMode
         ? adminEditAnnouncement(announceId, body)
         : adminCreateAnnouncement(body));
@@ -107,7 +106,22 @@ const CreateAnnouncement = () => {
         gap={10}
         marginBottom={10}
       >
-        <Input
+        <Textarea
+          minHeight="150px"
+          label="Content"
+          id="text"
+          isRequired
+          {...register('text', {
+            required: 'Content is required',
+            maxLength: 1000,
+          })}
+          error={
+            errors.description?.type === 'maxLength'
+              ? 'Maximum length of 1000 characters'
+              : errors.description?.message
+          }
+        />
+        {/* <Input
           label="Text"
           isRequired
           id="text"
@@ -115,7 +129,7 @@ const CreateAnnouncement = () => {
             required: 'Text is required',
           })}
           error={errors.text?.message}
-        />
+        /> */}
 
         <Select
           isRequired

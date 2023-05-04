@@ -20,11 +20,17 @@ export const adminGetAnnouncementListing = async (params) => {
     data: { data },
   } = await http.get(path, { params });
 
+  console.log(data);
+
   const announcements = data.map((exam) => ({
     id: exam.id,
     text: exam.text,
     departmentId: exam.departmentId,
     senderId: exam.senderId,
+    department: exam?.department?.name,
+    firstName: exam?.sender?.firstName,
+    lastName: exam?.sender?.lastName,
+    createdAt: exam?.createdAt,
   }));
 
   return {

@@ -1,31 +1,32 @@
-import { useDisclosure } from '@chakra-ui/hooks';
-import { useToast } from '@chakra-ui/toast';
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Box } from '@chakra-ui/layout';
-import { useCache } from '../../../../contexts';
-import { Text } from '../../../../components';
-import { useQueryParams } from '../../../../hooks';
-import useStandalonePreview from './useStandalonePreview';
-import { submitAssessment, submitExamination } from '../../../../services';
-import { hasEnded, isUpcoming, sortByIndexField } from '../../../../utils';
-import { CongratsModalContent } from '../../../../layouts/user/Assessment/Modal';
-import useTimerCountdown from '../../../../layouts/user/Assessment/hooks/useTimerCountdown';
-import useStandaloneTimer from './useStandaloneTimer';
-import { duration } from '@material-ui/core';
-
-const useStandalone = () => {
+import { useDisclosure } from "@chakra-ui/hooks";
+import { useToast } from "@chakra-ui/toast";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { Box } from "@chakra-ui/layout";
+import { useCache } from "../../../../contexts";
+import { Text } from "../../../../components";
+import { useQueryParams } from "../../../../hooks";
+import useStandalonePreview from "./useStandalonePreview";
+import { submitAssessment, submitExamination } from "../../../../services";
+import { hasEnded, isUpcoming, sortByIndexField } from "../../../../utils";
+import { CongratsModalContent } from "../../../../layouts/user/Assessment/Modal";
+import useTimerCountdown from "../../../../layouts/user/Assessment/hooks/useTimerCountdown";
+import { useHistory } from "react-router-dom";
+import { Warning } from "@material-ui/icons";
+import { useLocation } from "react-router-dom/cjs/react-router-dom";
+const useStandalone = ({handleExam}) => {
   const { assessment, isLoading, error, setError } = useStandalonePreview();
   const { course_id } = useParams();
-  const isExamination = useQueryParams().get('exam');
-
+  const isExamination = useQueryParams().get("exam");
+const [locate, setLocate]=useState("")
+const [end, setEnd]=useState(true)
   const pageLength = assessment?.question?.length - 1;
 
   const [index, setindex] = useState(0);
 
-  assessment.question = sortByIndexField(assessment.question, 'questionIndex');
+  assessment.question = sortByIndexField(assessment.question, "questionIndex");
   assessment.question?.forEach((question) => {
-    question.options = sortByIndexField(question.options, 'optionIndex');
+    question.options = sortByIndexField(question.options, "optionIndex");
   });
 
   const [currentQuestion, setCurrentQuestion] = useState({});
@@ -49,20 +50,20 @@ const useStandalone = () => {
     if (assessment?.hasCompleted)
       return setError(
         `You have already taken this ${
-          isExamination ? 'examination' : 'assessment'
+          isExamination ? "examination" : "assessment"
         }`
       );
 
     if (isUpcoming(assessment?.startTime))
       return setError(
         `This ${
-          isExamination ? 'examination' : 'assessment'
+          isExamination ? "examination" : "assessment"
         } is not yet time to be taken`
       );
 
     if (hasEnded(assessment?.endTime))
       setError(
-        `This ${isExamination ? 'examination' : 'assessment'} has already ended`
+        `This ${isExamination ? "examination" : "assessment"} has already ended`
       );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,7 +100,7 @@ const useStandalone = () => {
         optionIdArr[index] = selectedAnswers[questionId] || null;
       });
 
-      const context = isExamination ? 'examination' : 'assessment';
+      const context = isExamination ? "examination" : "assessment";
 
       const body = {
         [`${context}Id`]: assessment.id,
@@ -124,8 +125,8 @@ const useStandalone = () => {
     } catch (error) {
       toast({
         description: error.message,
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
 
       setSubmitStatus({
@@ -144,6 +145,7 @@ const useStandalone = () => {
 
   // Automatically submit when timeout
   useEffect(() => {
+    
     if (timerCountdownManger.hasEnded.timeout) {
       handleSubmit();
     }
@@ -180,6 +182,55 @@ const useStandalone = () => {
   }, [submitStatus.success]);
 
   // Prompt to continue/cancel submission
+  // let count = 0;
+  // const history=useHistory()
+  // const location =useLocation()
+  // useEffect(() => {
+  //   setLocate(location.pathname==="/standalone-exams/start/")
+   
+  //     if (locate && end===true) {
+
+  //      window.addEventListener("blur", () => {
+  //       count++;
+  //       modalManager.onOpen();
+  //       setModalContent(null);
+
+  //       setModalPrompt({
+  //         heading: `Leaving this tab more than twice will automatically submit your examination`,
+  //         body: (
+  //           <Box as="div" display="flex" alignItems="center" gap={3}>
+  //             <Warning
+  //               style={{
+  //                 height: "40px",
+  //                 width: "40px",
+  //                 color: "red",
+  //               }}
+  //             />
+  //             <div>please take note....</div>
+  //           </Box>
+  //         ),
+  //       });
+  //       if (count === 3) {
+  //         setEnd(false)
+  //         count = 0;
+  //         window.location.reload(true)
+  //         history.push("/standalone-exams")
+         
+  //         modalManager.onClose()
+        
+  //         handleExam()
+         
+          
+          
+        
+  //       }
+      
+  //     });
+  //   }
+       
+   
+  // }, [locate]);
+
   const handleSubmitConfirmation = (e) => {
     e.preventDefault();
 
@@ -187,25 +238,25 @@ const useStandalone = () => {
     setModalContent(null);
     setModalPrompt({
       heading: `Are you sure you want to submit your ${
-        isExamination ? 'examination' : 'assessment'
+        isExamination ? "examination" : "assessment"
       }?`,
       body: (
         <>
           <Text marginBottom={5}>
-            Please note that you will not be able to retake this{' '}
-            {isExamination ? 'examination' : 'assessment'} after you submit.
+            Please note that you will not be able to retake this{" "}
+            {isExamination ? "examination" : "assessment"} after you submit.
             Double check your answers before submitting.
           </Text>
 
           <Text marginBottom={5}>
-            You answered{' '}
+            You answered{" "}
             <Box as="b" color="secondary.6" fontSize="text.level3">
               {Reflect.ownKeys(selectedAnswers).length}
-            </Box>{' '}
-            out of{' '}
+            </Box>{" "}
+            out of{" "}
             <Box as="b" fontSize="text.level3">
               {pageLength + 1}
-            </Box>{' '}
+            </Box>{" "}
             questions
           </Text>
         </>
