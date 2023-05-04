@@ -70,13 +70,15 @@ export const CourseBoxCard = ({
 }) => {
   duration = getDuration(duration);
 
+  console.log(preRequisite);
+
   const progressPercentage = courseTracking
     ? courseTracking[0]?.progressPercentage  
     : null;
   
 
   const preRequisiteIncomplete =
-    preRequisite?.courseTracking[0].progressPercentage < 100;
+    preRequisite?.courseTracking[0]?.progressPercentage < 100;
 
   const isLibraryPage = /library/i.test(window.location.pathname);
 
