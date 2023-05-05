@@ -12,7 +12,7 @@ import { BreadcrumbItem, Tag } from '@chakra-ui/react';
 import { FaSortAmountUpAlt } from 'react-icons/fa';
 import { AdminMainAreaWrapper } from '../../../layouts/admin/MainArea/Wrapper';
 import {
-  adminDeleteStandaloneExaminationQuestion,
+  deleteStandaloneExamination,
   adminGetStandaloneExaminationListing,
 } from '../../../services';
 import { getDuration } from '../../../utils';
@@ -120,7 +120,7 @@ const tableProps = {
     ],
     selection: true,
     multipleDeleteFetcher: async (selectedExaminations) => {
-      await adminDeleteStandaloneExaminationQuestion(
+      await deleteStandaloneExamination(
         selectedExaminations[0]?.id
       );
     },
