@@ -206,6 +206,20 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   return { examination };
 };
 
+export const deleteStandaloneExamination = async (id) => {
+  console.log(id);
+  const path = `/stand-alone-examination/delete/${id}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  console.log(message);
+  return {
+    message,
+  };
+};
+
 /**
  * Endpoint for an examination participates
  * @param {string} id

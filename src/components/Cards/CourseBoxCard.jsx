@@ -70,6 +70,8 @@ export const CourseBoxCard = ({
 }) => {
   duration = getDuration(duration);
 
+  console.log(preRequisite);
+
   const progressPercentage = courseTracking
     ? courseTracking[0]?.progressPercentage  
     : null;
