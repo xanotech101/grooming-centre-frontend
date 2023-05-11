@@ -182,7 +182,9 @@ const CreateLessonPage = () => {
       if (isEditMode) Reflect.deleteProperty(data, "courseId");
 
       const body = appendFormData(data);
-      {console.log(fileManager.pdf.url)}
+      {
+        console.log(fileManager.pdf.url);
+      }
       const { message, lesson } = await (isEditMode
         ? adminEditLesson(lessonId, body)
         : adminCreateLesson(body));
@@ -333,7 +335,7 @@ const CreateLessonPage = () => {
               })}
             />
           </GridItem>
-            {console.log(fileManager.pdf.url)}
+          {console.log(fileManager.pdf.url)}
           <GridItem colSpan={2}>
             <Upload
               id="file"

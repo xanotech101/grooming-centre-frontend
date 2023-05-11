@@ -17,6 +17,7 @@ import {
 } from '../../pages/user';
 import { PollsPageRoute } from '../../pages/user/PollsPage/PollsPage';
 import { StandalonePreAssessmentRoute } from '../../pages/user/StandaloneExamDetails/StandalonePreAssessment';
+import { ExampleRoute } from '../../pages/user/tabby';
 
 const MainArea = () => {
   return (
@@ -36,6 +37,7 @@ const MainArea = () => {
         <StandalonePagesRoute exact path="/standalone-exams" />
         <StandalonePreAssessmentRoute exact path="/standalone-exams/take" />
         <StandaloneExamsStartRoute exact path="/standalone-exams/start" />
+        <ExampleRoute path="/example"/>
         <Route render={(props) => <NotFoundPageRoute />} />
       </Switch>
     </Box>
