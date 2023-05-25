@@ -47,9 +47,9 @@ const StandaloneExamsStart = () => {
     index,
     questionId,
     optionId,
+    end
   } = useStandalone({handleExam:()=>handleExamSubmit()});
   const toast = useToast();
-
   const questionArr = Object.values(questionId);
   const optionArr = Object.values(optionId);
 
@@ -280,7 +280,7 @@ const StandaloneExamsStart = () => {
           </Box>
         </Box>
       )}
-      <NavigationBlocker when={!submitStatus.success && !error && isLoading} />
+      <NavigationBlocker when={!submitStatus.success && !error && isLoading &&end===true} disable={end}  />
 
       {isLoading ? (
         <PageLoaderLayout />

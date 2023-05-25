@@ -18,12 +18,14 @@ import useAssessment from './hooks/useAssessment';
 const AssessmentLayout = () => {
   const {
     assessment,
+
     course_id,
     currentQuestion,
     disablePreviousQuestion,
     error,
     isLoading,
     modalManager,
+    end,
     shouldSubmit,
     selectedAnswers,
     timerCountdownManger,
@@ -57,7 +59,7 @@ const AssessmentLayout = () => {
 
   const renderContent = () => (
     <>
-      <NavigationBlocker when={!submitStatus.success && !error && isLoading} />
+      <NavigationBlocker when={!submitStatus.success && !error && isLoading && end} disable={end} />
 
       {isLoading ? (
         <PageLoaderLayout />

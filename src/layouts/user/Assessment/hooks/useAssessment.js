@@ -13,13 +13,17 @@ import { CongratsModalContent } from '../Modal';
 import useTimerCountdown from './useTimerCountdown';
 import { Box } from '@chakra-ui/layout';
 import useCourseExamPreview from '../../../../pages/user/Courses/TakeCourse/hooks/courseExamPreview/useCourseExamPreview';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { Warning } from '@material-ui/icons';
 
 const useAssessment = () => {
   const { assessment, isLoading, error, setError } = useCourseExamPreview();
   const { course_id } = useParams();
   const isExamination = useQueryParams().get('examination');
   const [score, setScore] = useState('');
-
+  const [end, setEnd]=useState(true)
+  const [count, increaseCount]=useState(0)
+  const [onblur, setIsOnblur]=useState(false)
   assessment.questions = sortByIndexField(
     assessment.questions,
     'questionIndex'
@@ -142,7 +146,81 @@ const useAssessment = () => {
     selectedAnswers,
     // user?.id,
   ]);
-
+  const history=useHistory()
+   const location =useLocation()
+   let counter=3
+    const onFocus = () => {
+        setIsOnblur(false);
+      };
+    
+      const onBlur = () => {
+        setIsOnblur(true);
+        if (location.pathname.includes("/exams/start/")) {
+          counter--
+          modalManager.onOpen();
+          setModalContent(null);
+  
+          setModalPrompt({
+            heading: `Leaving this tab more than twice will automatically submit your examination`,
+            body: (
+              <Box as="div" display="flex" alignItems="center" gap={3}>
+                <Warning
+                  style={{
+                    height: "40px",
+                    width: "40px",
+                    color: "red",
+                  }}
+                />
+                <div>please take note....</div>
+              </Box>
+            ),
+          });
+        }
+        else{
+          counter=3
+       
+     
+        }
+        if (counter === 0) {
+            modalManager.onClose();
+             setEnd(false)
+            setTimeout(()=>{
+              handleSubmit()
+              history.push("/dashboard")
+              window.location.reload()
+            },1000)
+            counter=3
+            if(location.pathname==="/dashboard"){
+              window.reload(true)
+               counter=undefined
+           
+           
+            }
+            else{
+              counter=3
+            }
+         
+        
+         
+          
+          
+        
+        }
+        console.log(true);
+      };
+    useEffect(() => {
+        window.addEventListener("load", () => {
+          if (location.pathname.includes("/standalone-exams/start/")) {
+            window.addEventListener("focus", onFocus);
+            window.addEventListener("blur", onBlur);
+          }
+      
+          return () => {
+            window.removeEventListener("focus", onFocus);
+            window.removeEventListener("blur", onBlur);
+          };
+        });
+      }, [])
   // Automatically submit when timeout
   useEffect(() => {
     if (timerCountdownManger.hasEnded.timeout) {
@@ -254,6 +332,7 @@ const useAssessment = () => {
     assessment,
     course_id,
     isLoading,
+    end,
     error,
     submitStatus,
     currentQuestion,
