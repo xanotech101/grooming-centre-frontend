@@ -48,7 +48,7 @@ const handleRedirectUserToRoleScreen = (appManager, replace) => {
       appManager.state
     );
 
-    if (!/admin/i.test(role?.name)) {
+    if (!/admin/i.test(role?.name) && !/instructor/i.test(role?.name)) {
       return replace("/");
     }
 

@@ -19,7 +19,7 @@ const useRedirect = () => {
       const { userRoleId } = appManager.state.user;
       const role = appManager.getOneMetadata('userRoles', userRoleId);
 
-      if (!/admin/i.test(role?.name)) {
+      if (!/admin/i.test(role?.name) && !/instructor/i.test(role?.name)) {
         return replace('/not-found');
       }
     }
