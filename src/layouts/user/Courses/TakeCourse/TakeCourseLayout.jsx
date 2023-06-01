@@ -11,13 +11,11 @@ import {
 } from '../../../../pages/user';
 import {
   useRedirectNonAuthUserToSigninPage,
-  useRedirectNewUserToNewPasswordPage,
 } from '../../../../hooks';
 
 const TakeCourseLayout = () => {
   const sidebarManager = useSidebar();
   useRedirectNonAuthUserToSigninPage();
-  useRedirectNewUserToNewPasswordPage();
 
   return (
     <Flex maxWidth={breakpoints['4k']} marginX="auto" height="100vh">

@@ -87,16 +87,16 @@ export const useRedirectAuthUserToRoleScreens = (timeout = 0) => {
   ]);
 };
 
-export const useRedirectNewUserToNewPasswordPage = () => {
-  const appManager = useApp();
-  const { replace } = useHistory();
+// export const useRedirectNewUserToNewPasswordPage = () => {
+//   const appManager = useApp();
+//   const { replace } = useHistory();
 
-  useEffect(() => {
-    if (appManager.state.user?.isInviteActive) {
-      replace("/auth/new-password");
-    }
-  }, [appManager.state.user?.isInviteActive, replace]);
-};
+//   useEffect(() => {
+//     if (appManager.state.user?.isInviteActive) {
+//       replace("/auth/new-password");
+//     }
+//   }, [appManager.state.user?.isInviteActive, replace]);
+// };
 
 export const useBlockAuthenticatedUserFromPage = () =>
   // { pardonNewUser }
