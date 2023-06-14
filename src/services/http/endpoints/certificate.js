@@ -7,11 +7,20 @@ import { http } from "../http";
  * @returns {Promise<{ certificate: certificate }>}
  */
 export const requestCertificateDetails = async (id) => {
-  const path = `/courses/${id}/certificate`;
+  const path = `/certificate/${id}`;
 
   const {
     data: { data },
   } = await http.get(path);
+  console.log(data);
+  return { certificate: data };
+};
+export const CertificateList = async (params) => {
+  const path = `/certificate/list`;
 
+  const {
+    data: { data },
+  } = await http.get(path, params);
+  console.log(data);
   return { certificate: data };
 };

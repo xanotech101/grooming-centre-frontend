@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useToast } from '@chakra-ui/toast';
-import { Flex, Grid, GridItem } from '@chakra-ui/layout';
-import { useForm } from 'react-hook-form';
-import { Route } from 'react-router-dom';
+import { useState } from "react";
+import { useToast } from "@chakra-ui/toast";
+import { Flex, Grid, GridItem } from "@chakra-ui/layout";
+import { useForm } from "react-hook-form";
+import { Route } from "react-router-dom";
 import {
   Input,
   Textarea,
@@ -13,24 +13,24 @@ import {
   Checkbox,
   Spinner,
   Heading,
-} from '../../../components';
-import { CreatePageLayout } from '../../../layouts';
-import { BreadcrumbItem, Box } from '@chakra-ui/react';
-import { useApp, useCache } from '../../../contexts';
+} from "../../../components";
+import { CreatePageLayout } from "../../../layouts";
+import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { useApp, useCache } from "../../../contexts";
 import {
   appendFormData,
   capitalizeFirstLetter,
   capitalizeWords,
-} from '../../../utils';
-import { useHistory, useParams } from 'react-router';
+} from "../../../utils";
+import { useHistory, useParams } from "react-router";
 import {
   adminCreateCourse,
   adminEditCourse,
   adminGetCoursesByDepartment,
-} from '../../../services';
-import { useUpload } from '../../../hooks';
-import useCourseDetails from '../../user/Courses/CourseDetails/hooks/useCourseDetails';
-import { useEffect, useMemo } from 'react';
+} from "../../../services";
+import { useUpload } from "../../../hooks";
+import useCourseDetails from "../../user/Courses/CourseDetails/hooks/useCourseDetails";
+import { useEffect, useMemo } from "react";
 
 const CreateCoursePage = ({ metadata: propMetadata }) => {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
@@ -52,20 +52,20 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
   const { id: courseId } = useParams();
-  const isEditMode = useMemo(() => courseId && courseId !== 'new', [courseId]);
+  const isEditMode = useMemo(() => courseId && courseId !== "new", [courseId]);
 
   const { handleDelete } = useCache();
 
   const onSubmit = async (data) => {
     try {
       if (!selectedDepartmentId) {
-        throw new Error('Please select a department');
+        throw new Error("Please select a department");
       }
 
       const courseThumbnail =
-        thumbnailUpload.handleGetFileAndValidate('Course Image');
+        thumbnailUpload.handleGetFileAndValidate("Course Image");
       const certificate =
-        certificateUpload.handleGetFileAndValidate('Certificate');
+        certificateUpload.handleGetFileAndValidate("Certificate");
 
       data = {
         ...data,
@@ -84,16 +84,16 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
       toast({
         description: capitalizeFirstLetter(message),
-        position: 'top',
-        status: 'success',
+        position: "top",
+        status: "success",
       });
 
       push(`/admin/courses/details/${course.id}/info`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     }
   };
@@ -121,8 +121,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
       } catch (error) {
         toast({
           description: capitalizeFirstLetter(error.message),
-          position: 'top',
-          status: 'error',
+          position: "top",
+          status: "error",
         });
       }
     };
@@ -144,7 +144,7 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   // set title for edit
   useEffect(() => {
     if (courseDetailsData) {
-      setValue('title', courseDetailsData.title);
+      setValue("title", courseDetailsData.title);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData]);
@@ -160,14 +160,14 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
   // set prerequisite for edit
   useEffect(() => {
     if (courseDetailsData && prerequisites) {
-      setValue('preRequisiteId', courseDetailsData.preRequisiteId);
+      setValue("preRequisiteId", courseDetailsData.preRequisiteId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData, prerequisites]);
 
   useEffect(() => {
     if (courseDetailsData) {
-      setValue('description', courseDetailsData.description);
+      setValue("description", courseDetailsData.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseDetailsData]);
@@ -218,14 +218,14 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
 
       <CreatePageLayout
         title="Create Course"
-        submitButtonText={isEditMode ? 'Update Course' : 'Submit'}
+        submitButtonText={isEditMode ? "Update Course" : "Submit"}
         onSubmit={handleSubmit(onSubmit)}
         submitButtonIsLoading={isSubmitting}
       >
         <Box
           as="div"
-          display={{ lg: 'grid', base: 'flex', md: 'flex' }}
-          flexDirection={{ base: 'column', md: 'column' }}
+          display={{ lg: "grid", base: "flex", md: "flex" }}
+          flexDirection={{ base: "column", md: "column" }}
           gridTemplateColumns="1fr 1fr"
           gap={10}
           marginBottom={10}
@@ -235,8 +235,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             label="Course title"
             isRequired
             id="title"
-            {...register('title', {
-              required: 'Title is required',
+            {...register("title", {
+              required: "Title is required",
             })}
             error={errors.title?.message}
           />
@@ -252,8 +252,8 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
         </Box>
         <Box
           as="div"
-          display={{ lg: 'grid', base: 'flex', md: 'flex' }}
-          flexDirection={{ base: 'column', md: 'column' }}
+          display={{ lg: "grid", base: "flex", md: "flex" }}
+          flexDirection={{ base: "column", md: "column" }}
           gridTemplateColumns="1fr 1fr"
           gap={10}
           marginBottom={10}
@@ -263,9 +263,9 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             label="Select prerequisite"
             options={populatePrerequisiteOptions(prerequisites)}
             id="preRequisiteId"
-            placeholder={prerequisiteLoading ? 'waiting for department...' : ''}
+            placeholder={prerequisiteLoading ? "waiting for department..." : ""}
             isLoading={prerequisiteLoading}
-            {...register('preRequisiteId')}
+            {...register("preRequisiteId")}
             error={errors.preRequisiteId?.message}
           />
         </Box>
@@ -276,15 +276,10 @@ const CreateCoursePage = ({ metadata: propMetadata }) => {
             label="Course description"
             id="description"
             isRequired
-            {...register('description', {
-              required: 'Please add a description',
-              maxLength: 1000,
+            {...register("description", {
+              required: "Please add a description",
             })}
-            error={
-              errors.description?.type === 'maxLength'
-                ? 'Maximum length of 1000 characters'
-                : errors.description?.message
-            }
+            error={errors.description?.message}
           />
         </Grid>
         {/* Row 4 */}

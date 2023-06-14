@@ -1,6 +1,6 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useToast } from "@chakra-ui/toast";
-import { useCallback, useEffect, useState, } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Box } from "@chakra-ui/layout";
 import { useCache } from "../../../../contexts";
@@ -14,14 +14,14 @@ import useTimerCountdown from "../../../../layouts/user/Assessment/hooks/useTime
 import { useHistory } from "react-router-dom";
 import { Warning } from "@material-ui/icons";
 import { useLocation } from "react-router-dom/cjs/react-router-dom";
-const useStandalone = ({handleExam}) => {
+const useStandalone = ({ handleExam }) => {
   const { assessment, isLoading, error, setError } = useStandalonePreview();
   const { course_id } = useParams();
   const isExamination = useQueryParams().get("exam");
-const [locate, setLocate]=useState("")
-const [end, setEnd]=useState(true)
-const [count, increaseCount]=useState(0)
-const [onblur, setIsOnblur]=useState(false)
+  const [locate, setLocate] = useState("");
+  const [end, setEnd] = useState(true);
+  const [count, increaseCount] = useState(0);
+  const [onblur, setIsOnblur] = useState(false);
   const pageLength = assessment?.question?.length - 1;
 
   const [index, setindex] = useState(0);
@@ -108,7 +108,6 @@ const [onblur, setIsOnblur]=useState(false)
         [`${context}Id`]: assessment.id,
         [`${context}QuestionsId`]: questionIdArr,
         [`${context}OptionsId`]: optionIdArr,
-        // userId: user.id,
         courseId: assessment.courseId,
       };
 
@@ -147,7 +146,6 @@ const [onblur, setIsOnblur]=useState(false)
 
   // Automatically submit when timeout
   useEffect(() => {
-    
     if (timerCountdownManger.hasEnded.timeout) {
       handleSubmit();
     }
@@ -173,98 +171,82 @@ const [onblur, setIsOnblur]=useState(false)
     );
     timerCountdownManger.handleStopCountdown();
   };
-console.log(assessment);
   // Setup UI after success submission
   useEffect(() => {
     if (submitStatus.success) {
       handleAfterSubmit();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitStatus.success]);
- 
-   
-  const history=useHistory()
-   const location =useLocation()
-   let counter=3
-    const onFocus = () => {
-        setIsOnblur(false);
+
+  const history = useHistory();
+  const location = useLocation();
+  let counter = 3;
+  const onFocus = () => {
+    setIsOnblur(false);
+  };
+
+  const onBlur = () => {
+    setIsOnblur(true);
+    if (location.pathname.includes("/standalone-exams/start/")) {
+      counter--;
+      modalManager.onOpen();
+      setModalContent(null);
+
+      setModalPrompt({
+        heading: `Leaving this tab more than twice will automatically submit your examination`,
+        body: (
+          <Box as="div" display="flex" alignItems="center" gap={3}>
+            <Warning
+              style={{
+                height: "40px",
+                width: "40px",
+                color: "red",
+              }}
+            />
+            <div>please take note....</div>
+          </Box>
+        ),
+      });
+    } else {
+      counter = 3;
+    }
+    if (counter === 0) {
+      modalManager.onClose();
+      setEnd(false);
+      setTimeout(() => {
+        handleExam();
+        history.push("/standalone-exams");
+        window.location.reload();
+      }, 1000);
+      counter = 3;
+      if (location.pathname === "standalone/exams") {
+        window.reload(true);
+        counter = undefined;
+      } else {
+        counter = 3;
+      }
+    }
+    console.log(true);
+  };
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      if (location.pathname.includes("/standalone-exams/start/")) {
+        window.addEventListener("focus", onFocus);
+        window.addEventListener("blur", onBlur);
+      }
+
+      return () => {
+        window.removeEventListener("focus", onFocus);
+        window.removeEventListener("blur", onBlur);
       };
-    
-      const onBlur = () => {
-        setIsOnblur(true);
-        if (location.pathname.includes("/standalone-exams/start/")) {
-          counter--
-          modalManager.onOpen();
-          setModalContent(null);
-  
-          setModalPrompt({
-            heading: `Leaving this tab more than twice will automatically submit your examination`,
-            body: (
-              <Box as="div" display="flex" alignItems="center" gap={3}>
-                <Warning
-                  style={{
-                    height: "40px",
-                    width: "40px",
-                    color: "red",
-                  }}
-                />
-                <div>please take note....</div>
-              </Box>
-            ),
-          });
-        }
-        else{
-          counter=3
-       
-     
-        }
-        if (counter === 0) {
-            modalManager.onClose();
-             setEnd(false)
-            setTimeout(()=>{
-              handleExam()
-              history.push("/standalone-exams")
-              window.location.reload()
-            },1000)
-            counter=3
-            if(location.pathname==="standalone/exams"){
-              window.reload(true)
-               counter=undefined
-           
-           
-            }
-            else{
-              counter=3
-            }
-         
-        
-         
-          
-          
-        
-        }
-        console.log(true);
-      };
-    useEffect(() => {
-        window.addEventListener("load", () => {
-          if (location.pathname.includes("/standalone-exams/start/")) {
-            window.addEventListener("focus", onFocus);
-            window.addEventListener("blur", onBlur);
-          }
-      
-          return () => {
-            window.removeEventListener("focus", onFocus);
-            window.removeEventListener("blur", onBlur);
-          };
-        });
-      }, [])
+    });
+  }, []);
 
   // const history=useHistory()
- 
+
   // useEffect(() => {
   //   setLocate(location.pathname==="/standalone-exams/start/")
-   
+
   //     if (locate && end===true) {
 
   //      window.addEventListener("blur", () => {
@@ -292,20 +274,16 @@ console.log(assessment);
   //         count = 0;
   //         window.location.reload(true)
   //         history.push("/standalone-exams")
-         
+
   //         modalManager.onClose()
-        
+
   //         handleExam()
-         
-          
-          
-        
+
   //       }
-      
+
   //     });
   //   }
-       
-   
+
   // }, [locate]);
 
   const handleSubmitConfirmation = (e) => {

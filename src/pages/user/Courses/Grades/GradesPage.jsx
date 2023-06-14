@@ -1,25 +1,25 @@
-import { Route, useLocation } from 'react-router-dom';
-import { Box, Flex, HStack } from '@chakra-ui/layout';
+import { Route, useLocation } from "react-router-dom";
+import { Box, Flex, HStack } from "@chakra-ui/layout";
 import {
   CircularProgress,
   Center,
   ListItem,
   UnorderedList,
   Progress,
-} from '@chakra-ui/react';
-import { Doughnut } from 'react-chartjs-2';
-import { Heading, Text, Button } from '../../../../components';
-import colors from '../../../../theme/colors';
-import useGradeDetails from './hooks/useGradeDetails';
-import { PageLoaderLayout } from '../../../../layouts';
-import { getDuration } from '../../../../utils';
-import { ReactComponent as NoData } from '../../../../assets/images/no-data.svg';
-import { useEffect } from 'react';
-import { utils, writeFile } from 'xlsx';
+} from "@chakra-ui/react";
+import { Doughnut } from "react-chartjs-2";
+import { Heading, Text, Button } from "../../../../components";
+import colors from "../../../../theme/colors";
+import useGradeDetails from "./hooks/useGradeDetails";
+import { PageLoaderLayout } from "../../../../layouts";
+import { getDuration } from "../../../../utils";
+import { ReactComponent as NoData } from "../../../../assets/images/no-data.svg";
+import { useEffect } from "react";
+import { utils, writeFile } from "xlsx";
 
 const totalCourseChartConfig = {
   data: {
-    labels: ['Attendance', 'Examination', 'Attendance'],
+    labels: ["Attendance", "Examination", "Attendance"],
     datasets: [
       {
         data: [20, 20, 20],
@@ -41,6 +41,7 @@ const GradesPage = () => {
 
   const { grades, isLoading, myGrades } = manager;
 
+  console.log(grades);
   return (
     <>
       <Grades isLoading={isLoading} grades={grades} myGrades={myGrades} />
@@ -50,7 +51,7 @@ const GradesPage = () => {
 
 export const Grades = ({ isLoading, grades, myGrades }) => {
   const isAdmin = /admin/i.test(window.location.pathname);
-  console.log('New update');
+  console.log("New update");
 
   const completedCourses = myGrades?.completedCourses;
   console.log(completedCourses);
@@ -58,8 +59,8 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
   const { hash } = useLocation();
 
   useEffect(() => {
-    if (hash.includes('certificates')) {
-      document.getElementById('certificates')?.scrollIntoView();
+    if (hash.includes("certificates")) {
+      document.getElementById("certificates")?.scrollIntoView();
     }
   }, [hash]);
 
@@ -67,58 +68,58 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
     const wb = utils.book_new();
     const ws = utils.json_to_sheet([
       {
-        column1: 'PERFORMANCE OVERVIEW',
-        column2: '',
-        column3: '',
-        column4: '',
+        column1: "PERFORMANCE OVERVIEW",
+        column2: "",
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'No of Courses',
+        column1: "No of Courses",
         column2: `${myGrades?.overview?.totalCoursesCount}`,
-        column3: '',
-        column4: '',
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'Courses Completed',
+        column1: "Courses Completed",
         column2: `${myGrades?.overview?.completedCourseLength}`,
-        column3: '',
-        column4: '',
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'Attendance',
+        column1: "Attendance",
         column2: `${myGrades?.overview?.averageAttendanceScore}%`,
-        column3: '',
-        column4: '',
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'Assessment',
+        column1: "Assessment",
         column2: `${myGrades?.overview?.averageAssessmentScore}%`,
-        column3: '',
-        column4: '',
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'Examination',
+        column1: "Examination",
         column2: `${myGrades?.overview?.averageExaminationScore}%`,
-        column3: '',
-        column4: '',
+        column3: "",
+        column4: "",
       },
       {
-        column1: '',
-        column2: '',
-        column3: '',
-        column4: '',
+        column1: "",
+        column2: "",
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'COMPLETED COURSES',
-        column2: '',
-        column3: '',
-        column4: '',
+        column1: "COMPLETED COURSES",
+        column2: "",
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'course name',
-        column2: 'attendance',
-        column3: 'assessment',
-        column4: 'examination',
+        column1: "course name",
+        column2: "attendance",
+        column3: "assessment",
+        column4: "examination",
       },
       ...completedCourses?.map((data) => ({
         column1: data.courseTitle,
@@ -127,26 +128,26 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
         column4: `${data.examinationScore}%`,
       })),
       {
-        column1: '',
-        column2: '',
-        column3: '',
-        column4: '',
+        column1: "",
+        column2: "",
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'ONGOING COURSES',
-        column2: '',
-        column3: '',
-        column4: '',
+        column1: "ONGOING COURSES",
+        column2: "",
+        column3: "",
+        column4: "",
       },
       {
-        column1: 'course name',
-        column2: 'attendance',
-        column3: 'assessment',
-        column4: 'examination',
+        column1: "course name",
+        column2: "attendance",
+        column3: "assessment",
+        column4: "examination",
       },
     ]);
-    utils.book_append_sheet(wb, ws, 'Orders');
-    writeFile(wb, 'PerformanceData.xlsx');
+    utils.book_append_sheet(wb, ws, "Orders");
+    writeFile(wb, "PerformanceData.xlsx");
   };
 
   return (
@@ -159,7 +160,7 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
             bgGradient="linear(to-l, #390411 31.84%, #540D1E 46.72%, #69192D 80.18%)"
             paddingY={10}
             width="100%"
-            paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
+            paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
           >
             <Heading fontSize="24" color="accent.1">
               Performance Overview
@@ -170,41 +171,41 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
 
             <HStack
               width="100%"
-              flexDirection={{ base: 'column', laptop: 'row' }}
+              flexDirection={{ base: "column", laptop: "row" }}
               gap={{ base: 4, lg: 2, md: 4 }}
               mt={6}
             >
               <PerformanceOverviewCard
                 title="Attendance"
-                percentage={myGrades?.overview?.averageAttendanceScore}
-                completedCourses={myGrades?.overview?.completedCourseLength}
-                totalCourses={myGrades?.overview?.totalCoursesCount}
+                percentage={grades?.overview?.averageAttendanceScore ?? 0}
+                completedCourses={grades?.overview?.completedCourseLength}
+                totalCourses={grades?.overview?.totalCoursesCount}
                 color="others.2"
-                progress={myGrades?.overview?.averageAttendanceScore}
+                progress={grades?.overview?.averageAttendanceScore}
               />
 
               <PerformanceOverviewCard
                 title="Assessment"
-                percentage={myGrades?.overview?.averageAssessmentScore}
-                completedCourses={myGrades?.overview?.completedCourseLength}
-                totalCourses={myGrades?.overview?.totalCoursesCount}
+                percentage={grades?.overview?.averageAssessmentScore ?? 0}
+                completedCourses={grades?.overview?.completedCourseLength}
+                totalCourses={grades?.overview?.totalCoursesCount}
                 color="others.4"
-                progress={myGrades?.overview?.averageAssessmentScore}
+                progress={grades?.overview?.averageAssessmentScore}
               />
 
               <PerformanceOverviewCard
                 title="Examination"
-                percentage={myGrades?.overview?.averageExaminationScore}
-                completedCourses={myGrades?.overview?.completedCourseLength}
-                totalCourses={myGrades?.overview?.totalCoursesCount}
+                percentage={grades?.overview?.averageExaminationScore ?? 0}
+                completedCourses={grades?.overview?.completedCourseLength}
+                totalCourses={grades?.overview?.totalCoursesCount}
                 color="primary.base"
-                progress={myGrades?.overview?.averageExaminationScore}
+                progress={grades?.overview?.averageExaminationScore}
               />
             </HStack>
           </Box>
           <Box
             pt={10}
-            paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
+            paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
             backgroundColor="white"
           >
             <Box marginTop="5px" display="flex" justifyContent="flex-end">
@@ -213,8 +214,8 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses in Progress
             </Text>
-            {myGrades?.ongoingCourses?.[0] ? (
-              myGrades?.ongoingCourses?.map((grade) => {
+            {grades?.ongoingCourses?.[0] ? (
+              grades?.ongoingCourses?.map((grade) => {
                 const duration = getDuration(grade.courseDuration);
                 return (
                   <Box key={grade.id}>
@@ -240,23 +241,23 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
               <EmptyState
                 text={
                   isAdmin
-                    ? 'This user has not completed any course'
-                    : 'You have not completed any course'
+                    ? "This user has not completed any course"
+                    : "You have not completed any course"
                 }
               />
             )}
           </Box>
           <Box
-            paddingX={{ base: '40px', tablet: '80px', laptop: '160px' }}
+            paddingX={{ base: "40px", tablet: "80px", laptop: "160px" }}
             backgroundColor="white"
-            paddingBottom={isAdmin ? '40px' : null}
+            paddingBottom={isAdmin ? "40px" : null}
             id="certificates"
           >
             <Text color="seondary.9" fontSize="24" fontWeight="500">
               Courses Completed
             </Text>
-            {myGrades?.completedCourses?.[0] ? (
-              myGrades?.completedCourses.map((grade) => {
+            {grades?.completedCourses?.[0] ? (
+              grades?.completedCourses.map((grade) => {
                 const duration = getDuration(grade.courseDuration);
                 return (
                   <Box key={grade.id}>
@@ -290,8 +291,8 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
               <EmptyState
                 text={
                   isAdmin
-                    ? 'This user has not completed any course'
-                    : 'You have not completed any course'
+                    ? "This user has not completed any course"
+                    : "You have not completed any course"
                 }
               />
             )}
@@ -335,7 +336,7 @@ const PerformanceOverviewCard = ({
       width="100%"
       borderRadius="12"
       bg="white"
-      paddingX={{ base: '10px', laptop: '40px' }}
+      paddingX={{ base: "10px", laptop: "40px" }}
       paddingY={6}
     >
       <Flex flexDirection="row" justifyContent="space-between">
@@ -347,7 +348,7 @@ const PerformanceOverviewCard = ({
             {`${percentage}%`}
           </Text>
           <Text fontSize="14" color="accent.3">
-            {`${completedCourses} out of ${totalCourses} courses`}
+            {`${completedCourses ?? 0} out of ${totalCourses ?? 0} courses`}
           </Text>
         </Box>
         <Center>
@@ -454,14 +455,14 @@ const CourseOverviewCard = ({
           justifyContent="center"
           data-percentage={`${totalPercentage}%`}
           _after={{
-            content: 'attr(data-percentage)',
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            width: '100%',
-            pointerEvents: 'none',
+            content: "attr(data-percentage)",
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+            width: "100%",
+            pointerEvents: "none",
             top: 0,
             left: 0,
           }}

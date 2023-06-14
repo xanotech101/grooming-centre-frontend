@@ -1,35 +1,38 @@
-import { useDisclosure } from '@chakra-ui/hooks';
-import { useToast } from '@chakra-ui/toast';
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { useCache } from '../../../../contexts';
-import { Text } from '../../../../components';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import useAssessmentPreview from '../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview';
-import { submitAssessment } from '../../../../services';
-import { submitExamination } from '../../../../services/http/endpoints/examination';
-import { hasEnded, isUpcoming, sortByIndexField } from '../../../../utils';
-import { CongratsModalContent } from '../Modal';
-import useTimerCountdown from './useTimerCountdown';
-import { Box } from '@chakra-ui/layout';
-import useCourseExamPreview from '../../../../pages/user/Courses/TakeCourse/hooks/courseExamPreview/useCourseExamPreview';
-import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
-import { Warning } from '@material-ui/icons';
+import { useDisclosure } from "@chakra-ui/hooks";
+import { useToast } from "@chakra-ui/toast";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { useCache } from "../../../../contexts";
+import { Text } from "../../../../components";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import useAssessmentPreview from "../../../../pages/user/Courses/TakeCourse/hooks/useAssessmentPreview";
+import { submitAssessment } from "../../../../services";
+import { submitExamination } from "../../../../services/http/endpoints/examination";
+import { hasEnded, isUpcoming, sortByIndexField } from "../../../../utils";
+import { CongratsModalContent } from "../Modal";
+import useTimerCountdown from "./useTimerCountdown";
+import { Box } from "@chakra-ui/layout";
+import useCourseExamPreview from "../../../../pages/user/Courses/TakeCourse/hooks/courseExamPreview/useCourseExamPreview";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
+import { Warning } from "@material-ui/icons";
 
 const useAssessment = () => {
   const { assessment, isLoading, error, setError } = useCourseExamPreview();
   const { course_id } = useParams();
-  const isExamination = useQueryParams().get('examination');
-  const [score, setScore] = useState('');
-  const [end, setEnd]=useState(true)
-  const [count, increaseCount]=useState(0)
-  const [onblur, setIsOnblur]=useState(false)
+  const isExamination = useQueryParams().get("examination");
+  const [score, setScore] = useState("");
+  const [end, setEnd] = useState(true);
+  const [count, increaseCount] = useState(0);
+  const [onblur, setIsOnblur] = useState(false);
   assessment.questions = sortByIndexField(
     assessment.questions,
-    'questionIndex'
+    "questionIndex"
   );
   assessment.questions?.forEach((question) => {
-    question.options = sortByIndexField(question.options, 'optionIndex');
+    question.options = sortByIndexField(question.options, "optionIndex");
   });
 
   const [currentQuestion, setCurrentQuestion] = useState({});
@@ -53,20 +56,20 @@ const useAssessment = () => {
     if (assessment.hasCompleted)
       return setError(
         `You have already taken this ${
-          isExamination ? 'examination' : 'assessment'
+          isExamination ? "examination" : "assessment"
         }`
       );
 
     if (isUpcoming(assessment.startTime))
       return setError(
         `This ${
-          isExamination ? 'examination' : 'assessment'
+          isExamination ? "examination" : "assessment"
         } is not yet time to be taken`
       );
 
     if (hasEnded(assessment.endTime))
       setError(
-        `This ${isExamination ? 'examination' : 'assessment'} has already ended`
+        `This ${isExamination ? "examination" : "assessment"} has already ended`
       );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +103,7 @@ const useAssessment = () => {
         optionIdArr[index] = selectedAnswers[questionId] || null;
       });
 
-      const context = isExamination ? 'examination' : 'assessment';
+      const context = isExamination ? "examination" : "assessment";
 
       const body = {
         [`${context}Id`]: assessment.id,
@@ -115,12 +118,9 @@ const useAssessment = () => {
       //     "courseId": "c3b2a0a5-59eb-454f-9c2f-5a6b1c4ff1e2",
       // }
 
-      console.log(questionIdArr, optionIdArr);
-
       const { message, data } = await (isExamination
         ? submitExamination(body)
         : submitAssessment(body));
-      console.log(data?.score);
       setScore(data?.score);
 
       setSubmitStatus({
@@ -129,8 +129,8 @@ const useAssessment = () => {
     } catch (error) {
       toast({
         description: error.message,
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
 
       setSubmitStatus({
@@ -146,81 +146,69 @@ const useAssessment = () => {
     selectedAnswers,
     // user?.id,
   ]);
-  const history=useHistory()
-   const location =useLocation()
-   let counter=3
-    const onFocus = () => {
-        setIsOnblur(false);
+  const history = useHistory();
+  const location = useLocation();
+  let counter = 3;
+  const onFocus = () => {
+    setIsOnblur(false);
+  };
+
+  const onBlur = () => {
+    setIsOnblur(true);
+    if (location.pathname.includes("/exams/start/")) {
+      counter--;
+      modalManager.onOpen();
+      setModalContent(null);
+
+      setModalPrompt({
+        heading: `Leaving this tab more than twice will automatically submit your examination`,
+        body: (
+          <Box as="div" display="flex" alignItems="center" gap={3}>
+            <Warning
+              style={{
+                height: "40px",
+                width: "40px",
+                color: "red",
+              }}
+            />
+            <div>please take note....</div>
+          </Box>
+        ),
+      });
+    } else {
+      counter = 3;
+    }
+    if (counter === 0) {
+      modalManager.onClose();
+      setEnd(false);
+      setTimeout(() => {
+        handleSubmit();
+        history.push("/dashboard");
+        window.location.reload();
+      }, 1000);
+      counter = 3;
+      if (location.pathname === "/dashboard") {
+        window.reload(true);
+        counter = undefined;
+      } else {
+        counter = 3;
+      }
+    }
+    console.log(true);
+  };
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      if (location.pathname.includes("/standalone-exams/start/")) {
+        window.addEventListener("focus", onFocus);
+        window.addEventListener("blur", onBlur);
+      }
+
+      return () => {
+        window.removeEventListener("focus", onFocus);
+        window.removeEventListener("blur", onBlur);
       };
-    
-      const onBlur = () => {
-        setIsOnblur(true);
-        if (location.pathname.includes("/exams/start/")) {
-          counter--
-          modalManager.onOpen();
-          setModalContent(null);
-  
-          setModalPrompt({
-            heading: `Leaving this tab more than twice will automatically submit your examination`,
-            body: (
-              <Box as="div" display="flex" alignItems="center" gap={3}>
-                <Warning
-                  style={{
-                    height: "40px",
-                    width: "40px",
-                    color: "red",
-                  }}
-                />
-                <div>please take note....</div>
-              </Box>
-            ),
-          });
-        }
-        else{
-          counter=3
-       
-     
-        }
-        if (counter === 0) {
-            modalManager.onClose();
-             setEnd(false)
-            setTimeout(()=>{
-              handleSubmit()
-              history.push("/dashboard")
-              window.location.reload()
-            },1000)
-            counter=3
-            if(location.pathname==="/dashboard"){
-              window.reload(true)
-               counter=undefined
-           
-           
-            }
-            else{
-              counter=3
-            }
-         
-        
-         
-          
-          
-        
-        }
-        console.log(true);
-      };
-    useEffect(() => {
-        window.addEventListener("load", () => {
-          if (location.pathname.includes("/standalone-exams/start/")) {
-            window.addEventListener("focus", onFocus);
-            window.addEventListener("blur", onBlur);
-          }
-      
-          return () => {
-            window.removeEventListener("focus", onFocus);
-            window.removeEventListener("blur", onBlur);
-          };
-        });
-      }, [])
+    });
+  }, []);
   // Automatically submit when timeout
   useEffect(() => {
     if (timerCountdownManger.hasEnded.timeout) {
@@ -267,25 +255,25 @@ const useAssessment = () => {
     setModalContent(null);
     setModalPrompt({
       heading: `Are you sure you want to submit your ${
-        isExamination ? 'examination' : 'assessment'
+        isExamination ? "examination" : "assessment"
       }?`,
       body: (
         <>
           <Text marginBottom={5}>
-            Please note that you will not be able to retake this{' '}
-            {isExamination ? 'examination' : 'assessment'} after you submit.
+            Please note that you will not be able to retake this{" "}
+            {isExamination ? "examination" : "assessment"} after you submit.
             Double check your answers before submitting.
           </Text>
 
           <Text marginBottom={5}>
-            You answered{' '}
+            You answered{" "}
             <Box as="b" color="secondary.6" fontSize="text.level3">
               {Reflect.ownKeys(selectedAnswers).length}
-            </Box>{' '}
-            out of{' '}
+            </Box>{" "}
+            out of{" "}
             <Box as="b" fontSize="text.level3">
               {assessment.questionCount}
-            </Box>{' '}
+            </Box>{" "}
             questions
           </Text>
         </>

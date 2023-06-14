@@ -1,20 +1,20 @@
-import { Box, UnorderedList, ListItem, List, ListIcon } from '@chakra-ui/react';
-import { BsClockFill } from 'react-icons/bs';
-import { Route } from 'react-router-dom';
-import { Button, Heading, SkeletonText, Text } from '../../../../components';
-import { useTakeCourse } from '../../../../contexts';
-import { getDuration } from '../../../../utils';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import { EmptyState } from '../../../../layouts';
-import { useGoBack } from '../../../../hooks';
-import useCourseExamPreview from './hooks/courseExamPreview/useCourseExamPreview';
+import { Box, UnorderedList, ListItem, List, ListIcon } from "@chakra-ui/react";
+import { BsClockFill } from "react-icons/bs";
+import { Route } from "react-router-dom";
+import { Button, Heading, SkeletonText, Text } from "../../../../components";
+import { useTakeCourse } from "../../../../contexts";
+import { getDuration } from "../../../../utils";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import { EmptyState } from "../../../../layouts";
+import { useGoBack } from "../../../../hooks";
+import useCourseExamPreview from "./hooks/courseExamPreview/useCourseExamPreview";
 
 const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
   const { assessment, isLoading, error, handleTryAgain, assessmentIsDisabled } =
     useCourseExamPreview(sidebarLinks, null, null, sidebarLinkClickedState);
   useTakeCourse();
-
-  const isExamination = useQueryParams().get('examination');
+  console.log(assessment);
+  const isExamination = useQueryParams().get("examination");
   const duration = getDuration(assessment.duration);
   const handleGoBack = useGoBack();
 
@@ -33,15 +33,11 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
       cta={<Button onClick={handleGoBack}>Go Back</Button>}
       heading="Oops An Error Occurred"
       description={`You are are not allowed to view this ${
-        isExamination ? 'examination' : 'assessment'
+        isExamination ? "examination" : "assessment"
       }`}
     />
   ) : (
     <Box paddingTop={10} as="main" paddingX={6}>
-      <Heading as="h1" fontSize="heading.h3" marginBottom={5}>
-        {assessment.text}
-      </Heading>
-
       {!isLoading && (
         <Heading fontSize="heading.h4">Topics: {assessment.topic}</Heading>
       )}
@@ -49,7 +45,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
       <Box
         borderBottom="1px"
         borderColor="accent.2"
-        marginY={10}
+        marginY={8}
         paddingBottom={10}
       >
         {isLoading ? (
@@ -79,7 +75,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
               </ListIcon>
 
               <Text>
-                Score a minimum of{' '}
+                Score a minimum of{" "}
                 {assessment.minimumPercentageScoreToEarnABadge}% to earn a badge
               </Text>
             </ListItem>
@@ -90,15 +86,15 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
       <UnorderedList spacing={2} paddingBottom={10}>
         <ListItem>
           <Text>
-            You must complete this{' '}
-            {isExamination ? 'examination' : 'assessment'} in one session — make
+            You must complete this{" "}
+            {isExamination ? "examination" : "assessment"} in one session — make
             sure your internet is reliable.
           </Text>
         </ListItem>
         <ListItem>
           <Text>
-            You can only take this{' '}
-            {isExamination ? 'examination' : 'assessment'} once, so do well to
+            You can only take this{" "}
+            {isExamination ? "examination" : "assessment"} once, so do well to
             put in your best.
           </Text>
         </ListItem>
@@ -111,14 +107,14 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
 
       {isExamination ? (
         <Button
-          link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.courseId}?examination=true`}
+          link={`/courses/take/${assessment?.courseId}/assessment/start/${assessment.courseId}?examination=true`}
           disabled={isLoading && error}
         >
           Take Examination
         </Button>
       ) : (
         <Button
-          link={`/courses/take/${assessment.courseId}/assessment/start/${assessment.id}`}
+          link={`/courses/take/${assessment?.courseId}/assessment/start/${assessment?.id}`}
           disabled={isLoading && error}
         >
           Take Assessment

@@ -165,8 +165,6 @@ export const submitExamination = async (body) => {
     data: { message, data },
   } = await http.post(path, body);
 
-  console.log(data);
-
   return { message, data };
 };
 

@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { CacheContext } from './CacheProvider';
+import { useContext } from "react";
+import { CacheContext } from "./CacheProvider";
 
 /**
  * Abstracts the `CacheContext` with `useContext`, also provides helpers

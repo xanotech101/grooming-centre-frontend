@@ -197,7 +197,7 @@ const CreateLessonPage = () => {
         status: "success",
       });
 
-      push(`/admin/courses/${courseId}/lesson/${lesson.id}/view`);
+      push(`/admin/courses/${courseId}/lesson/${lesson?.id}/view`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -319,6 +319,7 @@ const CreateLessonPage = () => {
               label="Content"
               defaultValue={contentManager.data.default}
               onChange={contentManager.handleChange}
+              
             />
           </GridItem>
 
