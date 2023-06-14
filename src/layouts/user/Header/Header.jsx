@@ -257,7 +257,7 @@ const Avatar = () => {
   const isAdmin = () => {
     const role = getOneMetadata('userRoles', state.user.userRoleId);
 
-    if (/admin/i.test(role?.name)) return true;
+    if (/admin/i.test(role?.name) || /instructor/i.test(role?.name)) return true;
   };
 
   return (

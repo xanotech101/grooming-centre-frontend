@@ -9,14 +9,12 @@ import { PageLoaderLayout } from '../global';
 import {
   useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
-  useRedirectNewUserToNewPasswordPage,
   useBlockSuperAdminFromUserScreens,
 } from '../../hooks';
 
 const UserLayout = () => {
   const hasInitRefreshed = usePageRefreshAfterLogin();
   useRedirectNonAuthUserToSigninPage();
-  useRedirectNewUserToNewPasswordPage();
   useBlockSuperAdminFromUserScreens();
 
   return (

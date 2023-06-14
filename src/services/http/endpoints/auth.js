@@ -65,12 +65,12 @@ export const userForgetPassword = async (body) => {
  * @param {{ password: string }} body
  * @returns {Promise<{ message: string }>}
  */
-export const userResetPassword = async (body) => {
+export const userResetPassword = async (body, token) => {
   const path = "/password/reset";
 
   const {
     data: { message },
-  } = await http.patch(path, body);
+  } = await http.patch(path, body, {token});
 
   return { message };
 };

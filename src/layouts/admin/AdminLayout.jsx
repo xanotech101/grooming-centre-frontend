@@ -1,11 +1,10 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import { useApp } from '../../contexts';
 import {
   useRedirectNonAuthUserToSigninPage,
   usePageRefreshAfterLogin,
-  useRedirectNewUserToNewPasswordPage,
 } from '../../hooks';
 import Footer from '../user/Footer';
 import { SideBar } from './Sidebar/Navbar';
@@ -19,7 +18,7 @@ const useRedirect = () => {
       const { userRoleId } = appManager.state.user;
       const role = appManager.getOneMetadata('userRoles', userRoleId);
 
-      if (!/admin/i.test(role?.name)) {
+      if (!/admin/i.test(role?.name) && !/instructor/i.test(role?.name)) {
         return replace('/not-found');
       }
     }
@@ -36,7 +35,6 @@ const AdminLayout = () => {
   usePageRefreshAfterLogin();
   useRedirect();
   useRedirectNonAuthUserToSigninPage();
-  useRedirectNewUserToNewPasswordPage();
 
   const isSettingsPage = /settings/i.test(window.location.pathname);
 

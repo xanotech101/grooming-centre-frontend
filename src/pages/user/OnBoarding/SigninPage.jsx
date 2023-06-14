@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Route, useHistory } from "react-router-dom";
+import { Route } from "react-router-dom";
 import {
   Brand,
   Button,
@@ -27,7 +27,7 @@ const SigninPage = () => {
   useBlockAuthenticatedUserFromPage();
 
   const toast = useToast();
-  const { replace } = useHistory();
+  // const { replace } = useHistory();
   const {
     register,
     handleSubmit,
@@ -44,12 +44,14 @@ const SigninPage = () => {
 
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
+      
+      setIsCheckingAuth(true);
 
-      if (user.isInviteActive) {
-        replace("/auth/new-password");
-      } else {
-        setIsCheckingAuth(true);
-      }
+      // if (user.isInviteActive) {
+      //   replace("/auth/new-password");
+      // } else {
+      //   setIsCheckingAuth(true);
+      // }
 
       reset();
     } catch (err) {
