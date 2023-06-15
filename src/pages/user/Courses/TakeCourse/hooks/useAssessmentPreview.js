@@ -28,7 +28,7 @@ const useAssessmentPreview = (
 ) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { courseId, assessment_id } = useParams();
+  const { id: courseId, assessment_id } = useParams();
 
   assessmentId = assessmentId || assessment_id;
   const assessmentIsNew = assessmentId === "new";
@@ -55,7 +55,7 @@ const useAssessmentPreview = (
       : requestAssessmentDetails(assessmentId, isForAdmin));
 
     return isExamination ? data.examination : data.assessment;
-  }, [assessmentId, isExamination, isForAdmin, isStandaloneExamination]);
+  }, []);
 
   const fetchAssessmentDetails = useCallback(
     async (bypassCache) => {

@@ -1,7 +1,7 @@
-import { Box } from '@chakra-ui/layout';
-import { Switch } from 'react-router-dom';
-import OverviewPageRoute from '../pages/OverviewPage';
-import QuestionsPageRoute from '../pages/QuestionsPage';
+import { Box } from "@chakra-ui/layout";
+import { Switch } from "react-router-dom";
+import OverviewPageRoute from "../pages/OverviewPage";
+import QuestionsPageRoute from "../pages/QuestionsPage";
 const MainArea = () => {
   return (
     <Box flex={1}>

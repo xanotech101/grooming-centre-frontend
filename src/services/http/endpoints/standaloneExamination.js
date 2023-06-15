@@ -1,5 +1,5 @@
-import { getEndTime } from '../../../utils';
-import { http } from '../http';
+import { getEndTime } from "../../../utils";
+import { http } from "../http";
 
 /**
  * Endpoint to get `examination-details`
@@ -8,7 +8,7 @@ import { http } from '../http';
  * @returns {Promise<{ examination: Examination }>}
  */
 export const requestExaminationDetails = async (id, forAdmin) => {
-  const path = `/examination${forAdmin ? '/admin' : ''}/${id}`;
+  const path = `/examination${forAdmin ? "/admin" : ""}/${id}`;
 
   const {
     data: { data },
@@ -72,7 +72,7 @@ export const requestExaminationDetails = async (id, forAdmin) => {
  * @returns {Promise<{ message: string, examination: { id: string } }>}
  */
 export const adminCreateExamination = async (body) => {
-  const path = '/examination/create';
+  const path = "/examination/create";
 
   const {
     data: { message, data },
@@ -163,7 +163,7 @@ export const usersGetStandaloneExaminationListing = async () => {
 };
 
 export const getStandaloneExaminationDetails = async (id, forAdmin) => {
-  const path = `/stand-alone-examination${forAdmin ? '/admin' : ''}/${id}`;
+  const path = `/stand-alone-examination${forAdmin ? "/admin" : ""}/${id}`;
 
   let {
     data: { data },
@@ -309,7 +309,7 @@ export const adminCreateStandaloneExaminationParticipants = async (body) => {
  * @returns {Promise<{ message: string }>}
  */
 export const adminCreateStandaloneExaminationQuestion = async (body) => {
-  const path = '/stand-alone-examination-question/create';
+  const path = "/stand-alone-examination-question/create";
   console.log(body);
 
   const {

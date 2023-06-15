@@ -1,13 +1,26 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCache } from "../../../../../../contexts";
-import { useComponentIsMount, useQueryParams } from "../../../../../../hooks";
+import { useCache } from "../../../../../contexts";
+import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import useQueryParams from "../../../../../hooks/useQueryParams";
 import {
   requestAssessmentDetails,
   requestExaminationDetails,
-} from "../../../../../../services";
+  getStandaloneExaminationDetails,
+} from "../../../../../services";
+import { isStandaloneExaminationAndIsNotEditMode } from "../../../../admin/courses/AssessmentPage/pages/OverviewPage";
 
-const useCourseExamPreview = (
+/**
+ * Assessment state`Manager`
+ * @param { Array<{}> | null } sidebarLinks
+ *
+ * @returns {{
+ *  assessment: Assessment,
+ *  isLoading: boolean,
+ *  error: string | null,
+ * }}
+ */
+const useAssessmentPreview = (
   sidebarLinks,
   assessmentId,
   isForAdmin,
@@ -15,9 +28,16 @@ const useCourseExamPreview = (
 ) => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { id: courseId, assessment_id } = useParams();
+  const { courseId, assessment_id } = useParams();
+
+  assessmentId = assessmentId || assessment_id;
+  const assessmentIsNew = assessmentId === "new";
+
   const queryParams = useQueryParams();
   const isExamination = queryParams.get("examination");
+
+  const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
+  const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
 
   const [assessmentDetails, setAssessmentDetails] = useState({
     data: null,
@@ -25,18 +45,12 @@ const useCourseExamPreview = (
     err: null,
   });
 
-  const index = sidebarLinks?.findIndex((link) => link.id === assessmentId);
-  const currentAssessmentLink = { text: sidebarLinks?.[index]?.text };
-
-  assessmentId = assessmentId || assessment_id;
-  const assessmentIsNew = assessmentId === "new";
-
   const fetcher = useCallback(async () => {
-    const data = await (!isExamination
-      ? requestAssessmentDetails(assessment_id, isForAdmin)
-      : requestExaminationDetails(assessmentId, isForAdmin)); // `assessmentId` is `courseId` in this case
+    const data =
+      (await // `isExamination` is `examinationId` in this case
+      isExamination) && requestExaminationDetails(assessmentId, isForAdmin); // `assessmentId` is `courseId` in this case
 
-    return isExamination ? data?.examination : data?.assessment;
+    return isExamination && data.examination;
   }, [assessmentId, isExamination, isForAdmin]);
 
   const fetchAssessmentDetails = useCallback(
@@ -61,7 +75,11 @@ const useCourseExamPreview = (
   );
 
   const handleFetch = (bypassCache) => {
-    if (!assessmentIsNew) fetchAssessmentDetails(bypassCache);
+    if (
+      !assessmentIsNew &&
+      assessmentId !== isStandaloneExaminationAndIsNotEditMode
+    )
+      fetchAssessmentDetails(bypassCache);
   };
 
   const handleTryAgain = () => {
@@ -74,8 +92,8 @@ const useCourseExamPreview = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sidebarLinkClickedState?.[0]]);
 
-  const assessment = { ...currentAssessmentLink, ...assessmentDetails?.data };
-  const isLoading = assessmentDetails?.loading;
+  const assessment = { ...currentAssessmentLink, ...assessmentDetails.data };
+  const isLoading = assessmentDetails.loading;
   const error = assessmentDetails.err;
 
   const setError = (msg) => setAssessmentDetails({ err: msg });
@@ -97,4 +115,4 @@ const useCourseExamPreview = (
   };
 };
 
-export default useCourseExamPreview;
+export default useAssessmentPreview;

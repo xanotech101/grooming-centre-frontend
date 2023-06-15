@@ -118,9 +118,12 @@ const useAssessment = () => {
       //     "courseId": "c3b2a0a5-59eb-454f-9c2f-5a6b1c4ff1e2",
       // }
 
+      console.log(questionIdArr, optionIdArr);
+
       const { message, data } = await (isExamination
         ? submitExamination(body)
         : submitAssessment(body));
+      console.log(data?.score);
       setScore(data?.score);
 
       setSubmitStatus({

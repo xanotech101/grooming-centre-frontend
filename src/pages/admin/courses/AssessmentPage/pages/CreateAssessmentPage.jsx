@@ -1,45 +1,45 @@
-import { Box, Flex, Grid, GridItem } from '@chakra-ui/layout';
-import { useToast } from '@chakra-ui/toast';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useParams, useHistory } from 'react-router-dom';
+import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/toast";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useParams, useHistory } from "react-router-dom";
 import {
   Button,
   DateTimePicker,
   Input,
   Spinner,
   Text,
-} from '../../../../../components';
+} from "../../../../../components";
 import {
   useDateTimePicker,
   useGoBack,
   useQueryParams,
-} from '../../../../../hooks';
-import { AdminMainAreaWrapper } from '../../../../../layouts';
+} from "../../../../../hooks";
+import { AdminMainAreaWrapper } from "../../../../../layouts";
 import {
   adminCreateAssessment,
   adminCreateExamination,
   adminCreateStandaloneExamination,
-} from '../../../../../services';
+} from "../../../../../services";
 import {
   capitalizeFirstLetter,
   capitalizeWords,
   formatDateToISO,
-} from '../../../../../utils';
-import { MultiSelect } from 'react-multi-select-component';
-import { useApp } from '../../../../../contexts';
-import { Tag, TagCloseButton, TagLabel } from '@chakra-ui/react';
+} from "../../../../../utils";
+import { MultiSelect } from "react-multi-select-component";
+import { useApp } from "../../../../../contexts";
+import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 
 const CreateAssessmentPage = ({ users }) => {
   const { id: courseId, assessmentId } = useParams();
 
-  const isExamination = useQueryParams().get('examination');
+  const isExamination = useQueryParams().get("examination");
   const isStandaloneExamination =
-    courseId === 'not-set' && assessmentId === 'not-set' && isExamination
+    courseId === "not-set" && assessmentId === "not-set" && isExamination
       ? true
       : false;
 
-  const [standaloneExamType, setStandaloneExamType] = useState('departments');
+  const [standaloneExamType, setStandaloneExamType] = useState("departments");
 
   const { push } = useHistory();
   const toast = useToast();
@@ -62,10 +62,10 @@ const CreateAssessmentPage = ({ users }) => {
   const onSubmit = async (data) => {
     try {
       const startTime =
-        startTimeManager.handleGetValueAndValidate('Start Time');
+        startTimeManager.handleGetValueAndValidate("Start Time");
 
       if (selectedIDs.length === 0 && isStandaloneExamination)
-        throw new Error('Please select at least one User or Department');
+        throw new Error("Please select at least one User or Department");
 
       data = {
         ...data,
@@ -73,12 +73,12 @@ const CreateAssessmentPage = ({ users }) => {
         startTime: formatDateToISO(startTime),
       };
 
-      isStandaloneExamination && Reflect.deleteProperty(data, 'courseId');
+      isStandaloneExamination && Reflect.deleteProperty(data, "courseId");
       const body = isStandaloneExamination
         ? {
             ...data,
             type: standaloneExamType,
-            ...(standaloneExamType === 'users'
+            ...(standaloneExamType === "users"
               ? {
                   usersId: selectedIDs.map(({ value }) => value),
                 }
@@ -97,8 +97,8 @@ const CreateAssessmentPage = ({ users }) => {
 
       toast({
         description: capitalizeFirstLetter(message),
-        position: 'top',
-        status: 'success',
+        position: "top",
+        status: "success",
       });
 
       isExamination
@@ -111,8 +111,8 @@ const CreateAssessmentPage = ({ users }) => {
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     }
   };
@@ -124,10 +124,10 @@ const CreateAssessmentPage = ({ users }) => {
   useEffect(() => {
     if (selectedIDs.length > 0) {
       const content_el = document.querySelector(
-        '#form-drop .dropdown-heading-value'
+        "#form-drop .dropdown-heading-value"
       );
 
-      content_el.innerHTML = '<span></span>';
+      content_el.innerHTML = "<span></span>";
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,14 +142,14 @@ const CreateAssessmentPage = ({ users }) => {
               <Box>
                 <Flex
                   justifyContent="space-between"
-                  flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+                  flexDirection={{ base: "column", md: "column", lg: "row" }}
                   mb={5}
                   w="400px"
                 >
-                  <Flex alignItems={'center'}>
+                  <Flex alignItems={"center"}>
                     <input
                       type="radio"
-                      checked={standaloneExamType === 'departments'}
+                      checked={standaloneExamType === "departments"}
                       onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="departments"
@@ -161,10 +161,10 @@ const CreateAssessmentPage = ({ users }) => {
                     </Box>
                   </Flex>
 
-                  <Flex alignItems={'center'}>
+                  <Flex alignItems={"center"}>
                     <input
                       type="radio"
-                      checked={standaloneExamType === 'users'}
+                      checked={standaloneExamType === "users"}
                       onChange={handleStandaloneExamTypeChange}
                       name="radio"
                       value="users"
@@ -180,8 +180,8 @@ const CreateAssessmentPage = ({ users }) => {
                 <Box id="form-drop">
                   <Box as="label">
                     <Text as="level2" pb={2}>
-                      Choose{' '}
-                      {standaloneExamType === 'users' ? 'Users' : 'Departments'}
+                      Choose{" "}
+                      {standaloneExamType === "users" ? "Users" : "Departments"}
                     </Text>
                   </Box>
 
@@ -204,7 +204,7 @@ const CreateAssessmentPage = ({ users }) => {
                     ))}
                   </Flex>
 
-                  {standaloneExamType === 'users' && users.data && (
+                  {standaloneExamType === "users" && users.data && (
                     <MultiSelect
                       options={users.data}
                       value={selectedIDs}
@@ -213,11 +213,11 @@ const CreateAssessmentPage = ({ users }) => {
                     />
                   )}
 
-                  {standaloneExamType === 'users' && users.loading && (
+                  {standaloneExamType === "users" && users.loading && (
                     <Spinner />
                   )}
 
-                  {standaloneExamType === 'departments' &&
+                  {standaloneExamType === "departments" &&
                     metadata?.departments && (
                       <MultiSelect
                         options={metadata?.departments.map((department) => ({
@@ -230,7 +230,7 @@ const CreateAssessmentPage = ({ users }) => {
                       />
                     )}
 
-                  {standaloneExamType === 'users' && !metadata?.departments && (
+                  {standaloneExamType === "users" && !metadata?.departments && (
                     <Spinner />
                   )}
                 </Box>
@@ -246,15 +246,15 @@ const CreateAssessmentPage = ({ users }) => {
           )}
 
           <Input
-            label={isExamination ? 'Examination Title' : 'Assessment Title'}
+            label={isExamination ? "Examination Title" : "Assessment Title"}
             id="title"
             error={errors.title?.message}
-            {...register('title', {
-              required: 'Title is required',
+            {...register("title", {
+              required: "Title is required",
             })}
           />
           <Box
-            display={{ base: 'flex', md: 'flex', lg: 'grid' }}
+            display={{ base: "flex", md: "flex", lg: "grid" }}
             flexDirection="column"
             templateColumns="repeat(2, 1fr)"
             gap={10}
@@ -276,8 +276,8 @@ const CreateAssessmentPage = ({ users }) => {
                 id="duration"
                 placeholder="Enter duration in minutes"
                 error={errors.duration?.message}
-                {...register('duration', {
-                  required: 'Please enter duration',
+                {...register("duration", {
+                  required: "Please enter duration",
                 })}
               />
             </GridItem>
@@ -288,8 +288,8 @@ const CreateAssessmentPage = ({ users }) => {
                 id="amountOfQuestions"
                 placeholder="Enter number of questions"
                 error={errors.amountOfQuestions?.message}
-                {...register('amountOfQuestions', {
-                  required: 'Please enter number of questions',
+                {...register("amountOfQuestions", {
+                  required: "Please enter number of questions",
                 })}
               />
             </GridItem>
