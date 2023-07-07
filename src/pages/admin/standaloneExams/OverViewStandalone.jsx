@@ -1,8 +1,8 @@
-import { Box, Flex, Grid, GridItem } from '@chakra-ui/layout';
-import { useToast } from '@chakra-ui/toast';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useParams, useHistory } from 'react-router-dom';
+import { Box, Flex, Grid, GridItem } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/toast";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useParams, useHistory } from "react-router-dom";
 import {
   Button,
   DateTimePicker,
@@ -10,21 +10,21 @@ import {
   Input,
   Spinner,
   Text,
-} from '../../../components';
-import { useApp, useCache } from '../../../contexts';
-import { useDateTimePicker, useGoBack, useQueryParams } from '../../../hooks';
+} from "../../../components";
+import { useApp, useCache } from "../../../contexts";
+import { useDateTimePicker, useGoBack, useQueryParams } from "../../../hooks";
 import {
   adminCreateStandaloneExamination,
   adminEditStandaloneExamination,
-} from '../../../services';
-import { capitalizeFirstLetter, formatDateToISO } from '../../../utils';
-import useAssessmentPreview from '../../user/Courses/TakeCourse/hooks/useAssessmentPreview';
+} from "../../../services";
+import { capitalizeFirstLetter, formatDateToISO } from "../../../utils";
+import useAssessmentPreview from "../../user/Courses/TakeCourse/hooks/useAssessmentPreview";
 
 const OverViewStandalone = () => {
-  const examinationId = useQueryParams().get('examination');
+  const examinationId = useQueryParams().get("examination");
   const { isLoading, error, assessment } = useAssessmentPreview(
     null,
-    examinationId ? examinationId : 'isStandaloneExamination && isNotEdit',
+    examinationId ? examinationId : "isStandaloneExamination && isNotEdit",
     true
   );
   const isEditmode = !examinationId === false;
@@ -50,7 +50,7 @@ const OverViewStandalone = () => {
 };
 
 const EditStandalonePage = ({ assessment }) => {
-  const examinationId = useQueryParams().get('examination');
+  const examinationId = useQueryParams().get("examination");
   const {
     register,
     handleSubmit,
@@ -61,7 +61,7 @@ const EditStandalonePage = ({ assessment }) => {
   // Init `Title` value
   useEffect(() => {
     if (assessment?.topic) {
-      setValue('title', assessment?.topic);
+      setValue("title", assessment?.topic);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment?.topic]);
@@ -77,7 +77,7 @@ const EditStandalonePage = ({ assessment }) => {
   // Init `Duration` value
   useEffect(() => {
     if (assessment?.duration) {
-      setValue('duration', assessment?.duration);
+      setValue("duration", assessment?.duration);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment?.duration]);
@@ -85,7 +85,7 @@ const EditStandalonePage = ({ assessment }) => {
   // Init `Number of Questions` value
   useEffect(() => {
     if (assessment?.questionCount) {
-      setValue('amountOfQuestions', assessment?.questionCount);
+      setValue("amountOfQuestions", assessment?.questionCount);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment?.questionCount]);
@@ -93,7 +93,7 @@ const EditStandalonePage = ({ assessment }) => {
   // Init is published
   useEffect(() => {
     if (assessment?.isPublished) {
-      setValue('isPublished', assessment?.isPublished);
+      setValue("isPublished", assessment?.isPublished);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessment?.isPublished]);
@@ -111,12 +111,13 @@ const EditStandalonePage = ({ assessment }) => {
   const onSubmit = async (data) => {
     try {
       const startTime =
-        startTimeManager.handleGetValueAndValidate('Start Time');
+        startTimeManager.handleGetValueAndValidate("Start Time");
 
       const body = {
         ...data,
         startTime: formatDateToISO(startTime),
       };
+      console.log(body, "here");
       const { message } = await adminEditStandaloneExamination(
         examinationId,
         body
@@ -124,8 +125,8 @@ const EditStandalonePage = ({ assessment }) => {
 
       toast({
         description: capitalizeFirstLetter(message),
-        position: 'top',
-        status: 'success',
+        position: "top",
+        status: "success",
       });
 
       handleDelete(examinationId);
@@ -133,8 +134,8 @@ const EditStandalonePage = ({ assessment }) => {
     } catch (error) {
       toast({
         description: error.message,
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     }
   };
@@ -147,15 +148,15 @@ const EditStandalonePage = ({ assessment }) => {
     <Box as="form" onSubmit={handleSubmit(onSubmit)} marginY={14} marginX={6}>
       <Box backgroundColor="white" padding={10}>
         <Input
-          label={'Examination Title'}
+          label={"Examination Title"}
           id="title"
           error={errors.title?.message}
-          {...register('title', {
-            required: 'Title is required',
+          {...register("title", {
+            required: "Title is required",
           })}
         />
         <Box
-          display={{ base: 'flex', md: 'flex', lg: 'grid' }}
+          display={{ base: "flex", md: "flex", lg: "grid" }}
           flexDirection="column"
           templateColumns="repeat(2, 1fr)"
           gap={10}
@@ -177,8 +178,8 @@ const EditStandalonePage = ({ assessment }) => {
               id="duration"
               placeholder="Enter duration in minutes"
               error={errors.duration?.message}
-              {...register('duration', {
-                required: 'Please enter duration',
+              {...register("duration", {
+                required: "Please enter duration",
               })}
             />
           </GridItem>
@@ -189,8 +190,8 @@ const EditStandalonePage = ({ assessment }) => {
               id="amountOfQuestions"
               placeholder="Enter number of questions"
               error={errors.amountOfQuestions?.message}
-              {...register('amountOfQuestions', {
-                required: 'Please enter number of questions',
+              {...register("amountOfQuestions", {
+                required: "Please enter number of questions",
               })}
             />
           </GridItem>
@@ -230,7 +231,7 @@ const CreateStandalonePage = () => {
   const onSubmit = async (data) => {
     try {
       const startTime =
-        startTimeManager.handleGetValueAndValidate('Start Time');
+        startTimeManager.handleGetValueAndValidate("Start Time");
 
       const body = {
         ...data,
@@ -242,15 +243,15 @@ const CreateStandalonePage = () => {
 
       toast({
         description: capitalizeFirstLetter(message),
-        position: 'top',
-        status: 'success',
+        position: "top",
+        status: "success",
       });
       push(`/admin/standalone-exams/questions/?examination=${examination.id}`);
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     }
   };
@@ -263,15 +264,15 @@ const CreateStandalonePage = () => {
     <Box as="form" onSubmit={handleSubmit(onSubmit)} marginY={14} marginX={6}>
       <Box backgroundColor="white" padding={10}>
         <Input
-          label={'Examination Title'}
+          label={"Examination Title"}
           id="title"
           error={errors.title?.message}
-          {...register('title', {
-            required: 'Title is required',
+          {...register("title", {
+            required: "Title is required",
           })}
         />
         <Box
-          display={{ base: 'flex', md: 'flex', lg: 'grid' }}
+          display={{ base: "flex", md: "flex", lg: "grid" }}
           flexDirection="column"
           templateColumns="repeat(2, 1fr)"
           gap={10}
@@ -293,8 +294,8 @@ const CreateStandalonePage = () => {
               id="duration"
               placeholder="Enter duration in minutes"
               error={errors.duration?.message}
-              {...register('duration', {
-                required: 'Please enter duration',
+              {...register("duration", {
+                required: "Please enter duration",
               })}
             />
           </GridItem>
@@ -305,8 +306,8 @@ const CreateStandalonePage = () => {
               id="amountOfQuestions"
               placeholder="Enter number of questions"
               error={errors.amountOfQuestions?.message}
-              {...register('amountOfQuestions', {
-                required: 'Please enter number of questions',
+              {...register("amountOfQuestions", {
+                required: "Please enter number of questions",
               })}
             />
           </GridItem>

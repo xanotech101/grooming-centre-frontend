@@ -152,7 +152,7 @@ const CourseListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedCourses) => {
-        await adminDeleteMultipleCourses();
+        await adminDeleteMultipleCourses(selectedCourses);
       },
       pagination: true,
     },

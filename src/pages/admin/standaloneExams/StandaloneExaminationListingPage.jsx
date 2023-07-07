@@ -1,5 +1,5 @@
-import { Route } from 'react-router-dom';
-import { Box } from '@chakra-ui/layout';
+import { Route } from "react-router-dom";
+import { Box } from "@chakra-ui/layout";
 import {
   Button,
   Heading,
@@ -7,47 +7,47 @@ import {
   Text,
   Breadcrumb,
   Link,
-} from '../../../components';
-import { BreadcrumbItem, Tag } from '@chakra-ui/react';
-import { FaSortAmountUpAlt } from 'react-icons/fa';
-import { AdminMainAreaWrapper } from '../../../layouts/admin/MainArea/Wrapper';
+} from "../../../components";
+import { BreadcrumbItem, Tag } from "@chakra-ui/react";
+import { FaSortAmountUpAlt } from "react-icons/fa";
+import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
   deleteStandaloneExamination,
   adminGetStandaloneExaminationListing,
-} from '../../../services';
-import { getDuration } from '../../../utils';
-import dayjs from 'dayjs';
-import { useTableRows } from '../../../hooks';
+} from "../../../services";
+import { getDuration } from "../../../utils";
+import dayjs from "dayjs";
+import { useTableRows } from "../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
-      triggerText: 'Sort',
-      queryKey: 'sort',
+      triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
-      width: '200px',
-      position: 'right-bottom',
+      width: "200px",
+      position: "right-bottom",
       // noFilterTags: true,
       body: {
         radios: [
           {
-            label: 'Alphabetically: ascending',
-            queryValue: 'asc',
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
             additionalParams: { date: false },
           },
           {
-            label: 'Alphabetically: descending',
-            queryValue: 'desc',
+            label: "Alphabetically: descending",
+            queryValue: "desc",
             additionalParams: { date: false },
           },
           {
-            label: 'Date: ascending',
-            queryValue: 'asc',
+            label: "Date: ascending",
+            queryValue: "asc",
             additionalParams: { date: true },
           },
           {
-            label: 'Date: descending',
-            queryValue: 'desc',
+            label: "Date: descending",
+            queryValue: "desc",
             additionalParams: { date: true },
           },
         ],
@@ -57,10 +57,10 @@ const tableProps = {
 
   columns: [
     {
-      id: '2',
-      key: 'title',
-      text: 'Examination Title',
-      fraction: '2fr',
+      id: "2",
+      key: "title",
+      text: "Examination Title",
+      fraction: "2fr",
       renderContent: (data) => (
         <Link
           href={`/admin/standalone-exams/overview?examination=${data.examinationId}`}
@@ -70,37 +70,37 @@ const tableProps = {
       ),
     },
     {
-      id: '3',
-      key: 'noOfUsers',
-      text: 'No. of Candidates',
-      fraction: '200px',
+      id: "3",
+      key: "noOfUsers",
+      text: "No. of Candidates",
+      fraction: "200px",
     },
     {
-      id: '4',
-      key: 'startDate',
-      text: 'Start Date',
-      fraction: '200px',
+      id: "4",
+      key: "startDate",
+      text: "Start Date",
+      fraction: "200px",
     },
     {
-      id: '5',
-      key: 'duration',
-      text: 'Duration',
-      fraction: '150px',
+      id: "5",
+      key: "duration",
+      text: "Duration",
+      fraction: "150px",
     },
     {
-      id: '6',
-      key: 'status',
-      text: 'Status',
-      fraction: '150px',
+      id: "6",
+      key: "status",
+      text: "Status",
+      fraction: "150px",
       renderContent: (status) => (
         <Box>
           <Tag
             borderRadius="full"
             size="sm"
-            backgroundColor={status ? 'accent.4' : 'accent.1'}
-            color={status ? 'accent.5' : 'accent.3'}
+            backgroundColor={status ? "accent.4" : "accent.1"}
+            color={status ? "accent.5" : "accent.3"}
           >
-            <Text bold>{status ? 'Published' : 'UnPublished'}</Text>
+            <Text bold>{status ? "Published" : "UnPublished"}</Text>
           </Tag>
         </Box>
       ),
@@ -110,7 +110,7 @@ const tableProps = {
   options: {
     action: [
       {
-        text: 'Edit',
+        text: "Edit",
         link: (examination) =>
           `/admin/standalone-exams/overview/?examination=${examination.id}`,
       },
@@ -120,9 +120,7 @@ const tableProps = {
     ],
     selection: true,
     multipleDeleteFetcher: async (selectedExaminations) => {
-      await deleteStandaloneExamination(
-        selectedExaminations[0]?.id
-      );
+      await deleteStandaloneExamination(selectedExaminations[0]?.id);
     },
     pagination: true,
   },
@@ -137,7 +135,7 @@ const StandaloneExaminationListingPage = () => {
       examinationId: examination.id,
       // courseId,
     },
-    startDate: dayjs(examination.startTime).format('DD/MM/YYYY h:mm a'),
+    startDate: dayjs(examination.startTime).format("DD/MM/YYYY h:mm a"),
     duration: getDuration(examination.duration).combinedText,
     noOfUsers: examination.noOfUsers,
     status: examination.isPublished,
@@ -148,7 +146,7 @@ const StandaloneExaminationListingPage = () => {
       await adminGetStandaloneExaminationListing(props?.params);
 
     const rows = examinations.map(mapExaminationToRow);
-
+    console.log(examinations, "exam");
     return { rows, showingDocumentsCount, totalDocumentsCount };
   };
 
@@ -173,9 +171,9 @@ const StandaloneExaminationListingPage = () => {
 
       <Box
         display="flex"
-        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+        flexDirection={{ base: "column", md: "column", lg: "row" }}
         justifyContent="space-between"
-        alignItems={{ base: 'flex-start', md: 'flex-start', lg: 'center' }}
+        alignItems={{ base: "flex-start", md: "flex-start", lg: "center" }}
         paddingBottom={5}
         gap={5}
         marginBottom={5}

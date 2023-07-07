@@ -1,9 +1,9 @@
-import { Route, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { useCache } from '../../../../../contexts';
-import useComponentIsMount from '../../../../../hooks/useComponentIsMount';
-import { adminGetUserGrades } from '../../../../../services';
-import { Grades } from '../../../../user';
+import { Route, useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useCache } from "../../../../../contexts";
+import useComponentIsMount from "../../../../../hooks/useComponentIsMount";
+import { adminGetUserGrades } from "../../../../../services";
+import { Grades } from "../../../../user";
 
 const useGradeDetails = () => {
   const { handleGetOrSetAndGet } = useCache();
@@ -36,7 +36,7 @@ const useGradeDetails = () => {
   const fetchGradeDetails = useCallback(async () => {
     setGradeDetails({ loading: true });
     try {
-      const gradeDetails = await handleGetOrSetAndGet('gradeDetails', fetcher);
+      const gradeDetails = await handleGetOrSetAndGet("gradeDetails", fetcher);
       if (componentIsMount) setGradeDetails({ data: gradeDetails });
     } catch (err) {
       console.log(err.message);
@@ -52,7 +52,7 @@ const useGradeDetails = () => {
   const grade = gradeDetails.data;
   const isLoading = gradeDetails.loading;
   const error = gradeDetails.err;
-console.log(grade);
+  console.log(grade);
   return {
     grade,
     isLoading,

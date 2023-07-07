@@ -1,16 +1,16 @@
 import { Route } from "react-router-dom";
-import { Flex, Box, Text } from "@chakra-ui/layout";
+import { Flex, Box } from "@chakra-ui/layout";
+import { Text } from "../../../components";
+import Certificate from "../../../assets/images/grooming-cert.png";
+import useCertificateDetails from "./hooks/useCertificateDetais";
+import { PageLoaderLayout } from "../../../layouts";
+import { EmptyState } from "../Courses/Grades/GradesPage";
 
-import Certificate from "../../../../../assets/images/grooming-cert.png";
-import useCertificateDetails from "../../../../user/Certificate/hooks/useCertificateDetais";
-import { PageLoaderLayout } from "../../../../../layouts";
-import { EmptyState } from "../../../../user/Courses/Grades/GradePageUser";
-
-const CertificatePage = () => {
+const UserCertificate = () => {
   const manager = useCertificateDetails();
 
   const { certificate, isLoading, error } = manager;
-  console.log(certificate);
+
   return (
     <Flex justifyContent="center" pt={16} minH={"100vh"} px={10}>
       {isLoading ? (
@@ -80,7 +80,6 @@ const CertificatePage = () => {
   );
 };
 
-const CertificatePageRoute = ({ ...rest }) => {
-  return <Route {...rest} render={(props) => <CertificatePage {...props} />} />;
+export const UserCertificatePageRoute = ({ ...rest }) => {
+  return <Route {...rest} render={(props) => <UserCertificate {...props} />} />;
 };
-export default CertificatePageRoute;

@@ -6,8 +6,8 @@ import { http } from "../http";
  *
  * @returns {Promise<{ certificate: certificate }>}
  */
-export const requestCertificateDetails = async (id) => {
-  const path = `/certificate/${id}`;
+export const requestCertificateDetails = async (courseId, userId, isAdmin) => {
+  const path = `/certificate/${courseId}/${isAdmin ? userId : ""}`;
 
   const {
     data: { data },

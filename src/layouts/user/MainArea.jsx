@@ -1,8 +1,8 @@
-import { Box } from '@chakra-ui/layout';
-import { useContext, useEffect, useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { ForumLayoutRoute, ChatLayoutRoute } from '../../layouts';
-import { NotFoundPageRoute } from '../../pages/admin';
+import { Box } from "@chakra-ui/layout";
+import { useContext, useEffect, useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { ForumLayoutRoute, ChatLayoutRoute } from "../../layouts";
+import { NotFoundPageRoute } from "../../pages/admin";
 
 import {
   CourseDetailsPageRoute,
@@ -14,10 +14,10 @@ import {
   CertificatePageRoute,
   StandalonePagesRoute,
   StandaloneExamsStartRoute,
-} from '../../pages/user';
-import { PollsPageRoute } from '../../pages/user/PollsPage/PollsPage';
-import { StandalonePreAssessmentRoute } from '../../pages/user/StandaloneExamDetails/StandalonePreAssessment';
-import { ExampleRoute } from '../../pages/user/tabby';
+} from "../../pages/user";
+import { PollsPageRoute } from "../../pages/user/PollsPage/PollsPage";
+import { StandalonePreAssessmentRoute } from "../../pages/user/StandaloneExamDetails/StandalonePreAssessment";
+import { ExampleRoute } from "../../pages/user/tabby";
 
 const MainArea = () => {
   return (
@@ -31,13 +31,15 @@ const MainArea = () => {
         <EventsPageRoute exact path="/events" />
         <CourseDetailsPageRoute path="/courses/details/:id" />
         <GradesPageRoute path="/courses/grade-overview" />
+
         <CertificatePageRoute path="/courses/:course_id/certificate" />
+
         <CoursesPagesRoute path="/courses" />
         <PollsPageRoute exact path="/polls" />
         <StandalonePagesRoute exact path="/standalone-exams" />
         <StandalonePreAssessmentRoute exact path="/standalone-exams/take" />
         <StandaloneExamsStartRoute exact path="/standalone-exams/start" />
-        <ExampleRoute path="/example"/>
+        <ExampleRoute path="/example" />
         <Route render={(props) => <NotFoundPageRoute />} />
       </Switch>
     </Box>

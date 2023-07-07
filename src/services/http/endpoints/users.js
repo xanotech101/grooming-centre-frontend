@@ -1,4 +1,4 @@
-import { http } from '../..';
+import { http } from "../..";
 
 /**
  * Endpoint to delete user
@@ -10,6 +10,15 @@ export const adminDeleteUser = async (id) => {
   const path = `/user/delete/${id}`;
 
   await http.delete(path);
+};
+export const adminDeleteMultipleUsers = async (ids) => {
+  const path = `/admin/delete/user/multiple`;
+  let formattedIds = [];
+  for (let i = 0; i < ids.length; i++) {
+    formattedIds.push(ids[i].id);
+  }
+  const body = { userIds: formattedIds };
+  await http.patch(path, body);
 };
 
 /**
@@ -69,7 +78,7 @@ export const adminGetUserDetails = async (id) => {
     departmentId: data.department?.id,
     gender: data.gender,
     departmentName: data.department?.name,
-    certificates: data.certificates ? data.certificates : 'notset',
+    certificates: data.certificates ? data.certificates : "notset",
     gradePoint: data.averageGradeScore ? data.averageGradeScore : 0,
     noOfCertificate: data.certificate ? data.certificate.length : 0,
     completedCourses: data.courseTrackingProgress
@@ -78,7 +87,7 @@ export const adminGetUserDetails = async (id) => {
     completedAssessment: data.assessmentScoreSheets
       ? data.assessmentScoreSheets.length
       : 0,
-    phone: data.phone ? data.phone : 'notset',
+    phone: data.phone ? data.phone : "notset",
     profilePics: data.profilePics,
     isInviteActive: data.isInviteActive,
   };

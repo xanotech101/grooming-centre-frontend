@@ -7,18 +7,23 @@ import useComponentIsMount from "../../../../hooks/useComponentIsMount";
 const useCertificateDetails = () => {
   const { handleGetOrSetAndGet } = useCache();
   const componentIsMount = useComponentIsMount();
-  const { course_id } = useParams();
-
+  const { course_id, id: user_id } = useParams();
+  console.log(user_id);
+  console.log(course_id);
   const [certificateDetails, setCertificateDetails] = useState({
     data: null,
     loading: false,
     err: null,
   });
-
+  const isAdmin = /admin/i.test(window.location.pathname);
   const fetcher = useCallback(async () => {
-    const { data } = await requestCertificateDetails(course_id);
-    console.log(data);
-    return data;
+    const { certificate } = await requestCertificateDetails(
+      course_id,
+      user_id,
+      isAdmin
+    );
+
+    return certificate;
   }, [course_id]);
   const fetchCertificateDetails = useCallback(async () => {
     setCertificateDetails({ loading: true });
