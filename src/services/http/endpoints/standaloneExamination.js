@@ -97,7 +97,7 @@ export const adminGetStandaloneExaminationListing = async (params) => {
     data: { data },
   } = await http.get(path, { params });
 
-  const examinations = data.rows.map((exam) => ({
+  const examinations = data?.data?.rows.map((exam) => ({
     id: exam.id,
     title: exam.title,
     duration: exam.duration,
@@ -108,8 +108,8 @@ export const adminGetStandaloneExaminationListing = async (params) => {
 
   return {
     examinations,
-    showingDocumentsCount: data.rows.length, // No pagination for now
-    totalDocumentsCount: data.count, // No pagination for now
+    showingDocumentsCount: data?.data?.rows.length, // No pagination for now
+    totalDocumentsCount: data.countData, // No pagination for now
     // showingDocumentsCount: data.length,
     // totalDocumentsCount: data.length,
   };

@@ -146,7 +146,7 @@ const StandaloneExaminationListingPage = () => {
       await adminGetStandaloneExaminationListing(props?.params);
 
     const rows = examinations.map(mapExaminationToRow);
-    console.log(examinations, "exam");
+    console.log(rows);
     return { rows, showingDocumentsCount, totalDocumentsCount };
   };
 
