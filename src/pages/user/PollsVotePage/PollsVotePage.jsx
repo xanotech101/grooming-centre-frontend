@@ -122,80 +122,79 @@ const PollsVotePage = () => {
         backgroundColor="white"
         marginTop={20}
         shadow="0px 2px 7px rgba(0, 0, 0, 0.1)"
+        padding={10}
       >
-        <Box
-          as="header"
-          color="white"
-          backgroundColor="primary.base"
-          padding={5}
-          paddingX={10}
-        >
-          <Heading as="h1" fontSize="heading.h4">
+        <Box as="header">
+          <Heading
+            as="h1"
+            fontSize="heading.h4"
+            backgroundColor="#800020"
+            padding={5}
+            color="white"
+          >
             Poll Question
           </Heading>
-        </Box>
-
-        <Flex paddingX={10} paddingY={5} height="100%">
-          <Flex
-            flexDirection="column"
-            as="main"
-            flex={1}
-            borderRight="1px"
-            borderColor="accent.2"
-            paddingRight={5}
-            marginRight={5}
-          >
-            {renderSubHeading(`Question 1 of 1`)}
+          <Flex paddingY={5} height="100%">
             <Flex
               flexDirection="column"
-              justifyContent="space-between"
-              as="form"
+              as="main"
               flex={1}
-              // minHeight="500px"
-              // onSubmit={
-              // 	shouldSubmit ? handleSubmitConfirmation : handleNextQuestion
-              // }
+              borderRight="1px"
+              borderColor="accent.2"
+              padding={5}
             >
-              <Box bg="accent.2" padding="1rem" marginBottom={6}>
-                <Text as="level2">{singlePoll?.poll?.question}</Text>
-              </Box>
-              <RadioGroup
-                defaultValue="1"
-                marginBottom={8}
+              {renderSubHeading(`Question 1 of 1`)}
+              <Flex
+                flexDirection="column"
+                justifyContent="space-between"
+                as="form"
                 flex={1}
-                onChange={setAnswer}
-                value={answer}
+                // minHeight="500px"
+                // onSubmit={
+                // 	shouldSubmit ? handleSubmitConfirmation : handleNextQuestion
+                // }
               >
-                <Stack spacing={4}>
-                  {singlePoll?.poll?.pollOptions?.map((option) => (
-                    <Radio key={option.id} value={option.id}>
-                      <Text>{option.text}</Text>
+                <Box bg="accent.2" padding="1rem" marginBottom={6}>
+                  <Text as="level2">{singlePoll?.poll?.question}</Text>
+                </Box>
+                <RadioGroup
+                  defaultValue="1"
+                  marginBottom={8}
+                  flex={1}
+                  onChange={setAnswer}
+                  value={answer}
+                >
+                  <Stack spacing={4}>
+                    {singlePoll?.poll?.pollOptions?.map((option) => (
+                      <Radio key={option.id} value={option.id}>
+                        <Text>{option.text}</Text>
+                      </Radio>
+                    ))}
+                    {singlePoll?.poll?.pollOptions.length === 0 && (
+                      <>No option for this question</>
+                    )}
+
+                    <Radio value={"default"} display="none">
+                      <Text>default</Text>
                     </Radio>
-                  ))}
-                  {singlePoll?.poll?.pollOptions.length === 0 && (
-                    <>No option for this question</>
-                  )}
+                  </Stack>
+                </RadioGroup>
 
-                  <Radio value={"default"} display="none">
-                    <Text>default</Text>
-                  </Radio>
-                </Stack>
-              </RadioGroup>
-
-              {singlePoll?.poll?.pollOptions.length > 0 && (
-                <Flex justifyContent="space-between">
-                  <Button
-                    isLoading={loading}
-                    onClick={chooseAnswer}
-                    disabled={loading || singlePoll?.voted}
-                  >
-                    {"Vote"}
-                  </Button>
-                </Flex>
-              )}
+                {singlePoll?.poll?.pollOptions.length > 0 && (
+                  <Flex justifyContent="space-between">
+                    <Button
+                      isLoading={loading}
+                      onClick={chooseAnswer}
+                      disabled={loading || singlePoll?.voted}
+                    >
+                      {"Vote"}
+                    </Button>
+                  </Flex>
+                )}
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
+        </Box>
       </Box>
     </Box>
   );
