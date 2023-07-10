@@ -18,6 +18,7 @@ import {
 import { PollsPageRoute } from "../../pages/user/PollsPage/PollsPage";
 import { StandalonePreAssessmentRoute } from "../../pages/user/StandaloneExamDetails/StandalonePreAssessment";
 import { ExampleRoute } from "../../pages/user/tabby";
+import { PollsVotePageRoute } from "../../pages/user/PollsVotePage/PollsVotePage";
 
 const MainArea = () => {
   return (
@@ -33,7 +34,7 @@ const MainArea = () => {
         <GradesPageRoute path="/courses/grade-overview" />
 
         <CertificatePageRoute path="/courses/:course_id/certificate" />
-
+        <PollsVotePageRoute path="/polls/:id/vote" />
         <CoursesPagesRoute path="/courses" />
         <PollsPageRoute exact path="/polls" />
         <StandalonePagesRoute exact path="/standalone-exams" />
