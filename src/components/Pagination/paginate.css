@@ -1,0 +1,26 @@
+/* style pagination with tailwind classes */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* .pagination__item {
+  @apply relative inline-flex items-center border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50;
+}
+.pagination__item a {
+  @apply px-4 py-2;
+}
+.pagination__item-previous {
+  @apply relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50;
+}
+
+.pagination__item-next {
+  @apply relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50;
+}
+
+.active {
+  @apply bg-primary border-primary text-white pointer-events-none cursor-not-allowed;
+} */

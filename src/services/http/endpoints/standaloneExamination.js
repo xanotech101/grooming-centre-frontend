@@ -137,12 +137,12 @@ export const adminGetAllStandaloneExaminationDetails = async (id) => {
   };
 };
 
-export const usersGetStandaloneExaminationListing = async () => {
+export const usersGetStandaloneExaminationListing = async (params) => {
   const path = `/stand-alone-examination/all`;
 
   const {
     data: { data },
-  } = await http.get(path);
+  } = await http.get(path, { params });
 
   const examinations = data.map((exam) => ({
     id: exam.id,
