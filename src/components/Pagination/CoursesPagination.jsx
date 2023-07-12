@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
-import { Button } from '../Button/Button';
+import React, { useEffect, useState } from "react";
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { Button } from "../Button/Button";
 
 const CoursesPagination = ({
   itemsPerPage,
@@ -11,7 +11,7 @@ const CoursesPagination = ({
 }) => {
   const pages = [];
   const [active, setActive] = useState(false);
-  const [pageNum, setPageNum] = useState('');
+  const [pageNum, setPageNum] = useState("");
   for (let i = 1; i <= Math.ceil(pageLength / itemsPerPage); i++) {
     pages.push(i);
   }
@@ -43,7 +43,7 @@ const CoursesPagination = ({
     return (
       <p
         className={`${
-          active && pageNum === number ? 'course-pagination_active' : ''
+          active && pageNum === number ? "course-pagination_active" : ""
         }`}
         onClick={(e) => handlePageChange(e, number)}
         key={number}

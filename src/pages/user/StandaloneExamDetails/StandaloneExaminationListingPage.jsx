@@ -16,17 +16,17 @@ import CoursesPagination from "../../../components/Pagination/CoursesPagination"
 
 const StandaloneExaminationListingPage = () => {
   const [exams, setExams] = useState([]);
-  console.log(exams, "jjj");
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(4);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const { examination, page, setPage } = useTakeStandalone();
+  const { examination } = useTakeStandalone();
   const { push } = useHistory();
   const toast = useToast();
-  console.log(exams, "exam");
+
   const handleNavigate = (length, id) => {
     if (length < 1) {
       push(`/standalone-exams/take/?exam=${id}`);

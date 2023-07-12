@@ -1,6 +1,6 @@
 import ReactPaginate from "react-paginate";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import "./Pagination.css";
+import "./paginate.css";
 const PER_PAGE = 5;
 
 function Pagination({

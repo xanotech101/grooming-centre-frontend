@@ -47,12 +47,12 @@ const StandaloneExamsStart = () => {
     index,
     questionId,
     optionId,
-    end
-  } = useStandalone({handleExam:()=>handleExamSubmit()});
+    end,
+  } = useStandalone({ handleExam: () => handleExamSubmit() });
   const toast = useToast();
   const questionArr = Object.values(questionId);
   const optionArr = Object.values(optionId);
-
+  console.log(assessment, "assess");
   const isExamination = useQueryParams().get("exam");
   const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
@@ -96,7 +96,7 @@ const StandaloneExamsStart = () => {
   //         count = 0;
   //         handleExamSubmit
   //         modalManager.onClose()
-        
+
   //       }
   //     }
   //   });
@@ -280,7 +280,10 @@ const StandaloneExamsStart = () => {
           </Box>
         </Box>
       )}
-      <NavigationBlocker when={!submitStatus.success && !error && isLoading &&end===true} disable={end}  />
+      <NavigationBlocker
+        when={!submitStatus.success && !error && isLoading && end === true}
+        disable={end}
+      />
 
       {isLoading ? (
         <PageLoaderLayout />

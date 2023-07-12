@@ -138,13 +138,13 @@ export const adminGetAllStandaloneExaminationDetails = async (id) => {
 };
 
 export const usersGetStandaloneExaminationListing = async (params) => {
-  const path = `/stand-alone-examination/all`;
+  const path = `/stand-alone-examination/all?pagination=false`;
 
   const {
     data: { data },
-  } = await http.get(path, { params });
+  } = await http.get(path);
 
-  const examinations = data.map((exam) => ({
+  const examinations = data.Data.map((exam) => ({
     id: exam.id,
     title: exam.title,
     duration: exam.duration,
@@ -168,7 +168,7 @@ export const getStandaloneExaminationDetails = async (id, forAdmin) => {
   let {
     data: { data },
   } = await http.get(path);
-
+  console.log(data, "data");
   const questionArray = data.standAloneExaminationQuestion;
 
   // shuffle questions
@@ -251,7 +251,7 @@ export const adminGetStandaloneExaminationParticipants = async (id, params) => {
 };
 
 export const getStandaloneExaminationParticipants = async (id) => {
-  const path = `/stand-alone-examination/participants/${id}`;
+  const path = `-examination/participants/${id}`;
 
   const {
     data: { data },
