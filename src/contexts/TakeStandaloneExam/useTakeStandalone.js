@@ -7,9 +7,7 @@ const useTakeStandalone = () => {
 
   const fetcher = useCallback(async () => {
     try {
-      const { examinations } = await usersGetStandaloneExaminationListing({
-        page,
-      });
+      const { examinations } = await usersGetStandaloneExaminationListing();
       console.log(examination);
       setExamination(examinations);
     } catch (error) {
