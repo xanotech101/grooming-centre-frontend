@@ -171,13 +171,22 @@ const CreateUserPage = ({
             const rowObj = utils.sheet_to_row_object_array(
               wb.Sheets[wb.SheetNames[0]]
             );
-            resolve(JSON.stringify(rowObj));
+
+            const updatedRowObj = rowObj.map((obj) => {
+              const updatedObj = {};
+              for (const [key, value] of Object.entries(obj)) {
+                updatedObj[key] = value.toLowerCase();
+              }
+              return updatedObj;
+            });
+
+            resolve(JSON.stringify(updatedRowObj));
           };
         });
       };
 
       const jsonObj = await getJson();
-
+      console.log(JSON.parse(jsonObj));
       const { message } = await adminInvitBatcheUser({
         departmentId: selectedDepartmentId,
         users: JSON.parse(jsonObj),
