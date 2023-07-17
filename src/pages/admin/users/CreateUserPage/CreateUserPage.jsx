@@ -180,7 +180,7 @@ const CreateUserPage = ({
 
       const { message } = await adminInvitBatcheUser({
         departmentId: selectedDepartmentId,
-        users: jsonObj,
+        users: JSON.parse(jsonObj),
       });
 
       setUploadingUsers(false);
