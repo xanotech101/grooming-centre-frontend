@@ -52,7 +52,7 @@ const StandaloneExamsStart = () => {
   const toast = useToast();
   const questionArr = Object.values(questionId);
   const optionArr = Object.values(optionId);
-  console.log(assessment, "assess");
+ 
   const isExamination = useQueryParams().get("exam");
   const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);

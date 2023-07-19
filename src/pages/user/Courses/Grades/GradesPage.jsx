@@ -666,7 +666,7 @@ const CourseOverviewCard = ({
               />
             </Box>
             <Text fontWeight="700" color="seondary.9" fontSize="18">
-              {`${examinationPercentage}%`}
+              {`${examinationPercentage}`}
             </Text>
           </Flex>
         </Box>

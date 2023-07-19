@@ -122,7 +122,7 @@ const EditStandalonePage = ({ assessment }) => {
         examinationId,
         body
       );
-
+   
       toast({
         description: capitalizeFirstLetter(message),
         position: "top",

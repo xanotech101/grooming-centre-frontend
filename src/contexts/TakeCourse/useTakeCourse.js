@@ -39,7 +39,7 @@ export const useTakeCourse = () => {
 
       try {
         await fetchCourseDetails();
-
+        
         // const data = await fetchTakeCourseData();
 
         // if (isMounted) {

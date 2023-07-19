@@ -137,7 +137,7 @@ export const adminGetAllStandaloneExaminationDetails = async (id) => {
   };
 };
 
-export const usersGetStandaloneExaminationListing = async (params) => {
+export const usersGetStandaloneExaminationListing = async () => {
   const path = `/stand-alone-examination/all?pagination=false`;
 
   const {

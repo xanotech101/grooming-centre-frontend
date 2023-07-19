@@ -41,7 +41,6 @@ const GradesPageUser = () => {
 
   const { grades, isLoading, myGrades } = manager;
 
-  console.log(grades);
   return (
     <>
       <Grades isLoading={isLoading} grades={grades} myGrades={myGrades} />

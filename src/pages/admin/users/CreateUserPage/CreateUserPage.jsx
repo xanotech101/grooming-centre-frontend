@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, GridItem, Stack } from "@chakra-ui/layout";
+import { Grid, GridItem, Stack, Flex } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { Route, useParams, useHistory } from "react-router-dom";
 import { read, utils } from "xlsx";
@@ -9,6 +9,7 @@ import {
   Breadcrumb,
   Link,
   Upload,
+  Button,
 } from "../../../../components";
 import { useApp, useCache } from "../../../../contexts";
 import { CreatePageLayout } from "../../../../layouts";
@@ -25,7 +26,7 @@ import { BreadcrumbItem, Box } from "@chakra-ui/react";
 import { populateSelectOptions } from "../../../../utils";
 import { useEffect, useMemo } from "react";
 import { useViewUserDetails } from "../..";
-
+import temp from "../../../../assets/images/temp.xlsx";
 const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
   metadata: propMetadata,
@@ -344,6 +345,8 @@ const CreateUserPage = ({
           submitButtonText="Upload"
           submitButtonIsLoading={uploadingUsers}
           onSubmit={onSubmitBatchUser}
+          template={true}
+          file={temp}
         >
           <Grid spacing={10} marginBottom={10}>
             <GridItem marginBottom={10}>
