@@ -7,16 +7,21 @@ import { useCache } from "../../../../contexts";
 import { Text } from "../../../../components";
 import { useQueryParams } from "../../../../hooks";
 import useStandalonePreview from "./useStandalonePreview";
-import { submitAssessment, submitExamination } from "../../../../services";
+import {
+  createCertificate,
+  submitAssessment,
+  submitExamination,
+} from "../../../../services";
 import { hasEnded, isUpcoming, sortByIndexField } from "../../../../utils";
 import { CongratsModalContent } from "../../../../layouts/user/Assessment/Modal";
 import useTimerCountdown from "../../../../layouts/user/Assessment/hooks/useTimerCountdown";
 import { useHistory } from "react-router-dom";
 import { Warning } from "@material-ui/icons";
 import { useLocation } from "react-router-dom/cjs/react-router-dom";
-const useStandalone = ({ handleExam }) => {
+const useStandalone = () => {
   const { assessment, isLoading, error, setError } = useStandalonePreview();
-  const { course_id } = useParams();
+  const { course_id, userId } = useParams();
+  console.log(userId, "jj");
   const isExamination = useQueryParams().get("exam");
   const [locate, setLocate] = useState("");
   const [end, setEnd] = useState(true);
@@ -84,7 +89,20 @@ const useStandalone = ({ handleExam }) => {
   // const {
   //   state: { user },
   // } = useApp();
-
+  const handleCert = async () => {
+    try {
+      const body = {
+        courseId: assessment.courseId,
+      };
+      const { message, data } = await createCertificate(body);
+    } catch (error) {
+      toast({
+        description: error.message,
+        position: "top",
+        status: "error",
+      });
+    }
+  };
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
       loading: true,
@@ -117,6 +135,7 @@ const useStandalone = ({ handleExam }) => {
 
       console.log(questionIdArr, optionIdArr);
 
+      await (isExamination && handleCert());
       await (isExamination ? submitExamination(body) : submitAssessment(body));
 
       setSubmitStatus({

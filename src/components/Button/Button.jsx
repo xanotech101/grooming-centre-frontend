@@ -116,6 +116,7 @@ export const Button = ({
       </IconButton>
     ) : (
       <ButtonChakraui
+        security="false"
         position="relative"
         {...getButtonSizeStyles()}
         {...props}

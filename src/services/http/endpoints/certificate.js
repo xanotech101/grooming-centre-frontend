@@ -15,6 +15,16 @@ export const requestCertificateDetails = async (courseId, userId, isAdmin) => {
   console.log(data);
   return { certificate: data };
 };
+export const createCertificate = async (body) => {
+  const path = `/certificate/create`;
+  const {
+    data: { message, data },
+  } = await http.post(path, body);
+  return {
+    message,
+    data,
+  };
+};
 export const CertificateList = async (params) => {
   const path = `/certificate/list`;
 

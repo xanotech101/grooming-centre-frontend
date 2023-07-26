@@ -1,6 +1,6 @@
-import { Box, Flex, Grid, HStack, Stack } from '@chakra-ui/layout';
-import { Radio, RadioGroup } from '@chakra-ui/radio';
-import { Route } from 'react-router-dom';
+import { Box, Flex, Grid, HStack, Stack } from "@chakra-ui/layout";
+import { Radio, RadioGroup } from "@chakra-ui/radio";
+import { Route } from "react-router-dom";
 import {
   Button,
   Heading,
@@ -8,12 +8,12 @@ import {
   RichTextToView,
   Text,
   Image,
-} from '../../../components';
-import breakpoints from '../../../theme/breakpoints';
-import { PageLoaderLayout } from '../../global/PageLoader/PageLoaderLayout';
-import { CustomModal } from './Modal';
-import { EmptyState } from '../..';
-import useAssessment from './hooks/useAssessment';
+} from "../../../components";
+import breakpoints from "../../../theme/breakpoints";
+import { PageLoaderLayout } from "../../global/PageLoader/PageLoaderLayout";
+import { CustomModal } from "./Modal";
+import { EmptyState } from "../..";
+import useAssessment from "./hooks/useAssessment";
 
 const AssessmentLayout = () => {
   const {
@@ -59,7 +59,10 @@ const AssessmentLayout = () => {
 
   const renderContent = () => (
     <>
-      <NavigationBlocker when={!submitStatus.success && !error && isLoading && end} disable={end} />
+      <NavigationBlocker
+        when={!submitStatus.success && !error && isLoading && end}
+        disable={end}
+      />
 
       {isLoading ? (
         <PageLoaderLayout />
@@ -162,7 +165,7 @@ const AssessmentLayout = () => {
                       marginBottom={8}
                       flex={1}
                       onChange={handleOptionSelect}
-                      value={selectedAnswers[currentQuestion?.id] || 'default'}
+                      value={selectedAnswers[currentQuestion?.id] || "default"}
                     >
                       <Stack spacing={4}>
                         {currentQuestion?.options?.map((option) => (
@@ -171,7 +174,7 @@ const AssessmentLayout = () => {
                           </Radio>
                         ))}
 
-                        <Radio value={'default'} display="none">
+                        <Radio value={"default"} display="none">
                           <Text>default</Text>
                         </Radio>
                       </Stack>
@@ -194,19 +197,19 @@ const AssessmentLayout = () => {
                         </Button>
                       )} */}
                       <Button type="submit">
-                        {shouldSubmit ? 'Submit' : 'Next'}
+                        {shouldSubmit ? "Submit" : "Next"}
                       </Button>
                     </Flex>
                   </Flex>
                 </Flex>
 
                 <Box as="aside" flex="0 0 232px">
-                  {renderSubHeading('Time Left')}
+                  {renderSubHeading("Time Left")}
 
                   <Flex justifyContent="space-between" marginBottom={6}>
                     <Box textAlign="center">
                       <Text bold as="level1">
-                        {timerCountdownManger.timeLeft.hours || '00'}
+                        {timerCountdownManger.timeLeft.hours || "00"}
                       </Text>
                       <Text color="accent.2">hours</Text>
                     </Box>
@@ -288,12 +291,12 @@ const AssessmentLayout = () => {
 const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
   const styleProps = answered
     ? {
-        backgroundColor: 'primary.base',
-        color: 'white',
-        borderColor: 'transparent',
+        backgroundColor: "primary.base",
+        color: "white",
+        borderColor: "transparent",
       }
     : {
-        borderColor: 'primary.base',
+        borderColor: "primary.base",
       };
 
   return (
@@ -307,7 +310,7 @@ const ButtonNavItem = ({ number, answered, isCurrent, onClick }) => {
       cursor="pointer"
       onClick={onClick}
       transition=".5s"
-      transform={isCurrent && 'scale(1.1)'}
+      transform={isCurrent && "scale(1.1)"}
       {...styleProps}
     >
       <Text bold as="level1">

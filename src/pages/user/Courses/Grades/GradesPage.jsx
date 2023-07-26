@@ -653,7 +653,7 @@ const CourseOverviewCard = ({
               <Progress size="xs" value={assessmentProgress} />
             </Box>
             <Text fontWeight="700" color="seondary.9" fontSize="18">
-              {`${assessmentPercentage}%`}
+              {`${assessmentPercentage}`}
             </Text>
           </Flex>
           <Flex justifyContent="space-between">

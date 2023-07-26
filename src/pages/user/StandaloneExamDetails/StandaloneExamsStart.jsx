@@ -48,11 +48,11 @@ const StandaloneExamsStart = () => {
     questionId,
     optionId,
     end,
-  } = useStandalone({ handleExam: () => handleExamSubmit() });
+  } = useStandalone();
   const toast = useToast();
   const questionArr = Object.values(questionId);
   const optionArr = Object.values(optionId);
- 
+
   const isExamination = useQueryParams().get("exam");
   const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);

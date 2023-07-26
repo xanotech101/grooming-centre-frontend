@@ -23,6 +23,9 @@ export const useDownload = () => {
           position: "top",
           status: "error",
         });
+        if (err === 401) {
+          window.reload();
+        }
       })
       .finally(() => {
         setIsLoading(false);
