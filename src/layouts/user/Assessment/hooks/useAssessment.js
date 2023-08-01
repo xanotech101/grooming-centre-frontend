@@ -34,7 +34,7 @@ const useAssessment = () => {
   assessment.questions?.forEach((question) => {
     question.options = sortByIndexField(question.options, "optionIndex");
   });
-
+  const file = assessment?.questions.map((q) => q?.file);
   const [currentQuestion, setCurrentQuestion] = useState({});
 
   const timerCountdownManger = useTimerCountdown({
@@ -298,7 +298,6 @@ const useAssessment = () => {
       submitProps: {
         onClick: () => {
           handleSubmit();
-          handleCert();
         },
       },
     });
@@ -345,6 +344,7 @@ const useAssessment = () => {
     submitStatus,
     currentQuestion,
     shouldSubmit,
+    file,
     disablePreviousQuestion,
     selectedAnswers,
     handleSubmitConfirmation,

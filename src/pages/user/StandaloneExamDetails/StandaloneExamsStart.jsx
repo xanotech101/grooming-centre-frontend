@@ -368,12 +368,12 @@ const StandaloneExamsStart = () => {
                         flex={0.2}
                         text={currentQuestion?.question}
                       />
-                      {currentQuestion?.image && (
+                      {currentQuestion?.file && (
                         <Image
-                          src={currentQuestion?.image}
+                          src={currentQuestion?.file}
                           alt={currentQuestion?.question}
-                          width="100%"
-                          height="400px"
+                          width="100px"
+                          height="100px"
                           rounded="sm"
                         />
                       )}
