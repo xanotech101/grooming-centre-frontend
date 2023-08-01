@@ -92,8 +92,9 @@ const AssessmentLayout = () => {
             justifyContent="center"
             alignItems="flex-start"
             backgroundColor="accent.1"
-            height="100vh"
+            minHeight="100vh"
             width="100vw"
+            pb={10}
           >
             <Box
               width="100%"
@@ -153,8 +154,8 @@ const AssessmentLayout = () => {
                         <Image
                           src={currentQuestion?.file}
                           alt={currentQuestion?.question}
-                          width="100px"
-                          height="100px"
+                          width="200px"
+                          height="200px"
                           rounded="sm"
                         />
                       )}

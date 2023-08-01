@@ -315,6 +315,7 @@ const StandaloneExamsStart = () => {
             backgroundColor="accent.1"
             height="100vh"
             width="100vw"
+            pb={20}
           >
             <Box
               width="100%"
@@ -372,8 +373,8 @@ const StandaloneExamsStart = () => {
                         <Image
                           src={currentQuestion?.file}
                           alt={currentQuestion?.question}
-                          width="100px"
-                          height="100px"
+                          width="200px"
+                          height="200px"
                           rounded="sm"
                         />
                       )}

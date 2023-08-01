@@ -250,6 +250,7 @@ const useAssessment = () => {
         redirectLink={`/courses/details/${course_id}`}
         contextText={assessment.topic}
         score={score}
+        isExamination={isExamination}
       />
     );
     timerCountdownManger.handleStopCountdown();
