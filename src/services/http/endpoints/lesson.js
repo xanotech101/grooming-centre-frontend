@@ -1,4 +1,4 @@
-import { http } from '../http';
+import { http } from "../http";
 
 /**
  * Endpoint to get `lesson-details`
@@ -17,7 +17,7 @@ export const requestLessonDetails = async (id) => {
     lesson: {
       ...data,
       hasEnded: data.lessonTracking?.[0]?.isCompleted,
-      file: data.file.replace('http://', 'https://'),
+      file: data.file.replace("http://", "https://"),
     },
   };
 };
@@ -105,4 +105,13 @@ export const adminGetLessonListing = async (courseId, params, body) => {
     showingDocumentsCount: data.rows.length,
     totalDocumentsCount: data.rows.length,
   };
+};
+export const adminDeleteLesson = async (ids) => {
+  const path = `/lesson/delete`;
+  let formattedIds = [];
+  for (let i = 0; i < ids.length; i++) {
+    formattedIds.push(ids[i].id);
+  }
+  const body = { lessonIds: formattedIds };
+  await http.delete(path, { data: body });
 };

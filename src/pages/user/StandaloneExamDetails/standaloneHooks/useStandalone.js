@@ -21,7 +21,6 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom";
 const useStandalone = () => {
   const { assessment, isLoading, error, setError } = useStandalonePreview();
   const { course_id, userId } = useParams();
-  console.log(userId, "jj");
   const isExamination = useQueryParams().get("exam");
   const [locate, setLocate] = useState("");
   const [end, setEnd] = useState(true);
@@ -89,20 +88,7 @@ const useStandalone = () => {
   // const {
   //   state: { user },
   // } = useApp();
-  const handleCert = async () => {
-    try {
-      const body = {
-        courseId: assessment.courseId,
-      };
-      const { message, data } = await createCertificate(body);
-    } catch (error) {
-      toast({
-        description: error.message,
-        position: "top",
-        status: "error",
-      });
-    }
-  };
+  
   const handleSubmit = useCallback(async () => {
     setSubmitStatus({
       loading: true,
@@ -135,7 +121,7 @@ const useStandalone = () => {
 
       console.log(questionIdArr, optionIdArr);
 
-      await (isExamination && handleCert());
+   
       await (isExamination ? submitExamination(body) : submitAssessment(body));
 
       setSubmitStatus({

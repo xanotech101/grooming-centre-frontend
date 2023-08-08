@@ -1,12 +1,12 @@
-import { Route } from 'react-router-dom';
-import { Box } from '@chakra-ui/layout';
+import { Route } from "react-router-dom";
+import { Box } from "@chakra-ui/layout";
 
-import { BreadcrumbItem, Tag } from '@chakra-ui/react';
-import { FaSortAmountUpAlt } from 'react-icons/fa';
+import { BreadcrumbItem, Tag } from "@chakra-ui/react";
+import { FaSortAmountUpAlt } from "react-icons/fa";
 
-import { getDuration } from '../../../utils';
-import dayjs from 'dayjs';
-import { useTableRows } from '../../../hooks';
+import { getDuration } from "../../../utils";
+import dayjs from "dayjs";
+import { useTableRows } from "../../../hooks";
 import {
   Breadcrumb,
   Button,
@@ -14,43 +14,44 @@ import {
   Link,
   Table,
   Text,
-} from '../../../components';
+} from "../../../components";
 import {
+  adminDeleteAnnouncement,
   adminDeleteStandaloneExaminationQuestion,
   adminGetAnnouncementListing,
   adminGetStandaloneExaminationListing,
-} from '../../../services';
-import { AdminMainAreaWrapper } from '../../../layouts';
+} from "../../../services";
+import { AdminMainAreaWrapper } from "../../../layouts";
 
 const tableProps = {
   filterControls: [
     {
-      triggerText: 'Sort',
-      queryKey: 'sort',
+      triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
-      width: '200px',
-      position: 'right-bottom',
+      width: "200px",
+      position: "right-bottom",
       // noFilterTags: true,
       body: {
         radios: [
           {
-            label: 'Alphabetically: ascending',
-            queryValue: 'asc',
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
             additionalParams: { date: false },
           },
           {
-            label: 'Alphabetically: descending',
-            queryValue: 'desc',
+            label: "Alphabetically: descending",
+            queryValue: "desc",
             additionalParams: { date: false },
           },
           {
-            label: 'Date: ascending',
-            queryValue: 'asc',
+            label: "Date: ascending",
+            queryValue: "asc",
             additionalParams: { date: true },
           },
           {
-            label: 'Date: descending',
-            queryValue: 'desc',
+            label: "Date: descending",
+            queryValue: "desc",
             additionalParams: { date: true },
           },
         ],
@@ -60,10 +61,10 @@ const tableProps = {
 
   columns: [
     {
-      id: '1',
-      key: 'department',
-      text: 'Department',
-      fraction: '200px',
+      id: "1",
+      key: "department",
+      text: "Department",
+      fraction: "200px",
       renderContent: (data) => (
         <Link href={`/admin/announcement/edit/?announcement=${data.courseId}`}>
           <Text>{data.text}</Text>
@@ -71,29 +72,29 @@ const tableProps = {
       ),
     },
     {
-      id: '2',
-      key: 'author',
-      text: 'Author',
-      fraction: '250px',
+      id: "2",
+      key: "author",
+      text: "Author",
+      fraction: "250px",
     },
     {
-      id: '3',
-      key: 'text',
-      text: 'Content',
-      fraction: '250px',
+      id: "3",
+      key: "text",
+      text: "Content",
+      fraction: "250px",
     },
     {
-      id: '4',
-      key: 'createdAt',
-      text: 'Date Created',
-      fraction: '250px',
+      id: "4",
+      key: "createdAt",
+      text: "Date Created",
+      fraction: "250px",
     },
   ],
 
   options: {
     action: [
       {
-        text: 'Edit',
+        text: "Edit",
         link: (announcement) =>
           `/admin/announcement/edit/?announcement=${announcement.id}`,
       },
@@ -102,11 +103,9 @@ const tableProps = {
       },
     ],
     selection: true,
-    // multipleDeleteFetcher: async (selectedExaminations) => {
-    //   await adminDeleteStandaloneExaminationQuestion(
-    //     selectedExaminations[0]?.id
-    //   );
-    // },
+    multipleDeleteFetcher: async (selectedExaminations) => {
+      await adminDeleteAnnouncement(selectedExaminations[0]?.id);
+    },
     pagination: true,
   },
 };
@@ -118,9 +117,9 @@ const AnnouncementListing = () => {
       text: announcement.department,
       courseId: announcement.id,
     },
-    author: announcement.firstName + ' ' + announcement.lastName,
-    text: announcement.text.substring(0, 15).concat('...'),
-    createdAt: dayjs(announcement.createdAt).format('DD/MM/YYYY h:mm a'),
+    author: announcement.firstName + " " + announcement.lastName,
+    text: announcement.text.substring(0, 15).concat("..."),
+    createdAt: dayjs(announcement.createdAt).format("DD/MM/YYYY h:mm a"),
   });
 
   const fetcher = (props) => async () => {
@@ -147,9 +146,9 @@ const AnnouncementListing = () => {
 
       <Box
         display="flex"
-        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+        flexDirection={{ base: "column", md: "column", lg: "row" }}
         justifyContent="space-between"
-        alignItems={{ base: 'flex-start', md: 'flex-start', lg: 'center' }}
+        alignItems={{ base: "flex-start", md: "flex-start", lg: "center" }}
         paddingBottom={5}
         gap={5}
         marginBottom={5}

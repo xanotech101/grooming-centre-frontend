@@ -1,10 +1,10 @@
-import { http } from '../http';
+import { http } from "../http";
 
 /**
  * Endpoint to get, create and edit `announcements`
  */
 export const adminCreateAnnouncement = async (body) => {
-  const path = '/announcement/create';
+  const path = "/announcement/create";
 
   const {
     data: { message, data },
@@ -73,9 +73,18 @@ export const adminEditAnnouncement = async (id, body) => {
 
   return { message };
 };
+export const adminDeleteAnnouncement = async (id) => {
+  const path = `/announcement/delete/${id}`;
+
+  const {
+    data: { message },
+  } = await http.delete(path);
+
+  return { message };
+};
 
 export const userGetAnnouncement = async () => {
-  const path = '/announcement/user';
+  const path = "/announcement/user";
 
   const {
     data: { data, message },

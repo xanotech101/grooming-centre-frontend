@@ -118,7 +118,6 @@ const tableProps = {
         isDelete: true,
       },
     ],
-    selection: true,
     multipleDeleteFetcher: async (selectedExaminations) => {
       await deleteStandaloneExamination(selectedExaminations[0]?.id);
     },

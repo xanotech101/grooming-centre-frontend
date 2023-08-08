@@ -1,6 +1,6 @@
-import { Route, useParams } from 'react-router-dom';
-import { Flex } from '@chakra-ui/layout';
-import { BreadcrumbItem } from '@chakra-ui/react';
+import { Route, useParams } from "react-router-dom";
+import { Flex } from "@chakra-ui/layout";
+import { BreadcrumbItem } from "@chakra-ui/react";
 import {
   Button,
   Heading,
@@ -8,46 +8,47 @@ import {
   Breadcrumb,
   Link,
   Text,
-} from '../../../../../components';
-import { FaSortAmountUpAlt } from 'react-icons/fa';
-import { AdminMainAreaWrapper } from '../../../../../layouts/admin/MainArea/Wrapper';
+} from "../../../../../components";
+import { FaSortAmountUpAlt } from "react-icons/fa";
+import { AdminMainAreaWrapper } from "../../../../../layouts/admin/MainArea/Wrapper";
 import {
+  adminDeleteAssessment,
   adminDeleteMultipleCourses,
   adminGetAssessmentListing,
-} from '../../../../../services';
-import { getDuration } from '../../../../../utils';
-import dayjs from 'dayjs';
-import { useTableRows } from '../../../../../hooks';
+} from "../../../../../services";
+import { getDuration } from "../../../../../utils";
+import dayjs from "dayjs";
+import { useTableRows } from "../../../../../hooks";
 
 const tableProps = {
   filterControls: [
     {
-      triggerText: 'Sort',
-      queryKey: 'sort',
+      triggerText: "Sort",
+      queryKey: "sort",
       triggerIcon: <FaSortAmountUpAlt />,
-      width: '200px',
-      position: 'right-bottom',
+      width: "200px",
+      position: "right-bottom",
       // noFilterTags: true,
       body: {
         radios: [
           {
-            label: 'Alphabetically: ascending',
-            queryValue: 'asc',
+            label: "Alphabetically: ascending",
+            queryValue: "asc",
             additionalParams: { date: false },
           },
           {
-            label: 'Alphabetically: descending',
-            queryValue: 'desc',
+            label: "Alphabetically: descending",
+            queryValue: "desc",
             additionalParams: { date: false },
           },
           {
-            label: 'Date: ascending',
-            queryValue: 'asc',
+            label: "Date: ascending",
+            queryValue: "asc",
             additionalParams: { date: true },
           },
           {
-            label: 'Date: descending',
-            queryValue: 'desc',
+            label: "Date: descending",
+            queryValue: "desc",
             additionalParams: { date: true },
           },
         ],
@@ -57,10 +58,10 @@ const tableProps = {
 
   columns: [
     {
-      id: '2',
-      key: 'title',
-      text: 'Assessment Title',
-      fraction: '2fr',
+      id: "2",
+      key: "title",
+      text: "Assessment Title",
+      fraction: "2fr",
       renderContent: (data) => (
         <Link
           href={`/admin/courses/${data.courseId}/assessment/${data.assessmentId}/overview`}
@@ -70,23 +71,23 @@ const tableProps = {
       ),
     },
     {
-      id: '4',
-      key: 'startDate',
-      text: 'Start Date',
-      fraction: '200px',
+      id: "4",
+      key: "startDate",
+      text: "Start Date",
+      fraction: "200px",
     },
     {
-      id: '5',
-      key: 'duration',
-      text: 'Duration',
-      fraction: '150px',
+      id: "5",
+      key: "duration",
+      text: "Duration",
+      fraction: "150px",
     },
   ],
 
   options: {
     action: [
       {
-        text: 'Edit',
+        text: "Edit",
         link: (assessment) =>
           `/admin/courses/${assessment.courseId}/assessment/${assessment.id}/overview`,
       },
@@ -96,8 +97,8 @@ const tableProps = {
     ],
     selection: true,
     multipleDeleteFetcher: async (selectedAssessments) => {
-      console.log(selectedAssessments);
-      await adminDeleteMultipleCourses();
+      console.log(selectedAssessments[0]?.id, "id");
+      await adminDeleteAssessment(selectedAssessments[0]?.id);
     },
     pagination: false,
   },
@@ -110,7 +111,7 @@ const AssessmentListingPage = () => {
     id: assessment.id,
     courseId,
     title: { text: assessment.title, assessmentId: assessment.id, courseId },
-    startDate: dayjs(assessment.startTime).format('DD/MM/YYYY h:mm a'),
+    startDate: dayjs(assessment.startTime).format("DD/MM/YYYY h:mm a"),
     duration: getDuration(assessment.duration).combinedText,
   });
 

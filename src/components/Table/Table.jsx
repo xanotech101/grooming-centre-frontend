@@ -1,18 +1,18 @@
-import { Box, Flex, StackDivider } from '@chakra-ui/layout';
-import PropTypes from 'prop-types';
-import Header from './Header/Header';
-import TableHead from './TableHead/TableHead';
-import TableBody from './TableBody/TableBody';
-import { useState } from 'react';
-import { Button, Text } from '..';
-import { DeleteMenuItemButton } from '../Cards/QuestionListCard';
-import { AiFillMinusSquare } from 'react-icons/ai';
-import { BiTrash } from 'react-icons/bi';
-import breakpoints from '../../theme/breakpoints';
-import { useFetch } from '../../hooks';
-import { capitalizeFirstLetter } from '../../utils';
-import { useToast } from '@chakra-ui/toast';
-import { useEffect } from 'react';
+import { Box, Flex, StackDivider } from "@chakra-ui/layout";
+import PropTypes from "prop-types";
+import Header from "./Header/Header";
+import TableHead from "./TableHead/TableHead";
+import TableBody from "./TableBody/TableBody";
+import { useState } from "react";
+import { Button, Text } from "..";
+import { DeleteMenuItemButton } from "../Cards/QuestionListCard";
+import { AiFillMinusSquare } from "react-icons/ai";
+import { BiTrash } from "react-icons/bi";
+import breakpoints from "../../theme/breakpoints";
+import { useFetch } from "../../hooks";
+import { capitalizeFirstLetter } from "../../utils";
+import { useToast } from "@chakra-ui/toast";
+import { useEffect } from "react";
 
 const useTable = ({
   rowsData,
@@ -132,17 +132,17 @@ const useTable = ({
       handleDeselectAllRows();
 
       toastBread({
-        description: capitalizeFirstLetter('deleted successfully'),
-        position: 'top',
-        status: 'success',
+        description: capitalizeFirstLetter("deleted successfully"),
+        position: "top",
+        status: "success",
       });
     };
 
     const onError = (err) => {
       toastBread({
         description: capitalizeFirstLetter(err.message),
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     };
 
@@ -178,8 +178,8 @@ export const Table = ({
   generalRowStyles,
   handleFetch,
   // Calc from the width of the aside and margins
-  width = 'calc(100vw - 270px - 40px)',
-  maxWidth = `calc(${breakpoints['laptop']} + 100px)`,
+  width = "calc(100vw - 270px - 40px)",
+  maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
 }) => {
   const manager = useTable({
     rowsData: rows.data?.rows,
@@ -191,14 +191,14 @@ export const Table = ({
 
   const getTemplateColumns = () =>
     columns.reduce(
-      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : '2fr '),
-      ''
+      (prev, col) => (prev += col.fraction ? `${col.fraction} ` : "2fr "),
+      ""
     );
 
   generalRowStyles = {
     ...generalRowStyles,
-    borderBottom: '1px',
-    borderColor: 'accent.1',
+    borderBottom: "1px",
+    borderColor: "accent.1",
   };
 
   const generalCellStyles = {
@@ -210,7 +210,7 @@ export const Table = ({
   const checkboxStyles = {
     ...generalCellStyles,
     // paddingLeft: 5,
-    transform: 'translate(2px, 5px)',
+    transform: "translate(2px, 5px)",
   };
 
   const commonProps = {

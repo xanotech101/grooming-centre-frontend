@@ -217,7 +217,7 @@ export const adminPublishCourse = async (id) => {
  * @returns {Promise<{ course: Course }>}
  */
 export const adminDeleteCourse = async (id) => {
-  const path = `/course/delete/${id}`;
+  const path = `/course/${id}`;
 
   await http.delete(path);
 };

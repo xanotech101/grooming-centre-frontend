@@ -11,6 +11,7 @@ import {
 } from "../../../components";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
+  adminDeleteDepartment,
   adminDeleteMultipleCourses,
   adminGetDepartmentListing,
 } from "../../../services";
@@ -114,8 +115,10 @@ const DepartmentListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedDepartments) => {
-        console.log(selectedDepartments);
-        await adminDeleteMultipleCourses();
+        let format = [];
+        format.push(selectedDepartments.map((datum) => datum.id));
+        
+        await adminDeleteDepartment(selectedDepartments);
       },
       pagination: true,
     },
