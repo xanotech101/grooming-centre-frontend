@@ -1,6 +1,6 @@
-import { Flex } from '@chakra-ui/layout';
-import { Spinner, Image, Text, Heading } from '../../../components';
-import emptyImage from '../../../assets/images/empty-events.svg';
+import { Flex } from "@chakra-ui/layout";
+import { Spinner, Image, Text, Heading } from "../../../components";
+import emptyImage from "../../../assets/images/empty-events.svg";
 
 export const PageLoaderLayout = ({ children = <Spinner />, ...rest }) => {
   return (

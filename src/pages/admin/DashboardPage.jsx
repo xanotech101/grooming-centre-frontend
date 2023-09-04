@@ -1,26 +1,26 @@
-import { Box, Center, Flex, Grid, GridItem } from '@chakra-ui/layout';
-import { useCallback, useEffect } from 'react';
-import { Doughnut } from 'react-chartjs-2';
-import { FiUsers } from 'react-icons/fi';
-import { GiBookshelf, GiSpellBook } from 'react-icons/gi';
+import { Box, Center, Flex, Grid, GridItem } from "@chakra-ui/layout";
+import { useCallback, useEffect } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { FiUsers } from "react-icons/fi";
+import { GiBookshelf, GiSpellBook } from "react-icons/gi";
 // import { IoMdMore } from "react-icons/io";
-import { IoCalendarOutline } from 'react-icons/io5';
-import { Route } from 'react-router-dom';
+import { IoCalendarOutline } from "react-icons/io5";
+import { Route } from "react-router-dom";
 import {
   Button,
   // Button,
   SkeletonText,
   Text,
-} from '../../components';
-import { useFetchAndCache } from '../../hooks';
-import { AdminMainAreaWrapper } from '../../layouts';
-import { adminGetDashboardStats } from '../../services';
-import Carousel from 'react-elastic-carousel';
-import { MdVideoLibrary } from 'react-icons/md';
-import { FaRegFileAudio } from 'react-icons/fa';
-import { SkeletonCircle } from '@chakra-ui/skeleton';
-import colors from '../../theme/colors';
-import { utils, writeFile } from 'xlsx';
+} from "../../components";
+import { useFetchAndCache } from "../../hooks";
+import { AdminMainAreaWrapper } from "../../layouts";
+import { adminGetDashboardStats } from "../../services";
+import Carousel from "react-elastic-carousel";
+import { MdVideoLibrary } from "react-icons/md";
+import { FaRegFileAudio } from "react-icons/fa";
+import { SkeletonCircle } from "@chakra-ui/skeleton";
+import colors from "../../theme/colors";
+import { utils, writeFile } from "xlsx";
 
 const useDashboardStats = () => {
   const { resource: stats, handleFetchResource } = useFetchAndCache();
@@ -31,7 +31,7 @@ const useDashboardStats = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchResource({ cacheKey: 'dashboardStats', fetcher });
+    handleFetchResource({ cacheKey: "dashboardStats", fetcher });
   }, [handleFetchResource, fetcher]);
 
   return {
@@ -86,7 +86,7 @@ const DashboardPage = () => {
 
     options: {
       plugins: {
-        legend: { position: 'bottom' },
+        legend: { position: "bottom" },
       },
     },
   };
@@ -99,8 +99,8 @@ const DashboardPage = () => {
           data: [...(roleUsers || [])],
           backgroundColor: [
             colors.primary.base,
-            colors.secondary['4'],
-            colors.accent['7'],
+            colors.secondary["4"],
+            colors.accent["7"],
           ],
           borderWidth: 0,
         },
@@ -109,7 +109,7 @@ const DashboardPage = () => {
 
     options: {
       plugins: {
-        legend: { position: 'bottom' },
+        legend: { position: "bottom" },
       },
     },
   };
@@ -118,50 +118,50 @@ const DashboardPage = () => {
     const wb = utils.book_new();
     const ws = utils.json_to_sheet([
       {
-        column1: 'No of Courses',
+        column1: "No of Courses",
         column2: stats.data?.courses?.length,
       },
       {
-        column1: 'No of Users',
+        column1: "No of Users",
         column2: stats.data?.users.length,
       },
       {
-        column1: 'Published Courses',
+        column1: "Published Courses",
         column2: published?.length,
       },
       {
-        column1: '',
-        column2: '',
+        column1: "",
+        column2: "",
       },
       {
-        column1: 'DEPARTMENTS',
-        column2: '',
+        column1: "DEPARTMENTS",
+        column2: "",
       },
       ...departmentName?.map((dept, i) => ({
         column1: dept,
         column2: departmentUsers[i],
       })),
       {
-        column1: '',
-        column2: '',
+        column1: "",
+        column2: "",
       },
       {
-        column1: 'ROLES',
-        column2: '',
+        column1: "ROLES",
+        column2: "",
       },
       ...roleName?.map((dept, i) => ({
         column1: dept,
         column2: roleUsers[i],
       })),
     ]);
-    utils.book_append_sheet(wb, ws, 'Orders');
-    writeFile(wb, 'DashboardData.xlsx');
+    utils.book_append_sheet(wb, ws, "Orders");
+    writeFile(wb, "DashboardData.xlsx");
   };
 
   return (
     <AdminMainAreaWrapper
       marginBottom={4}
-      marginRight={{ lg: '5', md: '5', sm: '5' }}
+      marginRight={{ lg: "5", md: "5", sm: "5" }}
     >
       <Box marginTop="20px" display="flex" justifyContent="flex-end">
         <Button onClick={() => handleGetData()}>Export Dashboard</Button>
@@ -169,7 +169,7 @@ const DashboardPage = () => {
 
       <Grid
         marginY={4}
-        templateColumns={{ lg: 'repeat(3, 1fr)', sm: null, md: '1fr' }}
+        templateColumns={{ lg: "repeat(3, 1fr)", sm: null, md: "1fr" }}
         gap={6}
       >
         <GridItem>
@@ -186,7 +186,7 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={stats.loading ? 'none' : 'secondary.5'}
+            iconBackgroundColor={stats.loading ? "none" : "others.4"}
             icon={
               stats.loading ? (
                 <SkeletonCircle />
@@ -215,7 +215,7 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={stats.loading ? 'none' : 'secondary.5'}
+            iconBackgroundColor={stats.loading ? "none" : "others.4"}
             icon={
               stats.loading ? (
                 <SkeletonCircle />
@@ -241,7 +241,7 @@ const DashboardPage = () => {
                 </Flex>
               )
             }
-            iconBackgroundColor={stats.loading ? 'none' : 'secondary.5'}
+            iconBackgroundColor={stats.loading ? "none" : "others.4"}
             icon={
               stats.loading ? (
                 <SkeletonCircle />
@@ -253,20 +253,20 @@ const DashboardPage = () => {
         </GridItem>
       </Grid>
       <Flex
-        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+        flexDirection={{ base: "column", md: "column", lg: "row" }}
         rowGap={5}
       >
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width={{ sm: '100%', md: '100%', lg: '50%' }}
+          width={{ sm: "100%", md: "100%", lg: "50%" }}
           // height="600px"
           paddingY={4}
           paddingX={6}
         >
           <Flex
             justifyContent="space-between"
-            flexDirection={{ sm: 'column', md: 'column', lg: 'row' }}
+            flexDirection={{ sm: "column", md: "column", lg: "row" }}
           >
             {departmentName ? (
               <Text fontSize="heading.h3" bold>
@@ -333,7 +333,7 @@ const DashboardPage = () => {
         <Box
           boxShadow="0px 1px 30px rgba(63, 63, 68, 0.05)"
           backgroundColor="white"
-          width={{ lg: '50%', sm: '100%', md: '100%' }}
+          width={{ lg: "50%", sm: "100%", md: "100%" }}
           // height="600px"
           paddingY={4}
           paddingX={6}
@@ -343,7 +343,7 @@ const DashboardPage = () => {
           <Flex
             paddingBottom={4}
             justifyContent="space-between"
-            flexDirection={{ sm: 'column', md: 'column', lg: 'row' }}
+            flexDirection={{ sm: "column", md: "column", lg: "row" }}
           >
             {stats.loading ? (
               <SkeletonText numberOfLines={1} width={40} />
@@ -384,7 +384,7 @@ const DashboardPage = () => {
                       {`${stats.data?.video?.length} uploaded resources`}
                     </Text>
                   </Flex>
-                  <MdVideoLibrary color="#BD1F46" size="32px" />
+                  <MdVideoLibrary color="#9e0b94" size="32px" />
                 </Flex>
               )}
             </Box>
@@ -413,7 +413,7 @@ const DashboardPage = () => {
                     </Text>
                     <Text fontSize="text.level1">{`${stats.data?.pdf.length} uploaded resources`}</Text>
                   </Flex>
-                  <GiSpellBook color="#BD1F46" size="32px" />
+                  <GiSpellBook color="#9e0b94" size="32px" />
                 </Flex>
               )}
             </Box>
@@ -442,7 +442,7 @@ const DashboardPage = () => {
                     </Text>
                     <Text fontSize="text.level1">{`${stats.data?.audio?.length} uploaded resources`}</Text>
                   </Flex>
-                  <FaRegFileAudio color="#BD1F46" size="32px" />
+                  <FaRegFileAudio color="#9e0b94" size="32px" />
                 </Flex>
               )}
             </Box>

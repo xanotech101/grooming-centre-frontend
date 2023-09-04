@@ -16,7 +16,7 @@ const NewPasswordPage = () => {
   // useRedirectNonAuthUserToSigninPage();
   const {
     replace,
-		location: { pathname }
+    location: { pathname },
   } = useHistory();
 
   const toast = useToast();
@@ -31,16 +31,14 @@ const NewPasswordPage = () => {
 
   const { handleLogout } = useApp();
 
-  const splitUrl = pathname.split('/');
+  const splitUrl = pathname.split("/");
   const token = splitUrl[splitUrl.length - 1];
 
   const onSubmit = async (data) => {
-
     try {
       const handleRequest = (body) =>
         token ? userResetPassword(body, token) : userCreateNewPassword(body);
 
-      
       if (data.password !== data.confirmPassword) {
         throw new Error("Passwords must match");
       }
@@ -55,8 +53,8 @@ const NewPasswordPage = () => {
       });
       handleLogout();
       reset();
-      
-      replace("/auth/signin");
+
+      replace("");
     } catch (err) {
       toast({
         description: capitalizeFirstLetter(err.message),

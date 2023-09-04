@@ -23,7 +23,7 @@ const StandaloneExaminationListingPage = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const { examination,page,setPage } = useTakeStandalone();
+  const { examination, page, setPage } = useTakeStandalone();
   const { push } = useHistory();
   const toast = useToast();
 
@@ -123,7 +123,7 @@ const StandaloneExaminationListingPage = () => {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    background: "#65172A",
+                    background: "#660066",
                     alignItems: "center",
                     padding: "4px",
                     borderTopLeftRadius: "8px",

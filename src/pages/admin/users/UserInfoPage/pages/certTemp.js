@@ -19,7 +19,7 @@ export const Certificate = ({ name, title }) => {
 
           <div
             style={{
-              backgroundColor: "#800020",
+              backgroundColor: "#660066",
               padding: "20px",
               overflow: "hidden",
               position: "relative",
@@ -96,7 +96,7 @@ export const Certificate = ({ name, title }) => {
                     }}
                   >
                     <div className="line-c">
-                      <p>{truncateText(title, 20)}</p>
+                      <p className="w-[200px]">{title}</p>
                     </div>
                   </div>
                   <div

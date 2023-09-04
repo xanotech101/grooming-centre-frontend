@@ -128,7 +128,7 @@ const PollsVotePage = () => {
           <Heading
             as="h1"
             fontSize="heading.h4"
-            backgroundColor="#800020"
+            backgroundColor="#660060"
             padding={5}
             color="white"
           >

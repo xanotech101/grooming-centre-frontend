@@ -1,9 +1,9 @@
-import { Box, Flex } from '@chakra-ui/layout';
-import { IoArrowBack } from 'react-icons/io5';
-import { useParams } from 'react-router';
-import { Button, Link, Text } from '../../../../../components';
-import { useQueryParams } from '../../../../../hooks';
-import colors from '../../../../../theme/colors';
+import { Box, Flex } from "@chakra-ui/layout";
+import { IoArrowBack } from "react-icons/io5";
+import { useParams } from "react-router";
+import { Button, Link, Text } from "../../../../../components";
+import { useQueryParams } from "../../../../../hooks";
+import colors from "../../../../../theme/colors";
 
 const links = [
   {
@@ -11,31 +11,31 @@ const links = [
       `/admin/courses/${courseId}/assessment/${assessmentId}/overview`,
     href: (courseId, assessmentId, examinationId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/overview${
-        examinationId ? `?examination=${examinationId}` : ''
+        examinationId ? `?examination=${examinationId}` : ""
       }`,
-    text: 'Overview',
+    text: "Overview",
   },
   {
     matcher: (courseId, assessmentId) =>
-      `/admin/courses/${courseId}/assessment/${assessmentId}/questions`,
+      `courses/${courseId}/assessment/${assessmentId}/questions`,
     href: (courseId, assessmentId, examinationId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/questions/new${
-        examinationId ? `?examination=${examinationId}` : ''
+        examinationId ? `?examination=${examinationId}` : ""
       }`,
-    text: 'Questions',
+    text: "Questions",
   },
 ];
 
 const Header = () => {
   const { id: courseId, assessmentId } = useParams();
 
-  const examinationId = useQueryParams().get('examination');
+  const examinationId = useQueryParams().get("examination");
   const isExamination = examinationId;
   const isStandaloneExamination =
-    courseId === 'not-set' && assessmentId === 'not-set' && examinationId
+    courseId === "not-set" && assessmentId === "not-set" && examinationId
       ? true
       : false;
-  const standaloneExaminationName = useQueryParams().get('examinationName');
+  const standaloneExaminationName = useQueryParams().get("examinationName");
 
   const isActiveLink = (LinkMatcher) =>
     window.location.pathname.includes(LinkMatcher);
@@ -51,8 +51,8 @@ const Header = () => {
       <Box
         as="nav"
         display="flex"
-        alignItems={{ base: 'flex-start', md: 'center', lg: 'center' }}
-        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
+        alignItems={{ base: "flex-start", md: "center", lg: "center" }}
+        flexDirection={{ base: "column", md: "row", lg: "row" }}
         gap={3}
         justifyContent="space-between"
         width="100%"
@@ -67,9 +67,9 @@ const Header = () => {
                   color: isActiveLink(link.matcher(courseId, assessmentId))
                     ? colors.black
                     : colors.accent[2],
-                  display: 'block',
+                  display: "block",
                 }}
-                disabled={assessmentId === 'new'}
+                disabled={assessmentId === "new"}
               >
                 <Text paddingX={3}>{link.text}</Text>
               </Link>
@@ -91,7 +91,7 @@ const Header = () => {
             // }
             secondary
           >
-            {isExamination ? 'Examination' : 'Assessment'}
+            {isExamination ? "Examination" : "Assessment"}
           </Button>
         </Flex>
       </Box>

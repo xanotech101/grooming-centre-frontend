@@ -327,7 +327,7 @@ const StandaloneExamsStart = () => {
               <Box
                 as="header"
                 color="white"
-                backgroundColor="#800020"
+                backgroundColor="primary.base"
                 padding={5}
                 paddingX={10}
               >
@@ -458,7 +458,7 @@ const StandaloneExamsStart = () => {
                         <Box
                           width="20px"
                           height="6px"
-                          backgroundColor="#800020"
+                          backgroundColor="primary.base"
                           border="1px"
                           borderColor="transparent"
                         ></Box>

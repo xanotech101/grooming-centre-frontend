@@ -1,6 +1,6 @@
-import { Box, Flex } from '@chakra-ui/layout';
-import { Text } from '../../components';
-import { maxWidthStyles_userPages } from '../../theme/breakpoints';
+import { Box, Flex } from "@chakra-ui/layout";
+import { Text } from "../../components";
+import { maxWidthStyles_userPages } from "../../theme/breakpoints";
 
 const date = new Date();
 const year = date.getFullYear();
@@ -9,7 +9,7 @@ const Footer = () => {
     <Box
       as="footer"
       color="white"
-      backgroundColor="#800020"
+      backgroundColor="others.3"
       height="60px"
       padding={5}
       // marginLeft={{ base: '0', lg: '250px', md: '250px' }}

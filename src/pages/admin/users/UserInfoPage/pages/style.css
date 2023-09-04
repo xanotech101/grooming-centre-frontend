@@ -74,7 +74,7 @@
   transform: rotate(-40deg);
 }
 .angle {
-  background-color: #800020;
+  background-color: #660066;
   width: 130px;
   position: absolute;
   z-index: 8888;
@@ -84,10 +84,10 @@
   transform: rotate(46deg);
 }
 .angle-2 {
-  background-color: #800020;
+  background-color: #660066;
   width: 130px;
   position: absolute;
-  z-index: 8888;
+  z-index: 8;
   left: -50px;
   bottom: -20px;
   height: 100px;

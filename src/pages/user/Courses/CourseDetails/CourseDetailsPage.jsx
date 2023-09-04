@@ -1,26 +1,26 @@
-import Icon from '@chakra-ui/icon';
-import { Box, Flex, HStack, Stack } from '@chakra-ui/layout';
-import { BsClockFill, BsFillCaretUpFill } from 'react-icons/bs';
-import { FaCalendar, FaCheck } from 'react-icons/fa';
-import { IoVideocam } from 'react-icons/io5';
-import { VscFiles } from 'react-icons/vsc';
-import { Route } from 'react-router-dom';
-import coverImagePlaceholder from '../../../../assets/images/User_CourseDetailsHeader.svg';
-import avatarImagePlaceholder from '../../../../assets/images/Avatar.svg';
-import { Button, Heading, Image, Spinner, Text } from '../../../../components';
+import Icon from "@chakra-ui/icon";
+import { Box, Flex, HStack, Stack } from "@chakra-ui/layout";
+import { BsClockFill, BsFillCaretUpFill } from "react-icons/bs";
+import { FaCalendar, FaCheck } from "react-icons/fa";
+import { IoVideocam } from "react-icons/io5";
+import { VscFiles } from "react-icons/vsc";
+import { Route } from "react-router-dom";
+import coverImagePlaceholder from "../../../../assets/images/User_CourseDetailsHeader.svg";
+import avatarImagePlaceholder from "../../../../assets/images/Avatar.svg";
+import { Button, Heading, Image, Spinner, Text } from "../../../../components";
 import breakpoints, {
   maxWidthStyles_userPages,
-} from '../../../../theme/breakpoints';
+} from "../../../../theme/breakpoints";
 import {
   getDuration,
   hasEnded,
   isOngoing,
   isUpcoming,
-} from '../../../../utils';
-import useAccordion from './hooks/useAccordion';
-import useCourseDetails from './hooks/useCourseDetails';
-import { useEffect } from 'react';
-import dayjs from 'dayjs';
+} from "../../../../utils";
+import useAccordion from "./hooks/useAccordion";
+import useCourseDetails from "./hooks/useCourseDetails";
+import { useEffect } from "react";
+import dayjs from "dayjs";
 
 const CourseDetailsPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
@@ -48,7 +48,7 @@ const CourseDetailsPage = () => {
     console.log(isAssessment, isExamination);
     if (isAssessment || isExamination) {
       if (!isOngoing(item?.startTime, item?.endTime) || item?.hasCompleted) {
-        console.log('disabled', 'ass', 'exam', item?.title);
+        console.log("disabled", "ass", "exam", item?.title);
         return true;
       }
     }
@@ -60,7 +60,7 @@ const CourseDetailsPage = () => {
 
   const renderItem = (item, { isAssessment, isExamination }) => {
     const getContextText = () =>
-      isAssessment ? 'Assessment' : isExamination ? 'Examination' : 'Lesson';
+      isAssessment ? "Assessment" : isExamination ? "Examination" : "Lesson";
 
     return (
       <Flex
@@ -72,10 +72,10 @@ const CourseDetailsPage = () => {
         borderColor="accent.1"
       >
         <InfoContent
-          title={dayjs(item?.startTime).format('ddd, D MMM')}
-          date={`${dayjs(item?.startTime).format('h:mm A')} to ${dayjs(
+          title={dayjs(item?.startTime).format("ddd, D MMM")}
+          date={`${dayjs(item?.startTime).format("h:mm A")} to ${dayjs(
             item?.endTime
-          ).format('h:mm A')}`}
+          ).format("h:mm A")}`}
           icon={<FaCalendar />}
           flex={0.6}
           opacity={item?.disabled ? 0.5 : 1}
@@ -84,7 +84,7 @@ const CourseDetailsPage = () => {
           title={item?.title}
           date={`${getDuration(item?.duration).combinedText}`}
           icon={
-            item?.lessonType?.name !== 'video' ? <VscFiles /> : <IoVideocam />
+            item?.lessonType?.name !== "video" ? <VscFiles /> : <IoVideocam />
           }
           flex={1}
           marginLeft={16}
@@ -93,9 +93,9 @@ const CourseDetailsPage = () => {
 
         <Button
           link={`/courses/take/${courseDetailsData?.id}/${
-            isAssessment || isExamination ? 'assessment' : 'lessons'
+            isAssessment || isExamination ? "assessment" : "lessons"
           }/${isExamination ? courseDetailsData?.id : item?.id}${
-            isExamination ? '?examination=true' : ''
+            isExamination ? "?examination=true" : ""
           }`}
           width="165px"
           secondary
@@ -117,7 +117,7 @@ const CourseDetailsPage = () => {
   };
 
   const renderCurriculumList = (key) => {
-    const isAssessment = key === 'assessments';
+    const isAssessment = key === "assessments";
 
     return courseDetailsData?.[key].map((lesson) => {
       return renderItem(lesson, { isAssessment });
@@ -222,14 +222,14 @@ const CourseDetailsPage = () => {
             <InfoContent
               title="Start Date"
               date={dayjs(courseDetailsData?.startTime).format(
-                'ddd, MMM D, YYYY'
+                "ddd, MMM D, YYYY"
               )}
               icon={<FaCalendar />}
             />
             <InfoContent
               title="End Date"
               date={dayjs(courseDetailsData?.endTime).format(
-                'ddd, MMM D, YYYY'
+                "ddd, MMM D, YYYY"
               )}
               icon={<FaCalendar />}
             />
@@ -237,8 +237,8 @@ const CourseDetailsPage = () => {
         </Accordion>
 
         <Accordion heading="Course Curriculum">
-          {renderCurriculumList('lessons')}
-          {renderCurriculumList('assessments')}
+          {renderCurriculumList("lessons")}
+          {renderCurriculumList("assessments")}
           {renderItem(courseDetailsData?.examination, { isExamination: true })}
         </Accordion>
         {/* {courseDetailsData?.lessons[0] && (
@@ -264,7 +264,7 @@ const Accordion = ({ heading, children }) => {
     <Box as="section" marginBottom={7}>
       <Flex
         as="header"
-        backgroundColor="secondary.7"
+        backgroundColor="primary.base"
         color="white"
         paddingX={8}
         paddingY={3}
@@ -289,7 +289,7 @@ const Accordion = ({ heading, children }) => {
       <Box
         overflowY="hidden"
         transition=".5s"
-        maxHeight={accordionManager.isOpen ? '1000px' : '0px'}
+        maxHeight={accordionManager.isOpen ? "1000px" : "0px"}
       >
         {children}
       </Box>

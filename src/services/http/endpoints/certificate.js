@@ -26,7 +26,7 @@ export const createCertificate = async (body) => {
   };
 };
 export const CertificateList = async (params) => {
-  const path = `/certificate/list`;
+  const path = `/cate/list`;
 
   const {
     data: { data },

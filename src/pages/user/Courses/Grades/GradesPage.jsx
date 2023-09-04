@@ -245,7 +245,7 @@ export const Grades = ({ isLoading, grades, myGrades }) => {
       ) : (
         <>
           <Box
-            bgGradient="linear(to-l, #390411 31.84%, #540D1E 46.72%, #69192D 80.18%)"
+            bg="primary.base"
             paddingY={10}
             width="100%"
             padding={
@@ -541,8 +541,11 @@ export const EmptyState = ({ text }) => (
     p={8}
     mb={6}
   >
-    <NoData />
-    <Text paddingTop={4} as="level1" color="secondary.5">
+    <Text color="#660066">
+      <NoData />
+    </Text>
+
+    <Text paddingTop={4} as="level1" color="others.3">
       {text}
     </Text>
   </Flex>

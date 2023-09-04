@@ -1,15 +1,15 @@
-import { Box, Flex, Stack } from '@chakra-ui/layout';
-import { Switch } from 'react-router-dom';
-import { Route } from 'react-router-dom';
-import { Heading, Image, Text } from '../../../components';
-import { maxWidthStyles_userPages } from '../../../theme/breakpoints';
-import AllCoursesPageRoute from './AllCoursesPage';
-import CompletedCoursesPageRoute from './CompletedCoursesPage';
-import InProgressCoursesPageRoute from './InProgressCoursesPage';
+import { Box, Flex, Stack } from "@chakra-ui/layout";
+import { Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { Heading, Image, Text } from "../../../components";
+import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
+import AllCoursesPageRoute from "./AllCoursesPage";
+import CompletedCoursesPageRoute from "./CompletedCoursesPage";
+import InProgressCoursesPageRoute from "./InProgressCoursesPage";
 // import NavBar from "./NavBar";
-import NewCoursesPageRoute from './NewCoursesPage';
-import coverImagePlaceholder from '../../../assets/images/events-banner.svg';
-import { pageWrapperSpacing_userPages } from '../../../theme/breakpoints';
+import NewCoursesPageRoute from "./NewCoursesPage";
+import coverImagePlaceholder from "../../../assets/images/events-banner.svg";
+import { pageWrapperSpacing_userPages } from "../../../theme/breakpoints";
 
 const CoursesPagesRouter = () => {
   return (
