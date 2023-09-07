@@ -11,6 +11,7 @@ import {
   Link,
   Heading,
   Spinner,
+  Text,
 } from "../../../components";
 import { CreatePageLayout } from "../../../layouts";
 import { BreadcrumbItem, Box } from "@chakra-ui/react";
@@ -23,7 +24,7 @@ import {
   populateSelectOptions,
 } from "../../../utils";
 import { useApp, useCache } from "../../../contexts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { adminCreateLesson, adminEditLesson } from "../../../services";
 import useViewLessonInfo from "./hooks/useViewLessonInfo";
 
@@ -31,7 +32,7 @@ const CreateLessonPage = () => {
   const { courseId, lessonId } = useParams();
   const isEditMode = lessonId && lessonId !== "new";
   const courseIsUnknown = courseId === "unknown";
-
+  const [loader, setUploadProgress] = useState(0);
   const { push } = useHistory();
   const toast = useToast();
   const { handleDelete } = useCache();
@@ -49,7 +50,10 @@ const CreateLessonPage = () => {
     state: { metadata },
     getOneMetadata,
   } = useApp();
-
+  const file = watch("lessonTypeId");
+  const handleUploadProgress = (progress) => {
+    setUploadProgress(progress);
+  };
   const startTimeManager = useDateTimePicker();
   const endTimeManager = useDateTimePicker();
   const fileManager = useUpload({ previewElementId: "file-video" });
@@ -187,7 +191,7 @@ const CreateLessonPage = () => {
       }
       const { message, lesson } = await (isEditMode
         ? adminEditLesson(lessonId, body)
-        : adminCreateLesson(body));
+        : adminCreateLesson(body, handleUploadProgress));
 
       if (isEditMode) handleDelete(lesson.id);
 
@@ -319,7 +323,6 @@ const CreateLessonPage = () => {
               label="Content"
               defaultValue={contentManager.data.default}
               onChange={contentManager.handleChange}
-              
             />
           </GridItem>
 
@@ -349,6 +352,35 @@ const CreateLessonPage = () => {
               onFileSelect={fileManager.handleFileSelect}
               accept={fileManager.accept}
             />
+            {file && (
+              <Box marginTop={"30px"} width={"300px"}>
+                <Text fontSize={"17px"} mb={"10px"}>
+                  File progress
+                </Text>
+                <Box
+                  overflow={"hidden"}
+                  width={"100%"}
+                  height={"8px"}
+                  borderRadius={"10px"}
+                  backgroundColor={"gray.300"}
+                >
+                  <Box
+                    w={`${loader}%`}
+                    h={"100%"}
+                    transitionDuration={"0.5s"}
+                    backgroundColor={"orange.600"}
+                  ></Box>
+                </Box>
+                <Text
+                  fontSize={"17px"}
+                  display="flex"
+                  justifyContent="flex-end"
+                  mt={"10px"}
+                >
+                  {loader}%
+                </Text>
+              </Box>
+            )}
           </GridItem>
         </Grid>
       </CreatePageLayout>
