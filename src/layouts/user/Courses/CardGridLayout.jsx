@@ -1,8 +1,8 @@
-import { Grid, GridItem } from '@chakra-ui/layout';
-import { CourseBoxCard, Button } from '../../../components';
-import { EmptyState } from '../../../layouts';
-import CoursesPagination from '../../../components/Pagination/CoursesPagination';
-import { useEffect, useState } from 'react';
+import { Grid, GridItem } from "@chakra-ui/layout";
+import { CourseBoxCard, Button } from "../../../components";
+import { EmptyState } from "../../../layouts";
+import CoursesPagination from "../../../components/Pagination/CoursesPagination";
+import { useEffect, useState } from "react";
 
 export const CardGridLayout = ({ cardContents }) => {
   const cardContentsIsEmpty =
@@ -39,16 +39,16 @@ export const CardGridLayout = ({ cardContents }) => {
           width="100"
           cta={<Button link="/dashboard">Return to dashboard</Button>}
           heading={`No ${
-            IsVideo ? 'Videos' : IsAudio ? 'Audio' : IsPdf ? 'Books' : 'Courses'
+            IsVideo ? "Videos" : IsAudio ? "Audio" : IsPdf ? "Books" : "Courses"
           } Available`}
           description={`${
             IsVideo
-              ? 'There are no videos in your library'
+              ? "There are no videos in your library"
               : IsPdf
-              ? 'There are no books in your library'
+              ? "There are no books in your library"
               : IsAudio
-              ? 'There are no audio files in your library'
-              : 'Your department have no assigned courses just yet'
+              ? "There are no audio files in your library"
+              : "Your department have no assigned courses just yet"
           }`}
         />
       )}
@@ -56,22 +56,21 @@ export const CardGridLayout = ({ cardContents }) => {
       <Grid
         className="card-grid-layout"
         templateColumns={{
-          base: 'repeat(1, 1fr)',
-          'mobile-m': 'repeat(2, 250px)',
-          'mobile-l': 'repeat(2, 1fr)',
-          tablet: 'repeat(3, 1fr)',
-          laptop: 'repeat(4, 1fr)',
+          base: "repeat(1, 1fr)",
+
+          tablet: "repeat(3, 1fr)",
+          laptop: "repeat(4, 1fr)",
           // "laptop-l": "repeat(5, 1fr)",
-          '4k': 'repeat(6, 1fr)',
+          "4k": "repeat(6, 1fr)",
         }}
         overflowX={{
-          base: 'hidden',
-          'mobile-m': 'scroll',
-          'mobile-l': 'hidden',
+          base: "hidden",
+          "mobile-m": "scroll",
+          "mobile-l": "hidden",
         }}
         overflowY="hidden"
-        columnGap={{ base: '20px', laptop: '30px' }}
-        rowGap={{ base: '40px', laptop: '50px' }}
+        columnGap={{ base: "20px", laptop: "30px" }}
+        rowGap={{ base: "40px", laptop: "50px" }}
         padding={5}
       >
         {cardContents.err && (
@@ -93,7 +92,7 @@ export const CardGridLayout = ({ cardContents }) => {
 
         {cardContents.loading &&
           Array(8)
-            .fill('')
+            .fill("")
             .map((_, index) => <CourseBoxCard key={index} isLoading />)}
 
         {currentItems?.map((cardContent, index) => (

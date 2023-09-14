@@ -635,7 +635,7 @@ const CourseOverviewCard = ({
           flexDirection="column"
           justifyContent="center"
         >
-          <Flex justifyContent="space-between">
+          <Flex>
             <Box>
               <Text color="accent.3">{attendance}</Text>
               <Progress
@@ -648,7 +648,11 @@ const CourseOverviewCard = ({
               {`${attendancePercentage}%`}
             </Text>
           </Flex>
-          <Flex justifyContent="space-between" paddingY="2">
+          <Flex
+            justifyContent="space-between"
+            flexDirection={{ base: "column", md: "column", lg: "row" }}
+            paddingY="2"
+          >
             <Box>
               <Text color="accent.3" fontSize="14">
                 {assessment}

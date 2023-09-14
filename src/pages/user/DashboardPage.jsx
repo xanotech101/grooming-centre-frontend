@@ -192,18 +192,20 @@ const DashboardPage = () => {
 
         <Flex
           justifyContent="space-between"
-          alignItems="center"
+          alignItems={{ base: "start", lg: "center", md: "start" }}
+          flexDirection={{ base: "column", lg: "row", md: "column" }}
           background="primary.base"
           rounded="10px"
           padding={{ base: 4, "laptop-l": 5 }}
-          width="700px"
-          height="175px"
+          width={{ lg: "700px", base: "100%", md: "100%" }}
+          height={{ lg: "175px", base: "auto", md: "auto" }}
         >
           <Text
             bold
             fontSize="heading.h3"
             color="white"
-            width={{ base: "270px", "laptop-l": "340px" }}
+            mb={3}
+            width={{ base: "auto", "laptop-l": "340px" }}
           >
             Here is what you have scheduled for Today.
           </Text>
@@ -242,17 +244,17 @@ const DashboardPage = () => {
         </Flex>
       </Flex>
 
-      <Flex>
-        <Section title="Overview" flex={1} marginRight={10}>
+      <Flex flexDirection={{ base: "column", md: "column", lg: "row" }}>
+        <Section title="Overview" flex={1} marginRight={{ lg: 10 }}>
           <Grid columnGap={4} rowGap={10}>
             {/* First Row */}
             <MiniBox
               padding={8}
               as={GridItem}
-              colSpan={2}
+              colSpan={{ base: 12, md: 12, lg: 2 }}
               display="flex"
               flexDirection="column"
-              height="300px"
+              minHeight="300px"
             >
               {isLoading ? (
                 <Center height="100%">
@@ -315,7 +317,7 @@ const DashboardPage = () => {
             <MiniBox
               padding={8}
               as={GridItem}
-              colSpan={2}
+              colSpan={{ base: 12, md: 12, lg: 2 }}
               display="flex"
               flexDirection="column"
               height="300px"
@@ -364,8 +366,8 @@ const DashboardPage = () => {
                     width="300px"
                     height="300px"
                     position="absolute"
-                    left="50%"
-                    transform="translate(-50%)"
+                    left={{ base: "5%", md: "5%", lg: "50%" }}
+                    transform={{ base: "0", md: "0", lg: "translate(-50%)" }}
                   >
                     <Doughnut {...totalCourseChartConfig} />
                   </Box>
@@ -378,7 +380,7 @@ const DashboardPage = () => {
             <MiniBox
               padding={8}
               as={GridItem}
-              colSpan={4}
+              colSpan={{ base: 12, md: 12, lg: 4 }}
               display="flex"
               flexDirection="column"
               minHeight="300px"
