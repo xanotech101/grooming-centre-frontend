@@ -1,16 +1,18 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import logo from "../../../../../assets/images/newlogo.png";
 import badge from "../../../../../assets/images/badge-level-1.png";
 import tr from "../../../../../assets/images/tr.png";
 import "./style.css";
 import { AdminMainAreaWrapper } from "../../../../../layouts";
-import { Button } from "../../../../../components";
+import { Button, Text } from "../../../../../components";
 import { Box, Flex } from "@chakra-ui/react";
 import { truncateText } from "../../../../../utils";
 import { exportAsImage } from "../../../../../utils/exportToPng";
+import { exportAsPdf } from "../../../../../utils/exportToPdf";
 
 export const Certificate = ({ name, title }) => {
   const certificateWrapper = useRef(null);
+  const [drop, setDrop] = useState(false);
   return (
     <div>
       <div className="">
@@ -118,13 +120,52 @@ export const Certificate = ({ name, title }) => {
           </div>
         </div>
       </div>
-      <Flex justifyContent={"flex-end"} mt={6}>
+      <Flex justifyContent={"flex-end"} mt={6} pos={"relative"}>
+        {drop ? (
+          <Box
+            backgroundColor={"#fff"}
+            pos={"absolute"}
+            top={"45px"}
+            right={"0"}
+            w="120px"
+            minH="50px"
+            shadow={"2xl"}
+            rounded={"md"}
+            border={"1px solid gray"}
+            zIndex={"100"}
+            p={3}
+            cursor={"pointer"}
+          >
+            <Text
+              mt={2}
+              fontSize={"16px"}
+              onClick={() => {
+                setDrop(false);
+                exportAsImage(
+                  certificateWrapper.current,
+                  `${title} certificate for ${name}`
+                );
+              }}
+            >
+              PNG
+            </Text>
+            <Text
+              mt={2}
+              onClick={() => {
+                setDrop(false);
+                exportAsPdf(
+                  certificateWrapper.current,
+                  `${title} certificate for ${name}`
+                );
+              }}
+            >
+              PDF
+            </Text>
+          </Box>
+        ) : null}
         <Button
           onClick={() => {
-            exportAsImage(
-              certificateWrapper.current,
-              `${title} certificate for ${name}`
-            );
+            setDrop(!drop);
           }}
         >
           Export
