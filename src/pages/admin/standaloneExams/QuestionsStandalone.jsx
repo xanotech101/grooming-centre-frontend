@@ -622,7 +622,7 @@ const CreateQuestionPage = (assessmentManager) => {
 
 const QuestionListingPage = ({ assessment, isLoading, error }) => {
   const questions = assessment?.questions;
-  console.log(questions, "jjjf");
+  console.log(assessment, "hhh");
   const questionsIsEmpty =
     !isLoading && !error && !questions?.length ? true : false;
 

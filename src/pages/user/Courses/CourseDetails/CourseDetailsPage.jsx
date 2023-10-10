@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 const CourseDetailsPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
 
+  console.log(courseDetails, "course");
   useEffect(() => {
     fetchCourseDetails();
   }, [fetchCourseDetails]);

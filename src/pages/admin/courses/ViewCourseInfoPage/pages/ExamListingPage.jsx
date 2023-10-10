@@ -118,7 +118,7 @@ const ExamListingPage = () => {
 
   const fetcher = () => async () => {
     const { examinations } = await adminGetExaminationListing(courseId);
-
+    console.log(examinations, "exam");
     const rows = examinations.map(mapExaminationToRow);
 
     return { rows };

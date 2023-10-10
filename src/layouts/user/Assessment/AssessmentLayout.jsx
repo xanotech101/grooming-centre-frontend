@@ -35,8 +35,9 @@ const AssessmentLayout = () => {
     handleNextQuestion,
     handlePreviousQuestion,
     handleOptionSelect,
+    nav,
   } = useAssessment();
-
+  console.log(assessment, "assessment");
   const renderSubHeading = (heading) => (
     <Box
       as="header"
@@ -59,10 +60,12 @@ const AssessmentLayout = () => {
 
   const renderContent = () => (
     <>
-      <NavigationBlocker
-        when={!submitStatus.success && !error && isLoading && end}
-        disable={end}
-      />
+      {nav === true ? null : (
+        <NavigationBlocker
+          when={!submitStatus.success && !error && isLoading && end}
+          disable={end}
+        />
+      )}
 
       {isLoading ? (
         <PageLoaderLayout />

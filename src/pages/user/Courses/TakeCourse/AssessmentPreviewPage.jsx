@@ -13,7 +13,7 @@ const AssessmentPreviewPage = ({ sidebarLinks, sidebarLinkClickedState }) => {
   const { assessment, isLoading, error, handleTryAgain, assessmentIsDisabled } =
     useCourseExamPreview(sidebarLinks, null, null, sidebarLinkClickedState);
   useTakeCourse();
-  console.log(assessment);
+  console.log(assessment, "assessment");
   const isExamination = useQueryParams().get("examination");
   const duration = getDuration(assessment.duration);
   const handleGoBack = useGoBack();

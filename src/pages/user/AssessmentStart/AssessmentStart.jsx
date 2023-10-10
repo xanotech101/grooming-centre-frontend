@@ -39,6 +39,67 @@ const AssessmentStart = () => {
 
   const { examination } = useTakeStandalone();
 
+  const [exitAttempts, setExitAttempts] = useState(0);
+
+  const handleExitAttempt = () => {
+    setExitAttempts((prevAttempts) => prevAttempts + 1);
+  };
+
+  useEffect(() => {
+    const handleUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      handleExitAttempt();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        modalManager.onOpen();
+        setModalContent(null);
+        setModalPrompt({
+          heading: `Leaving this tab more than twice will automatically submit your examination`,
+          body: (
+            <Box as="div" display="flex" alignItems="center" gap={3}>
+              <Warning
+                style={{
+                  height: "40px",
+                  width: "40px",
+                  color: "red",
+                }}
+              />
+              <div>please take note....</div>
+            </Box>
+          ),
+        });
+        handleExitAttempt();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (exitAttempts >= 3) {
+      handleSubmit();
+    }
+  }, [exitAttempts]);
+
+  //   return (
+  //     <div>
+  //       <p>Exam content goes here...</p>
+  //       <button onClick={handleExitAttempt}>Exit</button>
+  //     </div>
+  //   );
+  // };
+
+  // export default ExamComponent;
+
   useEffect(() => {
     setExams(examination);
     const currentExamDetails = exams?.find((item) => item?.id === examid);
@@ -91,41 +152,6 @@ const AssessmentStart = () => {
     setPage(page === 0 ? 0 : page - 1);
     setIcon(false);
   };
-
-  let count = 0;
-  const history = useHistory();
-  const location = useLocation();
-  useEffect(() => {
-    if (location === `/standalone-exams/start/`) {
-      window.addEventListener("blur", () => {
-        count++;
-        modalManager.onOpen();
-        setModalContent(null);
-        setModalPrompt({
-          heading: `Leaving this tab more than twice will automatically submit your examination`,
-          body: (
-            <Box as="div" display="flex" alignItems="center" gap={3}>
-              <Warning
-                style={{
-                  height: "40px",
-                  width: "40px",
-                  color: "red",
-                }}
-              />
-              <div>please take note....</div>
-            </Box>
-          ),
-        });
-        if (count === 3) {
-          count = 0;
-          modalManager.onClose();
-
-          setModal({ ...modal, congrats: true });
-          history.push("/home");
-        }
-      });
-    }
-  }, []);
 
   return (
     <Box position="relative">

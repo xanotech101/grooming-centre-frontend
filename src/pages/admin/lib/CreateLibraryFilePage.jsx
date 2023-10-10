@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useToast } from '@chakra-ui/toast';
-import { Flex, Grid, GridItem } from '@chakra-ui/layout';
-import { Route, useParams, useHistory } from 'react-router-dom';
+import { useEffect } from "react";
+import { useToast } from "@chakra-ui/toast";
+import { Flex, Grid, GridItem } from "@chakra-ui/layout";
+import { Route, useParams, useHistory } from "react-router-dom";
 import {
   Input,
   Select,
@@ -11,27 +11,27 @@ import {
   Heading,
   Spinner,
   Textarea,
-} from '../../../components';
-import { CreatePageLayout } from '../../../layouts';
-import { BreadcrumbItem, Box } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import { useUpload } from '../../../hooks';
+} from "../../../components";
+import { CreatePageLayout } from "../../../layouts";
+import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { useUpload } from "../../../hooks";
 import {
   appendFormData,
   capitalizeFirstLetter,
   populateSelectOptions,
-} from '../../../utils';
-import { useApp, useCache } from '../../../contexts';
+} from "../../../utils";
+import { useApp, useCache } from "../../../contexts";
 import {
   adminEditLibraryFile,
   adminUploadLibraryFile,
-} from '../../../services';
-import useViewLibraryFile from './hook/useViewLibraryFile';
+} from "../../../services";
+import useViewLibraryFile from "./hook/useViewLibraryFile";
 
 const CreateLibraryFilePage = () => {
   const { id: fileId } = useParams();
 
-  const isEditMode = fileId && fileId !== 'new';
+  const isEditMode = fileId && fileId !== "new";
 
   const { push } = useHistory();
   const toast = useToast();
@@ -60,43 +60,43 @@ const CreateLibraryFilePage = () => {
   /// Init `Title` value
   useEffect(() => {
     if (libraryFile) {
-      setValue('title', libraryFile.title);
+      setValue("title", libraryFile.title);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libraryFile]);
 
   useEffect(() => {
     if (libraryFile && allMetadata?.departments) {
-      setValue('departmentId', libraryFile?.departmentId);
+      setValue("departmentId", libraryFile?.departmentId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libraryFile, allMetadata?.departments]);
 
   useEffect(() => {
     if (libraryFile) {
-      setValue('description', libraryFile.description);
+      setValue("description", libraryFile.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libraryFile]);
 
   const setLibraryAccept = (libraryTypeId) => {
-    if (libraryTypeId === 'pdf') {
-      fileManager.handleAcceptChange('application/pdf');
+    if (libraryTypeId === "pdf") {
+      fileManager.handleAcceptChange("application/pdf");
     }
 
-    if (libraryTypeId === 'video') {
-      fileManager.handleAcceptChange('video/mp4, video/mkv');
+    if (libraryTypeId === "video") {
+      fileManager.handleAcceptChange("video/mp4, video/mkv");
     }
 
-    if (libraryTypeId === 'audio') {
-      fileManager.handleAcceptChange('audio/mpeg, audio/ogg, audio/wav');
+    if (libraryTypeId === "audio") {
+      fileManager.handleAcceptChange("audio/mpeg, audio/ogg, audio/wav");
     }
   };
 
   // Init `libraryTypeId` value and set `accept` for file upload input
   useEffect(() => {
     if (libraryFile) {
-      setValue('libraryTypeId', libraryFile.fileType);
+      setValue("libraryTypeId", libraryFile.fileType);
       setLibraryAccept(libraryFile.fileType);
     }
 
@@ -106,9 +106,9 @@ const CreateLibraryFilePage = () => {
   // Init `library File` file url
   useEffect(() => {
     if (libraryFile) {
-      const fileIsAVideo = libraryFile.fileExtension === 'mp4';
-      const fileIsPDF = libraryFile.fileExtension === 'pdf';
-      const fileIsAudio = libraryFile.fileExtension === 'mpeg';
+      const fileIsAVideo = libraryFile.fileExtension === "mp4";
+      const fileIsPDF = libraryFile.fileExtension === "pdf";
+      const fileIsAudio = libraryFile.fileExtension === "mpeg";
 
       if (fileIsAVideo) {
         fileManager.handleInitialVideoSelect(libraryFile.file);
@@ -128,7 +128,7 @@ const CreateLibraryFilePage = () => {
     const subscription = watch((data, { name, type }) => {
       console.log({ name, type, data });
 
-      if (name === 'libraryTypeId') {
+      if (name === "libraryTypeId") {
         fileManager.handleFileSelect(null);
 
         setLibraryAccept(data.libraryTypeId);
@@ -144,7 +144,7 @@ const CreateLibraryFilePage = () => {
   const onSubmit = async (data) => {
     try {
       const file = fileManager.handleGetFileAndValidate(
-        'Library File',
+        "Library File",
         isEditMode
       );
 
@@ -154,7 +154,7 @@ const CreateLibraryFilePage = () => {
         file,
       };
 
-      if (isEditMode) Reflect.deleteProperty(data, 'fileId');
+      if (isEditMode) Reflect.deleteProperty(data, "fileId");
 
       const body = appendFormData(data);
 
@@ -166,16 +166,19 @@ const CreateLibraryFilePage = () => {
 
       toast({
         description: capitalizeFirstLetter(message),
-        position: 'top',
-        status: 'success',
+        position: "top",
+        status: "success",
       });
 
       if (isEditMode) push(`/admin/library/details/${fileId}`);
+      else {
+        push(`/admin/library/details/${fileId}`);
+      }
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
-        position: 'top',
-        status: 'error',
+        position: "top",
+        status: "error",
       });
     }
   };
@@ -204,20 +207,20 @@ const CreateLibraryFilePage = () => {
           }
           item3={
             <BreadcrumbItem isCurrentPage>
-              <Link href="#">{isEditMode ? 'Edit' : 'Create'}</Link>
+              <Link href="#">{isEditMode ? "Edit" : "Create"}</Link>
             </BreadcrumbItem>
           }
         />
       </Box>
 
       <CreatePageLayout
-        title={isEditMode ? 'Edit File details' : 'Upload File'}
+        title={isEditMode ? "Edit File details" : "Upload File"}
         submitButtonText={
           isSubmitting
-            ? 'Please wait this might take a while'
+            ? "Please wait this might take a while"
             : isEditMode
-            ? 'Update File'
-            : 'Add File'
+            ? "Update File"
+            : "Add File"
         }
         onSubmit={handleSubmit(onSubmit)}
         submitButtonIsDisabled={!allMetadata}
@@ -225,7 +228,7 @@ const CreateLibraryFilePage = () => {
       >
         <Box
           as="div"
-          display={{ lg: 'grid', sm: 'flex', md: 'flex' }}
+          display={{ lg: "grid", sm: "flex", md: "flex" }}
           flexDirection="column"
           gridTemplateColumns="1fr 1fr"
           gap={10}
@@ -236,8 +239,8 @@ const CreateLibraryFilePage = () => {
             <Input
               label="Title"
               id="title"
-              {...register('title', {
-                required: 'Title is required',
+              {...register("title", {
+                required: "Title is required",
               })}
               error={errors.title?.message}
             />
@@ -248,8 +251,8 @@ const CreateLibraryFilePage = () => {
               options={populateSelectOptions(allMetadata?.departments)}
               id="departmentId"
               isLoading={!allMetadata?.departments}
-              {...register('departmentId', {
-                required: 'Please select a department',
+              {...register("departmentId", {
+                required: "Please select a department",
               })}
               error={errors.departmentId?.message}
             />
@@ -262,34 +265,34 @@ const CreateLibraryFilePage = () => {
             label="Description"
             id="description"
             isRequired
-            {...register('description', {
-              required: 'Please add a description',
+            {...register("description", {
+              required: "Please add a description",
               maxLength: 1000,
             })}
             error={
-              errors.description?.type === 'maxLength'
-                ? 'Maximum length of 1000 characters'
+              errors.description?.type === "maxLength"
+                ? "Maximum length of 1000 characters"
                 : errors.description?.message
             }
           />
         </Grid>
 
         <Grid marginBottom={10}>
-          <GridItem width={{ lg: '50%', base: '100%' }}>
+          <GridItem width={{ lg: "50%", base: "100%" }}>
             <Select
               id="libraryTypeId"
               label="File type"
               options={[
-                { value: 'pdf', label: 'Pdf' },
-                { value: 'video', label: 'Video' },
-                { value: 'audio', label: 'Audio' },
+                { value: "pdf", label: "Pdf" },
+                { value: "video", label: "Video" },
+                { value: "audio", label: "Audio" },
               ]}
               // options={populateSelectOptions(metadata?.libraryType)}
               // isLoading={!metadata?.libraryType}
               isRequired
               error={errors.libraryTypeId?.message}
-              {...register('libraryTypeId', {
-                required: 'File type is required',
+              {...register("libraryTypeId", {
+                required: "File type is required",
               })}
             />
           </GridItem>

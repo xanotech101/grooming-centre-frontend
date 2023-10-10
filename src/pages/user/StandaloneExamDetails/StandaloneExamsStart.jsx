@@ -24,7 +24,7 @@ import {
 } from "../../../services";
 import { useQueryParams } from "../../../hooks";
 import { Warning } from "@material-ui/icons";
-
+import { useHistory } from "react-router-dom";
 const StandaloneExamsStart = () => {
   const {
     assessment,
@@ -60,48 +60,14 @@ const StandaloneExamsStart = () => {
   const [modalContent, setModalContent] = useState();
   const [modalPrompt, setModalPrompt] = useState(null);
   const [modalCanClose, setModalCanClose] = useState(true);
+  const { push } = useHistory();
   const [modal, setModal] = useState({
     state: false,
     congrats: false,
     score: false,
   });
-  // let count = 0;
-  // const location = window.location.pathname;
-  // useEffect(() => {
-  //   window.addEventListener("blur", () => {
-  //     if (
-  //       location !==
-  //       "/courses/take/565b55b1-0f4e-414c-a59d-83368d3e4106/assessment/start/dd335788-2237-4eb4-8a13-2e2fc2ae0c30"
-  //     ) {
-  //       count++;
-  //       modalManager.onOpen();
-  //       setModalContent(null);
-
-  //       setModalPrompt({
-  //         heading: `Leaving this tab more than twice will automatically submit your examination`,
-  //         body: (
-  //           <Box as="div" display="flex" alignItems="center" gap={3}>
-  //             <Warning
-  //               style={{
-  //                 height: "40px",
-  //                 width: "40px",
-  //                 color: "red",
-  //               }}
-  //             />
-  //             <div>please take note....</div>
-  //           </Box>
-  //         ),
-  //       });
-  //       if (count === 3) {
-  //         count = 0;
-  //         handleExamSubmit
-  //         modalManager.onClose()
-
-  //       }
-  //     }
-  //   });
-  // }, []);
-
+  const [exitAttempts, setExitAttempts] = useState(0);
+  const totalSteps = 3;
   const handleExamSubmit = async () => {
     try {
       const body = {
@@ -111,7 +77,10 @@ const StandaloneExamsStart = () => {
       };
       const { message } = await userCreateStandaloneExaminationGrade(body);
       toast({
-        description: capitalizeFirstLetter(message),
+        description:
+          exitAttempts === totalSteps
+            ? capitalizeFirstLetter("Examination auto submitted successfully")
+            : capitalizeFirstLetter(message),
         position: "top",
         status: "success",
       });
@@ -124,6 +93,45 @@ const StandaloneExamsStart = () => {
       });
     }
   };
+
+  const handleExitAttempt = () => {
+    if (exitAttempts < totalSteps) {
+      setExitAttempts(exitAttempts + 1);
+    }
+    if (exitAttempts === totalSteps) {
+      push("/standalone-exams");
+      handleExamSubmit();
+    }
+  };
+
+  useEffect(() => {
+    const handleUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // Standard for most browsers
+      handleExitAttempt();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        handleExitAttempt();
+        exitAttempts !== 3 &&
+          toast({
+            position: "top",
+            status: "error",
+            title:
+              "Note leaving this tab three times will automatically submit your exam",
+          });
+      }
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [exitAttempts]);
 
   const handleViewResult = useCallback(async () => {
     setModal({ ...modal, score: true });
@@ -280,10 +288,12 @@ const StandaloneExamsStart = () => {
           </Box>
         </Box>
       )}
-      <NavigationBlocker
-        when={!submitStatus.success && !error && isLoading && end === true}
-        disable={end}
-      />
+      {exitAttempts === totalSteps ? null : (
+        <NavigationBlocker
+          when={!submitStatus.success && !error && isLoading && end === true}
+          disable={end}
+        />
+      )}
 
       {isLoading ? (
         <PageLoaderLayout />

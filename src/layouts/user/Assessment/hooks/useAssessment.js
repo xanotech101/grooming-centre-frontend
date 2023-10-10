@@ -26,6 +26,10 @@ const useAssessment = () => {
   const [score, setScore] = useState("");
   const [end, setEnd] = useState(true);
   const [count, increaseCount] = useState(0);
+  const { push } = useHistory();
+  const totalSteps = 3;
+  const [nav, setNav] = useState(false);
+  const [exitAttempts, setExitAttempts] = useState(0);
   const [onblur, setIsOnblur] = useState(false);
   assessment.questions = sortByIndexField(
     assessment.questions,
@@ -123,9 +127,14 @@ const useAssessment = () => {
       const { message, data } = await (isExamination
         ? submitExamination(body)
         : submitAssessment(body));
-      console.log(data?.score);
-      setScore(data?.score);
 
+      setScore(data?.score);
+      toast({
+        description:
+          exitAttempts === totalSteps ? "Exam auto submitted" : message,
+        position: "top",
+        status: "success",
+      });
       setSubmitStatus({
         success: true,
       });
@@ -149,70 +158,7 @@ const useAssessment = () => {
     selectedAnswers,
     // user?.id,
   ]);
-  const history = useHistory();
-  const location = useLocation();
-  let counter = 3;
-  // const onFocus = () => {
-  //   setIsOnblur(false);
-  // };
 
-  // const onBlur = () => {
-  //   setIsOnblur(true);
-  //   if (location.pathname.includes("/exams/start/")) {
-  //     counter--;
-  //     modalManager.onOpen();
-  //     setModalContent(null);
-
-  //     setModalPrompt({
-  //       heading: `Leaving this tab more than twice will automatically submit your examination`,
-  //       body: (
-  //         <Box as="div" display="flex" alignItems="center" gap={3}>
-  //           <Warning
-  //             style={{
-  //               height: "40px",
-  //               width: "40px",
-  //               color: "red",
-  //             }}
-  //           />
-  //           <div>please take note....</div>
-  //         </Box>
-  //       ),
-  //     });
-  //   } else {
-  //     counter = 3;
-  //   }
-  //   if (counter === 0) {
-  //     modalManager.onClose();
-  //     setEnd(false);
-  //     setTimeout(() => {
-  //       handleSubmit();
-  //       history.push("/dashboard");
-  //       window.location.reload();
-  //     }, 1000);
-  //     counter = 3;
-  //     if (location.pathname === "/dashboard") {
-  //       window.reload(true);
-  //       counter = undefined;
-  //     } else {
-  //       counter = 3;
-  //     }
-  //   }
-  //   console.log(true);
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("load", () => {
-  //     if (location.pathname.includes("/standalone-exams/start/")) {
-  //       window.addEventListener("focus", onFocus);
-  //       window.addEventListener("blur", onBlur);
-  //     }
-
-  //     return () => {
-  //       window.removeEventListener("focus", onFocus);
-  //       window.removeEventListener("blur", onBlur);
-  //     };
-  //   });
-  // }, []);
-  // Automatically submit when timeout
   useEffect(() => {
     if (timerCountdownManger.hasEnded.timeout) {
       handleSubmit();
@@ -230,7 +176,6 @@ const useAssessment = () => {
       const body = {
         courseId: assessment.courseId,
       };
-      const { message, data } = await createCertificate(body);
     } catch (error) {
       toast({
         description: error.message,
@@ -304,6 +249,46 @@ const useAssessment = () => {
     });
   };
 
+  const handleExitAttempt = () => {
+    if (exitAttempts < totalSteps) {
+      setExitAttempts(exitAttempts + 1);
+    }
+    if (exitAttempts === totalSteps) {
+      setNav(true);
+      push("/courses");
+      handleSubmit();
+    }
+  };
+
+  useEffect(() => {
+    const handleUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // Standard for most browsers
+      handleExitAttempt();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        handleExitAttempt();
+        exitAttempts !== 3 &&
+          toast({
+            position: "top",
+            status: "error",
+            title:
+              "Note leaving this tab three times will automatically submit your exam",
+          });
+      }
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [exitAttempts]);
+
   const handleQuestionChange = (question) => setCurrentQuestion(question);
 
   const handleNextQuestion = (e) => {
@@ -354,6 +339,7 @@ const useAssessment = () => {
     handlePreviousQuestion,
     handleOptionSelect,
     handleCert,
+    nav,
     timerCountdownManger,
     modalManager: {
       ...modalManager,
