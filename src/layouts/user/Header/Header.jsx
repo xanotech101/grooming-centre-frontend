@@ -275,9 +275,24 @@ const Avatar = () => {
         <MenuGroup>
           <AccountMenuItem />
 
-          {/* <MenuItem as={Link} to="/chats">
-            Messages
-          </MenuItem> */}
+          <MenuItem as={Link} to="/dashboard">
+            Home
+          </MenuItem>
+          <MenuItem as={Link} to="/courses">
+            Courses
+          </MenuItem>
+          <MenuItem as={Link} to="/library/books">
+            Library
+          </MenuItem>
+          <MenuItem as={Link} to="/forum/questions?tab=new">
+            Forum
+          </MenuItem>
+          <MenuItem as={Link} to="/events">
+            Event
+          </MenuItem>
+          <MenuItem as={Link} to="/polls">
+            Polls
+          </MenuItem>
           <MenuItem as={Link} to="/courses/grade-overview#certificates">
             Certificates
           </MenuItem>
