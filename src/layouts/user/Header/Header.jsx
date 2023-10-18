@@ -1,6 +1,6 @@
-import { ButtonGroup, IconButton } from '@chakra-ui/button';
-import { Skeleton } from '@chakra-ui/skeleton';
-import { Box, Flex, HStack } from '@chakra-ui/layout';
+import { ButtonGroup, IconButton } from "@chakra-ui/button";
+import { Skeleton } from "@chakra-ui/skeleton";
+import { Box, Flex, HStack } from "@chakra-ui/layout";
 import {
   Menu,
   MenuButton,
@@ -8,15 +8,15 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-} from '@chakra-ui/menu';
-import { MdNotificationsActive } from 'react-icons/md';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { BrandLogo, Button } from '../../../components';
-import { useApp } from '../../../contexts';
-import { maxWidthStyles_userPages } from '../../../theme/breakpoints';
-import NavBar from './NavBar';
-import { Link } from 'react-router-dom';
-import { Avatar as AvatarImage } from '@chakra-ui/avatar';
+} from "@chakra-ui/menu";
+import { MdNotificationsActive } from "react-icons/md";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BrandLogo, Button } from "../../../components";
+import { useApp } from "../../../contexts";
+import { maxWidthStyles_userPages } from "../../../theme/breakpoints";
+import NavBar from "./NavBar";
+import { Link } from "react-router-dom";
+import { Avatar as AvatarImage } from "@chakra-ui/avatar";
 import {
   Modal,
   ModalBody,
@@ -25,11 +25,11 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-} from '@chakra-ui/react';
-import { AccountPage } from '../../../pages/admin';
-import { SlideShow } from '../../../components/SlideShow/SlideShow';
-import useGetAnnouncements from './useGetAnnouncements';
-import { useState, useEffect } from 'react';
+} from "@chakra-ui/react";
+import { AccountPage } from "../../../pages/admin";
+import { SlideShow } from "../../../components/SlideShow/SlideShow";
+import useGetAnnouncements from "./useGetAnnouncements";
+import { useState, useEffect } from "react";
 
 const Header = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -37,7 +37,7 @@ const Header = () => {
   const [data, setData] = useState();
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState([]);
-  const [id, setId] = useState('');
+  const [id, setId] = useState("");
   //z
 
   useEffect(() => {
@@ -109,17 +109,17 @@ const Header = () => {
               <Box>
                 <p
                   style={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
+                    fontSize: "12px",
+                    fontWeight: "bold",
                   }}
                 >
-                  {modalData?.firstName + ' ' + modalData?.lastName}
+                  {modalData?.firstName + " " + modalData?.lastName}
                 </p>
                 <p
                   style={{
-                    color: '#800020',
-                    fontWeight: 'bold',
-                    fontSize: '14px',
+                    color: "#800020",
+                    fontWeight: "bold",
+                    fontSize: "14px",
                   }}
                 >
                   {modalData?.department}
@@ -128,9 +128,9 @@ const Header = () => {
             </Box>
             <p
               style={{
-                color: 'rgba(0, 0, 0, 0.56)',
-                fontSize: '14px',
-                marginTop: '20px',
+                color: "rgba(0, 0, 0, 0.56)",
+                fontSize: "14px",
+                marginTop: "20px",
               }}
             >
               {modalData?.text}
@@ -152,7 +152,7 @@ const Header = () => {
           </HStack>
 
           <NavBar
-            display={{ base: 'none', tablet: 'flex' }}
+            display={{ base: "none", tablet: "flex" }}
             flex={1}
             marginRight={5}
           />
@@ -162,7 +162,7 @@ const Header = () => {
             <Avatar />
             <p
               style={{
-                position: 'relative',
+                position: "relative",
               }}
               onClick={onOpen}
             >
@@ -172,13 +172,13 @@ const Header = () => {
               {data?.length !== 0 && (
                 <p
                   style={{
-                    position: 'absolute',
-                    top: '1px',
-                    left: '25px',
-                    width: '10px',
-                    height: '10px',
-                    background: '#660066',
-                    borderRadius: '100%',
+                    position: "absolute",
+                    top: "1px",
+                    left: "25px",
+                    width: "10px",
+                    height: "10px",
+                    background: "#660066",
+                    borderRadius: "100%",
                   }}
                 />
               )}
@@ -226,19 +226,19 @@ const Header = () => {
                   <Box>
                     <p
                       style={{
-                        fontSize: '12px',
-                        fontWeight: 'bold',
+                        fontSize: "12px",
+                        fontWeight: "bold",
                       }}
                     >
-                      {item?.firstName + ' ' + item?.lastName}
+                      {item?.firstName + " " + item?.lastName}
                     </p>
                     <p
                       style={{
-                        color: 'rgba(0, 0, 0, 0.56)',
-                        fontSize: '14px',
+                        color: "rgba(0, 0, 0, 0.56)",
+                        fontSize: "14px",
                       }}
                     >
-                      {item?.text.substring(0, 15).concat('...')}
+                      {item?.text.substring(0, 15).concat("...")}
                     </p>
                   </Box>
                 </Box>
@@ -255,16 +255,17 @@ const Avatar = () => {
   const { handleLogout, state, getOneMetadata } = useApp();
 
   const isAdmin = () => {
-    const role = getOneMetadata('userRoles', state.user.userRoleId);
+    const role = getOneMetadata("userRoles", state.user.userRoleId);
 
-    if (/admin/i.test(role?.name) || /instructor/i.test(role?.name)) return true;
+    if (/admin/i.test(role?.name) || /instructor/i.test(role?.name))
+      return true;
   };
 
   return (
     <Menu>
       <MenuButton as={IconButton} isRound>
         <AvatarImage
-          name={state.user?.firstName + ' ' + state.user?.lastName}
+          name={state.user?.firstName + " " + state.user?.lastName}
           rounded="full"
           boxSize="40px"
           src={state.user?.profilePics}
@@ -280,7 +281,7 @@ const Avatar = () => {
           <MenuItem as={Link} to="/courses/grade-overview#certificates">
             Certificates
           </MenuItem>
-          <MenuItem as={Link} to="/examinations">
+          <MenuItem as={Link} to="/standalone-exams">
             Examination
           </MenuItem>
           <MenuItem as={Link} to="/courses/grade-overview">
