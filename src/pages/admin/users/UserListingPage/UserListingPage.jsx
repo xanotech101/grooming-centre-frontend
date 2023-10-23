@@ -154,7 +154,7 @@ const UserListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedUsers) => {
-        console.log(selectedUsers);
+        console.log();
         await adminDeleteMultipleUsers(selectedUsers);
       },
       pagination: true,
