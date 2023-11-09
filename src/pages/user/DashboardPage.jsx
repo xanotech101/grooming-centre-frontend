@@ -186,7 +186,7 @@ const DashboardPage = () => {
             {`Hi ${appManager?.state?.user?.firstName}!`}
           </Heading>
           <Text bold as="level1" color="accent.3">
-            Welcome back, nice to see you again!
+            Welcome , nice to see you again!
           </Text>
         </Box>
 

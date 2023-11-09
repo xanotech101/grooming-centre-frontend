@@ -262,58 +262,60 @@ const Avatar = () => {
   };
 
   return (
-    <Menu>
-      <MenuButton as={IconButton} isRound>
-        <AvatarImage
-          name={state.user?.firstName + " " + state.user?.lastName}
-          rounded="full"
-          boxSize="40px"
-          src={state.user?.profilePics}
-        />
-      </MenuButton>
-      <MenuList position="relative" zIndex={2}>
-        <MenuGroup>
-          <AccountMenuItem />
+    <Box display={{ lg: "none", base: "block", md: "none" }}>
+      <Menu>
+        <MenuButton as={IconButton} isRound>
+          <AvatarImage
+            name={state.user?.firstName + " " + state.user?.lastName}
+            rounded="full"
+            boxSize="40px"
+            src={state.user?.profilePics}
+          />
+        </MenuButton>
+        <MenuList position="relative" zIndex={100000}>
+          <MenuGroup>
+            <AccountMenuItem />
 
-          <MenuItem as={Link} to="/dashboard">
-            Home
-          </MenuItem>
-          <MenuItem as={Link} to="/courses">
-            Courses
-          </MenuItem>
-          <MenuItem as={Link} to="/library/books">
-            Library
-          </MenuItem>
-          <MenuItem as={Link} to="/forum/questions?tab=new">
-            Forum
-          </MenuItem>
-          <MenuItem as={Link} to="/events">
-            Event
-          </MenuItem>
-          <MenuItem as={Link} to="/polls">
-            Polls
-          </MenuItem>
-          <MenuItem as={Link} to="/courses/grade-overview#certificates">
-            Certificates
-          </MenuItem>
-          <MenuItem as={Link} to="/standalone-exams">
-            Examination
-          </MenuItem>
-          <MenuItem as={Link} to="/courses/grade-overview">
-            Grades
-          </MenuItem>
-          {state.user && isAdmin() && (
-            <MenuItem as={Link} to="/admin">
-              Admin Dashboard
+            <MenuItem as={Link} to="/dashboard">
+              Home
             </MenuItem>
-          )}
-        </MenuGroup>
-        <MenuDivider />
-        <MenuItem onClick={handleLogout} color="secondary.6">
-          Logout
-        </MenuItem>
-      </MenuList>
-    </Menu>
+            <MenuItem as={Link} to="/courses">
+              Courses
+            </MenuItem>
+            <MenuItem as={Link} to="/library/books">
+              Library
+            </MenuItem>
+            <MenuItem as={Link} to="/forum/questions?tab=new">
+              Forum
+            </MenuItem>
+            <MenuItem as={Link} to="/events">
+              Event
+            </MenuItem>
+            <MenuItem as={Link} to="/polls">
+              Polls
+            </MenuItem>
+            <MenuItem as={Link} to="/courses/grade-overview#certificates">
+              Certificates
+            </MenuItem>
+            <MenuItem as={Link} to="/standalone-exams">
+              Examination
+            </MenuItem>
+            <MenuItem as={Link} to="/courses/grade-overview">
+              Grades
+            </MenuItem>
+            {state.user && isAdmin() && (
+              <MenuItem as={Link} to="/admin">
+                Admin Dashboard
+              </MenuItem>
+            )}
+          </MenuGroup>
+          <MenuDivider />
+          <MenuItem onClick={handleLogout} color="secondary.6">
+            Logout
+          </MenuItem>
+        </MenuList>
+      </Menu>
+    </Box>
   );
 };
 
