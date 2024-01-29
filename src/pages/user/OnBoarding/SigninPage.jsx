@@ -44,7 +44,7 @@ const SigninPage = () => {
 
       appManager.handleSetToken(token);
       appManager.handleSetCurrentUser(user);
-      
+
       setIsCheckingAuth(true);
 
       // if (user.isInviteActive) {
@@ -74,14 +74,10 @@ const SigninPage = () => {
         <>
           <Input
             id="email"
-            type="email"
+            type="text"
             label="Email"
             {...register("email", {
-              required: "Email can't be empty",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                message: "Enter a valid e-mail address",
-              },
+              required: "Email or username can't be empty",
             })}
           />
 
