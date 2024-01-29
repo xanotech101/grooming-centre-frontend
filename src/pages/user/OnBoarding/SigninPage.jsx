@@ -75,9 +75,9 @@ const SigninPage = () => {
           <Input
             id="email"
             type="text"
-            label="Email"
+            label="Staff ID or email"
             {...register("email", {
-              required: "Email or username can't be empty",
+              required: "Staff ID is required",
             })}
           />
 
