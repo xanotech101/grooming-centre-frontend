@@ -500,7 +500,9 @@ const StandaloneExamsStart = () => {
                             question.questionIndex
                           }
                           answered={selectedAnswers[question?.id]}
-                          onClick={handleQuestionChange.bind(null, question)}
+                          onClick={() => {
+                            handleQuestionChange(question);
+                          }}
                         />
                       ))}
                     </Grid>
