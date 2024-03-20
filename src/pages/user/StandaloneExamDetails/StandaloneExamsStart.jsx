@@ -421,7 +421,7 @@ const StandaloneExamsStart = () => {
                         Previous
                       </Button>
 
-                      {pageLength === index ? (
+                      {shouldSubmit ? (
                         <Button onClick={handleSubmit}>Submit</Button>
                       ) : (
                         <Button type="submit" onClick={handleNextQuestion}>
@@ -501,7 +501,7 @@ const StandaloneExamsStart = () => {
                           }
                           answered={selectedAnswers[question?.id]}
                           onClick={() => {
-                            handleQuestionChange(question);
+                            handleQuestionChange(index);
                           }}
                         />
                       ))}

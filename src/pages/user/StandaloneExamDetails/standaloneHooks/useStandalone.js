@@ -207,23 +207,22 @@ const useStandalone = () => {
     });
   };
 
-  const handleQuestionChange = (question) => setCurrentQuestion(question);
+  const handleQuestionChange = (questionIndex) => {
+    setindex(questionIndex);
+    setCurrentQuestion(assessment.question[questionIndex]);
+  };
 
-  const handleNextQuestion = (e) => {
-    e.preventDefault();
-
+  const handleNextQuestion = () => {
     setindex(index === pageLength ? pageLength : index + 1);
-
     const nextQuestion = assessment.question[index];
-
-    handleQuestionChange(nextQuestion);
+    setCurrentQuestion(nextQuestion);
   };
 
   const handlePreviousQuestion = () => {
     setindex(index === 0 ? 0 : index - 1);
     const previousQuestion = assessment.question[index];
 
-    handleQuestionChange(previousQuestion);
+    setCurrentQuestion(previousQuestion);
   };
 
   const handleOptionSelect = (selectedAssessmentOptionId) => {
