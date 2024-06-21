@@ -424,7 +424,7 @@ const StandaloneExamsStart = () => {
                       {shouldSubmit ? (
                         <Button onClick={handleSubmit}>Submit</Button>
                       ) : (
-                        <Button type="submit" onClick={handleNextQuestion}>
+                        <Button type="button" onClick={handleNextQuestion}>
                           Next
                         </Button>
                       )}

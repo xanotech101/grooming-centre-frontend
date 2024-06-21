@@ -199,7 +199,7 @@ export const AccountPage = ({ onCallToActionClick }) => {
   const handleGoBack = useGoBack();
 
   return (
-    <AdminMainAreaWrapper>
+    <AdminMainAreaWrapper bg='#fff'>
       <Box as="form" paddingY={2} onSubmit={handleSubmit(onSubmit)}>
         {!onCallToActionClick && (
           <Heading fontSize="heading.h3" paddingBottom={4}>
