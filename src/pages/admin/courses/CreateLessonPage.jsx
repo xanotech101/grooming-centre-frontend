@@ -78,27 +78,16 @@ const CreateLessonPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson]);
 
-  const disableEndTime =
-    getOneMetadata("lessonType", getValues("lessonTypeId"))?.name === "video"
-      ? true
-      : false;
-  // Get EndTime from Video Duration
   useEffect(() => {
-    if (fileManager.video.duration && startTimeManager.value) {
-      const extraTimeMinutes = 10; // TODO: change this according to business rules
-
-      const endTime = new Date(
-        new Date(startTimeManager.value).getTime() +
-          (fileManager.video.duration + extraTimeMinutes * 60) * 1000
-      );
-      console.log();
-
-      endTimeManager.handleChange(endTime);
+    if (lesson) {
+      startTimeManager.handleChange(lesson.startTime);
+      endTimeManager.handleChange(lesson.endTime);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileManager.video.duration, startTimeManager.value]);
+  }, [lesson]);
 
+  // Allow manual input for end date
+  const disableEndTime = false;
   // Init `Content` data
   useEffect(() => {
     if (lesson) {
