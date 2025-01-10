@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 const CourseDetailsPage = () => {
   const { courseDetails, fetchCourseDetails } = useCourseDetails();
 
+  console.log(courseDetails, "course");
   useEffect(() => {
     fetchCourseDetails();
   }, [fetchCourseDetails]);
@@ -264,7 +265,7 @@ const Accordion = ({ heading, children }) => {
     <Box as="section" marginBottom={7}>
       <Flex
         as="header"
-        backgroundColor="secondary.7"
+        backgroundColor="primary.base"
         color="white"
         paddingX={8}
         paddingY={3}

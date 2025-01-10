@@ -17,7 +17,7 @@ const links = [
   },
   {
     matcher: (courseId, assessmentId) =>
-      `/admin/courses/${courseId}/assessment/${assessmentId}/questions`,
+      `courses/${courseId}/assessment/${assessmentId}/questions`,
     href: (courseId, assessmentId, examinationId) =>
       `/admin/courses/${courseId}/assessment/${assessmentId}/questions/new${
         examinationId ? `?examination=${examinationId}` : ""
@@ -80,15 +80,15 @@ const Header = () => {
           <Button
             width="100%"
             leftIcon={<IoArrowBack />}
-            link={
-              isStandaloneExamination
-                ? examinationId === "new"
-                  ? "/admin/standalone-exams"
-                  : `/admin/standalone-exams/${examinationId}/${standaloneExaminationName}`
-                : isExamination
-                ? `/admin/courses/details/${courseId}/exam`
-                : `/admin/courses/details/${courseId}/assessment`
-            }
+            // link={
+            //   isStandaloneExamination
+            //     ? examinationId === 'new'
+            //       ? '/admin/standalone-exams'
+            //       : `/admin/standalone-exams/${examinationId}/${standaloneExaminationName}`
+            //     : isExamination
+            //     ? `/admin/courses/details/${courseId}/exam`
+            //     : `/admin/courses/details/${courseId}/assessment`
+            // }
             secondary
           >
             {isExamination ? "Examination" : "Assessment"}

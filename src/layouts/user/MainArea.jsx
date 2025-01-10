@@ -1,43 +1,50 @@
-import { Box } from '@chakra-ui/layout';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { ForumLayoutRoute, ChatLayoutRoute } from '../../layouts';
-import { NotFoundPageRoute } from '../../pages/admin';
+import { Box } from "@chakra-ui/layout";
+import { useContext, useEffect, useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { ForumLayoutRoute, ChatLayoutRoute } from "../../layouts";
+import { NotFoundPageRoute } from "../../pages/admin";
 
 import {
-	CourseDetailsPageRoute,
-	CoursesPagesRoute,
-	DashboardPageRoute,
-	EventsPageRoute,
-	LibraryPageRoute,
-	GradesPageRoute,
-	CertificatePageRoute,
-} from '../../pages/user';
-import { ExaminationsPageRoute } from '../../pages/user/ExaminationsPage/ExaminationsPage';
-import { PollsPageRoute } from '../../pages/user/PollsPage/PollsPage';
-import { PollsVotePageRoute } from '../../pages/user/PollsVotePage/PollsVotePage';
+  CourseDetailsPageRoute,
+  CoursesPagesRoute,
+  DashboardPageRoute,
+  EventsPageRoute,
+  LibraryPageRoute,
+  GradesPageRoute,
+  CertificatePageRoute,
+  StandalonePagesRoute,
+  StandaloneExamsStartRoute,
+} from "../../pages/user";
+import { PollsPageRoute } from "../../pages/user/PollsPage/PollsPage";
+import { StandalonePreAssessmentRoute } from "../../pages/user/StandaloneExamDetails/StandalonePreAssessment";
+import { ExampleRoute } from "../../pages/user/tabby";
+import { PollsVotePageRoute } from "../../pages/user/PollsVotePage/PollsVotePage";
 
 const MainArea = () => {
-	return (
-		<Box as='main' marginBottom={16}>
-			<Switch>
-				<DashboardPageRoute exact path='/dashboard' />
-				<LibraryPageRoute path='/library' />
-				<ForumLayoutRoute path='/forum' />
-				<ChatLayoutRoute path='/chats' />
-				<EventsPageRoute exact path='/events' />
-				<CourseDetailsPageRoute path='/courses/details/:id' />
-				<GradesPageRoute path='/courses/grade-overview' />
-				<CertificatePageRoute path='/courses/:course_id/certificate' />
-				<CoursesPagesRoute path='/courses' />
-				<PollsPageRoute exact path='/polls' />
-				<ExaminationsPageRoute exact path='/examinations' />
-				<PollsVotePageRoute exact path='/polls/:pollId/vote' />
-				<Redirect exact from='/' to='/dashboard' />
+  return (
+    <Box as="main" marginBottom={16}>
+      <Switch>
+        <Redirect exact from="/" to="/dashboard" />
+        <DashboardPageRoute exact path="/dashboard" />
+        <LibraryPageRoute path="/library" />
+        <ForumLayoutRoute path="/forum" />
+        <ChatLayoutRoute path="/chats" />
+        <EventsPageRoute exact path="/events" />
+        <CourseDetailsPageRoute path="/courses/details/:id" />
+        <GradesPageRoute path="/courses/grade-overview" />
 
-				<Route render={props => <NotFoundPageRoute />} />
-			</Switch>
-		</Box>
-	);
+        <CertificatePageRoute path="/courses/:course_id/certificate" />
+        <PollsVotePageRoute path="/polls/:id/vote" />
+        <CoursesPagesRoute path="/courses" />
+        <PollsPageRoute exact path="/polls" />
+        <StandalonePagesRoute exact path="/standalone-exams" />
+        <StandalonePreAssessmentRoute exact path="/standalone-exams/take" />
+        <StandaloneExamsStartRoute exact path="/standalone-exams/start" />
+        <ExampleRoute path="/example" />
+        <Route render={(props) => <NotFoundPageRoute />} />
+      </Switch>
+    </Box>
+  );
 };
 
 export default MainArea;

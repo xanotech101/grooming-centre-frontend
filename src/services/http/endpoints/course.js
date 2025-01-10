@@ -17,7 +17,8 @@ export const adminGetCourseListing = async (params) => {
     data: { data },
   } = await http.get(path, { params });
 
-  console.log(data)
+  console.log(data);
+
   return {
     courses: data.rows.map((course) => ({
       id: course.id,
@@ -32,6 +33,35 @@ export const adminGetCourseListing = async (params) => {
     })),
     showingDocumentsCount: data.rows.length,
     totalDocumentsCount: data.count,
+  };
+};
+
+/**
+ * Endpoint to get courses by department
+ *  @param {string} departmentId
+ *
+ * @returns {Promise<{ courses: CourseListArray }>}
+ */
+export const adminGetCoursesByDepartment = async (departmentId) => {
+  const path = `/course/admin/${departmentId}`;
+
+  const {
+    data: { data },
+  } = await http.get(path);
+
+  console.log(data, "hi");
+
+  return {
+    courses: data.map((course) => ({
+      id: course.id,
+      displayId: course.displayId,
+      title: course.title,
+      instructor: {
+        firstName: course.instructor.firstName,
+        lastName: course.instructor.lastName,
+      },
+      startDate: course.startTime || "not set",
+    })),
   };
 };
 
@@ -187,7 +217,7 @@ export const adminPublishCourse = async (id) => {
  * @returns {Promise<{ course: Course }>}
  */
 export const adminDeleteCourse = async (id) => {
-  const path = `/course/delete/${id}`;
+  const path = `/course/${id}`;
 
   await http.delete(path);
 };
@@ -196,10 +226,14 @@ export const adminDeleteCourse = async (id) => {
  *
  * @returns {Promise<{ course: Course }>}
  */
-export const adminDeleteMultipleCourses = async () => {
-  const path = `/course/delete-multiple`;
-
-  await http.delete(path);
+export const adminDeleteMultipleCourses = async (ids) => {
+  const path = `/admin/course/delete-multiple`;
+  let formattedIds = [];
+  for (let i = 0; i < ids.length; i++) {
+    formattedIds.push(ids[i].id);
+  }
+  const body = { userIds: formattedIds };
+  await http.patch(path, body);
 };
 
 /**

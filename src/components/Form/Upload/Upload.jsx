@@ -11,6 +11,7 @@ import { Button, Image, Spinner } from "../..";
 import { useFetch } from "../../../hooks";
 import FormGroup, { FormGroupPropTypes } from "../FormGroup";
 import MiniUploadContent from "./MiniUploadContent";
+import fileIcon from "../../../assets/images/file.png";
 
 export const Upload = forwardRef(
   (
@@ -24,6 +25,7 @@ export const Upload = forwardRef(
       videoUrl,
       audioUrl,
       pdfUrl,
+      excelUrl,
       alt,
       label,
       onFileSelect,
@@ -49,7 +51,7 @@ export const Upload = forwardRef(
       accept,
     });
 
-    const hasUploaded = imageUrl || videoUrl || pdfUrl || audioUrl;
+    const hasUploaded = imageUrl || videoUrl || pdfUrl || audioUrl || excelUrl;
 
     const { resource: deleteRequest, handleFetchResource } = useFetch();
     const toast = useToast();
@@ -121,6 +123,11 @@ export const Upload = forwardRef(
                   >
                     {" "}
                   </object>
+                ) : excelUrl ? (
+                  <div>
+                    <img width="100px" src={fileIcon} alt=""/><br/>
+                    <b><i>{excelUrl}</i></b>
+                  </div>
                 ) : (
                   <Image
                     id={previewElementId}

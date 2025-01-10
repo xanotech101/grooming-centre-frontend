@@ -1,22 +1,29 @@
-import { Box, Stack } from '@chakra-ui/layout';
-import { Link, useHistory } from 'react-router-dom';
-import { Route } from 'react-router-dom';
-import { Heading, Image, Text } from '../../../components';
-import coverImagePlaceholder from '../../../assets/images/events-banner.svg';
-import { pageWrapperSpacing_userPages } from '../../../theme/breakpoints';
-import { AiFillClockCircle } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
-import timeConverter from './timeConverter';
-import { useToast } from '@chakra-ui/toast';
+import { Box, Stack } from "@chakra-ui/layout";
+import { Link, useHistory } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { Heading, Image, Text } from "../../../components";
+import coverImagePlaceholder from "../../../assets/images/events-banner.svg";
+import { pageWrapperSpacing_userPages } from "../../../theme/breakpoints";
+import { AiFillClockCircle } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import timeConverter from "./timeConverter";
+import { useToast } from "@chakra-ui/toast";
 
-import useTakeStandalone from '../../../contexts/TakeStandaloneExam/useTakeStandalone';
-import completeImg from '../../../assets/images/image 10.png';
-import uncompleteImg from '../../../assets/images/image 11.png';
+import useTakeStandalone from "../../../contexts/TakeStandaloneExam/useTakeStandalone";
+import completeImg from "../../../assets/images/image 10.png";
+import uncompleteImg from "../../../assets/images/image 11.png";
+import CoursesPagination from "../../../components/Pagination/CoursesPagination";
 
 const StandaloneExaminationListingPage = () => {
   const [exams, setExams] = useState([]);
 
-  const { examination } = useTakeStandalone();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(4);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const { examination, page, setPage } = useTakeStandalone();
   const { push } = useHistory();
   const toast = useToast();
 
@@ -25,9 +32,9 @@ const StandaloneExaminationListingPage = () => {
       push(`/standalone-exams/take/?exam=${id}`);
     } else {
       toast({
-        description: 'You have completed this examination',
-        position: 'top',
-        status: 'success',
+        description: "You have completed this examination",
+        position: "top",
+        status: "success",
       });
     }
   };
@@ -36,12 +43,20 @@ const StandaloneExaminationListingPage = () => {
     setExams(examination);
   }, [examination]);
 
+  console.log(exams);
+
   const DateConverter = (date) => {
-    return new Date(date).toLocaleString('en-us', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
+    return new Date(date).toLocaleString("en-us", {
+      dateStyle: "medium",
+      timeStyle: "short",
     });
   };
+
+  const pageLength = exams?.length;
+
+  const currentItems = exams?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const npages = Math.ceil(pageLength / itemsPerPage);
 
   return (
     <>
@@ -87,7 +102,7 @@ const StandaloneExaminationListingPage = () => {
           gap="30px"
         >
           {exams &&
-            exams?.map((exam) => (
+            currentItems?.map((exam) => (
               <Box
                 key={exam?.id}
                 height="280px"
@@ -106,58 +121,58 @@ const StandaloneExaminationListingPage = () => {
               >
                 <div
                   style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    background: '#65172A',
-                    alignItems: 'center',
-                    padding: '4px',
-                    borderTopLeftRadius: '8px',
-                    borderTopRightRadius: '8px',
+                    display: "flex",
+                    justifyContent: "space-between",
+                    background: "#660066",
+                    alignItems: "center",
+                    padding: "4px",
+                    borderTopLeftRadius: "8px",
+                    borderTopRightRadius: "8px",
                   }}
                 >
                   <div
                     style={
                       exam?.standAloneExaminationGrade.length === 0
                         ? {
-                            background: 'red',
-                            color: '#f5f5f5',
-                            fontSize: '14px',
-                            paddingRight: '4px',
-                            paddingLeft: '4px',
-                            borderRadius: '5px',
+                            background: "red",
+                            color: "#f5f5f5",
+                            fontSize: "14px",
+                            paddingRight: "4px",
+                            paddingLeft: "4px",
+                            borderRadius: "5px",
                           }
                         : {
-                            background: '#27AE60',
-                            color: '#f5f5f5',
-                            fontSize: '14px',
-                            paddingRight: '4px',
-                            paddingLeft: '4px',
-                            borderRadius: '5px',
+                            background: "#27AE60",
+                            color: "#f5f5f5",
+                            fontSize: "14px",
+                            paddingRight: "4px",
+                            paddingLeft: "4px",
+                            borderRadius: "5px",
                           }
                     }
                   >
                     {exam?.standAloneExaminationGrade.length === 0
-                      ? 'uncompleted'
-                      : 'completed'}
+                      ? "uncompleted"
+                      : "completed"}
                   </div>
                   <p
                     style={{
-                      color: 'white',
-                      textAlign: 'center',
-                      fontSize: '12px',
+                      color: "white",
+                      textAlign: "center",
+                      fontSize: "12px",
                     }}
                   >
-                    score: {''}
+                    score: {""}
                     {exam?.standAloneExaminationGrade[0]?.score}%
                   </p>
                 </div>
-                <div style={{ height: '130px' }}>
+                <div style={{ height: "130px" }}>
                   {exam?.standAloneExaminationGrade.length === 0 ? (
                     <img
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
                       }}
                       src={uncompleteImg}
                       alt={exam?.title}
@@ -165,9 +180,9 @@ const StandaloneExaminationListingPage = () => {
                   ) : (
                     <img
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
                       }}
                       src={completeImg}
                       alt={exam?.title}
@@ -176,29 +191,29 @@ const StandaloneExaminationListingPage = () => {
                 </div>
                 <div
                   style={{
-                    marginTop: '4px',
-                    padding: '8px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '6px',
+                    marginTop: "4px",
+                    padding: "8px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
                   }}
                 >
-                  <p style={{ fontWeight: 'bold' }}>{exam?.title}</p>
+                  <p style={{ fontWeight: "bold" }}>{exam?.title}</p>
                   <div
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      color: '#697386',
+                      display: "flex",
+                      justifyContent: "space-between",
+                      color: "#697386",
                     }}
                   >
-                    <p style={{ fontSize: '14px' }}>
+                    <p style={{ fontSize: "14px" }}>
                       Start: {DateConverter(exam?.startTime)}
                     </p>
                     <div
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px',
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
                       }}
                     >
                       <AiFillClockCircle />
@@ -209,6 +224,14 @@ const StandaloneExaminationListingPage = () => {
               </Box>
             ))}
         </Box>
+
+        <CoursesPagination
+          itemsPerPage={itemsPerPage}
+          pageLength={pageLength}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          npages={npages}
+        />
       </Box>
     </>
   );

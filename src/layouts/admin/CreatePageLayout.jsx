@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { IoArrowBack } from "react-icons/io5";
+import { IoArrowBack, IoDownload } from "react-icons/io5";
 import { AdminMainAreaWrapper } from "..";
 import { Button, Heading, Text } from "../../components";
 import { useGoBack } from "../../hooks";
@@ -13,7 +13,10 @@ export const CreatePageLayout = ({
   submitButtonIsDisabled,
   title,
   onSubmit,
-  isFullwidth
+  isFullwidth,
+  template = false,
+  onClick,
+  file,
 }) => {
   const handleGoBack = useGoBack();
 
@@ -24,7 +27,7 @@ export const CreatePageLayout = ({
           shadow="md"
           rounded="sm"
           as="header"
-          flexDirection={{base:"column", md:"row", lg:"row"}}
+          flexDirection={{ base: "column", md: "row", lg: "row" }}
           justifyContent="space-between"
           minHeight="150px"
           backgroundColor="white"
@@ -40,9 +43,29 @@ export const CreatePageLayout = ({
             {/* <Text as="level2">{subTitle}</Text> */}
           </Box>
 
-          <Button secondary leftIcon={<IoArrowBack />} onClick={handleGoBack} isFullwidth="130px">
-            Go Back
-          </Button>
+          <div>
+            <Button
+              secondary
+              leftIcon={<IoArrowBack />}
+              onClick={handleGoBack}
+              isFullwidth="130px"
+            >
+              Go Back
+            </Button>
+            {template === true && (
+              <a href={file}>
+                <Button
+                  secondary
+                  leftIcon={<IoDownload />}
+                  onClick={onClick}
+                  isFullwidth="200px"
+                  marginLeft="16px"
+                >
+                  Download Template
+                </Button>
+              </a>
+            )}
+          </div>
         </Flex>
 
         <Flex
@@ -61,8 +84,7 @@ export const CreatePageLayout = ({
               isLoading={submitButtonIsLoading}
               disabled={submitButtonIsDisabled || submitButtonIsLoading}
               loadingText={submitButtonText}
-              isFullwidth={{base:"100%",md:"100%",lg:"auto"}}
-    
+              isFullwidth={{ base: "100%", md: "100%", lg: "auto" }}
             >
               {submitButtonText}
             </Button>

@@ -11,12 +11,14 @@ export const useUpload = (props) => {
   const [video, setVideo] = useState({ url: null, duration: null });
   const [pdf, setPdf] = useState({ url: null });
   const [audio, setAudio] = useState({ url: null });
+  const [excel, setExcel] = useState({ url: null });
 
   const handleFileSelect = (file) => {
     const fileIsAnImage = /(image)/i.test(accept);
     const fileIsAVideo = /(video)/i.test(accept);
     const fileIsPDF = /(pdf)/i.test(accept);
     const fileIsAudio = /(audio)/i.test(accept);
+    const fileIsExcel = /(csv)/i.test(accept) || /(xlsx)/i.test(accept) || /(xls)/i.test(accept);
 
     if (file) {
       if (fileIsAnImage) {
@@ -39,11 +41,17 @@ export const useUpload = (props) => {
         const url = URL.createObjectURL(file);
         setAudio({ url });
       }
+
+      if (fileIsExcel) {
+        const url = file.name;
+        setExcel({ url });
+      }
     } else {
       setVideo({ url: null });
       setImage({ url: null });
       setPdf({ url: null });
       setAudio({ url: null });
+      setExcel({url: null})
     }
 
     setFile(file);
@@ -54,6 +62,7 @@ export const useUpload = (props) => {
     setImage({ url: null });
     setPdf({ url: null });
     setAudio({ url: null });
+    setExcel({ url : null })
 
     setFile(null);
   };
@@ -80,11 +89,14 @@ export const useUpload = (props) => {
   const handleInitialAudioSelect = (url) => {
     setAudio({ url });
   };
+  const handleInitialExcelSelect = (url) => {
+    setExcel({ url });
+  };
 
   const handleAcceptChange = (accept) => setAccept(accept);
 
   const handleGetFileAndValidate = (label, bypass) => {
-    if (!bypass && !image.url && !video.url && !pdf.url && !audio.url)
+    if (!bypass && !image.url && !video.url && !pdf.url && !audio.url && !excel.url)
       throw new Error(`Please upload a ${label}`);
 
     return file;
@@ -96,6 +108,7 @@ export const useUpload = (props) => {
     video,
     pdf,
     audio,
+    excel,
     file,
     handleFileSelect,
     handleFileDelete,
@@ -105,5 +118,6 @@ export const useUpload = (props) => {
     handleInitialVideoSelect,
     handleInitialPdfSelect,
     handleInitialAudioSelect,
+    handleInitialExcelSelect
   };
 };

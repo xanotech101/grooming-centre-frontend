@@ -111,15 +111,15 @@ export const Button = ({
     };
 
     return asIcon ? (
-      <IconButton aria-label={iconAriaLabel} {...props}>
+      <IconButton onClick={onClick} aria-label={iconAriaLabel} {...props}>
         {children}
       </IconButton>
     ) : (
       <ButtonChakraui
+      
         position="relative"
         {...getButtonSizeStyles()}
         {...props}
-        display="block"
         textAlign="center"
         w={isFullwidth}
         onClick={onClick}
