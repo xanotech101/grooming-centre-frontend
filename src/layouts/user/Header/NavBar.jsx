@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/layout";
 import { Link, Text } from "../../../components";
+import { useApp } from "../../../contexts";
 
 const links = [
   {
@@ -30,9 +31,14 @@ const links = [
     href: "/courses/grade-overview",
     text: "Grades",
   },
+  {
+    href: "/standalone-exams",
+    text: "Exams",
+  },
 ];
 
 const NavBar = ({ ...rest }) => {
+  const { handleLogout } = useApp();
   return (
     <Flex as="nav" alignSelf="stretch" {...rest}>
       <Flex listStyleType="none" as="ul">
@@ -48,6 +54,17 @@ const NavBar = ({ ...rest }) => {
             </Link>
           </li>
         ))}
+        <Text
+          as="level3"
+          color="red"
+          cursor="pointer"
+          ml={4}
+          onClick={handleLogout}
+          alignSelf="center"
+          font="bold"
+        >
+          Logout
+        </Text>
       </Flex>
     </Flex>
   );

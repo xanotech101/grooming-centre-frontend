@@ -171,6 +171,9 @@ const CreateLibraryFilePage = () => {
       });
 
       if (isEditMode) push(`/admin/library/details/${fileId}`);
+      else {
+        push(`/admin/library/details/${fileId}`);
+      }
     } catch (error) {
       toast({
         description: capitalizeFirstLetter(error.message),
@@ -223,7 +226,14 @@ const CreateLibraryFilePage = () => {
         submitButtonIsDisabled={!allMetadata}
         submitButtonIsLoading={isSubmitting}
       >
-        <Box as="div" display={{lg:"grid",sm:"flex", md:"flex"}} flexDirection="column" gridTemplateColumns="1fr 1fr" gap={10} marginBottom={10}>
+        <Box
+          as="div"
+          display={{ lg: "grid", sm: "flex", md: "flex" }}
+          flexDirection="column"
+          gridTemplateColumns="1fr 1fr"
+          gap={10}
+          marginBottom={10}
+        >
           {/* Row 1 */}
           <GridItem>
             <Input
@@ -268,7 +278,7 @@ const CreateLibraryFilePage = () => {
         </Grid>
 
         <Grid marginBottom={10}>
-          <GridItem width={{lg:"50%", base:"100%"}}>
+          <GridItem width={{ lg: "50%", base: "100%" }}>
             <Select
               id="libraryTypeId"
               label="File type"

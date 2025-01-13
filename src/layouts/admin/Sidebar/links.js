@@ -6,6 +6,7 @@ import { IoIosCalendar } from "react-icons/io";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { VscLibrary } from "react-icons/vsc";
 import { TiPen } from "react-icons/ti";
+import { MdOutlineAnnouncement } from "react-icons/md";
 
 export const links = [
   {
@@ -40,6 +41,11 @@ export const links = [
     icon: <TiPen />,
   },
   {
+    text: "account",
+    href: "/admin/settings/",
+    icon: <FiSettings />,
+  },
+  {
     href: "/admin/departments?page=1&limit=10",
     text: "departments",
     icon: <HiOutlineOfficeBuilding />,
@@ -53,6 +59,11 @@ export const links = [
     href: "/admin/library",
     text: "library",
     icon: <VscLibrary />,
+  },
+  {
+    href: "/admin/announcement",
+    text: "announcements",
+    icon: <MdOutlineAnnouncement />,
   },
 ];
 

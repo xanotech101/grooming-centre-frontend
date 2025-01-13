@@ -62,7 +62,7 @@ const SidebarLink = ({ link, onClick }) => {
     <li>
       {link.href ? (
         <Link
-        onClick={onClick}
+          onClick={onClick}
           navLink
           href={link.href}
           exact={link.exact}

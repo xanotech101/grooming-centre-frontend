@@ -87,7 +87,7 @@ const CreateAssessmentPage = ({ users }) => {
                 }),
           }
         : data;
-
+      console.log(body, "jjjjj");
       const { message, assessment, examination } =
         await (isStandaloneExamination
           ? adminCreateStandaloneExamination(body)

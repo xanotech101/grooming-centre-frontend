@@ -1,9 +1,9 @@
-import { useToast } from "@chakra-ui/toast";
-import { Box, Flex } from "@chakra-ui/react";
-import { Skeleton } from "@chakra-ui/skeleton";
-import { useEffect, useRef, useState } from "react";
-import ReactPlayer from "react-player/lazy";
-import { Route } from "react-router-dom";
+import { useToast } from '@chakra-ui/toast';
+import { Box, Flex } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/skeleton';
+import { useEffect, useRef, useState } from 'react';
+import ReactPlayer from 'react-player/lazy';
+import { Route } from 'react-router-dom';
 import {
   Button,
   Heading,
@@ -11,11 +11,11 @@ import {
   RichTextToView,
   SkeletonText,
   // Text,
-} from "../../../../components";
-import useLessonDetails from "./hooks/useLessonDetails";
-import { capitalizeFirstLetter } from "../../../../utils/formatString";
-import { EmptyState } from "../../../../layouts";
-import { useGoBack } from "../../../../hooks";
+} from '../../../../components';
+import useLessonDetails from './hooks/useLessonDetails';
+import { capitalizeFirstLetter } from '../../../../utils/formatString';
+import { EmptyState } from '../../../../layouts';
+import { useGoBack } from '../../../../hooks';
 
 const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
   const {
@@ -44,8 +44,8 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
     if (endLessonHasError)
       toast({
         description: capitalizeFirstLetter(endLessonHasError),
-        position: "top",
-        status: "error",
+        position: 'top',
+        status: 'error',
       });
   }, [toast, endLessonHasError]);
 
@@ -121,9 +121,9 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
 
             <Flex
               width="100%"
-              flexDirection={{ base: "column", laptop: "row" }}
+              flexDirection={{ base: 'column', laptop: 'row' }}
             >
-              <Box width={{ base: "100%", laptop: "60%" }} bg="accent.2">
+              <Box width={{ base: '100%', laptop: '60%' }} bg="accent.2">
                 {isLoading ? (
                   <Skeleton width="100%" height="100%" />
                 ) : fileIsPDF ? (
@@ -133,7 +133,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
                   />
                 ) : (
                   <Player
-                    minHeight={"300px"}
+                    minHeight={'300px'}
                     url={lesson?.file}
                     lessonId={lesson?.id}
                     lessonCompleted={lesson?.hasEnded}
@@ -145,7 +145,7 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
                 )}
               </Box>
 
-              <Box height="65vh" width={{ base: "100%", laptop: "40%" }}>
+              <Box height="65vh" width={{ base: '100%', laptop: '40%' }}>
                 {isLoading ? (
                   <Box
                     paddingTop={10}
@@ -187,8 +187,8 @@ const LessonDetailsPage = ({ sidebarLinks, setCourseState }) => {
 const Player = ({
   lessonId,
   lessonCompleted,
-  width = "100%",
-  height = "100%",
+  width = '100%',
+  height = '100%',
   url,
   onEnded,
   onPlayToggle,
@@ -226,7 +226,7 @@ const Player = ({
       width={width}
       height={height}
       position="relative"
-      className={!controls && "take-lesson-video-wrapper"}
+      className={!controls && 'take-lesson-video-wrapper'}
       {...rest}
     >
       <ReactPlayer
@@ -248,7 +248,7 @@ const Player = ({
 
 const PDFReader = ({ lesson, handleEndLesson }) => {
   useEffect(() => {
-    console.log(document.querySelectorAll("#take-lesson-pdf #icon"));
+    console.log(document.querySelectorAll('#take-lesson-pdf #icon'));
 
     handleEndLesson();
 
