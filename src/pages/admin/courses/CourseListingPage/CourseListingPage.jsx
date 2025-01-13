@@ -230,7 +230,7 @@ const CourseListingPage = () => {
 
       <Table
         {...tableProps}
-        placeholder="Title, department, instructor, published, unpublished"
+        placeholder="Id, Title, department, instructor, published, unpublished"
         rows={rows}
         setRows={setRows}
         handleFetch={fetchRowItems}

@@ -98,12 +98,10 @@ export const adminEditLesson = async (lessonId, body) => {
  * @returns {Promise<{ message: string, lessons: Array<{ id: string, title: string, startTime: Date, active: boolean, courseId: string }>}>}
  */
 export const adminGetLessonListing = async (courseId, params, body) => {
-  const path = `/lesson/admin/${courseId}`;
-
+  const path = `/lesson/admin/${courseId}?sort=desc`;
   const {
     data: { message, data },
   } = await http.get(path, { params }, body);
-
   return {
     message,
     lessons: data.rows.map((lesson) => ({

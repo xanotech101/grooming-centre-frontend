@@ -293,7 +293,6 @@ const CreateLessonPage = () => {
           <GridItem>
             <DateTimePicker
               id="EndTime"
-              isRequired
               label="End date & time"
               value={endTimeManager.value}
               onChange={endTimeManager.handleChange}
