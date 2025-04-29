@@ -27,14 +27,13 @@ export const useApp = () => {
   const fetchMetadata = useCallback(async () => {
     try {
       const { data } = await requestMetadata();
-      console.log(data, "logging data now")
       setState((prev) => ({
         ...prev,
         metadata: {
           ...data,
-          departments: data.departments.filter(
+          departments: (data?.departments ?? []).filter(
             (department) => department.name !== 'General'
-          ),
+          ) ?? [],
         },
         allMetadata: data,
       }));
