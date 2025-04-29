@@ -27,6 +27,7 @@ export const useApp = () => {
   const fetchMetadata = useCallback(async () => {
     try {
       const { data } = await requestMetadata();
+      console.log(data, "logging data now")
       setState((prev) => ({
         ...prev,
         metadata: {
