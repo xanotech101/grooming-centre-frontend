@@ -240,7 +240,8 @@ const CourseDetailsPage = () => {
         <Accordion heading="Course Curriculum">
           {renderCurriculumList("lessons")}
           {renderCurriculumList("assessments")}
-          {renderItem(courseDetailsData?.examination, { isExamination: true })}
+          {courseDetailsData?.examination &&
+            renderItem(courseDetailsData?.examination, { isExamination: true })}
         </Accordion>
         {/* {courseDetailsData?.lessons[0] && (
           <Box textAlign="right" pr={2}>
@@ -290,7 +291,7 @@ const Accordion = ({ heading, children }) => {
       <Box
         overflowY="hidden"
         transition=".5s"
-        maxHeight={accordionManager.isOpen ? "1000px" : "0px"}
+        // maxHeight={accordionManager.isOpen ? "1000px" : "0px"}
       >
         {children}
       </Box>

@@ -15,7 +15,7 @@ const Pagination = ({
   const p = useQueryParams().get('page');
   const l = useQueryParams().get('limit');
   const initialPage = p ? parseInt(p) : 1;
-  const initialLimit = l || '10';
+  const initialLimit = l || '20';
 
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [limit, setLimit] = useState(initialLimit);
