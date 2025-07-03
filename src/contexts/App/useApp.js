@@ -31,7 +31,7 @@ export const useApp = () => {
         ...prev,
         metadata: {
           ...data,
-          departments: data.departments.filter(
+          departments: data?.departments?.filter(
             (department) => department.name !== 'General'
           ),
         },
