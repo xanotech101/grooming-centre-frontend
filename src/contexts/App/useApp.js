@@ -33,7 +33,7 @@ export const useApp = () => {
           ...data,
           departments: data?.departments?.filter(
             (department) => department.name !== 'General'
-          ),
+          ) ?? [],
         },
         allMetadata: data,
       }));
