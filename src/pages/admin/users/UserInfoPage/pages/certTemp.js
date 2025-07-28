@@ -9,6 +9,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { truncateText } from "../../../../../utils";
 import { exportAsImage } from "../../../../../utils/exportToPng";
 import { exportAsPdf } from "../../../../../utils/exportToPdf";
+import template from "../../../../../assets/images/Certificate.png"
 
 export const Certificate = ({ name, title }) => {
   const certificateWrapper = useRef(null);
@@ -16,110 +17,40 @@ export const Certificate = ({ name, title }) => {
   return (
     <div>
       <div className="">
-        <div id="cert" ref={certificateWrapper}>
-          <div id=""></div>
-
+        <div
+          id="cert"
+          ref={certificateWrapper}
+          style={{
+            position: "relative",
+            width: "842px", // A4 width in pixels at 96 DPI
+            height: "595px", // A4 height in pixels at 96 DPI
+            backgroundImage: `url(${template})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Name field positioned over the certificate blank line */}
           <div
             style={{
-              backgroundColor: "#660066",
-              padding: "20px",
-              overflow: "hidden",
-              position: "relative",
-              height: "100%",
+              position: "absolute",
+              top: "290px", // Adjusted for the new template
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: "32px",
+              fontFamily: "serif",
+              color: "#333",
+              textAlign: "center",
+              fontWeight: "bold",
+              letterSpacing: "2px",
+              maxWidth: "500px",
             }}
           >
-            <div className="design-1"></div>
-            <div className="design-2"></div>
-            <div className="angle"></div>
-            <div className="angle-2"></div>
-            <div
-              style={{
-                position: "absolute",
-                bottom: "30px",
-                right: "30px",
-              }}
-            >
-              <img src={tr} width={"60px"} />
-            </div>
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: "#fff",
-                paddingBottom: "20px",
-              }}
-            >
-              <div className="main-b">
-                <div>
-                  <img src={logo} width={"50px"} />
-                </div>
-                <h1>Grooming Center Training</h1>
-              </div>
-              <div className="main-b">
-                <h1>Certificate of Completion</h1>
-              </div>
-              <div
-                style={{
-                  textAlign: "center",
-                  marginTop: "20px",
-                }}
-              >
-                <h3>This is to proudly certify that</h3>
-                <div
-                  style={{
-                    textAlign: "center",
-                    marginTop: "20px",
-                    fontSize: "30px",
-                    fontFamily: "Sacramento",
-                  }}
-                >
-                  <div className="line-c">
-                    <p>{name}</p>
-                    <p className="line"></p>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    textAlign: "center",
-                    marginTop: "28px",
-                    paddingLeft: "30px",
-                    paddingRight: "30px",
-                  }}
-                >
-                  <h3>
-                    has fullfilled all the neccessary requirements requested for
-                  </h3>
-                  <div
-                    style={{
-                      textAlign: "center",
-                      marginTop: "10px",
-                      fontSize: "30px",
-                      fontFamily: "Sacramento",
-                    }}
-                  >
-                    <div className="line-c">
-                      <p className="w-[200px]">{title}</p>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      marginTop: "30px",
-                    }}
-                  >
-                    <img
-                      src={badge}
-                      width={"70px"}
-                      style={{
-                        margin: "auto",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            {name}
           </div>
         </div>
       </div>
+
       <Flex justifyContent={"flex-end"} mt={6} pos={"relative"}>
         {drop ? (
           <Box
