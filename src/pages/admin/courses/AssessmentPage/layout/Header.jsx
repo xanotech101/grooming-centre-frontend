@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/layout";
 import { IoArrowBack } from "react-icons/io5";
 import { useParams } from "react-router";
 import { Button, Link, Text } from "../../../../../components";
-import { useQueryParams } from "../../../../../hooks";
+import { useQueryParams, useGoBack } from "../../../../../hooks";
 import colors from "../../../../../theme/colors";
 
 const links = [
@@ -28,6 +28,7 @@ const links = [
 
 const Header = () => {
   const { id: courseId, assessmentId } = useParams();
+  const handleCancel = useGoBack();
 
   const examinationId = useQueryParams().get("examination");
   const isExamination = examinationId;
@@ -90,6 +91,7 @@ const Header = () => {
             //     : `/admin/courses/details/${courseId}/assessment`
             // }
             secondary
+            onClick={handleCancel}
           >
             {isExamination ? "Examination" : "Assessment"}
           </Button>
