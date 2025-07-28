@@ -39,5 +39,5 @@ jobs:
         with:
           app-name: 'publicfe'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FE85D67FD83A44118BB81EF143F2FCD8 }}
           package: release.zip
