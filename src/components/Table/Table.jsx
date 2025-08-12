@@ -178,8 +178,8 @@ export const Table = ({
   generalRowStyles,
   handleFetch,
   // Calc from the width of the aside and margins
-  width = "calc(100vw - 270px - 40px)",
-  maxWidth = `calc(${breakpoints["laptop"]} + 100px)`,
+  width = "100%",
+  maxWidth = "100%",
 }) => {
   const manager = useTable({
     rowsData: rows.data?.rows,
@@ -279,9 +279,10 @@ export const Table = ({
         <Box
           divider={<StackDivider borderColor="gray.200" marginY={0} />}
           role="table"
+          padding={2}
           paddingBottom={5}
           width="100%"
-          maxWidth={maxWidth}
+          maxWidth="100%"
           overflowX="auto"
           backgroundColor="white"
         >
