@@ -17,7 +17,6 @@ const tableProps = {
       queryKey: "all-courses",
       width: "200px",
       position: "right-bottom",
-      // noFilterTags: true,
       body: {
         radios: [
           {
