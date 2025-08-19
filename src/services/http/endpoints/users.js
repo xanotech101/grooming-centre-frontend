@@ -69,6 +69,8 @@ export const adminGetUserDetails = async (id) => {
     data: { data },
   } = await http.get(path);
 
+  const deptNames = data.departments.map((dept) => dept.name).join(", ");
+
   const user = {
     id: data.id,
     firstName: data.firstName,
@@ -76,9 +78,9 @@ export const adminGetUserDetails = async (id) => {
     email: data.email,
     userRoleId: data.userRole.id,
     userRoleName: data.userRole.name,
-    departmentId: data.department?.id,
+    departmentId: data.departments[0]?.id,
     gender: data.gender,
-    departmentName: data.department?.name,
+    departmentName: deptNames,
     certificates: data.certificates ? data.certificates : "notset",
     gradePoint: data.averageGradeScore ? data.averageGradeScore : 0,
     noOfCertificate: data.certificate ? data.certificate.length : 0,

@@ -34,6 +34,7 @@ export const useViewUserDetails = () => {
 
   const fetcher = useCallback(async () => {
     const { user } = await adminGetUserDetails(userId);
+    // console.log("User Details", user); // IGNORE
     return user;
   }, [userId]);
   const fetchUserDetails = useCallback(async () => {
