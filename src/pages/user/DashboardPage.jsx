@@ -132,7 +132,7 @@ const DashboardPage = () => {
     resource: dayAppointments,
     handleFetch: handleDayRetry,
   } = useDaySchedule();
-  console.log(appManager?.state?.user?.firstName, "hhhh");
+  
   const scheduledCards = [
     {
       title: "Upcoming Assessment",

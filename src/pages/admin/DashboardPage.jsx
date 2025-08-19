@@ -47,16 +47,13 @@ const DashboardPage = () => {
   );
 
   const departmentUsers = stats.data?.usersByDepartment.map(
-    (department) => department.user.length
+    (department) => department.users.length
   );
 
-  console.log(departmentName);
 
   const roleName = stats.data?.usersByRoles.map((role) => role.name);
 
   const roleUsers = stats.data?.usersByRoles.map((role) => role.user.length);
-
-  console.log(roleName);
 
   // get published courses
   const published = stats.data?.courses?.filter((course) => course.isPublished);
