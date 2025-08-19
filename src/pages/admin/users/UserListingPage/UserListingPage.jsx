@@ -27,6 +27,8 @@ const UserListingPage = () => {
     (department) => department.name
   );
 
+  console.log("Department Names", departmentName);
+
   const tableProps = {
     filterControls: [
       {
@@ -172,6 +174,7 @@ const UserListingPage = () => {
       userId: user.id,
     },
     department: user.departmentName,
+    noOfDepartments: user.departmentNumber,
     certificates: user.noOfCertificate,
   });
 
