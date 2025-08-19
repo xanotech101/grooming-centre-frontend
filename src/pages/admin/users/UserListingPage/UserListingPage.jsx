@@ -128,13 +128,14 @@ const UserListingPage = () => {
         ),
       },
       { id: "3", key: "department", text: "Department", fraction: "200px" },
+      { id: "4", key: "noOfDepartments", text: "No. of Departments", fraction: "150px" },
       {
-        id: "4",
+        id: "5",
         key: "email",
         text: "Email Address",
         fraction: "250px",
       },
-      { id: "5", key: "gradePoint", text: "GP (%)", fraction: "75px" },
+      { id: "6", key: "gradePoint", text: "GP (%)", fraction: "75px" },
       // { id: '6', key: 'certificates', text: 'Certificates', fraction: '75px', },
     ],
 
@@ -154,7 +155,6 @@ const UserListingPage = () => {
       ],
       selection: true,
       multipleDeleteFetcher: async (selectedUsers) => {
-        console.log();
         await adminDeleteMultipleUsers(selectedUsers);
       },
       pagination: true,
@@ -172,6 +172,7 @@ const UserListingPage = () => {
       userId: user.id,
     },
     department: user.departmentName,
+    noOfDepartments: user.departmentNumber,
     certificates: user.noOfCertificate,
   });
 
