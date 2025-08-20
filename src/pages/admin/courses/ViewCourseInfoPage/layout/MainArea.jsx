@@ -4,6 +4,7 @@ import InfoPageRoute from '../pages/InfoPage';
 import LessonPageRoute from '../pages/LessonPage';
 import AssessmentListingPageRoute from '../pages/AssessmentListingPage';
 import ExamListingPageRoute from '../pages/ExamListingPage';
+import ProgressReportRoute from '../pages/ProgressReport';
 
 const MainArea = () => {
   return (
@@ -13,6 +14,7 @@ const MainArea = () => {
         <LessonPageRoute path="/admin/courses/details/:id/lessons" />
         <AssessmentListingPageRoute path="/admin/courses/details/:id/assessment" />
         <ExamListingPageRoute path="/admin/courses/details/:id/exam" />
+        <ProgressReportRoute path="/admin/courses/details/:id/progress-report" />
       </Switch>
     </Box>
   );
