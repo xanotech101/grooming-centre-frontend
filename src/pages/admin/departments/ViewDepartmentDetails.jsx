@@ -90,7 +90,7 @@ const ViewDepartmentPage = () => {
       </Box>
 
       <Heading fontSize="heading.h3" paddingX={6}>
-        {department?.name}
+        {department?.name} ///
       </Heading>
 
       <Box
@@ -102,7 +102,11 @@ const ViewDepartmentPage = () => {
       >
         <Flex justifyContent="space-between">
           <Heading fontSize="heading.h4">Users</Heading>
-          <Button link={`/admin/users/edit/new`}>Add User</Button>
+          <Flex gap={4}>
+            <Button link={`/admin/users/edit/new`}>Add New User</Button>
+            <Button link={`/admin/users/edit/new`}>Add Existing User</Button>
+            <Button link={`/admin/users/edit/new`}>Add Users Bulk</Button>
+          </Flex>
         </Flex>
         <Table
           width="100%"
