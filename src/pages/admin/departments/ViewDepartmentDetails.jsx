@@ -104,8 +104,7 @@ const ViewDepartmentPage = () => {
           <Heading fontSize="heading.h4">Users</Heading>
           <Flex gap={4}>
             <Button link={`/admin/users/edit/new`}>Add New User</Button>
-            <Button link={`/admin/users/edit/new`}>Add Existing User</Button>
-            <Button link={`/admin/users/edit/new`}>Add Users Bulk</Button>
+            <Button link={`/admin/departments/${departmentId}/add-existing-users`}>Add Existing User</Button>
           </Flex>
         </Flex>
         <Table
