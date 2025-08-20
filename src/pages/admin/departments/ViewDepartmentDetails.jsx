@@ -90,7 +90,7 @@ const ViewDepartmentPage = () => {
       </Box>
 
       <Heading fontSize="heading.h3" paddingX={6}>
-        {department?.name} ///
+        {department?.name}
       </Heading>
 
       <Box
