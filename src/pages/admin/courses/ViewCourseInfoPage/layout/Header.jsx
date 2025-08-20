@@ -19,6 +19,10 @@ const links = [
     href: (courseId) => `/admin/courses/details/${courseId}/exam`,
     text: 'Exam',
   },
+  {
+    href: (courseId) => `/admin/courses/details/${courseId}/progress-report`,
+    text: 'Progress Report',
+  },
 ];
 
 const Header = () => {

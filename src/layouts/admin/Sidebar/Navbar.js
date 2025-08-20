@@ -88,7 +88,7 @@ export const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      <Box as="div" w="full" paddingRight={1}>
+      <Box as="div" w="full" paddingRight={1} display="flex" flexDirection="column" height="calc(100vh - 80px)">
         {isSettingsPage ? (
           <Box paddingTop={10} paddingX={5}>
             <Heading fontSize="heading.h3" paddingBottom={2}>
@@ -137,7 +137,7 @@ export const SidebarContent = ({ onClose, ...rest }) => {
           </Box>
         )}
 
-        <Box as="nav" padding={5} height="230px" overflowY="scroll">
+        <Box as="nav" padding={5} flex="1" overflowY="auto">
           <Stack as="ul" spacing={2} listStyleType="none">
             {isSettingsPage
               ? isSuperAdmin
@@ -152,7 +152,7 @@ export const SidebarContent = ({ onClose, ...rest }) => {
                 ))}
           </Stack>
         </Box>
-        <Box padding={5}>
+        <Box padding={5} mt="auto">
           <Button
             width="100%"
             onClick={handleLogout}

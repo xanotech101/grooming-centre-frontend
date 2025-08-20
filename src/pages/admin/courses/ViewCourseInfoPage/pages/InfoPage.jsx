@@ -95,7 +95,7 @@ const InfoPage = () => {
         <Breadcrumb
           item2={
             <BreadcrumbItem isCurrentPage>
-              <Link href="/admin/courses">Courses </Link>
+              <Link href="/admin/courses">Courses</Link>
             </BreadcrumbItem>
           }
           item3={

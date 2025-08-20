@@ -1,9 +1,9 @@
 import { FiSettings } from "react-icons/fi";
 import { GiBookshelf } from "react-icons/gi";
-import { HiOutlineOfficeBuilding, HiUsers } from "react-icons/hi";
+import { HiOutlineOfficeBuilding, HiUsers} from "react-icons/hi";
 import { RiDashboardLine } from "react-icons/ri";
 import { IoIosCalendar } from "react-icons/io";
-import { AiOutlineUsergroupDelete } from "react-icons/ai";
+import { AiOutlineUsergroupDelete, AiOutlineAudit } from "react-icons/ai";
 import { VscLibrary } from "react-icons/vsc";
 import { TiPen } from "react-icons/ti";
 import { MdOutlineAnnouncement } from "react-icons/md";
@@ -64,6 +64,11 @@ export const links = [
     href: "/admin/announcement",
     text: "announcements",
     icon: <MdOutlineAnnouncement />,
+  },
+  {
+    href: "/admin/audit",
+    text: "user audit",
+    icon: <AiOutlineAudit />,
   },
 ];
 
