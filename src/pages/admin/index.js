@@ -25,3 +25,4 @@ export * from './lib/CreateLibraryFilePage';
 export * from './lib/ViewFileDetailsPage';
 export * from './standaloneExams/StandaloneExaminationListingPage';
 export * from './standaloneExams/StandaloneExaminationAllParticipantsPage';
+export * from './audit/ViewAudit';
