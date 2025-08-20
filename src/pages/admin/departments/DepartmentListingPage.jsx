@@ -168,7 +168,11 @@ const DepartmentListingPage = () => {
           Departments
         </Heading>
 
-        <Button link={`/admin/departments/create`}>Add Department</Button>
+          <Flex gap={4}>
+            <Button link={`/admin/departments/create`}>Add Department</Button>
+            <Button link={`/admin/users/edit/new`}>Bulk Action</Button>
+          </Flex>
+        
       </Flex>
 
       <Table

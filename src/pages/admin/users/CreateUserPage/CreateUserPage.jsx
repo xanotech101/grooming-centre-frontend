@@ -22,7 +22,7 @@ import {
 } from "../../../../services";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
-import { BreadcrumbItem, Box } from "@chakra-ui/react";
+import { BreadcrumbItem, Box, RadioGroup, Radio, VStack, Text } from "@chakra-ui/react";
 import { populateSelectOptions } from "../../../../utils";
 import { useEffect, useMemo } from "react";
 import { useViewUserDetails } from "../..";
@@ -33,6 +33,8 @@ const CreateUserPage = ({
 }) => {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
   const [uploadingUsers, setUploadingUsers] = useState(false);
+  const [batchUploadMethod, setBatchUploadMethod] = useState("invite");
+  const [defaultPassword, setDefaultPassword] = useState("");
 
   const toast = useToast();
   const appManager = useApp();
@@ -158,6 +160,10 @@ const CreateUserPage = ({
         throw new Error("Please select a department");
       }
 
+      if (batchUploadMethod === "default" && !defaultPassword.trim()) {
+        throw new Error("Please enter a default password");
+      }
+
       const file = fileManager.handleGetFileAndValidate("File");
 
       setUploadingUsers(true);
@@ -187,11 +193,18 @@ const CreateUserPage = ({
       };
 
       const jsonObj = await getJson();
+      console.log("Upload method:", batchUploadMethod);
+      console.log("Default password:", batchUploadMethod === "default" ? defaultPassword : "Not using default password");
       console.log(JSON.parse(jsonObj));
-      const { message } = await adminInvitBatcheUser({
+      
+      const requestData = {
         departmentId: selectedDepartmentId,
         users: JSON.parse(jsonObj),
-      });
+        uploadMethod: batchUploadMethod,
+        ...(batchUploadMethod === "default" && { defaultPassword })
+      };
+
+      const { message } = await adminInvitBatcheUser(requestData);
 
       setUploadingUsers(false);
 
@@ -361,6 +374,90 @@ const CreateUserPage = ({
                 onChange={(e) => setSelectedDepartmentId(e.target.value)}
               />
             </GridItem>
+            
+            <GridItem marginBottom={6} marginLeft={10}>
+              <Box>
+                <Text fontSize="sm" fontWeight="medium" color="gray.700" marginBottom={3}>
+                  Upload Method <Text as="span" color="red.500">*</Text>
+                </Text>
+                <RadioGroup 
+                  value={batchUploadMethod} 
+                  onChange={setBatchUploadMethod}
+                  colorScheme="blue"
+                >
+                  <VStack align="start" spacing={4}>
+                    <Radio 
+                      value="invite" 
+                      size="lg"
+                      borderColor="gray.300"
+                      _checked={{
+                        bg: "blue.500",
+                        borderColor: "blue.500",
+                        color: "white",
+                      }}
+                      _focus={{
+                        boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+                      }}
+                    >
+                      <Box marginLeft={3}>
+                        <Text fontWeight="semibold" color="gray.800">
+                          Send Invite Email
+                        </Text>
+                        <Text fontSize="sm" color="gray.600">
+                          Users will receive an email with login instructions and temporary password
+                        </Text>
+                      </Box>
+                    </Radio>
+                    
+                    <Radio 
+                      value="default" 
+                      size="lg"
+                      borderColor="gray.300"
+                      _checked={{
+                        bg: "blue.500",
+                        borderColor: "blue.500",
+                        color: "white",
+                      }}
+                      _focus={{
+                        boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+                      }}
+                    >
+                      <Box marginLeft={3}>
+                        <Text fontWeight="semibold" color="gray.800">
+                          Use Default Password
+                        </Text>
+                        <Text fontSize="sm" color="gray.600">
+                          Set a common password for all users (they can change it later)
+                        </Text>
+                      </Box>
+                    </Radio>
+                  </VStack>
+                </RadioGroup>
+              </Box>
+            </GridItem>
+
+            {batchUploadMethod === "default" && (
+              <GridItem marginBottom={10}>
+                <Input
+                  label="Default Password"
+                  id="defaultPassword"
+                  type="password"
+                  placeholder="Enter default password for all users"
+                  isRequired
+                  value={defaultPassword}
+                  onChange={(e) => setDefaultPassword(e.target.value)}
+                  borderColor="gray.300"
+                  _focus={{
+                    borderColor: "blue.500",
+                    boxShadow: "0 0 0 1px rgba(66, 153, 225, 0.6)",
+                  }}
+                />
+                <Text fontSize="xs" color="gray.500" marginTop={2}>
+                  This password will be set for all users in the uploaded file
+                </Text>
+              </GridItem>
+            )}
+            
             <GridItem colSpan={2}>
               <Upload
                 id="file"
