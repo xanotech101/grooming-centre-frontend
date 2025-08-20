@@ -11,13 +11,14 @@ import {
   Link,
   Spinner,
 } from '../../../components';
-import { FaSortAmountUpAlt, FaUser, FaClock } from 'react-icons/fa';
+import { FaSortAmountUpAlt, FaUser, FaClock, FaTrash } from 'react-icons/fa';
 import { AdminMainAreaWrapper } from '../../../layouts/admin/MainArea/Wrapper';
 import { useToast } from '@chakra-ui/toast';
 import { EmptyState } from '../../../layouts';
 import { Tag } from '@chakra-ui/tag';
 import { Avatar } from '@chakra-ui/avatar';
 import { useTableRows } from '../../../hooks';
+import { http } from '../../../services/http/http';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -27,35 +28,32 @@ const ViewAudit = () => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [totalDocumentsCount, setTotalDocumentsCount] = useState(0);
 
-  // Mock data fetcher - replace with your actual API call
+  // Fetch audit data using http.get
   const fetchAuditData = async (params = {}) => {
     setIsLoading(true);
     setError(null);
     
     try {
-      // Replace this with your actual API endpoint
-      const response = await fetch(`https://privateapi.groomingcentre.net/api/v1/admin/audit-logs?${new URLSearchParams(params)}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await http.get('/admin/user-audit', { params });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch audit data');
-      }
-
-      const data = await response.json();
-      
       // Transform the data to match table format
-      const rows = data.data?.map(mapAuditToRow) || [];
-      
-      return { 
+      const rows = response.data.data.rows?.map(mapAuditToRow) || [];
+
+      const result = { 
         rows, 
-        showingDocumentsCount: data.showingDocumentsCount || rows.length,
-        totalDocumentsCount: data.totalDocumentsCount || rows.length 
+        showingDocumentsCount: response.data.data.showingDocumentsCount || 0,
+        totalDocumentsCount: response.data.data.totalDocumentsCount || 0,
+        currentPage: response.data.data.currentPage || 1,
+        totalPages: response.data.data.totalPages || 1
       };
+      
+      // Update the total documents count state
+      setTotalDocumentsCount(result.totalDocumentsCount);
+      
+      return result;
     } catch (error) {
       console.error('Error fetching audit data:', error);
       setError(error.message);
@@ -64,7 +62,7 @@ const ViewAudit = () => {
         position: 'top',
         status: 'error',
       });
-      return { rows: [], showingDocumentsCount: 0, totalDocumentsCount: 0 };
+      return { rows: [], showingDocumentsCount: 0, totalDocumentsCount: 0, currentPage: 1, totalPages: 1 };
     } finally {
       setIsLoading(false);
     }
@@ -77,17 +75,77 @@ const ViewAudit = () => {
       lastName: audit.lastName,
       username: audit.username,
       email: audit.email,
-      avatar: audit.profilePics || null,
+      id: audit.userId,
+      avatar: null, // No avatar in the API response
     },
     userRole: audit.userRole,
-    departments: audit.departments || [],
+    departments: audit.departmentsArray || [],
     gender: audit.gender,
-    lastLogin: audit.last_login,
+    action: audit.action,
+    lastLogin: audit.userUpdatedAt, // Using userUpdatedAt as last activity
     createdAt: audit.createdAt,
     updatedAt: audit.updatedAt,
+    displayId: audit.displayId,
   });
 
+  // Delete single audit log
+  const deleteAuditLog = async (auditId) => {
+    try {
+      setIsDeleting(true);
+      await http.delete(`/admin/user-audit/${auditId}`);
+      
+      toast({
+        description: 'Audit log deleted successfully',
+        position: 'top',
+        status: 'success',
+      });
+      
+      // Refresh the data
+      fetchRowItems();
+    } catch (error) {
+      console.error('Error deleting audit log:', error);
+      toast({
+        description: 'Failed to delete audit log',
+        position: 'top',
+        status: 'error',
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Delete all audit logs
+  const deleteAllAuditLogs = async () => {
+    const isConfirmed = window.confirm('Are you sure you want to delete all audit logs? This action cannot be undone.');
+    
+    if (!isConfirmed) return;
+
+    try {
+      setIsDeleting(true);
+      await http.delete('/admin/user-audit');
+      
+      toast({
+        description: 'All audit logs deleted successfully',
+        position: 'top',
+        status: 'success',
+      });
+      
+      // Refresh the data
+      fetchRowItems();
+    } catch (error) {
+      console.error('Error deleting all audit logs:', error);
+      toast({
+        description: 'Failed to delete all audit logs',
+        position: 'top',
+        status: 'error',
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const tableProps = {
+    searchKey: "search", // Add search support
     filterControls: [
       {
         triggerText: "User Role",
@@ -114,6 +172,20 @@ const ViewAudit = () => {
         },
       },
       {
+        triggerText: "Action",
+        queryKey: "action",
+        width: "150px",
+        body: {
+          checks: [
+            { label: "Login", queryValue: "login" },
+            { label: "Logout", queryValue: "logout" },
+            { label: "Create", queryValue: "create" },
+            { label: "Update", queryValue: "update" },
+            { label: "Delete", queryValue: "delete" },
+          ],
+        },
+      },
+      {
         triggerText: "Sort",
         queryKey: "sort",
         triggerIcon: <FaSortAmountUpAlt />,
@@ -132,24 +204,24 @@ const ViewAudit = () => {
               additionalParams: { sortBy: "firstName" },
             },
             {
-              label: "Last Login: Recent",
+              label: "Recent Activity",
               queryValue: "desc",
-              additionalParams: { sortBy: "last_login" },
+              additionalParams: { sortBy: "createdAt" },
             },
             {
-              label: "Last Login: Oldest",
+              label: "Oldest Activity",
               queryValue: "asc", 
-              additionalParams: { sortBy: "last_login" },
+              additionalParams: { sortBy: "createdAt" },
             },
             {
-              label: "Created: Newest",
+              label: "User Created: Newest",
               queryValue: "desc",
-              additionalParams: { sortBy: "createdAt" },
+              additionalParams: { sortBy: "userCreatedAt" },
             },
             {
-              label: "Created: Oldest",
+              label: "User Created: Oldest",
               queryValue: "asc",
-              additionalParams: { sortBy: "createdAt" },
+              additionalParams: { sortBy: "userCreatedAt" },
             },
           ],
         },
@@ -170,13 +242,10 @@ const ViewAudit = () => {
               src={userData.avatar}
             />
             <Box>
-              <Text fontWeight="semibold" fontSize="sm">
+              <Text fontWeight="semibold" fontSize="sm" color="gray.700">
                 {userData.firstName} {userData.lastName}
               </Text>
-              <Text fontSize="xs" color="gray.500">
-                @{userData.username}
-              </Text>
-              <Text fontSize="xs" color="gray.500">
+              <Text fontSize="sm" color="gray.500">
                 {userData.email}
               </Text>
             </Box>
@@ -187,76 +256,54 @@ const ViewAudit = () => {
         id: "userRole",
         key: "userRole",
         text: "Role",
-        fraction: "120px",
+        fraction: "150px",
         renderContent: (role) => (
-          <Tag
-            size="sm"
-            borderRadius="full"
-            backgroundColor={
-              role === 'super admin' ? 'red.100' :
-              role === 'admin' ? 'blue.100' :
-              role === 'instructor' ? 'green.100' : 'gray.100'
-            }
-            color={
-              role === 'super admin' ? 'red.800' :
-              role === 'admin' ? 'blue.800' :
-              role === 'instructor' ? 'green.800' : 'gray.800'
-            }
-          >
-            <Text textTransform="capitalize" fontWeight="semibold">
-              {role}
-            </Text>
-          </Tag>
+          <Text fontSize="sm" textTransform="capitalize" color="gray.700">
+            {role || 'N/A'}
+          </Text>
+        ),
+      },
+      {
+        id: "action",
+        key: "action",
+        text: "Action",
+        fraction: "150px",
+        renderContent: (action) => (
+          <Text fontSize="sm" textTransform="capitalize" color="gray.700">
+            {action || 'N/A'}
+          </Text>
         ),
       },
       {
         id: "departments",
         key: "departments", 
         text: "Departments",
-        fraction: "2fr",
+        fraction: "250px",
         renderContent: (departments) => (
           <Box>
             {departments.length > 0 ? (
-              <Flex flexWrap="wrap" gap={1}>
-                {departments.slice(0, 2).map((dept, index) => (
-                  <Tag key={index} size="xs" colorScheme="purple" variant="subtle">
-                    {dept}
-                  </Tag>
-                ))}
-                {departments.length > 2 && (
-                  <Tag size="xs" colorScheme="gray" variant="subtle">
-                    +{departments.length - 2} more
-                  </Tag>
-                )}
-              </Flex>
+              <Text fontSize="sm" color="gray.700">
+                {departments.join(', ')}
+              </Text>
             ) : (
-              <Text fontSize="xs" color="gray.400">No departments</Text>
+              <Text fontSize="sm" color="gray.400">No departments</Text>
             )}
           </Box>
         ),
       },
       {
-        id: "lastLogin",
-        key: "lastLogin",
-        text: "Last Login",
-        fraction: "200px",
-        renderContent: (lastLogin) => (
+        id: "createdAt",
+        key: "createdAt",
+        text: "Activity Time",
+        fraction: "180px",
+        renderContent: (createdAt) => (
           <Box>
-            {lastLogin ? (
-              <>
-                <Text fontSize="sm" fontWeight="medium">
-                  {dayjs(lastLogin).format('DD/MM/YYYY')}
-                </Text>
-                <Text fontSize="xs" color="gray.500">
-                  {dayjs(lastLogin).format('h:mm A')}
-                </Text>
-                <Text fontSize="xs" color="blue.500">
-                  {dayjs(lastLogin).fromNow()}
-                </Text>
-              </>
-            ) : (
-              <Text fontSize="xs" color="gray.400">Never logged in</Text>
-            )}
+            <Text fontSize="sm" fontWeight="medium" color="gray.700">
+              {dayjs(createdAt).format('DD/MM/YYYY')}
+            </Text>
+            <Text fontSize="xs" color="gray.500">
+              {dayjs(createdAt).format('h:mm A')}
+            </Text>
           </Box>
         ),
       },
@@ -264,7 +311,7 @@ const ViewAudit = () => {
         id: "gender",
         key: "gender", 
         text: "Gender",
-        fraction: "80px",
+        fraction: "100px",
         renderContent: (gender) => (
           <Text fontSize="sm" textTransform="capitalize" color="gray.600">
             {gender || 'N/A'}
@@ -277,7 +324,14 @@ const ViewAudit = () => {
       action: [
         {
           text: "View Profile",
-          link: (user) => `/admin/users/details/${user.id}/profile`,
+          link: (audit) => `/admin/users/details/${audit.user.id}/profile`,
+        },
+        {
+          text: "Delete Log",
+          color: "red.500",
+          onClick: (audit) => deleteAuditLog(audit.id),
+          icon: <FaTrash size="12" />,
+          isLoading: isDeleting,
         },
       ],
       selection: false, // Disable selection for audit logs
@@ -319,11 +373,23 @@ const ViewAudit = () => {
         </Box>
 
         <Flex alignItems="center" gap={4}>
+          <Button
+            colorScheme="red"
+            variant="outline"
+            size="sm"
+            leftIcon={<FaTrash />}
+            onClick={deleteAllAuditLogs}
+            isLoading={isDeleting}
+            loadingText="Deleting..."
+          >
+            Delete All Logs
+          </Button>
+          
           <Box textAlign="right">
             <Flex alignItems="center" gap={2} marginBottom={1}>
               <FaUser size="14" color="#666" />
               <Text fontSize="sm" color="gray.600">
-                Total Users: {rows.length}
+                Total Logs: {totalDocumentsCount}
               </Text>
             </Flex>
             <Flex alignItems="center" gap={2}>
@@ -357,7 +423,7 @@ const ViewAudit = () => {
       ) : (
         <Table
           {...tableProps}
-          placeholder="Search by name, username, or email"
+          placeholder="Search by name, username, email, or action"
           rows={rows}
           setRows={setRows}
           handleFetch={fetchRowItems}
