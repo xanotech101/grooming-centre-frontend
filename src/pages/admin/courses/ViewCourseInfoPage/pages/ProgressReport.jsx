@@ -30,8 +30,10 @@ const ProgressReport = () => {
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [error, setError] = useState(null);
   const [generatedReports, setGeneratedReports] = useState([]);
+  const [currentPreview, setCurrentPreview] = useState(null);
+  const [isGeneratingPreview, setIsGeneratingPreview] = useState(false);
 
-  const handleGenerateReport = async () => {
+  const handleGenerateReport = async (previewMode = false) => {
     if (!startDate || !endDate) {
       toast({
         description: 'Please select both start and end dates',
@@ -50,7 +52,11 @@ const ProgressReport = () => {
       return;
     }
 
-    setIsGenerating(true);
+    if (previewMode) {
+      setIsGeneratingPreview(true);
+    } else {
+      setIsGenerating(true);
+    }
     setError(null);
 
     try {
@@ -60,14 +66,15 @@ const ProgressReport = () => {
         courseId,
       });
 
-      const response = await fetch(`/api/admin/export-course-progress-sheet?${params}`, {
+      const response = await fetch(`https://privateapi.groomingcentre.net/api/v1/admin/export-course-progress-sheet?${params}`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Adjust based on your auth implementation
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       if (!response.ok) {
+        console.error('Error generating progress report:', response);
         throw new Error('Failed to generate progress report');
       }
 
@@ -76,34 +83,51 @@ const ProgressReport = () => {
       
       // Create download link
       const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
       const fileName = `course-progress-report-${startDate}-to-${endDate}.xlsx`;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
       
-      // Store the generated report for viewing
-      const newReport = {
-        id: Date.now(),
-        fileName,
-        url,
-        startDate,
-        endDate,
-        generatedAt: dayjs().format('DD/MM/YYYY h:mm a'),
-      };
-      
-      setGeneratedReports(prev => [newReport, ...prev.slice(0, 4)]); // Keep only last 5 reports
-      
-      // Cleanup
-      document.body.removeChild(link);
-      // Note: Don't revoke URL immediately as we need it for viewing
-
-      toast({
-        description: 'Progress report downloaded successfully',
-        position: 'top',
-        status: 'success',
-      });
+      if (previewMode) {
+        // Set current preview
+        setCurrentPreview({
+          id: Date.now(),
+          fileName,
+          url,
+          startDate,
+          endDate,
+          generatedAt: dayjs().format('DD/MM/YYYY h:mm a'),
+        });
+        
+        toast({
+          description: 'Progress report preview generated successfully',
+          position: 'top',
+          status: 'success',
+        });
+      } else {
+        // Download the file
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Store the generated report for viewing
+        const newReport = {
+          id: Date.now(),
+          fileName,
+          url,
+          startDate,
+          endDate,
+          generatedAt: dayjs().format('DD/MM/YYYY h:mm a'),
+        };
+        
+        setGeneratedReports(prev => [newReport, ...prev.slice(0, 4)]); // Keep only last 5 reports
+        
+        toast({
+          description: 'Progress report downloaded successfully',
+          position: 'top',
+          status: 'success',
+        });
+      }
     } catch (error) {
       console.error('Error generating progress report:', error);
       setError(error.message);
@@ -113,7 +137,11 @@ const ProgressReport = () => {
         status: 'error',
       });
     } finally {
-      setIsGenerating(false);
+      if (previewMode) {
+        setIsGeneratingPreview(false);
+      } else {
+        setIsGenerating(false);
+      }
     }
   };
 
@@ -150,12 +178,39 @@ const ProgressReport = () => {
     });
   };
 
+  const handleDownloadCurrentPreview = () => {
+    if (currentPreview) {
+      const link = document.createElement('a');
+      link.href = currentPreview.url;
+      link.download = currentPreview.fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        description: 'Report downloaded successfully',
+        position: 'top',
+        status: 'success',
+      });
+    }
+  };
+
+  const handleClosePreview = () => {
+    if (currentPreview) {
+      window.URL.revokeObjectURL(currentPreview.url);
+      setCurrentPreview(null);
+    }
+  };
+
   // Cleanup URLs on component unmount
   useEffect(() => {
     return () => {
       generatedReports.forEach(report => {
         window.URL.revokeObjectURL(report.url);
       });
+      if (currentPreview) {
+        window.URL.revokeObjectURL(currentPreview.url);
+      }
     };
   }, []);
 
@@ -187,7 +242,7 @@ const ProgressReport = () => {
         </Heading>
       </Flex>
 
-      {isGenerating ? (
+      {isGenerating || isGeneratingPreview ? (
         <Flex
           height="calc(100vh - 300px)"
           justifyContent="center"
@@ -246,15 +301,30 @@ const ProgressReport = () => {
           </Flex>
 
           <Box marginTop={6}>
-            <Button
-              onClick={handleGenerateReport}
-              disabled={!startDate || !endDate || isGenerating}
-              isLoading={isGenerating}
-              loadingText="Generating Report..."
-              size="lg"
-            >
-              Generate & Download Report
-            </Button>
+            <Flex gap={4} flexDirection={{ base: 'column', md: 'row' }}>
+              <Button
+                onClick={() => handleGenerateReport(false)}
+                disabled={!startDate || !endDate || isGenerating || isGeneratingPreview}
+                isLoading={isGenerating}
+                loadingText="Generating Report..."
+                size="lg"
+                flex={{ base: 'none', md: '1' }}
+              >
+                Generate & Download Report
+              </Button>
+              
+              <Button
+                onClick={() => handleGenerateReport(true)}
+                disabled={!startDate || !endDate || isGenerating || isGeneratingPreview}
+                isLoading={isGeneratingPreview}
+                loadingText="Generating Preview..."
+                size="lg"
+                variant="outline"
+                flex={{ base: 'none', md: '1' }}
+              >
+                Generate & Preview
+              </Button>
+            </Flex>
           </Box>
 
           <Box marginTop={6} padding={4} backgroundColor="gray.50" borderRadius="md">
@@ -263,6 +333,83 @@ const ProgressReport = () => {
               lesson completion rates, assessment scores, and overall course progress for the selected date range.
             </Text>
           </Box>
+
+          {currentPreview && (
+            <Box marginTop={8} borderRadius="md" overflow="hidden" border="1px solid" borderColor="gray.200">
+              <Flex 
+                justifyContent="space-between" 
+                alignItems="center" 
+                padding={4} 
+                backgroundColor="gray.50"
+                borderBottom="1px solid"
+                borderBottomColor="gray.200"
+              >
+                <Box>
+                  <Heading fontSize="md" marginBottom={1}>
+                    Preview: {currentPreview.fileName}
+                  </Heading>
+                  <Text fontSize="sm" color="gray.600">
+                    Generated on {currentPreview.generatedAt}
+                  </Text>
+                </Box>
+                <Flex gap={2}>
+                  <Button
+                    size="sm"
+                    onClick={handleDownloadCurrentPreview}
+                    leftIcon={<FiDownload />}
+                  >
+                    Download
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleClosePreview}
+                  >
+                    Close Preview
+                  </Button>
+                </Flex>
+              </Flex>
+              
+              <Box height="600px" backgroundColor="white" display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+                <Box textAlign="center" padding={8}>
+                  <Heading fontSize="lg" marginBottom={4} color="gray.600">
+                    📊 Excel Preview Ready
+                  </Heading>
+                  <Text marginBottom={6} color="gray.500">
+                    Excel files cannot be directly previewed in the browser. 
+                    Use the options below to view or download the report.
+                  </Text>
+                  <Flex gap={4} justifyContent="center" flexDirection={{ base: 'column', md: 'row' }}>
+                    <Button
+                      onClick={() => handleViewReport(currentPreview)}
+                      leftIcon={<FiExternalLink />}
+                      colorScheme="blue"
+                      variant="outline"
+                    >
+                      Open in New Tab
+                    </Button>
+                    <Button
+                      onClick={handleDownloadCurrentPreview}
+                      leftIcon={<FiDownload />}
+                      colorScheme="green"
+                    >
+                      Download File
+                    </Button>
+                  </Flex>
+                  <Box marginTop={6} padding={4} backgroundColor="blue.50" borderRadius="md" textAlign="left">
+                    <Text fontSize="sm" color="blue.800">
+                      <strong>💡 Tip:</strong> After clicking "Open in New Tab", your browser will either:
+                    </Text>
+                    <Box as="ul" marginTop={2} marginLeft={4} fontSize="sm" color="blue.700">
+                      <Box as="li">• Open Excel Online (if you have Microsoft 365)</Box>
+                      <Box as="li">• Download the file automatically</Box>
+                      <Box as="li">• Show a preview if you have Excel installed</Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          )}
 
           {generatedReports.length > 0 && (
             <Box marginTop={8}>
