@@ -49,7 +49,7 @@ const TableBody = ({
             alignItems="center"
             templateColumns={getTemplateColumns}
             columnGap={columnGap}
-            height="40px"
+            height="55px"
             {...generalRowStyles}
           >
             {options?.selection && (
