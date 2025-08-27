@@ -77,6 +77,22 @@ export const adminAddSelectedUsersToDepartment = async (departmentId, userIds) =
 };
 
 /**
+ * Endpoint to bulk add users to a department via file upload
+ * @param {string} departmentId
+ * @param {Array<object>} users - Array of user objects with email field
+ * @returns {Promise<{ message: string, data: object }>}
+ */
+export const adminBulkAddUsersToDepartment = async (departmentId, users) => {
+  const path = `/department/${departmentId}/bulk-add-users`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, { users });
+
+  return { message, data };
+};
+
+/**
  * Endpoint to for admin to create a department
  * @param {object} params
  *

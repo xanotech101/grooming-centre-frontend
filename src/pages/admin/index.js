@@ -15,6 +15,7 @@ export * from './departments/DepartmentListingPage';
 export * from './departments/CreateDepartmentPage';
 export * from './departments/ViewDepartmentDetails';
 export * from './departments/AddExistingUsersPage';
+export * from './departments/BulkActionPage';
 export * from './RoleListingPage';
 export * from './settings/SettingsPage';
 export * from './settings/GradeCriteriaPage';
