@@ -20,6 +20,7 @@ const useTable = ({
   multipleDeleteFetcher,
   options,
   handleFetch,
+  onSelectionChange,
 }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const {
@@ -56,11 +57,15 @@ const useTable = ({
   const handleSelectRowsToggle = (rows) => {
     let newRows = [];
 
-    if (!(selectedRows.length === rowsData.length)) {
+    if (!(selectedRows.length === (rowsData?.length || 0))) {
       newRows = rows;
     }
 
     setSelectedRows(newRows);
+    // Notify parent component about selection change
+    if (onSelectionChange) {
+      onSelectionChange(newRows);
+    }
   };
 
   /**
@@ -70,6 +75,10 @@ const useTable = ({
    */
   const handleDeselectAllRows = () => {
     setSelectedRows([]);
+    // Notify parent component about selection change
+    if (onSelectionChange) {
+      onSelectionChange([]);
+    }
   };
 
   /**
@@ -90,6 +99,10 @@ const useTable = ({
     }
 
     setSelectedRows(rows);
+    // Notify parent component about selection change
+    if (onSelectionChange) {
+      onSelectionChange(rows);
+    }
   };
 
   /**
@@ -100,7 +113,7 @@ const useTable = ({
    */
   const handleDeleteRows = (selectedRows) => {
     const onSuccess = () => {
-      const allRows = [...rowsData];
+      const allRows = [...(rowsData || [])];
 
       selectedRows.forEach((row) => {
         const rowIndexInRowsData = allRows.findIndex(({ id }) => id === row.id);
@@ -177,6 +190,7 @@ export const Table = ({
   columnGap = 2,
   generalRowStyles,
   handleFetch,
+  onSelectionChange,
   // Calc from the width of the aside and margins
   width = "100%",
   maxWidth = "100%",
@@ -187,6 +201,7 @@ export const Table = ({
     multipleDeleteFetcher: options?.multipleDeleteFetcher,
     options,
     handleFetch,
+    onSelectionChange,
   });
 
   const getTemplateColumns = () =>
@@ -345,4 +360,5 @@ Table.propTypes = {
   generalRowStyles: PropTypes.object,
   width: PropTypes.string,
   handleFetch: PropTypes.func,
+  onSelectionChange: PropTypes.func,
 };

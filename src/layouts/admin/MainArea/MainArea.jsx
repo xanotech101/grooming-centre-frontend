@@ -17,6 +17,7 @@ import {
   CreateDepartmentPageRoute,
   ViewDepartmentPageRoute,
   AddExistingUsersPageRoute,
+  BulkActionPageRoute,
   RolesPageRoute,
   SettingsPageRoute,
   EventsPageRoute,
@@ -68,6 +69,7 @@ const MainArea = () => {
 
         <DepartmentListingPageRoute exact path="/admin/departments" />
         <CreateDepartmentPageRoute exact path="/admin/departments/create" />
+        <BulkActionPageRoute exact path="/admin/departments/bulk-action" />
         <AddExistingUsersPageRoute
           exact
           path="/admin/departments/:departmentId/add-existing-users"

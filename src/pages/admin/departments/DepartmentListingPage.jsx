@@ -170,7 +170,7 @@ const DepartmentListingPage = () => {
 
           <Flex gap={4}>
             <Button link={`/admin/departments/create`}>Add Department</Button>
-            <Button link={`/admin/users/edit/new`}>Bulk Action</Button>
+            <Button link={`/admin/departments/bulk-action`}>Bulk Action</Button>
           </Flex>
         
       </Flex>

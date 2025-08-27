@@ -22,7 +22,7 @@ import {
 } from "../../../../services";
 import { capitalizeFirstLetter } from "../../../../utils/formatString";
 import useCreateUser from "../hooks/useCreateUser";
-import { BreadcrumbItem, Box, RadioGroup, Radio, VStack, Text } from "@chakra-ui/react";
+import { BreadcrumbItem, Box, RadioGroup, Radio, VStack, Text, Select as ChakraSelect } from "@chakra-ui/react";
 import { populateSelectOptions } from "../../../../utils";
 import { useEffect, useMemo } from "react";
 import { useViewUserDetails } from "../..";
@@ -31,7 +31,7 @@ const CreateUserPage = ({
   creatorRoleIsSuperAdmin,
   metadata: propMetadata,
 }) => {
-  const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
+  const [selectedDepartmentIds, setSelectedDepartmentIds] = useState([]);
   const [uploadingUsers, setUploadingUsers] = useState(false);
   const [batchUploadMethod, setBatchUploadMethod] = useState("invite");
   const [defaultPassword, setDefaultPassword] = useState("");
@@ -156,8 +156,8 @@ const CreateUserPage = ({
   const onSubmitBatchUser = async (e) => {
     e.preventDefault();
     try {
-      if (!selectedDepartmentId) {
-        throw new Error("Please select a department");
+      if (selectedDepartmentIds.length === 0) {
+        throw new Error("Please select at least one department");
       }
 
       if (batchUploadMethod === "default" && !defaultPassword.trim()) {
@@ -195,10 +195,11 @@ const CreateUserPage = ({
       const jsonObj = await getJson();
       console.log("Upload method:", batchUploadMethod);
       console.log("Default password:", batchUploadMethod === "default" ? defaultPassword : "Not using default password");
+      console.log("Selected departments:", selectedDepartmentIds);
       console.log(JSON.parse(jsonObj));
       
       const requestData = {
-        departmentId: selectedDepartmentId,
+        departmentIds: selectedDepartmentIds,
         users: JSON.parse(jsonObj),
         uploadMethod: batchUploadMethod,
         ...(batchUploadMethod === "default" && { defaultPassword })
@@ -225,7 +226,7 @@ const CreateUserPage = ({
       setUploadingUsers(false);
     }
   };
-  console.log(selectedDepartmentId, "hello");
+ 
   const setLessonAccept = (fileType) => {
     fileManager.handleAcceptChange(fileType);
   };
@@ -363,16 +364,79 @@ const CreateUserPage = ({
         >
           <Grid spacing={10} marginBottom={10}>
             <GridItem marginBottom={10}>
-              <Select
-                error={errors.departmentId?.message}
-                isRequired
-                label="Select department"
-                options={populateSelectOptions(metadata?.departments)}
-                id="departmentId"
-                isLoading={!metadata?.departments}
-                value={selectedDepartmentId}
-                onChange={(e) => setSelectedDepartmentId(e.target.value)}
-              />
+              <Box>
+                <Text fontSize="sm" fontWeight="medium" color="gray.700" marginBottom={3}>
+                  Select Departments <Text as="span" color="red.500">*</Text>
+                </Text>
+                <ChakraSelect
+                  placeholder="Select departments..."
+                  value=""
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value && !selectedDepartmentIds.includes(value)) {
+                      setSelectedDepartmentIds(prev => [...prev, value]);
+                    }
+                  }}
+                  borderColor="gray.300"
+                  _focus={{
+                    borderColor: "blue.500",
+                    boxShadow: "0 0 0 1px rgba(66, 153, 225, 0.6)",
+                  }}
+                >
+                  {metadata?.departments
+                    ?.filter(dept => !selectedDepartmentIds.includes(dept.id))
+                    .map((department) => (
+                      <option key={department.id} value={department.id}>
+                        {department.name}
+                      </option>
+                    ))}
+                </ChakraSelect>
+                
+                {/* Show selected departments */}
+                {selectedDepartmentIds.length > 0 && (
+                  <Box marginTop={3}>
+                    <Text fontSize="sm" fontWeight="medium" color="gray.700" marginBottom={2}>
+                      Selected Departments:
+                    </Text>
+                    <Box display="flex" flexWrap="wrap" gap={2}>
+                      {selectedDepartmentIds.map((deptId) => {
+                        const department = metadata?.departments?.find(d => d.id === deptId);
+                        return (
+                          <Box
+                            key={deptId}
+                            display="flex"
+                            alignItems="center"
+                            bg="blue.100"
+                            color="blue.800"
+                            px={3}
+                            py={1}
+                            borderRadius="md"
+                            fontSize="sm"
+                          >
+                            {department?.name}
+                            <Box
+                              as="button"
+                              ml={2}
+                              color="blue.600"
+                              fontWeight="bold"
+                              onClick={() => setSelectedDepartmentIds(prev => 
+                                prev.filter(id => id !== deptId)
+                              )}
+                              _hover={{ color: "blue.800" }}
+                            >
+                              ×
+                            </Box>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  </Box>
+                )}
+                
+                <Text fontSize="xs" color="gray.500" marginTop={2}>
+                  Users will be added to all selected departments
+                </Text>
+              </Box>
             </GridItem>
             
             <GridItem marginBottom={6} marginLeft={10}>

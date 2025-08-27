@@ -17,12 +17,14 @@ import { useApp } from "../../../contexts";
 import { AdminMainAreaWrapper } from "../../../layouts/admin/MainArea/Wrapper";
 import {
   adminGetUserListing,
+  adminAddSelectedUsersToDepartment,
 } from "../../../services";
 
 const AddExistingUsersPage = () => {
   const { departmentId } = useParams();
   const { getOneMetadata } = useApp();
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [isAddingUsers, setIsAddingUsers] = useState(false);
   const toast = useToast();
   const { push } = useHistory();
 
@@ -33,10 +35,10 @@ const AddExistingUsersPage = () => {
     (department) => department.name
   );
 
-  // Custom selection handler
-  const handleUserSelection = (users) => {
-    setSelectedUsers(users);
-    console.log("Updated Selected Users:", users.map(user => user.id));
+  // Custom selection handler that updates in real-time
+  const handleSelectionChange = (selectedUsers) => {
+    setSelectedUsers(selectedUsers);
+    console.log("Selection updated:", selectedUsers.map(user => user.id));
   };
 
   const tableProps = {
@@ -148,8 +150,7 @@ const AddExistingUsersPage = () => {
     options: {
       selection: true,
       multipleDeleteFetcher: async (selectedUsers) => {
-        handleUserSelection(selectedUsers);
-        console.log("Selected User IDs:", selectedUsers.map(user => user.id));
+        console.log("Action button clicked for users:", selectedUsers.map(user => user.id));
         console.log("Department ID:", departmentId);
         
         // For now, just show a toast with the information
@@ -190,7 +191,7 @@ const AddExistingUsersPage = () => {
 
   const { rows, setRows, fetchRowItems } = useTableRows(fetcher);
 
-  const handleAddUsersClick = () => {
+  const handleAddUsersClick = async () => {
     console.log("Selected User IDs:", selectedUsers.map(user => user.id));
     console.log("Department ID:", departmentId);
     console.log("Department Name:", department?.name);
@@ -204,11 +205,54 @@ const AddExistingUsersPage = () => {
       return;
     }
 
-    toast({
-      description: `Ready to add ${selectedUsers.length} users to ${department?.name}`,
-      position: "top",
-      status: "info",
-    });
+    setIsAddingUsers(true);
+
+    try {
+      const userIds = selectedUsers.map(user => user.id);
+      const { message, data } = await adminAddSelectedUsersToDepartment(departmentId, userIds);
+      
+      // Show detailed results
+      if (data.successful > 0 && data.errors === 0) {
+        toast({
+          description: `Successfully added ${data.successful} user(s) to ${data.departmentName}`,
+          position: "top",
+          status: "success",
+        });
+        
+        // Navigate back to department details
+        push(`/admin/departments/details/${departmentId}/info`);
+      } else if (data.successful > 0 && data.errors > 0) {
+        toast({
+          description: `Partially completed: ${data.successful} users added, ${data.errors} failed. Check console for details.`,
+          position: "top",
+          status: "warning",
+        });
+        
+        // Log error details for debugging
+        console.log("Error details:", data.errorDetails);
+        
+        // Clear selection for failed users
+        setSelectedUsers([]);
+      } else {
+        toast({
+          description: `Failed to add users: ${data.errorDetails.join(', ')}`,
+          position: "top",
+          status: "error",
+        });
+        
+        console.log("All errors:", data.errorDetails);
+      }
+      
+    } catch (error) {
+      console.error("Error adding users to department:", error);
+      toast({
+        description: `Error: ${error.message || 'Failed to add users to department'}`,
+        position: "top",
+        status: "error",
+      });
+    } finally {
+      setIsAddingUsers(false);
+    }
   };
 
   return (
@@ -267,6 +311,8 @@ const AddExistingUsersPage = () => {
               onClick={handleAddUsersClick}
               colorScheme="blue"
               isDisabled={selectedUsers.length === 0}
+              isLoading={isAddingUsers}
+              loadingText="Adding Users..."
             >
               Add Selected Users ({selectedUsers.length})
             </Button>
@@ -279,6 +325,7 @@ const AddExistingUsersPage = () => {
           rows={rows}
           setRows={setRows}
           handleFetch={fetchRowItems}
+          onSelectionChange={handleSelectionChange}
           selectionButtonText="Add Selected Users"
         />
       </Box>
