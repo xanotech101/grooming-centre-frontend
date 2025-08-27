@@ -56,7 +56,7 @@ const useTable = ({
   const handleSelectRowsToggle = (rows) => {
     let newRows = [];
 
-    if (!(selectedRows.length === rowsData.length)) {
+    if (!(selectedRows.length === (rowsData?.length || 0))) {
       newRows = rows;
     }
 
@@ -100,7 +100,7 @@ const useTable = ({
    */
   const handleDeleteRows = (selectedRows) => {
     const onSuccess = () => {
-      const allRows = [...rowsData];
+      const allRows = [...(rowsData || [])];
 
       selectedRows.forEach((row) => {
         const rowIndexInRowsData = allRows.findIndex(({ id }) => id === row.id);
