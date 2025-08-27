@@ -59,6 +59,23 @@ export const adminCreateDepartment = async (body) => {
   return { message, department };
 };
 
+
+/**
+ * Endpoint to add selected users to a department
+ * @param {string} departmentId
+ * @param {Array<string>} userIds
+ * @returns {Promise<{ message: string, data: object }>}
+ */
+export const adminAddSelectedUsersToDepartment = async (departmentId, userIds) => {
+  const path = `/department/${departmentId}/add-selected-users`;
+
+  const {
+    data: { message, data },
+  } = await http.post(path, { userIds });
+
+  return { message, data };
+};
+
 /**
  * Endpoint to for admin to create a department
  * @param {object} params
