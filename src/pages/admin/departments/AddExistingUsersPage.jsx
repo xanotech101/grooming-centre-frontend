@@ -33,10 +33,10 @@ const AddExistingUsersPage = () => {
     (department) => department.name
   );
 
-  // Custom selection handler
-  const handleUserSelection = (users) => {
-    setSelectedUsers(users);
-    console.log("Updated Selected Users:", users.map(user => user.id));
+  // Custom selection handler that updates in real-time
+  const handleSelectionChange = (selectedUsers) => {
+    setSelectedUsers(selectedUsers);
+    console.log("Selection updated:", selectedUsers.map(user => user.id));
   };
 
   const tableProps = {
@@ -148,8 +148,7 @@ const AddExistingUsersPage = () => {
     options: {
       selection: true,
       multipleDeleteFetcher: async (selectedUsers) => {
-        handleUserSelection(selectedUsers);
-        console.log("Selected User IDs:", selectedUsers.map(user => user.id));
+        console.log("Action button clicked for users:", selectedUsers.map(user => user.id));
         console.log("Department ID:", departmentId);
         
         // For now, just show a toast with the information
@@ -279,6 +278,7 @@ const AddExistingUsersPage = () => {
           rows={rows}
           setRows={setRows}
           handleFetch={fetchRowItems}
+          onSelectionChange={handleSelectionChange}
           selectionButtonText="Add Selected Users"
         />
       </Box>
