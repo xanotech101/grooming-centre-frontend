@@ -132,9 +132,9 @@ const ProfilePage = () => {
                 )}
               </Box>
 
-              <Box marginTop={2}>
+              <Box marginTop={2} flex={1}>
                 {userIsLoading ? (
-                  <SkeletonText numberOfLines={6} spacing={5} />
+                  <SkeletonText numberOfLines={3} spacing={5} />
                 ) : (
                   <>
                     <Detail name="first name" value={user?.firstName} />
@@ -150,11 +150,12 @@ const ProfilePage = () => {
                 )}
                 <Box>
                   {userIsLoading ? (
-                    <SkeletonText numberOfLines={4} spacing={5} />
+                    <SkeletonText numberOfLines={2} spacing={5} />
                   ) : (
                     <>
                       <Detail name="department" value={user?.departmentName} />
                       <Detail name="role" value={user?.userRoleName} />
+                      <Detail name="professional certification" value={user?.professionalCertification} />
                     </>
                   )}
                 </Box>
