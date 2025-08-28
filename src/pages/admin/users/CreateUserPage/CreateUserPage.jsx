@@ -75,11 +75,18 @@ const CreateUserPage = ({
             gender: data.gender,
             lastName: data.lastName,
             userRoleId: data.roleId,
+            professionalCertification: data.professionalCertification,
           })
         : creatorRoleIsSuperAdmin &&
           appManager.getOneMetadata("userRoles", data.roleId)?.name === "admin"
-        ? superAdminInviteAdmin(data)
-        : adminInviteUser(data));
+        ? superAdminInviteAdmin({
+            ...data,
+            professionalCertification: data.professionalCertification,
+          })
+        : adminInviteUser({
+            ...data,
+            professionalCertification: data.professionalCertification,
+          }));
 
       if (isEditMode) handleDelete(user.id);
 
@@ -312,6 +319,13 @@ const CreateUserPage = ({
                 required: "Please select your gender",
               })}
               error={errors.gender?.message}
+            />
+            <Input
+              label="Professional Certification"
+              id="professionalCertification"
+              placeholder="Enter professional certification"
+              {...register("professionalCertification")}
+              error={errors.professionalCertification?.message}
             />
             <Select
               label="Department"
